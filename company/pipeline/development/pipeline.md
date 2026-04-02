@@ -12,12 +12,12 @@ Each workflow must be assigned to a designated responsible party. Each assigned 
 
 Applied in Stages 6, 7, and 8. All identified defects must be classified before any remediation begins.
 
-| Level | Definition | Release Impact |
-| ----- | ---------- | -------------- |
-| P0 | App crash / data loss / security breach | Blocks release — non-negotiable |
-| P1 | Core feature broken / major UX failure | Blocks release — non-negotiable |
-| P2 | Minor feature degraded / cosmetic issue | User decides to fix or defer |
-| P3 | Polish / nice-to-have | User decides to fix or defer |
+| Level | Definition                              | Release Impact                  |
+| ----- | --------------------------------------- | ------------------------------- |
+| P0    | App crash / data loss / security breach | Blocks release — non-negotiable |
+| P1    | Core feature broken / major UX failure  | Blocks release — non-negotiable |
+| P2    | Minor feature degraded / cosmetic issue | User decides to fix or defer    |
+| P3    | Polish / nice-to-have                   | User decides to fix or defer    |
 
 **Authority rule:** P0/P1 classification is final and cannot be overridden. P2/P3 defects are submitted to the user, who has explicit final authority to skip or defer them.
 
@@ -30,6 +30,8 @@ Active from Stage 4 onward.
 - Each completed coding task triggers an update to the progress log.
 - Any task exceeding its estimated duration by **>20%** triggers an automatic CTO → CPO schedule risk notification.
 - The CTO produces weekly progress summaries (status indicators, milestone percentages, risk mitigation plans) for C-suite visibility.
+
+**Full specification:** [`monitoring.md`](monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects).
 
 ---
 
@@ -162,7 +164,7 @@ All key stakeholders (CPO, CDO, CTO, CIO, CSO) conduct a joint review of the cod
 1. All requirements and specifications in the PRD have been fully implemented.
 2. All design requirements in the IDS and web prototypes have been accurately reproduced.
 3. All requirements in the UML Engineering Package (diagrams, ADRs, TSD) have been fully implemented as prescribed.
-4. *(CSO-owned)* All security requirements in the SRD have been implemented: encryption, secure storage, platform security standards (iOS Keychain / Android Keystore), and OWASP MASVS compliance.
+4. _(CSO-owned)_ All security requirements in the SRD have been implemented: encryption, secure storage, platform security standards (iOS Keychain / Android Keystore), and OWASP MASVS compliance.
 
 All identified defects are documented with their P0–P3 classification and a precise description of the gap. The Defect Report is submitted to the user. The user reviews: P0/P1 defects are non-negotiable fixes; the user has final authority to skip or defer P2/P3 defects. The CTO assigns specific R&D personnel to remediate all confirmed defects. After remediation, the full review process repeats until all non-deferred defects are resolved and all panel members sign off.
 
@@ -250,15 +252,15 @@ A final holistic gate ensuring the product meets all release standards before sh
 
 **7-Item Release Checklist:**
 
-| # | Domain | Criteria | Sign-off Authority |
-| - | ------ | -------- | ------------------ |
-| 1 | Product | All PRD requirements implemented and verified | CPO |
-| 2 | Design | All CDO/IDS specifications accurately realised | CDO |
-| 3 | Architecture | All UML/ADR/TSD standards upheld | CTO + CIO |
-| 4 | Security | All SRD requirements enforced; OWASP MASVS compliant | CSO |
-| 5 | Testing | 100% automated test pass rate achieved | CTO |
-| 6 | Localisation | All target languages complete and verified | CTO-L |
-| 7 | Platform | App Store / Google Play submission requirements met | CTO + CPO |
+| #   | Domain       | Criteria                                             | Sign-off Authority |
+| --- | ------------ | ---------------------------------------------------- | ------------------ |
+| 1   | Product      | All PRD requirements implemented and verified        | CPO                |
+| 2   | Design       | All CDO/IDS specifications accurately realised       | CDO                |
+| 3   | Architecture | All UML/ADR/TSD standards upheld                     | CTO + CIO          |
+| 4   | Security     | All SRD requirements enforced; OWASP MASVS compliant | CSO                |
+| 5   | Testing      | 100% automated test pass rate achieved               | CTO                |
+| 6   | Localisation | All target languages complete and verified           | CTO-L              |
+| 7   | Platform     | App Store / Google Play submission requirements met  | CTO + CPO          |
 
 The completed Release Readiness Report is submitted to the user. The user makes the final release decision.
 
