@@ -44,6 +44,20 @@ The CSO owns the security review criterion during Stage 6 code review. The codeb
 3. Platform security standards applied (iOS ATS, Android SafetyNet/Play Integrity)
 4. **OWASP MASVS compliance** verified
 
+### Stage 7 — Automated Testing
+
+While the Test Lead owns Stage 7 execution, security-relevant defects discovered during automated testing must follow the notification protocol below.
+
+**Notification Protocol:**
+
+| Defect Type | Severity | Action |
+|-------------|----------|--------|
+| Security breach or vulnerability | P0 | Immediate CSO notification (within 24 hours); CSO classifies and assigns remediation priority |
+| Security-adjacent defect | P1 | CSO notified at next daily security sync; CSO confirms classification |
+| Non-security defect | P2/P3 | Standard defect handling — no CSO involvement required |
+
+**Security Testing Integration:** SAST/DAST pipeline results (owned by Omar Farouq) and dependency vulnerability scans are reviewed as part of Stage 7 test results. These results feed into the Stage 8 Integrity Verification security assessment.
+
 ### Stage 8 — Integrity Verification
 
 Both CSO and CIO verify that the testing remediation phase did not silently remove or weaken any security requirements.

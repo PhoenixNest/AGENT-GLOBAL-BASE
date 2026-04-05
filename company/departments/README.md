@@ -109,14 +109,14 @@ Skills: `language-translation-module`
 
 Teammates:
 
-| Name                    | Role                  | Language Pairs           | Path                                                 |
-| ----------------------- | --------------------- | ------------------------ | ---------------------------------------------------- |
-| Amelia Hartington       | English Linguist      | EN-US / EN-GB            | `localization/team/teammates/english-linguist/`      |
-| Wei-Chen Liu            | Chinese Linguist      | ZH-CN / ZH-TW            | `localization/team/teammates/chinese-linguist/`      |
-| Haruki Yoshimoto        | Japanese Linguist     | JA                       | `localization/team/teammates/japanese-linguist/`     |
-| Ji-Hyun Bae             | Korean Linguist       | KO                       | `localization/team/teammates/korean-linguist/`       |
-| Isabelle Moreau-Leclerc | French Linguist       | FR-FR / FR-CA            | `localization/team/teammates/french-linguist/`       |
-| Dario Esposito          | Localization Engineer | (pipeline engineering)   | `localization/team/teammates/localization-engineer/` |
+| Name                    | Role                  | Language Pairs         | Path                                                 |
+| ----------------------- | --------------------- | ---------------------- | ---------------------------------------------------- |
+| Amelia Hartington       | English Linguist      | EN-US / EN-GB          | `localization/team/teammates/english-linguist/`      |
+| Wei-Chen Liu            | Chinese Linguist      | ZH-CN / ZH-TW          | `localization/team/teammates/chinese-linguist/`      |
+| Haruki Yoshimoto        | Japanese Linguist     | JA                     | `localization/team/teammates/japanese-linguist/`     |
+| Ji-Hyun Bae             | Korean Linguist       | KO                     | `localization/team/teammates/korean-linguist/`       |
+| Isabelle Moreau-Leclerc | French Linguist       | FR-FR / FR-CA          | `localization/team/teammates/french-linguist/`       |
+| Dario Esposito          | Localization Engineer | (pipeline engineering) | `localization/team/teammates/localization-engineer/` |
 
 Shared linguist skill: `mobile-ui-translation` (present in each linguist's `skills/` directory)
 
@@ -188,15 +188,15 @@ Owns Stage 9 i18n engineering: scans the integrity-verified codebase for hardcod
 
 ## Pipeline Stage to Responsible Agent Index
 
-| Stage | Name                                 | Responsible Producer(s)       | Key Agents                                                  |
-| ----- | ------------------------------------ | ----------------------------- | ----------------------------------------------------------- |
-| 1     | Requirements to PRD + SRD            | CPO (PRD), CSO (SRD)          | Marcus Tran-Yoshida, Dr. Sarah Chen                         |
-| 2     | PRD to Web Prototype + IDS           | CDO                           | Yuki Tanaka-Chen, Lena Vasquez                              |
-| 3     | Prototype to UML Engineering Package | CTO (UML), CIO (ADRs + TSD)   | Dr. Kenji Nakamura, Rafael Okonkwo, Dr. Priya Mehta         |
-| 4     | UML to Coding Implementation Plan    | CTO                           | Dr. Kenji Nakamura                                          |
-| 5     | Plan to Software Development         | CTO + Platform Leads          | Kofi Asante-Mensah, Seo-Yeon Park, Mei-Ling Johansson       |
-| 6     | Development to Code Review           | CTO (panel)                   | All C-suite, Rafael Okonkwo                                 |
-| 7     | Code Review to Automated Testing     | CTO + Test Lead               | Priscilla Oduya                                             |
-| 8     | Testing to Integrity Verification    | CTO (panel)                   | All C-suite, Platform Leads, Priscilla Oduya                |
-| 9     | Integrity to Internationalization    | CTO-L + R&D                   | Tomas Dvoracek, Dr. Amara Osei-Mensah, Linguist Team        |
-| 10    | i18n to Release Readiness Check      | CTO (panel)                   | All C-suite + User                                          |
+| Stage | Name                                 | Responsible Producer(s)     | Key Agents                                            |
+| ----- | ------------------------------------ | --------------------------- | ----------------------------------------------------- |
+| 1     | Requirements to PRD + SRD            | CPO (PRD), CSO (SRD)        | Marcus Tran-Yoshida, Dr. Sarah Chen                   |
+| 2     | PRD to Web Prototype + IDS           | CDO                         | Yuki Tanaka-Chen, Lena Vasquez                        |
+| 3     | Prototype to UML Engineering Package | CTO (UML), CIO (ADRs + TSD) | Dr. Kenji Nakamura, Rafael Okonkwo, Dr. Priya Mehta   |
+| 4     | UML to Coding Implementation Plan    | CTO                         | Dr. Kenji Nakamura                                    |
+| 5     | Plan to Software Development         | CTO + Platform Leads        | Kofi Asante-Mensah, Seo-Yeon Park, Mei-Ling Johansson |
+| 6     | Development to Code Review           | CTO (panel)                 | All C-suite, Rafael Okonkwo                           |
+| 7     | Code Review to Automated Testing     | CTO + Test Lead             | Priscilla Oduya                                       |
+| 8     | Testing to Integrity Verification    | CTO (panel)                 | All C-suite, Platform Leads, Priscilla Oduya          |
+| 9     | Integrity to Internationalization    | CTO-L + R&D                 | Tomas Dvoracek, Dr. Amara Osei-Mensah, Linguist Team  |
+| 10    | i18n to Release Readiness Check      | CTO (panel)                 | All C-suite + User                                    |

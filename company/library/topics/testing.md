@@ -6,10 +6,10 @@ Cross-cutting reference for all testing concerns: automated test suite design, d
 
 ## Owners
 
-| Role | Name | Department | Profile |
-| --- | --- | --- | --- |
-| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D | [`profile.md`](../../departments/research-develop/supervisor/chief-technology-officer/agent/profile.md) |
-| Test Lead | Priscilla Oduya | R&D | [`profile.md`](../../departments/research-develop/team/supervisors/test-lead/agent/profile.md) |
+| Role                           | Name               | Department | Profile                                                                                                        |
+| ------------------------------ | ------------------ | ---------- | -------------------------------------------------------------------------------------------------------------- |
+| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D        | [`profile.md`](../../departments/research-develop/supervisor/chief-technology-officer/agent/profile.md)        |
+| Test Lead                      | Priscilla Oduya    | R&D        | [`profile.md`](../../departments/research-develop/team/supervisors/test-lead/priscilla-oduya/agent/profile.md) |
 
 ---
 
@@ -17,12 +17,12 @@ Cross-cutting reference for all testing concerns: automated test suite design, d
 
 Applied in Stages 6, 7, and 8. All identified defects must be classified before any remediation begins.
 
-| Level | Definition | Release Impact |
-| --- | --- | --- |
+| Level  | Definition                              | Release Impact                  |
+| ------ | --------------------------------------- | ------------------------------- |
 | **P0** | App crash / data loss / security breach | Blocks release — non-negotiable |
-| **P1** | Core feature broken / major UX failure | Blocks release — non-negotiable |
-| **P2** | Minor feature degraded / cosmetic issue | User decides to fix or defer |
-| **P3** | Polish / nice-to-have | User decides to fix or defer |
+| **P1** | Core feature broken / major UX failure  | Blocks release — non-negotiable |
+| **P2** | Minor feature degraded / cosmetic issue | User decides to fix or defer    |
+| **P3** | Polish / nice-to-have                   | User decides to fix or defer    |
 
 **Authority rule:** P0/P1 classification is final and cannot be overridden by any party. P2/P3 defects are submitted to the user, who has explicit final authority to skip or defer them.
 
@@ -70,12 +70,12 @@ All key personnel participate: CPO, CDO, CTO, CIO, CSO, Brand Design, R&D.
 
 The post-testing codebase is reviewed against the **full artifact set** (PRD, IDS, UML Package, SRD):
 
-| Domain | Verification |
-| --- | --- |
-| Product | All PRD features remain intact |
-| Design | All CDO/IDS design specifications accurately realised |
-| Architecture | All UML engineering standards upheld |
-| Security | All SRD security requirements remain enforced |
+| Domain       | Verification                                          |
+| ------------ | ----------------------------------------------------- |
+| Product      | All PRD features remain intact                        |
+| Design       | All CDO/IDS design specifications accurately realised |
+| Architecture | All UML engineering standards upheld                  |
+| Security     | All SRD security requirements remain enforced         |
 
 > Any regressions are treated as **P0/P1 defects** — functionality removal is never a valid remediation strategy.
 
@@ -89,10 +89,10 @@ The post-testing codebase is reviewed against the **full artifact set** (PRD, ID
 
 ## Relevant Skills
 
-| Skill File | Owner | Purpose |
-| --- | --- | --- |
-| [`automated-test-suite.md`](../../departments/research-develop/team/supervisors/test-lead/skills/automated-test-suite.md) | Test Lead | Automated test suite design and execution |
-| [`defect-triage-and-classification.md`](../../departments/research-develop/team/supervisors/test-lead/skills/defect-triage-and-classification.md) | Test Lead | P0–P3 defect classification and triage |
+| Skill File                                                                                                                                                        | Owner     | Purpose                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------------------------------------- |
+| [`automated-test-suite.md`](../../departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/automated-test-suite.md)                         | Test Lead | Automated test suite design and execution |
+| [`defect-triage-and-classification.md`](../../departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/defect-triage-and-classification.md) | Test Lead | P0–P3 defect classification and triage    |
 
 ---
 

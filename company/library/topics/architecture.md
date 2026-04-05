@@ -6,11 +6,11 @@ Cross-cutting reference for all software architecture concerns: UML engineering,
 
 ## Owners
 
-| Role | Name | Department | Profile |
-| --- | --- | --- | --- |
-| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D | [`profile.md`](../../departments/research-develop/supervisor/chief-technology-officer/agent/profile.md) |
-| Chief Information Officer (CIO) | Dr. Priya Mehta | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/agent/profile.md) |
-| Software Architect | Rafael Okonkwo | R&D | [`profile.md`](../../departments/research-develop/team/supervisors/software-architect/agent/profile.md) |
+| Role                            | Name               | Department          | Profile                                                                                                                |
+| ------------------------------- | ------------------ | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Chief Technology Officer (CTO)  | Dr. Kenji Nakamura | R&D                 | [`profile.md`](../../departments/research-develop/supervisor/chief-technology-officer/agent/profile.md)                |
+| Chief Information Officer (CIO) | Dr. Priya Mehta    | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/agent/profile.md)            |
+| Software Architect              | Rafael Okonkwo     | R&D                 | [`profile.md`](../../departments/research-develop/team/supervisors/software-architect/rafael-okonkwo/agent/profile.md) |
 
 ---
 
@@ -73,15 +73,15 @@ Produced by CIO at Stage 3. Contains:
 
 ## Relevant Skills
 
-| Skill File | Owner | Purpose |
-| --- | --- | --- |
-| [`uml-engineering-package.md`](../../departments/research-develop/team/supervisors/software-architect/skills/uml-engineering-package.md) | Software Architect | UML diagram production |
-| [`mobile-architecture-patterns.md`](../../departments/research-develop/team/supervisors/software-architect/skills/mobile-architecture-patterns.md) | Software Architect | Mobile-specific architecture patterns |
-| [`architecture-decision-records.md`](../../departments/research-develop/team/supervisors/software-architect/skills/architecture-decision-records.md) | Software Architect | ADR authorship |
-| [`software-architecture-design.md`](../../departments/research-develop/supervisor/chief-technology-officer/skills/software-architecture-design.md) | CTO | Architecture design and UML modelling |
-| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md) | CIO | Technology evaluation and comparative analysis |
-| [`mobile-architecture-strategy.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/mobile-architecture-strategy.md) | CIO | Mobile architecture strategy |
-| [`technical-selection-documentation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technical-selection-documentation.md) | CIO | TSD authorship |
+| Skill File                                                                                                                                                          | Owner              | Purpose                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------- |
+| [`uml-engineering-package.md`](../../departments/research-develop/team/supervisors/software-architect/rafael-okonkwo/skills/uml-engineering-package.md)             | Software Architect | UML diagram production                         |
+| [`mobile-architecture-patterns.md`](../../departments/research-develop/team/supervisors/software-architect/rafael-okonkwo/skills/mobile-architecture-patterns.md)   | Software Architect | Mobile-specific architecture patterns          |
+| [`architecture-decision-records.md`](../../departments/research-develop/team/supervisors/software-architect/rafael-okonkwo/skills/architecture-decision-records.md) | Software Architect | ADR authorship                                 |
+| [`software-architecture-design.md`](../../departments/research-develop/supervisor/chief-technology-officer/skills/software-architecture-design.md)                  | CTO                | Architecture design and UML modelling          |
+| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md)                            | CIO                | Technology evaluation and comparative analysis |
+| [`mobile-architecture-strategy.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/mobile-architecture-strategy.md)              | CIO                | Mobile architecture strategy                   |
+| [`technical-selection-documentation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technical-selection-documentation.md)    | CIO                | TSD authorship                                 |
 
 ---
 

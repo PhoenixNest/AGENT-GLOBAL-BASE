@@ -98,7 +98,7 @@ All 20 company personnel are configured as Qwen SubAgents in the `agents/` direc
 
 ## Skills Index
 
-### Architecture and Design (11)
+### Architecture and Design (12)
 
 | Skill File | Description |
 |------------|-------------|
@@ -109,6 +109,7 @@ All 20 company personnel are configured as Qwen SubAgents in the `agents/` direc
 | `mobile-architecture-strategy.md` | Mobile-native infrastructure strategy |
 | `mobile-design-systems.md` | Mobile design system creation |
 | `interaction-design-specification.md` | IDS authorship |
+| `interaction-design-specification-cdo.md` | CDO-specific IDS authorship: component specs, state diagrams, gesture vocabularies, edge case matrices |
 | `design-to-engineering-handoff.md` | Design-engineering handoff documentation |
 | `user-research-driven-design.md` | Research-backed design decisions |
 | `web-prototype-development.md` | Interactive web prototype development |
@@ -182,7 +183,7 @@ All 20 company personnel are configured as Qwen SubAgents in the `agents/` direc
 | Resource | Count | Location |
 |----------|-------|----------|
 | SubAgent Configurations | 20 | `agents/` |
-| Skill Files | 43 | `skills/` |
+| Skill Files | 44 | `skills/` |
 | Workflow Definitions | 1 | `workflows/pipeline.md` |
 
 ---

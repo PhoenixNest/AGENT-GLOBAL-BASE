@@ -456,10 +456,10 @@ company/project/<project-name>/
 
 | Severity    | Count  | Percentage |
 | ----------- | ------ | ---------- |
-| 🔴 CRITICAL | 13     | 57%        |
-| 🟠 HIGH     | 3      | 13%        |
-| 🟡 MEDIUM   | 7      | 30%        |
-| **Total**   | **23** | 100%       |
+| 🔴 CRITICAL | 14     | 47%        |
+| 🟠 HIGH     | 4      | 13%        |
+| 🟡 MEDIUM   | 12     | 40%        |
+| **Total**   | **30** | 100%       |
 
 ### Complete Mistake Log
 
@@ -759,7 +759,7 @@ Stage 2 Start:
 
 ## Progress Monitoring & Recovery System
 
-**Full specification:** `company/pipeline/development/progress-monitoring.md`
+**Full specification:** `company/pipeline/development/monitoring.md`
 
 ### System Overview
 

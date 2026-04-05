@@ -46,7 +46,7 @@ Yuki owns the company's mobile design vision and execution, setting design quali
 ## Skills Index
 
 - `mobile-design-systems.md` — Mobile design system creation: platform-specific component libraries, interaction patterns, design tokens, accessibility standards
-- `interaction-design-specification.md` — Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints
+- `interaction-design-specification-cdo.md` — Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints
 - `design-to-engineering-handoff.md` — Design-engineering collaboration: technical design specs, implementation feasibility assessment, handoff documentation
 - `user-research-driven-design.md` — Research-backed design decisions: usability testing, A/B experiments, qualitative research, data-informed iteration
 

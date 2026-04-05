@@ -32,6 +32,21 @@ Responsible for technology evaluation, architecture strategy, security requireme
 
 ---
 
+## Team Members
+
+| Name | Role | Pipeline Stages | Skills | Profile |
+| --- | --- | --- | --- | --- |
+| James Wright | Lead Security Engineer | 1, 6, 8, 10 | `security-operations` | [`profile.md`](../../departments/cyberspace-security/team/teammates/lead-security-engineer/james-wright/agent/profile.md) |
+| Natalia Petrova | Security Architect | 1, 3, 6, 8, 10 | `threat-modeling` | [`profile.md`](../../departments/cyberspace-security/team/teammates/security-architect/natalia-petrova/agent/profile.md) |
+| Sana Khoury | Security Engineer #1 | 1, 6, 8, 10 | `mobile-penetration-testing`, `owasp-masvs-compliance` | [`profile.md`](../../departments/cyberspace-security/team/teammates/security-engineer/sana-khoury/agent/profile.md) |
+| Omar Farouq | Security Engineer #2 | 1, 6, 8, 10 | `sast-dast-pipeline`, `web-application-security` | [`profile.md`](../../departments/cyberspace-security/team/teammates/security-engineer/omar-farouq/agent/profile.md) |
+| Li Wei Chen | Security Engineer #3 | 1, 6, 8, 10 | `supply-chain-security`, `secure-coding-training` | [`profile.md`](../../departments/cyberspace-security/team/teammates/security-engineer/li-wei-chen/agent/profile.md) |
+| Leila Khoury | DevOps Engineer | 1, 6, 8, 10 | `aws-monitoring`, `secrets-management` | [`profile.md`](../../departments/cyberspace-security/team/teammates/devops-engineer/leila-khoury/agent/profile.md) |
+| Yuki Matsuda | DevOps Engineer | 1, 6, 8, 10 | `cicd-security`, `infrastructure-as-code` | [`profile.md`](../../departments/cyberspace-security/team/teammates/devops-engineer/yuki-matsuda/agent/profile.md) |
+| Ingrid Solberg | Compliance Analyst | 1, 6, 8, 10 | `compliance-auditing`, `owasp-masvs-auditing`, `compliance-documentation` | [`profile.md`](../../departments/cyberspace-security/team/teammates/compliance-analyst/ingrid-solberg/agent/profile.md) |
+
+---
+
 ## Pipeline Stages
 
 | Stage | Role |
