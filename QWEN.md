@@ -228,32 +228,51 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 ```
 .qwen/
 ├── README.md              # Central index with full agent/skill listings
-├── agents/                # 20 SubAgent configurations (YAML frontmatter + profiles)
-│   ├── chief-technology-officer.md
-│   ├── chief-design-officer.md
-│   ├── chief-product-officer.md
-│   ├── software-architect.md
-│   ├── test-lead.md
-│   ├── android-development-lead.md
-│   ├── ios-development-lead.md
-│   ├── cross-platform-development-lead.md
-│   └── ... (12 more)
+├── agents/                # 77 SubAgent configurations (role-first naming)
+│   ├── cto-dr-kenji-nakamura.md
+│   ├── cdo-yuki-tanaka-chen.md
+│   ├── cpo-marcus-tran-yoshida.md
+│   ├── vp-mobile-marcus-andersson.md
+│   ├── vp-web-backend-elena-vasquez.md
+│   ├── vp-platform-david-okonkwo.md
+│   ├── vp-quality-aisha-patel.md
+│   ├── software-architect-rafael-okonkwo.md
+│   ├── test-lead-priscilla-oduya.md
+│   ├── android-lead-kofi-asante-mensah.md
+│   ├── ios-lead-seo-yeon-park.md
+│   ├── cross-platform-lead-mei-ling-johansson.md
+│   └── ... (65 more — see .qwen/README.md for full roster)
 ├── workflows/
 │   └── pipeline.md        # 10-stage development workflow
-└── skills/                # 43 skill files
+└── skills/                # 14 Qwen Code Skill categories (198 guidelines)
+    ├── architecture/      # CTO/CIO/Architect (21 guidelines)
+    ├── product-management/# CPO (3 guidelines)
+    ├── design/            # CDO (8 guidelines)
+    ├── security/          # CSO/Security (25 guidelines)
+    ├── hr-recruiting/     # CHRO/HR (9 guidelines)
+    ├── localization/      # CTO-L (8 guidelines)
+    ├── android/           # Android team (13 guidelines)
+    ├── ios/               # iOS team (15 guidelines)
+    ├── cross-platform/    # KMP/Flutter (7 guidelines)
+    ├── frontend-web/      # Web frontend (20 guidelines)
+    ├── backend/           # Backend (21 guidelines)
+    ├── testing-qa/        # SDET/QA (21 guidelines)
+    ├── devops/            # DevOps/SRE (20 guidelines)
+    └── shared/            # Cross-cutting (7 guidelines)
 ```
 
 ### Quick Reference
 
 | Resource Type           | Location                      | Count |
 | ----------------------- | ----------------------------- | ----- |
-| SubAgent Configurations | `.qwen/agents/*.md`           | 20    |
+| SubAgent Configurations | `.qwen/agents/*.md`           | 77    |
+| Skill Categories        | `.qwen/skills/*/`             | 14    |
+| Skill Guidelines        | `.qwen/skills/*/`             | 198   |
 | Workflow Definition     | `.qwen/workflows/pipeline.md` | 1     |
-| Skill Files             | `.qwen/skills/*.md`           | 43    |
 
 ### Using Imported Resources
 
-- **To use a SubAgent:** Reference by name (e.g., `chief-technology-officer`) — see `.qwen/README.md` for full list
+- **To use a SubAgent:** Reference by name (e.g., `cto-dr-kenji-nakamura`) — see `.qwen/README.md` for full list
 - **To find a skill:** Skills are indexed by category in `.qwen/README.md`
 - **To reference the pipeline:** Read `.qwen/workflows/pipeline.md` for the full 10-stage definition
 - **For detailed agent/skill index:** See `.qwen/README.md`

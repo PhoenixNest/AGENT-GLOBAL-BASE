@@ -48,7 +48,7 @@ Dr. Rostova serves as Senior Software Architect within the R&D department, repor
 - `skills/adr-template-adaptation.md` — ADR template adaptation for mobile-first contexts
 - `skills/practice-uml-adr.md` — Practice UML and ADR through mobile platform immersion
 - `skills/uml-production-certification.md` — UML production certification for solo authorship
-- `skills/stage-3-shadowing.md` — Stage 3 shadowing program participation
+- `skills/architecture-review-shadowing.md` — Architecture review shadowing program participation
 
 ## Vetting Record
 
