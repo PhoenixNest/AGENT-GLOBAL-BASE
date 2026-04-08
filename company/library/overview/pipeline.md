@@ -8,18 +8,18 @@ The company's development workflow is a ten-stage state machine governing the fu
 
 ## Stage Summary
 
-| #   | Stage                                      | Key Output                                                                              | Responsible Producer(s)                       |
-| --- | ------------------------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------- |
-| 1   | Requirements → PRD + SRD                   | Product Requirements Document, Security Requirements Document                           | CPO (PRD), CSO (SRD)                          |
-| 2   | PRD → Web Prototype + IDS                  | Web prototype (single HTML file), Interaction Design Specification                      | CDO                                           |
-| 3   | Prototype → UML Engineering Package        | UML diagrams, Architecture Decision Records (ADRs), Technology Selection Document (TSD) | CTO (UML), CIO (ADRs + TSD)                   |
-| 4   | UML → Coding Implementation Plan           | Implementation Plan, Gantt Chart                                                        | CTO                                           |
-| 5   | Plan → Software Development                | Development codebase                                                                    | CTO                                           |
-| 6   | Development → Code Review                  | Defect Report, Code Review Sign-off                                                     | CTO (panel: CPO, CDO, CTO, CIO, CSO)          |
-| 7   | Code Review → Automated Testing            | Automated Test Suite, Test Results Report                                               | CTO + Test Lead                               |
-| 8   | Testing → Integrity Verification           | Integrity Verification Sign-off                                                         | CTO (panel: all C-suite + Brand Design + R&D) |
-| 9   | Integrity Verification → i18n Engineering  | Localised codebase, Translation Verification Report                                     | CTO-L + R&D                                   |
-| 10  | i18n Engineering → Release Readiness Check | Release Readiness Report, Release Decision                                              | CTO (panel) + User                            |
+| #   | Stage                                      | Artifacts In                                                         | Key Output                                                                              | Responsible Producer(s)                       | User Approval? |
+| --- | ------------------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------- | -------------- |
+| 1   | Requirements → PRD + SRD                   | User's raw product requirements + target platform(s)                 | Product Requirements Document, Security Requirements Document                           | CPO (PRD), CSO (SRD)                          | ✅ Yes         |
+| 2   | PRD → Web Prototype + IDS                  | Final PRD, SRD                                                       | Web prototype (single HTML file), Interaction Design Specification                      | CDO                                           | ✅ Yes         |
+| 3   | Prototype → UML Engineering Package        | Final PRD, SRD, Web Prototype, IDS                                   | UML diagrams, Architecture Decision Records (ADRs), Technology Selection Document (TSD) | CTO (UML), CIO (ADRs + TSD)                   | ✅ Yes         |
+| 4   | UML → Coding Implementation Plan           | All archived deliverables (PRD, SRD, Prototype, IDS, UML, ADRs, TSD) | Implementation Plan, Gantt Chart                                                        | CTO                                           | ✅ Yes         |
+| 5   | Plan → Software Development                | Coding Implementation Plan, Gantt Chart, all prior deliverables      | Development codebase                                                                    | CTO                                           | ❌ No          |
+| 6   | Development → Code Review                  | Development codebase, PRD, SRD, IDS, UML Package, ADRs, TSD          | Defect Report, Code Review Sign-off                                                     | CTO (panel: CPO, CDO, CTO, CIO, CSO)          | ✅ Yes         |
+| 7   | Code Review → Automated Testing            | Code Review sign-off codebase                                        | Automated Test Suite, Test Results Report                                               | CTO + Test Lead                               | ✅ Yes         |
+| 8   | Testing → Integrity Verification           | Post-testing codebase, all prior deliverables                        | Integrity Verification Sign-off                                                         | CTO (panel: all C-suite + Brand Design + R&D) | ❌ No          |
+| 9   | Integrity Verification → i18n Engineering  | Integrity-verified codebase, PRD (language requirements)             | Localised codebase, Translation Verification Report                                     | CTO-L + R&D                                   | ❌ No          |
+| 10  | i18n Engineering → Release Readiness Check | All archived deliverables from all prior stages                      | Release Readiness Report, Release Decision                                              | CTO (panel) + User                            | ✅ Yes         |
 
 ---
 
@@ -35,9 +35,37 @@ The company's development workflow is a ten-stage state machine governing the fu
 | CTO-L — Dr. Amara Osei-Mensah                    | 9 (translation), 10 (sign-off: localisation)                                  |
 | Software Architect — Rafael Okonkwo              | 3 (UML support), 6 (reviewer)                                                 |
 | Test Lead — Priscilla Oduya                      | 7 (automated testing), 8 (reviewer)                                           |
-| Platform Leads (Android, iOS, Cross-Platform)    | 5 (development), 8 (reviewer)                                                 |
+| Platform Leads (Android, iOS, Cross-Platform)    | 5 (development), 6 (Tier 1 technical reviewer), 8 (reviewer)                  |
 | Internationalization Specialist — Tomas Dvoracek | 9 (string extraction)                                                         |
 | Linguist Team                                    | 9 (translation)                                                               |
+
+### Security Team Detail (per stage)
+
+| Agent                    | Role                   | Stage Responsibilities                                                                                                                                         |
+| ------------------------ | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CSO — Dr. Sarah Chen** | Chief Security Officer | Stage 1 (SRD sign-off), Stage 6 (security review sign-off), Stage 8 (security integrity), Stage 10 (security release sign-off)                                 |
+| **James Wright**         | Lead Security Engineer | Stage 5 (secure coding standards, dependency scanning, supply chain security), Stage 6 (security code review execution), Stage 8 (anti-tampering verification) |
+| **Natalia Petrova**      | Security Architect     | Stage 3 (security architecture review, crypto standards in ADRs/TSD)                                                                                           |
+| **Sana Khoury**          | Security Engineer #1   | Stage 6 (mobile penetration testing coordination)                                                                                                              |
+| **Omar Farouq**          | Security Engineer #2   | Stage 5 (SAST/DAST pipeline engineering), Stage 6 (SAST/DAST results analysis)                                                                                 |
+| **Li Wei Chen**          | Security Engineer #3   | Stage 5 (supply chain security), Stage 8 (supply chain integrity verification)                                                                                 |
+| **Ingrid Solberg**       | Compliance Analyst     | Stage 1 (compliance requirements review), Stage 10 (SOC 2, GDPR, ISO 27001 compliance docs)                                                                    |
+
+---
+
+## Key Pipeline Rules
+
+### Technology Decision Lock (Stage 3 → Stage 4)
+
+ADRs and the TSD produced at Stage 3 are **locked** upon user approval. Technology decisions are **not revisable** during Stage 4 (Implementation Planning) or Stage 5 (Development). Any deviation requires a new ADR, which constitutes a Stage 3 re-entry — not a Stage 4 edit.
+
+### "Trim-to-Pass" Anti-Pattern Guard (Stage 8)
+
+Stage 8 Integrity Verification exists to prevent the **"fixing code by trimming the product"** anti-pattern. Functionality removal, disabling, or weakening of any feature or security control is **never a valid remediation strategy**. This includes: removing encryption, disabling certificate pinning, removing root/jailbreak detection, weakening obfuscation, or bypassing authentication flows. Any such action is classified as a **P0 defect** and blocks advancement.
+
+### Paired Artifacts
+
+The PRD and SRD are archived together at Stage 1 and travel as a unit through all subsequent stages.
 
 ---
 
@@ -63,13 +91,43 @@ Active from Stage 4 onward.
 - Any task exceeding its estimated duration by **>20%** triggers an automatic CTO → CPO schedule risk notification.
 - The CTO produces weekly progress summaries for C-suite visibility.
 
-**Full system:** [`topics/monitoring.md`](../topics/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects).
+**Full system:** [`pipeline/development/monitoring.md`](../../pipeline/development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
 
-### Paired Artifacts
+### Platform Strategy Matrix
 
-The PRD and SRD are archived together at Stage 1 and travel as a unit through all subsequent stages.
+Stage 5 development executes per the **Platform Strategy Matrix**, driven by the Platform Strategy ADR at Stage 3. Five mutually exclusive scenarios determine track activation: Android-only, iOS-only, both native, KMP cross-platform, or Flutter cross-platform. Each scenario activates different track configurations (FULL / LIGHT / PRIMARY / Dormant) with distinct team sizes, CI/CD scopes, and testing mandates.
 
-### Release Checklist (Stage 10)
+> **Full specification:** [`pipeline/development/pipeline.md`](../../pipeline/development/pipeline.md) — Platform Strategy Matrix, Track Activation Protocol, and Per-Scenario CI/CD Blueprint (Stage 5 section).
+
+### Stage 6 Code Review Criteria
+
+The review panel evaluates against four criteria:
+
+1. **PRD conformance** — all product requirements fully implemented.
+2. **IDS conformance** — all design specifications accurately reproduced.
+3. **Architecture conformance** — UML diagrams, ADRs, and TSD implemented as prescribed.
+4. **Security conformance** (CSO-owned) — SRD requirements enforced: encryption, secure storage, platform security standards, OWASP MASVS compliance.
+
+### Stage 7 Regression Testing Mandate
+
+Automated testing includes **regression testing on all affected functionalities** after any defect remediation. Regression must pass fully with no failures before advancing to Stage 8.
+
+### Stage 9 Responsibility Split
+
+- **CPO, CDO, CTO** conduct a **structural completeness review**: all hardcoded strings extracted, resource files correctly structured, no untranslated UI components. Structure only — not translation accuracy.
+- **CTO-L** owns **translation accuracy** exclusively: correctness of translated content, platform-specific formatting, linguistic quality across all target languages.
+
+### Stage 5 CTO Internal Review
+
+Before advancing to Stage 6, the CTO conducts a comprehensive internal review confirming: all coding tasks in the Implementation Plan are marked complete, compilation passes on all active platforms, no known runtime bugs exist, the Design Fidelity Checkpoint (at ~60% completion) has been conducted, the String Extraction Readiness audit has been completed, and Contract Verification Reports have been produced at 30% and 70% milestones (for KMP/Flutter projects).
+
+### Stage 6 Remediation Loop
+
+If the review panel identifies defects, the CTO assigns R&D personnel to remediate. After remediation, the **full review process repeats** — including the live demonstration by the CDO and the Architecture Compliance Audit — until all non-deferred defects are resolved and all panel members sign off.
+
+---
+
+## Release Checklist (Stage 10)
 
 | #   | Domain                                              | Sign-off Authority |
 | --- | --------------------------------------------------- | ------------------ |
@@ -82,3 +140,5 @@ The PRD and SRD are archived together at Stage 1 and travel as a unit through al
 | 7   | Platform — App Store / Google Play requirements met | CTO + CPO          |
 
 See [`topics/testing.md`](../topics/testing.md), [`topics/security.md`](../topics/security.md), and [`topics/localization.md`](../topics/localization.md) for cross-cutting detail on these domains.
+
+---

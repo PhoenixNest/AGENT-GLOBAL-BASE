@@ -23,8 +23,22 @@ This directory contains the company's SubAgent configurations, skills, and workf
 │   ├── HR (3 files)
 │   ├── Localization (7 files)
 │   └── Brand Design (1 file)
-├── workflows/                   # Pipeline definitions
-│   └── pipeline.md              # 10-stage development workflow
+├── workflows/                   # Pipeline definitions (updated April 8, 2026)
+│   ├── pipeline.md              # 10-stage development workflow (authoritative spec)
+│   ├── monitoring.md            # Progress Monitoring & Recovery System (3 layers)
+│   └── templates/               # 28 pipeline templates organized by stage
+│       ├── README.md            # Template index with directory tree
+│       ├── monitoring/          # (3 files: progress.md, session-log.md, checkpoint.json)
+│       ├── stage-1-requirements/ # (2 files: PRD.md, SRD.md)
+│       ├── stage-2-design/       #(1 file: IDS.md)
+│       ├── stage-3-architecture/ # (7 files: 6 ADRs + TSD.md)
+│       ├── stage-4-implementation-plan/ # (3 files)
+│       ├── stage-5-development/  # (3 files)
+│       ├── stage-6-code-review/  # (1 file: DEFECT-REPORT.md)
+│       ├── stage-7-testing/      # (3 files)
+│       ├── stage-8-integrity/    # (1 file: INTEGRITY-SIGNOFF.md)
+│       ├── stage-9-i18n/         # (2 files)
+│       └── stage-10-release/     # (1 file: RELEASE-CHECKLIST.md)
 └── skills/                      # Qwen Code Skills (14 categories, 199 guidelines)
     ├── architecture/            # CTO/CIO/Architect skills (21 guidelines)
     ├── product-management/      # CPO skills (3 guidelines)

@@ -90,25 +90,28 @@ agent-global-base/
 
 The pipeline is a **state machine** — each stage has explicit Artifacts In/Out, a Responsible Producer, Gate Criteria, and Defect Handling. Stages must be completed in order; gate criteria must be satisfied before advancing.
 
-| #   | Stage                               | Key Output                                           | Responsible Producer        |
-| --- | ----------------------------------- | ---------------------------------------------------- | --------------------------- |
-| 1   | Requirements → PRD + SRD            | PRD + Security Requirements Document                 | CPO (PRD), CSO (SRD)        |
-| 2   | PRD → Web Prototype + IDS           | HTML prototype + Interaction Design Specification    | CDO                         |
-| 3   | Prototype → UML Engineering Package | UML diagrams + ADRs + TSD                            | CTO (UML), CIO (ADRs + TSD) |
-| 4   | UML → Coding Implementation Plan    | Implementation Plan + Gantt Chart                    | CTO                         |
-| 5   | Plan → Software Development         | Development codebase                                 | CTO                         |
-| 6   | Development → Code Review           | Defect Report + Code Review Sign-off                 | CTO (panel)                 |
-| 7   | Code Review → Automated Testing     | Test Suite + Test Results Report                     | CTO + Test Lead             |
-| 8   | Testing → Integrity Verification    | Integrity Verification Sign-off                      | CTO (panel)                 |
-| 9   | Integrity → i18n Engineering        | Localised codebase + Translation Verification Report | CTO-L + R&D                 |
-| 10  | i18n → Release Readiness Check      | Release Readiness Report + Release Decision          | CTO (panel) + User          |
+| #   | Stage                               | Key Output                                                                                                                                           | Responsible Producer        |
+| --- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| 1   | Requirements → PRD + SRD            | PRD (with JTBD, kill criteria, commercial assessment, locale formatting) + SRD                                                                       | CPO (PRD), CSO (SRD)        |
+| 2   | PRD → Web Prototype + IDS           | HTML prototype + Interaction Design Specification (with a11y specs, text expansion tolerance, RTL considerations)                                    | CDO                         |
+| 3   | Prototype → UML Engineering Package | UML diagrams + ADRs (6 mandatory: Platform Strategy, String Key Taxonomy, Crypto, Storage, Pinning, Platform Patterns) + TSD (with Technology Radar) | CTO (UML), CIO (ADRs + TSD) |
+| 4   | UML → Coding Implementation Plan    | Implementation Plan (with RTM, Design Fidelity Checkpoint, key-index.csv task) + Gantt Chart + Test Architecture Document                            | CTO                         |
+| 5   | Plan → Software Development         | Development codebase + Contract Verification Reports (30%/70%) + String Extraction Readiness audit                                                   | CTO                         |
+| 6   | Development → Code Review           | Defect Report (with Architecture Compliance Audit, IDS Conformance Matrix, pre-Tier 1 automated gates) + Live Demo + Code Review Sign-off            | CTO (panel)                 |
+| 7   | Code Review → Automated Testing     | Test Suite + Test Results Report (with DAST, pen test, performance benchmarks, Design Fidelity Test Checklist)                                       | CTO + Test Lead             |
+| 8   | Testing → Integrity Verification    | Integrity Verification Sign-off (with Stage 6 baseline, per-feature PRD checklist, stealthy weakening detection)                                     | CTO (panel)                 |
+| 9   | Integrity → i18n Engineering        | Localised codebase + Translation Verification Report (with BLEU/TER scores, platform-specific style guides)                                          | CTO-L                       |
+| 10  | i18n → Release Readiness Check      | Release Readiness Report (7 items with sub-checklists) + Release Decision                                                                            | CTO (panel) + User          |
 
 **Key pipeline rules:**
 
 - The PRD and SRD are **paired artifacts** — they travel together through all stages.
-- Technology decisions locked at Stage 3 (ADRs/TSD) are **not revisable** in Stage 4+.
+- Technology decisions locked at Stage 3 (ADRs/TSD) are **not revisable** in Stage 4+. Any deviation requires a new ADR, which constitutes a Stage 3 re-entry.
 - The Progress Sync Protocol activates at Stage 4: any task exceeding estimated duration by >20% triggers a CTO → CPO notification.
-- Stage 8 guards against the "trim-to-pass" anti-pattern — functionality removal is never valid remediation.
+- Stage 8 guards against the "trim-to-pass" anti-pattern — functionality removal is never valid remediation. **Stealthy weakening** of security controls (e.g., weaker cipher, relaxed pin validation) is classified as a P0 defect.
+- Stage 6 uses a **Three-Layer Defense** for ADR/TSD compliance: (1) Platform Lead attestation, (2) Architecture Compliance Audit by Dr. Elena Rostova, (3) CI/CD gates (dependency version pinning, prohibited technology detection).
+- Stage 6 includes a **Live Demonstration** — the CDO interacts with running builds on both platforms before panel sign-off.
+- Stage 7 mandates **DAST** (OWASP ZAP), **penetration testing** (MASVS categories), and **performance benchmark verification** (all PRD SLAs verified).
 
 ---
 
@@ -156,8 +159,8 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 - **Architecture** (`topics/architecture.md`): UML engineering, ADRs, TSD — owned by CTO and CIO; central to Stage 3.
 - **Security** (`topics/security.md`): OWASP MASVS compliance baseline; iOS ATS + Keychain, Android Keystore + Play Integrity; CSO-owned from Stage 1 SRD through Stage 10 sign-off.
-- **Testing** (`topics/testing.md`): 100% automated test pass rate target; regression testing required on all fixed functionalities; Stage 8 integrity verification guards against the "trim-to-pass" anti-pattern.
-- **Localization** (`topics/localization.md`): Stage 9 two-phase process — R&D i18n engineering (string extraction into `strings.xml`, `Localizable.strings`, etc.) then Localization Department TMS translation pipeline.
+- **Testing** (`topics/testing.md`): 100% automated test pass rate target; regression testing required on all fixed functionalities; Stage 8 integrity verification guards against the "trim-to-pass" anti-pattern. Stage 7 mandates DAST (OWASP ZAP), penetration testing (MASVS categories), and performance benchmark verification.
+- **Localization** (`topics/localization.md`): Stage 9 two-phase process — Phase A: R&D i18n engineering (string extraction into platform resource files, validated via STRING-EXTRACTION-HANDOFF.md); Phase B: Localization Department TMS translation pipeline. Translation quality verified via BLEU/TER scores (≥ 0.80), platform-specific style guides, and the TRANSLATION-VERIFICATION-REPORT.md.
 
 ---
 
@@ -165,15 +168,15 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 All seven must be signed off before the user issues the final release decision:
 
-| #   | Domain                                              | Sign-off Authority |
-| --- | --------------------------------------------------- | ------------------ |
-| 1   | Product — all PRD requirements implemented          | CPO                |
-| 2   | Design — all CDO/IDS specifications realised        | CDO                |
-| 3   | Architecture — all UML/ADR/TSD standards upheld     | CTO + CIO          |
-| 4   | Security — SRD enforced, OWASP MASVS compliant      | CSO                |
-| 5   | Testing — 100% automated test pass rate             | CTO                |
-| 6   | Localisation — all target languages complete        | CTO-L              |
-| 7   | Platform — App Store / Google Play requirements met | CTO + CPO          |
+| #   | Domain                                                  | Sign-off Authority | Key Sub-Checks                                                                                                                                              |
+| --- | ------------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Product — all PRD requirements implemented              | CPO                | Analytics firing, IAP configured, kill condition monitoring active, post-launch dashboard ready                                                             |
+| 2   | Design — all CDO/IDS specifications accurately realised | CDO                | IDS Conformance Matrix ≥ 95%, zero "Not Implemented" items, WCAG 2.1 AA met, platform conventions respected, design tokens correct, animation specs matched |
+| 3   | Architecture — all UML/ADR/TSD standards upheld         | CTO + CIO          | Technology Decision Registry 100% compliant, no ADR deviations                                                                                              |
+| 4   | Security — SRD enforced, OWASP MASVS compliant          | CSO                | All security controls present AND effective (not just present), stealthy weakening verified absent                                                          |
+| 5   | Testing — 100% automated test pass rate achieved        | CTO                | DAST passed, pen test passed, performance benchmarks passed, Design Fidelity Test Checklist passed                                                          |
+| 6   | Localisation — all target languages complete            | CTO-L              | BLEU ≥ 0.80, accessibility labels verified, commercial copy localized, locale variants distinct, structural completeness signed off by CPO/CDO/CTO          |
+| 7   | Platform — App Store / Google Play requirements met     | CTO + CPO          | Screenshots updated, descriptions localized (CTO-L co-signer), metadata complete, privacy policy current, store listing localized                           |
 
 ---
 
@@ -243,8 +246,10 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 │   ├── cross-platform-lead-mei-ling-johansson.md
 │   └── ... (65 more — see .qwen/README.md for full roster)
 ├── workflows/
-│   └── pipeline.md        # 10-stage development workflow
-└── skills/                # 14 Qwen Code Skill categories (198 guidelines)
+│   ├── pipeline.md        # 10-stage development workflow (source of truth)
+│   ├── monitoring.md      # Progress Monitoring & Recovery System
+│   └── templates/         # 28 pipeline templates organized by stage
+└── skills/                # 14 Qwen Code Skill categories (199 guidelines)
     ├── architecture/      # CTO/CIO/Architect (21 guidelines)
     ├── product-management/# CPO (3 guidelines)
     ├── design/            # CDO (8 guidelines)
@@ -267,14 +272,14 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 | ----------------------- | ----------------------------- | ----- |
 | SubAgent Configurations | `.qwen/agents/*.md`           | 77    |
 | Skill Categories        | `.qwen/skills/*/`             | 14    |
-| Skill Guidelines        | `.qwen/skills/*/`             | 198   |
-| Workflow Definition     | `.qwen/workflows/pipeline.md` | 1     |
+| Skill Guidelines        | `.qwen/skills/*/`             | 199   |
+| Workflow Definition     | `.qwen/workflows/pipeline.md`, `monitoring.md`, `templates/` | 30 files |
 
 ### Using Imported Resources
 
 - **To use a SubAgent:** Reference by name (e.g., `cto-dr-kenji-nakamura`) — see `.qwen/README.md` for full list
 - **To find a skill:** Skills are indexed by category in `.qwen/README.md`
-- **To reference the pipeline:** Read `.qwen/workflows/pipeline.md` for the full 10-stage definition
+- **To reference the pipeline:** Read `.qwen/workflows/pipeline.md` for the full 10-stage definition, `monitoring.md` for the Progress Monitoring & Recovery System, and `.qwen/workflows/templates/` for all 28 stage-specific templates
 - **For detailed agent/skill index:** See `.qwen/README.md`
 
 ---
@@ -452,18 +457,18 @@ company/project/<project-name>/
 
 **Gate Reviews must be conducted by a panel with appropriate sign-off authority:**
 
-| Stage    | Review Type                 | Panel Members                                |
-| -------- | --------------------------- | -------------------------------------------- |
-| Stage 1  | Requirements Gate           | CTO, CIO, CSO, CPO                           |
-| Stage 2  | Design Gate                 | CTO, CDO, CPO                                |
-| Stage 3  | Architecture Gate           | CTO, CIO, CPO                                |
-| Stage 4  | Implementation Plan Gate    | CTO, CPO                                     |
-| Stage 5  | Development Complete Gate   | CTO, Test Lead, CPO                          |
-| Stage 6  | Code Review Gate            | CTO (panel), CSO, CPO                        |
-| Stage 7  | Testing Gate                | CTO, Test Lead, CSO                          |
-| Stage 8  | Integrity Verification Gate | CTO (panel), CSO, CPO, CTO-L                 |
-| Stage 9  | i18n Gate                   | CTO-L, CTO, CPO                              |
-| Stage 10 | Release Gate                | CTO (panel), CPO, CDO, CSO, CTO-L + **USER** |
+| Stage    | Review Type                 | Panel Members                                                |
+| -------- | --------------------------- | ------------------------------------------------------------ |
+| Stage 1  | Requirements Gate           | CTO, CIO, CSO, CPO                                           |
+| Stage 2  | Design Gate                 | CTO, CDO, CPO                                                |
+| Stage 3  | Architecture Gate           | CTO, CIO, CPO                                                |
+| Stage 4  | Implementation Plan Gate    | CTO, CPO                                                     |
+| Stage 5  | Development Complete Gate   | CTO internal review only (no panel)                          |
+| Stage 6  | Code Review Gate            | CTO (convenes), CPO, CDO, CIO, CSO + Platform Leads (Tier 1) |
+| Stage 7  | Testing Gate                | CTO + Test Lead (automated testing; user decides on P2/P3)   |
+| Stage 8  | Integrity Verification Gate | CTO (convenes), CPO, CDO, CIO, CSO, Brand Design, R&D        |
+| Stage 9  | i18n Gate                   | CTO-L, CTO, CPO                                              |
+| Stage 10 | Release Gate                | CTO (convenes), CPO, CDO, CSO, CTO-L + **USER**              |
 
 ---
 
@@ -512,15 +517,18 @@ company/project/<project-name>/
 
 **Per `company/pipeline/development/pipeline.md`:**
 
-| Rule                     | Requirement                                                                                                                                                                                             |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Responsible Producer** | CTO (oversees and tracks development progress)                                                                                                                                                          |
-| **Team Utilization**     | **MAXIMIZE** — Distribute workload across ALL platform leads (Android, iOS, Cross-Platform) using parallel construction                                                                                 |
-| **User Approval**        | **NOT REQUIRED** during Stage 5 — CTO has sole responsibility; no gate approvals needed between phases                                                                                                  |
-| **Progress Tracking**    | Single `DEVELOPMENT-LOG.md` **per platform** (e.g., `platforms/android/code/DEVELOPMENT-LOG.md`) — updated upon each phase completion; individual phase reports are redundant and should NOT be created |
-| **Completion Criteria**  | All Coding Implementation Plan tasks marked complete                                                                                                                                                    |
-| **Internal Review**      | CTO conducts comprehensive internal review (compilation, runtime, bug-free) BEFORE advancing to Stage 6                                                                                                 |
-| **Reporting**            | CTO reports progress directly to user; CTO conducts secondary review before final report                                                                                                                |
+| Rule                                         | Requirement                                                                                                                                                                                                                  |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Responsible Producer**                     | CTO (oversees and tracks development progress)                                                                                                                                                                               |
+| **Team Utilization**                         | **MAXIMIZE** — Distribute workload across ALL platform leads (Android, iOS, Cross-Platform) using parallel construction                                                                                                      |
+| **User Approval**                            | **NOT REQUIRED** during Stage 5 — CTO has sole responsibility; no gate approvals needed between phases                                                                                                                       |
+| **Progress Tracking**                        | Single `DEVELOPMENT-LOG.md` **per platform** (e.g., `platforms/android/code/DEVELOPMENT-LOG.md`) — updated upon each phase completion; individual phase reports are redundant and should NOT be created                      |
+| **Design Fidelity Checkpoint**               | At ~60% completion, the CDO conducts a formal Design Fidelity Checkpoint against the IDS. ≥ 90% pass rate → proceed; 70–89% → proceed with remediation plan; < 70% → STOP, CTO notifies CPO.                                 |
+| **String Extraction Readiness**              | Before Stage 6 entry, the Internationalization Specialist audits the codebase for hardcoded strings. Remaining strings classified as P2 defects (P1 if core user flow affected).                                             |
+| **Contract Verification** (KMP/Flutter only) | Contract Verification Reports produced at 30% and 70% completion milestones. Blocking issues must be resolved before the next checkpoint.                                                                                    |
+| **Completion Criteria**                      | All Coding Implementation Plan tasks marked complete                                                                                                                                                                         |
+| **Internal Review**                          | CTO conducts comprehensive internal review (compilation, runtime, bug-free, Design Fidelity Checkpoint completed, String Extraction Readiness completed, Contract Verification Reports produced) BEFORE advancing to Stage 6 |
+| **Reporting**                                | CTO reports progress directly to user; CTO conducts secondary review before final report                                                                                                                                     |
 
 **Pipeline Reference:** Stage 5 is the "core implementation phase" where CTO oversees development. User approval is only required at Stage 6 (Code Review) gate.
 
