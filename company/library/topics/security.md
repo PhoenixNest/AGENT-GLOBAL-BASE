@@ -6,9 +6,9 @@ Cross-cutting reference for all mobile security concerns: security requirements,
 
 ## Owners
 
-| Role | Name | Department | Profile |
-| --- | --- | --- | --- |
-| Chief Security Officer (CSO) | Dr. Sarah Chen | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/agent/profile.md) |
+| Role                            | Name            | Department          | Profile                                                                                                     |
+| ------------------------------- | --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Chief Security Officer (CSO)    | Dr. Sarah Chen  | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/agent/profile.md)    |
 | Chief Information Officer (CIO) | Dr. Priya Mehta | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/agent/profile.md) |
 
 ---
@@ -50,11 +50,11 @@ While the Test Lead owns Stage 7 execution, security-relevant defects discovered
 
 **Notification Protocol:**
 
-| Defect Type | Severity | Action |
-|-------------|----------|--------|
-| Security breach or vulnerability | P0 | Immediate CSO notification (within 24 hours); CSO classifies and assigns remediation priority |
-| Security-adjacent defect | P1 | CSO notified at next daily security sync; CSO confirms classification |
-| Non-security defect | P2/P3 | Standard defect handling — no CSO involvement required |
+| Defect Type                      | Severity | Action                                                                                        |
+| -------------------------------- | -------- | --------------------------------------------------------------------------------------------- |
+| Security breach or vulnerability | P0       | Immediate CSO notification (within 24 hours); CSO classifies and assigns remediation priority |
+| Security-adjacent defect         | P1       | CSO notified at next daily security sync; CSO confirms classification                         |
+| Non-security defect              | P2/P3    | Standard defect handling — no CSO involvement required                                        |
 
 **Security Testing Integration:** SAST/DAST pipeline results (owned by Omar Farouq) and dependency vulnerability scans are reviewed as part of Stage 7 test results. These results feed into the Stage 8 Integrity Verification security assessment.
 
@@ -72,11 +72,11 @@ Both CSO and CIO verify that the testing remediation phase did not silently remo
 
 The company's security compliance baseline is the **OWASP Mobile Application Security** standard.
 
-| Resource | Purpose |
-| --- | --- |
-| [OWASP MAS — mas.owasp.org](https://mas.owasp.org/) | Official hub for both MASVS and MASTG |
+| Resource                                                  | Purpose                                             |
+| --------------------------------------------------------- | --------------------------------------------------- |
+| [OWASP MAS — mas.owasp.org](https://mas.owasp.org/)       | Official hub for both MASVS and MASTG               |
 | MASVS (Mobile Application Security Verification Standard) | Defines the security requirements the app must meet |
-| MASTG (Mobile Application Security Testing Guide) | Comprehensive manual for testing those requirements |
+| MASTG (Mobile Application Security Testing Guide)         | Comprehensive manual for testing those requirements |
 
 > OWASP MAS is a living document updated continuously. Always refer to the official site for the latest version.
 
@@ -100,13 +100,13 @@ The company's security compliance baseline is the **OWASP Mobile Application Sec
 
 ## Relevant Skills
 
-| Skill File | Owner | Purpose |
-| --- | --- | --- |
-| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md) | CSO | Mobile security architecture design |
-| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | CSO | Encryption, secure storage, OWASP MASVS compliance |
-| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md) | CSO | SRD authorship, privacy and compliance requirements |
-| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md) | CSO | Threat landscape analysis |
-| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md) | CIO | Security-aware technology evaluation |
+| Skill File                                                                                                                                              | Owner | Purpose                                             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --------------------------------------------------- |
+| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | CSO   | Mobile security architecture design                 |
+| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | CSO   | Encryption, secure storage, OWASP MASVS compliance  |
+| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | CSO   | SRD authorship, privacy and compliance requirements |
+| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | CSO   | Threat landscape analysis                           |
+| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md)                | CIO   | Security-aware technology evaluation                |
 
 ---
 

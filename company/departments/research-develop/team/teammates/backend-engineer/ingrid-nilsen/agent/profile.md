@@ -78,8 +78,8 @@ by the Vipps merchant services team. Red flag scan clean — 5-year tenure at Vi
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AQ: PostgreSQL Performance Optimization | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                                  | Delivering Officer | Status  | Date          |
+| --------------------------------------- | ------------------ | ------- | ------------- |
+| AQ: PostgreSQL Performance Optimization | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

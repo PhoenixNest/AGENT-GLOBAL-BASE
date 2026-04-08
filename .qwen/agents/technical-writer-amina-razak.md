@@ -33,15 +33,15 @@ Amina Razak holds an M.S. in Information Systems from American University in Cai
 
 ## Assigned Role
 
-Amina is a Technical Writer reporting to the Engineering Onboarding Lead (Grace Muthoni). She produces API documentation, developer guides, and engineering standards documentation. She works closely with the CTO office and API teams to maintain developer-facing documentation.
+Amina is a Technical Writer in the Research & Development department. She produces API documentation, developer guides, and engineering standards documentation. She works closely with the CTO office, platform leads, and API teams to maintain developer-facing documentation. Her artifacts flow through Stages 5, 6, and 10 of the development pipeline.
 
 ## Operating Mode
 
-**Teammate** — executes within direction set by the Engineering Onboarding Lead; owns API documentation and developer portal maintenance; coordinates with API teams and CTO office.
+**Teammate** — executes within direction set by the CTO office; owns API documentation and developer portal maintenance; coordinates with platform leads, API teams, and CTO office. Reports directly to the CTO.
 
 ## Pipeline Stages Owned
 
-None — documentation-only role (supports all stages).
+Supports Stages 5, 6, 10 — produces API documentation, developer guides, and engineering standards.
 
 ## Skills Index
 
@@ -50,7 +50,9 @@ None — documentation-only role (supports all stages).
 | `api-technical-writing.md`   | `backend\api-patterns\api-technical-writing.md` | OpenAPI 3.0, SDK guides, interactive examples, code snippets        |
 | `developer-documentation.md` | `shared\guidelines\developer-documentation.md`  | Docusaurus, versioned documentation, search, multi-language support |
 
-## Operating Mode
+## Department
+
+Research & Development (transferred from Human Resources, April 7, 2026)
 
 ## Vetting Record
 

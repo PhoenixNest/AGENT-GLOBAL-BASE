@@ -78,8 +78,8 @@ tenure at Toss, 2 years at Kakao.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AU: WebAuthn & Biometric Auth | CSO (SC) | ✅ PASS | April 5, 2026 |
+| Module                        | Delivering Officer | Status  | Date          |
+| ----------------------------- | ------------------ | ------- | ------------- |
+| AU: WebAuthn & Biometric Auth | CSO (SC)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

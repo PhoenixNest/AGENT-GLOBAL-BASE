@@ -14,12 +14,12 @@ Engineering Manager (EM), Director of Engineering, VP Engineering, CTO.
 
 Score the candidate against each criterion. Use this to assign seniority level.
 
-| Criterion | SE | Senior SE | Staff SE | Principal SE | EM | Director Eng | VP Eng | CTO |
-|---|---|---|---|---|---|---|---|---|
-| Scope of impact | Feature | Service/component | Team/cross-team | Org-wide | Team delivery | Multi-team | Org-wide | Company-wide |
-| Technical depth | Implements assigned work | Designs solutions | Defines technical direction | Shapes engineering culture | Understands codebase broadly | Architecture standards | Engineering strategy | Technology vision |
-| Leadership | Self | Mentors 1–2 | Informal tech lead | Recognized authority | Manages 4–8 | Manages managers | Builds org 20–100 | C-suite exec |
-| Track record | 1+ shipped features | 2+ impactful projects | Cross-team technical wins | Org-wide technical transformation | Team health + delivery | Multi-team execution | Org scaling | Company outcomes |
+| Criterion       | SE                       | Senior SE             | Staff SE                    | Principal SE                      | EM                           | Director Eng           | VP Eng               | CTO               |
+| --------------- | ------------------------ | --------------------- | --------------------------- | --------------------------------- | ---------------------------- | ---------------------- | -------------------- | ----------------- |
+| Scope of impact | Feature                  | Service/component     | Team/cross-team             | Org-wide                          | Team delivery                | Multi-team             | Org-wide             | Company-wide      |
+| Technical depth | Implements assigned work | Designs solutions     | Defines technical direction | Shapes engineering culture        | Understands codebase broadly | Architecture standards | Engineering strategy | Technology vision |
+| Leadership      | Self                     | Mentors 1–2           | Informal tech lead          | Recognized authority              | Manages 4–8                  | Manages managers       | Builds org 20–100    | C-suite exec      |
+| Track record    | 1+ shipped features      | 2+ impactful projects | Cross-team technical wins   | Org-wide technical transformation | Team health + delivery       | Multi-team execution   | Org scaling          | Company outcomes  |
 
 ## Interview Simulation Protocol
 

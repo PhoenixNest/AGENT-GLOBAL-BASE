@@ -76,8 +76,8 @@ is 3/5: his multi-tenant patterns were adopted by his team. Red flag scan clean 
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AV: Multi-Tenant Data Isolation Architecture | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                                       | Delivering Officer | Status  | Date          |
+| -------------------------------------------- | ------------------ | ------- | ------------- |
+| AV: Multi-Tenant Data Isolation Architecture | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

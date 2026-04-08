@@ -80,8 +80,8 @@ at Mercari.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AY: Bazel Build System Migration Study | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                                 | Delivering Officer | Status  | Date          |
+| -------------------------------------- | ------------------ | ------- | ------------- |
+| AY: Bazel Build System Migration Study | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

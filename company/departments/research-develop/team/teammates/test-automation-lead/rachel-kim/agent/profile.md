@@ -72,8 +72,8 @@ attributable to specific test framework work she personally designed and built.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| D: Defect Triage Protocol | Test Lead (PO) | ✅ PASS | April 5, 2026 |
+| Module                    | Delivering Officer | Status  | Date          |
+| ------------------------- | ------------------ | ------- | ------------- |
+| D: Defect Triage Protocol | Test Lead (PO)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

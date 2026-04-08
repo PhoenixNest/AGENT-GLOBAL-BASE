@@ -80,8 +80,8 @@ clean — 6-year tenure at Grab, 3 years at Tokopedia.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AW: GCP Multi-Region Architecture | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                            | Delivering Officer | Status  | Date          |
+| --------------------------------- | ------------------ | ------- | ------------- |
+| AW: GCP Multi-Region Architecture | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

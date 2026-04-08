@@ -153,46 +153,55 @@ Use this skill when:
 
 ```markdown
 # Project Status Report: [Project Name]
+
 **Week of**: [Date]
 **Status**: 🟢 On Track | 🟡 At Risk | 🔴 Blocked
 
 ## Executive Summary
+
 [2-3 sentences: current state, key accomplishments, major concerns]
 
 ## Progress This Week
+
 - ✅ [Completed item 1]
 - ✅ [Completed item 2]
 - ✅ [Completed item 3]
 
 ## Planned for Next Week
+
 - [ ] [Planned item 1]
 - [ ] [Planned item 2]
 - [ ] [Planned item 3]
 
 ## Milestone Status
-| Milestone | Target Date | Status | Confidence |
-|-----------|-------------|--------|------------|
-| M1: Architecture Complete | 2026-04-15 | ✅ Done | - |
-| M2: Backend API Ready | 2026-05-01 | 🟡 At Risk | 70% |
-| M3: iOS App Beta | 2026-05-15 | 🟢 On Track | 85% |
-| M4: Production Launch | 2026-06-01 | 🟢 On Track | 80% |
+
+| Milestone                 | Target Date | Status      | Confidence |
+| ------------------------- | ----------- | ----------- | ---------- |
+| M1: Architecture Complete | 2026-04-15  | ✅ Done     | -          |
+| M2: Backend API Ready     | 2026-05-01  | 🟡 At Risk  | 70%        |
+| M3: iOS App Beta          | 2026-05-15  | 🟢 On Track | 85%        |
+| M4: Production Launch     | 2026-06-01  | 🟢 On Track | 80%        |
 
 ## Risks and Issues
-| Risk/Issue | Impact | Status | Mitigation |
-|------------|--------|--------|------------|
-| Third-party API instability | High | Active | Implementing retry logic + fallback |
-| iOS developer on leave | Medium | Mitigated | Reassigned tasks to team |
+
+| Risk/Issue                  | Impact | Status    | Mitigation                          |
+| --------------------------- | ------ | --------- | ----------------------------------- |
+| Third-party API instability | High   | Active    | Implementing retry logic + fallback |
+| iOS developer on leave      | Medium | Mitigated | Reassigned tasks to team            |
 
 ## Metrics
+
 - **Velocity**: 32 story points (target: 30)
 - **Code coverage**: 78% (target: 75%)
 - **Open bugs**: 12 (P0: 0, P1: 3, P2: 9)
 - **Tech debt**: 8 items (3 scheduled for next sprint)
 
 ## Blockers
+
 [None | List any blockers requiring executive intervention]
 
 ## Asks
+
 [Any decisions or resources needed from stakeholders]
 ```
 
@@ -208,17 +217,17 @@ Use these consistently so stakeholders can quickly assess health.
 
 ### Risk Assessment Matrix
 
-| Likelihood | Impact | Priority | Response |
-|------------|--------|----------|----------|
-| High | High | P0 | Immediate mitigation required |
-| High | Medium | P1 | Mitigation plan within 1 week |
-| Medium | High | P1 | Mitigation plan within 1 week |
-| High | Low | P2 | Monitor and document |
-| Medium | Medium | P2 | Monitor and document |
-| Low | High | P2 | Monitor and document |
-| Medium | Low | P3 | Accept risk |
-| Low | Medium | P3 | Accept risk |
-| Low | Low | P3 | Accept risk |
+| Likelihood | Impact | Priority | Response                      |
+| ---------- | ------ | -------- | ----------------------------- |
+| High       | High   | P0       | Immediate mitigation required |
+| High       | Medium | P1       | Mitigation plan within 1 week |
+| Medium     | High   | P1       | Mitigation plan within 1 week |
+| High       | Low    | P2       | Monitor and document          |
+| Medium     | Medium | P2       | Monitor and document          |
+| Low        | High   | P2       | Monitor and document          |
+| Medium     | Low    | P3       | Accept risk                   |
+| Low        | Medium | P3       | Accept risk                   |
+| Low        | Low    | P3       | Accept risk                   |
 
 ### Common Project Risks
 

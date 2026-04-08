@@ -82,8 +82,8 @@ Klarna, 3 years at King, all outcomes attributable to his specific work.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AD: UIKit Architecture Review | iOS Lead (SYP) | ✅ PASS | April 5, 2026 |
+| Module                        | Delivering Officer | Status  | Date          |
+| ----------------------------- | ------------------ | ------- | ------------- |
+| AD: UIKit Architecture Review | iOS Lead (SYP)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

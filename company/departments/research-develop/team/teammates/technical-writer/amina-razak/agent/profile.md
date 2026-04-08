@@ -31,11 +31,11 @@ Amina Razak holds an M.S. in Information Systems from American University in Cai
 
 ## Assigned Role
 
-Amina is a Technical Writer reporting to the Engineering Onboarding Lead (Grace Muthoni). She produces API documentation, developer guides, and engineering standards documentation. She works closely with the CTO office and API teams to maintain developer-facing documentation.
+Amina is a Technical Writer in the Research & Development department. She produces API documentation, developer guides, and engineering standards documentation. She works closely with the CTO office, platform leads, and API teams to maintain developer-facing documentation. Her artifacts flow through Stages 5, 6, and 10 of the development pipeline.
 
 ## Operating Mode
 
-**Teammate** — executes within direction set by the Engineering Onboarding Lead; owns API documentation and developer portal maintenance; coordinates with API teams and CTO office.
+**Teammate** — executes within direction set by the CTO office; owns API documentation and developer portal maintenance; coordinates with platform leads, API teams, and CTO office. Reports directly to the CTO.
 
 ## Skills Index
 
@@ -73,4 +73,16 @@ documentation experience. Leadership signal is 3/5: she led the documentation
 portal build-out and trained 5 engineers in API doc authoring. Standards signal
 is 4/5: her coding conventions and PR templates became the Instabug engineering
 standard. Red flag scan clean — 5-year tenure at Instabug, 2 years at Swvl.
+```
+
+## Department Transfer Record
+
+```
+TRANSFERRED: Human Resources → Research & Development
+Date: April 7, 2026
+Reason: Produces Stage 5–10 pipeline artifacts (API docs, SDK guides, developer
+  portals, engineering standards). Consumed by platform teams. Must fall under
+  R&D security governance and pipeline accountability.
+Executive Consensus: 6/6 C-suite unanimous (CTO, CIO, CPO, CSO, CDO, CTO-L)
+Reporting Line: CTO office
 ```

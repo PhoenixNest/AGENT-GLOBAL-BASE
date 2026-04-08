@@ -57,6 +57,22 @@ The company's engineering department, responsible for software architecture, pla
 
 ---
 
+## Technical Writing
+
+| Name          | Role                              | Sub-department | Profile                                                                                                           |
+| ------------- | --------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Henrik Larsen | Technical Writer — Architecture   | Documentation  | [`profile.md`](../../departments/research-develop/team/teammates/technical-writer/henrik-larsen/agent/profile.md) |
+| Amina Razak   | Technical Writer — Developer Docs | Documentation  | [`profile.md`](../../departments/research-develop/team/teammates/technical-writer/amina-razak/agent/profile.md)   |
+
+**Skills by role:**
+
+| Role                              | Skill Files                                                                                                                                                                                                                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Technical Writer — Architecture   | [`adr-technical-writing.md`](../../departments/research-develop/team/teammates/technical-writer/henrik-larsen/skills/adr-technical-writing.md) · [`pipeline-documentation.md`](../../departments/research-develop/team/teammates/technical-writer/henrik-larsen/skills/pipeline-documentation.md) |
+| Technical Writer — Developer Docs | [`api-technical-writing.md`](../../departments/research-develop/team/teammates/technical-writer/amina-razak/skills/api-technical-writing.md) · [`developer-documentation.md`](../../departments/research-develop/team/teammates/technical-writer/amina-razak/skills/developer-documentation.md)   |
+
+---
+
 ## Pipeline Stages
 
 | Stage                                                   | Role                                                                                                                                                                             |

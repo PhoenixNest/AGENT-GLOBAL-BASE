@@ -24,12 +24,12 @@ For every screen in the prototype:
 
 For every interactive component:
 
-| Gesture | Platform | Component | Behaviour | Animation |
-|---|---|---|---|---|
-| Tap | iOS + Android | [component name] | [what happens] | [duration, easing] |
-| Swipe left | iOS | [component name] | [what happens] | [duration, easing] |
-| Long press | Android | [component name] | [what happens] | [duration, easing] |
-| Pinch | iOS + Android | [component name] | [what happens] | [duration, easing] |
+| Gesture    | Platform      | Component        | Behaviour      | Animation          |
+| ---------- | ------------- | ---------------- | -------------- | ------------------ |
+| Tap        | iOS + Android | [component name] | [what happens] | [duration, easing] |
+| Swipe left | iOS           | [component name] | [what happens] | [duration, easing] |
+| Long press | Android       | [component name] | [what happens] | [duration, easing] |
+| Pinch      | iOS + Android | [component name] | [what happens] | [duration, easing] |
 
 Document every gesture. No gesture left undocumented.
 
@@ -46,9 +46,9 @@ For every component with multiple states:
 
 For every user flow:
 
-| Flow | Happy Path | Edge Case | Expected Behaviour | Error Handling |
-|---|---|---|---|---|
-| [flow name] | [normal input] | [edge input] | [expected] | [error state] |
+| Flow        | Happy Path     | Edge Case    | Expected Behaviour | Error Handling |
+| ----------- | -------------- | ------------ | ------------------ | -------------- |
+| [flow name] | [normal input] | [edge input] | [expected]         | [error state]  |
 
 Cover at minimum: no network, partial data, empty states, maximum data (truncation), concurrent actions, interruption (phone call, background).
 

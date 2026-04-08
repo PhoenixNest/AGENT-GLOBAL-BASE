@@ -72,9 +72,9 @@ architectural decisions she personally drove.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
+| Module                | Delivering Officer  | Status  | Date          |
+| --------------------- | ------------------- | ------- | ------------- |
 | B: ADR/TSD Governance | CIO (PM) + CTO (KN) | ✅ PASS | April 5, 2026 |
-| C: IDS Fluency | CDO (YTC) | ✅ PASS | April 5, 2026 |
+| C: IDS Fluency        | CDO (YTC)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

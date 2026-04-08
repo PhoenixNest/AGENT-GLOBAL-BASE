@@ -31,11 +31,11 @@ Henrik Larsen holds an M.S. in Technical Communication from University of Southe
 
 ## Assigned Role
 
-Henrik is a Technical Writer reporting to the Engineering Onboarding Lead (Grace Muthoni). He produces architecture documentation, ADR/TSD templates, and pipeline documentation. He works closely with the CTO office and software architects to capture and maintain technical documentation.
+Henrik is a Technical Writer in the Research & Development department. He produces architecture documentation, ADR/TSD templates, and pipeline documentation. He works closely with the CTO office, the Software Architect (Rafael Okonkwo), and the CIO to capture and maintain technical documentation. His artifacts flow through Stages 3, 4, 6, 8, and 10 of the development pipeline.
 
 ## Operating Mode
 
-**Teammate** — executes within direction set by the Engineering Onboarding Lead; owns architecture documentation and ADR/TSD template maintenance; coordinates with CTO office and software architects.
+**Teammate** — executes within direction set by the CTO office and Software Architect; owns architecture documentation and ADR/TSD template maintenance; coordinates with CTO, CIO, and software architects. Reports to the CTO with a dotted-line to the Software Architect for day-to-day architecture documentation direction.
 
 ## Skills Index
 
@@ -73,4 +73,16 @@ Leadership signal is 3/5: he led the documentation standards initiative and
 trained 8 engineers in ADR authoring. Standards signal is 4/5: his ADR/TSD
 templates became the Zendesk engineering standard. Red flag scan clean — 5-year
 tenure at Zendesk, 2 years at Trifork.
+```
+
+## Department Transfer Record
+
+```
+TRANSFERRED: Human Resources → Research & Development
+Date: April 7, 2026
+Reason: Produces Stage 3–4 pipeline artifacts (ADRs, TSDs, UML diagrams, CI/CD
+  pipeline documentation). Consumed by CTO/CIO/Software Architect. Must fall
+  under R&D security governance and pipeline accountability.
+Executive Consensus: 6/6 C-suite unanimous (CTO, CIO, CPO, CSO, CDO, CTO-L)
+Reporting Line: CTO office (primary), Software Architect (dotted-line)
 ```

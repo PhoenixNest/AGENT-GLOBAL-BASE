@@ -77,8 +77,8 @@ scan clean — 4-year tenure at Fawry, 2 years at Vodafone Egypt.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AP: Go Microservices Development | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                           | Delivering Officer | Status  | Date          |
+| -------------------------------- | ------------------ | ------- | ------------- |
+| AP: Go Microservices Development | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

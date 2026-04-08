@@ -53,9 +53,11 @@ Write in this format:
 > When [situation], a [user type] wants to [motivation / job], so they can [expected outcome]. Currently, [what breaks or falls short about the existing experience].
 
 **Good example:**
+
 > When a new Duolingo user finishes their first lesson on iOS, a casual language learner wants to feel progress and understand what comes next, so they can build a habit around the app. Currently, the post-lesson screen shows a generic XP counter with no narrative connection to their goal, leading to 38% of users abandoning before setting a streak on Day 1.
 
 **Do not write:**
+
 > Users want a better onboarding experience.
 
 ---
@@ -125,10 +127,10 @@ Include:
 
 **Edge Case Matrix** — for each edge case:
 
-| Scenario | Expected Behavior | Notes |
-|---|---|---|
+| Scenario                      | Expected Behavior                | Notes                       |
+| ----------------------------- | -------------------------------- | --------------------------- |
 | Network offline during action | Show cached state + retry prompt | Must not lose user progress |
-| ... | ... | ... |
+| ...                           | ...                              | ...                         |
 
 ---
 
@@ -194,12 +196,12 @@ Before finalizing the PRD, Marcus runs a working session with the engineering le
 
 Define the rollout plan:
 
-| Phase | Audience | Criteria to Advance |
-|---|---|---|
-| Internal dogfood | Internal team | No P0 bugs, instrumentation verified |
-| 10% rollout | iOS: 10% of US users / Android: staged rollout 10% | Primary metric moving in right direction, no guardrail regression |
-| 50% rollout | Same cohort expansion | 48-hour hold, no anomalies |
-| 100% | Full release | Sign-off from Marcus + Engineering Lead |
+| Phase            | Audience                                           | Criteria to Advance                                               |
+| ---------------- | -------------------------------------------------- | ----------------------------------------------------------------- |
+| Internal dogfood | Internal team                                      | No P0 bugs, instrumentation verified                              |
+| 10% rollout      | iOS: 10% of US users / Android: staged rollout 10% | Primary metric moving in right direction, no guardrail regression |
+| 50% rollout      | Same cohort expansion                              | 48-hour hold, no anomalies                                        |
+| 100%             | Full release                                       | Sign-off from Marcus + Engineering Lead                           |
 
 For App Store / Google Play submissions:
 
@@ -211,9 +213,11 @@ For App Store / Google Play submissions:
 ### 10. Success and Kill Criteria
 
 **Success:**
+
 > This feature is considered successful if [primary metric] improves by [X%] within [measurement window] with no regression in [guardrail metric].
 
 **Kill condition:**
+
 > We will stop and roll back / sunset this feature if:
 >
 > - [Primary metric] does not improve by [threshold] after [window]
@@ -226,15 +230,15 @@ For App Store / Google Play submissions:
 
 ### 11. Dependencies and Risks
 
-| Dependency | Owner | Risk if Delayed |
-|---|---|---|
+| Dependency           | Owner       | Risk if Delayed        |
+| -------------------- | ----------- | ---------------------- |
 | Backend API endpoint | Engineering | Blocks iOS development |
-| ... | ... | ... |
+| ...                  | ...         | ...                    |
 
-| Risk | Likelihood | Mitigation |
-|---|---|---|
-| App Store rejection | Medium | Pre-review guidelines check in PRD phase |
-| ... | ... | ... |
+| Risk                | Likelihood | Mitigation                               |
+| ------------------- | ---------- | ---------------------------------------- |
+| App Store rejection | Medium     | Pre-review guidelines check in PRD phase |
+| ...                 | ...        | ...                                      |
 
 ---
 
@@ -254,13 +258,13 @@ Before a PRD is approved:
 
 Avoid these:
 
-| Failure Mode | Why It Fails | Fix |
-|---|---|---|
-| Vague success criteria | Engineering ships, no one knows if it worked | Always define a primary metric with a number and a window |
-| Missing platform constraints | iOS build works, Android breaks | Always fill the platform constraint section, even if it says "no differences known" |
-| No kill condition | Feature lingers past usefulness | Every PRD must have an explicit kill trigger |
-| Instrumentation defined post-launch | Cannot measure success | Instrumentation spec is a launch blocker, not a post-launch task |
-| Scope creep via omission | "Out of scope" not stated | Always write the "Out of scope" section explicitly |
+| Failure Mode                        | Why It Fails                                 | Fix                                                                                 |
+| ----------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Vague success criteria              | Engineering ships, no one knows if it worked | Always define a primary metric with a number and a window                           |
+| Missing platform constraints        | iOS build works, Android breaks              | Always fill the platform constraint section, even if it says "no differences known" |
+| No kill condition                   | Feature lingers past usefulness              | Every PRD must have an explicit kill trigger                                        |
+| Instrumentation defined post-launch | Cannot measure success                       | Instrumentation spec is a launch blocker, not a post-launch task                    |
+| Scope creep via omission            | "Out of scope" not stated                    | Always write the "Out of scope" section explicitly                                  |
 
 ---
 

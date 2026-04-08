@@ -81,9 +81,9 @@ at Foodpanda.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| BD: CI/CD Test Integration | Test Lead (PO) | ✅ PASS | April 5, 2026 |
-| BE: Native Mobile Test Frameworks | Test Lead (PO) | ✅ PASS | April 5, 2026 |
+| Module                            | Delivering Officer | Status  | Date          |
+| --------------------------------- | ------------------ | ------- | ------------- |
+| BD: CI/CD Test Integration        | Test Lead (PO)     | ✅ PASS | April 5, 2026 |
+| BE: Native Mobile Test Frameworks | Test Lead (PO)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

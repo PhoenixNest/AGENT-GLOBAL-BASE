@@ -78,8 +78,8 @@ full-stack patterns were adopted by his immediate team. Red flag scan clean —
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AT: Angular Signals Migration | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                        | Delivering Officer | Status  | Date          |
+| ----------------------------- | ------------------ | ------- | ------------- |
+| AT: Angular Signals Migration | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

@@ -258,7 +258,9 @@
 
 ## Reporting Structure
 
-The 57 FTEs in this plan span **three existing departments**: Research & Development (50 FTEs), Cyberspace Security (6 FTEs), and Human Resources (1 FTE — Onboarding Lead). All new hires roll up to existing C-suite officers.
+The 57 FTEs in this plan span **three existing departments**: Research & Development (50 FTEs → 53 FTEs after transfer), Cyberspace Security (6 FTEs), and Human Resources (1 FTE). All new hires roll up to existing C-suite officers.
+
+> **⚠️ TRANSFER NOTICE (April 7, 2026):** Per C-suite executive review, the Engineering Onboarding Lead (Grace Muthoni) and both Technical Writers (Henrik Larsen, Amina Razak) were transferred from Human Resources to Research & Development. The original hiring department was HR, but their current department is R&D. This recruitment plan remains a historical record of the original hiring decisions.
 
 ### Hiring Model: Staggered 3-Phase Recruitment
 
@@ -352,9 +354,11 @@ User
  │
  └── CHRO (Dr. Evelyn Hartwell) — Human Resources
       │
-      └── Engineering Onboarding Lead [NEW]
-           └── Technical Writers (2 new)
+      └── [Engineering Onboarding Lead → TRANSFERRED to R&D, April 2026]
+           └── [Technical Writers (2) → TRANSFERRED to R&D, April 2026]
 ```
+
+> **Note:** The org chart above shows the _original_ hiring structure. The Engineering Onboarding Lead and Technical Writers now report to the CTO within R&D.
 
 ### Detailed Reporting Table
 

@@ -8,21 +8,21 @@ Responsible for recruiting and vetting all personnel across every department. HR
 
 ## Supervisor
 
-| Name | Role | Seniority | Profile |
-| --- | --- | --- | --- |
-| Dr. Evelyn Hartwell | Chief Human Resources Officer (CHRO) | C-suite | [`profile.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/agent/profile.md) |
+| Name                | Role                                 | Seniority | Profile                                                                                                     |
+| ------------------- | ------------------------------------ | --------- | ----------------------------------------------------------------------------------------------------------- |
+| Dr. Evelyn Hartwell | Chief Human Resources Officer (CHRO) | C-suite   | [`profile.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/agent/profile.md) |
 
 **CHRO Skills:**
 
-| Skill File | Purpose |
-| --- | --- |
-| [`vet-candidate.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/vet-candidate.md) | Candidate vetting framework — evaluating impact, craft, leadership, and red flag signals |
-| [`recruit-engineering.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-engineering.md) | Recruiting for R&D roles (Android, iOS, KMP/Flutter, architecture, testing, i18n) |
-| [`recruit-product.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-product.md) | Recruiting for Product Management roles |
-| [`recruit-design.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-design.md) | Recruiting for Brand Design roles |
-| [`recruit-data.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-data.md) | Recruiting for data-oriented roles |
-| [`recruit-business.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-business.md) | Recruiting for business and operations roles |
-| [`recruit-translation.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-translation.md) | Recruiting for Localization roles (linguists, localization engineers) |
+| Skill File                                                                                                                           | Purpose                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| [`vet-candidate.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/vet-candidate.md)             | Candidate vetting framework — evaluating impact, craft, leadership, and red flag signals |
+| [`recruit-engineering.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-engineering.md) | Recruiting for R&D roles (Android, iOS, KMP/Flutter, architecture, testing, i18n)        |
+| [`recruit-product.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-product.md)         | Recruiting for Product Management roles                                                  |
+| [`recruit-design.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-design.md)           | Recruiting for Brand Design roles                                                        |
+| [`recruit-data.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-data.md)               | Recruiting for data-oriented roles                                                       |
+| [`recruit-business.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-business.md)       | Recruiting for business and operations roles                                             |
+| [`recruit-translation.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/skills/recruit-translation.md) | Recruiting for Localization roles (linguists, localization engineers)                    |
 
 ---
 

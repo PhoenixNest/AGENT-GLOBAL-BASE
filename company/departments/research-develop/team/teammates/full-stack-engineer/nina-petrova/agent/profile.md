@@ -80,8 +80,8 @@ at Yandex, 2 years at Mail.ru.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AS: Docker Orchestration | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                   | Delivering Officer | Status  | Date          |
+| ------------------------ | ------------------ | ------- | ------------- |
+| AS: Docker Orchestration | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

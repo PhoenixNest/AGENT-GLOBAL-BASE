@@ -79,8 +79,8 @@ flag scan clean — 6-year tenure at Flipkart, 2 years at Myntra.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| BC: Unit Test Architecture | Test Lead (PO) | ✅ PASS | April 5, 2026 |
+| Module                     | Delivering Officer | Status  | Date          |
+| -------------------------- | ------------------ | ------- | ------------- |
+| BC: Unit Test Architecture | Test Lead (PO)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

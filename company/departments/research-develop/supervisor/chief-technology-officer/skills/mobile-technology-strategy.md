@@ -227,52 +227,62 @@ When evaluating multiple options:
 # Technology Selection: [Technology Name]
 
 ## Executive Summary
+
 [2-3 sentences: What are we selecting and why?]
 
 ## Business Context
+
 - Problem: What business need drives this?
 - Opportunity: What advantage does this create?
 - Timeline: When do we need this?
 - Budget: What resources are available?
 
 ## Options Evaluated
+
 1. [Option 1]
 2. [Option 2]
 3. [Option 3]
 
 ## Evaluation Criteria
-| Criterion | Weight | Option 1 | Option 2 | Option 3 |
-|-----------|--------|----------|----------|----------|
-| Performance | 25% | 4/5 | 3/5 | 5/5 |
-| Maturity | 20% | 5/5 | 3/5 | 2/5 |
-| Team Fit | 20% | 3/5 | 5/5 | 2/5 |
-| Cost | 15% | 4/5 | 4/5 | 5/5 |
-| Ecosystem | 20% | 5/5 | 3/5 | 3/5 |
-| **Total** | | **4.15** | **3.65** | **3.45** |
+
+| Criterion   | Weight | Option 1 | Option 2 | Option 3 |
+| ----------- | ------ | -------- | -------- | -------- |
+| Performance | 25%    | 4/5      | 3/5      | 5/5      |
+| Maturity    | 20%    | 5/5      | 3/5      | 2/5      |
+| Team Fit    | 20%    | 3/5      | 5/5      | 2/5      |
+| Cost        | 15%    | 4/5      | 4/5      | 5/5      |
+| Ecosystem   | 20%    | 5/5      | 3/5      | 3/5      |
+| **Total**   |        | **4.15** | **3.65** | **3.45** |
 
 ## Detailed Analysis
 
 ### Option 1: [Name]
+
 **Pros:**
+
 - [Specific advantage with evidence]
 - [Specific advantage with evidence]
 
 **Cons:**
+
 - [Specific limitation with evidence]
 - [Specific limitation with evidence]
 
 **Evidence:**
+
 - [Case study, benchmark, or reference]
 
 ### [Repeat for other options]
 
 ## Recommendation
+
 **Selected: [Option Name]**
 
 **Rationale:**
 [2-3 paragraphs explaining why this option best meets our needs]
 
 **Trade-offs Accepted:**
+
 - [What we're giving up by choosing this]
 
 **Risks and Mitigations:**
@@ -281,16 +291,19 @@ When evaluating multiple options:
 | [Risk 1] | Medium | High | [How we'll address it] |
 
 ## Implementation Plan
+
 1. **Phase 1**: [Pilot/POC]
 2. **Phase 2**: [Limited rollout]
 3. **Phase 3**: [Full adoption]
 
 ## Success Metrics
+
 - [Metric 1]: [Target]
 - [Metric 2]: [Target]
 - [Metric 3]: [Target]
 
 ## Decision Authority
+
 - Recommended by: [CTO]
 - Reviewed by: [CIO, CPO]
 - Approved by: [CEO/Board if needed]

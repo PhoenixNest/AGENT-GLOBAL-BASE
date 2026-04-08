@@ -79,8 +79,8 @@ scan clean — 7-year tenure at Jumia, 2 years at Andela.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AN: Database Sharding Hands-On | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                         | Delivering Officer | Status  | Date          |
+| ------------------------------ | ------------------ | ------- | ------------- |
+| AN: Database Sharding Hands-On | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

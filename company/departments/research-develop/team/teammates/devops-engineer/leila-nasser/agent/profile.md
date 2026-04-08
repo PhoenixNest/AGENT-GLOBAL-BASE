@@ -77,8 +77,8 @@ flag scan clean — 5-year tenure at Careem, 2 years at Souq.com.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| BB: Network Security Fundamentals | CSO (SC) | ✅ PASS | April 5, 2026 |
+| Module                            | Delivering Officer | Status  | Date          |
+| --------------------------------- | ------------------ | ------- | ------------- |
+| BB: Network Security Fundamentals | CSO (SC)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

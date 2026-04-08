@@ -83,8 +83,8 @@ development. Red flag scan clean — 7-year tenure at Airbnb, 3 years at Etsy.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AK: PWA Engineering | CDO (YTC) | ✅ PASS | April 5, 2026 |
+| Module              | Delivering Officer | Status  | Date          |
+| ------------------- | ------------------ | ------- | ------------- |
+| AK: PWA Engineering | CDO (YTC)          | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

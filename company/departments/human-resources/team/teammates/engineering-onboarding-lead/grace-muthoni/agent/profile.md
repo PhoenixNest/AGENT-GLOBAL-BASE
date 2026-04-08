@@ -77,3 +77,15 @@ and managing a team of 4 onboarding specialists. Standards signal is 4/5: her
 competency framework became the Safaricom engineering standard. Red flag scan
 clean — 8-year tenure at Safaricom, 3 years at IBM Kenya.
 ```
+
+## Department Transfer Record
+
+```
+TRANSFERRED: Research & Development → Human Resources (REVERSED)
+Date: April 7, 2026
+Reason: User review confirmed Grace's primary function — managing technical
+  hiring, onboarding, and competency standards — is fundamentally an HR role.
+  The CTO's original assessment (stay HR with dotted-line to CTO) was correct.
+Executive Consensus: User override of split C-suite decision.
+Reporting Line: CHRO (primary), CTO (dotted-line for technical competency coordination)
+```

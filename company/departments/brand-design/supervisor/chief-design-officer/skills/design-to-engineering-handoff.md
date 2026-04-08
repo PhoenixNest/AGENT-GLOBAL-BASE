@@ -25,16 +25,19 @@ Bridge the gap between design intent and engineering implementation through clea
 # [Feature Name]
 
 ## Business Context
+
 - Problem: [What user problem does this solve?]
 - Success Metrics: [How will we measure success?]
 - Priority: [P0/P1/P2]
 
 ## Design Goals
+
 - [Goal 1]
 - [Goal 2]
 - [Goal 3]
 
 ## Platform Scope
+
 - iOS: [version support]
 - Android: [version support]
 ```

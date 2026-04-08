@@ -82,8 +82,8 @@ all outcomes attributable to her specific work.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
+| Module                        | Delivering Officer        | Status  | Date          |
+| ----------------------------- | ------------------------- | ------- | ------------- |
 | AB: KMP Architecture Training | Cross-Platform Lead (MLJ) | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

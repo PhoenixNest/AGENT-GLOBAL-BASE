@@ -81,8 +81,8 @@ adopted by the Swiggy iOS team. Red flag scan clean — 4-year tenure at Swiggy,
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AH: SwiftUI Declarative UI Ramp-up | iOS Lead (SYP) | ✅ PASS | April 5, 2026 |
+| Module                             | Delivering Officer | Status  | Date          |
+| ---------------------------------- | ------------------ | ------- | ------------- |
+| AH: SwiftUI Declarative UI Ramp-up | iOS Lead (SYP)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

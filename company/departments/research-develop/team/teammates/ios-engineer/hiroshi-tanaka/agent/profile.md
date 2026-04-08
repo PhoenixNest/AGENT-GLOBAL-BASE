@@ -80,8 +80,8 @@ tenure at Mercari, 2 years at Cybozu, all outcomes attributable to his work.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AG: SwiftUI Declarative UI Ramp-up | iOS Lead (SYP) | ✅ PASS | April 5, 2026 |
+| Module                             | Delivering Officer | Status  | Date          |
+| ---------------------------------- | ------------------ | ------- | ------------- |
+| AG: SwiftUI Declarative UI Ramp-up | iOS Lead (SYP)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

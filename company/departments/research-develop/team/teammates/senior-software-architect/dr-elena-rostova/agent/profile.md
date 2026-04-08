@@ -93,15 +93,15 @@ outcomes attributable to specific architecture work she personally designed.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| N: Hands-On Code Review Participation | CTO (KN) | ✅ PASS | April 5, 2026 |
-| O: Mobile-Specific ADR Production (3 ADRs) | CTO (KN) | ✅ PASS | April 5, 2026 |
-| P: Weekly Architecture Syncs | CTO (KN) | ✅ PASS | April 5, 2026 |
-| Q: Mobile Platform Architecture Assessment | CIO (PM) | ✅ PASS | April 5, 2026 |
-| R: ADR Template Adaptation for Mobile-First | CIO (PM) + Rafael (RO) | ✅ PASS | April 5, 2026 |
-| S: Practice UML + ADR — Mobile Platform Immersion | Rafael (RO) | ✅ PASS | April 5, 2026 |
-| T: UML Production Certification | Rafael (RO) | ✅ PASS | April 5, 2026 |
-| U: Stage 3 Shadowing Program | Rafael (RO) + CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                                            | Delivering Officer     | Status  | Date          |
+| ------------------------------------------------- | ---------------------- | ------- | ------------- |
+| N: Hands-On Code Review Participation             | CTO (KN)               | ✅ PASS | April 5, 2026 |
+| O: Mobile-Specific ADR Production (3 ADRs)        | CTO (KN)               | ✅ PASS | April 5, 2026 |
+| P: Weekly Architecture Syncs                      | CTO (KN)               | ✅ PASS | April 5, 2026 |
+| Q: Mobile Platform Architecture Assessment        | CIO (PM)               | ✅ PASS | April 5, 2026 |
+| R: ADR Template Adaptation for Mobile-First       | CIO (PM) + Rafael (RO) | ✅ PASS | April 5, 2026 |
+| S: Practice UML + ADR — Mobile Platform Immersion | Rafael (RO)            | ✅ PASS | April 5, 2026 |
+| T: UML Production Certification                   | Rafael (RO)            | ✅ PASS | April 5, 2026 |
+| U: Stage 3 Shadowing Program                      | Rafael (RO) + CTO (KN) | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

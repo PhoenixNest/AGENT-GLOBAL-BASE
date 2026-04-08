@@ -85,10 +85,10 @@ personally led.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| K: Frontend Performance Baseline | CTO (KN) | ✅ PASS | April 5, 2026 |
-| L: WCAG 2.1 AA Mobile Roadmap | CDO (YTC) | ✅ PASS | April 5, 2026 |
-| M: Mobile Platform Immersion | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                           | Delivering Officer | Status  | Date          |
+| -------------------------------- | ------------------ | ------- | ------------- |
+| K: Frontend Performance Baseline | CTO (KN)           | ✅ PASS | April 5, 2026 |
+| L: WCAG 2.1 AA Mobile Roadmap    | CDO (YTC)          | ✅ PASS | April 5, 2026 |
+| M: Mobile Platform Immersion     | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

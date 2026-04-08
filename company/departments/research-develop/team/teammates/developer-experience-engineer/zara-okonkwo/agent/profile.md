@@ -78,8 +78,8 @@ scan clean — 5-year tenure at Flutterwave, 2 years at Paystack.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AZ: Test Sharding Architecture | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                         | Delivering Officer | Status  | Date          |
+| ------------------------------ | ------------------ | ------- | ------------- |
+| AZ: Test Sharding Architecture | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

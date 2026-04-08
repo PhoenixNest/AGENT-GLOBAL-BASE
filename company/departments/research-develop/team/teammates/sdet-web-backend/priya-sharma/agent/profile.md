@@ -81,8 +81,8 @@ Razorpay, 2 years at PhonePe.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| BF: Mobile Testing Fundamentals | Test Lead (PO) | ✅ PASS | April 5, 2026 |
+| Module                          | Delivering Officer | Status  | Date          |
+| ------------------------------- | ------------------ | ------- | ------------- |
+| BF: Mobile Testing Fundamentals | Test Lead (PO)     | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

@@ -80,8 +80,8 @@ standard. Red flag scan clean — 8-year tenure at Prezi, 3 years at LogMeIn.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AM: CQRS Architecture Deep-Dive | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                          | Delivering Officer | Status  | Date          |
+| ------------------------------- | ------------------ | ------- | ------------- |
+| AM: CQRS Architecture Deep-Dive | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

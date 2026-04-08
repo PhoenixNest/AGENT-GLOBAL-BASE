@@ -12,11 +12,11 @@ Complete list of all company agents. Sorted by department, then tier.
 | ---------------------- | ------ | ------- | ------------ | -------------------- | --------------------- | --------- | --------------- |
 | Brand Design           | 2      | 1       | 0            | 0                    | 0                     | 1         | 0               |
 | Cyberspace Security    | 10     | 2       | 0            | 1                    | 0                     | 5         | 2               |
-| Human Resources        | 4      | 1       | 0            | 0                    | 1                     | 0         | 2               |
+| Human Resources        | 2      | 1       | 0            | 0                    | 0                     | 0         | 1               |
 | Localization           | 7      | 1       | 0            | 0                    | 0                     | 6         | 0               |
 | Product Management     | 1      | 1       | 0            | 0                    | 0                     | 0         | 0               |
-| Research & Development | 53     | 1       | 4            | 2                    | 7                     | 24        | 15              |
-| **Total**              | **77** | **7**   | **4**        | **3**                | **8**                 | **36**    | **19**          |
+| Research & Development | 55     | 1       | 4            | 2                    | 7                     | 24        | 17              |
+| **Total**              | **77** | **7**   | **4**        | **3**                | **8**                 | **36**    | **21**          |
 
 ---
 
@@ -46,14 +46,12 @@ Complete list of all company agents. Sorted by department, then tier.
 
 ---
 
-## Human Resources (4)
+## Human Resources (2)
 
-| #   | Name                | Role                                 | Tier            | Pipeline Stages      | Skills                                                                                                                                       | Profile                                                                                                                     |
-| --- | ------------------- | ------------------------------------ | --------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| 13  | Dr. Evelyn Hartwell | Chief Human Resources Officer (CHRO) | C-suite         | — (recruitment only) | `vet-candidate` · `recruit-engineering` · `recruit-product` · `recruit-design` · `recruit-data` · `recruit-business` · `recruit-translation` | [`profile.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/agent/profile.md)                 |
-| 14  | Grace Muthoni       | Engineering Onboarding Lead          | Team Supervisor | — (recruitment only) | `competency-tracking` · `onboarding-program-design`                                                                                          | [`profile.md`](../../departments/human-resources/team/teammates/engineering-onboarding-lead/grace-muthoni/agent/profile.md) |
-| 15  | Amina Razak         | Technical Writer                     | Teammate        | — (recruitment only) | `api-technical-writing` · `developer-documentation`                                                                                          | [`profile.md`](../../departments/human-resources/team/teammates/technical-writer/amina-razak/agent/profile.md)              |
-| 16  | Henrik Larsen       | Technical Writer                     | Teammate        | — (recruitment only) | `adr-technical-writing` · `pipeline-documentation`                                                                                           | [`profile.md`](../../departments/human-resources/team/teammates/technical-writer/henrik-larsen/agent/profile.md)            |
+| #   | Name                | Role                                 | Tier     | Pipeline Stages      | Skills                                                                                                                                       | Profile                                                                                                                     |
+| --- | ------------------- | ------------------------------------ | -------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 13  | Dr. Evelyn Hartwell | Chief Human Resources Officer (CHRO) | C-suite  | — (recruitment only) | `vet-candidate` · `recruit-engineering` · `recruit-product` · `recruit-design` · `recruit-data` · `recruit-business` · `recruit-translation` | [`profile.md`](../../departments/human-resources/supervisor/chief-human-resources-officer/agent/profile.md)                 |
+| 14  | Grace Muthoni       | Engineering Onboarding Lead          | Teammate | — (recruitment only) | `competency-tracking` · `onboarding-program-design`                                                                                          | [`profile.md`](../../departments/human-resources/team/teammates/engineering-onboarding-lead/grace-muthoni/agent/profile.md) |
 
 ---
 
@@ -168,3 +166,10 @@ Complete list of all company agents. Sorted by department, then tier.
 | 59  | Hiroshi Tanaka   | iOS Engineer                  | Teammate | 5, 8            | `uikit-combine` · `core-data`                       | [`profile.md`](../../departments/research-develop/team/teammates/ios-engineer/hiroshi-tanaka/agent/profile.md)                |
 | 61  | Tobias Weber     | SDET Mobile                   | Teammate | 7, 8            | `appium-detox` · `device-farm-management`           | [`profile.md`](../../departments/research-develop/team/teammates/sdet-mobile/tobias-weber/agent/profile.md)                   |
 | 75  | Elin Ström       | SRE Engineer                  | Teammate | 5, 8            | `observability-logging` · `infrastructure-security` | [`profile.md`](../../departments/research-develop/team/teammates/sre-engineer/elin-strom/agent/profile.md)                    |
+
+### R&D — Transferred from HR (April 7, 2026)
+
+| #   | Name          | Role             | Tier     | Pipeline Stages | Skills                                              | Profile                                                                                                           |
+| --- | ------------- | ---------------- | -------- | --------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 15  | Henrik Larsen | Technical Writer | Teammate | 3, 4, 6, 8, 10  | `adr-technical-writing` · `pipeline-documentation`  | [`profile.md`](../../departments/research-develop/team/teammates/technical-writer/henrik-larsen/agent/profile.md) |
+| 16  | Amina Razak   | Technical Writer | Teammate | 5, 6, 10        | `api-technical-writing` · `developer-documentation` | [`profile.md`](../../departments/research-develop/team/teammates/technical-writer/amina-razak/agent/profile.md)   |

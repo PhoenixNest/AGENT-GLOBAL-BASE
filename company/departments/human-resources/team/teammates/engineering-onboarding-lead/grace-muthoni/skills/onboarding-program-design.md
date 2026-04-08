@@ -11,20 +11,21 @@ This skill covers program architecture, cohort scheduling, environment automatio
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| Program Architecture | Design multi-stage onboarding curricula scaled to 50+ FTE across multiple role families | Can design a 4-stage program with explicit gate criteria, deliverables, and success metrics per stage |
-| Environment Automation | Integrate with engineering tooling to automate dev environment provisioning | Achieves ≥80% zero-touch environment setup; reduces Day-1 friction to <2 hours |
-| Buddy System Design | Match new hires with experienced engineers for guided ramp-up | Buddy pair retention ≥90%; buddy satisfaction score ≥4.2/5 |
-| Cohort Scheduling | Plan and stagger onboarding waves to avoid team capacity overload | No team onboards >3 hires in a single wave; wave overlap <15% |
-| Ramp-Time Optimization | Measure and reduce time-to-first-PR, time-to-first-deploy, time-to-autonomous | Reduces median time-to-first-PR from 14 days to ≤7 days; time-to-autonomous ≤60 days |
-| Cross-Functional Coordination | Align with CTO, platform leads, and IT for resource readiness | 100% of hires have day-1-ready accounts, hardware, and repo access |
+| Dimension                     | Description                                                                             | Proficiency Indicators                                                                                |
+| ----------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Program Architecture          | Design multi-stage onboarding curricula scaled to 50+ FTE across multiple role families | Can design a 4-stage program with explicit gate criteria, deliverables, and success metrics per stage |
+| Environment Automation        | Integrate with engineering tooling to automate dev environment provisioning             | Achieves ≥80% zero-touch environment setup; reduces Day-1 friction to <2 hours                        |
+| Buddy System Design           | Match new hires with experienced engineers for guided ramp-up                           | Buddy pair retention ≥90%; buddy satisfaction score ≥4.2/5                                            |
+| Cohort Scheduling             | Plan and stagger onboarding waves to avoid team capacity overload                       | No team onboards >3 hires in a single wave; wave overlap <15%                                         |
+| Ramp-Time Optimization        | Measure and reduce time-to-first-PR, time-to-first-deploy, time-to-autonomous           | Reduces median time-to-first-PR from 14 days to ≤7 days; time-to-autonomous ≤60 days                  |
+| Cross-Functional Coordination | Align with CTO, platform leads, and IT for resource readiness                           | 100% of hires have day-1-ready accounts, hardware, and repo access                                    |
 
 ## Execution Guidance
 
 ### 4-Stage Onboarding Model
 
 #### Stage 1: Day 1 — Orientation & Environment Ready
+
 - **Objective:** New hire has working development environment and understands company context
 - **Deliverables:**
   - Hardware provisioned (laptop, peripherals, security key)
@@ -38,6 +39,7 @@ This skill covers program architecture, cohort scheduling, environment automatio
 - **Duration:** 1 day
 
 #### Stage 2: Week 1 — Context & First Contribution
+
 - **Objective:** New hire understands the codebase architecture and makes their first merged contribution
 - **Deliverables:**
   - Architecture walkthrough with Software Architect (UML diagrams, ADRs, TSD review)
@@ -51,6 +53,7 @@ This skill covers program architecture, cohort scheduling, environment automatio
 - **Duration:** 5 business days
 
 #### Stage 3: Month 1 — Competent Contributor
+
 - **Objective:** New hire independently completes small-to-medium features and participates in code reviews
 - **Deliverables:**
   - Assigned to a feature story within their platform track (Android, iOS, Cross-Platform)
@@ -64,6 +67,7 @@ This skill covers program architecture, cohort scheduling, environment automatio
 - **Duration:** 3 weeks (Day 6 → Day 30)
 
 #### Stage 4: Month 3 — Autonomous Engineer
+
 - **Objective:** New hire operates autonomously, owns features end-to-end, and contributes to team decisions
 - **Deliverables:**
   - Owns a feature from implementation through Stage 6 code review sign-off
@@ -107,14 +111,14 @@ This skill covers program architecture, cohort scheduling, environment automatio
 
 ### Ramp-Time Metrics & Optimization
 
-| Metric | Baseline | Target | Measurement Method |
-|--------|----------|--------|-------------------|
-| Time-to-first-PR | 14 days | ≤7 days | Git timestamp: first PR opened by new hire |
-| Time-to-first-merge | 16 days | ≤9 days | Git timestamp: first PR merged |
-| Time-to-first-deploy | 30 days | ≤21 days | CI/CD pipeline log: first deployment by new hire |
-| Time-to-autonomous | 90 days | ≤60 days | Supervisor assessment at probationary review |
-| Onboarding NPS | +35 | ≥+50 | Survey at Day 30 and Day 90 |
-| 90-day retention | 92% | ≥96% | HRIS data |
+| Metric               | Baseline | Target   | Measurement Method                               |
+| -------------------- | -------- | -------- | ------------------------------------------------ |
+| Time-to-first-PR     | 14 days  | ≤7 days  | Git timestamp: first PR opened by new hire       |
+| Time-to-first-merge  | 16 days  | ≤9 days  | Git timestamp: first PR merged                   |
+| Time-to-first-deploy | 30 days  | ≤21 days | CI/CD pipeline log: first deployment by new hire |
+| Time-to-autonomous   | 90 days  | ≤60 days | Supervisor assessment at probationary review     |
+| Onboarding NPS       | +35      | ≥+50     | Survey at Day 30 and Day 90                      |
+| 90-day retention     | 92%      | ≥96%     | HRIS data                                        |
 
 - **Optimization Levers:**
   - Improve setup script reliability (reduces Day 1 friction)
@@ -125,18 +129,18 @@ This skill covers program architecture, cohort scheduling, environment automatio
 
 ## Pipeline Integration
 
-| Pipeline Stage | Onboarding Relevance |
-|----------------|---------------------|
-| Stage 1 (Requirements) | Not applicable — onboarding does not intersect with PRD/SRD creation |
-| Stage 2 (Design) | New hires in Month 1+ may participate in design reviews as observers |
-| Stage 3 (Architecture) | Month 3 hires author ADRs; Week 1 hires attend architecture walkthroughs |
-| Stage 4 (Implementation Plan) | Not directly applicable — new hires consume, not create, implementation plans |
-| Stage 5 (Development) | **Primary integration point** — new hires contribute code from Week 1 onward under buddy supervision |
-| Stage 6 (Code Review) | Month 1+ hires participate as reviewers; Month 3 hires author PRs that enter code review |
-| Stage 7 (Testing) | Month 1+ hires write unit tests; Month 3+ contributes to integration test suite |
-| Stage 8 (Integrity Verification) | Not applicable — panel-only stage; new hires may observe |
-| Stage 9 (i18n) | Not applicable — specialized to Localization team |
-| Stage 10 (Release) | Not applicable — panel-only stage; new hires may observe |
+| Pipeline Stage                   | Onboarding Relevance                                                                                 |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Stage 1 (Requirements)           | Not applicable — onboarding does not intersect with PRD/SRD creation                                 |
+| Stage 2 (Design)                 | New hires in Month 1+ may participate in design reviews as observers                                 |
+| Stage 3 (Architecture)           | Month 3 hires author ADRs; Week 1 hires attend architecture walkthroughs                             |
+| Stage 4 (Implementation Plan)    | Not directly applicable — new hires consume, not create, implementation plans                        |
+| Stage 5 (Development)            | **Primary integration point** — new hires contribute code from Week 1 onward under buddy supervision |
+| Stage 6 (Code Review)            | Month 1+ hires participate as reviewers; Month 3 hires author PRs that enter code review             |
+| Stage 7 (Testing)                | Month 1+ hires write unit tests; Month 3+ contributes to integration test suite                      |
+| Stage 8 (Integrity Verification) | Not applicable — panel-only stage; new hires may observe                                             |
+| Stage 9 (i18n)                   | Not applicable — specialized to Localization team                                                    |
+| Stage 10 (Release)               | Not applicable — panel-only stage; new hires may observe                                             |
 
 ## Quality Standards
 

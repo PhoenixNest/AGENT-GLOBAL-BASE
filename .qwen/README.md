@@ -98,7 +98,7 @@ All 77 company personnel are configured as Qwen SubAgents. Each SubAgent file co
 | James Wright (Security Lead)         | `security-lead-james-wright.md`         | `security-operations` · `masvs-mastery-track-a` · `mobile-scanning-tools`                                                      | 1, 6, 8, 10     |
 | Natalia Petrova (Security Architect) | `security-architect-natalia-petrova.md` | `threat-modeling` · `masvs-mastery-track-b` · `mobile-threat-modeling` · `adr-governance`                                      | 1, 3, 6, 8, 10  |
 
-### R&D Engineers (37)
+### R&D Engineers (39)
 
 | Agent                            | File                                         | Skills                                                                                     | Pipeline Stages |
 | -------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------ | --------------- |
@@ -140,6 +140,13 @@ All 77 company personnel are configured as Qwen SubAgents. Each SubAgent file co
 | Marcus Wright (Full-Stack)       | `full-stack-engineer-marcus-wright.md`       | `vue-dotnet` · `api-versioning` · `multi-tenant-isolation`                                 | 5, 8            |
 | Sora Kim (Full-Stack)            | `full-stack-engineer-sora-kim.md`            | `react-fastapi` · `react-native-prototyping` · `webauthn-biometric-auth`                   | 5, 8            |
 
+### R&D — Transferred from HR (April 7, 2026)
+
+| Agent                            | File                                | Skills                                              | Pipeline Stages |
+| -------------------------------- | ----------------------------------- | --------------------------------------------------- | --------------- |
+| Henrik Larsen (Technical Writer) | `technical-writer-henrik-larsen.md` | `adr-technical-writing` · `pipeline-documentation`  | 3, 4, 6, 8, 10  |
+| Amina Razak (Technical Writer)   | `technical-writer-amina-razak.md`   | `api-technical-writing` · `developer-documentation` | 5, 6, 10        |
+
 ### Security Teammates (6)
 
 | Agent                               | File                                   | Skills                                                                                                   | Pipeline Stages |
@@ -151,13 +158,11 @@ All 77 company personnel are configured as Qwen SubAgents. Each SubAgent file co
 | Li Wei Chen (Security Engineer)     | `security-engineer-li-wei-chen.md`     | `supply-chain-security` · `secure-coding-training`                                                       | 1, 6, 8, 10     |
 | Ingrid Solberg (Compliance Analyst) | `compliance-analyst-ingrid-solberg.md` | `compliance-auditing` · `owasp-masvs-auditing` · `compliance-documentation`                              | 1, 6, 8, 10     |
 
-### HR Teammates (3)
+### HR Teammates (1)
 
-| Agent                            | File                                | Skills                                              | Pipeline Stages |
-| -------------------------------- | ----------------------------------- | --------------------------------------------------- | --------------- |
-| Grace Muthoni (Onboarding Lead)  | `onboarding-lead-grace-muthoni.md`  | `competency-tracking` · `onboarding-program-design` | Recruitment     |
-| Henrik Larsen (Technical Writer) | `technical-writer-henrik-larsen.md` | `adr-technical-writing` · `pipeline-documentation`  | Documentation   |
-| Amina Razak (Technical Writer)   | `technical-writer-amina-razak.md`   | `api-technical-writing` · `developer-documentation` | Documentation   |
+| Agent                           | File                               | Skills                                              | Pipeline Stages |
+| ------------------------------- | ---------------------------------- | --------------------------------------------------- | --------------- |
+| Grace Muthoni (Onboarding Lead) | `onboarding-lead-grace-muthoni.md` | `competency-tracking` · `onboarding-program-design` | Recruitment     |
 
 ### Localization (7)
 

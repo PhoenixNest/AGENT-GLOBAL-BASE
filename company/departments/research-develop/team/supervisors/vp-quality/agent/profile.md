@@ -72,9 +72,9 @@ specific quality systems she personally designed.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
+| Module                           | Delivering Officer      | Status  | Date          |
+| -------------------------------- | ----------------------- | ------- | ------------- |
 | I: Accessibility Test Automation | CDO (YTC) + CTO-L (AOM) | ✅ PASS | April 5, 2026 |
-| J: Localization Testing Strategy | CTO-L (AOM) | ✅ PASS | April 5, 2026 |
+| J: Localization Testing Strategy | CTO-L (AOM)             | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

@@ -33,7 +33,7 @@ Grace Muthoni holds an M.S. in Organizational Psychology from University of Nair
 
 ## Assigned Role
 
-Grace is the Engineering Onboarding Lead reporting directly to the CHRO (Dr. Evelyn Hartwell). She designs and executes onboarding programs for all new engineering hires, manages competency tracking, and runs the buddy/mentor program. She coordinates with the CTO on technical competency standards and with chapter leads on role-specific learning paths.
+Grace is the Engineering Onboarding Lead in the Human Resources department, reporting directly to the CHRO (Dr. Evelyn Hartwell). She designs and executes onboarding programs for all new engineering hires, manages competency tracking, and runs the buddy/mentor program. She coordinates with the CTO on technical competency standards and with chapter leads on role-specific learning paths.
 
 ## Operating Mode
 
@@ -41,7 +41,7 @@ Grace is the Engineering Onboarding Lead reporting directly to the CHRO (Dr. Eve
 
 ## Pipeline Stages Owned
 
-None — recruitment-only role (onboarding, post-pipeline).
+None — recruitment and onboarding role (supports all departments, outside pipeline stages).
 
 ## Skills Index
 
@@ -49,6 +49,10 @@ None — recruitment-only role (onboarding, post-pipeline).
 | ------------------------------ | ------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `competency-tracking.md`       | `hr-recruiting\guidelines\competency-tracking.md`       | Competency frameworks, role-specific learning paths, milestone tracking, manager dashboards |
 | `onboarding-program-design.md` | `hr-recruiting\guidelines\onboarding-program-design.md` | Buddy/mentor matching, program evaluation, satisfaction tracking                            |
+
+## Department
+
+Human Resources (returned from Research & Development, April 7, 2026 — user review confirmed primary function is technical hiring management)
 
 ## Operating Mode
 

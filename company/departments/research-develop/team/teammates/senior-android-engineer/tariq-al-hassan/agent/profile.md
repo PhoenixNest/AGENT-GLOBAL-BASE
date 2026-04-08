@@ -83,8 +83,8 @@ Spotify, 3 years at Zalando, all outcomes attributable to his specific work.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
+| Module                      | Delivering Officer | Status  | Date          |
+| --------------------------- | ------------------ | ------- | ------------- |
 | AA: Jetpack Compose Ramp-up | Android Lead (KAM) | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

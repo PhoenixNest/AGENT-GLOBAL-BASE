@@ -246,29 +246,37 @@ Document important architectural decisions using ADRs.
 # ADR-XXX: [Decision Title]
 
 ## Status
+
 [Proposed | Accepted | Deprecated | Superseded by ADR-YYY]
 
 ## Context
+
 What is the issue we're facing? What factors are driving this decision?
 
 ## Decision
+
 What architecture or approach have we chosen?
 
 ## Consequences
+
 What are the positive and negative outcomes of this decision?
 
 ### Positive
+
 - Benefit 1
 - Benefit 2
 
 ### Negative
+
 - Trade-off 1
 - Trade-off 2
 
 ## Alternatives Considered
+
 What other options did we evaluate and why did we reject them?
 
 ### Alternative 1: [Name]
+
 - Pros: ...
 - Cons: ...
 - Why rejected: ...

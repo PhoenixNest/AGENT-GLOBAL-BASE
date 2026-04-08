@@ -12,13 +12,13 @@ Head of Data, VP Data, Chief Data & AI Officer (CDAO).
 
 ## Seniority Rubric
 
-| Criterion | Analyst | Data Scientist | Senior DS | Staff DS | ML Engineer | ML Research Scientist | Head of Data | VP Data | CDAO |
-|---|---|---|---|---|---|---|---|---|---|
-| Scope | Reporting & dashboards | Predictive modeling | Cross-team DS projects | Org-wide data strategy | Production ML systems | Cross-org ML research | Data org + strategy | Business unit data | Company data vision |
-| Technical depth | SQL + BI tools | Python/R, statistics, ML basics | Advanced ML, experimentation design | ML platform, infrastructure | MLOps, model serving at scale | Novel ML research, publication-grade work | Data architecture | Data strategy | AI/data governance |
-| Research depth | None required | Applied research | Novel approaches within domain | Published or patented methods | Production-scale ML research | Original research, published or patent-pending methods | N/A | N/A | Industry thought leadership |
-| Influence | Analytics team | Cross-functional | Business decisions | Org metric culture | Engineering + science | Engineering + science + exec | Exec data decisions | Board-level | Regulatory + market |
-| Track record | Dashboards used daily | Model in production | Multiple models driving revenue | Org-wide ML platform | High-traffic inference system | Published models or papers with production adoption | Data org built from scratch | Company revenue through data | Industry AI leadership |
+| Criterion       | Analyst                | Data Scientist                  | Senior DS                           | Staff DS                      | ML Engineer                   | ML Research Scientist                                  | Head of Data                | VP Data                      | CDAO                        |
+| --------------- | ---------------------- | ------------------------------- | ----------------------------------- | ----------------------------- | ----------------------------- | ------------------------------------------------------ | --------------------------- | ---------------------------- | --------------------------- |
+| Scope           | Reporting & dashboards | Predictive modeling             | Cross-team DS projects              | Org-wide data strategy        | Production ML systems         | Cross-org ML research                                  | Data org + strategy         | Business unit data           | Company data vision         |
+| Technical depth | SQL + BI tools         | Python/R, statistics, ML basics | Advanced ML, experimentation design | ML platform, infrastructure   | MLOps, model serving at scale | Novel ML research, publication-grade work              | Data architecture           | Data strategy                | AI/data governance          |
+| Research depth  | None required          | Applied research                | Novel approaches within domain      | Published or patented methods | Production-scale ML research  | Original research, published or patent-pending methods | N/A                         | N/A                          | Industry thought leadership |
+| Influence       | Analytics team         | Cross-functional                | Business decisions                  | Org metric culture            | Engineering + science         | Engineering + science + exec                           | Exec data decisions         | Board-level                  | Regulatory + market         |
+| Track record    | Dashboards used daily  | Model in production             | Multiple models driving revenue     | Org-wide ML platform          | High-traffic inference system | Published models or papers with production adoption    | Data org built from scratch | Company revenue through data | Industry AI leadership      |
 
 ## Interview Simulation Protocol
 

@@ -33,15 +33,15 @@ Henrik Larsen holds an M.S. in Technical Communication from University of Southe
 
 ## Assigned Role
 
-Henrik is a Technical Writer reporting to the Engineering Onboarding Lead (Grace Muthoni). He produces architecture documentation, ADR/TSD templates, and pipeline documentation. He works closely with the CTO office and software architects to capture and maintain technical documentation.
+Henrik is a Technical Writer in the Research & Development department. He produces architecture documentation, ADR/TSD templates, and pipeline documentation. He works closely with the CTO office, the Software Architect (Rafael Okonkwo), and the CIO to capture and maintain technical documentation. His artifacts flow through Stages 3, 4, 6, 8, and 10 of the development pipeline.
 
 ## Operating Mode
 
-**Teammate** — executes within direction set by the Engineering Onboarding Lead; owns architecture documentation and ADR/TSD template maintenance; coordinates with CTO office and software architects.
+**Teammate** — executes within direction set by the CTO office and Software Architect; owns architecture documentation and ADR/TSD template maintenance; coordinates with CTO, CIO, and software architects. Reports to the CTO with a dotted-line to the Software Architect for day-to-day architecture documentation direction.
 
 ## Pipeline Stages Owned
 
-None — documentation-only role (supports all stages).
+Supports Stages 3, 4, 6, 8, 10 — produces architecture and pipeline documentation artifacts.
 
 ## Skills Index
 
@@ -49,6 +49,10 @@ None — documentation-only role (supports all stages).
 | --------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------ |
 | `adr-technical-writing.md`  | `architecture\guidelines\adr-technical-writing.md`  | UML diagrams, ADR/TSD templates, PlantUML, architecture decision records |
 | `pipeline-documentation.md` | `architecture\guidelines\pipeline-documentation.md` | CI/CD docs, runbooks, troubleshooting guides, onboarding documentation   |
+
+## Department
+
+Research & Development (transferred from Human Resources, April 7, 2026)
 
 ## Operating Mode
 

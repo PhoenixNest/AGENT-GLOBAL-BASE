@@ -11,14 +11,14 @@ This skill covers API documentation standards, OpenAPI/Swagger spec authoring, e
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| OpenAPI/Swagger Authoring | Write valid, comprehensive OpenAPI 3.x specifications covering all endpoints, schemas, and operations | Can produce a publication-ready OpenAPI spec from API design docs in ≤8 hours; zero validation errors from OpenAPI linter |
-| Endpoint Reference Documentation | Write clear, structured endpoint docs with request/response examples, error codes, and authentication requirements | Engineers rate endpoint docs ≥4.3/5 for clarity; zero integration defects traced to documentation gaps |
-| Code Example Generation | Produce accurate, production-quality code examples in Kotlin, Swift, and Dart (Flutter) | Examples compile and run against test environment; ≥95% example accuracy rate on automated validation |
-| SDK Documentation | Structure SDK reference docs with class hierarchies, method signatures, usage patterns, and migration guides | SDK docs pass developer review on first submission; adoption rate of documented patterns ≥85% |
-| Developer Portal Content | Manage developer portal content architecture, navigation, search optimization, and content freshness | Portal search success rate ≥90%; content freshness score ≥95% (all pages reviewed within 90 days) |
-| API Versioning Documentation | Document API versioning strategy, deprecation notices, migration paths, and backward compatibility guarantees | Zero consumer breakages due to undocumented API changes; deprecation notices published ≥90 days before sunset |
+| Dimension                        | Description                                                                                                        | Proficiency Indicators                                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| OpenAPI/Swagger Authoring        | Write valid, comprehensive OpenAPI 3.x specifications covering all endpoints, schemas, and operations              | Can produce a publication-ready OpenAPI spec from API design docs in ≤8 hours; zero validation errors from OpenAPI linter |
+| Endpoint Reference Documentation | Write clear, structured endpoint docs with request/response examples, error codes, and authentication requirements | Engineers rate endpoint docs ≥4.3/5 for clarity; zero integration defects traced to documentation gaps                    |
+| Code Example Generation          | Produce accurate, production-quality code examples in Kotlin, Swift, and Dart (Flutter)                            | Examples compile and run against test environment; ≥95% example accuracy rate on automated validation                     |
+| SDK Documentation                | Structure SDK reference docs with class hierarchies, method signatures, usage patterns, and migration guides       | SDK docs pass developer review on first submission; adoption rate of documented patterns ≥85%                             |
+| Developer Portal Content         | Manage developer portal content architecture, navigation, search optimization, and content freshness               | Portal search success rate ≥90%; content freshness score ≥95% (all pages reviewed within 90 days)                         |
+| API Versioning Documentation     | Document API versioning strategy, deprecation notices, migration paths, and backward compatibility guarantees      | Zero consumer breakages due to undocumented API changes; deprecation notices published ≥90 days before sunset             |
 
 ## Execution Guidance
 
@@ -475,61 +475,68 @@ components:
 
 #### OpenAPI Authoring Standards
 
-| Standard | Requirement |
-|----------|-------------|
-| **OpenAPI Version** | 3.0.3 minimum; 3.1.0 preferred when supported by tooling |
-| **Every endpoint documented** | All paths, methods, parameters, request bodies, and responses must be specified |
-| **Examples required** | Every response schema must have at least one example; complex request bodies must have examples |
-| **Error responses complete** | Document all possible error responses (400, 401, 403, 404, 409, 429, 500) with error codes and messages |
-| **Authentication documented** | Security schemes defined at the component level; per-operation security overrides documented |
-| **Descriptions on every field** | Every schema property has a `description` field. No undocumented fields. |
-| **Validation constraints** | Use `minimum`, `maximum`, `minLength`, `maxLength`, `pattern`, `enum` to document validation rules |
-| **Consistent naming** | Operation IDs use camelCase; tags use PascalCase; parameters use snake_case |
-| **Version in URL** | API version included in server URL path (e.g., `/v1/`, `/v2/`) |
-| **Lint validation** | All specs pass `spectral` lint rules before merge; zero warnings or errors |
+| Standard                        | Requirement                                                                                             |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **OpenAPI Version**             | 3.0.3 minimum; 3.1.0 preferred when supported by tooling                                                |
+| **Every endpoint documented**   | All paths, methods, parameters, request bodies, and responses must be specified                         |
+| **Examples required**           | Every response schema must have at least one example; complex request bodies must have examples         |
+| **Error responses complete**    | Document all possible error responses (400, 401, 403, 404, 409, 429, 500) with error codes and messages |
+| **Authentication documented**   | Security schemes defined at the component level; per-operation security overrides documented            |
+| **Descriptions on every field** | Every schema property has a `description` field. No undocumented fields.                                |
+| **Validation constraints**      | Use `minimum`, `maximum`, `minLength`, `maxLength`, `pattern`, `enum` to document validation rules      |
+| **Consistent naming**           | Operation IDs use camelCase; tags use PascalCase; parameters use snake_case                             |
+| **Version in URL**              | API version included in server URL path (e.g., `/v1/`, `/v2/`)                                          |
+| **Lint validation**             | All specs pass `spectral` lint rules before merge; zero warnings or errors                              |
 
 ### Endpoint Reference Documentation
 
 #### Endpoint Doc Structure
 
-```markdown
+````markdown
 # GET /api/v1/resources
 
 ## Overview
+
 [1-2 sentences describing what this endpoint does and when to use it]
 
 ## Authentication
+
 Required scopes: `resources:read`
 Auth method: Bearer token (JWT)
 
 ## Request
 
 ### Path Parameters
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `resourceId` | `string (UUID)` | Yes | Unique identifier for the resource |
+
+| Parameter    | Type            | Required | Description                        |
+| ------------ | --------------- | -------- | ---------------------------------- |
+| `resourceId` | `string (UUID)` | Yes      | Unique identifier for the resource |
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `page` | `integer` | No | `1` | Page number (1-based) |
-| `limit` | `integer` | No | `20` | Items per page (max 100) |
-| `sort` | `string` | No | — | Sort field and direction (e.g., `created_at:desc`) |
-| `fields` | `string` | No | — | Comma-separated field list for sparse fieldsets |
+
+| Parameter | Type      | Required | Default | Description                                        |
+| --------- | --------- | -------- | ------- | -------------------------------------------------- |
+| `page`    | `integer` | No       | `1`     | Page number (1-based)                              |
+| `limit`   | `integer` | No       | `20`    | Items per page (max 100)                           |
+| `sort`    | `string`  | No       | —       | Sort field and direction (e.g., `created_at:desc`) |
+| `fields`  | `string`  | No       | —       | Comma-separated field list for sparse fieldsets    |
 
 ### Request Body
+
 Not applicable for GET requests.
 
 ### Request Headers
-| Header | Type | Required | Description |
-|--------|------|----------|-------------|
-| `Authorization` | `string` | Yes | `Bearer <JWT access token>` |
-| `Accept` | `string` | No | `application/json` (default) |
-| `X-Request-ID` | `string` | No | Unique request ID for tracing |
+
+| Header          | Type     | Required | Description                   |
+| --------------- | -------- | -------- | ----------------------------- |
+| `Authorization` | `string` | Yes      | `Bearer <JWT access token>`   |
+| `Accept`        | `string` | No       | `application/json` (default)  |
+| `X-Request-ID`  | `string` | No       | Unique request ID for tracing |
 
 ## Response
 
 ### 200 OK
+
 **Content-Type:** `application/json`
 
 ```json
@@ -558,8 +565,10 @@ Not applicable for GET requests.
   }
 }
 ```
+````
 
 ### 401 Unauthorized
+
 ```json
 {
   "error": {
@@ -571,6 +580,7 @@ Not applicable for GET requests.
 ```
 
 ### 403 Forbidden
+
 ```json
 {
   "error": {
@@ -582,6 +592,7 @@ Not applicable for GET requests.
 ```
 
 ### 429 Too Many Requests
+
 **Headers:** `Retry-After: 60`
 
 ```json
@@ -595,14 +606,16 @@ Not applicable for GET requests.
 ```
 
 ## Rate Limits
-| Tier | Requests per minute | Requests per day |
-|------|--------------------|-----------------|
-| Standard | 60 | 10,000 |
-| Premium | 300 | 100,000 |
+
+| Tier     | Requests per minute | Requests per day |
+| -------- | ------------------- | ---------------- |
+| Standard | 60                  | 10,000           |
+| Premium  | 300                 | 100,000          |
 
 ## Code Examples
 
 ### Kotlin (Android)
+
 ```kotlin
 val response = apiService.getResources(
     page = 1,
@@ -618,6 +631,7 @@ if (response.isSuccessful) {
 ```
 
 ### Swift (iOS)
+
 ```swift
 let task = URLSession.shared.dataTask(with: url) { data, response, error in
     guard let data = data, error == nil else {
@@ -631,6 +645,7 @@ task.resume()
 ```
 
 ### Dart (Flutter)
+
 ```dart
 final response = await http.get(
   Uri.parse('https://api.company.com/v1/resources?page=1&limit=20'),
@@ -646,16 +661,19 @@ if (response.statusCode == 200) {
 ```
 
 ## Related Endpoints
+
 - [POST /api/v1/resources](./create-resource.md) — Create a new resource
 - [GET /api/v1/resources/{resourceId}](./get-resource.md) — Get a specific resource
 - [DELETE /api/v1/resources/{resourceId}](./delete-resource.md) — Delete a resource
 
 ## Changelog
-| Version | Date | Changes |
-|---------|------|---------|
-| v1.0 | 2026-01-15 | Initial release |
-| v1.1 | 2026-03-01 | Added `fields` query parameter for sparse fieldsets |
-```
+
+| Version | Date       | Changes                                             |
+| ------- | ---------- | --------------------------------------------------- |
+| v1.0    | 2026-01-15 | Initial release                                     |
+| v1.1    | 2026-03-01 | Added `fields` query parameter for sparse fieldsets |
+
+````
 
 ### Code Example Generation
 
@@ -694,7 +712,7 @@ Each endpoint's code example section follows this pattern:
 
 #### With Advanced Options
 [Example showing pagination, filtering, or other advanced features]
-```
+````
 
 ### SDK Documentation
 
@@ -727,19 +745,22 @@ sdk-docs/
 
 #### SDK Reference Page Template
 
-```markdown
+````markdown
 # ResourceService
 
 **Package:** `com.company.api.services` (Kotlin) / `CompanyAPI` (Swift) / `company_api` (Dart)
 **Since:** SDK v1.0.0
 
 ## Overview
+
 [1-2 sentences describing what this service does and when to use it]
 
 ## Initialization
+
 ```kotlin
 val resourceService = apiClient.resources
 ```
+````
 
 ## Methods
 
@@ -749,16 +770,17 @@ Lists all resources accessible to the authenticated user.
 
 **Parameters:**
 
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `params.page` | `Int` | No | `1` | Page number |
-| `params.limit` | `Int` | No | `20` | Items per page |
-| `params.sort` | `String?` | No | `null` | Sort expression |
-| `params.fields` | `String?` | No | `null` | Sparse fieldset |
+| Parameter       | Type      | Required | Default | Description     |
+| --------------- | --------- | -------- | ------- | --------------- |
+| `params.page`   | `Int`     | No       | `1`     | Page number     |
+| `params.limit`  | `Int`     | No       | `20`    | Items per page  |
+| `params.sort`   | `String?` | No       | `null`  | Sort expression |
+| `params.fields` | `String?` | No       | `null`  | Sparse fieldset |
 
 **Returns:** `Response<PaginatedResourceList>` — Paginated list of resources
 
 **Throws:**
+
 - `UnauthorizedException` — Invalid or missing authentication
 - `ForbiddenException` — Insufficient permissions
 - `ApiException` — Server error (5xx)
@@ -767,8 +789,10 @@ Lists all resources accessible to the authenticated user.
 [Code example]
 
 **See Also:**
+
 - [Resource model](../models/resource.md)
 - [Pagination guide](../../guides/pagination.md)
+
 ```
 
 ### Developer Portal Content Management
@@ -776,47 +800,49 @@ Lists all resources accessible to the authenticated user.
 #### Portal Information Architecture
 
 ```
+
 Developer Portal
 ├── Home
-│   ├── Welcome & Overview
-│   ├── Quick Start (5-minute tutorial)
-│   └── API Status Dashboard
+│ ├── Welcome & Overview
+│ ├── Quick Start (5-minute tutorial)
+│ └── API Status Dashboard
 ├── Getting Started
-│   ├── Create Account & Get API Key
-│   ├── Authentication Overview
-│   ├── Making Your First Request
-│   └── SDK Installation & Setup
+│ ├── Create Account & Get API Key
+│ ├── Authentication Overview
+│ ├── Making Your First Request
+│ └── SDK Installation & Setup
 ├── API Reference
-│   ├── [Service 1]
-│   │   ├── Overview
-│   │   ├── Endpoints (one per endpoint)
-│   │   ├── Models
-│   │   └── Error Codes
-│   ├── [Service 2]
-│   │   └── ...
-│   └── Postman Collection / OpenAPI Spec Download
+│ ├── [Service 1]
+│ │ ├── Overview
+│ │ ├── Endpoints (one per endpoint)
+│ │ ├── Models
+│ │ └── Error Codes
+│ ├── [Service 2]
+│ │ └── ...
+│ └── Postman Collection / OpenAPI Spec Download
 ├── Guides
-│   ├── Authentication Deep Dive
-│   ├── Pagination & Filtering
-│   ├── Error Handling Best Practices
-│   ├── Rate Limiting & Throttling
-│   ├── Webhooks
-│   └── Migration Guides
+│ ├── Authentication Deep Dive
+│ ├── Pagination & Filtering
+│ ├── Error Handling Best Practices
+│ ├── Rate Limiting & Throttling
+│ ├── Webhooks
+│ └── Migration Guides
 ├── SDKs & Tools
-│   ├── Kotlin SDK
-│   ├── Swift SDK
-│   ├── Dart SDK
-│   ├── CLI Tools
-│   └── Postman Collection
+│ ├── Kotlin SDK
+│ ├── Swift SDK
+│ ├── Dart SDK
+│ ├── CLI Tools
+│ └── Postman Collection
 ├── Support
-│   ├── FAQ
-│   ├── Contact Support
-│   ├── Status Page
-│   └── Community Forum
+│ ├── FAQ
+│ ├── Contact Support
+│ ├── Status Page
+│ └── Community Forum
 └── Changelog
-    ├── Latest Release Notes
-    ├── Deprecated Features
-    └── API Version History
+├── Latest Release Notes
+├── Deprecated Features
+└── API Version History
+
 ```
 
 #### Content Management Standards
@@ -853,3 +879,4 @@ Developer Portal
 - **Developer Portal Search:** ≥90% search success rate (users find relevant content within first 3 results); measured via analytics
 - **Feedback Score:** ≥4.0/5 average rating on "Was this page helpful?" feedback widget across all API documentation pages
 - **Version Alignment:** 100% of documentation pages display correct API version; zero instances of version mismatch between docs and implementation
+```

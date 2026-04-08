@@ -77,8 +77,8 @@ Red flag scan clean — 4-year tenure at GetSmarter, 2 years at Yoco.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| AR: AWS Architecture Foundations | CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                           | Delivering Officer | Status  | Date          |
+| -------------------------------- | ------------------ | ------- | ------------- |
+| AR: AWS Architecture Foundations | CTO (KN)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**
