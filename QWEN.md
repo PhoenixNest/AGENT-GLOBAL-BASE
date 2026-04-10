@@ -49,6 +49,12 @@ agent-global-base/
 ├── QWEN.md                # This file — Qwen Code guidance
 ├── .claude/               # Claude-specific skills and settings
 ├── .qwen/                 # Qwen-specific configuration
+│   ├── pipeline/          # Pipeline definitions for Qwen Code agents
+│   │   ├── development/   # 10-stage development workflow + templates
+│   │   └── recruitment/   # 9-stage automated recruitment pipeline
+│   ├── agents/            # 77 SubAgent configurations
+│   ├── skills/            # 14 skill categories (199 guidelines)
+│   └── reference/         # Reference materials
 └── company/
     ├── departments/       # Agent definitions and skill files
     │   ├── <dept>/
@@ -68,7 +74,9 @@ agent-global-base/
     │   ├── topics/        # Cross-cutting: architecture, security, localization, testing
     │   └── reference/     # Link collections for design and development
     └── pipeline/
-        └── development/pipeline.md   # Full 10-stage pipeline definition
+        ├── development/pipeline.md   # Full 10-stage development pipeline definition
+        ├── development/monitoring.md # Progress Monitoring & Recovery System
+        └── recruitment/pipeline.md   # 9-stage automated recruitment pipeline (CHRO-owned)
 ```
 
 ---
@@ -80,6 +88,7 @@ agent-global-base/
 | Understand company structure                              | `company/library/overview/company.md`             |
 | Find all agents and their roles                           | `company/library/overview/personnel.md`           |
 | Understand the full pipeline                              | `company/pipeline/development/pipeline.md`        |
+| Understand the recruitment pipeline                       | `company/pipeline/recruitment/pipeline.md`        |
 | Find a specific department                                | `company/library/departments/<dept>.md`           |
 | Research architecture, security, testing, or localization | `company/library/topics/`                         |
 | Find an agent profile                                     | `company/departments/<dept>/.../agent/profile.md` |
@@ -218,9 +227,10 @@ The `.claude/skills/` directory contains reusable skill definitions that can be 
 
 1. **No code execution** — This is a documentation/knowledge repository. There are no build, test, or run commands.
 2. **Agent-first workflow** — When simulating company operations, route tasks through the appropriate agent based on their profile and skills.
-3. **Pipeline adherence** — All development work follows the 10-stage pipeline. Do not skip stages or reorder them.
+3. **Pipeline adherence** — All development work follows the 10-stage pipeline. Do not skip stages or reorder them. The **recruitment pipeline** (`company/pipeline/recruitment/pipeline.md`) is a separate 9-stage automated workflow owned by the CHRO, governing hiring from need identification through 90-day onboarding. It operates independently of the development pipeline.
 4. **Defect classification** — Always classify defects using the P0–P3 system before remediation.
 5. **Paired artifacts** — The PRD and SRD are always treated as a unit from Stage 1 onward.
+6. **Game Studio organizational principle** — The game studio (`studio/`) operates **independently** from the parent company's development pipeline and department structure. Each studio has its own folder under `studio/<studio-name>/` with its own workflow (`studio/<studio-name>/pipeline/`), reference materials (`studio/<studio-name>/library/`), and recruitment plan (`studio/<studio-name>/team/`). The current studio is `studio/casual-games/`. However, each studio **reports directly to and is accountable to** the parent company's Chief Officers (CPO, CTO, CDO, CIO, CSO, CHRO, CTO-L). All studio gate reviews, kill decisions, and release approvals require C-suite panel participation and User (CEO) final sign-off. **No studio document, decision, or artifact should ever be saved outside the `studio/` directory.**
 
 ---
 
@@ -245,10 +255,13 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 │   ├── ios-lead-seo-yeon-park.md
 │   ├── cross-platform-lead-mei-ling-johansson.md
 │   └── ... (65 more — see .qwen/README.md for full roster)
-├── workflows/
-│   ├── pipeline.md        # 10-stage development workflow (source of truth)
-│   ├── monitoring.md      # Progress Monitoring & Recovery System
-│   └── templates/         # 28 pipeline templates organized by stage
+├── pipeline/              # Pipeline definitions for Qwen Code agents
+│   ├── development/       # 10-stage development workflow + monitoring + templates
+│   │   ├── pipeline.md    # 10-stage development workflow (source of truth)
+│   │   ├── monitoring.md  # Progress Monitoring & Recovery System
+│   │   └── templates/     # 28 pipeline templates organized by stage
+│   └── recruitment/       # 9-stage automated recruitment pipeline
+│       └── pipeline.md    # CHRO-owned, unanimous C-Suite sign-off
 └── skills/                # 14 Qwen Code Skill categories (199 guidelines)
     ├── architecture/      # CTO/CIO/Architect (21 guidelines)
     ├── product-management/# CPO (3 guidelines)
@@ -268,18 +281,19 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 
 ### Quick Reference
 
-| Resource Type           | Location                      | Count |
-| ----------------------- | ----------------------------- | ----- |
-| SubAgent Configurations | `.qwen/agents/*.md`           | 77    |
-| Skill Categories        | `.qwen/skills/*/`             | 14    |
-| Skill Guidelines        | `.qwen/skills/*/`             | 199   |
-| Workflow Definition     | `.qwen/workflows/pipeline.md`, `monitoring.md`, `templates/` | 30 files |
+| Resource Type           | Location                                                                | Count    |
+| ----------------------- | ----------------------------------------------------------------------- | -------- |
+| SubAgent Configurations | `.qwen/agents/*.md`                                                     | 77       |
+| Skill Categories        | `.qwen/skills/*/`                                                       | 14       |
+| Skill Guidelines        | `.qwen/skills/*/`                                                       | 199      |
+| Workflow Definition     | `.qwen/pipeline/development/pipeline.md`, `monitoring.md`, `templates/` | 30 files |
+| Recruitment Pipeline    | `.qwen/pipeline/recruitment/pipeline.md`                                |
 
 ### Using Imported Resources
 
 - **To use a SubAgent:** Reference by name (e.g., `cto-dr-kenji-nakamura`) — see `.qwen/README.md` for full list
 - **To find a skill:** Skills are indexed by category in `.qwen/README.md`
-- **To reference the pipeline:** Read `.qwen/workflows/pipeline.md` for the full 10-stage definition, `monitoring.md` for the Progress Monitoring & Recovery System, and `.qwen/workflows/templates/` for all 28 stage-specific templates
+- **To reference the pipeline:** Read `.qwen/pipeline/development/pipeline.md` for the 10-stage development definition, `monitoring.md` for Progress Monitoring, and `templates/` for all 28 stage templates. For the automated recruitment pipeline, read `.qwen/pipeline/recruitment/pipeline.md` (9 stages, CHRO-owned, fully automated with outcome-only review at Stage 8).
 - **For detailed agent/skill index:** See `.qwen/README.md`
 
 ---

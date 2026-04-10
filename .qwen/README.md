@@ -2,7 +2,7 @@
 
 This directory contains the company's SubAgent configurations, skills, and workflow definitions for the mobile product development pipeline.
 
-**Last Updated:** April 7, 2026
+**Last Updated:** April 10, 2026
 **Total SubAgents:** 77 (role-first naming, expanded from 20 after FY2026 Q2 recruitment)
 **Total Skills:** 199 (all skills authored and verified — 0 remaining gaps)
 
@@ -23,22 +23,29 @@ This directory contains the company's SubAgent configurations, skills, and workf
 │   ├── HR (3 files)
 │   ├── Localization (7 files)
 │   └── Brand Design (1 file)
-├── workflows/                   # Pipeline definitions (updated April 8, 2026)
-│   ├── pipeline.md              # 10-stage development workflow (authoritative spec)
-│   ├── monitoring.md            # Progress Monitoring & Recovery System (3 layers)
-│   └── templates/               # 28 pipeline templates organized by stage
-│       ├── README.md            # Template index with directory tree
-│       ├── monitoring/          # (3 files: progress.md, session-log.md, checkpoint.json)
-│       ├── stage-1-requirements/ # (2 files: PRD.md, SRD.md)
-│       ├── stage-2-design/       #(1 file: IDS.md)
-│       ├── stage-3-architecture/ # (7 files: 6 ADRs + TSD.md)
-│       ├── stage-4-implementation-plan/ # (3 files)
-│       ├── stage-5-development/  # (3 files)
-│       ├── stage-6-code-review/  # (1 file: DEFECT-REPORT.md)
-│       ├── stage-7-testing/      # (3 files)
-│       ├── stage-8-integrity/    # (1 file: INTEGRITY-SIGNOFF.md)
-│       ├── stage-9-i18n/         # (2 files)
-│       └── stage-10-release/     # (1 file: RELEASE-CHECKLIST.md)
+├── pipeline/                    # Pipeline definitions (renamed from workflows/, restructured April 10, 2026)
+│   ├── development/             # 10-stage development workflow
+│   │   ├── pipeline.md          # 10-stage development workflow (authoritative spec)
+│   │   ├── monitoring.md        # Progress Monitoring & Recovery System (3 layers)
+│   │   └── templates/           # 28 pipeline templates organized by stage
+│   └── recruitment/             # 9-stage automated recruitment pipeline (CHRO-owned)
+│       ├── pipeline.md          # Authoritative spec
+│       └── templates/
+│           ├── hiring-outcome-report.md   # Single user-facing review document
+│           └── configuration/             # Quarterly configuration inputs
+│               ├── competency-bars.md
+│               ├── compensation-bands.md
+│               ├── sourcing-channels.md
+│               ├── assessment-parameters.md
+│               ├── benchmark-calibration.md
+│               ├── exception-rules.md
+│               └── role-family-templates/
+│                   ├── engineering.md
+│                   ├── product.md
+│                   ├── design.md
+│                   ├── security.md
+│                   ├── translation.md
+│                   └── business.md
 └── skills/                      # Qwen Code Skills (14 categories, 199 guidelines)
     ├── architecture/            # CTO/CIO/Architect skills (21 guidelines)
     ├── product-management/      # CPO skills (3 guidelines)
@@ -198,11 +205,14 @@ All 77 company personnel are configured as Qwen SubAgents. Each SubAgent file co
 
 ---
 
-## Workflow Definition
+## Workflow Definitions
 
-| File                    | Description                                                                                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `workflows/pipeline.md` | Ten-stage development pipeline: Requirements → PRD/SRD → Prototype → UML → Implementation Plan → Development → Code Review → Testing → Integrity Verification → i18n → Release |
+| File                                 | Description                                                                                                                                                                                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pipeline/development/pipeline.md`   | Ten-stage development pipeline: Requirements → PRD/SRD → Prototype → UML → Implementation Plan → Development → Code Review → Testing → Integrity Verification → i18n → Release                                |
+| `pipeline/development/monitoring.md` | Progress Monitoring & Recovery System (3 layers: PROGRESS.md, session logs, checkpoints)                                                                                                                      |
+| `pipeline/development/templates/`    | 28 pipeline templates organized by stage                                                                                                                                                                      |
+| `pipeline/recruitment/pipeline.md`   | Nine-stage automated recruitment pipeline: Role Intake → Sourcing → Screening → Interview Simulation → Vetting → Background Check → Offer → User Review → Onboarding (CHRO-owned, unanimous C-Suite sign-off) |
 
 ### Pipeline Stage Summary
 
@@ -631,11 +641,12 @@ Skills are organized into 14 functional categories. Each category has a parent `
 
 ## Summary
 
-| Resource                | Count | Location                |
-| ----------------------- | ----- | ----------------------- |
-| SubAgent Configurations | 77    | `agents/`               |
-| Skill Guidelines        | 199   | `skills/*/`             |
-| Workflow Definitions    | 1     | `workflows/pipeline.md` |
+| Resource                | Count | Location                           |
+| ----------------------- | ----- | ---------------------------------- |
+| SubAgent Configurations | 77    | `agents/`                          |
+| Skill Guidelines        | 199   | `skills/*/`                        |
+| Development Pipeline    | 1     | `pipeline/development/pipeline.md` |
+| Recruitment Pipeline    | 1     | `pipeline/recruitment/pipeline.md` |
 
 ---
 
@@ -653,11 +664,21 @@ To use a SubAgent, reference it by its file name (without `.md` extension). For 
 
 Each SubAgent's `description` field in the YAML frontmatter indicates when to engage that agent.
 
-### Pipeline Reference
+### Development Pipeline Reference
 
-The `workflows/pipeline.md` file contains the authoritative 10-stage development workflow definition. Reference it for:
+The `pipeline/development/pipeline.md` file contains the authoritative 10-stage development workflow definition for mobile product development. Reference it for:
 
 - Stage gate criteria
 - Artifact requirements (In/Out)
 - Responsible producers and reviewers
 - Defect handling procedures
+
+### Recruitment Pipeline Reference
+
+The `pipeline/recruitment/pipeline.md` file contains the authoritative 9-stage automated recruitment pipeline. Reference it for:
+
+- Automated hiring workflow from role intake through 90-day onboarding
+- Tiered engineering assessment (L0-L3), security role assessment, design leadership review, translation competency framework
+- User review gate at Stage 8 (outcome-only leadership involvement)
+- P1 Technical Debt Register (DR readiness, GDPR erasure, data contract enforcement)
+- Platform-specific competency mappings (iOS HIG, Android Material, paywall experimentation)
