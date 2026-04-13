@@ -2,7 +2,7 @@
 
 The company's development workflow is a ten-stage state machine governing the full lifecycle of a mobile product — from raw requirements through to release. Each stage has a designated responsible producer, explicit reviewers, defined artifacts in and out, and gate criteria that must be satisfied before advancing.
 
-> **Full definition:** [`pipeline/development/pipeline.md`](../../pipeline/development/pipeline.md)
+> **Full definition:** [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md)
 
 ---
 
@@ -91,13 +91,13 @@ Active from Stage 4 onward.
 - Any task exceeding its estimated duration by **>20%** triggers an automatic CTO → CPO schedule risk notification.
 - The CTO produces weekly progress summaries for C-suite visibility.
 
-**Full system:** [`pipeline/development/monitoring.md`](../../pipeline/development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
+**Full system:** [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
 
 ### Platform Strategy Matrix
 
 Stage 5 development executes per the **Platform Strategy Matrix**, driven by the Platform Strategy ADR at Stage 3. Five mutually exclusive scenarios determine track activation: Android-only, iOS-only, both native, KMP cross-platform, or Flutter cross-platform. Each scenario activates different track configurations (FULL / LIGHT / PRIMARY / Dormant) with distinct team sizes, CI/CD scopes, and testing mandates.
 
-> **Full specification:** [`pipeline/development/pipeline.md`](../../pipeline/development/pipeline.md) — Platform Strategy Matrix, Track Activation Protocol, and Per-Scenario CI/CD Blueprint (Stage 5 section).
+> **Full specification:** [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md) — Platform Strategy Matrix, Track Activation Protocol, and Per-Scenario CI/CD Blueprint (Stage 5 section).
 
 ### Stage 6 Code Review Criteria
 

@@ -4,6 +4,64 @@ This file provides guidance to Qwen Code when working with this repository.
 
 ---
 
+## Development Environment (Asus Zenbook Pro 14 Duo OLED — UX8402VV)
+
+> **Recorded:** April 12, 2026 — Critical for script compatibility and test execution.
+
+### Hardware
+
+| Component             | Specification                                                                             | 
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| **Model**             | Asus Zenbook Pro 14 Duo OLED UX8402VV                                                     |
+| **CPU**               | Intel Core i7-13700H — 14 cores / 20 threads (6× P-Cores @ 5.0 GHz, 8× E-Cores @ 3.7 GHz) |
+| **GPU**               | NVIDIA GeForce RTX 4060 Laptop — 8 GB GDDR6                                               |
+| **RAM**               | 32 GB DDR5                                                                                |
+| **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB, expandable)                                                  |
+| **Primary Display**   | 14.5" OLED, 16:10, 2880×1800, 120 Hz, Touch, Stylus                                       |
+| **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864                                                       |
+| **Ports**             | 2× Thunderbolt 4, 1× USB 3.2 Type-A, 1× HDMI, 1× 3.5mm, 1× microSD                        |
+| **Networking**        | Wi-Fi 6E (802.11ax), Bluetooth 5.3                                                        |
+| **Battery**           | 76 WHrs, 4-cell Li-ion                                                                    |
+| **Weight**            | 1.75 kg (3.86 lbs)                                                                        |
+| **OS**                | Windows 11 Home                                                                           |
+
+### Software
+
+| Component         | Path / Version                              | Notes                                                      |
+| ----------------- | ------------------------------------------- | ---------------------------------------------------------- |
+| **Python**        | `C:\Program Files\Python\313\python.exe`    | Use `python`, NOT `python3`                                |
+| **Git Bash**      | `C:\Program Files\Git\bin\bash.exe`         | Available but **not preferred** for hooks                  |
+| **Shell**         | `cmd.exe` (primary), PowerShell (secondary) | Git bash has pipe/subprocess issues with Python            |
+| **Qwen Code CLI** | Running locally                             | Hooks feature enabled, configured in `.qwen/settings.json` |
+
+### Critical Rules for This Environment
+
+| Rule                                        | Rationale                                                                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **All hook scripts MUST be Python (`.py`)** | Shell scripts (`.sh`) fail on Windows due to Git bash + Python subprocess pipe issues. 16/16 tests pass with pure Python. |
+| **Use `python`, not `python3`**             | Windows installation uses `python.exe`; `python3` is a non-functional WindowsApps stub                                    |
+| **No `set -euo pipefail` in shell scripts** | `set -u` breaks on empty bash arrays; `pipefail` causes false exit codes through Python subprocess                        |
+| **Test runner must be Python-based**        | Batch file (`run-all-tests.bat`) has ERRORLEVEL capture issues with pipes. Use `run-all-tests.py`                         |
+| **Avoid `xxd`, `/dev/urandom` in scripts**  | Not reliably available in Git bash. Use Python's `hashlib` and `random` instead                                           |
+
+### Hook Scripts Location
+
+All hook scripts are in `.qwen/hooks/company/automated-recruitment-pipeline/scripts/` — **11 Python files, 0 shell scripts**. Test suite: `.qwen/hooks/company/automated-recruitment-pipeline/tests/run-all-tests.py` — run with `python tests/run-all-tests.py` — expects 16/16 pass.
+
+### Verified Working Configuration
+
+```
+Platform: Windows 11
+Device: Asus Zenbook Pro 14 Duo OLED (UX8402VV)
+CPU: Intel Core i7-13700H (14 cores / 20 threads)
+RAM: 32 GB DDR5
+GPU: NVIDIA RTX 4060 (8 GB GDDR6)
+Python: C:\Program Files\Python\313\python.exe
+Test Result: 16/16 passed, 0 failed (April 12, 2026)
+```
+
+---
+
 ## Repository Purpose
 
 This is an **agent knowledge base** — not a software project. It defines a simulated mobile product company composed of named AI agent personas, each with a role, tier, skills, and pipeline stage ownership. There are no build commands, tests, or code to run.
@@ -51,7 +109,7 @@ agent-global-base/
 ├── .qwen/                 # Qwen-specific configuration
 │   ├── pipeline/          # Pipeline definitions for Qwen Code agents
 │   │   ├── development/   # 10-stage development workflow + templates
-│   │   └── recruitment/   # 9-stage automated recruitment pipeline
+│   │   └── recruitment/   # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
 │   ├── agents/            # 77 SubAgent configurations
 │   ├── skills/            # 14 skill categories (199 guidelines)
 │   └── reference/         # Reference materials
@@ -74,9 +132,10 @@ agent-global-base/
     │   ├── topics/        # Cross-cutting: architecture, security, localization, testing
     │   └── reference/     # Link collections for design and development
     └── pipeline/
-        ├── development/pipeline.md   # Full 10-stage development pipeline definition
-        ├── development/monitoring.md # Progress Monitoring & Recovery System
-        └── recruitment/pipeline.md   # 9-stage automated recruitment pipeline (CHRO-owned)
+        ├── mobile-development/
+        │   ├── pipeline.md           # Full 10-stage development pipeline definition
+        │   ├── monitoring.md         # Progress Monitoring & Recovery System
+        └── recruitment/pipeline.md   # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution) (CHRO-owned)
 ```
 
 ---
@@ -87,7 +146,7 @@ agent-global-base/
 | --------------------------------------------------------- | ------------------------------------------------- |
 | Understand company structure                              | `company/library/overview/company.md`             |
 | Find all agents and their roles                           | `company/library/overview/personnel.md`           |
-| Understand the full pipeline                              | `company/pipeline/development/pipeline.md`        |
+| Understand the full pipeline                              | `company/pipeline/mobile-development/pipeline.md`        |
 | Understand the recruitment pipeline                       | `company/pipeline/recruitment/pipeline.md`        |
 | Find a specific department                                | `company/library/departments/<dept>.md`           |
 | Research architecture, security, testing, or localization | `company/library/topics/`                         |
@@ -227,7 +286,7 @@ The `.claude/skills/` directory contains reusable skill definitions that can be 
 
 1. **No code execution** — This is a documentation/knowledge repository. There are no build, test, or run commands.
 2. **Agent-first workflow** — When simulating company operations, route tasks through the appropriate agent based on their profile and skills.
-3. **Pipeline adherence** — All development work follows the 10-stage pipeline. Do not skip stages or reorder them. The **recruitment pipeline** (`company/pipeline/recruitment/pipeline.md`) is a separate 9-stage automated workflow owned by the CHRO, governing hiring from need identification through 90-day onboarding. It operates independently of the development pipeline.
+3. **Pipeline adherence** — All development work follows the 10-stage pipeline. Do not skip stages or reorder them. The **recruitment pipeline** (`company/pipeline/recruitment/pipeline.md`) is a separate 10-stage automated workflow (Stage 0 planning + Stages 1-9 execution) owned by the CHRO, governing hiring from need identification through 90-day onboarding. It operates independently of the development pipeline.
 4. **Defect classification** — Always classify defects using the P0–P3 system before remediation.
 5. **Paired artifacts** — The PRD and SRD are always treated as a unit from Stage 1 onward.
 6. **Game Studio organizational principle** — The game studio (`studio/`) operates **independently** from the parent company's development pipeline and department structure. Each studio has its own folder under `studio/<studio-name>/` with its own workflow (`studio/<studio-name>/pipeline/`), reference materials (`studio/<studio-name>/library/`), and recruitment plan (`studio/<studio-name>/team/`). The current studio is `studio/casual-games/`. However, each studio **reports directly to and is accountable to** the parent company's Chief Officers (CPO, CTO, CDO, CIO, CSO, CHRO, CTO-L). All studio gate reviews, kill decisions, and release approvals require C-suite panel participation and User (CEO) final sign-off. **No studio document, decision, or artifact should ever be saved outside the `studio/` directory.**
@@ -260,7 +319,7 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 │   │   ├── pipeline.md    # 10-stage development workflow (source of truth)
 │   │   ├── monitoring.md  # Progress Monitoring & Recovery System
 │   │   └── templates/     # 28 pipeline templates organized by stage
-│   └── recruitment/       # 9-stage automated recruitment pipeline
+│   └── recruitment/       # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
 │       └── pipeline.md    # CHRO-owned, unanimous C-Suite sign-off
 └── skills/                # 14 Qwen Code Skill categories (199 guidelines)
     ├── architecture/      # CTO/CIO/Architect (21 guidelines)
@@ -286,14 +345,14 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 | SubAgent Configurations | `.qwen/agents/*.md`                                                     | 77       |
 | Skill Categories        | `.qwen/skills/*/`                                                       | 14       |
 | Skill Guidelines        | `.qwen/skills/*/`                                                       | 199      |
-| Workflow Definition     | `.qwen/pipeline/development/pipeline.md`, `monitoring.md`, `templates/` | 30 files |
+| Workflow Definition     | `.qwen/pipeline/mobile-development/pipeline.md`, `monitoring.md`, `templates/` | 30 files |
 | Recruitment Pipeline    | `.qwen/pipeline/recruitment/pipeline.md`                                |
 
 ### Using Imported Resources
 
 - **To use a SubAgent:** Reference by name (e.g., `cto-dr-kenji-nakamura`) — see `.qwen/README.md` for full list
 - **To find a skill:** Skills are indexed by category in `.qwen/README.md`
-- **To reference the pipeline:** Read `.qwen/pipeline/development/pipeline.md` for the 10-stage development definition, `monitoring.md` for Progress Monitoring, and `templates/` for all 28 stage templates. For the automated recruitment pipeline, read `.qwen/pipeline/recruitment/pipeline.md` (9 stages, CHRO-owned, fully automated with outcome-only review at Stage 8).
+- **To reference the pipeline:** Read `.qwen/pipeline/mobile-development/pipeline.md` for the 10-stage development definition, `monitoring.md` for Progress Monitoring, and `templates/` for all 28 stage templates. For the automated recruitment pipeline, read `.qwen/pipeline/recruitment/pipeline.md` (9 stages, CHRO-owned, fully automated with outcome-only review at Stage 8).
 - **For detailed agent/skill index:** See `.qwen/README.md`
 
 ---
@@ -416,7 +475,7 @@ company/project/<project-name>/
 
 ### Rule 2: User Gate Approval Required (Know When to Stop)
 
-**User intervention is required ONLY at specific stages per `company/pipeline/development/pipeline.md`:**
+**User intervention is required ONLY at specific stages per `company/pipeline/mobile-development/pipeline.md`:**
 
 | Stage        | User Approval Required? | Gate Criteria Requiring User                                          |
 | ------------ | ----------------------- | --------------------------------------------------------------------- |
@@ -494,10 +553,10 @@ company/project/<project-name>/
 
 | Severity    | Count  | Percentage |
 | ----------- | ------ | ---------- |
-| 🔴 CRITICAL | 14     | 47%        |
+| 🔴 CRITICAL | 15     | 48%        |
 | 🟠 HIGH     | 4      | 13%        |
 | 🟡 MEDIUM   | 12     | 40%        |
-| **Total**   | **30** | 100%       |
+| **Total**   | **31** | 100%       |
 
 ### Complete Mistake Log
 
@@ -529,7 +588,7 @@ company/project/<project-name>/
 
 ### Stage 5 (Development) — Special Operating Rules
 
-**Per `company/pipeline/development/pipeline.md`:**
+**Per `company/pipeline/mobile-development/pipeline.md`:**
 
 | Rule                                         | Requirement                                                                                                                                                                                                                  |
 | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -800,7 +859,7 @@ Stage 2 Start:
 
 ## Progress Monitoring & Recovery System
 
-**Full specification:** `company/pipeline/development/monitoring.md`
+**Full specification:** `company/pipeline/mobile-development/monitoring.md`
 
 ### System Overview
 
@@ -849,7 +908,7 @@ company/project/android-todos-app/
     └── stage2-gate-approved.json         # Stage 2 completion checkpoint
 ```
 
-**CRITICAL:** Per `company/pipeline/development/monitoring.md`, the checkpoint system uses **ONE file per stage** with a `milestone_history` array for tracking internal milestones. **DO NOT** create multiple checkpoint files per stage (e.g., `stage5-phase1-complete.json`, `stage5-phase2-complete.json` are violations).
+**CRITICAL:** Per `company/pipeline/mobile-development/monitoring.md`, the checkpoint system uses **ONE file per stage** with a `milestone_history` array for tracking internal milestones. **DO NOT** create multiple checkpoint files per stage (e.g., `stage5-phase1-complete.json`, `stage5-phase2-complete.json` are violations).
 
 ---
 

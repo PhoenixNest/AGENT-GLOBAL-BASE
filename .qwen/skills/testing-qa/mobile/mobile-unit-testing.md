@@ -1549,7 +1549,7 @@ If any criterion fails:
 
 ### Company Standards
 
-- Stage 7 Pipeline Specification — `.qwen/workflows/pipeline.md`
+- Stage 7 Pipeline Specification — `.qwen/pipeline/mobile-development/pipeline.md`
 - Defect Severity System — P0/P1/P2/P3 classification
 - Code Coverage Standards — 80% branch / 90% line coverage minimum
 - OWASP MASVS — Security testing requirements

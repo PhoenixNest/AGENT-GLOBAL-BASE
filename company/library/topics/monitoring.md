@@ -22,7 +22,7 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 - **Machine-readable checkpoints** — Automated recovery support
 - **Interruption recovery** — Resume from exact point, no restart needed
 
-**Full specification:** [`pipeline/development/monitoring.md`](../../pipeline/development/monitoring.md)
+**Full specification:** [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md)
 
 ---
 
@@ -382,9 +382,9 @@ Non-compliance must be documented in session logs with justification:
 
 | Document                        | Location                                                                                                       |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Full System Specification**   | [`pipeline/development/monitoring.md`](../../pipeline/development/monitoring.md)                               |
-| **Pipeline Definition**         | [`pipeline/development/pipeline.md`](../../pipeline/development/pipeline.md)                                   |
-| **Progress Sync Protocol**      | [`pipeline/development/pipeline.md`](../../pipeline/development/pipeline.md) — Search "Progress Sync Protocol" |
+| **Full System Specification**   | [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md)                               |
+| **Pipeline Definition**         | [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md)                                   |
+| **Progress Sync Protocol**      | [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md) — Search "Progress Sync Protocol" |
 | **Testing (Defect Severity)**   | [`topics/testing.md`](testing.md)                                                                              |
 | **Project Directory Structure** | Refer to project root documentation                                                                            |
 

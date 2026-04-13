@@ -156,7 +156,7 @@ Stage 3 Gate Review (with user)
 
 ## Reference Materials
 
-- `company/pipeline/development/pipeline.md` — Stage 3 specification
+- `company/pipeline/mobile-development/pipeline.md` — Stage 3 specification
 - `company/library/topics/architecture.md` — UML engineering guidance
-- `company/pipeline/development/monitoring.md` — Progress monitoring system
+- `company/pipeline/mobile-development/monitoring.md` — Progress monitoring system
 - ADR production skill: `mobile-adr-production.md`

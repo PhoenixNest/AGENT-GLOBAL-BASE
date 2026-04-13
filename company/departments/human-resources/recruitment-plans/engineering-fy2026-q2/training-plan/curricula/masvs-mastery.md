@@ -400,7 +400,7 @@ Upon completion, David must be able to:
 | Security Risk Assessment Framework | `.qwen/skills/security-risk-assessment.md`       | CSO risk assessment methodology |
 | Application Security Hardening     | `.qwen/skills/application-security-hardening.md` | Hardening techniques and tools  |
 | Mobile Security Architecture       | `.qwen/skills/mobile-security-architecture.md`   | Platform security models        |
-| 10-Stage Development Pipeline      | `.qwen/workflows/pipeline.md`                    | Pipeline integration context    |
+| 10-Stage Development Pipeline      | `.qwen/pipeline/mobile-development/pipeline.md`         | Pipeline integration context    |
 
 ---
 

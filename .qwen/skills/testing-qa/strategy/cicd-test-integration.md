@@ -823,8 +823,8 @@ jobs:
 
 | Document               | Location                                     | Purpose                         |
 | ---------------------- | -------------------------------------------- | ------------------------------- |
-| Pipeline Definition    | `.qwen/workflows/pipeline.md`                | 10-stage pipeline specification |
-| Monitoring System      | `company/pipeline/development/monitoring.md` | Progress tracking and recovery  |
+| Pipeline Definition    | `.qwen/pipeline/mobile-development/pipeline.md`  | 10-stage pipeline specification |
+| Monitoring System      | `company/pipeline/mobile-development/monitoring.md` | Progress tracking and recovery  |
 | Defect Severity System | `QWEN.md`                                    | P0-P3 defect classification     |
 
 ### External Resources

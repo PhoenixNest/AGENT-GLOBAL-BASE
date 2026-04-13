@@ -31,7 +31,7 @@ company/
     departments/        ← One summary page per department
     topics/             ← Cross-cutting: architecture, security, localization, testing
   pipeline/
-    development/pipeline.md   ← Full 10-stage pipeline definition (authoritative)
+    mobile-development/           ← Full 10-stage pipeline definition (authoritative)
 ```
 
 ---
@@ -42,7 +42,7 @@ company/
 | --- | --- |
 | Understand company structure | `company/library/overview/company.md` |
 | Find all agents and their roles | `company/library/overview/personnel.md` |
-| Understand the full pipeline | `company/pipeline/development/pipeline.md` |
+| Understand the full pipeline | `company/pipeline/mobile-development/pipeline.md` |
 | Find a specific department | `company/library/departments/<dept>.md` |
 | Research architecture, security, testing, or localization | `company/library/topics/` |
 

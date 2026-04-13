@@ -634,7 +634,7 @@ The system is designed to be tool-agnostic but supports integration with:
 
 ## Related Documents
 
-- **Pipeline Definition:** `pipeline/development/pipeline.md`
+- **Pipeline Definition:** `pipeline.md`
 - **progress Sync Protocol:** See Section "progress Sync Protocol" in pipeline.md
 - **Project Directory Structure:** Refer to project root documentation for directory conventions
 

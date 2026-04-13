@@ -36,7 +36,7 @@ Each pipeline stage has a dedicated procedure document following this structure:
 ```markdown
 # Stage N: [Stage Name] — Procedure
 
-**Pipeline Reference:** `company/pipeline/development/pipeline.md`
+**Pipeline Reference:** `company/pipeline/mobile-development/pipeline.md`
 **Owner:** [Responsible Producer]
 **Stage:** N of 10
 **Predecessor:** Stage N-1 ([Name])

@@ -86,5 +86,5 @@ Every sprint, maintain a dependency map across all teams:
 ## References
 
 - `studio/casual-games/team/recruitment-plan/recruitment-plan.md` — Master recruitment plan
-- `company/pipeline/development/pipeline.md` — Parent company pipeline definitions
-- `company/pipeline/development/monitoring.md` — Progress Monitoring & Recovery System
+- `company/pipeline/mobile-development/pipeline.md` — Parent company pipeline definitions
+- `company/pipeline/mobile-development/monitoring.md` — Progress Monitoring & Recovery System

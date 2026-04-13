@@ -84,5 +84,5 @@ During soft launch (30–90 days in target region), the following must be valida
 ## References
 
 - `studio/casual-games/team/recruitment-plan/recruitment-plan.md` — Master recruitment plan with Live Ops division structure
-- `company/pipeline/development/pipeline.md` — Stage 8 (Soft Launch) and Stage 10 (Release Readiness) definitions
+- `company/pipeline/mobile-development/pipeline.md` — Stage 8 (Soft Launch) and Stage 10 (Release Readiness) definitions
 - `company/library/topics/testing.md` — Testing standards that apply to live ops regression validation

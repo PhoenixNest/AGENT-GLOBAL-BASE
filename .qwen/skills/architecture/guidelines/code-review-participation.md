@@ -164,4 +164,4 @@ Reviewer flags P0 → Reviewee disagrees
 - [Conventional Comments Specification](https://conventionalcomments.org/)
 - [Code Review Pyramid](https://www.morling.dev/blog/the-code-review-pyramid/)
 - [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)
-- `company/pipeline/development/pipeline.md` — Stage 6 specification
+- `company/pipeline/mobile-development/pipeline.md` — Stage 6 specification

@@ -61,4 +61,4 @@ company/
 
 - **Agent profiles:** `departments/<dept>/supervisor/<role>/agent/profile.md` or `departments/<dept>/team/<tier>/<role>/agent/profile.md`
 - **Skill files:** `departments/<dept>/.../skills/<skill-name>.md`
-- **Full pipeline:** `pipeline/development/pipeline.md`
+- **Full pipeline:** `pipeline/mobile-development/pipeline.md`

@@ -194,5 +194,5 @@ Aligns with Apple's recommended patterns (WWDC 2021: "Explore SwiftUI State Mana
 - [Michael Nygard's ADR Format](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 - [ADR GitHub Organization](https://adr.github.io/)
 - [Architecture Decision Records — ThoughtWorks](https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records)
-- `company/pipeline/development/pipeline.md` — Stage 3 specification
+- `company/pipeline/mobile-development/pipeline.md` — Stage 3 specification
 - `company/library/topics/architecture.md` — UML engineering guidance

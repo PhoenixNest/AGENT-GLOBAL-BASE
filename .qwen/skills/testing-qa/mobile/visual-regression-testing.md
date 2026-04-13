@@ -958,7 +958,7 @@ Stage 8 verifies that the delivered product matches the approved design specific
 
 | Document | Location | Relevance |
 |----------|----------|-----------|
-| Stage 7 Specification | `.qwen/workflows/pipeline.md` | Test execution requirements |
-| Stage 8 Specification | `.qwen/workflows/pipeline.md` | Integrity verification process |
+| Stage 7 Specification | `.qwen/pipeline/mobile-development/pipeline.md` | Test execution requirements |
+| Stage 8 Specification | `.qwen/pipeline/mobile-development/pipeline.md` | Integrity verification process |
 | Defect Classification | `QWEN.md` | P0-P3 severity system |
 | Test Lead Profile | `company/departments/research-develop/.../priscilla-oduya/` | Stage 7 ownership |

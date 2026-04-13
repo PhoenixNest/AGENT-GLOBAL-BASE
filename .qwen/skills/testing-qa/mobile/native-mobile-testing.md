@@ -998,10 +998,10 @@ During Stage 8 integrity review, native mobile artifacts undergo:
 
 | Document                        | Path                                         |
 | ------------------------------- | -------------------------------------------- |
-| Pipeline Definition             | `.qwen/workflows/pipeline.md`                |
+| Pipeline Definition             | `.qwen/pipeline/mobile-development/pipeline.md`  |
 | Stage 7: Automated Testing      | Stage 7 in pipeline                          |
 | Stage 8: Integrity Verification | Stage 8 in pipeline                          |
-| Monitoring System               | `company/pipeline/development/monitoring.md` |
+| Monitoring System               | `company/pipeline/mobile-development/monitoring.md` |
 
 ---
 

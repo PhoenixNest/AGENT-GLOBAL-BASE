@@ -2,9 +2,33 @@
 
 This directory contains the company's SubAgent configurations, skills, and workflow definitions for the mobile product development pipeline.
 
-**Last Updated:** April 10, 2026
+**Last Updated:** April 12, 2026
 **Total SubAgents:** 77 (role-first naming, expanded from 20 after FY2026 Q2 recruitment)
 **Total Skills:** 199 (all skills authored and verified — 0 remaining gaps)
+
+## Environment
+
+### Hardware — Asus Zenbook Pro 14 Duo OLED (UX8402VV)
+
+| Component             | Specification                                            |
+| --------------------- | -------------------------------------------------------- |
+| **CPU**               | Intel Core i7-13700H — 14 cores / 20 threads             |
+| **GPU**               | NVIDIA GeForce RTX 4060 — 8 GB GDDR6                     |
+| **RAM**               | 32 GB DDR5                                               |
+| **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB)                             |
+| **Primary Display**   | 14.5" OLED, 2880×1800, 120 Hz, Touch                     |
+| **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864                      |
+| **Ports**             | 2× Thunderbolt 4, 1× USB 3.2 Type-A, 1× HDMI, 1× microSD |
+| **Networking**        | Wi-Fi 6E, Bluetooth 5.3                                  |
+| **Weight**            | 1.75 kg (3.86 lbs)                                       |
+| **OS**                | Windows 11 Home                                          |
+
+### Software
+
+| Component    | Value                                                                    |
+| ------------ | ------------------------------------------------------------------------ |
+| **Python**   | `C:\Program Files\Python\313\python.exe` (use `python`, NOT `python3`)   |
+| **Git Bash** | `C:\Program Files\Git\bin\bash.exe` (available, not preferred for hooks) |
 
 ---
 
@@ -24,11 +48,12 @@ This directory contains the company's SubAgent configurations, skills, and workf
 │   ├── Localization (7 files)
 │   └── Brand Design (1 file)
 ├── pipeline/                    # Pipeline definitions (renamed from workflows/, restructured April 10, 2026)
-│   ├── development/             # 10-stage development workflow
+│   ├── mobile-development/      # 10-stage mobile development workflow
 │   │   ├── pipeline.md          # 10-stage development workflow (authoritative spec)
 │   │   ├── monitoring.md        # Progress Monitoring & Recovery System (3 layers)
-│   │   └── templates/           # 28 pipeline templates organized by stage
-│   └── recruitment/             # 9-stage automated recruitment pipeline (CHRO-owned)
+│   │   ├── templates/           # 28 pipeline templates organized by stage
+│   │   └── optimization-history/# Historical optimization plans
+│   └── recruitment/             # 10-stage automated recruitment pipeline (CHRO-owned)
 │       ├── pipeline.md          # Authoritative spec
 │       └── templates/
 │           ├── hiring-outcome-report.md   # Single user-facing review document
@@ -207,12 +232,13 @@ All 77 company personnel are configured as Qwen SubAgents. Each SubAgent file co
 
 ## Workflow Definitions
 
-| File                                 | Description                                                                                                                                                                                                   |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pipeline/development/pipeline.md`   | Ten-stage development pipeline: Requirements → PRD/SRD → Prototype → UML → Implementation Plan → Development → Code Review → Testing → Integrity Verification → i18n → Release                                |
-| `pipeline/development/monitoring.md` | Progress Monitoring & Recovery System (3 layers: PROGRESS.md, session logs, checkpoints)                                                                                                                      |
-| `pipeline/development/templates/`    | 28 pipeline templates organized by stage                                                                                                                                                                      |
-| `pipeline/recruitment/pipeline.md`   | Nine-stage automated recruitment pipeline: Role Intake → Sourcing → Screening → Interview Simulation → Vetting → Background Check → Offer → User Review → Onboarding (CHRO-owned, unanimous C-Suite sign-off) |
+| File                                 | Description                                                                                                                                                                                                                 |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pipeline/mobile-development/pipeline.md`   | Ten-stage development pipeline: Requirements → PRD/SRD → Prototype → UML → Implementation Plan → Development → Code Review → Testing → Integrity Verification → i18n → Release                                              |
+| `pipeline/mobile-development/monitoring.md` | Progress Monitoring & Recovery System (3 layers: PROGRESS.md, session logs, checkpoints)                                                                                                                                    |
+| `pipeline/mobile-development/templates/`    | 28 pipeline templates organized by stage                                                                                                                                                                                    |
+| `pipeline/mobile-development/optimization-history/` | Historical optimization plans and pipeline improvement records                                                                                                                                    |
+| `pipeline/recruitment/pipeline.md`   | Ten-stage automated recruitment pipeline: Stage 0 (Department Planning) → Role Intake → Sourcing → Screening → Interview → Vetting → Background → Offer → User Review → Onboarding (CHRO-owned, unanimous C-Suite sign-off) |
 
 ### Pipeline Stage Summary
 
@@ -645,7 +671,7 @@ Skills are organized into 14 functional categories. Each category has a parent `
 | ----------------------- | ----- | ---------------------------------- |
 | SubAgent Configurations | 77    | `agents/`                          |
 | Skill Guidelines        | 199   | `skills/*/`                        |
-| Development Pipeline    | 1     | `pipeline/development/pipeline.md` |
+| Development Pipeline    | 1     | `pipeline/mobile-development/pipeline.md` |
 | Recruitment Pipeline    | 1     | `pipeline/recruitment/pipeline.md` |
 
 ---
@@ -666,7 +692,7 @@ Each SubAgent's `description` field in the YAML frontmatter indicates when to en
 
 ### Development Pipeline Reference
 
-The `pipeline/development/pipeline.md` file contains the authoritative 10-stage development workflow definition for mobile product development. Reference it for:
+The `pipeline/mobile-development/pipeline.md` file contains the authoritative 10-stage development workflow definition for mobile product development. Reference it for:
 
 - Stage gate criteria
 - Artifact requirements (In/Out)
@@ -675,9 +701,9 @@ The `pipeline/development/pipeline.md` file contains the authoritative 10-stage 
 
 ### Recruitment Pipeline Reference
 
-The `pipeline/recruitment/pipeline.md` file contains the authoritative 9-stage automated recruitment pipeline. Reference it for:
+The `pipeline/recruitment/pipeline.md` file contains the authoritative 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution). Reference it for:
 
-- Automated hiring workflow from role intake through 90-day onboarding
+- Department planning workflow (Stage 0) and automated hiring workflow through 90-day onboarding
 - Tiered engineering assessment (L0-L3), security role assessment, design leadership review, translation competency framework
 - User review gate at Stage 8 (outcome-only leadership involvement)
 - P1 Technical Debt Register (DR readiness, GDPR erasure, data contract enforcement)

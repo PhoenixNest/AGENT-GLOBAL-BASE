@@ -234,7 +234,7 @@ The mandatory Platform Strategy ADR at Stage 3 must include **all 13 fields**:
 
 ## Part III: Pipeline Overview Gaps
 
-**Source:** Systematic comparison of `company/library/overview/pipeline.md` against `company/pipeline/development/pipeline.md`.
+**Source:** Systematic comparison of `company/library/overview/pipeline.md` against `company/pipeline/mobile-development/pipeline.md`.
 
 ### 🔴 Critical — Execution would be incorrect without these
 
