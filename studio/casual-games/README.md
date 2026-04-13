@@ -19,12 +19,12 @@ casual-games/
 
 ## Key Documents
 
-| Document            | Location                                  | Description                                                                                    |
-| ------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Strategic Brief** | `library/overview/casual-games-studio.md` | C-suite assessment — product, technical, design, security, and organizational perspectives     |
-| **Asset Strategy**  | `library/topics/game-asset-strategy.md`   | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence |
-| **Pipeline**        | `pipeline/casual-games-pipeline.md`       | Complete game studio workflow — 11 stages from art direction through live ops                  |
-| **Recruitment Plan**| `team/recruitment-plan/recruitment-plan.md` | Master recruitment plan: 37 FTEs + 1 Contract, org structure, compensation, cost curve, contingency       |
+| Document             | Location                                    | Description                                                                                         |
+| -------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Strategic Brief**  | `library/overview/casual-games-studio.md`   | C-suite assessment — product, technical, design, security, and organizational perspectives          |
+| **Asset Strategy**   | `library/topics/game-asset-strategy.md`     | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence      |
+| **Pipeline**         | `pipeline/casual-games-pipeline.md`         | Complete game studio workflow — 11 stages from art direction through live ops                       |
+| **Recruitment Plan** | `team/recruitment-plan/recruitment-plan.md` | Master recruitment plan: 38 FTEs + 1 Contract, org structure, compensation, cost curve, contingency |
 
 ## Pipeline Quick Reference
 
@@ -41,3 +41,7 @@ casual-games/
 | 8     | Soft Launch                 | ✅             |
 | 9     | Global Launch Readiness     | ✅             |
 | 10    | Live Ops (continuous)       | QBR review     |
+
+## Recruitment Status
+
+**All 38 FTEs + 1 Contract hired. Full 9-stage pipeline compliance across all phases. Studio is ready to begin Stage 0 (Art Direction).**
