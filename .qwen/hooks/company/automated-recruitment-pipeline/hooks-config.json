@@ -1,0 +1,302 @@
+{
+  "_comment": "Recruitment Pipeline Hooks — Validator Model (v2.0)",
+  "_updated": "2026-04-13",
+  "_total": 23,
+  "_model": "read-validate-audit-signal (hooks NEVER produce data artifacts)",
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "matcher": "assessment|background-check|offer-generation|scoring",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/any-stage-escalate-r0-defect.py",
+            "name": "r0-escalation",
+            "description": "Classifies R0-R3 defects, pauses pipeline for R0/R1, escalates to CHRO",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "stage-complete|scoring|auto-reject|offer-generation|background-clearance|plan-consolidation|department-plan",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/any-stage-append-audit-log.py",
+            "name": "entity-audit-append",
+            "description": "SHA-256 chained audit trail appended to entity-specific audit log",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "offer-generation",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-7-validate-offer-generation.py",
+            "name": "stage-7-offer-validation",
+            "description": "Validates compensation bands, offer completeness, multi-candidate handling",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "screening-complete",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-3-validate-screening-thresholds.py",
+            "name": "stage-3-screening-thresholds",
+            "description": "Validates 60th percentile auto-reject, assessment battery assignment",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "interview-complete|assessment-scoring",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-4-validate-interview-scores.py",
+            "name": "stage-4-interview-scores",
+            "description": "Validates composite score, 80th percentile auto-reject, weight sums, bar raiser consistency",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "background-check-complete",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-6-validate-background-check.py",
+            "name": "stage-6-background-check",
+            "description": "Validates all 5 checks present, overall_status consistency, FAIL/Disqualifying enforcement",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "onboarding-start|pre-boarding",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-9-onboarding-checklist.py",
+            "name": "stage-9-onboarding-checklist",
+            "description": "Validates equipment, accounts, buddy assignment, manager briefing",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "sourcing-complete|shortlist-ready",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-2-validate-sourcing-shortlist.py",
+            "name": "stage-2-sourcing-validation",
+            "description": "Validates top-50 constraint, dedup integrity, candidate profile completeness, no duplicate emails",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "vetting-gate-complete|dossier-check",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/validate-candidate-dossier.py",
+            "name": "candidate-dossier-validation",
+            "description": "Validates complete candidate dossier — all 9 artifacts present and parseable",
+            "timeout": 15000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "assessment|auto-reject|background-check|vetting-gate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-3-to-6-validate-assessment-context.py",
+            "name": "assessment-integrity-check",
+            "description": "6-check pre-flight before assessments (candidate ID, role family, sandbox, etc.)",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "asg02-review|design-leadership-review",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-5-asg02-design-review.py",
+            "name": "stage-5-asg02-design-review",
+            "description": "Mandatory 75-min review for L1+ design roles (portfolio, whiteboard, craft critique)",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "department-plan|recruitment-plan",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-0-validate-department-plan.py",
+            "name": "stage-0-department-plan-validator",
+            "description": "12-check validation of department recruitment plan (fields, role families, budget, duplicates)",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "role-intake|position-specification",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-1-validate-role-intake.py",
+            "name": "role-intake-validator",
+            "description": "8-check role intake validator (required fields, headcount plan, duplicates, compensation bands)",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "hiring-outcome-decision|stage-8-review",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-8-capture-user-decision.py",
+            "name": "stage-8-user-decision",
+            "description": "Validates Approve/Reject decision, rollback stage, remediation items, report completeness",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "candidate-notification|escalation|rejection-notice|offer-letter",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/any-stage-validate-and-send-notification.py",
+            "name": "notification-governance",
+            "description": "FCRA/GDPR compliance, discriminatory language detection, escalation routing",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "sourcing-agent|channel-scanner",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-2-init-sourcing-agent.py",
+            "name": "sourcing-agent-init",
+            "description": "Initializes 7 sourcing channels, dedup index, quarterly config loading",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "plan-consolidation|chro-consolidation",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-0-consolidate-recruitment-plans.py",
+            "name": "stage-0-plan-consolidation",
+            "description": "Aggregates department plans, detects conflicts, auto-ranks by priority, produces company-wide plan",
+            "timeout": 15000
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "sourcing-agent|channel-scanner",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-2-aggregate-sourcing-results.py",
+            "name": "sourcing-aggregation",
+            "description": "Deduplication, channel-weighted scoring, top-50 shortlist generation",
+            "timeout": 15000
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "hiring-cycle|quarterly-config",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-1-init-pipeline-session.py",
+            "name": "pipeline-init",
+            "description": "Hiring cycle init, SLA clock start, audit trail creation, engine verification",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "sla-check|health-monitoring",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/monitoring-sla-check.py",
+            "name": "monitoring-sla-check",
+            "description": "Validates 6 SLA metrics: assessment time, anomaly rate, drop-off rate, channel yield, BG failure rate, R0/R1 count",
+            "timeout": 10000
+          }
+        ]
+      },
+      {
+        "matcher": "drift-check|competency-bar-monitoring",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/monitoring-drift-detection.py",
+            "name": "monitoring-drift-detection",
+            "description": "Computes 6 drift metrics: vetting pass rate, score distribution, R0 count, assessment completion, offer acceptance, auto-reject rate",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "hiring-cycle-close|onboarding-complete",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-8-generate-hiring-outcome-report.py",
+            "name": "hiring-report-finalization",
+            "description": "7-section HIRING OUTCOME REPORT, verifies per-candidate artifact completeness, data retention",
+            "timeout": 30000
+          }
+        ]
+      },
+      {
+        "matcher": "vetting-gate-complete|assessment-scoring",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".qwen/hooks/company/automated-recruitment-pipeline/scripts/stage-5-validate-vetting-gate.py",
+            "name": "stage-5-vetting-gate",
+            "description": "Validates 5-dimension vetting scores, red flag scan, tenure stability, >= 4 on 4 of 5 dimensions",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}
