@@ -92,7 +92,7 @@ company/                    ← Company knowledge base
 └── project/                ← Project-specific artifacts
 
 studio/                     ← Studio-specific content
-└── casual-games/           ← Example studio
+└── casual-games/           ← First independent studio (Casual mini-games, Unity 6.3 LTS)
 ```
 
 ---
