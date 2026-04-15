@@ -10,7 +10,7 @@ This file provides guidance to Qwen Code when working with this repository.
 
 ### Hardware
 
-| Component             | Specification                                                                             | 
+| Component             | Specification                                                                             |
 | --------------------- | ----------------------------------------------------------------------------------------- |
 | **Model**             | Asus Zenbook Pro 14 Duo OLED UX8402VV                                                     |
 | **CPU**               | Intel Core i7-13700H — 14 cores / 20 threads (6× P-Cores @ 5.0 GHz, 8× E-Cores @ 3.7 GHz) |
@@ -108,8 +108,11 @@ agent-global-base/
 ├── .claude/               # Claude-specific skills and settings
 ├── .qwen/                 # Qwen-specific configuration
 │   ├── pipeline/          # Pipeline definitions for Qwen Code agents
-│   │   ├── development/   # 10-stage development workflow + templates
-│   │   └── recruitment/   # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
+│   │   ├── mobile-development/  # 10-stage mobile development workflow + templates
+│   │   ├── web-development/     # 10-stage web application workflow
+│   │   ├── backend-api/         # 10-stage backend API workflow
+│   │   ├── full-stack/          # 10-stage full-stack cross-platform workflow
+│   │   └── recruitment/         # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
 │   ├── agents/            # 77 SubAgent configurations
 │   ├── skills/            # 14 skill categories (199 guidelines)
 │   └── reference/         # Reference materials
@@ -135,6 +138,16 @@ agent-global-base/
         ├── mobile-development/
         │   ├── pipeline.md           # Full 10-stage development pipeline definition
         │   ├── monitoring.md         # Progress Monitoring & Recovery System
+        │   └── optimization-history/ # Historical optimization plans
+        ├── web-development/          # Web app development (PWA/SPA/SSR)
+        │   ├── pipeline.md           # Web application pipeline definition
+        │   └── monitoring.md         # Progress Monitoring & Recovery System
+        ├── backend-api/              # Backend API service development
+        │   ├── pipeline.md           # Backend API pipeline definition
+        │   └── monitoring.md         # Progress Monitoring & Recovery System
+        ├── full-stack/               # Full-stack cross-platform delivery
+        │   ├── pipeline.md           # Full-stack pipeline definition
+        │   └── monitoring.md         # Progress Monitoring & Recovery System
         └── recruitment/pipeline.md   # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution) (CHRO-owned)
 ```
 
@@ -146,7 +159,10 @@ agent-global-base/
 | --------------------------------------------------------- | ------------------------------------------------- |
 | Understand company structure                              | `company/library/overview/company.md`             |
 | Find all agents and their roles                           | `company/library/overview/personnel.md`           |
-| Understand the full pipeline                              | `company/pipeline/mobile-development/pipeline.md`        |
+| Understand the full pipeline                              | `company/pipeline/mobile-development/pipeline.md` |
+| Understand web development pipeline                       | `company/pipeline/web-development/pipeline.md`    |
+| Understand backend API pipeline                           | `company/pipeline/backend-api/pipeline.md`        |
+| Understand full-stack cross-platform pipeline             | `company/pipeline/full-stack/pipeline.md`         |
 | Understand the recruitment pipeline                       | `company/pipeline/recruitment/pipeline.md`        |
 | Find a specific department                                | `company/library/departments/<dept>.md`           |
 | Research architecture, security, testing, or localization | `company/library/topics/`                         |
@@ -315,12 +331,24 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 │   ├── cross-platform-lead-mei-ling-johansson.md
 │   └── ... (65 more — see .qwen/README.md for full roster)
 ├── pipeline/              # Pipeline definitions for Qwen Code agents
-│   ├── development/       # 10-stage development workflow + monitoring + templates
-│   │   ├── pipeline.md    # 10-stage development workflow (source of truth)
-│   │   ├── monitoring.md  # Progress Monitoring & Recovery System
-│   │   └── templates/     # 28 pipeline templates organized by stage
-│   └── recruitment/       # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
-│       └── pipeline.md    # CHRO-owned, unanimous C-Suite sign-off
+│   ├── mobile-development/  # 10-stage mobile development workflow + monitoring + templates
+│   │   ├── pipeline.md      # Mobile development workflow (source of truth)
+│   │   ├── monitoring.md    # Progress Monitoring & Recovery System
+│   │   └── templates/       # 28 pipeline templates organized by stage
+│   ├── web-development/     # 10-stage web application workflow
+│   │   ├── pipeline.md      # Web app development workflow (PWA/SPA/SSR)
+│   │   ├── monitoring.md    # Progress Monitoring & Recovery System
+│   │   └── templates/       # 11 pipeline templates organized by stage
+│   ├── backend-api/         # 10-stage backend API workflow
+│   │   ├── pipeline.md      # API service development workflow (REST/GraphQL/gRPC)
+│   │   ├── monitoring.md    # Progress Monitoring & Recovery System
+│   │   └── templates/       # 11 pipeline templates organized by stage
+│   ├── full-stack/          # 10-stage full-stack cross-platform workflow
+│   │   ├── pipeline.md      # Coordinated web + mobile + backend delivery
+│   │   ├── monitoring.md    # Progress Monitoring & Recovery System
+│   │   └── templates/       # 11 pipeline templates organized by stage
+│   └── recruitment/         # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
+│       └── pipeline.md      # CHRO-owned, unanimous C-Suite sign-off
 └── skills/                # 14 Qwen Code Skill categories (199 guidelines)
     ├── architecture/      # CTO/CIO/Architect (21 guidelines)
     ├── product-management/# CPO (3 guidelines)
@@ -340,19 +368,24 @@ All company workflows and skills have been imported into the `.qwen/` directory.
 
 ### Quick Reference
 
-| Resource Type           | Location                                                                | Count    |
-| ----------------------- | ----------------------------------------------------------------------- | -------- |
-| SubAgent Configurations | `.qwen/agents/*.md`                                                     | 77       |
-| Skill Categories        | `.qwen/skills/*/`                                                       | 14       |
-| Skill Guidelines        | `.qwen/skills/*/`                                                       | 199      |
-| Workflow Definition     | `.qwen/pipeline/mobile-development/pipeline.md`, `monitoring.md`, `templates/` | 30 files |
-| Recruitment Pipeline    | `.qwen/pipeline/recruitment/pipeline.md`                                |
+| Resource Type           | Location                                          | Count |
+| ----------------------- | ------------------------------------------------- | ----- |
+| SubAgent Configurations | `.qwen/agents/*.md`                               | 77    |
+| Skill Categories        | `.qwen/skills/*/`                                 | 14    |
+| Skill Guidelines        | `.qwen/skills/*/`                                 | 199   |
+| Development Pipelines   | `.qwen/pipeline/{mobile,web,backend,full-stack}/` | 4     |
+| Recruitment Pipeline    | `.qwen/pipeline/recruitment/pipeline.md`          | 1     |
 
 ### Using Imported Resources
 
 - **To use a SubAgent:** Reference by name (e.g., `cto-dr-kenji-nakamura`) — see `.qwen/README.md` for full list
 - **To find a skill:** Skills are indexed by category in `.qwen/README.md`
-- **To reference the pipeline:** Read `.qwen/pipeline/mobile-development/pipeline.md` for the 10-stage development definition, `monitoring.md` for Progress Monitoring, and `templates/` for all 28 stage templates. For the automated recruitment pipeline, read `.qwen/pipeline/recruitment/pipeline.md` (9 stages, CHRO-owned, fully automated with outcome-only review at Stage 8).
+- **To reference the pipeline:**
+  - **Mobile Development:** `.qwen/pipeline/mobile-development/pipeline.md` (10 stages, source of truth)
+  - **Web Development:** `.qwen/pipeline/web-development/pipeline.md` (PWA/SPA/SSR apps)
+  - **Backend API:** `.qwen/pipeline/backend-api/pipeline.md` (REST/GraphQL/gRPC services)
+  - **Full-Stack Cross-Platform:** `.qwen/pipeline/full-stack/pipeline.md` (coordinated web + mobile + backend)
+  - **Recruitment:** `.qwen/pipeline/recruitment/pipeline.md` (10 stages, CHRO-owned, fully automated with outcome-only review at Stage 8)
 - **For detailed agent/skill index:** See `.qwen/README.md`
 
 ---
@@ -588,14 +621,18 @@ company/project/<project-name>/
 
 ### Stage 5 (Development) — Special Operating Rules
 
-**Per `company/pipeline/mobile-development/pipeline.md`:**
+**Pipeline applicability:** These rules apply to all development pipelines. Platform-specific team composition varies by pipeline type.
 
 | Rule                                         | Requirement                                                                                                                                                                                                                  |
 | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Responsible Producer**                     | CTO (oversees and tracks development progress)                                                                                                                                                                               |
-| **Team Utilization**                         | **MAXIMIZE** — Distribute workload across ALL platform leads (Android, iOS, Cross-Platform) using parallel construction                                                                                                      |
+| **Team Utilization**                         | **MAXIMIZE** — Distribute workload across ALL available platform/specialty leads using parallel construction                                                                                                                 |
+|                                              | • Mobile: Android Lead, iOS Lead, Cross-Platform Lead                                                                                                                                                                        |
+|                                              | • Web: Frontend Lead, Backend Lead                                                                                                                                                                                           |
+|                                              | • Backend API: API Service Lead                                                                                                                                                                                              |
+|                                              | • Full-Stack: Coordinated across all relevant platforms                                                                                                                                                                      |
 | **User Approval**                            | **NOT REQUIRED** during Stage 5 — CTO has sole responsibility; no gate approvals needed between phases                                                                                                                       |
-| **Progress Tracking**                        | Single `DEVELOPMENT-LOG.md` **per platform** (e.g., `platforms/android/code/DEVELOPMENT-LOG.md`) — updated upon each phase completion; individual phase reports are redundant and should NOT be created                      |
+| **Progress Tracking**                        | Single `DEVELOPMENT-LOG.md` **per platform/service** (e.g., `platforms/android/code/DEVELOPMENT-LOG.md`) — updated upon each phase completion; individual phase reports are redundant and should NOT be created              |
 | **Design Fidelity Checkpoint**               | At ~60% completion, the CDO conducts a formal Design Fidelity Checkpoint against the IDS. ≥ 90% pass rate → proceed; 70–89% → proceed with remediation plan; < 70% → STOP, CTO notifies CPO.                                 |
 | **String Extraction Readiness**              | Before Stage 6 entry, the Internationalization Specialist audits the codebase for hardcoded strings. Remaining strings classified as P2 defects (P1 if core user flow affected).                                             |
 | **Contract Verification** (KMP/Flutter only) | Contract Verification Reports produced at 30% and 70% completion milestones. Blocking issues must be resolved before the next checkpoint.                                                                                    |
@@ -859,13 +896,18 @@ Stage 2 Start:
 
 ## Progress Monitoring & Recovery System
 
-**Full specification:** `company/pipeline/mobile-development/monitoring.md`
+**Full specification:** See monitoring.md in each pipeline directory:
+
+- Mobile: `company/pipeline/mobile-development/monitoring.md`
+- Web: `company/pipeline/web-development/monitoring.md`
+- Backend API: `company/pipeline/backend-api/monitoring.md`
+- Full-Stack: `company/pipeline/full-stack/monitoring.md`
 
 ### System Overview
 
 A three-layer monitoring system providing comprehensive oversight of pipeline progress, enabling rapid state assessment and seamless recovery after interruptions (e.g., power outages, session timeouts, agent handoffs).
 
-**Mandatory for all Stage 4+ projects.**
+**Mandatory for all Stage 4+ projects across all pipeline types.**
 
 ### System Components
 
@@ -895,26 +937,51 @@ After any interruption:
 3. **Read latest checkpoint JSON** → Get exact resume point
 4. **Resume from documented position** → No restart needed
 
-### Example: Android Todos App
+### Example: Project Monitoring Structure
 
-```
+```markdown
+# Mobile Project
+
 company/project/android-todos-app/
-├── PROGRESS.md                           # Layer 1: Current state (Stage 2, 85%, Gate Review)
+├── PROGRESS.md # Layer 1: Current state (Stage 2, 85%, Gate Review)
 ├── sessions/
-│   ├── session-20260401-090000.md        # Stage 1 session log
-│   └── session-20260401-143000.md        # Stage 2 session log
+│ ├── session-20260401-090000.md # Stage 1 session log
+│ └── session-20260401-143000.md # Stage 2 session log
 └── checkpoints/
-    ├── stage1-gate-approved.json         # Stage 1 completion checkpoint
-    └── stage2-gate-approved.json         # Stage 2 completion checkpoint
+├── stage1-gate-approved.json # Stage 1 completion checkpoint
+└── stage2-gate-approved.json # Stage 2 completion checkpoint
+
+# Web Project
+
+company/project/web-dashboard/
+├── PROGRESS.md
+├── sessions/
+└── checkpoints/
+
+# Backend API Project
+
+company/project/user-api-service/
+├── PROGRESS.md
+├── sessions/
+└── checkpoints/
+
+# Full-Stack Project
+
+company/project/ecommerce-platform/
+├── PROGRESS.md
+├── sessions/
+└── checkpoints/
 ```
 
-**CRITICAL:** Per `company/pipeline/mobile-development/monitoring.md`, the checkpoint system uses **ONE file per stage** with a `milestone_history` array for tracking internal milestones. **DO NOT** create multiple checkpoint files per stage (e.g., `stage5-phase1-complete.json`, `stage5-phase2-complete.json` are violations).
+**CRITICAL:** Per pipeline monitoring specifications, the checkpoint system uses **ONE file per stage** with a `milestone_history` array for tracking internal milestones. **DO NOT** create multiple checkpoint files per stage (e.g., `stage5-phase1-complete.json`, `stage5-phase2-complete.json` are violations).
 
 ---
 
 ## Quick Reference Cards
 
 ### Pipeline Stage Quick Lookup
+
+**Note:** These 10 stages apply across all 4 development pipelines (Mobile, Web, Backend API, Full-Stack). Platform-specific outputs vary by pipeline type.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -948,7 +1015,11 @@ company/project/android-todos-app/
 ┌─────────────────────────────────────────────────────────────────┐
 │ STAGE 5: Development                                            │
 │ Owner: CTO (no user approval needed)                            │
-│ Output: Platform codebases (android/, ios/, etc.)               │
+│ Output: Platform codebases                                      │
+│   • Mobile: android/, ios/, flutter/, kmp/                      │
+│   • Web: frontend/, backend/                                    │
+│   • Backend API: api-service/                                   │
+│   • Full-Stack: coordinated across platforms                    │
 │ Gate: CTO internal review only                                  │
 └─────────────────────────────────────────────────────────────────┘
 

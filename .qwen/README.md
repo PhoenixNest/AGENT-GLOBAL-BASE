@@ -2,7 +2,7 @@
 
 This directory contains the company's SubAgent configurations, skills, and workflow definitions for the mobile product development pipeline.
 
-**Last Updated:** April 12, 2026
+**Last Updated:** April 14, 2026
 **Total SubAgents:** 77 (role-first naming, expanded from 20 after FY2026 Q2 recruitment)
 **Total Skills:** 199 (all skills authored and verified — 0 remaining gaps)
 
@@ -47,12 +47,24 @@ This directory contains the company's SubAgent configurations, skills, and workf
 │   ├── HR (3 files)
 │   ├── Localization (7 files)
 │   └── Brand Design (1 file)
-├── pipeline/                    # Pipeline definitions (renamed from workflows/, restructured April 10, 2026)
+├── pipeline/                    # Pipeline definitions (renamed from workflows/, restructured April 10, 2026; expanded April 14, 2026)
 │   ├── mobile-development/      # 10-stage mobile development workflow
 │   │   ├── pipeline.md          # 10-stage development workflow (authoritative spec)
 │   │   ├── monitoring.md        # Progress Monitoring & Recovery System (3 layers)
 │   │   ├── templates/           # 28 pipeline templates organized by stage
 │   │   └── optimization-history/# Historical optimization plans
+│   ├── web-development/         # 10-stage web application workflow (NEW - April 14, 2026)
+│   │   ├── pipeline.md          # Web app development workflow (PWA/SPA/SSR)
+│   │   ├── monitoring.md        # Progress Monitoring & Recovery System
+│   │   └── templates/           # 11 pipeline templates organized by stage
+│   ├── backend-api/             # 10-stage backend API workflow (NEW - April 14, 2026)
+│   │   ├── pipeline.md          # API service development workflow (REST/GraphQL/gRPC)
+│   │   ├── monitoring.md        # Progress Monitoring & Recovery System
+│   │   └── templates/           # 11 pipeline templates organized by stage
+│   ├── full-stack/              # 10-stage full-stack cross-platform workflow (NEW - April 14, 2026)
+│   │   ├── pipeline.md          # Coordinated web + mobile + backend delivery
+│   │   ├── monitoring.md        # Progress Monitoring & Recovery System
+│   │   └── templates/           # 11 pipeline templates organized by stage
 │   └── recruitment/             # 10-stage automated recruitment pipeline (CHRO-owned)
 │       ├── pipeline.md          # Authoritative spec
 │       └── templates/
@@ -671,7 +683,7 @@ Skills are organized into 14 functional categories. Each category has a parent `
 | ----------------------- | ----- | ---------------------------------- |
 | SubAgent Configurations | 77    | `agents/`                          |
 | Skill Guidelines        | 199   | `skills/*/`                        |
-| Development Pipeline    | 1     | `pipeline/mobile-development/pipeline.md` |
+| Development Pipelines   | 4     | `pipeline/{mobile,web,backend,full-stack}/` |
 | Recruitment Pipeline    | 1     | `pipeline/recruitment/pipeline.md` |
 
 ---

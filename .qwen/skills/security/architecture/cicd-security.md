@@ -464,7 +464,7 @@ jobs:
             fi
             echo "✅ Gate 5 PASSED: No high-risk DAST alerts"
           else
-            echo "⚠️ Gate 5 SKIPPED: No DAST results (mobile-only release)"
+            echo "⚠️ Gate 5 SKIPPED: No DAST results (pipeline-specific scan not configured)"
           fi
 
       - name: Gate Summary
