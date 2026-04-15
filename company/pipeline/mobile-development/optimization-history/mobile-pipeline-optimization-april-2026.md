@@ -23,14 +23,14 @@
 
 ### Rec 1: Stage 5 Parallel Construction — Formalize It
 
-| Aspect           | Detail                                                                                                                                 |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **Problem**      | Stage 5 ("CTO oversees development") is the most mobile-relevant but least specified. The `MAXIMIZE` directive exists only in QWEN.md. |
-| **Solution**     | Split into three parallel tracks with explicit ownership:                                                                              |
-|                  | **Track A (Android):** Kofi Asante-Mensah → 6 engineers                                                                                |
-|                  | **Track B (iOS):** Seo-Yeon Park → 6 engineers                                                                                         |
-|                  | **Track C (Cross-Platform):** Mei-Ling Johansson → 2 engineers                                                                         |
-| **Coordination** | Shared module coordination protocol + Stage 5 integration checkpoint (cross-platform parity verification)                              |
+| Aspect           | Detail                                                                                                                                                     |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Problem**      | Stage 5 ("CTO oversees development") is the most mobile-relevant but least specified. The `MAXIMIZE` directive exists only in AI assistant guidance files. |
+| **Solution**     | Split into three parallel tracks with explicit ownership:                                                                                                  |
+|                  | **Track A (Android):** Kofi Asante-Mensah → 6 engineers                                                                                                    |
+|                  | **Track B (iOS):** Seo-Yeon Park → 6 engineers                                                                                                             |
+|                  | **Track C (Cross-Platform):** Mei-Ling Johansson → 2 engineers                                                                                             |
+| **Coordination** | Shared module coordination protocol + Stage 5 integration checkpoint (cross-platform parity verification)                                                  |
 
 ### Rec 2: Platform Leads in Stage 6 Code Review
 

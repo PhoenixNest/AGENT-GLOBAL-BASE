@@ -395,12 +395,12 @@ Upon completion, David must be able to:
 
 ### Internal References
 
-| Document                           | Location                                         | Purpose                         |
-| ---------------------------------- | ------------------------------------------------ | ------------------------------- |
-| Security Risk Assessment Framework | `.qwen/skills/security-risk-assessment.md`       | CSO risk assessment methodology |
-| Application Security Hardening     | `.qwen/skills/application-security-hardening.md` | Hardening techniques and tools  |
-| Mobile Security Architecture       | `.qwen/skills/mobile-security-architecture.md`   | Platform security models        |
-| 10-Stage Development Pipeline      | `.qwen/pipeline/mobile-development/pipeline.md`         | Pipeline integration context    |
+| Document                           | Location                                                    | Purpose                         |
+| ---------------------------------- | ----------------------------------------------------------- | ------------------------------- |
+| Security Risk Assessment Framework | `company/library/topics/security.md`                        | CSO risk assessment methodology |
+| Application Security Hardening     | `company/library/topics/security.md` (Application Security) | Hardening techniques and tools  |
+| Mobile Security Architecture       | `company/library/topics/security.md` (Platform Security)    | Platform security models        |
+| 10-Stage Development Pipeline      | `company/pipeline/mobile-development/pipeline.md`           | Pipeline integration context    |
 
 ---
 
@@ -426,4 +426,4 @@ Upon completion, David must be able to:
 | David Okonkwo   | C — Executive Briefing |                 | ☐ Pending   | ☐ Pending   | ☐ Pending   | ☐ Pending   | ☐ Pending      |
 
 **Completed by:** Dr. Sarah Chen, CSO
-**Date:** _______________
+**Date:** **\*\***\_\_\_**\*\***

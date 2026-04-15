@@ -1,0 +1,50 @@
+{
+  "pipeline_type": "full-stack",
+  "project_name": "[Project Name]",
+  "stage": 0,
+  "status": "not-started",
+  "progress_pct": 0,
+  "platform_combination": "[web + iOS + Android | web + Android | iOS + API]",
+  "track_breakdown": {
+    "FS-WFE": { "status": "N/A", "progress_pct": 0, "owner": "Amira Voss", "engineers": 0 },
+    "FS-WBE": { "status": "N/A", "progress_pct": 0, "owner": "Dev Malhotra", "engineers": 0 },
+    "FS-MOB": { "status": "N/A", "progress_pct": 0, "owner": "Marcus Andersson", "engineers": 0 },
+    "FS-INT": { "status": "N/A", "progress_pct": 0, "owner": "Elena Vasquez", "engineers": 0 }
+  },
+  "milestone_history": [],
+  "performance_metrics": {
+    "web_deployed": false,
+    "mobile_submitted": false,
+    "backend_live": false,
+    "feature_parity_pct": 0,
+    "shared_api_contract_pass": 0,
+    "cross_platform_e2e_pass": 0
+  },
+  "variance_tracking": {},
+  "security_state": {
+    "web": { "xss_prevention": "not-started", "csp_headers": "not-started" },
+    "mobile": { "masvs_compliance": "not-started", "certificate_pinning": "not-started" },
+    "backend": { "rate_limiting": "not-started", "authz_enforcement": "not-started" },
+    "cross_platform_auth_parity": "not-started"
+  },
+  "design_fidelity_checkpoint": {
+    "completion_pct": 0,
+    "pass_rate": 0,
+    "status": "not-started",
+    "platform_breakdown": { "web": 0, "ios": 0, "android": 0 },
+    "remediation_items": []
+  },
+  "string_extraction_readiness": {
+    "audit_completed": false,
+    "unified_key_index_csv_parity": false,
+    "hardcoded_strings_found": 0,
+    "threshold_pct": 5,
+    "status": "not-started"
+  },
+  "cross_platform_parity": {
+    "feature_coverage": { "web": 0, "ios": 0, "android": 0 },
+    "parity_gaps": []
+  },
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "session_id": "session-YYYYMMDD-HHMMSS"
+}
