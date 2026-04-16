@@ -12,7 +12,7 @@ This directory contains the company's SubAgent configurations, skills, and workf
 
 | Component             | Specification                                            |
 | --------------------- | -------------------------------------------------------- |
-| **CPU**               | Intel Core i7-13700H — 14 cores / 20 threads             |
+| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads             |
 | **GPU**               | NVIDIA GeForce RTX 4060 — 8 GB GDDR6                     |
 | **RAM**               | 32 GB DDR5                                               |
 | **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB)                             |
@@ -21,7 +21,7 @@ This directory contains the company's SubAgent configurations, skills, and workf
 | **Ports**             | 2× Thunderbolt 4, 1× USB 3.2 Type-A, 1× HDMI, 1× microSD |
 | **Networking**        | Wi-Fi 6E, Bluetooth 5.3                                  |
 | **Weight**            | 1.75 kg (3.86 lbs)                                       |
-| **OS**                | Windows 11 Home                                          |
+| **OS**                | Windows 11 Home Chinese Edition (家庭中文版)             |
 
 ### Software
 
@@ -244,13 +244,13 @@ All 77 company personnel are configured as Qwen SubAgents. Each SubAgent file co
 
 ## Workflow Definitions
 
-| File                                 | Description                                                                                                                                                                                                                 |
-| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pipeline/mobile-development/pipeline.md`   | Ten-stage development pipeline: Requirements → PRD/SRD → Prototype → UML → Implementation Plan → Development → Code Review → Testing → Integrity Verification → i18n → Release                                              |
-| `pipeline/mobile-development/monitoring.md` | Progress Monitoring & Recovery System (3 layers: PROGRESS.md, session logs, checkpoints)                                                                                                                                    |
-| `pipeline/mobile-development/templates/`    | 28 pipeline templates organized by stage                                                                                                                                                                                    |
-| `pipeline/mobile-development/optimization-history/` | Historical optimization plans and pipeline improvement records                                                                                                                                    |
-| `pipeline/recruitment/pipeline.md`   | Ten-stage automated recruitment pipeline: Stage 0 (Department Planning) → Role Intake → Sourcing → Screening → Interview → Vetting → Background → Offer → User Review → Onboarding (CHRO-owned, unanimous C-Suite sign-off) |
+| File                                                | Description                                                                                                                                                                                                                 |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pipeline/mobile-development/pipeline.md`           | Ten-stage development pipeline: Requirements → PRD/SRD → Prototype → UML → Implementation Plan → Development → Code Review → Testing → Integrity Verification → i18n → Release                                              |
+| `pipeline/mobile-development/monitoring.md`         | Progress Monitoring & Recovery System (3 layers: PROGRESS.md, session logs, checkpoints)                                                                                                                                    |
+| `pipeline/mobile-development/templates/`            | 28 pipeline templates organized by stage                                                                                                                                                                                    |
+| `pipeline/mobile-development/optimization-history/` | Historical optimization plans and pipeline improvement records                                                                                                                                                              |
+| `pipeline/recruitment/pipeline.md`                  | Ten-stage automated recruitment pipeline: Stage 0 (Department Planning) → Role Intake → Sourcing → Screening → Interview → Vetting → Background → Offer → User Review → Onboarding (CHRO-owned, unanimous C-Suite sign-off) |
 
 ### Pipeline Stage Summary
 
@@ -679,12 +679,12 @@ Skills are organized into 14 functional categories. Each category has a parent `
 
 ## Summary
 
-| Resource                | Count | Location                           |
-| ----------------------- | ----- | ---------------------------------- |
-| SubAgent Configurations | 77    | `agents/`                          |
-| Skill Guidelines        | 199   | `skills/*/`                        |
+| Resource                | Count | Location                                    |
+| ----------------------- | ----- | ------------------------------------------- |
+| SubAgent Configurations | 77    | `agents/`                                   |
+| Skill Guidelines        | 199   | `skills/*/`                                 |
 | Development Pipelines   | 4     | `pipeline/{mobile,web,backend,full-stack}/` |
-| Recruitment Pipeline    | 1     | `pipeline/recruitment/pipeline.md` |
+| Recruitment Pipeline    | 1     | `pipeline/recruitment/pipeline.md`          |
 
 ---
 

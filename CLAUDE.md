@@ -38,13 +38,13 @@ company/
 
 ## Navigation Quick Reference
 
-| Goal | Go to |
-| --- | --- |
-| Understand company structure | `company/library/overview/company.md` |
-| Find all agents and their roles | `company/library/overview/personnel.md` |
-| Understand the full pipeline | `company/pipeline/mobile-development/pipeline.md` |
-| Find a specific department | `company/library/departments/<dept>.md` |
-| Research architecture, security, testing, or localization | `company/library/topics/` |
+| Goal                                                      | Go to                                             |
+| --------------------------------------------------------- | ------------------------------------------------- |
+| Understand company structure                              | `company/library/overview/company.md`             |
+| Find all agents and their roles                           | `company/library/overview/personnel.md`           |
+| Understand the full pipeline                              | `company/pipeline/mobile-development/pipeline.md` |
+| Find a specific department                                | `company/library/departments/<dept>.md`           |
+| Research architecture, security, testing, or localization | `company/library/topics/`                         |
 
 ---
 
@@ -52,18 +52,18 @@ company/
 
 The pipeline is a **state machine** — each stage has explicit Artifacts In/Out, a Responsible Producer, Gate Criteria, and Defect Handling. Stages must be completed in order; gate criteria must be satisfied before advancing.
 
-| # | Stage | Key Output | Responsible Producer |
-| - | ----- | ---------- | -------------------- |
-| 1 | Requirements → PRD + SRD | PRD + Security Requirements Document | CPO (PRD), CSO (SRD) |
-| 2 | PRD → Web Prototype + IDS | HTML prototype + Interaction Design Specification | CDO |
-| 3 | Prototype → UML Engineering Package | UML diagrams + ADRs + TSD | CTO (UML), CIO (ADRs + TSD) |
-| 4 | UML → Coding Implementation Plan | Implementation Plan + Gantt Chart | CTO |
-| 5 | Plan → Software Development | Development codebase | CTO |
-| 6 | Development → Code Review | Defect Report + Code Review Sign-off | CTO (panel) |
-| 7 | Code Review → Automated Testing | Test Suite + Test Results Report | CTO + Test Lead |
-| 8 | Testing → Integrity Verification | Integrity Verification Sign-off | CTO (panel) |
-| 9 | Integrity → i18n Engineering | Localised codebase + Translation Verification Report | CTO-L + R&D |
-| 10 | i18n → Release Readiness Check | Release Readiness Report + Release Decision | CTO (panel) + User |
+| #   | Stage                               | Key Output                                           | Responsible Producer        |
+| --- | ----------------------------------- | ---------------------------------------------------- | --------------------------- |
+| 1   | Requirements → PRD + SRD            | PRD + Security Requirements Document                 | CPO (PRD), CSO (SRD)        |
+| 2   | PRD → Web Prototype + IDS           | HTML prototype + Interaction Design Specification    | CDO                         |
+| 3   | Prototype → UML Engineering Package | UML diagrams + ADRs + TSD                            | CTO (UML), CIO (ADRs + TSD) |
+| 4   | UML → Coding Implementation Plan    | Implementation Plan + Gantt Chart                    | CTO                         |
+| 5   | Plan → Software Development         | Development codebase                                 | CTO                         |
+| 6   | Development → Code Review           | Defect Report + Code Review Sign-off                 | CTO (panel)                 |
+| 7   | Code Review → Automated Testing     | Test Suite + Test Results Report                     | CTO + Test Lead             |
+| 8   | Testing → Integrity Verification    | Integrity Verification Sign-off                      | CTO (panel)                 |
+| 9   | Integrity → i18n Engineering        | Localised codebase + Translation Verification Report | CTO-L + R&D                 |
+| 10  | i18n → Release Readiness Check      | Release Readiness Report + Release Decision          | CTO (panel) + User          |
 
 **Key pipeline rules:**
 
@@ -78,12 +78,12 @@ The pipeline is a **state machine** — each stage has explicit Artifacts In/Out
 
 Applied in Stages 6, 7, and 8. Classification is done before remediation begins.
 
-| Level | Definition | Release Impact |
-| ----- | ---------- | -------------- |
-| P0 | App crash / data loss / security breach | Blocks release — non-negotiable |
-| P1 | Core feature broken / major UX failure | Blocks release — non-negotiable |
-| P2 | Minor feature degraded / cosmetic issue | User decides to fix or defer |
-| P3 | Polish / nice-to-have | User decides to fix or defer |
+| Level | Definition                              | Release Impact                  |
+| ----- | --------------------------------------- | ------------------------------- |
+| P0    | App crash / data loss / security breach | Blocks release — non-negotiable |
+| P1    | Core feature broken / major UX failure  | Blocks release — non-negotiable |
+| P2    | Minor feature degraded / cosmetic issue | User decides to fix or defer    |
+| P3    | Polish / nice-to-have                   | User decides to fix or defer    |
 
 P0/P1 classification is final. The user has explicit final authority over P2/P3 defects.
 
@@ -91,24 +91,24 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 ## Agent Tier System
 
-| Tier | Description |
-| --- | --- |
-| **C-suite** | Department supervisors placed before recruitment. Set strategy, own pipeline stage outputs, convene review panels. |
-| **Team Supervisors** | Senior leads recruited after C-suite. Own sub-department execution. |
-| **Teammates** | Individual contributors. Execute within direction set by supervisors. |
+| Tier                 | Description                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **C-suite**          | Department supervisors placed before recruitment. Set strategy, own pipeline stage outputs, convene review panels. |
+| **Team Supervisors** | Senior leads recruited after C-suite. Own sub-department execution.                                                |
+| **Teammates**        | Individual contributors. Execute within direction set by supervisors.                                              |
 
 ---
 
 ## Department → C-Suite Mapping
 
-| Department | Supervisor(s) | Key Pipeline Stages |
-| --- | --- | --- |
-| Brand Design | CDO (Yuki Tanaka-Chen) | 2, 6, 8, 10 |
-| Cyberspace Security | CIO (Dr. Priya Mehta), CSO (Dr. Sarah Chen) | 1, 3, 6, 8, 10 |
-| Human Resources | CHRO (Dr. Evelyn Hartwell) | Recruitment only |
-| Localization | CTO-L (Dr. Amara Osei-Mensah) | 9, 10 |
-| Product Management | CPO (Marcus Tran-Yoshida) | 1, 6, 8, 10 |
-| Research & Development | CTO (Dr. Kenji Nakamura) | 3, 4, 5, 6, 7, 8, 10 |
+| Department             | Supervisor(s)                               | Key Pipeline Stages  |
+| ---------------------- | ------------------------------------------- | -------------------- |
+| Brand Design           | CDO (Yuki Tanaka-Chen)                      | 2, 6, 8, 10          |
+| Cyberspace Security    | CIO (Dr. Priya Mehta), CSO (Dr. Sarah Chen) | 1, 3, 6, 8, 10       |
+| Human Resources        | CHRO (Dr. Evelyn Hartwell)                  | Recruitment only     |
+| Localization           | CTO-L (Dr. Amara Osei-Mensah)               | 9, 10                |
+| Product Management     | CPO (Marcus Tran-Yoshida)                   | 1, 6, 8, 10          |
+| Research & Development | CTO (Dr. Kenji Nakamura)                    | 3, 4, 5, 6, 7, 8, 10 |
 
 > The CIO has a cross-department oversight role covering Brand Design, Product Management, and R&D in addition to Cyberspace Security.
 
@@ -127,15 +127,15 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 All seven must be signed off before the user issues the final release decision:
 
-| # | Domain | Sign-off Authority |
-| - | ------ | ------------------ |
-| 1 | Product — all PRD requirements implemented | CPO |
-| 2 | Design — all CDO/IDS specifications realised | CDO |
-| 3 | Architecture — all UML/ADR/TSD standards upheld | CTO + CIO |
-| 4 | Security — SRD enforced, OWASP MASVS compliant | CSO |
-| 5 | Testing — 100% automated test pass rate | CTO |
-| 6 | Localisation — all target languages complete | CTO-L |
-| 7 | Platform — App Store / Google Play requirements met | CTO + CPO |
+| #   | Domain                                              | Sign-off Authority |
+| --- | --------------------------------------------------- | ------------------ |
+| 1   | Product — all PRD requirements implemented          | CPO                |
+| 2   | Design — all CDO/IDS specifications realised        | CDO                |
+| 3   | Architecture — all UML/ADR/TSD standards upheld     | CTO + CIO          |
+| 4   | Security — SRD enforced, OWASP MASVS compliant      | CSO                |
+| 5   | Testing — 100% automated test pass rate             | CTO                |
+| 6   | Localisation — all target languages complete        | CTO-L              |
+| 7   | Platform — App Store / Google Play requirements met | CTO + CPO          |
 
 ---
 
@@ -147,20 +147,20 @@ The company's agents, skills, and hooks have been imported into `.claude/` so Cl
 
 All 12 personnel are registered as subagents. Claude delegates to them automatically based on context, or you can invoke them explicitly with `@agent-name`.
 
-| Subagent file | Agent | Pipeline stages |
-| --- | --- | --- |
-| `marcus-tran-yoshida-cpo.md` | Marcus Tran-Yoshida (CPO) | 1, 6, 8, 10 |
-| `yuki-tanaka-chen-cdo.md` | Yuki Tanaka-Chen (CDO) | 2, 6, 8, 10 |
-| `dr-kenji-nakamura-cto.md` | Dr. Kenji Nakamura (CTO) | 3, 4, 5, 6, 7, 8, 10 |
-| `dr-priya-mehta-cio.md` | Dr. Priya Mehta (CIO) | 3, 6, 8, 10 |
-| `dr-sarah-chen-cso.md` | Dr. Sarah Chen (CSO) | 1, 6, 8, 10 |
-| `dr-evelyn-hartwell-chro.md` | Dr. Evelyn Hartwell (CHRO) | Recruitment only |
-| `dr-amara-osei-mensah-cto-l.md` | Dr. Amara Osei-Mensah (CTO-L) | 9, 10 |
-| `rafael-okonkwo-software-architect.md` | Rafael Okonkwo | 3, 6 |
-| `priscilla-oduya-test-lead.md` | Priscilla Oduya | 7, 8 |
-| `kofi-asante-mensah-android-lead.md` | Kofi Asante-Mensah | 5, 8 |
-| `seo-yeon-park-ios-lead.md` | Seo-Yeon Park | 5, 8 |
-| `mei-ling-johansson-cross-platform-lead.md` | Mei-Ling Johansson | 5, 8 |
+| Subagent file                               | Agent                         | Pipeline stages      |
+| ------------------------------------------- | ----------------------------- | -------------------- |
+| `marcus-tran-yoshida-cpo.md`                | Marcus Tran-Yoshida (CPO)     | 1, 6, 8, 10          |
+| `yuki-tanaka-chen-cdo.md`                   | Yuki Tanaka-Chen (CDO)        | 2, 6, 8, 10          |
+| `dr-kenji-nakamura-cto.md`                  | Dr. Kenji Nakamura (CTO)      | 3, 4, 5, 6, 7, 8, 10 |
+| `dr-priya-mehta-cio.md`                     | Dr. Priya Mehta (CIO)         | 3, 6, 8, 10          |
+| `dr-sarah-chen-cso.md`                      | Dr. Sarah Chen (CSO)          | 1, 6, 8, 10          |
+| `dr-evelyn-hartwell-chro.md`                | Dr. Evelyn Hartwell (CHRO)    | Recruitment only     |
+| `dr-amara-osei-mensah-cto-l.md`             | Dr. Amara Osei-Mensah (CTO-L) | 9, 10                |
+| `rafael-okonkwo-software-architect.md`      | Rafael Okonkwo                | 3, 6                 |
+| `priscilla-oduya-test-lead.md`              | Priscilla Oduya               | 7, 8                 |
+| `kofi-asante-mensah-android-lead.md`        | Kofi Asante-Mensah            | 5, 8                 |
+| `seo-yeon-park-ios-lead.md`                 | Seo-Yeon Park                 | 5, 8                 |
+| `mei-ling-johansson-cross-platform-lead.md` | Mei-Ling Johansson            | 5, 8                 |
 
 ### Skills (`.claude/skills/company/`)
 
@@ -172,12 +172,12 @@ Invoke with `/company-pipeline`, `/company-personnel`, or any skill name. Claude
 
 Three hook categories are active:
 
-| Hook event | Trigger | Purpose |
-| --- | --- | --- |
-| `SessionStart` → `startup` | Every new session | Prints the agent roster as a reminder |
+| Hook event                 | Trigger                  | Purpose                                                      |
+| -------------------------- | ------------------------ | ------------------------------------------------------------ |
+| `SessionStart` → `startup` | Every new session        | Prints the agent roster as a reminder                        |
 | `SessionStart` → `compact` | After context compaction | Re-injects the 7 pipeline rules so gate criteria aren't lost |
-| `SubagentStart` | Each agent activation | Logs which pipeline stage(s) that agent owns |
-| `SubagentStop` | Key gate agents finish | Reminds you to verify gate criteria before advancing |
+| `SubagentStart`            | Each agent activation    | Logs which pipeline stage(s) that agent owns                 |
+| `SubagentStop`             | Key gate agents finish   | Reminds you to verify gate criteria before advancing         |
 
 ### Always-On Rules (`.claude/rules/company-pipeline.md`)
 

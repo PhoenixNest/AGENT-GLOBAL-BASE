@@ -1,0 +1,43 @@
+{
+  "pipeline_type": "web-application",
+  "project_name": "[Project Name]",
+  "stage": 0,
+  "status": "not-started",
+  "progress_pct": 0,
+  "web_strategy": "[SSR | CSR | PWA | Hybrid]",
+  "track_breakdown": {
+    "W-FE": { "status": "N/A", "progress_pct": 0, "owner": "Amira Voss", "engineers": 0 },
+    "W-BE": { "status": "N/A", "progress_pct": 0, "owner": "Dev Malhotra", "engineers": 0 },
+    "W-FS": { "status": "N/A", "progress_pct": 0, "owner": "Elena Vasquez", "engineers": 0 }
+  },
+  "milestone_history": [],
+  "performance_metrics": {
+    "bundle_size_kb": 0,
+    "lighthouse_scores": { "performance": 0, "accessibility": 0, "best_practices": 0, "seo": 0 },
+    "seo_readiness": "not-started",
+    "cdn_configured": false,
+    "preview_deployed": false
+  },
+  "variance_tracking": {},
+  "security_state": {
+    "xss_prevention": "not-started",
+    "csrf_tokens": "not-started",
+    "csp_headers": "not-started",
+    "oauth2_session": "not-started",
+    "dependency_audit": "not-started"
+  },
+  "design_fidelity_checkpoint": {
+    "completion_pct": 0,
+    "pass_rate": 0,
+    "status": "not-started",
+    "remediation_items": []
+  },
+  "string_extraction_readiness": {
+    "audit_completed": false,
+    "hardcoded_strings_found": 0,
+    "threshold_pct": 5,
+    "status": "not-started"
+  },
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "session_id": "session-YYYYMMDD-HHMMSS"
+}

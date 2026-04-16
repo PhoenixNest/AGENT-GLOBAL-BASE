@@ -13,7 +13,7 @@ This file provides guidance to Qwen Code when working with this repository.
 | Component             | Specification                                                                             |
 | --------------------- | ----------------------------------------------------------------------------------------- |
 | **Model**             | Asus Zenbook Pro 14 Duo OLED UX8402VV                                                     |
-| **CPU**               | Intel Core i7-13700H — 14 cores / 20 threads (6× P-Cores @ 5.0 GHz, 8× E-Cores @ 3.7 GHz) |
+| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads (6× P-Cores @ 5.4 GHz, 8× E-Cores @ 4.1 GHz) |
 | **GPU**               | NVIDIA GeForce RTX 4060 Laptop — 8 GB GDDR6                                               |
 | **RAM**               | 32 GB DDR5                                                                                |
 | **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB, expandable)                                                  |
@@ -23,7 +23,7 @@ This file provides guidance to Qwen Code when working with this repository.
 | **Networking**        | Wi-Fi 6E (802.11ax), Bluetooth 5.3                                                        |
 | **Battery**           | 76 WHrs, 4-cell Li-ion                                                                    |
 | **Weight**            | 1.75 kg (3.86 lbs)                                                                        |
-| **OS**                | Windows 11 Home                                                                           |
+| **OS**                | Windows 11 Home Chinese Edition (家庭中文版)                                              |
 
 ### Software
 
@@ -36,28 +36,21 @@ This file provides guidance to Qwen Code when working with this repository.
 
 ### Critical Rules for This Environment
 
-| Rule                                        | Rationale                                                                                                                 |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **All hook scripts MUST be Python (`.py`)** | Shell scripts (`.sh`) fail on Windows due to Git bash + Python subprocess pipe issues. 16/16 tests pass with pure Python. |
-| **Use `python`, not `python3`**             | Windows installation uses `python.exe`; `python3` is a non-functional WindowsApps stub                                    |
-| **No `set -euo pipefail` in shell scripts** | `set -u` breaks on empty bash arrays; `pipefail` causes false exit codes through Python subprocess                        |
-| **Test runner must be Python-based**        | Batch file (`run-all-tests.bat`) has ERRORLEVEL capture issues with pipes. Use `run-all-tests.py`                         |
-| **Avoid `xxd`, `/dev/urandom` in scripts**  | Not reliably available in Git bash. Use Python's `hashlib` and `random` instead                                           |
-
-### Hook Scripts Location
-
-All hook scripts are in `.qwen/hooks/company/automated-recruitment-pipeline/scripts/` — **11 Python files, 0 shell scripts**. Test suite: `.qwen/hooks/company/automated-recruitment-pipeline/tests/run-all-tests.py` — run with `python tests/run-all-tests.py` — expects 16/16 pass.
+| Rule                                        | Rationale                                                                                          |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Use `python`, not `python3`**             | Windows installation uses `python.exe`; `python3` is a non-functional WindowsApps stub             |
+| **No `set -euo pipefail` in shell scripts** | `set -u` breaks on empty bash arrays; `pipefail` causes false exit codes through Python subprocess |
+| **Avoid `xxd`, `/dev/urandom` in scripts**  | Not reliably available in Git bash. Use Python's `hashlib` and `random` instead                    |
 
 ### Verified Working Configuration
 
 ```
 Platform: Windows 11
 Device: Asus Zenbook Pro 14 Duo OLED (UX8402VV)
-CPU: Intel Core i7-13700H (14 cores / 20 threads)
+CPU: Intel Core i9-13900H (14 cores / 20 threads)
 RAM: 32 GB DDR5
 GPU: NVIDIA RTX 4060 (8 GB GDDR6)
 Python: C:\Program Files\Python\313\python.exe
-Test Result: 16/16 passed, 0 failed (April 12, 2026)
 ```
 
 ---
@@ -1140,3 +1133,4 @@ Note: P0/P1 classification is final. User has explicit authority over P2/P3.
 ---
 
 _End of QWEN.md_
+md\_

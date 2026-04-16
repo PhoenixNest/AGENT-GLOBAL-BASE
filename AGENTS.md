@@ -90,10 +90,11 @@ Invoke agents using your platform's convention (e.g., @name, /name, or natural l
 ## Documentation Strategy
 
 **AGENTS.md** (this file) = Universal coordination reference (tool-agnostic)
-**Platform-specific files** = Optimized for each tool (`.lingma/`, `.github/`, `.claude/`, `.qwen/`)
+**Platform-specific files** = Optimized for each tool (`.claude/`, `.gemini/`, `.github/`, `.qwen/`, `.lingma/`)
 **LINGMA.md** = Comprehensive Lingma-specific documentation (514 lines)
 **CLAUDE.md** = Comprehensive Claude-specific documentation
 **QWEN.md** = Comprehensive Qwen-specific documentation
+**GEMINI.md** = Comprehensive Gemini-specific documentation
 
 ## Core Database Structure
 
@@ -211,17 +212,17 @@ Active from Stage 4, this protocol ensures schedule adherence:
 
 ### Hardware — Asus Zenbook Pro 14 Duo OLED (UX8402VV)
 
-| Component             | Specification                                                                    |
-| :-------------------- | :------------------------------------------------------------------------------- |
-| **Model**             | Asus Zenbook Pro 14 Duo OLED UX8402VV                                            |
-| **CPU**               | Intel Core i7-13700H (Raptor Lake-H) — 14 cores / 20 threads                     |
-| **GPU**               | NVIDIA GeForce RTX 4060 Laptop — 8 GB GDDR6 VRAM                                 |
-| **RAM**               | 32 GB DDR5                                                                       |
-| **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB base, expandable via M.2 2280 slot)                  |
-| **Primary Display**   | 14.5" OLED, 16:10, 2880×1800 (234 PPI), 120 Hz, 550 nits HDR, 100% DCI-P3, Touch |
-| **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864                                              |
-| **Networking**        | Wi-Fi 6E (802.11ax, 2×2, 6 GHz), Bluetooth 5.3                                   |
-| **OS**                | Windows 11 Home                                                                  |
+| Component             | Specification                                                                             |
+| :-------------------- | :---------------------------------------------------------------------------------------- |
+| **Model**             | Asus Zenbook Pro 14 Duo OLED UX8402VV                                                     |
+| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads (6× P-Cores @ 5.4 GHz, 8× E-Cores @ 4.1 GHz) |
+| **GPU**               | NVIDIA GeForce RTX 4060 Laptop — 8 GB GDDR6 VRAM                                          |
+| **RAM**               | 32 GB DDR5                                                                                |
+| **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB base, expandable via M.2 2280 slot)                           |
+| **Primary Display**   | 14.5" OLED, 16:10, 2880×1800 (234 PPI), 120 Hz, 550 nits HDR, 100% DCI-P3, Touch          |
+| **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864                                                       |
+| **Networking**        | Wi-Fi 6E (802.11ax, 2×2, 6 GHz), Bluetooth 5.3                                            |
+| **OS**                | Windows 11 Home Chinese Edition (家庭中文版)                                              |
 
 ### Software & Tooling
 
@@ -245,5 +246,6 @@ Agent profiles are optimized for each AI platform and located in platform-specif
 - `.lingma/agents/` — Lingma agent definitions (77 agents + skills)
 - `.claude/agents/` — Claude agent definitions (12 lead agents)
 - `.qwen/agents/` — Qwen agent definitions (77 agents + skills)
+- `.gemini/agents/` — Gemini agent definitions (77 agents + skills)
 
 Each directory contains platform-optimized agent configurations with appropriate tool definitions and trigger syntax.

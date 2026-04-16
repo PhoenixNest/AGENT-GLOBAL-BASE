@@ -12,7 +12,7 @@ This directory contains the company's SubAgent configurations, skills, and workf
 
 | Component             | Specification                                            |
 | --------------------- | -------------------------------------------------------- |
-| **CPU**               | Intel Core i7-13700H — 14 cores / 20 threads             |
+| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads             |
 | **GPU**               | NVIDIA GeForce RTX 4060 — 8 GB GDDR6                     |
 | **RAM**               | 32 GB DDR5                                               |
 | **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB)                             |
@@ -21,7 +21,7 @@ This directory contains the company's SubAgent configurations, skills, and workf
 | **Ports**             | 2× Thunderbolt 4, 1× USB 3.2 Type-A, 1× HDMI, 1× microSD |
 | **Networking**        | Wi-Fi 6E, Bluetooth 5.3                                  |
 | **Weight**            | 1.75 kg (3.86 lbs)                                       |
-| **OS**                | Windows 11 Home                                          |
+| **OS**                | Windows 11 Home Chinese Edition (家庭中文版)             |
 
 ### Software
 

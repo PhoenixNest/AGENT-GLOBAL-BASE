@@ -26,7 +26,7 @@ The repo has three primary functions:
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | **Model**             | Asus Zenbook Pro 14 Duo OLED UX8402VV                                                                                              |
 | **Category**          | Dual-screen creator laptop                                                                                                         |
-| **CPU**               | Intel Core i7-13700H (Raptor Lake-H) — 14 cores / 20 threads (6× P-Cores @ 5.0 GHz, 8× E-Cores @ 3.7 GHz)                          |
+| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads (6× P-Cores @ 5.4 GHz, 8× E-Cores @ 4.1 GHz)                                          |
 | **GPU**               | NVIDIA GeForce RTX 4060 Laptop — 8 GB GDDR6 VRAM                                                                                   |
 | **RAM**               | 32 GB DDR5                                                                                                                         |
 | **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB base, expandable via M.2 2280 slot)                                                                    |
@@ -34,7 +34,7 @@ The repo has three primary functions:
 | **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864, Glossy, Stylus support                                                                        |
 | **I/O Ports**         | 2× Thunderbolt 4 (USB-C), 1× USB 3.2 Gen 2 Type-A, 1× HDMI, 1× 3.5mm Combo Audio Jack, 1× DC-in (ø6.0), 1× microSD Card Reader     |
 | **Networking**        | Wi-Fi 6E (802.11ax, 2×2, 6 GHz), Bluetooth 5.3                                                                                     |
-| **OS**                | Windows 11 Home                                                                                                                    |
+| **OS**                | Windows 11 Home Chinese Edition (家庭中文版)                                                                                       |
 
 ### Software
 

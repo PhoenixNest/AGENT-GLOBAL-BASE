@@ -18,7 +18,7 @@ Every team member is equipped with the following device. No supplementary hardwa
 | **RAM**     | 32GB LPDDR5 (soldered, not upgradable)          |
 | **Storage** | 1TB NVMe SSD                                    |
 | **Display** | 14.5" 2.8K OLED 120Hz, touchscreen, 100% DCI-P3 |
-| **OS**      | Windows 11                                      |
+| **OS**      | Windows 11 Home Chinese Edition (家庭中文版)    |
 
 ---
 
