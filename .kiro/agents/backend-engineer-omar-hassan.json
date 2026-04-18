@@ -1,0 +1,15 @@
+{
+  "name": "backend-engineer-omar-hassan",
+  "description": "Use for Go microservices development, REST API implementation, and backend testing. Engage during Stage 5 (Backend Development) for Go services and API implementation.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/backend/SKILL.md"
+  ]
+}

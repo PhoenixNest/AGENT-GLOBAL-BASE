@@ -1,0 +1,15 @@
+{
+  "name": "ios-lead-seo-yeon-park",
+  "description": "Use for iOS application development with SwiftUI, Swift Concurrency, MVVM architecture, Keychain security, CoreData, URLSession, and App Store Connect submission. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for iOS platform implementation.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/ios/SKILL.md"
+  ]
+}

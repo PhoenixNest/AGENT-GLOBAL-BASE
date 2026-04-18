@@ -1,0 +1,15 @@
+{
+  "name": "devops-engineer-yuki-tanaka",
+  "description": "Use for CI/CD pipeline security, infrastructure-as-code (GitOps), and secrets management. Engage during Stage 5 (Development) for CI/CD security and Stage 6 (Code Review) for dependency scanning reviews.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/devops/SKILL.md"
+  ]
+}

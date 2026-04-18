@@ -1,0 +1,15 @@
+{
+  "name": "senior-backend-engineer-aisha-mohammed",
+  "description": "Use for database architecture (PostgreSQL sharding, read replicas), API gateway design, and API testing infrastructure. Engage during Stage 5 (Backend Development) for database and API work, and Stage 6 (Code Review) for database and API conformance.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/backend/SKILL.md"
+  ]
+}

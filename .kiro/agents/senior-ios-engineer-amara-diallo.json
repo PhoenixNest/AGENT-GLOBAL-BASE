@@ -1,0 +1,15 @@
+{
+  "name": "senior-ios-engineer-amara-diallo",
+  "description": "Use for iOS networking architecture, CI/CD pipeline automation, and testing infrastructure. Engage during Stage 5 (Development) for networking layer and CI/CD implementation, Stage 6 (Code Review) for networking and testing conformance, and Stage 7 (Automated Testing) for iOS test infrastructure.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/ios/SKILL.md"
+  ]
+}

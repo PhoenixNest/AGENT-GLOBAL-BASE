@@ -1,0 +1,15 @@
+{
+  "name": "security-engineer-sana-khoury",
+  "description": "Use for mobile application penetration testing, OWASP MASVS compliance assessments, and mobile SAST/DAST pipeline operation. Engage during Stage 1 (Requirements) for security requirements reviews and Stage 6 (Code Review) for mobile security code reviews.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/security/SKILL.md"
+  ]
+}

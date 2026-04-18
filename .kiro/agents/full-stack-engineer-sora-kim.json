@@ -1,0 +1,16 @@
+{
+  "name": "full-stack-engineer-sora-kim",
+  "description": "Use for full-stack development with React, Python FastAPI, and React Native prototyping. Engage during Stage 5 (Development) for React/FastAPI implementation and mobile prototyping.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/frontend-web/SKILL.md",
+    "skill://.kiro/skills/backend/SKILL.md"
+  ]
+}

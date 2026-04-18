@@ -1,0 +1,15 @@
+{
+  "name": "sdet-mobile-tobias-weber",
+  "description": "Use for mobile SDET test automation, mobile UI testing, and platform-specific test tooling (Espresso, XCUITest, Maestro, Appium). Engage during Stage 5 (Development) for test automation infrastructure and Stage 7 (Automated Testing) for mobile test suite development and execution.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/testing-qa/SKILL.md"
+  ]
+}

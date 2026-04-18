@@ -1,0 +1,15 @@
+{
+  "name": "vp-platform-david-okonkwo",
+  "description": "Use for developer platform engineering and infrastructure strategy. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for platform and DevEx strategy.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/devops/SKILL.md"
+  ]
+}

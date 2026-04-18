@@ -1,0 +1,15 @@
+{
+  "name": "security-engineer-li-wei-chen",
+  "description": "Use for supply chain security, CI/CD pipeline hardening, SBOM generation, secure coding training, and Security Champions program. Engage during Stage 5 (Development) for supply chain security reviews and Stage 6 (Code Review) for dependency scanning reviews.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/security/SKILL.md"
+  ]
+}

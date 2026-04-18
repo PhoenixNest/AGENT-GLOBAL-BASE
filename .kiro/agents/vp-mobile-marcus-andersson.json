@@ -1,0 +1,16 @@
+{
+  "name": "vp-mobile-marcus-andersson",
+  "description": "Use for mobile platform engineering leadership, KMP strategy, and mobile organization scaling. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for mobile engineering strategy.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/android/SKILL.md",
+    "skill://.kiro/skills/ios/SKILL.md"
+  ]
+}

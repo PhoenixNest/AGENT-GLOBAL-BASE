@@ -1,0 +1,15 @@
+{
+  "name": "cso-dr-sarah-chen",
+  "description": "Use for mobile platform security architecture, application security hardening, security risk assessment, and emerging threat evaluation. Engage during Stage 1 (Security Requirements Document), Stage 6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness).",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/security/SKILL.md"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "ios-engineer-camila-rodriguez",
+  "description": "Use for SwiftUI implementation, WidgetKit development, and iOS App Extensions. Engage during Stage 5 (Development) for SwiftUI UI implementation, widget/extension development, and iOS platform feature integration.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/ios/SKILL.md"
+  ]
+}

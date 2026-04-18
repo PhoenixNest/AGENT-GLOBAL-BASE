@@ -1,0 +1,15 @@
+{
+  "name": "senior-backend-engineer-viktor-horvath",
+  "description": "Use for microservices architecture, event-driven systems (Kafka, CQRS), and API security patterns. Engage during Stage 5 (Backend Development) for microservices and event-driven features, and Stage 6 (Code Review) for security and architecture conformance.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/backend/SKILL.md"
+  ]
+}

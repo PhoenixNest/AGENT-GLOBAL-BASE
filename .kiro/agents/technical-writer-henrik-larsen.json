@@ -1,0 +1,15 @@
+{
+  "name": "technical-writer-henrik-larsen",
+  "description": "Use for architecture documentation, ADR/TSD templates, and pipeline documentation. Engage during recruitment for technical documentation standards and architecture documentation.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/shared/SKILL.md"
+  ]
+}

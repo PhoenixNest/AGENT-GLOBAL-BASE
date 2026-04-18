@@ -1,0 +1,15 @@
+{
+  "name": "vp-web-backend-elena-vasquez",
+  "description": "Use for distributed backend architecture and web engineering leadership. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for web and backend platform strategy.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/backend/SKILL.md"
+  ]
+}

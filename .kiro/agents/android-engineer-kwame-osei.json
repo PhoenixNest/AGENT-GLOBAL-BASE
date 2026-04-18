@@ -1,0 +1,15 @@
+{
+  "name": "android-engineer-kwame-osei",
+  "description": "Use for Android networking layer, security implementation (certificate pinning, encrypted storage, biometric auth), and payment API integration. Engage during Stage 5 (Development) for Android networking and security implementation.",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "resources": [
+    "skill://.kiro/skills/android/SKILL.md"
+  ]
+}
