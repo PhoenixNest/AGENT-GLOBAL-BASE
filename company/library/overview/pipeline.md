@@ -10,14 +10,14 @@ The company's development workflow is a ten-stage state machine governing the fu
 
 | #   | Stage                                      | Artifacts In                                                         | Key Output                                                                              | Responsible Producer(s)                       | User Approval? |
 | --- | ------------------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------- | -------------- |
-| 1   | Requirements → PRD + SRD                   | User's raw product requirements + target platform(s)                 | Product Requirements Document, Security Requirements Document                           | CPO (PRD), CSO (SRD)                          | ✅ Yes         |
+| 1   | Requirements → PRD + SRD                   | User's raw product requirements + target platform(s)                 | Product Requirements Document, Security Requirements Document                           | CPO or relevant VP (PRD), CSO (SRD)           | ✅ Yes         |
 | 2   | PRD → Web Prototype + IDS                  | Final PRD, SRD                                                       | Web prototype (single HTML file), Interaction Design Specification                      | CDO                                           | ✅ Yes         |
 | 3   | Prototype → UML Engineering Package        | Final PRD, SRD, Web Prototype, IDS                                   | UML diagrams, Architecture Decision Records (ADRs), Technology Selection Document (TSD) | CTO (UML), CIO (ADRs + TSD)                   | ✅ Yes         |
 | 4   | UML → Coding Implementation Plan           | All archived deliverables (PRD, SRD, Prototype, IDS, UML, ADRs, TSD) | Implementation Plan, Gantt Chart                                                        | CTO                                           | ✅ Yes         |
 | 5   | Plan → Software Development                | Coding Implementation Plan, Gantt Chart, all prior deliverables      | Development codebase                                                                    | CTO                                           | ❌ No          |
-| 6   | Development → Code Review                  | Development codebase, PRD, SRD, IDS, UML Package, ADRs, TSD          | Defect Report, Code Review Sign-off                                                     | CTO (panel: CPO, CDO, CTO, CIO, CSO)          | ✅ Yes         |
+| 6   | Development → Code Review                  | Development codebase, PRD, SRD, IDS, UML Package, ADRs, TSD          | Defect Report, Code Review Sign-off                                                     | CTO (panel: CPO, VPs, CDO, CTO, CIO, CSO)     | ✅ Yes         |
 | 7   | Code Review → Automated Testing            | Code Review sign-off codebase                                        | Automated Test Suite, Test Results Report                                               | CTO + Test Lead                               | ✅ Yes         |
-| 8   | Testing → Integrity Verification           | Post-testing codebase, all prior deliverables                        | Integrity Verification Sign-off                                                         | CTO (panel: all C-suite + Brand Design + R&D) | ❌ No          |
+| 8   | Testing → Integrity Verification           | Post-testing codebase, all prior deliverables                        | Integrity Verification Sign-off                                                         | CTO (panel: all C-suite + VPs + Design + R&D) | ❌ No          |
 | 9   | Integrity Verification → i18n Engineering  | Integrity-verified codebase, PRD (language requirements)             | Localised codebase, Translation Verification Report                                     | CTO-L + R&D                                   | ❌ No          |
 | 10  | i18n Engineering → Release Readiness Check | All archived deliverables from all prior stages                      | Release Readiness Report, Release Decision                                              | CTO (panel) + User                            | ✅ Yes         |
 
@@ -27,7 +27,9 @@ The company's development workflow is a ten-stage state machine governing the fu
 
 | Agent                                            | Pipeline Stages                                                               |
 | ------------------------------------------------ | ----------------------------------------------------------------------------- |
-| CPO — Marcus Tran-Yoshida                        | 1 (PRD), 6 (reviewer), 8 (reviewer), 10 (sign-off: product)                   |
+| CPO — Marcus Tran-Yoshida                        | 1 (Steward/PRD), 6 (reviewer), 8 (reviewer), 10 (sign-off: product)           |
+| VP Web — Julia Thorne                            | 1 (PRD: Web/Full-Stack), 6 (advisor), 8 (reviewer), 10 (co-sign: Web)         |
+| VP API — Alex Rivera                             | 1 (PRD: API/Full-Stack), 6 (advisor), 8 (reviewer), 10 (co-sign: API)         |
 | CSO — Dr. Sarah Chen                             | 1 (SRD), 6 (security reviewer), 8 (reviewer), 10 (sign-off: security)         |
 | CDO — Yuki Tanaka-Chen                           | 2 (prototype + IDS), 6 (design reviewer), 8 (reviewer), 10 (sign-off: design) |
 | CTO — Dr. Kenji Nakamura                         | 3 (UML), 4, 5, 6 (convenes panel), 7, 8 (convenes panel), 10 (convenes panel) |
@@ -38,6 +40,18 @@ The company's development workflow is a ten-stage state machine governing the fu
 | Platform Leads (Android, iOS, Cross-Platform)    | 5 (development), 6 (Tier 1 technical reviewer), 8 (reviewer)                  |
 | Internationalization Specialist — Tomas Dvoracek | 9 (string extraction)                                                         |
 | Linguist Team                                    | 9 (translation)                                                               |
+
+### Product Leadership Model: Template Steward + Distributed Production
+
+To ensure platform-native depth while maintaining unified quality standards, Stage 1 PRD authority is distributed by pipeline:
+
+- **Mobile Pipeline:** CPO authored.
+- **Web Pipeline:** VP Web authored.
+- **Backend API Pipeline:** VP API authored.
+- **Full-Stack Pipeline:** Joint VP Web + VP API authorship.
+- **Template Stewardship:** The CPO owns the authoritative PRD standard and provides final sign-off on all advancing PRDs.
+
+---
 
 ### Security Team Detail (per stage)
 
@@ -131,7 +145,7 @@ If the review panel identifies defects, the CTO assigns R&D personnel to remedia
 
 | #   | Domain                                              | Sign-off Authority |
 | --- | --------------------------------------------------- | ------------------ |
-| 1   | Product — all PRD requirements implemented          | CPO                |
+| 1   | Product — all PRD requirements implemented          | CPO + relevant VP  |
 | 2   | Design — all CDO/IDS specifications realised        | CDO                |
 | 3   | Architecture — all UML/ADR/TSD standards upheld     | CTO + CIO          |
 | 4   | Security — SRD enforced, OWASP MASVS compliant      | CSO                |

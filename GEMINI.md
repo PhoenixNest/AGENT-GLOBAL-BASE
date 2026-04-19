@@ -106,7 +106,7 @@ agent-global-base/
 │   │   ├── backend-api/         # 10-stage backend API workflow
 │   │   ├── full-stack/          # 10-stage full-stack cross-platform workflow
 │   │   └── recruitment/         # 10-stage automated recruitment pipeline (Stage 0 planning + Stages 1-9 execution)
-│   ├── agents/            # 77 SubAgent configurations
+│   ├── agents/            # 79 SubAgent configurations
 │   ├── skills/            # 14 skill categories (199 guidelines)
 │   └── reference/         # Reference materials
 └── company/
@@ -219,14 +219,14 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 ## Department → C-Suite Mapping
 
-| Department             | Supervisor(s)                               | Key Pipeline Stages  |
-| ---------------------- | ------------------------------------------- | -------------------- |
-| Brand Design           | CDO (Yuki Tanaka-Chen)                      | 2, 6, 8, 10          |
-| Cyberspace Security    | CIO (Dr. Priya Mehta), CSO (Dr. Sarah Chen) | 1, 3, 6, 8, 10       |
-| Human Resources        | CHRO (Dr. Evelyn Hartwell)                  | Recruitment only     |
-| Localization           | CTO-L (Dr. Amara Osei-Mensah)               | 9, 10                |
-| Product Management     | CPO (Marcus Tran-Yoshida)                   | 1, 6, 8, 10          |
-| Research & Development | CTO (Dr. Kenji Nakamura)                    | 3, 4, 5, 6, 7, 8, 10 |
+| Department             | Supervisor(s)                                                          | Key Pipeline Stages  |
+| ---------------------- | ---------------------------------------------------------------------- | -------------------- |
+| Brand Design           | CDO (Yuki Tanaka-Chen)                                                 | 2, 6, 8, 10          |
+| Cyberspace Security    | CIO (Dr. Priya Mehta), CSO (Dr. Sarah Chen)                            | 1, 3, 6, 8, 10       |
+| Human Resources        | CHRO (Dr. Evelyn Hartwell)                                             | Recruitment only     |
+| Localization           | CTO-L (Dr. Amara Osei-Mensah)                                          | 9, 10                |
+| Product Management     | CPO (Marcus Tran-Yoshida), VP Web (Julia Thorne), VP API (Alex Rivera) | 1, 6, 8, 10          |
+| Research & Development | CTO (Dr. Kenji Nakamura)                                               | 3, 4, 5, 6, 7, 8, 10 |
 
 > The CIO has a cross-department oversight role covering Brand Design, Product Management, and R&D in addition to Cyberspace Security.
 
@@ -313,6 +313,8 @@ All company workflows and skills have been imported into the `.gemini/` director
 │   ├── cto-dr-kenji-nakamura.md
 │   ├── cdo-yuki-tanaka-chen.md
 │   ├── cpo-marcus-tran-yoshida.md
+│   ├── vp-web-julia-thorne.md
+│   ├── vp-api-alex-rivera.md
 │   ├── vp-mobile-marcus-andersson.md
 │   ├── vp-web-backend-elena-vasquez.md
 │   ├── vp-platform-david-okonkwo.md
@@ -363,9 +365,9 @@ All company workflows and skills have been imported into the `.gemini/` director
 
 | Resource Type           | Location                                            | Count |
 | ----------------------- | --------------------------------------------------- | ----- |
-| SubAgent Configurations | `.gemini/agents/*.md`                               | 77    |
+| SubAgent Configurations | `.gemini/agents/*.md`                               | 79    |
 | Skill Categories        | `.gemini/skills/*/`                                 | 14    |
-| Skill Guidelines        | `.gemini/skills/*/`                                 | 199   |
+| Skill Guidelines        | `.gemini/skills/*/`                                 | 201   |
 | Development Pipelines   | `.gemini/pipeline/{mobile,web,backend,full-stack}/` | 4     |
 | Recruitment Pipeline    | `.gemini/pipeline/recruitment/pipeline.md`          | 1     |
 

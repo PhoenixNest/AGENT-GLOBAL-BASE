@@ -2,7 +2,7 @@
 
 **Project:** [Project Name]
 **Version:** v1
-**Author:** CPO (Marcus Tran-Yoshida)
+**Author:** VP Web (Julia Thorne) + VP API (Alex Rivera)
 **Date:** YYYY-MM-DD
 **Status:** Draft | Under Review | Approved
 **Platform(s):** [Android | iOS | Both]

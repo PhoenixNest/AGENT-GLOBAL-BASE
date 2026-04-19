@@ -4,7 +4,7 @@
 **Stage:** 6 — Code Review
 **Version:** v1
 **Date:** YYYY-MM-DD
-**Reviewed By:** CTO Panel (CPO, CDO, CTO, CIO, CSO) + Platform Leads (Tier 1)
+**Reviewed By:** CTO Panel (CPO, CDO, CTO, CIO, CSO) + VP Web (Julia Thorne), VP API (Alex Rivera) + Platform Leads (Tier 1)
 
 ---
 
@@ -113,14 +113,14 @@ Each Platform Lead produces a written cross-review memo covering code quality, a
 
 ### Backend Lead → API Code Review
 
-| Aspect                       | Assessment                           | Details                 |
-| ---------------------------- | ------------------------------------ | ----------------------- |
-| **Code quality**             | [Excellent / Good / Needs Work]      | [Specific observations] |
-| **Architecture conformance** | [Matches UML/ADR / Deviations noted] | [List deviations]       |
-| **Security observations**    | [Findings: authZ, injection, CORS]   | [File-level references] |
-| **Test quality**             | [Adequate / Gaps noted]              | [Missing contract tests]|
-| **Performance**              | [k6 load test results]               | [P99, throughput]       |
-| **Key findings**             | [Top 3 concerns]                     | [Details]               |
+| Aspect                       | Assessment                           | Details                  |
+| ---------------------------- | ------------------------------------ | ------------------------ |
+| **Code quality**             | [Excellent / Good / Needs Work]      | [Specific observations]  |
+| **Architecture conformance** | [Matches UML/ADR / Deviations noted] | [List deviations]        |
+| **Security observations**    | [Findings: authZ, injection, CORS]   | [File-level references]  |
+| **Test quality**             | [Adequate / Gaps noted]              | [Missing contract tests] |
+| **Performance**              | [k6 load test results]               | [P99, throughput]        |
+| **Key findings**             | [Top 3 concerns]                     | [Details]                |
 
 **Sign-off:** ☐ Approved / ☐ Approved with conditions / ☐ Rejected
 **Conditions:** [List any]
@@ -232,15 +232,15 @@ Row-by-row mapping of every IDS specification item to its implementation status.
 
 ### Platform Conventions Conformance
 
-| IDS Section | Convention         | Platform | Expected            | Matches?     | Defect ID (if any) |
-| ----------- | ------------------ | -------- | ------------------- | ------------ | ------------------ |
-| IDS §2      | Navigation pattern | Web      | [Responsive SPA]    | ☐ Yes / ☐ No | [P#-XXX or None]   |
-| IDS §2      | Navigation pattern | iOS      | [HIG pattern]       | ☐ Yes / ☐ No | [P#-XXX or None]   |
-| IDS §2      | Navigation pattern | Android  | [MD3 pattern]       | ☐ Yes / ☐ No | [P#-XXX or None]   |
-| IDS §2      | Transition style   | Web      | [SPA transition]    | ☐ Yes / ☐ No | [P#-XXX or None]   |
-| IDS §2      | Transition style   | iOS      | [Push/Modal/Sheet]  | ☐ Yes / ☐ No | [P#-XXX or None]   |
-| IDS §2      | Transition style   | Android  | [Slide/Shared/Fade] | ☐ Yes / ☐ No | [P#-XXX or None]   |
-| IDS §2      | Responsive breaks  | Web      | [mobile/tablet/desk]| ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS Section | Convention         | Platform | Expected             | Matches?     | Defect ID (if any) |
+| ----------- | ------------------ | -------- | -------------------- | ------------ | ------------------ |
+| IDS §2      | Navigation pattern | Web      | [Responsive SPA]     | ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS §2      | Navigation pattern | iOS      | [HIG pattern]        | ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS §2      | Navigation pattern | Android  | [MD3 pattern]        | ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS §2      | Transition style   | Web      | [SPA transition]     | ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS §2      | Transition style   | iOS      | [Push/Modal/Sheet]   | ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS §2      | Transition style   | Android  | [Slide/Shared/Fade]  | ☐ Yes / ☐ No | [P#-XXX or None]   |
+| IDS §2      | Responsive breaks  | Web      | [mobile/tablet/desk] | ☐ Yes / ☐ No | [P#-XXX or None]   |
 
 ### Animation Conformance
 
@@ -269,13 +269,15 @@ Row-by-row mapping of every IDS specification item to its implementation status.
 
 ## C-Suite Panel Sign-Off
 
-| Role | Name                | Sign-off     | Date |
-| ---- | ------------------- | ------------ | ---- |
-| CPO  | Marcus Tran-Yoshida | ☐ Yes / ☐ No |      |
-| CDO  | Yuki Tanaka-Chen    | ☐ Yes / ☐ No |      |
-| CTO  | Dr. Kenji Nakamura  | ☐ Yes / ☐ No |      |
-| CIO  | Dr. Priya Mehta     | ☐ Yes / ☐ No |      |
-| CSO  | Dr. Sarah Chen      | ☐ Yes / ☐ No |      |
+| Role   | Name                | Sign-off     | Date |
+| ------ | ------------------- | ------------ | ---- |
+| CPO    | Marcus Tran-Yoshida | ☐ Yes / ☐ No |      |
+| VP Web | Julia Thorne        | ☐ Yes / ☐ No |      |
+| VP API | Alex Rivera         | ☐ Yes / ☐ No |      |
+| CDO    | Yuki Tanaka-Chen    | ☐ Yes / ☐ No |      |
+| CTO    | Dr. Kenji Nakamura  | ☐ Yes / ☐ No |      |
+| CIO    | Dr. Priya Mehta     | ☐ Yes / ☐ No |      |
+| CSO    | Dr. Sarah Chen      | ☐ Yes / ☐ No |      |
 
 ---
 

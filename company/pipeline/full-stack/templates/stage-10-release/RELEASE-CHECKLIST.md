@@ -12,7 +12,7 @@
 
 | #   | Domain           | Criteria                                              | Sign-off Authority | Status          | Notes     |
 | --- | ---------------- | ----------------------------------------------------- | ------------------ | --------------- | --------- |
-| 1   | **Product**      | All PRD requirements implemented and verified         | CPO                | ☐ Pass / ☐ Fail |           |
+| 1   | **Product**      | All PRD requirements implemented and verified         | CPO + VPs          | ☐ Pass / ☐ Fail |           |
 |     |                  | **Sub-checklist:**                                    |                    |                 |           |
 |     |                  | • Analytics events firing correctly                   | CPO                | ☐ Pass / ☐ Fail |           |
 |     |                  | • IAP products configured in both stores              | CPO                | ☐ Pass / ☐ Fail |           |
@@ -45,18 +45,18 @@
 
 #### Web Deployment
 
-| Sub-Item                                                   | Status       | Notes           |
-| ---------------------------------------------------------- | ------------ | --------------- |
-| Vercel production deploy successful                        | ☐ Yes / ☐ No |                 |
-| CDN propagation verified (all edge locations)              | ☐ Yes / ☐ No |                 |
-| DNS records verified (A, CNAME, MX, TXT)                   | ☐ Yes / ☐ No |                 |
-| SSL certificates valid (Let's Encrypt / custom)            | ☐ Yes / ☐ No |                 |
-| HSTS header present                                        | ☐ Yes / ☐ No |                 |
-| SEO validation complete (sitemap.xml, robots.txt)          | ☐ Yes / ☐ No |                 |
-| OG tags verified (Facebook, Twitter cards)                 | ☐ Yes / ☐ No |                 |
-| Core Web Vitals passing (LCP, CLS, INP)                    | ☐ Yes / ☐ No |                 |
-| Custom domain DNS configured                               | ☐ Yes / ☐ No |                 |
-| Web store listing localization complete                    | ☐ Yes / ☐ No | CTO-L co-signer |
+| Sub-Item                                          | Status       | Notes           |
+| ------------------------------------------------- | ------------ | --------------- |
+| Vercel production deploy successful               | ☐ Yes / ☐ No |                 |
+| CDN propagation verified (all edge locations)     | ☐ Yes / ☐ No |                 |
+| DNS records verified (A, CNAME, MX, TXT)          | ☐ Yes / ☐ No |                 |
+| SSL certificates valid (Let's Encrypt / custom)   | ☐ Yes / ☐ No |                 |
+| HSTS header present                               | ☐ Yes / ☐ No |                 |
+| SEO validation complete (sitemap.xml, robots.txt) | ☐ Yes / ☐ No |                 |
+| OG tags verified (Facebook, Twitter cards)        | ☐ Yes / ☐ No |                 |
+| Core Web Vitals passing (LCP, CLS, INP)           | ☐ Yes / ☐ No |                 |
+| Custom domain DNS configured                      | ☐ Yes / ☐ No |                 |
+| Web store listing localization complete           | ☐ Yes / ☐ No | CTO-L co-signer |
 
 #### Mobile Submission
 
@@ -76,16 +76,16 @@
 
 ### Web Deployment
 
-| Requirement                                | Status       | Notes |
-| ------------------------------------------ | ------------ | ----- |
-| Vercel production build successful         | ☐ Yes / ☐ No |       |
-| CDN edge propagation complete              | ☐ Yes / ☐ No |       |
-| DNS records configured and verified        | ☐ Yes / ☐ No |       |
-| SSL/TLS certificates valid                 | ☐ Yes / ☐ No |       |
-| HSTS header active                         | ☐ Yes / ☐ No |       |
-| Core Web Vitals passing                    | ☐ Yes / ☐ No |       |
-| SEO metadata complete                      | ☐ Yes / ☐ No |       |
-| Backend API live and healthy               | ☐ Yes / ☐ No |       |
+| Requirement                         | Status       | Notes |
+| ----------------------------------- | ------------ | ----- |
+| Vercel production build successful  | ☐ Yes / ☐ No |       |
+| CDN edge propagation complete       | ☐ Yes / ☐ No |       |
+| DNS records configured and verified | ☐ Yes / ☐ No |       |
+| SSL/TLS certificates valid          | ☐ Yes / ☐ No |       |
+| HSTS header active                  | ☐ Yes / ☐ No |       |
+| Core Web Vitals passing             | ☐ Yes / ☐ No |       |
+| SEO metadata complete               | ☐ Yes / ☐ No |       |
+| Backend API live and healthy        | ☐ Yes / ☐ No |       |
 
 ### Google Play
 
@@ -129,14 +129,16 @@
 
 ## Panel Sign-Off
 
-| Role  | Name                  | Sign-off     | Date |
-| ----- | --------------------- | ------------ | ---- |
-| CPO   | Marcus Tran-Yoshida   | ☐ Yes / ☐ No |      |
-| CDO   | Yuki Tanaka-Chen      | ☐ Yes / ☐ No |      |
-| CTO   | Dr. Kenji Nakamura    | ☐ Yes / ☐ No |      |
-| CIO   | Dr. Priya Mehta       | ☐ Yes / ☐ No |      |
-| CSO   | Dr. Sarah Chen        | ☐ Yes / ☐ No |      |
-| CTO-L | Dr. Amara Osei-Mensah | ☐ Yes / ☐ No |      |
+| Role   | Name                  | Sign-off     | Date |
+| ------ | --------------------- | ------------ | ---- |
+| CPO    | Marcus Tran-Yoshida   | ☐ Yes / ☐ No |      |
+| VP Web | Julia Thorne          | ☐ Yes / ☐ No |      |
+| VP API | Alex Rivera           | ☐ Yes / ☐ No |      |
+| CDO    | Yuki Tanaka-Chen      | ☐ Yes / ☐ No |      |
+| CTO    | Dr. Kenji Nakamura    | ☐ Yes / ☐ No |      |
+| CIO    | Dr. Priya Mehta       | ☐ Yes / ☐ No |      |
+| CSO    | Dr. Sarah Chen        | ☐ Yes / ☐ No |      |
+| CTO-L  | Dr. Amara Osei-Mensah | ☐ Yes / ☐ No |      |
 
 ---
 

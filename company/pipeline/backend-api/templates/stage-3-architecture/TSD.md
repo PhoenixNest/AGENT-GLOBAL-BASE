@@ -11,18 +11,18 @@
 
 ## 1. Technology Decisions Summary
 
-| Domain                | Selected Technology      | Rationale | Alternatives Rejected        |
-| --------------------- | ------------------------ | --------- | ---------------------------- |
-| Backend runtime       | [Go 1.21+ / Node.js 20+ / Python 3.12+] | [Reason]  | [Alternative + why rejected] |
-| API framework         | [Gin / Fiber / Express / Fastify / FastAPI] | [Reason] | [Alternative + why rejected] |
-| Database              | [PostgreSQL 16 / MySQL 8.0] | [Reason] | [Alternative + why rejected] |
-| ORM / Query builder   | [sqlx / Kysely / Prisma / GORM] | [Reason] | [Alternative + why rejected] |
-| Caching               | [Redis 7]                | [Reason]  | [Alternative + why rejected] |
-| Message queue         | [Kafka / RabbitMQ]       | [Reason]  | [Alternative + why rejected] |
-| Authentication        | [JWT + OAuth 2.0]        | [Reason]  | [Alternative + why rejected] |
-| API documentation     | [OpenAPI 3.1 + Swagger UI] | [Reason] | [Alternative + why rejected] |
-| Container runtime     | [Docker + containerd]    | [Reason]  | [Alternative + why rejected] |
-| Hosting               | [AWS / GCP / Render]     | [Reason]  | [Alternative + why rejected] |
+| Domain              | Selected Technology                         | Rationale | Alternatives Rejected        |
+| ------------------- | ------------------------------------------- | --------- | ---------------------------- |
+| Backend runtime     | [Go 1.21+ / Node.js 20+ / Python 3.12+]     | [Reason]  | [Alternative + why rejected] |
+| API framework       | [Gin / Fiber / Express / Fastify / FastAPI] | [Reason]  | [Alternative + why rejected] |
+| Database            | [PostgreSQL 16 / MySQL 8.0]                 | [Reason]  | [Alternative + why rejected] |
+| ORM / Query builder | [sqlx / Kysely / Prisma / GORM]             | [Reason]  | [Alternative + why rejected] |
+| Caching             | [Redis 7]                                   | [Reason]  | [Alternative + why rejected] |
+| Message queue       | [Kafka / RabbitMQ]                          | [Reason]  | [Alternative + why rejected] |
+| Authentication      | [JWT + OAuth 2.0]                           | [Reason]  | [Alternative + why rejected] |
+| API documentation   | [OpenAPI 3.1 + Swagger UI]                  | [Reason]  | [Alternative + why rejected] |
+| Container runtime   | [Docker + containerd]                       | [Reason]  | [Alternative + why rejected] |
+| Hosting             | [AWS / GCP / Render]                        | [Reason]  | [Alternative + why rejected] |
 
 ---
 
@@ -30,10 +30,10 @@
 
 ### 2.1 [Technology Domain]
 
-| Option     | Pros   | Cons   | TCO (24-month) | Lock-in Risk   | Verdict     |
-| ---------- | ------ | ------ | -------------- | -------------- | ----------- |
-| [Option A] | [List] | [List] | [$X]           | [Low/Med/High] | Selected    |
-| [Option B] | [List] | [List] | [$X]           | [Low/Med/High] | Rejected    |
+| Option     | Pros   | Cons   | TCO (24-month) | Lock-in Risk   | Verdict  |
+| ---------- | ------ | ------ | -------------- | -------------- | -------- |
+| [Option A] | [List] | [List] | [$X]           | [Low/Med/High] | Selected |
+| [Option B] | [List] | [List] | [$X]           | [Low/Med/High] | Rejected |
 
 **Weighted Scorecard:**
 
@@ -66,38 +66,38 @@
 
 ## 5. i18n/L10n Technology Stack
 
-| Component               | Technology                                  | Notes                                       |
-| ----------------------- | ------------------------------------------- | ------------------------------------------- |
-| String key taxonomy     | `{domain}.{category}.{component}.{property}` | Per ADR-NNN (String Key Taxonomy)           |
-| API error format        | JSON locale files (`locales/{lang}/errors.json`) | UTF-8, placeholder syntax: `{field}`     |
-| Developer portal format | JSON content files (`docs/locales/{lang}/portal.json`) | Markdown content with i18n frontmatter |
+| Component               | Technology                                                 | Notes                                        |
+| ----------------------- | ---------------------------------------------------------- | -------------------------------------------- |
+| String key taxonomy     | `{domain}.{category}.{component}.{property}`               | Per ADR-NNN (String Key Taxonomy)            |
+| API error format        | JSON locale files (`locales/{lang}/errors.json`)           | UTF-8, placeholder syntax: `{field}`         |
+| Developer portal format | JSON content files (`docs/locales/{lang}/portal.json`)     | Markdown content with i18n frontmatter       |
 | Email template format   | JSON locale files (`templates/locales/{lang}/emails.json`) | Template engine: [Handlebars / Go templates] |
-| TMS platform            | [e.g., Smartcat / Crowdin]                  | Version/API version                         |
-| TMS authentication      | [OAuth2 / API key]                          | Credentials stored in Vault path            |
-| File format             | XLIFF 2.0 / JSON                            | Push/pull via TMS REST API v2               |
-| TM leverage             | Translation Memory enabled                  | Minimum 75% match threshold for auto-accept |
-| Glossary                | [Project glossary]                          | Uploaded to TMS; mandatory term enforcement |
-| Webhook                 | [TMS webhook URL]                           | Triggers CI/CD on translation completion    |
-| Pull schedule           | [On-demand / Scheduled]                     | Integrated into Stage 9 pipeline            |
-| Parity tracking         | `key-index.csv`                             | Generated from locale files at build time   |
+| TMS platform            | [e.g., Smartcat / Crowdin]                                 | Version/API version                          |
+| TMS authentication      | [OAuth2 / API key]                                         | Credentials stored in Vault path             |
+| File format             | XLIFF 2.0 / JSON                                           | Push/pull via TMS REST API v2                |
+| TM leverage             | Translation Memory enabled                                 | Minimum 75% match threshold for auto-accept  |
+| Glossary                | [Project glossary]                                         | Uploaded to TMS; mandatory term enforcement  |
+| Webhook                 | [TMS webhook URL]                                          | Triggers CI/CD on translation completion     |
+| Pull schedule           | [On-demand / Scheduled]                                    | Integrated into Stage 9 pipeline             |
+| Parity tracking         | `key-index.csv`                                            | Generated from locale files at build time    |
 
 ---
 
 ## 6. CI/CD Technology Stack
 
-| Component               | Technology                          | Notes                              |
-| ----------------------- | ----------------------------------- | ---------------------------------- |
-| CI/CD platform          | [GitHub Actions / GitLab CI / Jenkins] | [Runner type]                    |
-| Container registry      | [GHCR / ECR / GCR]                  | [Image signing policy]             |
-| SAST                    | Semgrep + CodeQL + [language linter]| [Rule packs]                       |
-| DAST                    | OWASP ZAP                           | [Authenticated scanning]           |
-| SBOM                    | CycloneDX / SPDX                    | [Multi-target generation]          |
-| Artifact signing        | cosign (Sigstore)                   | [Keyless signing]                  |
-| Secrets management      | HashiCorp Vault / Cloud KMS         | [OIDC-based auth]                  |
-| Dependency scanning     | Snyk / Dependabot / Trivy           | [Schedule]                         |
-| Container image scanning| Trivy / Grype                       | [Scan on every build]              |
-| API contract testing    | Schemathesis / Dredd / Pact         | [OpenAPI spec validation]          |
-| Load testing            | k6                                  | [Performance regression checks]    |
+| Component                | Technology                             | Notes                           |
+| ------------------------ | -------------------------------------- | ------------------------------- |
+| CI/CD platform           | [GitHub Actions / GitLab CI / Jenkins] | [Runner type]                   |
+| Container registry       | [GHCR / ECR / GCR]                     | [Image signing policy]          |
+| SAST                     | Semgrep + CodeQL + [language linter]   | [Rule packs]                    |
+| DAST                     | OWASP ZAP                              | [Authenticated scanning]        |
+| SBOM                     | CycloneDX / SPDX                       | [Multi-target generation]       |
+| Artifact signing         | cosign (Sigstore)                      | [Keyless signing]               |
+| Secrets management       | HashiCorp Vault / Cloud KMS            | [OIDC-based auth]               |
+| Dependency scanning      | Snyk / Dependabot / Trivy              | [Schedule]                      |
+| Container image scanning | Trivy / Grype                          | [Scan on every build]           |
+| API contract testing     | Schemathesis / Dredd / Pact            | [OpenAPI spec validation]       |
+| Load testing             | k6                                     | [Performance regression checks] |
 
 ---
 
@@ -105,14 +105,14 @@
 
 > **Reference:** See Test Architecture Document (TAD) for full test strategy.
 
-| Layer             | Tool / Framework                     | Notes                                           |
-| ----------------- | ------------------------------------ | ----------------------------------------------- |
-| Unit tests        | [Go test / Jest / Vitest / pytest]   | Framework-native test runners                   |
-| Integration tests | docker-compose + test containers     | Ephemeral database, Redis, message queue        |
-| API contract tests| [Pact / Schemathesis / Dredd]        | OpenAPI spec conformance                        |
-| Load tests        | k6                                   | Performance and scalability verification        |
-| Security tests    | OWASP ZAP, Semgrep                   | DAST + SAST                                     |
-| Chaos engineering | [Chaos Mesh / Litmus] (optional)     | Resilience testing                              |
+| Layer              | Tool / Framework                   | Notes                                    |
+| ------------------ | ---------------------------------- | ---------------------------------------- |
+| Unit tests         | [Go test / Jest / Vitest / pytest] | Framework-native test runners            |
+| Integration tests  | docker-compose + test containers   | Ephemeral database, Redis, message queue |
+| API contract tests | [Pact / Schemathesis / Dredd]      | OpenAPI spec conformance                 |
+| Load tests         | k6                                 | Performance and scalability verification |
+| Security tests     | OWASP ZAP, Semgrep                 | DAST + SAST                              |
+| Chaos engineering  | [Chaos Mesh / Litmus] (optional)   | Resilience testing                       |
 
 ---
 
@@ -155,12 +155,12 @@
 
 ### Quarterly Radar Process
 
-| Phase             | Timeline          | Owner                     | Output                                               |
-| ----------------- | ----------------- | ------------------------- | ---------------------------------------------------- |
-| Technology scan   | Week 1 of quarter | CIO office                | List of changes in relevant technologies             |
-| Impact assessment | Week 2 of quarter | Backend Leads + Security  | Risk/opportunity analysis per technology             |
-| Radar update      | Week 3 of quarter | CIO                       | Updated radar quadrant positions                     |
-| Action plan       | Week 4 of quarter | CTO + CIO                 | Migration/abandonment decisions, resource allocation |
+| Phase             | Timeline          | Owner                    | Output                                               |
+| ----------------- | ----------------- | ------------------------ | ---------------------------------------------------- |
+| Technology scan   | Week 1 of quarter | CIO office               | List of changes in relevant technologies             |
+| Impact assessment | Week 2 of quarter | Backend Leads + Security | Risk/opportunity analysis per technology             |
+| Radar update      | Week 3 of quarter | CIO                      | Updated radar quadrant positions                     |
+| Action plan       | Week 4 of quarter | CTO + CIO                | Migration/abandonment decisions, resource allocation |
 
 ### Current Radar
 

@@ -124,7 +124,7 @@ The mandatory Multi-Platform Strategy ADR at Stage 3 must include **all 16 field
 
 ### Stage 1: Requirements to PRD + SRD
 
-**Relevant Personnel:** CPO (PRD), CSO (SRD)
+**Relevant Personnel:** VP Web (Julia Thorne) + VP API (Alex Rivera) (PRD — primary); CPO (template steward, arbiter for mobile features, final sign-off); CSO (SRD — primary); both VPs (SRD co-authors for their respective surfaces)
 
 **Artifacts In:** Raw product requirements, user research, market analysis
 
@@ -133,7 +133,7 @@ The mandatory Multi-Platform Strategy ADR at Stage 3 must include **all 16 field
 - `PRD.md` -- Product Requirements Document (with JTBD, kill criteria, commercial assessment, all target platforms specified upfront)
 - `SRD.md` -- Security Requirements Document (unified security requirements across all platforms)
 
-**Reviewers:** CTO, CIO, CSO, CPO
+**Reviewers:** CTO, CIO, CSO, CPO, VP Web, VP API
 
 **Gate Criteria:**
 
@@ -143,13 +143,15 @@ The mandatory Multi-Platform Strategy ADR at Stage 3 must include **all 16 field
 4. SRD includes cross-platform security requirements (unified auth with cross-platform session management, per-platform security baselines — iOS ATS, Android Keystore, web CSP/cookies, data synchronization security, API contract security verification across all consuming platforms)
 5. User has confirmed no further revisions are required
 
+**Authorship Model Subnote:** Web + API features are VP-led with CPO template review; features that also touch mobile carry CPO veto on the mobile-facing sections; deadlocks escalate to the CPO.
+
 **Defect Handling:** P0/P1 defects block Stage 1 to 2. P2/P3 defects require user decision.
 
 ---
 
 ### Stage 2: PRD to Cross-Platform Prototype + IDS
 
-**Relevant Personnel:** CDO
+**Relevant Personnel:** CDO, VP Web (Julia Thorne), VP API (Alex Rivera)
 
 **Artifacts In:** PRD, SRD (paired artifacts)
 
@@ -163,7 +165,7 @@ The mandatory Multi-Platform Strategy ADR at Stage 3 must include **all 16 field
   - Developer portal low-fidelity prototype (documentation layout, interactive explorer, onboarding flow)
 - `IDS.md` -- Cross-Platform Interaction Design Specification (covers all platforms — web, iOS, Android. Design token compatibility matrix: CSS custom properties to iOS UIColor/Android ColorRes mapping. Platform-specific accessibility, animation specs per platform, gesture vocabulary per platform)
 
-**Reviewers:** CTO, CDO, CPO
+**Reviewers:** CTO, CDO, CPO, VP Web (Julia Thorne), VP API (Alex Rivera)
 
 **Gate Criteria:**
 
@@ -312,7 +314,7 @@ Before **Stage 5** begins, the security team produces a full-stack-specific SIS:
 - `DEFECT-REPORT.md` -- Defect Report with Architecture Compliance Audit, Cross-Platform Conformance Matrix, per-platform pre-Tier 1 automated quality gates
 - `SIGNOFF.md` -- Code Review Sign-off (with Cross-Platform Live Demonstration results)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Frontend Lead, Backend Lead, Mobile Lead
+**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Frontend Lead, Backend Lead, Mobile Lead, VP Web (Julia Thorne) (advisor), VP API (Alex Rivera) (advisor)
 
 **Gate Criteria:**
 
@@ -367,7 +369,7 @@ Before **Stage 5** begins, the security team produces a full-stack-specific SIS:
 
 - Integrity Verification Sign-off reports from each panel member (CPO, CDO, CIO, CSO, all platform leads)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Brand Design, all platform leads
+**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Brand Design, all platform leads, VP Web (Julia Thorne), VP API (Alex Rivera)
 
 **Gate Criteria:**
 
@@ -408,7 +410,7 @@ Before **Stage 5** begins, the security team produces a full-stack-specific SIS:
 
 ### Stage 10: i18n to Release Readiness Check
 
-**Relevant Personnel:** CTO (convenes panel), CPO, CDO, CSO, CTO-L, **User** (final decision)
+**Relevant Personnel:** CTO (convenes panel), CPO, VP Product, Web Platforms (Julia Thorne), VP Product, API & Developer Platforms (Alex Rivera), CDO, CSO, CTO-L, **User** (final decision)
 
 **Artifacts In:** Localised codebase, Translation Verification Report, all prior stage artifacts
 
@@ -417,13 +419,13 @@ Before **Stage 5** begins, the security team produces a full-stack-specific SIS:
 - `RELEASE-CHECKLIST.md` -- Release Readiness Report (7-item checklist with per-platform sub-checklists)
 - Release Decision (approved / conditional / rejected)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CSO, CTO-L + **User**
+**Reviewers:** CTO (convenes), CPO, VP Web (Julia Thorne), VP API (Alex Rivera), CDO, CSO, CTO-L + **User**
 
 **Release Checklist (7 Items):**
 
 | #   | Domain                                                                      | Sign-off Authority | Key Sub-Checks                                                                                                                                                                                                                                                                                                                                                                   |
 | --- | --------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Product -- all PRD requirements implemented                                 | CPO                | Analytics firing on all platforms, IAP configured, kill condition monitoring active                                                                                                                                                                                                                                                                                              |
+| 1   | Product -- all PRD requirements implemented                                 | CPO + VPs          | Analytics firing on all platforms, IAP configured, kill condition monitoring active                                                                                                                                                                                                                                                                                              |
 | 2   | Design -- all CDO/IDS specifications accurately realised                    | CDO                | Cross-platform conformance greater than or equal to 95%, design token compatibility verified, WCAG 2.1 AA met on all platforms, platform-specific accessibility met                                                                                                                                                                                                              |
 | 3   | Architecture -- all UML/ADR/TSD standards upheld                            | CTO + CIO          | Technology Decision Registry 100% compliant per platform, no ADR deviations                                                                                                                                                                                                                                                                                                      |
 | 4   | Security -- SRD enforced, all platform security controls effective          | CSO                | All security controls present AND effective on all platforms, cross-platform auth parity verified, stealthy weakening verified absent                                                                                                                                                                                                                                            |

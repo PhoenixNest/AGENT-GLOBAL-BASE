@@ -14,9 +14,9 @@ Complete list of all company agents. Sorted by department, then tier.
 | Cyberspace Security    | 10     | 2       | 0            | 1                    | 0                     | 5         | 2               |
 | Human Resources        | 2      | 1       | 0            | 0                    | 0                     | 0         | 1               |
 | Localization           | 7      | 1       | 0            | 0                    | 0                     | 6         | 0               |
-| Product Management     | 1      | 1       | 0            | 0                    | 0                     | 0         | 0               |
+| Product Management     | 3      | 1       | 2            | 0                    | 0                     | 0         | 0               |
 | Research & Development | 55     | 1       | 4            | 2                    | 7                     | 24        | 17              |
-| **Total**              | **77** | **7**   | **4**        | **3**                | **8**                 | **36**    | **21**          |
+| **Total**              | **79** | **7**   | **6**        | **3**                | **8**                 | **36**    | **21**          |
 
 ---
 
@@ -69,11 +69,13 @@ Complete list of all company agents. Sorted by department, then tier.
 
 ---
 
-## Product Management (1)
+## Product Management (3)
 
-| #   | Name                | Role                        | Tier    | Pipeline Stages | Skills                                       | Profile                                                                                                |
-| --- | ------------------- | --------------------------- | ------- | --------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| 24  | Marcus Tran-Yoshida | Chief Product Officer (CPO) | C-suite | 1, 6, 8, 9, 10  | `mobile-product-strategy` · `prd-authorship` | [`profile.md`](../../departments/product-management/supervisor/chief-product-officer/agent/profile.md) |
+| #   | Name                | Role                                  | Tier            | Pipeline Stages | Skills                                                                                | Profile                                                                                                |
+| --- | ------------------- | ------------------------------------- | --------------- | --------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| 24  | Marcus Tran-Yoshida | Chief Product Officer (CPO)           | C-suite         | 1, 6, 8, 9, 10  | `mobile-product-strategy` · `prd-authorship`                                          | [`profile.md`](../../departments/product-management/supervisor/chief-product-officer/agent/profile.md) |
+| 78  | Julia Thorne        | VP Product, Web Platforms             | Team Supervisor | 1               | `web-product-strategy` · `prd-authorship` · `web-conversion-mechanics`                | [`profile.md`](../../departments/product-management/team/supervisors/vp-web/agent/profile.md)          |
+| 79  | Alex Rivera         | VP Product, API & Developer Platforms | Team Supervisor | 1               | `api-product-strategy` · `prd-authorship` · `developer-experience` · `api-governance` | [`profile.md`](../../departments/product-management/team/supervisors/vp-api/agent/profile.md)          |
 
 ---
 

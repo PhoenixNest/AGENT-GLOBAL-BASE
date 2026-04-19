@@ -1,45 +1,58 @@
 # Product Management Department
 
-Responsible for translating user requirements into a structured, reviewable Product Requirements Document (PRD) and driving product strategy across all pipeline stages. The CPO is the primary voice of the product throughout the development lifecycle — from requirements at Stage 1 through final release sign-off at Stage 10.
+Responsible for translating user requirements into a structured, reviewable Product Requirements Document (PRD) and driving product strategy across all pipeline stages. The division operates under a **"Template Steward + Distributed Production"** model, ensuring high standards across Mobile, Web, and API surfaces.
 
 > Reports to the Chief Product Officer (CPO) and the Chief Information Officer (CIO).
 
 ---
 
-## Supervisor
+## Leadership
 
-| Name                | Role                        | Seniority | Profile                                                                                                |
-| ------------------- | --------------------------- | --------- | ------------------------------------------------------------------------------------------------------ |
-| Marcus Tran-Yoshida | Chief Product Officer (CPO) | C-suite   | [`profile.md`](../../departments/product-management/supervisor/chief-product-officer/agent/profile.md) |
+| Name                    | Role                                  | Seniority | Profile                                                                                                        |
+| :---------------------- | :------------------------------------ | :-------- | :------------------------------------------------------------------------------------------------------------- |
+| **Marcus Tran-Yoshida** | **Chief Product Officer (CPO)**       | C-suite   | [`profile.md`](../../departments/product-management/supervisor/chief-product-officer/agent/profile.md)         |
+| **Julia Thorne**        | VP Product, Web Platforms             | VP-tier   | [`profile.md`](../../departments/product-management/team/supervisors/vp-product-web-platform/agent/profile.md) |
+| **Alex Rivera**         | VP Product, API & Developer Platforms | VP-tier   | [`profile.md`](../../departments/product-management/team/supervisors/vp-product-api-platform/agent/profile.md) |
 
-**CPO Skills:**
+### Operating Model: Template Steward + Distributed Production
 
-| Skill File                                                                                                                              | Purpose                                                                                                                  |
-| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [`mobile-product-strategy.md`](../../departments/product-management/supervisor/chief-product-officer/skills/mobile-product-strategy.md) | Mobile product strategy, competitive analysis, roadmap prioritisation, platform-specific product decisions               |
-| [`prd-authorship.md`](../../departments/product-management/supervisor/chief-product-officer/skills/prd-authorship.md)                   | Product Requirements Document authorship: feature specifications, acceptance criteria, edge cases, platform requirements |
+To prevent structural bottlenecks while maintaining rigorous quality, the department utilizes a distributed ownership model for Stage 1 PRD production:
+
+- **The CPO (Marcus Tran-Yoshida)** serves as the **Template Steward**. He owns the authoritative PRD standard (`prd-authorship.md`) and provides final sign-off on all PRDs advancing to Stage 2.
+- **The VPs (Julia Thorne & Alex Rivera)** serve as **Domain Producers**. They hold primary Stage 1 authority for their respective pipelines, authoring requirements with native-domain depth.
+
+---
+
+## Division Skills
+
+| Skill File                                                                                                                                | Purpose                                                                              | Owner  |
+| :---------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------- | :----- |
+| [`prd-authorship.md`](../../departments/product-management/supervisor/chief-product-officer/skills/prd-authorship.md)                     | **Company Standard:** PRD structure, acceptance criteria, and platform requirements. | CPO    |
+| [`mobile-product-strategy.md`](../../departments/product-management/supervisor/chief-product-officer/skills/mobile-product-strategy.md)   | Mobile prioritisation, HIG/Material constraints, and app-store mechanics.            | CPO    |
+| [`web-product-strategy.md`](../../departments/product-management/team/supervisors/vp-product-web-platform/skills/web-product-strategy.md) | Web conversion funnels, accessibility (WCAG 2.1 AA), and PWA/SPA/SSR strategy.       | VP Web |
+| [`api-product-strategy.md`](../../departments/product-management/team/supervisors/vp-product-api-platform/skills/api-product-strategy.md) | OpenAPI standards, DX metrics, monetization, and API lifecycle management.           | VP API |
 
 ---
 
 ## Pipeline Stages
 
-| Stage                                   | Role                                                                                                                                                                                                                                                   |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Stage 1** — Requirements → PRD + SRD  | **Responsible Producer (PRD).** Receives user requirements, determines target platforms, produces the Product Requirements Document. Convenes CIO and CTO for review. Iterates until user confirms no further revisions. Archives PRD paired with SRD. |
-| **Stage 2** — PRD → Web Prototype + IDS | **Reviewer.** Reviews CDO prototypes against the PRD. Must approve before prototypes advance.                                                                                                                                                          |
-| **Stage 6** — Code Review               | **Reviewer.** Verifies all PRD requirements have been fully implemented in the codebase.                                                                                                                                                               |
-| **Stage 8** — Integrity Verification    | **Reviewer.** Confirms all PRD features remain intact after the testing remediation phase (anti-pattern check: no functionality removed to achieve passing tests).                                                                                     |
-| **Stage 9** — i18n Engineering          | **Structural completeness reviewer.** Alongside CDO and CTO, confirms all hardcoded strings extracted and resource files correctly structured (structure review only — not translation accuracy).                                                      |
-| **Stage 10** — Release Readiness Check  | **Sign-off authority.** CPO certifies: all PRD requirements implemented and verified. Also co-signs Platform criterion (App Store / Google Play requirements met).                                                                                     |
+| Stage                                   | Role & Ownership                                                                                                                                                                                                                                                                 |
+| :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 1** — Requirements → PRD + SRD  | **Primary Authority:** Transferred per pipeline type:<br>• **Mobile:** CPO (Marcus)<br>• **Web:** VP Web (Julia)<br>• **API:** VP API (Alex)<br>• **Full-Stack:** Joint VP Web + VP API authorship.<br><br>**Sign-off:** CPO remains the Accountable Approver for all pipelines. |
+| **Stage 2** — PRD → Web Prototype + IDS | **Handoff Partner:** The relevant VP (or CPO for Mobile) reviews prototypes against the PRD. Must approve before advance.                                                                                                                                                        |
+| **Stage 6** — Code Review               | **Advisor:** VPs attend as domain advisors for their pipeline; CPO verifies requirement implementation.                                                                                                                                                                          |
+| **Stage 8** — Integrity Verification    | **Reviewer:** VPs co-review with the CPO to confirm features remain intact after testing (anti-pattern check).                                                                                                                                                                   |
+| **Stage 9** — i18n Engineering          | **Structural Reviewer:** Alongside CDO and CTO, confirms string extraction and resource file structure.                                                                                                                                                                          |
+| **Stage 10** — Release Readiness Check  | **Sign-off authority:** CPO certifies PRD verification; VPs co-sign readiness for their respective pipelines.                                                                                                                                                                    |
 
 ---
 
 ## Key Artifacts Produced
 
-- **Product Requirements Document (PRD)** — Defines features, acceptance criteria, edge cases, and platform targets. Paired with the SRD from Stage 1 and travels as a unit through all subsequent stages.
+- **Product Requirements Document (PRD)** — Defines features, acceptance criteria, and platform targets. Paired with the SRD from Stage 1. Under the new model, PRDs contain platform-native extensions for Web and API surfaces.
 
 ---
 
 ## Note on Target Platforms
 
-Before the CPO begins PRD authorship, the user must confirm their intended release platforms: **Android**, **iOS**, or **both**. This decision gates Stage 1 and shapes the PRD's platform-specific requirements sections.
+Before a PRD is initiated, the user must confirm the target platforms: **Android**, **iOS**, **Web**, or **API**. This choice determines which leader takes primary authorship and which domain-specific strategy skills are applied.

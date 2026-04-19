@@ -149,7 +149,7 @@ The mandatory API Strategy ADR at Stage 3 must include **all 14 fields**:
 
 ### Stage 2: PRD to API Prototype + IDS
 
-**Relevant Personnel:** CDO
+**Relevant Personnel:** CDO, VP API (Alex Rivera)
 
 **Artifacts In:** PRD, SRD (paired artifacts)
 
@@ -158,7 +158,7 @@ The mandatory API Strategy ADR at Stage 3 must include **all 14 fields**:
 - Approved API specification (OpenAPI/Swagger for REST, GraphQL SDL for GraphQL, protobuf for gRPC)
 - `IDS.md` -- Interaction Design Specification (with API UX for developer portal, error response conventions, pagination/field selection patterns)
 
-**Reviewers:** CTO, CDO, CPO
+**Reviewers:** CTO, CDO, CPO, VP API (Alex Rivera)
 
 **Gate Criteria:**
 
@@ -303,7 +303,7 @@ Before **Stage 5** begins, the security team produces a backend-specific SIS:
 - `DEFECT-REPORT.md` -- Defect Report with Architecture Compliance Audit, API Conformance Matrix, pre-Tier 1 automated quality gates
 - `SIGNOFF.md` -- Code Review Sign-off (with Live API Demonstration results)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Backend Lead (Dev Malhotra), Security Lead (James Wright)
+**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Backend Lead (Dev Malhotra), Security Lead (James Wright), VP API (Alex Rivera) (advisor)
 
 **Gate Criteria:**
 
@@ -358,7 +358,7 @@ Before **Stage 5** begins, the security team produces a backend-specific SIS:
 
 - Integrity Verification Sign-off reports from each panel member (CPO, CDO, CIO, CSO, Backend Lead, Security Lead)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Backend Lead, Security Lead
+**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Backend Lead, Security Lead, VP API (Alex Rivera) (co-reviewer)
 
 **Gate Criteria:**
 
@@ -398,7 +398,7 @@ Before **Stage 5** begins, the security team produces a backend-specific SIS:
 
 ### Stage 10: i18n to Release Readiness Check
 
-**Relevant Personnel:** CTO (convenes panel), CPO, CIO, CSO, CTO-L, **User** (final decision)
+**Relevant Personnel:** CTO (convenes panel), CPO, CIO, CSO, CTO-L, VP API (Alex Rivera), **User** (final decision)
 
 **Artifacts In:** Localised codebase, Translation Verification Report, all prior stage artifacts
 
@@ -407,19 +407,19 @@ Before **Stage 5** begins, the security team produces a backend-specific SIS:
 - `RELEASE-CHECKLIST.md` -- Release Readiness Report (7-item checklist with sub-checklists)
 - Release Decision (approved / conditional / rejected)
 
-**Reviewers:** CTO (convenes), CPO, CIO, CSO, CTO-L + **User**
+**Reviewers:** CTO (convenes), CPO, CIO, CSO, CTO-L, VP API (Alex Rivera) + **User**
 
 **Release Checklist (7 Items):**
 
-| #   | Domain                                                      | Sign-off Authority | Key Sub-Checks                                                                                                                                           |
-| --- | ----------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Product -- all PRD requirements implemented                 | CPO                | Analytics firing, kill condition monitoring active, post-launch dashboard ready                                                                          |
-| 2   | Design -- all CDO/IDS specifications accurately realised    | CDO                | API conformance greater than or equal to 95%, developer portal UX met, error response conventions followed, developer portal WCAG 2.1 AA ≥ 95% pass rate |
-| 3   | Architecture -- all UML/ADR/TSD standards upheld            | CTO + CIO          | Technology Decision Registry 100% compliant, no ADR deviations                                                                                           |
-| 4   | Security -- SRD enforced, API security controls effective   | CSO                | All security controls present AND effective (rate limiting, authZ, input validation, CORS), stealthy weakening verified absent                           |
-| 5   | Testing -- 100% automated test pass rate achieved           | CTO                | DAST passed, load benchmarks passed, SLA verification passed                                                                                             |
-| 6   | Localisation -- error messages + developer portal localized | CTO-L              | BLEU greater than or equal to 0.80, error messages verified, developer portal translated                                                                 |
-| 7   | Deployment -- API gateway live, versioning active           | CTO + CPO          | API gateway deployed, version published, deprecation policy published, developer docs complete, sandbox environment live, monitoring dashboards live     |
+| #   | Domain                                                      | Sign-off Authority         | Key Sub-Checks                                                                                                                                           |
+| --- | ----------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Product -- all PRD requirements implemented                 | CPO + VP API (Alex Rivera) | Analytics firing, kill condition monitoring active, post-launch dashboard ready                                                                          |
+| 2   | Design -- all CDO/IDS specifications accurately realised    | CDO                        | API conformance greater than or equal to 95%, developer portal UX met, error response conventions followed, developer portal WCAG 2.1 AA ≥ 95% pass rate |
+| 3   | Architecture -- all UML/ADR/TSD standards upheld            | CTO + CIO                  | Technology Decision Registry 100% compliant, no ADR deviations                                                                                           |
+| 4   | Security -- SRD enforced, API security controls effective   | CSO                        | All security controls present AND effective (rate limiting, authZ, input validation, CORS), stealthy weakening verified absent                           |
+| 5   | Testing -- 100% automated test pass rate achieved           | CTO                        | DAST passed, load benchmarks passed, SLA verification passed                                                                                             |
+| 6   | Localisation -- error messages + developer portal localized | CTO-L                      | BLEU greater than or equal to 0.80, error messages verified, developer portal translated                                                                 |
+| 7   | Deployment -- API gateway live, versioning active           | CTO + CPO                  | API gateway deployed, version published, deprecation policy published, developer docs complete, sandbox environment live, monitoring dashboards live     |
 
 **Gate Criteria:**
 

@@ -36,16 +36,16 @@ Each pipeline follows a consistent 10-stage state machine:
 
 ## Pipeline Selection Guide
 
-| Product Type                          | Use Pipeline                |
-| ------------------------------------- | --------------------------- |
-| Android app                           | Mobile Development          |
-| iOS app                               | Mobile Development          |
-| Android + iOS (native)                | Mobile Development          |
-| Android + iOS (KMP)                   | Mobile Development          |
-| Android + iOS (Flutter)               | Mobile Development          |
-| Web app (PWA/SPA/SSR)                 | Web Development             |
-| Backend API service                   | Backend API                 |
-| Full product (web + mobile + backend) | Full-Stack Cross-Platform   |
+| Product Type                          | Use Pipeline              |
+| ------------------------------------- | ------------------------- |
+| Android app                           | Mobile Development        |
+| iOS app                               | Mobile Development        |
+| Android + iOS (native)                | Mobile Development        |
+| Android + iOS (KMP)                   | Mobile Development        |
+| Android + iOS (Flutter)               | Mobile Development        |
+| Web app (PWA/SPA/SSR)                 | Web Development           |
+| Backend API service                   | Backend API               |
+| Full product (web + mobile + backend) | Full-Stack Cross-Platform |
 
 ---
 

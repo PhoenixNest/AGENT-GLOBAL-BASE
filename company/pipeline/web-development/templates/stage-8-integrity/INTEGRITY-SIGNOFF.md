@@ -110,6 +110,7 @@ Condensed re-verification of all IDS conformance categories from Stage 6, with d
 | Role         | Name                | Domain         | Sign-off     | Date |
 | ------------ | ------------------- | -------------- | ------------ | ---- |
 | CPO          | Marcus Tran-Yoshida | Product/PRD    | ☐ Yes / ☐ No |      |
+| VP Web       | Julia Thorne        | Web Product    | ☐ Yes / ☐ No |      |
 | CDO          | Yuki Tanaka-Chen    | IDS/Design     | ☐ Yes / ☐ No |      |
 | CTO          | Dr. Kenji Nakamura  | Architecture   | ☐ Yes / ☐ No |      |
 | CIO          | Dr. Priya Mehta     | UML/ADR/TSD    | ☐ Yes / ☐ No |      |

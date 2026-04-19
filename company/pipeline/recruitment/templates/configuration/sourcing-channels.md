@@ -50,20 +50,20 @@
 
 ## Data/ML
 
-| Channel | Priority | Quality Weight | Quarterly Target |
-| ------- | -------- | -------------- | ---------------- |
-| Kaggle | High | 1.5× | 5 candidates |
-| GitHub (ML repos) | High | 1.3× | 10 candidates |
-| LinkedIn | High | 1.0× | 15 candidates |
-| Referrals | High | 1.5× | 5 candidates |
+| Channel           | Priority | Quality Weight | Quarterly Target |
+| ----------------- | -------- | -------------- | ---------------- |
+| Kaggle            | High     | 1.5×           | 5 candidates     |
+| GitHub (ML repos) | High     | 1.3×           | 10 candidates    |
+| LinkedIn          | High     | 1.0×           | 15 candidates    |
+| Referrals         | High     | 1.5×           | 5 candidates     |
 
 ## Business
 
-| Channel | Priority | Quality Weight | Quarterly Target |
-| ------- | -------- | -------------- | ---------------- |
-| LinkedIn | High | 1.0× | 15 candidates |
-| Referrals | High | 1.5× | 5 candidates |
-| Alumni Networks | Medium | 1.2× | 5 candidates |
+| Channel         | Priority | Quality Weight | Quarterly Target |
+| --------------- | -------- | -------------- | ---------------- |
+| LinkedIn        | High     | 1.0×           | 15 candidates    |
+| Referrals       | High     | 1.5×           | 5 candidates     |
+| Alumni Networks | Medium   | 1.2×           | 5 candidates     |
 
 ---
 

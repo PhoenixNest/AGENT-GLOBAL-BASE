@@ -2,9 +2,9 @@
 
 This directory contains the company's SubAgent configurations, skills, and workflow definitions for the mobile product development pipeline.
 
-**Last Updated:** April 14, 2026
-**Total SubAgents:** 77 (role-first naming, expanded from 20 after FY2026 Q2 recruitment)
-**Total Skills:** 199 (all skills authored and verified — 0 remaining gaps)
+**Last Updated:** April 18, 2026
+**Total SubAgents:** 79 (role-first naming, expanded from 77 after PM VP recruitment)
+**Total Skills:** 201 (all skills authored and verified — 0 remaining gaps)
 
 ## Environment
 
@@ -37,8 +37,9 @@ This directory contains the company's SubAgent configurations, skills, and workf
 ```
 .gemini/
 ├── README.md                    # This index file
-├── agents/                      # Gemini SubAgent configurations (77 agents, role-first naming)
+├── agents/                      # Gemini SubAgent configurations (79 agents, role-first naming)
 │   ├── C-Suite (7 files)
+│   ├── VP Product (2 files)
 │   ├── VP Engineering (4 files)
 │   ├── R&D Supervisors (5 files)
 │   ├── R&D Leads & Architects (7 files)
@@ -124,6 +125,13 @@ All 77 company personnel are configured as Gemini SubAgents. Each SubAgent file 
 | Chief Security Officer        | `cso-dr-sarah-chen.md`          | `mobile-security-architecture` · `application-security-hardening` · `security-risk-assessment` · `emerging-threat-evaluation`                | 1, 6, 8, 10          |
 | Chief Human Resources Officer | `chro-dr-evelyn-hartwell.md`    | `vet-candidate` · `recruit-engineering` · `recruit-product` · `recruit-design` · `recruit-data` · `recruit-translation` · `recruit-business` | Recruitment only     |
 | Chief Translation Officer     | `cto-l-dr-amara-osei-mensah.md` | `language-translation-module`                                                                                                                | 9, 10                |
+
+### VP Product Management (2)
+
+| Agent                 | Role                                  | File                     | Skills                                                                 | Pipeline Stages |
+| --------------------- | ------------------------------------- | ------------------------ | ---------------------------------------------------------------------- | --------------- |
+| Julia Thorne (VP Web) | VP Product, Web Platforms             | `vp-web-julia-thorne.md` | `web-product-strategy` · `prd-authorship` · `web-conversion-mechanics` | 1, 6, 8, 10     |
+| Alex Rivera (VP API)  | VP Product, API & Developer Platforms | `vp-api-alex-rivera.md`  | `api-product-strategy` · `prd-authorship` · `developer-experience`     | 1, 6, 8, 10     |
 
 ### VP Engineering (4)
 
@@ -299,11 +307,13 @@ Skills are organized into 14 functional categories. Each category has a parent `
 | Mobile Platform Strategy          | `architecture/guidelines/mobile-platform-strategy.md`          | Marcus Andersson |
 | Mobile Platform Immersion         | `architecture/guidelines/mobile-platform-immersion.md`         | Amira Voss       |
 
-### product-management (3 guidelines)
+### product-management (5 guidelines)
 
 | Guideline               | File                                                       | Owner        |
 | ----------------------- | ---------------------------------------------------------- | ------------ |
 | Mobile Product Strategy | `product-management/guidelines/mobile-product-strategy.md` | CPO          |
+| Web Product Strategy    | `product-management/guidelines/web-product-strategy.md`    | Julia Thorne |
+| API Product Strategy    | `product-management/guidelines/api-product-strategy.md`    | Alex Rivera  |
 | PRD Authorship          | `product-management/guidelines/prd-authorship.md`          | CPO          |
 | PRD Fluency             | `product-management/guidelines/prd-fluency.md`             | Nina Petrova |
 
@@ -681,8 +691,8 @@ Skills are organized into 14 functional categories. Each category has a parent `
 
 | Resource                | Count | Location                                    |
 | ----------------------- | ----- | ------------------------------------------- |
-| SubAgent Configurations | 77    | `agents/`                                   |
-| Skill Guidelines        | 199   | `skills/*/`                                 |
+| SubAgent Configurations | 79    | `agents/`                                   |
+| Skill Guidelines        | 201   | `skills/*/`                                 |
 | Development Pipelines   | 4     | `pipeline/{mobile,web,backend,full-stack}/` |
 | Recruitment Pipeline    | 1     | `pipeline/recruitment/pipeline.md`          |
 

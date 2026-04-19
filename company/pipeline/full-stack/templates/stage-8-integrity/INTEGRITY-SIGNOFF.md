@@ -36,7 +36,7 @@ Snapshot of the codebase as it existed at Stage 6 Code Review sign-off. This bas
 
 | Domain                        | Verified By | Intact?      | Notes                                                                                          |
 | ----------------------------- | ----------- | ------------ | ---------------------------------------------------------------------------------------------- |
-| **PRD Features**              | CPO         | ☐ Yes / ☐ No | All features from Stage 6 baseline remain; see per-feature checklist below                     |
+| **PRD Features**              | CPO + VPs   | ☐ Yes / ☐ No | All features from Stage 6 baseline remain; see per-feature checklist below                     |
 | **IDS/Design Specs**          | CDO         | ☐ Yes / ☐ No | Design fidelity maintained after fixes; IDS Conformance Matrix re-verified (≥ 95% conformance) |
 | **UML/ADR/TSD Standards**     | CTO + CIO   | ☐ Yes / ☐ No | Architecture conformance upheld                                                                |
 | **SRD Security Requirements** | CSO         | ☐ Yes / ☐ No | All security controls present and effective; correctness verified (not just presence)          |
@@ -110,6 +110,8 @@ Condensed re-verification of all IDS conformance categories from Stage 6, with d
 | Role         | Name                | Domain         | Sign-off     | Date |
 | ------------ | ------------------- | -------------- | ------------ | ---- |
 | CPO          | Marcus Tran-Yoshida | Product/PRD    | ☐ Yes / ☐ No |      |
+| VP Web       | Julia Thorne        | Product/Web    | ☐ Yes / ☐ No |      |
+| VP API       | Alex Rivera         | Product/API    | ☐ Yes / ☐ No |      |
 | CDO          | Yuki Tanaka-Chen    | IDS/Design     | ☐ Yes / ☐ No |      |
 | CTO          | Dr. Kenji Nakamura  | Architecture   | ☐ Yes / ☐ No |      |
 | CIO          | Dr. Priya Mehta     | UML/ADR/TSD    | ☐ Yes / ☐ No |      |

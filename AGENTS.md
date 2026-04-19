@@ -20,6 +20,13 @@ You are the **lead agent** (orchestrator). The specialist subagents across C-Sui
 | `dr-evelyn-hartwell-chro`    | Chief HR Officer          | Recruitment pipeline only                                                                                                                       |
 | `dr-amara-osei-mensah-cto-l` | Chief Translation Officer | 9 (i18n Engineering), 10 (Release Readiness)                                                                                                    |
 
+### VP Product Management
+
+| Agent                 | Role                                  | Reporting To              | Pipeline Stages Owned |
+| --------------------- | ------------------------------------- | ------------------------- | --------------------- |
+| `vp-web-julia-thorne` | VP Product, Web Platforms             | `marcus-tran-yoshida-cpo` | 1 (Requirements)      |
+| `vp-api-alex-rivera`  | VP Product, API & Developer Platforms | `marcus-tran-yoshida-cpo` | 1 (Requirements)      |
+
 ### VP Engineering & Technical Leads
 
 | Agent                                    | Role                       | Pipeline Stages Owned                             |
@@ -46,21 +53,22 @@ You are the **lead agent** (orchestrator). The specialist subagents across C-Sui
 
 ### Core Engineering Teams (by Chapter)
 
-| Team                       | Personnel                                                                                                                  |
-| :------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| **Android**                | `jan-kowalski`, `kwame-osei`, `nina-bergstrom`, `priya-narayanan`, `sofia-rezende`, `tariq-al-hassan`                      |
-| **iOS**                    | `arjun-mehta`, `camila-rodriguez`, `hiroshi-tanaka`, `amara-diallo`, `lars-eriksson`, `mei-chen`                           |
-| **Cross-Platform**         | `dmitri-volkov`, `fatima-al-zahra`                                                                                         |
-| **Backend**                | `ingrid-nilsen`, `omar-hassan`, `thabo-mokoena`, `aisha-mohammed`, `kael-jensen`, `viktor-horvath`                         |
-| **Frontend**               | `lucas-silva`, `yuna-park`, `elena-kim`, `rafael-santos`                                                                   |
-| **Full-Stack**             | `diego-morales`, `marcus-wright`, `nina-petrova`, `sora-kim`                                                               |
-| **DevOps & DevEx**         | `leila-nasser`, `yuki-tanaka`, `kai-nakamura`, `zara-okonkwo`                                                              |
-| **SRE**                    | `elin-strom`, `raihan-rahman`                                                                                              |
-| **Security Eng. (DevOps)** | `leila-khoury`, `yuki-matsuda`                                                                                             |
-| **SDET**                   | `ananya-krishnan`, `tobias-weber`, `priya-sharma`                                                                          |
-| **Localization Eng.**      | `tomas-dvoracek`, `dario-esposito`                                                                                         |
-| **Linguistics**            | `wei-chen-liu` (ZH), `amelia-hartington` (EN), `isabelle-moreau-leclerc` (FR), `haruki-yoshimoto` (JA), `ji-hyun-bae` (KO) |
-| **Technical Writing**      | `henrik-larsen`, `amina-razak`                                                                                             |
+| Team                      | Personnel                                                                                                                        |
+| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------- |
+| **Android**               | `jan-kowalski`, `kwame-osei`, `nina-bergstrom`, `priya-narayanan`, `sofia-rezende`, `tariq-al-hassan`                            |
+| **iOS**                   | `arjun-mehta`, `camila-rodriguez`, `hiroshi-tanaka`, `amara-diallo`, `lars-eriksson`, `mei-chen`                                 |
+| **Cross-Platform**        | `dmitri-volkov`, `fatima-al-zahra`                                                                                               |
+| **Backend**               | `ingrid-nilsen`, `omar-hassan`, `thabo-mokoena`, `aisha-mohammed`, `kael-jensen`, `viktor-horvath`                               |
+| **Frontend**              | `lucas-silva`, `yuna-park`, `elena-kim`, `rafael-santos`                                                                         |
+| **Full-Stack**            | `diego-morales`, `marcus-wright`, `nina-petrova`, `sora-kim`                                                                     |
+| **DevOps & DevEx**        | `leila-nasser`, `yuki-tanaka`, `kai-nakamura`, `zara-okonkwo`                                                                    |
+| **SRE**                   | `elin-strom`, `raihan-rahman`                                                                                                    |
+| **Security & Compliance** | `james-wright`, `natalia-petrova`, `leila-khoury`, `yuki-matsuda`, `sana-khoury`, `omar-farouq`, `li-wei-chen`, `ingrid-solberg` |
+| **SDET**                  | `ananya-krishnan`, `tobias-weber`, `priya-sharma`                                                                                |
+| **Localization Eng.**     | `tomas-dvoracek`, `dario-esposito`                                                                                               |
+| **Linguistics**           | `wei-chen-liu` (ZH), `amelia-hartington` (EN), `isabelle-moreau-leclerc` (FR), `haruki-yoshimoto` (JA), `ji-hyun-bae` (KO)       |
+| **Technical Writing**     | `henrik-larsen`, `amina-razak`                                                                                                   |
+| **Onboarding**            | `grace-muthoni`                                                                                                                  |
 
 ## Non-Negotiable Rules
 

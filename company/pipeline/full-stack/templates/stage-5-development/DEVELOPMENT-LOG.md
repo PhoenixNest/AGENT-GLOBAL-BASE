@@ -29,20 +29,20 @@
 
 ## Feature Completion Status Against PRD
 
-| PRD Feature             | Platform      | Implementation Status | Notes   |
-| ----------------------- | ------------- | --------------------- | ------- |
-| REQ-001: [Feature name] | Web           | [XX]%                 | [Notes] |
-| REQ-001: [Feature name] | Android       | [XX]%                 | [Notes] |
-| REQ-001: [Feature name] | iOS           | [XX]%                 | [Notes] |
-| REQ-001: [Feature name] | Backend       | [XX]%                 | [Notes] |
-| REQ-002: [Feature name] | Web           | [XX]%                 | [Notes] |
-| REQ-002: [Feature name] | Android       | [XX]%                 | [Notes] |
-| REQ-002: [Feature name] | iOS           | [XX]%                 | [Notes] |
-| REQ-002: [Feature name] | Backend       | [XX]%                 | [Notes] |
-| REQ-003: [Feature name] | Web           | [XX]%                 | [Notes] |
-| REQ-003: [Feature name] | Android       | [XX]%                 | [Notes] |
-| REQ-003: [Feature name] | iOS           | [XX]%                 | [Notes] |
-| REQ-003: [Feature name] | Backend       | [XX]%                 | [Notes] |
+| PRD Feature             | Platform | Implementation Status | Notes   |
+| ----------------------- | -------- | --------------------- | ------- |
+| REQ-001: [Feature name] | Web      | [XX]%                 | [Notes] |
+| REQ-001: [Feature name] | Android  | [XX]%                 | [Notes] |
+| REQ-001: [Feature name] | iOS      | [XX]%                 | [Notes] |
+| REQ-001: [Feature name] | Backend  | [XX]%                 | [Notes] |
+| REQ-002: [Feature name] | Web      | [XX]%                 | [Notes] |
+| REQ-002: [Feature name] | Android  | [XX]%                 | [Notes] |
+| REQ-002: [Feature name] | iOS      | [XX]%                 | [Notes] |
+| REQ-002: [Feature name] | Backend  | [XX]%                 | [Notes] |
+| REQ-003: [Feature name] | Web      | [XX]%                 | [Notes] |
+| REQ-003: [Feature name] | Android  | [XX]%                 | [Notes] |
+| REQ-003: [Feature name] | iOS      | [XX]%                 | [Notes] |
+| REQ-003: [Feature name] | Backend  | [XX]%                 | [Notes] |
 
 ---
 
@@ -59,8 +59,8 @@
 | Google Play metadata (screenshots, descriptions, tags)     | ☐ Done / ☐ In Progress | [Name] |       |
 | Web SEO metadata (title, description, OG tags, sitemap)    | ☐ Done / ☐ In Progress | [Name] |       |
 | Vercel deploy configured (production + preview)            | ☐ Done / ☐ In Progress | [Name] |       |
-| CDN propagation verified                                     | ☐ Done / ☐ In Progress | [Name] |       |
-| SSL certificates configured (custom domain)                 | ☐ Done / ☐ In Progress | [Name] |       |
+| CDN propagation verified                                   | ☐ Done / ☐ In Progress | [Name] |       |
+| SSL certificates configured (custom domain)                | ☐ Done / ☐ In Progress | [Name] |       |
 
 ---
 
@@ -68,17 +68,17 @@
 
 Conducted at ~60% completion per IMPLEMENTATION-PLAN.md §5.5.
 
-| Checkpoint Item                 | Result          | Defect IDs    | Remediation Status |
-| ------------------------------- | --------------- | ------------- | ------------------ |
-| Component trees match IDS       | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Gesture/click vocabulary matches IDS | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done |
-| State diagrams realized         | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Edge case UIs present           | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Responsive breakpoints match IDS| ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Keyboard navigation verified    | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Accessibility baseline met      | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Animation specs match           | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
-| Design tokens correctly applied | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Checkpoint Item                      | Result          | Defect IDs    | Remediation Status |
+| ------------------------------------ | --------------- | ------------- | ------------------ |
+| Component trees match IDS            | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Gesture/click vocabulary matches IDS | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| State diagrams realized              | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Edge case UIs present                | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Responsive breakpoints match IDS     | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Keyboard navigation verified         | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Accessibility baseline met           | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Animation specs match                | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
+| Design tokens correctly applied      | ☐ Pass / ☐ Fail | [IDs or None] | ☐ N/A / ✅ Done    |
 
 **Overall conformance: [XX]%**
 **Checkpoint result: ☐ Proceed / ☐ Proceed with remediation / ☐ STOP**

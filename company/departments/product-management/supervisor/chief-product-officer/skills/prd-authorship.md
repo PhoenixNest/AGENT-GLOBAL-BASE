@@ -93,23 +93,45 @@ Be explicit about what is in scope and what is not.
 
 ---
 
-### 5. Platform-Specific UX Constraints
+### 5. Platform-Specific Constraints
 
-For every mobile PRD, document:
+Document the specific constraints and standards for the target platform(s). For deep strategy, reference the specialized VP skill files.
+
+#### Mobile (iOS & Android)
+
+_Refer to existing mobile standards in this file._
 
 **iOS:**
 
-- Relevant HIG guidelines that apply
-- App Store review considerations (if the feature touches payments, notifications, health data, or user-generated content)
-- Haptic / gesture / navigation patterns required
-- Any SwiftUI vs. UIKit considerations if known
+- Relevant HIG guidelines that apply.
+- App Store review considerations (payments, notifications, health data).
+- Haptic / gesture / navigation patterns required.
+- SwiftUI vs. UIKit considerations.
 
 **Android:**
 
-- Material Design 3 component usage
-- Back gesture behavior (edge-swipe vs. button)
-- Notification channel requirements (if applicable)
-- Minimum API level behavior differences
+- Material Design 3 component usage.
+- Back gesture behavior (edge-swipe vs. button).
+- Notification channel requirements.
+- Minimum API level behavior differences.
+
+#### Web (PWA, SPA, SSR)
+
+_Refer to `web-product-strategy.md` (Julia Thorne)._
+
+- **Architecture:** PWA vs. SPA vs. SSR selection.
+- **Accessibility:** WCAG 2.1 AA compliance (Keyboard, Screen Reader, Contrast).
+- **SEO/Performance:** Core Web Vitals targets, meta tags, and indexing requirements.
+- **Responsive:** Fluid layout strategy across mobile/tablet/desktop viewports.
+
+#### API (REST & Developer Platform)
+
+_Refer to `api-product-strategy.md` (Alex Rivera)._
+
+- **Contract:** OpenAPI spec compliance and endpoint patterns.
+- **DX:** SDK impact and "Time to Hello World" (TTHW) considerations.
+- **Usage:** Rate limits, auth requirements, and pricing tier alignment.
+- **Lifecycle:** Deprecation risk and versioning strategy.
 
 ---
 

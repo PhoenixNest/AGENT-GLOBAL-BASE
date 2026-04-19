@@ -170,7 +170,7 @@ The Web Strategy ADR must also address:
 
 ### Stage 2: PRD → Web Prototype + IDS
 
-**Relevant Personnel:** CDO
+**Relevant Personnel:** CDO, VP Web (Julia Thorne)
 
 **Artifacts In:** PRD, SRD (paired artifacts)
 
@@ -179,7 +179,7 @@ The Web Strategy ADR must also address:
 - Approved web prototype (production-grade HTML/CSS/JS, not just mock — serves as design validation AND initial frontend scaffold)
 - `IDS.md` — Interaction Design Specification (with responsive breakpoints, accessibility specs, text expansion tolerance, RTL considerations, animation specs)
 
-**Reviewers:** CTO, CDO, CPO
+**Reviewers:** CTO, CDO, CPO, VP Web (Julia Thorne)
 
 **Gate Criteria:**
 
@@ -317,7 +317,7 @@ Before **Stage 5** begins, the security team produces a web-specific SIS:
 - `DEFECT-REPORT.md` — Defect Report with Architecture Compliance Audit, IDS Conformance Matrix, pre-Tier 1 automated quality gates
 - `SIGNOFF.md` — Code Review Sign-off (with Live Demonstration results)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Frontend Lead (Amira Voss), Backend Lead (Dev Malhotra)
+**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Frontend Lead (Amira Voss), Backend Lead (Dev Malhotra), VP Web (Julia Thorne) (advisor)
 
 **Gate Criteria:**
 
@@ -373,7 +373,7 @@ Before **Stage 5** begins, the security team produces a web-specific SIS:
 
 - Integrity Verification Sign-off reports from each panel member (CPO, CDO, CIO, CSO, Frontend Lead, Backend Lead)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Frontend Lead, Backend Lead
+**Reviewers:** CTO (convenes), CPO, CDO, CIO, CSO, Frontend Lead, Backend Lead, VP Web (Julia Thorne) (co-reviewer)
 
 **Gate Criteria:**
 
@@ -416,7 +416,7 @@ Before **Stage 5** begins, the security team produces a web-specific SIS:
 
 ### Stage 10: i18n → Release Readiness Check
 
-**Relevant Personnel:** CTO (convenes panel), CPO, CDO, CSO, CTO-L, **User** (final decision)
+**Relevant Personnel:** CTO (convenes panel), CPO, CDO, CSO, CTO-L, VP Web (Julia Thorne), **User** (final decision)
 
 **Artifacts In:** Localised codebase, Translation Verification Report, all prior stage artifacts
 
@@ -425,19 +425,19 @@ Before **Stage 5** begins, the security team produces a web-specific SIS:
 - `RELEASE-CHECKLIST.md` — Release Readiness Report (7-item checklist with sub-checklists)
 - Release Decision (approved / conditional / rejected)
 
-**Reviewers:** CTO (convenes), CPO, CDO, CSO, CTO-L + **User**
+**Reviewers:** CTO (convenes), CPO, CDO, CSO, CTO-L, VP Web (Julia Thorne) + **User**
 
 **Release Checklist (7 Items):**
 
-| #   | Domain                                                   | Sign-off Authority | Key Sub-Checks                                                                                                                                                |
-| --- | -------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Product — all PRD requirements implemented               | CPO                | Analytics firing, IAP configured, kill condition monitoring active, post-launch dashboard ready                                                               |
-| 2   | Design — all CDO/IDS specifications accurately realised  | CDO                | IDS Conformance Matrix ≥ 95%, zero "Not Implemented" items, WCAG 2.1 AA met, responsive breakpoints respected, design tokens correct, animation specs matched |
-| 3   | Architecture — all UML/ADR/TSD standards upheld          | CTO + CIO          | Technology Decision Registry 100% compliant, no ADR deviations                                                                                                |
-| 4   | Security — SRD enforced, web security controls effective | CSO                | All security controls present AND effective (XSS prevention, CSRF protection, CSP headers, OAuth 2.0 session integrity), stealthy weakening verified absent   |
-| 5   | Testing — 100% automated test pass rate achieved         | CTO                | DAST passed, performance benchmarks passed, Design Fidelity Test Checklist passed                                                                             |
-| 6   | Localisation — all target languages complete             | CTO-L              | BLEU ≥ 0.80, accessibility labels verified, commercial copy localized, locale variants distinct                                                               |
-| 7   | Deployment — Vercel/AWS deployment verified              | CTO + CPO          | CDN configured, DNS pointing, domain verified, analytics firing, SEO validated, monitoring dashboards live                                                    |
+| #   | Domain                                                   | Sign-off Authority          | Key Sub-Checks                                                                                                                                                |
+| --- | -------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Product — all PRD requirements implemented               | CPO + VP Web (Julia Thorne) | Analytics firing, IAP configured, kill condition monitoring active, post-launch dashboard ready                                                               |
+| 2   | Design — all CDO/IDS specifications accurately realised  | CDO                         | IDS Conformance Matrix ≥ 95%, zero "Not Implemented" items, WCAG 2.1 AA met, responsive breakpoints respected, design tokens correct, animation specs matched |
+| 3   | Architecture — all UML/ADR/TSD standards upheld          | CTO + CIO                   | Technology Decision Registry 100% compliant, no ADR deviations                                                                                                |
+| 4   | Security — SRD enforced, web security controls effective | CSO                         | All security controls present AND effective (XSS prevention, CSRF protection, CSP headers, OAuth 2.0 session integrity), stealthy weakening verified absent   |
+| 5   | Testing — 100% automated test pass rate achieved         | CTO                         | DAST passed, performance benchmarks passed, Design Fidelity Test Checklist passed                                                                             |
+| 6   | Localisation — all target languages complete             | CTO-L                       | BLEU ≥ 0.80, accessibility labels verified, commercial copy localized, locale variants distinct                                                               |
+| 7   | Deployment — Vercel/AWS deployment verified              | CTO + CPO                   | CDN configured, DNS pointing, domain verified, analytics firing, SEO validated, monitoring dashboards live                                                    |
 
 **Gate Criteria:**
 

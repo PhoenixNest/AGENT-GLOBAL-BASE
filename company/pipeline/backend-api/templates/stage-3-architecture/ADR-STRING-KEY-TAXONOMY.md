@@ -8,7 +8,7 @@
 | **Decision Date** | YYYY-MM-DD                                              |
 | **Authors**       | CTO (Dr. Kenji Nakamura), CTO-L (Dr. Amara Osei-Mensah) |
 | **Reviewers**     | CSO (Dr. Sarah Chen), CPO (Marcus Tran-Yoshida)         |
-| **Stage**         | 3 -- Architecture                                        |
+| **Stage**         | 3 -- Architecture                                       |
 | **Category**      | Localization / Naming Convention                        |
 
 ---
@@ -36,22 +36,22 @@ Adopt the **dot-notation hierarchical convention**:
 
 ### Examples
 
-| Key                                          | Purpose                              |
-| -------------------------------------------- | ------------------------------------ |
-| `auth.login.error.invalid_email`             | Login invalid email error message    |
-| `auth.login.error.invalid_password`          | Login invalid password error message |
-| `auth.login.error.account_locked`            | Account locked error message         |
-| `auth.token.error.expired`                   | Token expired error message          |
-| `auth.token.error.revoked`                   | Token revoked error message          |
-| `api.rate_limit.error.exceeded`              | Rate limit exceeded error message    |
-| `api.resource.error.not_found`               | Resource not found error message     |
-| `api.validation.error.required_field`        | Required field validation error      |
-| `portal.docs.getting_started.title`          | Developer portal getting started title |
-| `portal.docs.auth_guide.oauth_flow`          | OAuth flow documentation section     |
-| `email.welcome.subject`                      | Welcome email subject line           |
-| `email.password_reset.body.intro`            | Password reset email intro           |
-| `common.error.internal.message`              | Generic internal error message       |
-| `common.error.network.message`               | Network error message                |
+| Key                                   | Purpose                                |
+| ------------------------------------- | -------------------------------------- |
+| `auth.login.error.invalid_email`      | Login invalid email error message      |
+| `auth.login.error.invalid_password`   | Login invalid password error message   |
+| `auth.login.error.account_locked`     | Account locked error message           |
+| `auth.token.error.expired`            | Token expired error message            |
+| `auth.token.error.revoked`            | Token revoked error message            |
+| `api.rate_limit.error.exceeded`       | Rate limit exceeded error message      |
+| `api.resource.error.not_found`        | Resource not found error message       |
+| `api.validation.error.required_field` | Required field validation error        |
+| `portal.docs.getting_started.title`   | Developer portal getting started title |
+| `portal.docs.auth_guide.oauth_flow`   | OAuth flow documentation section       |
+| `email.welcome.subject`               | Welcome email subject line             |
+| `email.password_reset.body.intro`     | Password reset email intro             |
+| `common.error.internal.message`       | Generic internal error message         |
+| `common.error.network.message`        | Network error message                  |
 
 ### Naming Rules
 
@@ -67,10 +67,10 @@ Adopt the **dot-notation hierarchical convention**:
 
 Pluralisation in API error messages and developer portal content uses locale-specific handling within the JSON structure.
 
-| Context          | Pattern                                               | Example                                                                                   |
-| ---------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| API error msgs   | Base key with count property in message template      | `api.resource.error.items_count` -> `"You have {count} item(s)"`                         |
-| Developer portal | Separate keys for singular/plural if language differs | `portal.docs.resource.count_singular`, `portal.docs.resource.count_plural`               |
+| Context          | Pattern                                               | Example                                                                    |
+| ---------------- | ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| API error msgs   | Base key with count property in message template      | `api.resource.error.items_count` -> `"You have {count} item(s)"`           |
+| Developer portal | Separate keys for singular/plural if language differs | `portal.docs.resource.count_singular`, `portal.docs.resource.count_plural` |
 
 **Example:**
 
@@ -128,43 +128,43 @@ When a developer creates a key that violates the convention:
 
 The `key-index.csv` file is the single source of truth for all localizable strings. Column schema:
 
-| Column                | Description                     | Example                                                                                                             |
-| --------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `key`                 | Full dot-notation key           | `api.validation.error.required_field`                                                                               |
-| `source_string`       | English source text             | "This field is required"                                                                                            |
-| `domain`              | Domain namespace                | `api`                                                                                                               |
-| `category`            | Category namespace              | `validation`                                                                                                        |
-| `component`           | Component namespace             | `error`                                                                                                             |
-| `property`            | Property type                   | `message`                                                                                                           |
-| `file`                | Target locale file              | `locales/en/errors.json`                                                                                            |
-| `status`              | Key lifecycle status            | `active` / `deprecated` / `pending_removal`                                                                         |
+| Column                | Description                     | Example                                                                                                                   |
+| --------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `key`                 | Full dot-notation key           | `api.validation.error.required_field`                                                                                     |
+| `source_string`       | English source text             | "This field is required"                                                                                                  |
+| `domain`              | Domain namespace                | `api`                                                                                                                     |
+| `category`            | Category namespace              | `validation`                                                                                                              |
+| `component`           | Component namespace             | `error`                                                                                                                   |
+| `property`            | Property type                   | `message`                                                                                                                 |
+| `file`                | Target locale file              | `locales/en/errors.json`                                                                                                  |
+| `status`              | Key lifecycle status            | `active` / `deprecated` / `pending_removal`                                                                               |
 | `translation_status`  | Translation pipeline state      | `extracted` -> `tm_analyzed` -> `translated` -> `post_edited` -> `qa_pass` / `needs_review` -> `validated` -> `completed` |
-| `exception`           | Convention exception flag       | `true` / `false`                                                                                                    |
-| `exception_rationale` | Why convention was not followed | "Legacy key from previous project"                                                                                  |
-| `exception_reviewer`  | CTO-L who approved exception    | [Name]                                                                                                              |
-| `rtl_review`          | RTL layout review needed        | `true` / `false`                                                                                                    |
+| `exception`           | Convention exception flag       | `true` / `false`                                                                                                          |
+| `exception_rationale` | Why convention was not followed | "Legacy key from previous project"                                                                                        |
+| `exception_reviewer`  | CTO-L who approved exception    | [Name]                                                                                                                    |
+| `rtl_review`          | RTL layout review needed        | `true` / `false`                                                                                                          |
 
 ---
 
 ## Downstream Implications
 
-| Stage       | Impact                                                                                                                                                                                                                                      |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage       | Impact                                                                                                                                                                                                                                               |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Stage 4** | `key-index.csv` template created using this taxonomy. Columns: `key`, `source_string`, `domain`, `category`, `component`, `property`, `file`, `status`, `translation_status`, `exception`, `exception_rationale`, `exception_reviewer`, `rtl_review` |
-| **Stage 5** | All new localizable strings must follow this convention. Backend leads verify during code review.                                                                                                                                             |
-| **Stage 6** | Code review checks key naming compliance. Violations classified as P2 defects.                                                                                                                                                              |
-| **Stage 9** | R&D extraction relies on consistent key structure. The Internationalization Specialist uses `key-index.csv` as the single source of truth for string extraction into locale JSON files.                                                      |
+| **Stage 5** | All new localizable strings must follow this convention. Backend leads verify during code review.                                                                                                                                                    |
+| **Stage 6** | Code review checks key naming compliance. Violations classified as P2 defects.                                                                                                                                                                       |
+| **Stage 9** | R&D extraction relies on consistent key structure. The Internationalization Specialist uses `key-index.csv` as the single source of truth for string extraction into locale JSON files.                                                              |
 
 ---
 
 ## Alternatives Considered
 
-| Alternative             | Description                                 | Why Rejected                                                                                                         |
-| ----------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **Flat naming**         | `login_error_text`, `portal_auth_guide`     | No hierarchy, impossible to audit at scale, no automated grouping by domain/category                                 |
-| **Nested JSON keys**    | `{"auth": {"login": {"error": "..."}}}`     | Not compatible with CSV index tracking; difficult to diff between locales; CI/CD validation harder                   |
-| **Auto-generated keys** | `s_001`, `s_002`, `s_003`                   | No semantic meaning, impossible to audit, translators have zero context, merge conflicts guaranteed                  |
-| **File-based grouping** | Keys grouped by source file name            | Breaks down with shared error messages, inconsistent across content types, no cross-locale parity verification       |
+| Alternative             | Description                             | Why Rejected                                                                                                   |
+| ----------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Flat naming**         | `login_error_text`, `portal_auth_guide` | No hierarchy, impossible to audit at scale, no automated grouping by domain/category                           |
+| **Nested JSON keys**    | `{"auth": {"login": {"error": "..."}}}` | Not compatible with CSV index tracking; difficult to diff between locales; CI/CD validation harder             |
+| **Auto-generated keys** | `s_001`, `s_002`, `s_003`               | No semantic meaning, impossible to audit, translators have zero context, merge conflicts guaranteed            |
+| **File-based grouping** | Keys grouped by source file name        | Breaks down with shared error messages, inconsistent across content types, no cross-locale parity verification |
 
 ---
 
@@ -174,7 +174,7 @@ The `key-index.csv` file is the single source of truth for all localizable strin
 
 | Enforcement Layer | Mechanism                                                               |
 | ----------------- | ----------------------------------------------------------------------- |
-| Policy            | Stage 3 ADR lock -- cannot be changed without Stage 3 re-entry           |
+| Policy            | Stage 3 ADR lock -- cannot be changed without Stage 3 re-entry          |
 | CI/CD             | Automated key format validation on every PR (after 2-week grace period) |
 | Code Review       | Backend leads verify key naming during Stage 6 Tier 1 review            |
 | Stage 9 Audit     | CTO-L verifies all extracted keys conform to taxonomy                   |

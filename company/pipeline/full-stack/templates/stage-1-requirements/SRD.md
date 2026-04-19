@@ -2,7 +2,7 @@
 
 **Project:** [Project Name]
 **Version:** v1
-**Author:** CSO (Dr. Sarah Chen)
+**Author:** CSO (primary) + VP Web + VP API (product surface)
 **Date:** YYYY-MM-DD
 **Status:** Draft | Under Review | Approved
 **Paired Artifact:** PRD v1

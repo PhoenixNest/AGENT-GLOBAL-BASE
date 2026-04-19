@@ -26,14 +26,14 @@
 
 ### Web Frontend
 
-| Test Type              | Total      | Passed | Failed | Notes                    |
-| ---------------------- | ---------- | ------ | ------ | ------------------------ |
-| Unit tests (Vitest)    | [N]        | [N]    | [N]    | RTL component tests      |
-| Integration tests      | [N]        | [N]    | [N]    | MSW API mock tests       |
-| Playwright E2E tests   | [N]        | [N]    | [N]    | [N browsers tested]      |
-| Accessibility tests    | [N]        | [N]    | [N]    | axe-core via Playwright  |
-| Lighthouse CI          | [N audits] | [N]    | [N]    | Performance + a11y + SEO |
-| Keyboard nav tests     | [N]        | [N]    | [N]    | Playwright keyboard API  |
+| Test Type            | Total      | Passed | Failed | Notes                    |
+| -------------------- | ---------- | ------ | ------ | ------------------------ |
+| Unit tests (Vitest)  | [N]        | [N]    | [N]    | RTL component tests      |
+| Integration tests    | [N]        | [N]    | [N]    | MSW API mock tests       |
+| Playwright E2E tests | [N]        | [N]    | [N]    | [N browsers tested]      |
+| Accessibility tests  | [N]        | [N]    | [N]    | axe-core via Playwright  |
+| Lighthouse CI        | [N audits] | [N]    | [N]    | Performance + a11y + SEO |
+| Keyboard nav tests   | [N]        | [N]    | [N]    | Playwright keyboard API  |
 
 ### Android
 
@@ -55,13 +55,13 @@
 
 ### Backend API
 
-| Test Type              | Total | Passed | Failed | Notes                    |
-| ---------------------- | ----- | ------ | ------ | ------------------------ |
-| Unit tests             | [N]   | [N]    | [N]    | Handlers, services       |
-| Contract tests (Pact)  | [N]   | [N]    | [N]    | OpenAPI compliance       |
-| Auth tests             | [N]   | [N]    | [N]    | JWT, OAuth2, RBAC        |
-| Rate limiting tests    | [N]   | [N]    | [N]    | k6 load tests            |
-| ZAP DAST scan          | [N]   | [N]    | [N]    | API endpoint security    |
+| Test Type             | Total | Passed | Failed | Notes                 |
+| --------------------- | ----- | ------ | ------ | --------------------- |
+| Unit tests            | [N]   | [N]    | [N]    | Handlers, services    |
+| Contract tests (Pact) | [N]   | [N]    | [N]    | OpenAPI compliance    |
+| Auth tests            | [N]   | [N]    | [N]    | JWT, OAuth2, RBAC     |
+| Rate limiting tests   | [N]   | [N]    | [N]    | k6 load tests         |
+| ZAP DAST scan         | [N]   | [N]    | [N]    | API endpoint security |
 
 ### KMP Shared (if applicable)
 
@@ -96,9 +96,9 @@
 **Scope:** All web application endpoints
 **Scan Type:** Active + Passive
 
-| Finding                     | Risk Level             | CWE       | Endpoint                   | Status                  | Defect ID |
-| --------------------------- | ---------------------- | --------- | -------------------------- | ----------------------- | --------- |
-| [e.g., Missing CSP header]  | [High/Medium/Low/Info] | [CWE-XXX] | [app.example.com/endpoint] | ☐ Resolved / ☐ Accepted | [P#-XXX]  |
+| Finding                    | Risk Level             | CWE       | Endpoint                   | Status                  | Defect ID |
+| -------------------------- | ---------------------- | --------- | -------------------------- | ----------------------- | --------- |
+| [e.g., Missing CSP header] | [High/Medium/Low/Info] | [CWE-XXX] | [app.example.com/endpoint] | ☐ Resolved / ☐ Accepted | [P#-XXX]  |
 
 ### Mobile DAST
 
@@ -116,9 +116,9 @@
 **Scope:** All backend API endpoints (auth, rate limiting, input validation)
 **Scan Type:** Active + Passive + Load
 
-| Finding                        | Risk Level             | CWE       | Endpoint              | Status                  | Defect ID |
-| ------------------------------ | ---------------------- | --------- | --------------------- | ----------------------- | --------- |
-| [e.g., SQL injection vector]   | [High/Medium/Low/Info] | [CWE-XXX] | [api/v1/endpoint]     | ☐ Resolved / ☐ Accepted | [P#-XXX]  |
+| Finding                      | Risk Level             | CWE       | Endpoint          | Status                  | Defect ID |
+| ---------------------------- | ---------------------- | --------- | ----------------- | ----------------------- | --------- |
+| [e.g., SQL injection vector] | [High/Medium/Low/Info] | [CWE-XXX] | [api/v1/endpoint] | ☐ Resolved / ☐ Accepted | [P#-XXX]  |
 
 **DAST Pass Criteria:**
 
@@ -137,17 +137,17 @@
 **Scope:** [App/Web name] — [Web / Android / iOS / Backend / all] — [version/build]
 **Methodology:** OWASP Top 10 (web) + Mobile Top 10 + MASVS assessment
 
-| Category         | Findings | Critical | High | Medium | Low | Status          |
-| ---------------- | -------- | -------- | ---- | ------ | --- | --------------- |
-| OWASP A01: BAC   | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| OWASP A02: Crypto| [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| OWASP A03: Inj   | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| MASVS-AUTH       | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| MASVS-STORAGE    | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| MASVS-CRYPTO     | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| MASVS-NETWORK    | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| MASVS-PLATFORM   | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
-| MASVS-RESILIENCE | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| Category          | Findings | Critical | High | Medium | Low | Status          |
+| ----------------- | -------- | -------- | ---- | ------ | --- | --------------- |
+| OWASP A01: BAC    | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| OWASP A02: Crypto | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| OWASP A03: Inj    | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| MASVS-AUTH        | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| MASVS-STORAGE     | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| MASVS-CRYPTO      | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| MASVS-NETWORK     | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| MASVS-PLATFORM    | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
+| MASVS-RESILIENCE  | [N]      | [N]      | [N]  | [N]    | [N] | ☐ Pass / ☐ Fail |
 
 **Pen Test Pass Criteria:**
 
@@ -183,21 +183,21 @@
 
 > **Reference:** See [`PERFORMANCE-BENCHMARK-REPORT.md`](PERFORMANCE-BENCHMARK-REPORT.md) for full methodology and per-metric results.
 
-| Metric                 | PRD Target | Web Result     | Android Result | iOS Result | Backend Result | Pass/Fail |
-| ---------------------- | ---------- | -------------- | -------------- | ---------- | -------------- | --------- |
-| Cold start time        | [<2s]      | —              | [X.XXs]        | [X.XXs]    | —              | ☐ / ☐     |
-| Warm start time        | [<1s]      | —              | [X.XXs]        | [X.XXs]    | —              | ☐ / ☐     |
-| Frame rate (scroll)    | [60fps]    | —              | [XX fps]       | [XX fps]   | —              | ☐ / ☐     |
-| Memory usage (idle)    | [<150MB]   | —              | [XX MB]        | [XX MB]    | —              | ☐ / ☐     |
-| Memory usage (peak)    | [<300MB]   | —              | [XX MB]        | [XX MB]    | —              | ☐ / ☐     |
-| Network payload (cold) | [<500KB]   | —              | [XXX KB]       | [XXX KB]   | —              | ☐ / ☐     |
-| LCP                    | [<2.5s]    | [X.XXs]        | —              | —          | —              | ☐ / ☐     |
-| CLS                    | [<0.1]     | [X.XX]         | —              | —          | —              | ☐ / ☐     |
-| TTFB                   | [<800ms]   | [XXXms]        | —              | —          | [XXXms]        | ☐ / ☐     |
-| TTI                    | [<3.8s]    | [X.XXs]        | —              | —          | —              | ☐ / ☐     |
-| API P99 latency        | [<500ms]   | —              | —              | —          | [XXXms]        | ☐ / ☐     |
-| API throughput         | [>1000 r/s]| —              | —              | —          | [XXXX r/s]     | ☐ / ☐     |
-| API error rate         | [<0.1%]    | —              | —              | —          | [X.X%]         | ☐ / ☐     |
+| Metric                 | PRD Target  | Web Result | Android Result | iOS Result | Backend Result | Pass/Fail |
+| ---------------------- | ----------- | ---------- | -------------- | ---------- | -------------- | --------- |
+| Cold start time        | [<2s]       | —          | [X.XXs]        | [X.XXs]    | —              | ☐ / ☐     |
+| Warm start time        | [<1s]       | —          | [X.XXs]        | [X.XXs]    | —              | ☐ / ☐     |
+| Frame rate (scroll)    | [60fps]     | —          | [XX fps]       | [XX fps]   | —              | ☐ / ☐     |
+| Memory usage (idle)    | [<150MB]    | —          | [XX MB]        | [XX MB]    | —              | ☐ / ☐     |
+| Memory usage (peak)    | [<300MB]    | —          | [XX MB]        | [XX MB]    | —              | ☐ / ☐     |
+| Network payload (cold) | [<500KB]    | —          | [XXX KB]       | [XXX KB]   | —              | ☐ / ☐     |
+| LCP                    | [<2.5s]     | [X.XXs]    | —              | —          | —              | ☐ / ☐     |
+| CLS                    | [<0.1]      | [X.XX]     | —              | —          | —              | ☐ / ☐     |
+| TTFB                   | [<800ms]    | [XXXms]    | —              | —          | [XXXms]        | ☐ / ☐     |
+| TTI                    | [<3.8s]     | [X.XXs]    | —              | —          | —              | ☐ / ☐     |
+| API P99 latency        | [<500ms]    | —          | —              | —          | [XXXms]        | ☐ / ☐     |
+| API throughput         | [>1000 r/s] | —          | —              | —          | [XXXX r/s]     | ☐ / ☐     |
+| API error rate         | [<0.1%]     | —          | —              | —          | [X.X%]         | ☐ / ☐     |
 
 **Performance Pass Criteria:** 100% of PRD performance thresholds must pass. Any failed metric exceeding threshold by >20% is a P1 defect; within 20% is P2.
 

@@ -20,11 +20,11 @@ This report verifies that the backend API's public contract (OpenAPI/Swagger spe
 
 ## 1. API Contract Definition
 
-| Contract Item                    | Description              | Input Schema         | Output Schema        | Web Frontend Support? | Third-Party Support? | Status                |
-| -------------------------------- | ------------------------ | -------------------- | -------------------- | --------------------- | -------------------- | --------------------- |
-| [e.g., GET /api/users/:id]       | [Fetches user profile]   | [path: userId]       | [UserResponse]       | Yes / No              | Yes / No             | Verified / Failed     |
-| [e.g., POST /api/auth/login]     | [Authenticate user]      | [LoginRequest body]  | [AuthResponse]       | Yes / No              | Yes / No             | Verified / Failed     |
-| [e.g., GET /api/items?filter=]   | [List items with filter] | [query params]       | [ItemListResponse]   | Yes / No              | Yes / No             | Verified / Failed     |
+| Contract Item                  | Description              | Input Schema        | Output Schema      | Web Frontend Support? | Third-Party Support? | Status            |
+| ------------------------------ | ------------------------ | ------------------- | ------------------ | --------------------- | -------------------- | ----------------- |
+| [e.g., GET /api/users/:id]     | [Fetches user profile]   | [path: userId]      | [UserResponse]     | Yes / No              | Yes / No             | Verified / Failed |
+| [e.g., POST /api/auth/login]   | [Authenticate user]      | [LoginRequest body] | [AuthResponse]     | Yes / No              | Yes / No             | Verified / Failed |
+| [e.g., GET /api/items?filter=] | [List items with filter] | [query params]      | [ItemListResponse] | Yes / No              | Yes / No             | Verified / Failed |
 
 ---
 
@@ -42,33 +42,33 @@ This report verifies that the backend API's public contract (OpenAPI/Swagger spe
 
 ### Web Frontend Consumer
 
-| Contract Item | Integrated?  | Compiles/Builds? | Runtime Pass? | Notes   |
-| ------------- | ------------ | ---------------- | ------------- | ------- |
-| [Item name]   | Yes / No     | Yes / No         | Yes / No      | [Notes] |
+| Contract Item | Integrated? | Compiles/Builds? | Runtime Pass? | Notes   |
+| ------------- | ----------- | ---------------- | ------------- | ------- |
+| [Item name]   | Yes / No    | Yes / No         | Yes / No      | [Notes] |
 
 ### Third-Party API Consumer (if applicable)
 
-| Contract Item | Integrated?  | Compiles/Builds? | Runtime Pass? | Notes   |
-| ------------- | ------------ | ---------------- | ------------- | ------- |
-| [Item name]   | Yes / No     | Yes / No         | Yes / No      | [Notes] |
+| Contract Item | Integrated? | Compiles/Builds? | Runtime Pass? | Notes   |
+| ------------- | ----------- | ---------------- | ------------- | ------- |
+| [Item name]   | Yes / No    | Yes / No         | Yes / No      | [Notes] |
 
 ### Internal Service Consumer (microservice architecture)
 
-| Contract Item | Integrated?  | Compiles/Builds? | Runtime Pass? | Notes   |
-| ------------- | ------------ | ---------------- | ------------- | ------- |
-| [Item name]   | Yes / No     | Yes / No         | Yes / No      | [Notes] |
+| Contract Item | Integrated? | Compiles/Builds? | Runtime Pass? | Notes   |
+| ------------- | ----------- | ---------------- | ------------- | ------- |
+| [Item name]   | Yes / No    | Yes / No         | Yes / No      | [Notes] |
 
 ---
 
 ## 4. Security Contract Verification
 
-| Security Control         | Defined in Spec? | Implemented in API? | Verified by Consumer? | Parity Confirmed? |
-| ------------------------ | ---------------- | ------------------- | --------------------- | ----------------- |
-| Authentication required  | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
-| Authorization scopes     | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
-| Error response format    | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
-| Rate limit headers       | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
-| Pagination format        | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
+| Security Control        | Defined in Spec? | Implemented in API? | Verified by Consumer? | Parity Confirmed? |
+| ----------------------- | ---------------- | ------------------- | --------------------- | ----------------- |
+| Authentication required | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
+| Authorization scopes    | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
+| Error response format   | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
+| Rate limit headers      | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
+| Pagination format       | Yes / No         | Yes / No            | Yes / No              | Yes / No          |
 
 ---
 
@@ -94,20 +94,20 @@ This report verifies that the backend API's public contract (OpenAPI/Swagger spe
 
 ### Response Format Consistency
 
-| Metric                                    | Web Frontend | Third-Party API | Internal Service | Parity Confirmed? |
-| ----------------------------------------- | ------------ | --------------- | ---------------- | ----------------- |
-| Error response structure matches spec     | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
-| Pagination metadata format consistent     | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
-| Field naming convention (snake_case/camelCase) | Yes / No | Yes / No   | Yes / No         | Yes / No          |
-| Date/time format consistent (ISO 8601)    | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
-| Null vs omit behavior documented          | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
+| Metric                                         | Web Frontend | Third-Party API | Internal Service | Parity Confirmed? |
+| ---------------------------------------------- | ------------ | --------------- | ---------------- | ----------------- |
+| Error response structure matches spec          | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
+| Pagination metadata format consistent          | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
+| Field naming convention (snake_case/camelCase) | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
+| Date/time format consistent (ISO 8601)         | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
+| Null vs omit behavior documented               | Yes / No     | Yes / No        | Yes / No         | Yes / No          |
 
 ---
 
 ## 7. Sign-Off
 
-| Role           | Name           | Sign-off                | Date       |
-| -------------- | -------------- | ----------------------- | ---------- |
-| Backend Lead   | [Name]         | Approved / Rejected     | YYYY-MM-DD |
-| Frontend Lead  | [Name]         | Approved / Rejected     | YYYY-MM-DD |
-| Security Lead  | [Name]         | Approved / Rejected     | YYYY-MM-DD |
+| Role          | Name   | Sign-off            | Date       |
+| ------------- | ------ | ------------------- | ---------- |
+| Backend Lead  | [Name] | Approved / Rejected | YYYY-MM-DD |
+| Frontend Lead | [Name] | Approved / Rejected | YYYY-MM-DD |
+| Security Lead | [Name] | Approved / Rejected | YYYY-MM-DD |
