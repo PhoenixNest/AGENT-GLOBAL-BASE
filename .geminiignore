@@ -1,0 +1,12 @@
+# Agent-specific configuration files
+CLAUDE.md
+LINGMA.md
+QWEN.md
+
+# Agent-specific configuration directories
+.claude/
+.cursor/
+.github/
+.kiro/
+.lingma/
+.qwen/
