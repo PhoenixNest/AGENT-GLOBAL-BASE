@@ -2,6 +2,8 @@
 
 This file provides guidance to Qwen Code when working with this repository.
 
+> **Adapter notice.** This file is a Qwen-Code-specific adapter for [`AGENTS.md`](./AGENTS.md). The canonical rules — pipeline stage ownership, defect severity, P0/P1 escalation, and the Progress Sync Protocol — live there. **In case of disagreement, `AGENTS.md` wins** and this adapter is fixed within 24 hours per the Adapter Pattern (`AGENTS.md` § Documentation Strategy). This file MAY add Qwen-specific guidance (`.qwen/` tooling, SubAgent invocation, skill paths, operational conventions); it MUST NOT redefine pipeline rules, defect severity, the roster, or stage ownership.
+
 ---
 
 ## Development Environment (Asus Zenbook Pro 14 Duo OLED — UX8402VV)
@@ -163,47 +165,17 @@ agent-global-base/
 
 ---
 
-## The 10-Stage Development Pipeline
+## The Development Pipeline (Reference)
 
-The pipeline is a **state machine** — each stage has explicit Artifacts In/Out, a Responsible Producer, Gate Criteria, and Defect Handling. Stages must be completed in order; gate criteria must be satisfied before advancing.
+The full pipeline is canonical in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md). It now spans **Stage 0 → Stage 11** (Stage 0 Discovery / Problem Validation; Stages 1–10 as before; Stage 9.5 Internal Dogfood; Stage 11 Live Operations) with Stage 6 renamed to "Architecture & Cross-Functional Conformance Review" and Stage 9 renamed to "Translation Production." Per-product variations live in each product's `delta.md` (mobile / web / backend / full-stack).
 
-| #   | Stage                               | Key Output                                                                                                                                           | Responsible Producer        |
-| --- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| 1   | Requirements → PRD + SRD            | PRD (with JTBD, kill criteria, commercial assessment, locale formatting) + SRD                                                                       | CPO (PRD), CSO (SRD)        |
-| 2   | PRD → Web Prototype + IDS           | HTML prototype + Interaction Design Specification (with a11y specs, text expansion tolerance, RTL considerations)                                    | CDO                         |
-| 3   | Prototype → UML Engineering Package | UML diagrams + ADRs (6 mandatory: Platform Strategy, String Key Taxonomy, Crypto, Storage, Pinning, Platform Patterns) + TSD (with Technology Radar) | CTO (UML), CIO (ADRs + TSD) |
-| 4   | UML → Coding Implementation Plan    | Implementation Plan (with RTM, Design Fidelity Checkpoint, key-index.csv task) + Gantt Chart + Test Architecture Document                            | CTO                         |
-| 5   | Plan → Software Development         | Development codebase + Contract Verification Reports (30%/70%) + String Extraction Readiness audit                                                   | CTO                         |
-| 6   | Development → Code Review           | Defect Report (with Architecture Compliance Audit, IDS Conformance Matrix, pre-Tier 1 automated gates) + Live Demo + Code Review Sign-off            | CTO (panel)                 |
-| 7   | Code Review → Automated Testing     | Test Suite + Test Results Report (with DAST, pen test, performance benchmarks, Design Fidelity Test Checklist)                                       | CTO + Test Lead             |
-| 8   | Testing → Integrity Verification    | Integrity Verification Sign-off (with Stage 6 baseline, per-feature PRD checklist, stealthy weakening detection)                                     | CTO (panel)                 |
-| 9   | Integrity → i18n Engineering        | Localised codebase + Translation Verification Report (with BLEU/TER scores, platform-specific style guides)                                          | CTO-L                       |
-| 10  | i18n → Release Readiness Check      | Release Readiness Report (7 items with sub-checklists) + Release Decision                                                                            | CTO (panel) + User          |
-
-**Key pipeline rules:**
-
-- The PRD and SRD are **paired artifacts** — they travel together through all stages.
-- Technology decisions locked at Stage 3 (ADRs/TSD) are **not revisable** in Stage 4+. Any deviation requires a new ADR, which constitutes a Stage 3 re-entry.
-- The Progress Sync Protocol activates at Stage 4: any task exceeding estimated duration by >20% triggers a CTO → CPO notification.
-- Stage 8 guards against the "trim-to-pass" anti-pattern — functionality removal is never valid remediation. **Stealthy weakening** of security controls (e.g., weaker cipher, relaxed pin validation) is classified as a P0 defect.
-- Stage 6 uses a **Three-Layer Defense** for ADR/TSD compliance: (1) Platform Lead attestation, (2) Architecture Compliance Audit by Dr. Elena Rostova, (3) CI/CD gates (dependency version pinning, prohibited technology detection).
-- Stage 6 includes a **Live Demonstration** — the CDO interacts with running builds on both platforms before panel sign-off.
-- Stage 7 mandates **DAST** (OWASP ZAP), **penetration testing** (MASVS categories), and **performance benchmark verification** (all PRD SLAs verified).
+**Key pipeline rules — see canonical:** PRD and SRD travel as paired artifacts; ADRs are **versionable and supersedable** per [`_base/adr-template.md`](./company/pipeline/_base/adr-template.md) (Stage 3 ADRs may be superseded by a new ADR carrying an explicit `Supersedes:` field); Progress Sync Protocol activates at Stage 4 (>20% variance → CTO→CPO notification); the "trim-to-pass" anti-pattern is forbidden remediation. The authoritative wording lives in [`AGENTS.md` § Non-Negotiable Rules](./AGENTS.md). Do not paraphrase those rules here.
 
 ---
 
-## Defect Severity System (P0–P3)
+## Defect Severity (Reference)
 
-Applied in Stages 6, 7, and 8. Classification is done before remediation begins.
-
-| Level | Definition                              | Release Impact                  |
-| ----- | --------------------------------------- | ------------------------------- |
-| P0    | App crash / data loss / security breach | Blocks release — non-negotiable |
-| P1    | Core feature broken / major UX failure  | Blocks release — non-negotiable |
-| P2    | Minor feature degraded / cosmetic issue | User decides to fix or defer    |
-| P3    | Polish / nice-to-have                   | User decides to fix or defer    |
-
-P0/P1 classification is final. The user has explicit final authority over P2/P3 defects.
+The P0–P3 severity model is canonical in [`AGENTS.md` § Defect Severity](./AGENTS.md). Operational application (triage workflow, classification, escalation) is defined in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md) Stages 6/7/8. **Do not duplicate the P0–P3 definitions here** — that would violate the Adapter Pattern. Treat this section as a pointer only.
 
 ---
 
@@ -217,18 +189,9 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 ---
 
-## Department → C-Suite Mapping
+## Department → C-Suite Mapping (Reference)
 
-| Department             | Supervisor(s)                               | Key Pipeline Stages  |
-| ---------------------- | ------------------------------------------- | -------------------- |
-| Brand Design           | CDO (Yuki Tanaka-Chen)                      | 2, 6, 8, 10          |
-| Cyberspace Security    | CIO (Dr. Priya Mehta), CSO (Dr. Sarah Chen) | 1, 3, 6, 8, 10       |
-| Human Resources        | CHRO (Dr. Evelyn Hartwell)                  | Recruitment only     |
-| Localization           | CTO-L (Dr. Amara Osei-Mensah)               | 9, 10                |
-| Product Management     | CPO (Marcus Tran-Yoshida)                   | 1, 6, 8, 10          |
-| Research & Development | CTO (Dr. Kenji Nakamura)                    | 3, 4, 5, 6, 7, 8, 10 |
-
-> The CIO has a cross-department oversight role covering Brand Design, Product Management, and R&D in addition to Cyberspace Security.
+The full Department → C-suite mapping with pipeline stage ownership is canonical in [`AGENTS.md` § Quick Roster](./AGENTS.md) and [`company/library/overview/personnel.md`](./company/library/overview/personnel.md). The CIO retains cross-department oversight (Brand Design, Product Management, R&D, Cyberspace Security). Do not duplicate stage ownership here.
 
 ---
 
@@ -241,19 +204,9 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 ---
 
-## Stage 10 Release Checklist (7 Items)
+## Stage 10 Release Checklist (Reference)
 
-All seven must be signed off before the user issues the final release decision:
-
-| #   | Domain                                                  | Sign-off Authority | Key Sub-Checks                                                                                                                                              |
-| --- | ------------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Product — all PRD requirements implemented              | CPO                | Analytics firing, IAP configured, kill condition monitoring active, post-launch dashboard ready                                                             |
-| 2   | Design — all CDO/IDS specifications accurately realised | CDO                | IDS Conformance Matrix ≥ 95%, zero "Not Implemented" items, WCAG 2.1 AA met, platform conventions respected, design tokens correct, animation specs matched |
-| 3   | Architecture — all UML/ADR/TSD standards upheld         | CTO + CIO          | Technology Decision Registry 100% compliant, no ADR deviations                                                                                              |
-| 4   | Security — SRD enforced, OWASP MASVS compliant          | CSO                | All security controls present AND effective (not just present), stealthy weakening verified absent                                                          |
-| 5   | Testing — 100% automated test pass rate achieved        | CTO                | DAST passed, pen test passed, performance benchmarks passed, Design Fidelity Test Checklist passed                                                          |
-| 6   | Localisation — all target languages complete            | CTO-L              | BLEU ≥ 0.80, accessibility labels verified, commercial copy localized, locale variants distinct, structural completeness signed off by CPO/CDO/CTO          |
-| 7   | Platform — App Store / Google Play requirements met     | CTO + CPO          | Screenshots updated, descriptions localized (CTO-L co-signer), metadata complete, privacy policy current, store listing localized                           |
+The Stage 10 release checklist is canonical in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md) § Stage 10. As of OPT-2026-04-20-001 Step 8 / FIND-P1-04, it now carries **12 rows** — the original seven (Product, Design, Architecture, Security, Testing, Localisation, Platform) plus five new P0 sign-off rows: **Performance Budget** (CTO + VP Platform), **Accessibility WCAG 2.1 AA** (CDO), **Privacy / Data Minimization** (CSO + GC), **Stage 9.5 Dogfood telemetry** (VP Quality), and **Live Ops Readiness** (VP Platform + CSO, referencing [`incident-response.md`](./company/pipeline/_base/incident-response.md)). Do not duplicate the checklist here.
 
 ---
 
@@ -483,91 +436,9 @@ company/project/<project-name>/
 
 ---
 
-## Critical Pipeline Enforcement Rules
+## Pipeline Enforcement Rules (Reference)
 
-### Rule 1: Project Artifact Location (NEVER use department directories)
-
-**All project artifacts MUST be saved to `company/project/<project-name>/` structure.**
-
-| ❌ WRONG                                                      | ✅ CORRECT                                                   |
-| ------------------------------------------------------------- | ------------------------------------------------------------ |
-| `company/departments/product-management/artifacts/.../prd.md` | `company/project/<project-name>/requirements/prd/prd.md`     |
-| `company/departments/cyberspace-security/.../srd.md`          | `company/project/<project-name>/requirements/srd/srd.md`     |
-| `company/departments/brand-design/.../prototype.html`         | `company/project/<project-name>/design/prototype/index.html` |
-
-**Department directories (`company/departments/`) are for AGENT PROFILES and SKILLS only — NOT project artifacts.**
-
----
-
-### Rule 2: User Gate Approval Required (Know When to Stop)
-
-**User intervention is required ONLY at specific stages per `company/pipeline/mobile-development/pipeline.md`:**
-
-| Stage        | User Approval Required? | Gate Criteria Requiring User                                          |
-| ------------ | ----------------------- | --------------------------------------------------------------------- |
-| Stage 1 → 2  | ✅ YES                  | "User has confirmed no further revisions are required"                |
-| Stage 2 → 3  | ✅ YES                  | "User has given final confirmation"                                   |
-| Stage 3 → 4  | ✅ YES                  | "User has approved the UML Engineering Package"                       |
-| Stage 4 → 5  | ✅ YES                  | "User has approved the plan"                                          |
-| Stage 5 → 6  | ❌ NO                   | CTO internal review only                                              |
-| Stage 6 → 7  | ✅ YES                  | "User has reviewed Defect Report and made decisions on P2/P3 defects" |
-| Stage 7 → 8  | ✅ YES                  | User decides on P2/P3 defect deferrals                                |
-| Stage 8 → 9  | ❌ NO                   | Panel sign-off only                                                   |
-| Stage 9 → 10 | ❌ NO                   | Structural review + CTO-L report only                                 |
-| Stage 10     | ✅ YES (Final)          | "User has issued the final release decision"                          |
-
-**When user approval IS required:**
-
-1. Present the review results to the user
-2. Display the decision table (Pass/Fail for each criterion)
-3. List any defects found (P0–P3)
-4. **STOP and wait for user response**
-5. Do NOT proceed until user explicitly approves
-
-**Valid user responses:**
-
-- `"Approve"` — Advance to next stage
-- `"Conditional Approve"` — Advance with remediation notes
-- `"Reject"` — Fix defects before advancing
-- User comments/questions — Address before re-requesting approval
-
----
-
-### Rule 4: Platform Selection Gate (Stage 1 Prerequisite)
-
-**BEFORE engaging CPO/CSO for PRD/SRD drafting, you MUST ask the user:**
-
-> **"What is your target release platform(s): Android, iOS, or both?"**
-
-| Step | Action                         | Pipeline Reference                                                                                        |
-| ---- | ------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| 1    | User provides raw product idea | Stage 1 Artifacts In                                                                                      |
-| 2    | **ASK: Target platform(s)?**   | "Once a user submits product requirements, you must first inquire about their intended release platforms" |
-| 3    | User confirms platform(s)      | Gate Criterion #1                                                                                         |
-| 4    | Engage CPO → PRD, CSO → SRD    | Stage 1 Production                                                                                        |
-
-**This is a Gate Criterion for Stage 1:** "User has confirmed target platform(s)."
-
-**Do NOT proceed with PRD/SRD creation until the user has confirmed their target platform(s).**
-
----
-
-### Rule 5: Panel Review Composition
-
-**Gate Reviews must be conducted by a panel with appropriate sign-off authority:**
-
-| Stage    | Review Type                 | Panel Members                                                |
-| -------- | --------------------------- | ------------------------------------------------------------ |
-| Stage 1  | Requirements Gate           | CTO, CIO, CSO, CPO                                           |
-| Stage 2  | Design Gate                 | CTO, CDO, CPO                                                |
-| Stage 3  | Architecture Gate           | CTO, CIO, CPO                                                |
-| Stage 4  | Implementation Plan Gate    | CTO, CPO                                                     |
-| Stage 5  | Development Complete Gate   | CTO internal review only (no panel)                          |
-| Stage 6  | Code Review Gate            | CTO (convenes), CPO, CDO, CIO, CSO + Platform Leads (Tier 1) |
-| Stage 7  | Testing Gate                | CTO + Test Lead (automated testing; user decides on P2/P3)   |
-| Stage 8  | Integrity Verification Gate | CTO (convenes), CPO, CDO, CIO, CSO, Brand Design, R&D        |
-| Stage 9  | i18n Gate                   | CTO-L, CTO, CPO                                              |
-| Stage 10 | Release Gate                | CTO (convenes), CPO, CDO, CSO, CTO-L + **USER**              |
+The operational rules that previously lived inline here — project artifact location (`company/project/<project-name>/`), user gate-approval points per stage, the Stage 1 platform selection gate, and panel composition by stage — are all canonical in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md) (gate criteria, panel composition) and [`AGENTS.md` § Non-Negotiable Rules](./AGENTS.md) (artifact location, user approval gates). The per-project dashboard index is [`company/project/_dashboard.md`](./company/project/_dashboard.md). **Do not redefine these rules here** — this pointer exists so Qwen/Gemini/Lingma agents land on the same canonical source that every other agent uses.
 
 ---
 
@@ -1110,27 +981,13 @@ Valid User Responses:
 
 ### Defect Severity Quick Reference
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ LEVEL │ DEFINITION                          │ ACTION            │
-├─────────────────────────────────────────────────────────────────┤
-│  P0   │ App crash / data loss / security    │ 🚫 Non-negotiable │
-│       │ breach                              │    fix            │
-├─────────────────────────────────────────────────────────────────┤
-│  P1   │ Core feature broken / major UX      │ 🚫 Non-negotiable │
-│       │ failure                             │    fix            │
-├─────────────────────────────────────────────────────────────────┤
-│  P2   │ Minor feature degraded / cosmetic   │ 👤 User decides   │
-│       │ issue                               │    fix/defer      │
-├─────────────────────────────────────────────────────────────────┤
-│  P3   │ Polish / nice-to-have               │ 👤 User decides   │
-│       │                                     │    fix/defer      │
-└─────────────────────────────────────────────────────────────────┘
-
-Note: P0/P1 classification is final. User has explicit authority over P2/P3.
-```
+See [`AGENTS.md` § Defect Severity](./AGENTS.md) for the canonical P0–P3 table. Operational triage lives in [`_base/pipeline.md`](./company/pipeline/_base/pipeline.md) Stages 6/7/8. P0/P1 classification is final; user has explicit authority over P2/P3.
 
 ---
 
-_End of QWEN.md_
-md\_
+## Document Version History
+
+| Version | Date           | Author            | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------- | -------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1.0     | April 20, 2026 | Tech Writer       | Initial adapter file authored with platform tooling guidance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 2.0     | April 21, 2026 | Tech Writer + CTO | **Adapter Pattern conformance** (per `AGENTS.md` § Documentation Strategy, OPT-2026-04-20-001 Step 19 / FIND-P2-15). Added the canonical adapter notice header. Converted five sections that previously redefined canonical rules into "see canonical" pointer paragraphs: (a) 10-Stage Pipeline table → `_base/pipeline.md` (now Stage 0 → 11, Stage 6/9 renamed, ADRs versionable per Step 14); (b) Defect Severity P0–P3 table → `AGENTS.md`; (c) Department → C-Suite mapping → `AGENTS.md` Quick Roster + `personnel.md`; (d) Stage 10 release checklist → `_base/pipeline.md` § Stage 10 (now 12 rows per Step 8 / FIND-P1-04); (e) Critical Pipeline Enforcement Rules → `_base/pipeline.md` + `AGENTS.md`. ALL other content preserved verbatim — Core Operating Principle, Repository Structure, Navigation, Agent Tier System, Cross-Cutting Topics, Imported Resources (`.qwen/` directory tree), Project Directory Structure, Key Conventions, Lessons Learned / Mistake Log, Document Naming Conventions, Document Versioning, Progress Monitoring & Recovery System, and Quick Reference Cards. Per user feedback on this optimization plan closeout: preserve platform-specific operational content; strip only forbidden rule-redefinition tables. |

@@ -34,14 +34,20 @@ Our company, currently focused on mobile platform products, intends to establish
 - **Our asymmetric advantage:** retention engineering, subscription monetization architecture, and A/B testing infrastructure (Duolingo DNA)
 - **Recommended monetization:** Free-to-play with rewarded video (primary), IAP for cosmetic/functional items, monthly subscription removing ads and unlocking premium content
 - **Soft launch is non-negotiable** — validate in 3–5 Tier-2 markets (Canada, Australia, Philippines, Brazil, Norway) before global UA spend
-- **Kill criteria (all must be met):**
-  - D1 Retention ≥ 40%
-  - D7 Retention ≥ 15%
-  - D30 Retention ≥ 8%
-  - LTV:CAC ≥ 1.5
-  - ARPDAU ≥ $0.04
-  - Paywall Conversion ≥ 3%
-  - App Store Rating ≥ 4.2
+- **Kill criteria (all must be met) — retention thresholds are genre-calibrated.** Each title declares its genre at Stage 0/1 of the studio pipeline; that declaration locks the applicable retention row for the rest of the title's life. Genre is reviewed only on a documented pivot (which itself is a Stage-0 re-entry). Non-retention criteria (LTV:CAC, ARPDAU, paywall conversion, App Store rating) remain genre-blind because they reflect business-model viability, not engagement curves.
+
+  | Genre                                                    | D1 Retention | D7 Retention | D30 Retention | Industry anchor                                              |
+  | :------------------------------------------------------- | :----------: | :----------: | :-----------: | :----------------------------------------------------------- |
+  | **Hybrid-casual** _(this studio's default per §1 Scope)_ |    ≥ 35%     |    ≥ 12%     |     ≥ 5%      | Voodoo / SayGames / Rollic top-quartile titles               |
+  | **Mid-core puzzle**                                      |    ≥ 40%     |    ≥ 18%     |     ≥ 8%      | King "Candy-Crush-class" releases; deeper meta loops         |
+  | **Pure-casual**                                          |    ≥ 30%     |    ≥ 10%     |     ≥ 4%      | King's Candy Crush averages D1 ~30%; mass-market expectation |
+  - LTV:CAC ≥ 1.5 _(genre-blind)_
+  - ARPDAU ≥ $0.04 _(genre-blind)_
+  - Paywall Conversion ≥ 3% _(genre-blind)_
+  - App Store Rating ≥ 4.2 _(genre-blind)_
+
+  > **Genre-lookup audit rule.** The Stage 0 / Stage 1 PRD must explicitly cite which genre row applies to that title. The Studio Director and CPO co-sign the genre lock. If a title fails its genre-row retention floor, the kill decision is non-negotiable — it is **not** valid to retroactively reclassify a hybrid-casual title to "pure-casual" to dodge the 35% D1 floor. Reclassification triggers a Stage 0 re-entry and a new soft launch.
+
 - **Investment cap:** $1.1M total for Phase 0 + Phase 1. No exceptions.
 - **Risk:** Single-title strategy has unacceptable risk; multi-title strategy multiplies cost. Portfolio approach required.
 
@@ -256,10 +262,11 @@ _Note: Personnel costs (8–12 hires at 15–25% premium) are additional and not
 
 ## 9. Document Version History
 
-| Version | Date          | Author         | Changes                                                                               |
-| ------- | ------------- | -------------- | ------------------------------------------------------------------------------------- |
-| v1      | April 9, 2026 | C-Suite Panel  | Initial charter — consolidated CPO, CTO, CDO, CIO, CHRO assessments                   |
-| v1.1    | April 9, 2026 | CTO correction | Updated Unity version: "2023 LTS" → "Unity 6.3 LTS" (Unity changed versioning scheme) |
+| Version | Date           | Author                | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ------- | -------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| v1      | April 9, 2026  | C-Suite Panel         | Initial charter — consolidated CPO, CTO, CDO, CIO, CHRO assessments                                                                                                                                                                                                                                                                                                                                                                    |
+| v1.1    | April 9, 2026  | CTO correction        | Updated Unity version: "2023 LTS" → "Unity 6.3 LTS" (Unity changed versioning scheme)                                                                                                                                                                                                                                                                                                                                                  |
+| v1.2    | April 21, 2026 | Studio Director + CPO | **§2.1 retention kill thresholds calibrated by genre.** Replaced the genre-blind D1 ≥ 40% / D7 ≥ 15% / D30 ≥ 8% with a 3-row genre-calibrated table — Hybrid-casual ≥ 35/12/5 (this studio's default), Mid-core puzzle ≥ 40/18/8, Pure-casual ≥ 30/10/4. Added a genre-lookup audit rule preventing post-hoc reclassification to dodge a stricter row. Non-retention criteria (LTV:CAC, ARPDAU, paywall conversion, rating) unchanged. |
 
 ---
 

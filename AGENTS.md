@@ -74,7 +74,7 @@ You are the **lead agent** (orchestrator). The specialist subagents across C-Sui
 
 1. **Pipeline stages are sequential** — gate criteria must be satisfied before advancing
 2. **PRD + SRD are paired** — they travel together through all stages
-3. **Technology decisions lock at Stage 3** — ADRs/TSD from Stage 3 are not revisable in Stage 4+
+3. **Technology decisions are recorded as ADRs at Stage 3** — ADRs/TSD from Stage 3 are versionable and supersedable per `company/pipeline/_base/adr-template.md`. A superseding ADR carries an explicit `Supersedes:` field; the prior ADR is retained as historical record. Revisions in Stage 4+ require a new ADR plus written acknowledgement from CTO + Software Architect
 4. **P0/P1 defects are non-negotiable release blockers** — cannot be overridden by anyone
 5. **The user has final authority over P2/P3** — always present these for user decision
 6. **"Trim-to-pass" anti-pattern** — functionality removal is never valid remediation
@@ -95,14 +95,20 @@ Use `/company-pipeline` for full 10-stage pipeline reference.
 Use `/company-personnel` for full agent roster.
 Invoke agents using your platform's convention (e.g., @name, /name, or natural language trigger).
 
-## Documentation Strategy
+## Documentation Strategy — Adapter Pattern
 
-**AGENTS.md** (this file) = Universal coordination reference (tool-agnostic)
-**Platform-specific files** = Optimized for each tool (`.claude/`, `.gemini/`, `.github/`, `.qwen/`, `.lingma/`)
-**LINGMA.md** = Comprehensive Lingma-specific documentation (514 lines)
-**CLAUDE.md** = Comprehensive Claude-specific documentation
-**QWEN.md** = Comprehensive Qwen-specific documentation
-**GEMINI.md** = Comprehensive Gemini-specific documentation
+`AGENTS.md` (this file) is the **single canonical source of truth** for multi-agent coordination, pipeline rules, defect severity, and the company's organizational structure.
+
+The platform-specific root files (`CLAUDE.md`, `LINGMA.md`, `QWEN.md`, `GEMINI.md`) are **adapters** — they translate this canonical content into the conventions, trigger syntax, and tooling idioms of their respective AI platforms. They MUST NOT introduce new rules, change defect severity, change pipeline ownership, or contradict the non-negotiable rules above. If any platform-specific file disagrees with `AGENTS.md`, `AGENTS.md` wins; the adapter is fixed within 24 hours.
+
+**Adapter rules (canonical):**
+
+1. Every adapter file (`CLAUDE.md`, `LINGMA.md`, `QWEN.md`, `GEMINI.md`) carries a header note: _"This file is a platform-specific adapter for AGENTS.md. The canonical rules live there. In case of disagreement, AGENTS.md wins."_
+2. Adapters MAY add platform-specific guidance (trigger syntax, tool invocation patterns, IDE-integration tips). They MAY NOT redefine pipeline stage ownership, defect severity, P0/P1 escalation rules, or the Progress Sync Protocol.
+3. When `AGENTS.md` changes a non-negotiable rule, the Tech Writer issues a coordinated update across all adapter files within 24 hours. The change record is logged in the adapter's "Document Version History" section with a back-reference to the `AGENTS.md` change.
+4. New AI platforms join the company by adding a new adapter file at the workspace root following the same naming convention (`<PLATFORM>.md`) and the same adapter-only constraint.
+
+**Platform-specific agent directories** (`.claude/agents/`, `.lingma/agents/`, `.qwen/agents/`, `.gemini/agents/`, `.github/agents/`) hold the platform-optimized agent profiles and follow the same adapter discipline: profiles describe the same agents from the same canonical roster (see `company/library/overview/personnel.md`); only invocation syntax and tool definitions vary by platform.
 
 ## Core Database Structure
 
@@ -112,7 +118,7 @@ This workspace contains two primary knowledge domains that form the project's co
 
 The main company simulation with departments, personnel, and development pipelines.
 
-```
+```text
 company/
 ├── departments/            # Agent source profiles and skills by department
 │   ├── brand-design/       # CDO and product UI/UX prototyping
@@ -146,7 +152,7 @@ company/
 
 Independent studios operating under the organization, each with their own workflows and teams.
 
-```
+```text
 studio/
 ├── casual-games/           # First independent studio: Casual mini-games (Unity 6.3 LTS)
 │   ├── library/            # Studio-specific reference documentation

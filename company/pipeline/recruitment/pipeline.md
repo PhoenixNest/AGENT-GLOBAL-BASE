@@ -14,20 +14,52 @@ This pipeline is benchmarked against the hiring standards of **Google, Apple, Me
 
 All candidates must meet the following baseline. These standards are encoded as automated assessment thresholds.
 
-| Standard                       | Threshold                                   | Auto-Reject If                        |
-| ------------------------------ | ------------------------------------------- | ------------------------------------- |
-| **Vetting Score**              | ≥ 4 on at least 4 of 5 dimensions (20-pt)   | < 4 on 3+ dimensions                  |
-| **Red Flag Scan**              | PASS (zero flags)                           | Any single flag triggered             |
-| **Role-Family Competency**     | ≥ 80th percentile on automated assessment   | < 60th percentile                     |
-| **Leadership Signal**          | ≥ 4 for supervisor roles; ≥ 3 for IC roles  | Below threshold for assigned tier     |
-| **Impact at Scale**            | ≥ 4 for all roles                           | < 4                                   |
-| **Craft Depth**                | ≥ 4 for all roles                           | < 4                                   |
-| **Tenure Stability**           | ≥ 18 months average across last 3 roles     | < 12 months at 2+ consecutive roles   |
-| **Technical Interview**        | ≥ Strong Hire signal from simulated panel   | No Hire or Weak Hire                  |
-| **System Design / Case Study** | ≥ 4/5 on solution quality + trade-off depth | < 3/5                                 |
-| **Behavioral / Culture Add**   | ≥ 4/5 on structured behavioral assessment   | < 3/5 or any values misalignment flag |
+| Standard                       | Threshold                                                      | Auto-Reject If                        |
+| ------------------------------ | -------------------------------------------------------------- | ------------------------------------- |
+| **Vetting Score**              | **Tiered by level — see §"Tiered Vetting Score Floors" below** | Below the floor for the role's tier   |
+| **Red Flag Scan**              | PASS (zero flags)                                              | Any single flag triggered             |
+| **Role-Family Competency**     | ≥ 80th percentile on automated assessment                      | < 60th percentile                     |
+| **Leadership Signal**          | ≥ 4 for supervisor roles; ≥ 3 for IC roles                     | Below threshold for assigned tier     |
+| **Impact at Scale**            | ≥ 4 for all roles                                              | < 4                                   |
+| **Craft Depth**                | ≥ 4 for all roles                                              | < 4                                   |
+| **Tenure Stability**           | ≥ 18 months average across last 3 roles                        | < 12 months at 2+ consecutive roles   |
+| **Technical Interview**        | ≥ Strong Hire signal from simulated panel                      | No Hire or Weak Hire                  |
+| **System Design / Case Study** | ≥ 4/5 on solution quality + trade-off depth                    | < 3/5                                 |
+| **Behavioral / Culture Add**   | ≥ 4/5 on structured behavioral assessment                      | < 3/5 or any values misalignment flag |
 
 **Auto-reject is final.** No human override. The system does not surface auto-rejected candidates to leadership.
+
+### Tiered Vetting Score Floors
+
+> **Effective:** 2026-04-21. CEO + CHRO are the joint authority for changes to this table.
+> **Why tiered:** A flat floor of "≥ 4 on 4-of-5 dimensions" (i.e., 16/20) contradicted the actual hiring record (7 hires at 12/20 with buddy-system compensation per [`buddy-system-assignments.md`](../buddy-system-assignments.md)). Tiering preserves the elite gate at L3+ while making the L1/L2 contract honest. The buddy system becomes a structural requirement at L1, not a workaround.
+
+| Tier               | Seniority Range                                                    | Vetting Score Floor (out of 20)             | All Five Dimensions Must Be ≥ | Buddy System?         | Gate Authority    |
+| ------------------ | ------------------------------------------------------------------ | ------------------------------------------- | ----------------------------- | --------------------- | ----------------- |
+| **L1 — Junior IC** | Junior Engineer, Junior Designer, Associate PM, Associate Linguist | **12 / 20** (3.0 avg)                       | 2                             | **Required, 90 days** | CHRO + Hiring Mgr |
+| **L2 — Mid IC**    | Engineer, Designer, PM, Linguist                                   | **15 / 20** (3.0 avg w/ ≥3 floor)           | 3                             | Optional              | CHRO + Hiring Mgr |
+| **L3 — Senior IC** | Senior Engineer, Senior Designer, Senior PM, Senior Linguist       | **17 / 20**                                 | 3                             | None                  | CHRO + Dept Head  |
+| **L4 — Lead**      | Staff Engineer, Principal, Chapter Lead, VP-direct-reports         | **18 / 20** + Leadership ≥ 4                | 4                             | None                  | CHRO + C-Suite    |
+| **L5 — C-Suite**   | C-Officer (CTO, CPO, CDO, CSO, CIO, CHRO, CTO-L) and equivalent    | **19 / 20** elite + all five dimensions ≥ 4 | 4                             | None                  | CEO + CHRO        |
+
+**Floor enforcement rules:**
+
+1. The floor is a **hard auto-reject**: a candidate scoring below the floor for their target tier is rejected by the rule engine without leadership review.
+2. **No upward override.** A candidate scoring 14/20 cannot be hired into an L2 role on the basis of "potential" — they are eligible only for L1 (with buddy).
+3. **Downward routing is permitted.** A candidate who scores 16/20 against an L3 opening may be re-routed to an L2 opening if one exists in the same role family within 30 days; the candidate must consent in writing.
+4. **L1 buddy assignment is gated:** an L1 hire cannot start without an assigned senior buddy (≥ L3 score, same role family). If no buddy is available, the L1 requisition is paused, not the buddy waiver.
+5. **L1 → L2 progression** is governed by the [leveling rubric](../leveling-rubric.md), not by buddy-system completion alone.
+6. **Contractor classification:** Contractors are gated identically by tier; the additional clearance and time-bound rules in §"Contractor Access Governance" apply on top.
+
+**Cross-reference to existing tier-by-assessment-model (engineering family only):**
+
+The "Tiered Engineering Assessment" model later in this document (L0–L1 fully automated; L2 automated + code-review exercise; L3+ human panel) governs **how candidates are assessed**. The Tiered Vetting Score Floors above govern **what passing score is required at each tier**. The two are orthogonal and both apply.
+
+| Engineering tier | Assessment Model                           | Vetting Score Floor                        |
+| ---------------- | ------------------------------------------ | ------------------------------------------ |
+| L0–L1            | Fully automated                            | 12 / 20 (L1 floor)                         |
+| L2               | Automated filter + code-review exercise    | 15 / 20                                    |
+| L3+              | Automated filter + Human Engineering Panel | 17 / 20 (L3) → 18 / 20 (L4) → 19 / 20 (L5) |
 
 ---
 
@@ -1680,196 +1712,22 @@ In addition to role-specific competency, all security role candidates must demon
 
 ---
 
-## Top-Tier Benchmarking — Full Encoding
+## Top-Tier Benchmarking — Encoded Practices
 
-The following practices from elite tech companies are encoded into the system's automation rules:
+Elite-tier hiring practices are encoded directly into the stage rules. Operators do not need a narrative recap; the encodings live in the per-stage sections above. The summary below names the ten load-bearing encodings and the stage that owns each.
 
-### Google
-
-| Practice               | Pipeline Stage | Encoding                                                                        |
-| ---------------------- | -------------- | ------------------------------------------------------------------------------- |
-| No brain teasers       | Stage 4        | All technical assessments use realistic job tasks; abstract puzzles blocked     |
-| Hiring committee model | Stage 5        | Vetting gate simulates committee review; no single interviewer has veto power   |
-| Data-driven hiring     | Stage 9        | All metrics tracked; quarterly calibration against historical hire quality data |
-| Structured interviews  | Stage 4        | Fixed question sets per role family; scoring rubrics locked before interview    |
-
-### Apple
-
-| Practice                          | Pipeline Stage | Encoding                                                                                     |
-| --------------------------------- | -------------- | -------------------------------------------------------------------------------------------- |
-| Same questions for all candidates | Stage 4        | Assessment battery is identical per role family; no ad-hoc questions                         |
-| Deep specialization valued        | Stage 5        | Craft Depth dimension weighted heavily; generalists must show exceptional cross-domain depth |
-| Secrecy / discretion              | Stage 6        | Background checks include discretion assessment; references asked about confidentiality      |
-| Design excellence bar             | Stage 4        | Design roles assessed on pixel-level precision, platform convention mastery, accessibility   |
-
-### Meta
-
-| Practice                      | Pipeline Stage | Encoding                                                                           |
-| ----------------------------- | -------------- | ---------------------------------------------------------------------------------- |
-| Bar raiser program            | Stage 5        | One vetting dimension ("Standards Signal") acts as bar raiser; must be ≥ 4 to pass |
-| Debrief within 24 hours       | Stage 4        | All assessment scores finalized within 24 hours; no score drift allowed            |
-| Move fast, don't break things | Stage 9        | Time-to-fill tracked; target is < 35 days from intake to offer                     |
-| Peer feedback integration     | Stage 6        | Reference checks include peer-level references, not just managers                  |
-
-### Stripe
-
-| Practice                         | Pipeline Stage | Encoding                                                                                 |
-| -------------------------------- | -------------- | ---------------------------------------------------------------------------------------- |
-| Work sample over pedigree        | Stage 3–4      | Sourcing Score discounted if assessment scores are low; school/brand carries zero weight |
-| Written communication assessment | Stage 4        | All async assessments require written responses; clarity and structure scored            |
-| High agency                      | Stage 5        | Leadership Signal and Standards Signal dimensions specifically probe for self-direction  |
-| Transparent compensation         | Stage 7        | Compensation bands visible to candidates; no negotiation games                           |
-
-### Netflix
-
-| Practice                            | Pipeline Stage | Encoding                                                                                       |
-| ----------------------------------- | -------------- | ---------------------------------------------------------------------------------------------- |
-| Top-of-market pay                   | Stage 7        | All offers at 75th percentile minimum; system rejects any offer below band floor               |
-| Adequate performance gets severance | N/A            | Not encoded in recruitment; applies post-hire during performance management                    |
-| Culture fit = culture add           | Stage 4        | Behavioral assessment scores for "culture add" (new perspective), not "culture fit" (sameness) |
-| Keeper test                         | N/A            | Not encoded in recruitment; applies post-hire during performance management                    |
-| No brilliant jerks                  | Stage 5        | Red Flag Scan includes "collaboration toxicity" signal; behavioral assessment flags egotism    |
-
----
-
-## Mermaid Flowchart
-
-```mermaid
-flowchart TD
-    %% Quarterly Configuration
-    subgraph QTR["Quarterly Configuration Cycle"]
-        Q1[CHRO + Chief Officers configure\ncompetency bars, compensation bands,\nrole templates, sourcing channels]
-    end
-
-    %% Stage 1
-    subgraph S1["Stage 1: Role Intake → Position Specification"]
-        A1[Role Intake Request] --> A2[System validates against\nheadcount plan]
-        A2 --> A3[Auto-generate PSD from\nrole-family template]
-        A3 --> A4[Publish to Sourcing Network]
-    end
-
-    %% Stage 2
-    subgraph S2["Stage 2: Sourcing → Candidate Pipeline"]
-        B1[Sourcing Agent Network scans\nall channels] --> B2[Candidates scored & ranked]
-        B2 --> B3[Top 50 selected]
-    end
-
-    %% Stage 3
-    subgraph S3["Stage 3: Screening → Assessment Assignment"]
-        C1[Automated Screening Assessment] --> C2{Score ≥ 60th percentile?}
-        C2 -->|Yes| C3[Assign Assessment Battery]
-        C2 -->|No| C_REJ1[Auto-Reject]
-    end
-
-    %% Stage 4
-    subgraph S4["Stage 4: Interview Simulation → Scored Assessments"]
-        D1[Technical/Case Study Assessments] --> D2[Simulated Panel Interviews]
-        D2 --> D3[Behavioral/Culture Add Assessment]
-        D3 --> D4[Composite Score calculated]
-        D4 --> D5{Score ≥ 80th percentile?}
-        D5 -->|Yes| D6[Advance]
-        D5 -->|No| C_REJ2[Auto-Reject]
-    end
-
-    %% Stage 5
-    subgraph S5["Stage 5: Elite Vetting Gate → Pass/Fail"]
-        E1[Apply vet-candidate.md\n5-dimension scoring] --> E2{≥4 on 4/5 dims\nAND Red Flag PASS?}
-        E2 -->|Yes| E3[PASS]
-        E2 -->|No| C_REJ3[Auto-Reject\nwith specific reason]
-    end
-
-    %% Stage 6
-    subgraph S6["Stage 6: Background Verification → Clearance"]
-        F1[Employment + Education verification] --> F2[Criminal + Reference checks]
-        F2 --> F3{Clear / Minor / Major / Unable?}
-        F3 -->|Clear| F4[Advance]
-        F3 -->|Minor discrepancy| F4
-        F3 -->|Major discrepancy| C_REJ4[Auto-Reject]
-        F3 -->|Unable to verify| F5[Flag for Stage 9 report]
-        F5 --> F4
-    end
-
-    %% Stage 7
-    subgraph S7["Stage 7: Offer Generation → Extended"]
-        G1[Generate offer within\ncompensation band] --> G2[Extend offer]
-        G2 --> G3{Candidate response}
-        G3 -->|Accepted| G4[Advance]
-        G3 -->|Negotiating| G5[Auto-negotiate ±10%]
-        G5 --> G3
-        G3 -->|Declined| G6[Log reason\nadvance next candidate]
-        G3 -->|No response| G7[Follow-up → Decline if 2x]
-        G7 --> G6
-    end
-
-    %% Stage 8
-    subgraph S8["Stage 8: Onboarding Trigger → Pre-Day-1"]
-        H1[Equipment + Accounts] --> H2[Documentation + Buddy assignment]
-        H2 --> H3[Manager briefing + Team announcement draft]
-        H3 --> H4{All ready 3 days before start?}
-        H4 -->|Yes| H5[Confirm Day-1]
-        H4 -->|No| H6[Alert CHRO + Manager]
-        H6 --> H5
-    end
-
-    %% Stage 9
-    subgraph S9["Stage 9: Hiring Outcome Report → Leadership Review"]
-        I1[System compiles HIRING\nOUTCOME REPORT] --> I2[CHRO reviews & curates]
-        I2 --> I3[Leadership reviews]
-        I3 --> I4{Approve?}
-        I4 -->|Yes| I5[Hires confirmed]
-        I4 -->|Conditional| I6[Remediate noted items]
-        I6 --> I3
-        I4 -->|Reject| I7[Specific items require\nremediation before re-review]
-        I7 --> I3
-    end
-
-    %% Exception Handler
-    subgraph EX["Exception Handler — Always Active"]
-        EX1[Monitor for R0/R1 defects] --> EX2{Defect detected?}
-        EX2 -->|R0| EX3[PAUSE ALL\nNotify CHRO + CSO]
-        EX2 -->|R1| EX4[PAUSE STAGE\nNotify CHRO + CIO]
-        EX2 -->|R2| EX5[Auto-remediate\nLog for Stage 9]
-        EX2 -->|R3| EX6[Log only]
-        EX3 --> EX7[Root cause analysis]
-        EX7 --> EX8[Resume after CHRO sign-off]
-        EX4 --> EX9[Remediate within SLA]
-        EX9 --> EX8
-    end
-
-    %% Connections
-    QTR -.->|Parameters| S1
-    A4 --> B1
-    B3 --> C1
-    C3 --> D1
-    D6 --> E1
-    E3 --> F1
-    F4 --> G1
-    G4 --> H1
-    H5 --> I1
-
-    %% Exception connections
-    EX -.->|Monitors| S1
-    EX -.->|Monitors| S2
-    EX -.->|Monitors| S3
-    EX -.->|Monitors| S4
-    EX -.->|Monitors| S5
-    EX -.->|Monitors| S6
-    EX -.->|Monitors| S7
-    EX -.->|Monitors| S8
-
-    %% Style
-    classDef stage fill:#1a1a2e,stroke:#16213e,color:#e0e0e0
-    classDef reject fill:#4a0e0e,stroke:#8b0000,color:#ff6b6b
-    classDef approve fill:#0e4a0e,stroke:#006400,color:#90ee90
-    classDef exception fill:#4a3a0e,stroke:#8b6914,color:#ffd700
-    classDef config fill:#0e2a4a,stroke:#1e3a5f,color:#87ceeb
-
-    class S1,S2,S3,S4,S5,S6,S7,S8,S9 stage
-    class C_REJ1,C_REJ2,C_REJ3,C_REJ4 reject
-    class I5 approve
-    class EX,EX1,EX2,EX3,EX4,EX5,EX6,EX7,EX8,EX9 exception
-    class QTR,Q1 config
-```
+| Practice                                                  | Owning Stage | Encoding                                                                                       |
+| --------------------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------- |
+| No brain teasers; realistic job tasks only                | Stage 4      | Abstract-puzzle questions are auto-blocked from the assessment battery.                        |
+| Structured interviews; fixed question sets per family     | Stage 4      | Scoring rubrics are locked before the interview; no ad-hoc questions.                          |
+| Hiring committee model; no single-interviewer veto        | Stage 5      | Vetting gate is a composite review; no individual reviewer can unilaterally fail a candidate.  |
+| Bar raiser via Standards Signal dimension                 | Stage 5      | The Standards Signal score acts as the bar raiser; must be ≥ 4 to pass.                        |
+| Work sample over pedigree                                 | Stage 3–4    | Sourcing Score is discounted if assessment scores are low; school/brand carries zero weight.   |
+| Written communication assessed explicitly                 | Stage 4      | All async assessments require written responses; clarity and structure are scored.             |
+| Debrief within 24 hours; no score drift                   | Stage 4      | All assessment scores must be finalized within 24 hours of the interview.                      |
+| Top-of-market pay; band floor enforced                    | Stage 7      | All offers at the 75th percentile minimum; the system rejects any offer below the band floor.  |
+| Culture add (new perspective), not culture fit (sameness) | Stage 4      | Behavioral assessment scores explicitly target "culture add."                                  |
+| No brilliant jerks                                        | Stage 5      | Red Flag Scan includes a "collaboration toxicity" signal; behavioral assessment flags egotism. |
 
 ---
 

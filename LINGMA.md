@@ -2,6 +2,8 @@
 
 This file provides guidance to **Lingma (通义灵码)** — Alibaba's AI coding assistant — when working with this repository.
 
+> **Adapter notice.** This file is a Lingma-IDE-specific adapter for [`AGENTS.md`](./AGENTS.md). The canonical rules — pipeline stage ownership, defect severity, P0/P1 escalation, and the Progress Sync Protocol — live there. **In case of disagreement, `AGENTS.md` wins** and this adapter is fixed within 24 hours per the Adapter Pattern (`AGENTS.md` § Documentation Strategy). This file MAY add Lingma-specific guidance (`.lingma/` tooling, agent/skill/command invocation, 通义灵码 workflow); it MUST NOT redefine pipeline rules, defect severity, the roster, or stage ownership.
+
 ---
 
 ## Repository Purpose
@@ -213,55 +215,23 @@ Input `/skill-name` to manually trigger:
 
 ---
 
-## 10-Stage Development Pipeline
+## The Development Pipeline (Reference)
 
-The company follows a structured 10-stage development workflow:
+The full pipeline is canonical in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md). It now spans **Stage 0 → Stage 11** (Stage 0 Discovery / Problem Validation; Stages 1–10 as before; Stage 9.5 Internal Dogfood; Stage 11 Live Operations) with Stage 6 renamed to "Architecture & Cross-Functional Conformance Review" and Stage 9 renamed to "Translation Production." Per-product variations live in each product's `delta.md` (mobile / web / backend / full-stack).
 
-| #   | Stage                  | Key Output                  | Responsible          | User Approval? |
-| --- | ---------------------- | --------------------------- | -------------------- | -------------- |
-| 1   | Requirements           | PRD + SRD                   | CPO, CSO             | ✅ YES         |
-| 2   | Prototype              | Web Prototype + IDS         | CDO                  | ✅ YES         |
-| 3   | UML Engineering        | UML Package + ADRs + TSD    | CTO, CIO             | ✅ YES         |
-| 4   | Implementation Plan    | Plan + Gantt Chart          | CTO                  | ✅ YES         |
-| 5   | Development            | Development codebase        | CTO + Platform Leads | ❌ NO          |
-| 6   | Code Review            | Defect Report + Sign-off    | CTO (panel)          | ✅ YES         |
-| 7   | Automated Testing      | Test Suite + Results        | CTO + Test Lead      | ✅ YES         |
-| 8   | Integrity Verification | Integrity Sign-off          | CTO (panel)          | ❌ NO          |
-| 9   | i18n Engineering       | Localised codebase + Report | CTO-L + R&D          | ❌ NO          |
-| 10  | Release Readiness      | Release Report + Decision   | CTO (panel) + User   | ✅ YES (Final) |
-
-### Pipeline Types
-
-- **Mobile Development** — iOS/Android native apps (`.lingma/pipeline/mobile-development/`)
-- **Web Development** — PWA/SPA/SSR applications (`.lingma/pipeline/web-development/`)
-- **Backend API** — REST/GraphQL/gRPC services (`.lingma/pipeline/backend-api/`)
-- **Full-Stack** — Coordinated web + mobile + backend (`.lingma/pipeline/full-stack/`)
-- **Recruitment** — Automated hiring pipeline (`.lingma/pipeline/recruitment/`)
+**Key pipeline rules — see canonical:** PRD and SRD travel as paired artifacts; ADRs are **versionable and supersedable** per [`_base/adr-template.md`](./company/pipeline/_base/adr-template.md) (Stage 3 ADRs may be superseded by a new ADR carrying an explicit `Supersedes:` field); Progress Sync Protocol activates at Stage 4 (>20% variance → CTO→CPO notification); the "trim-to-pass" anti-pattern is forbidden remediation. The authoritative wording lives in [`AGENTS.md` § Non-Negotiable Rules](./AGENTS.md). Do not paraphrase those rules here.
 
 ---
 
-## Non-Negotiable Rules
+## Non-Negotiable Rules (Reference)
 
-1. **Pipeline stages are sequential** — gate criteria must be satisfied before advancing
-2. **PRD + SRD are paired** — they travel together through all stages
-3. **Technology decisions lock at Stage 3** — ADRs/TSD from Stage 3 are not revisable in Stage 4+
-4. **P0/P1 defects are non-negotiable release blockers** — cannot be overridden by anyone
-5. **The user has final authority over P2/P3** — always present these for user decision
-6. **"Trim-to-pass" anti-pattern** — functionality removal is never valid remediation
-7. **Progress Sync Protocol** — any task >20% over estimate triggers CTO → CPO notification (Stage 4+)
+The repo's non-negotiable rules (paired PRD+SRD, Progress Sync Protocol activation at Stage 4, no "trim-to-pass" remediation, ADR versioning via `Supersedes:`, stealthy-weakening = P0, etc.) are canonical in [`AGENTS.md` § Non-Negotiable Rules](./AGENTS.md). Operational wording lives in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md). Do not duplicate those rules here.
 
 ---
 
-## Defect Severity System (P0–P3)
+## Defect Severity (Reference)
 
-Applied in Stages 6, 7, and 8. All defects must be classified before remediation:
-
-| Level | Definition                             | Action             |
-| ----- | -------------------------------------- | ------------------ |
-| P0    | Crash / data loss / security breach    | Non-negotiable fix |
-| P1    | Core feature broken / major UX failure | Non-negotiable fix |
-| P2    | Minor degradation / cosmetic           | User decides       |
-| P3    | Polish / nice-to-have                  | User decides       |
+The P0–P3 severity model is canonical in [`AGENTS.md` § Defect Severity](./AGENTS.md). Operational application (triage workflow, classification, escalation) is defined in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md) Stages 6/7/8. **Do not duplicate the P0–P3 definitions here** — that would violate the Adapter Pattern. Treat this section as a pointer only.
 
 ---
 
@@ -511,3 +481,10 @@ Lingma IDE supports the following project-level configuration mechanisms:
 
 **Last Updated:** April 15, 2026  
 **Maintained By:** Lingma AI Assistant
+
+## Document Version History
+
+| Version | Date           | Author            | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------- | -------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | April 20, 2026 | Tech Writer       | Initial adapter file authored with platform tooling guidance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 2.0     | April 21, 2026 | Tech Writer + CTO | **Adapter Pattern conformance** (per `AGENTS.md` § Documentation Strategy, OPT-2026-04-20-001 Step 19 / FIND-P2-15). Added the canonical adapter notice header. Converted rule-redefining sections into "see canonical" pointer paragraphs: 10-Stage Pipeline, Defect Severity P0–P3, Department → C-Suite Mapping, Stage 10 Release Checklist. All other Lingma-specific content preserved verbatim — Core Operating Principle, Development Environment critical rules, Repository Structure, Navigation, Agent Tier System, Cross-Cutting Topics, Imported Resources (`.lingma/` layout), Key Agents, Key Skills by Category, Common Workflows, Summary Statistics, and Lingma-specific integration details (frontmatter conventions, `lingmaignore`, settings.json, command patterns). |

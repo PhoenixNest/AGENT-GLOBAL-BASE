@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Adapter notice.** This file is a Claude-Code-specific adapter for [`AGENTS.md`](./AGENTS.md). The canonical rules — pipeline stage ownership, defect severity, P0/P1 escalation, and the Progress Sync Protocol — live there. **In case of disagreement, `AGENTS.md` wins** and this adapter is fixed within 24 hours per the Adapter Pattern (`AGENTS.md` § Documentation Strategy). This file MAY add Claude-specific guidance (`.claude/` tooling, subagent invocation, hooks, IDE-integration tips); it MUST NOT redefine pipeline rules, defect severity, the roster, or stage ownership.
+
 ---
 
 ## Repository Purpose
@@ -48,44 +50,17 @@ company/
 
 ---
 
-## The 10-Stage Development Pipeline
+## The Development Pipeline (Reference)
 
-The pipeline is a **state machine** — each stage has explicit Artifacts In/Out, a Responsible Producer, Gate Criteria, and Defect Handling. Stages must be completed in order; gate criteria must be satisfied before advancing.
+The full pipeline is canonical in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md). It now spans **Stage 0 → Stage 11** (Stage 0 Discovery / Problem Validation; Stages 1–10 as before; Stage 9.5 Internal Dogfood; Stage 11 Live Operations) with Stage 6 renamed to "Architecture & Cross-Functional Conformance Review" and Stage 9 renamed to "Translation Production." Per-product variations live in each product's `delta.md` (mobile / web / backend / full-stack).
 
-| #   | Stage                               | Key Output                                           | Responsible Producer        |
-| --- | ----------------------------------- | ---------------------------------------------------- | --------------------------- |
-| 1   | Requirements → PRD + SRD            | PRD + Security Requirements Document                 | CPO (PRD), CSO (SRD)        |
-| 2   | PRD → Web Prototype + IDS           | HTML prototype + Interaction Design Specification    | CDO                         |
-| 3   | Prototype → UML Engineering Package | UML diagrams + ADRs + TSD                            | CTO (UML), CIO (ADRs + TSD) |
-| 4   | UML → Coding Implementation Plan    | Implementation Plan + Gantt Chart                    | CTO                         |
-| 5   | Plan → Software Development         | Development codebase                                 | CTO                         |
-| 6   | Development → Code Review           | Defect Report + Code Review Sign-off                 | CTO (panel)                 |
-| 7   | Code Review → Automated Testing     | Test Suite + Test Results Report                     | CTO + Test Lead             |
-| 8   | Testing → Integrity Verification    | Integrity Verification Sign-off                      | CTO (panel)                 |
-| 9   | Integrity → i18n Engineering        | Localised codebase + Translation Verification Report | CTO-L + R&D                 |
-| 10  | i18n → Release Readiness Check      | Release Readiness Report + Release Decision          | CTO (panel) + User          |
-
-**Key pipeline rules:**
-
-- The PRD and SRD are **paired artifacts** — they travel together through all stages.
-- Technology decisions locked at Stage 3 (ADRs/TSD) are **not revisable** in Stage 4+.
-- The Progress Sync Protocol activates at Stage 4: any task exceeding estimated duration by >20% triggers a CTO → CPO notification.
-- The Stage 8 anti-pattern to guard against: "fixing code by trimming the product" — functionality removal is never valid remediation.
+**Key pipeline rules — see canonical:** PRD and SRD travel as paired artifacts; ADRs are **versionable and supersedable** per [`_base/adr-template.md`](./company/pipeline/_base/adr-template.md) (Stage 3 ADRs may be superseded by a new ADR carrying an explicit `Supersedes:` field); Progress Sync Protocol activates at Stage 4 (>20% variance → CTO→CPO notification); the "trim-to-pass" anti-pattern is forbidden remediation. The authoritative wording lives in [`AGENTS.md` § Non-Negotiable Rules](./AGENTS.md). Do not paraphrase those rules here.
 
 ---
 
-## Defect Severity System (P0–P3)
+## Defect Severity (Reference)
 
-Applied in Stages 6, 7, and 8. Classification is done before remediation begins.
-
-| Level | Definition                              | Release Impact                  |
-| ----- | --------------------------------------- | ------------------------------- |
-| P0    | App crash / data loss / security breach | Blocks release — non-negotiable |
-| P1    | Core feature broken / major UX failure  | Blocks release — non-negotiable |
-| P2    | Minor feature degraded / cosmetic issue | User decides to fix or defer    |
-| P3    | Polish / nice-to-have                   | User decides to fix or defer    |
-
-P0/P1 classification is final. The user has explicit final authority over P2/P3 defects.
+The P0–P3 severity model is canonical in [`AGENTS.md` § Defect Severity](./AGENTS.md). Operational application (triage workflow, classification, escalation) is defined in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md) Stages 6/7/8. **Do not duplicate the P0–P3 definitions here** — that would violate the Adapter Pattern. Treat this section as a pointer only.
 
 ---
 
@@ -99,18 +74,9 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 ---
 
-## Department → C-Suite Mapping
+## Department → C-Suite Mapping (Reference)
 
-| Department             | Supervisor(s)                               | Key Pipeline Stages  |
-| ---------------------- | ------------------------------------------- | -------------------- |
-| Brand Design           | CDO (Yuki Tanaka-Chen)                      | 2, 6, 8, 10          |
-| Cyberspace Security    | CIO (Dr. Priya Mehta), CSO (Dr. Sarah Chen) | 1, 3, 6, 8, 10       |
-| Human Resources        | CHRO (Dr. Evelyn Hartwell)                  | Recruitment only     |
-| Localization           | CTO-L (Dr. Amara Osei-Mensah)               | 9, 10                |
-| Product Management     | CPO (Marcus Tran-Yoshida)                   | 1, 6, 8, 10          |
-| Research & Development | CTO (Dr. Kenji Nakamura)                    | 3, 4, 5, 6, 7, 8, 10 |
-
-> The CIO has a cross-department oversight role covering Brand Design, Product Management, and R&D in addition to Cyberspace Security.
+The full Department → C-suite mapping with pipeline stage ownership is canonical in [`AGENTS.md` § Quick Roster](./AGENTS.md) and [`company/library/overview/personnel.md`](./company/library/overview/personnel.md). The CIO retains cross-department oversight (Brand Design, Product Management, R&D, Cyberspace Security). Do not duplicate stage ownership here.
 
 ---
 
@@ -123,19 +89,9 @@ P0/P1 classification is final. The user has explicit final authority over P2/P3 
 
 ---
 
-## Stage 10 Release Checklist (7 Items)
+## Stage 10 Release Checklist (Reference)
 
-All seven must be signed off before the user issues the final release decision:
-
-| #   | Domain                                              | Sign-off Authority |
-| --- | --------------------------------------------------- | ------------------ |
-| 1   | Product — all PRD requirements implemented          | CPO                |
-| 2   | Design — all CDO/IDS specifications realised        | CDO                |
-| 3   | Architecture — all UML/ADR/TSD standards upheld     | CTO + CIO          |
-| 4   | Security — SRD enforced, OWASP MASVS compliant      | CSO                |
-| 5   | Testing — 100% automated test pass rate             | CTO                |
-| 6   | Localisation — all target languages complete        | CTO-L              |
-| 7   | Platform — App Store / Google Play requirements met | CTO + CPO          |
+The Stage 10 release checklist is canonical in [`company/pipeline/_base/pipeline.md`](./company/pipeline/_base/pipeline.md) § Stage 10. As of OPT-2026-04-20-001 Step 8 / FIND-P1-04, it now carries **12 rows** — the original seven (Product, Design, Architecture, Security, Testing, Localisation, Platform) plus five new P0 sign-off rows: **Performance Budget** (CTO + VP Platform), **Accessibility WCAG 2.1 AA** (CDO), **Privacy / Data Minimization** (CSO + GC), **Stage 9.5 Dogfood telemetry** (VP Quality), and **Live Ops Readiness** (VP Platform + CSO, referencing [`incident-response.md`](./company/pipeline/_base/incident-response.md)). Do not duplicate the checklist here.
 
 ---
 
@@ -182,3 +138,10 @@ Three hook categories are active:
 ### Always-On Rules (`.claude/rules/company-pipeline.md`)
 
 Loads every session. Contains the quick agent roster, the 7 non-negotiable pipeline rules, and the P0–P3 severity table — under 50 lines so context cost is minimal.
+
+## Document Version History
+
+| Version | Date           | Author            | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------- | -------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | April 20, 2026 | Tech Writer       | Initial CLAUDE.md authored with full pipeline tables, defect severity, agent tier system, dept→C-suite mapping, and Stage 10 release checklist duplicated locally.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 2.0     | April 21, 2026 | Tech Writer + CTO | **Adapter Pattern conformance** (per `AGENTS.md` § Documentation Strategy, OPT-2026-04-20-001 Step 19 / FIND-P2-15). Added the canonical adapter notice header. Converted four sections that previously redefined canonical rules into one-paragraph "see canonical" pointers: (a) 10-Stage Pipeline ownership table → reference to `_base/pipeline.md` (now Stage 0 → 11, Stage 6/9 renamed, ADRs versionable per Step 14); (b) Defect Severity P0–P3 table → reference to `AGENTS.md`; (c) Department → C-Suite mapping → reference to `AGENTS.md` Quick Roster + `personnel.md`; (d) Stage 10 release checklist → reference to `_base/pipeline.md` § Stage 10 (now 12 rows per Step 8 / FIND-P1-04). All other content (Repository Purpose, Repository Structure, Navigation Quick Reference, Agent Tier System, Cross-Cutting Topics, Claude Code Integration with subagents/skills/hooks/always-on rules) preserved verbatim. |
