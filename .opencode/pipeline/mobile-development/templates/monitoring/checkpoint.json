@@ -1,0 +1,109 @@
+{
+  "checkpoint_id": "stage<N>-<milestone-name>",
+  "stage": <N>,
+  "milestone": "<Human-readable milestone name>",
+  "timestamp": "<ISO 8601 timestamp>",
+  "session_id": "session-YYYYMMDD-HHMMSS",
+  "platform_strategy": "<Android-only | iOS-only | Both Native | KMP Cross-Platform | Flutter Cross-Platform>",
+  "platform_breakdown": {
+    "track_a_android": {
+      "status": "<FULL | LIGHT | Dormant | N/A>",
+      "progress_percent": <XX>,
+      "lead": "<Name>",
+      "engineers_assigned": <N>,
+      "engineers_active": <N>,
+      "blockers": ["<Blocker description or empty array>"]
+    },
+    "track_b_ios": {
+      "status": "<FULL | LIGHT | Dormant | N/A>",
+      "progress_percent": <XX>,
+      "lead": "<Name>",
+      "engineers_assigned": <N>,
+      "engineers_active": <N>,
+      "blockers": ["<Blocker description or empty array>"]
+    },
+    "track_c_cross_platform": {
+      "status": "<PRIMARY | Dormant | N/A>",
+      "technology": "<KMP | Flutter | N/A>",
+      "progress_percent": <XX>,
+      "lead": "<Name>",
+      "engineers_assigned": <N>,
+      "engineers_active": <N>,
+      "blockers": ["<Blocker description or empty array>"]
+    }
+  },
+  "artifacts": [
+    "relative/path/to/artifact1.md",
+    "relative/path/to/artifact2.html"
+  ],
+  "gate_criteria": {
+    "<criterion_1>": true,
+    "<criterion_2>": false,
+    "<criterion_3>": true
+  },
+  "resume_point": {
+    "next_task": "<Description of next task>",
+    "file_to_open": "relative/path/to/file.ext",
+    "section": "<Section name or line number>",
+    "context": "<Additional context for resumption>"
+  },
+  "metrics": {
+    "stage_progress_percent": <XX>,
+    "total_time_spent_min": <YY>,
+    "tasks_completed": <ZZ>,
+    "tasks_remaining": <WW>
+  },
+  "security_state": {
+    "srd_compliance_percent": <XX>,
+    "masvs_categories_compliant": ["AUTH", "STORAGE", "CRYPTO", "NETWORK", "PLATFORM", "RESILIENCE"],
+    "open_security_findings": {
+      "p0": <N>,
+      "p1": <N>,
+      "p2": <N>,
+      "p3": <N>
+    },
+    "sast_findings": {
+      "android": {"p0": 0, "p1": 0, "p2": <N>},
+      "ios": {"p0": 0, "p1": 0, "p2": <N>}
+    },
+    "dependency_vulnerabilities": {
+      "critical": 0,
+      "high": <N>,
+      "medium": <N>
+    },
+    "pen_test_status": "<Not Started | In Progress | Complete | Failed>",
+    "dast_status": "<Not Started | In Progress | Complete | Failed>"
+  },
+  "technology_state": {
+    "adr_compliance": {
+      "ADR-NNN Platform Strategy": "<Compliant | Deviation | N/A>",
+      "ADR-NNN String Key Taxonomy": "<Compliant | Deviation | N/A>",
+      "ADR-NNN Security Crypto": "<Compliant | Deviation | N/A>",
+      "ADR-NNN Security Storage": "<Compliant | Deviation | N/A>",
+      "ADR-NNN Security Pinning": "<Compliant | Deviation | N/A>",
+      "ADR-NNN Security Platform": "<Compliant | Deviation | N/A>"
+    },
+    "tsd_technology_versions": {
+      "android_networking": "[library + version]",
+      "ios_networking": "[library + version]",
+      "android_storage": "[library + version]",
+      "ios_storage": "[library + version]"
+    },
+    "open_technology_exceptions": <N>
+  },
+  "risks": [
+    {
+      "description": "<Risk description>",
+      "severity": "<Low | Medium | High>",
+      "mitigation": "<Plan>"
+    }
+  ],
+  "milestone_history": [
+    {
+      "milestone": "<Milestone name>",
+      "timestamp": "<ISO 8601>",
+      "progress_percent": <XX>,
+      "session_id": "session-YYYYMMDD-HHMMSS"
+    }
+  ]
+}
