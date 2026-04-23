@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All 50 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4."
-candidate_name: "Economy Designer"
-candidate_id: "G34"
-entity_type: "studio"
-stage: "stage-3"
-division: "creative-design"
-role: "economy-designer"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All 50 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4.'
+candidate_name: 'Economy Designer'
+candidate_id: 'G34'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'creative-design'
+role: 'economy-designer'
+document_type: 'Screening Results'
 ---
 
 # Screening Results — Economy Designer (G34)

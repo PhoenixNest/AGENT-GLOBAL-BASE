@@ -4,16 +4,16 @@ scores:
   craft_depth: 5
   leadership_signal: 3
   standards_signal: 4
-  red_flag_scan: "PASS"
+  red_flag_scan: 'PASS'
 total_score: 16
-result: "PASS"
-candidate_name: "L"
-document_id: "**"
-entity_type: "studio"
-stage: "stage-5"
-division: "art"
-role: "technical-artist"
-document_type: "Vetting Gate"
+result: 'PASS'
+candidate_name: 'L'
+document_id: '**'
+entity_type: 'studio'
+stage: 'stage-5'
+division: 'art'
+role: 'technical-artist'
+document_type: 'Vetting Gate'
 ---
 
 # VETTING GATE — Lena Kovac (G8)

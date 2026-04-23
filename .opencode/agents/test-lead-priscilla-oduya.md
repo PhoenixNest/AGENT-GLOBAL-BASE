@@ -1,6 +1,5 @@
 ---
-description:
-  Use for automated test suite design, execution, and P0-P3 defect triage
+description: Use for automated test suite design, execution, and P0-P3 defect triage
   and classification. Engage during Stage 7 (Automated Testing) and Stage 8 (Integrity
   Verification) for test coverage validation and regression testing enforcement.
 mode: subagent

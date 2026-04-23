@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All assessments completed. Composite Score 4.470/5 (94th percentile). Proceeding to Stage 5."
-candidate_name: "Amara Osei"
-candidate_id: "G6"
-entity_type: "studio"
-stage: "stage-4"
-division: "engineering"
-role: "lead-qa-engineer"
-document_type: "Interview Scores"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All assessments completed. Composite Score 4.470/5 (94th percentile). Proceeding to Stage 5.'
+candidate_name: 'Amara Osei'
+candidate_id: 'G6'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'engineering'
+role: 'lead-qa-engineer'
+document_type: 'Interview Scores'
 ---
 
 # Interview Simulation Scored Assessments — Amara Osei (G6)

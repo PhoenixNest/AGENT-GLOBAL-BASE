@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-accessibility-testing-mobile
-description: "Testing Qa skill: Accessibility Testing Mobile"
+description: 'Testing Qa skill: Accessibility Testing Mobile'
 ---
 
 # Mobile Accessibility Testing

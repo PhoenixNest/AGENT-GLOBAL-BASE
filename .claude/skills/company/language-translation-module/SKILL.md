@@ -50,13 +50,13 @@ All no-match strings are passed through the approved neural MT pipeline (DeepL p
 
 All MT output is reviewed and corrected by certified native-speaker linguists for each target language:
 
-| Language | Linguist Standard |
-| -------- | ----------------- |
-| English (EN) | Source language — no translation required |
+| Language                   | Linguist Standard                                             |
+| -------------------------- | ------------------------------------------------------------- |
+| English (EN)               | Source language — no translation required                     |
 | Chinese Simplified (ZH-CN) | Native Mandarin speaker, HSK-equivalent professional literacy |
-| Japanese (JA) | Native Japanese speaker, JLPT N1 certified |
-| Korean (KO) | Native Korean speaker, TOPIK Level 6 certified |
-| French (FR) | Native French speaker, C2 CEFR or equivalent |
+| Japanese (JA)              | Native Japanese speaker, JLPT N1 certified                    |
+| Korean (KO)                | Native Korean speaker, TOPIK Level 6 certified                |
+| French (FR)                | Native French speaker, C2 CEFR or equivalent                  |
 
 Additional languages specified by the user follow the same native-speaker standard.
 
@@ -74,13 +74,13 @@ Each translation is reviewed against the platform-specific style guide for:
 
 After translation, the CTO-L validates locale-specific formatting correctness across all target languages:
 
-| Format Type | Validation Rule |
-| ----------- | --------------- |
-| Date/time | Verify locale-correct formats (e.g., `MM/DD/YYYY` for EN-US, `YYYY年MM月DD日` for JA) |
-| Currency | Verify locale-correct symbol placement and decimal separators |
-| Numbers | Verify thousand separators and decimal notation per locale |
-| Pluralisation | Verify `stringsdict` (iOS) and `plurals` (Android) rules are correctly implemented for each language's plural form count |
-| RTL support | If any target language is RTL, verify: (1) `android:supportsRtl="true"` in `AndroidManifest.xml`; (2) iOS `UISemanticContentAttribute` configured; (3) visual spot-check of mirrored layouts |
+| Format Type   | Validation Rule                                                                                                                                                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Date/time     | Verify locale-correct formats (e.g., `MM/DD/YYYY` for EN-US, `YYYY年MM月DD日` for JA)                                                                                                        |
+| Currency      | Verify locale-correct symbol placement and decimal separators                                                                                                                                |
+| Numbers       | Verify thousand separators and decimal notation per locale                                                                                                                                   |
+| Pluralisation | Verify `stringsdict` (iOS) and `plurals` (Android) rules are correctly implemented for each language's plural form count                                                                     |
+| RTL support   | If any target language is RTL, verify: (1) `android:supportsRtl="true"` in `AndroidManifest.xml`; (2) iOS `UISemanticContentAttribute` configured; (3) visual spot-check of mirrored layouts |
 
 ---
 

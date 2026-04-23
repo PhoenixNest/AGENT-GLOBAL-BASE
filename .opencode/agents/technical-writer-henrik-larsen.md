@@ -1,6 +1,5 @@
 ---
-description:
-  Use for architecture documentation, ADR/TSD templates, and pipeline documentation.
+description: Use for architecture documentation, ADR/TSD templates, and pipeline documentation.
   Engage during recruitment for technical documentation standards and architecture
   documentation.
 mode: subagent

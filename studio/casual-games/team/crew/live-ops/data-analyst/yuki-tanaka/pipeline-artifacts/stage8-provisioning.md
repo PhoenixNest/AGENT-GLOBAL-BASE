@@ -1,12 +1,12 @@
 ---
-generated_at: "**"
-candidate_name: "Data Analyst"
-candidate_id: "G33"
-entity_type: "studio"
-stage: "stage-8"
-division: "live-ops"
-role: "data-analyst"
-document_type: "Provisioning Record"
+generated_at: '**'
+candidate_name: 'Data Analyst'
+candidate_id: 'G33'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'live-ops'
+role: 'data-analyst'
+document_type: 'Provisioning Record'
 ---
 
 # Stage 8: Provisioning Record — Data Analyst (G33)

@@ -49,7 +49,7 @@ generated_at: string # ISO 8601 timestamp
 ```yaml
 ---
 document_id: string # Required. Pattern: "PSD-{YEAR}-{ID}-{SEQ}"
-stage: "stage-1" # Required. Constant.
+stage: 'stage-1' # Required. Constant.
 entity_type: string # Required. "studio" | "company"
 entity_root: string # Required.
 candidate_id: string # Required. Assigned by system.
@@ -111,7 +111,7 @@ plan_reference: # Required for Stage 1.
 ```yaml
 ---
 document_id: string # Required. Pattern: "SRC-{YEAR}-{ID}-{SEQ}"
-stage: "stage-2" # Required.
+stage: 'stage-2' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -152,7 +152,7 @@ channels_used: # Required. ≥ 1.
 ```yaml
 ---
 document_id: string # Required. Pattern: "SCR-{YEAR}-{ID}-{SEQ}"
-stage: "stage-3" # Required.
+stage: 'stage-3' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -195,7 +195,7 @@ rejection_reasons: # Optional. Only if auto_rejected.
 ```yaml
 ---
 document_id: string # Required. Pattern: "INT-{YEAR}-{ID}-{SEQ}"
-stage: "stage-4" # Required.
+stage: 'stage-4' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -241,7 +241,7 @@ result: string # Required. "PASS" | "AUTO_REJECT"
 ```yaml
 ---
 document_id: string # Required. Pattern: "VET-{YEAR}-{ID}-{SEQ}"
-stage: "stage-5" # Required.
+stage: 'stage-5' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -291,7 +291,7 @@ asg02_design_review: string # Optional. "PASS" | "FAIL" | "waived"
 ```yaml
 ---
 document_id: string # Required. Pattern: "BGC-{YEAR}-{ID}-{SEQ}"
-stage: "stage-6" # Required.
+stage: 'stage-6' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -334,7 +334,7 @@ flags: # Optional. Present if any check != CLEAR.
 ```yaml
 ---
 document_id: string # Required. Pattern: "OFF-{YEAR}-{ID}-{SEQ}"
-stage: "stage-7" # Required.
+stage: 'stage-7' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -380,7 +380,7 @@ status_date: string # Required. ISO date of status change.
 ```yaml
 ---
 document_id: string # Required. Pattern: "PRO-{YEAR}-{ID}-{SEQ}"
-stage: "stage-8" # Required.
+stage: 'stage-8' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.
@@ -422,7 +422,7 @@ auto_revocation_date: string # Required if contractor. ISO date.
 ```yaml
 ---
 document_id: string # Required. Pattern: "HIR-{YEAR}-{ID}-{SEQ}"
-stage: "stage-9" # Required.
+stage: 'stage-9' # Required.
 entity_type: string # Required.
 entity_root: string # Required.
 candidate_id: string # Required.

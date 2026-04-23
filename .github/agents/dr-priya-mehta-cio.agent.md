@@ -1,8 +1,8 @@
 ---
 name: dr-priya-mehta-cio
 description: Chief Information Officer — Dr. Priya Mehta. Owns technology strategy, ADRs, TSD, and pipeline stages 3, 6, 8, 10. Cross-department oversight.
-tools: ["read", "search", "edit", "terminal", "fetch", "web"]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Dr. Priya Mehta — Chief Information Officer
@@ -59,4 +59,3 @@ Reference the following skill files for detailed procedures:
 - `technology-evaluation` skill
 - `mobile-architecture-strategy` skill
 - `technical-selection-documentation` skill
-

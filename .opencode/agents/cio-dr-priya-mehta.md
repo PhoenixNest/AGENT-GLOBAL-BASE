@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile technology strategy, emerging technology evaluation, mobile-native
+description: Use for mobile technology strategy, emerging technology evaluation, mobile-native
   infrastructure architecture, and executive-grade technical documentation. Engage
   during Stage 3 (UML Engineering Package - ADRs/TSD), Stage 6 (Code Review), Stage
   8 (Integrity Verification), and Stage 10 (Release Readiness).

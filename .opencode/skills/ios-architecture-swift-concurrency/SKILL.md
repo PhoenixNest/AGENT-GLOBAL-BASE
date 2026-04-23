@@ -1,6 +1,6 @@
 ---
 name: ios-architecture-swift-concurrency
-description: "Ios skill: Swift Concurrency"
+description: 'Ios skill: Swift Concurrency'
 ---
 
 # Swift Concurrency

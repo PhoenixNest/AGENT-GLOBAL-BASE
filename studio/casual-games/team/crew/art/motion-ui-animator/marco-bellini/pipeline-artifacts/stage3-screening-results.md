@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Screening complete. 16 advancing. Proceeding to Stage 4."
-candidate_name: "Reject Reasons"
-entity_type: "studio"
-stage: "stage-3"
-division: "art"
-role: "motion-ui-animator"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Screening complete. 16 advancing. Proceeding to Stage 4.'
+candidate_name: 'Reject Reasons'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'art'
+role: 'motion-ui-animator'
+document_type: 'Screening Results'
 ---
 
 # Screening Results — Motion/UI Animator (G22)

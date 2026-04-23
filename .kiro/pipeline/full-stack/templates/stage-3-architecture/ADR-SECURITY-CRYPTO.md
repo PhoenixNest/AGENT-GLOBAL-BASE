@@ -64,15 +64,15 @@ Without standardized cryptographic standards, each platform team may independent
 
 ### Random Number Generation
 
-| Platform        | API                          | Notes                                |
-| --------------- | ---------------------------- | ------------------------------------ |
-| Web Frontend    | `crypto.getRandomValues()`   | Web Crypto API, browser CSPRNG       |
-| Backend (Go)    | `crypto/rand.Read()`         | OS-level CSPRNG                      |
-| Backend (Node)  | `crypto.randomBytes()`       | OpenSSL-backed CSPRNG                |
-| iOS             | `SecRandomCopyBytes`         | CSPRNG, backed by kernel entropy     |
-| Android         | `java.security.SecureRandom` | Not `java.util.Random`               |
-| KMP             | Platform adapter             | Each platform provides native CSPRNG |
-| Flutter         | Platform channel             | Delegate to native CSPRNG            |
+| Platform       | API                          | Notes                                |
+| -------------- | ---------------------------- | ------------------------------------ |
+| Web Frontend   | `crypto.getRandomValues()`   | Web Crypto API, browser CSPRNG       |
+| Backend (Go)   | `crypto/rand.Read()`         | OS-level CSPRNG                      |
+| Backend (Node) | `crypto.randomBytes()`       | OpenSSL-backed CSPRNG                |
+| iOS            | `SecRandomCopyBytes`         | CSPRNG, backed by kernel entropy     |
+| Android        | `java.security.SecureRandom` | Not `java.util.Random`               |
+| KMP            | Platform adapter             | Each platform provides native CSPRNG |
+| Flutter        | Platform channel             | Delegate to native CSPRNG            |
 
 **Prohibited:** `java.util.Random`, `arc4random()` (not CSPRNG), `Math.random()`, `crypto.pseudoRandomBytes` (Node.js, not CSPRNG), `window.crypto.getRandomValues` polyfills, any PRNG not explicitly designed for cryptographic use.
 
@@ -92,19 +92,19 @@ Without standardized cryptographic standards, each platform team may independent
 
 ## Library Selection Per Platform
 
-| Platform           | Library                | Version | Notes                                                                      |
-| ------------------ | ---------------------- | ------- | -------------------------------------------------------------------------- |
-| Web Frontend       | Web Crypto API         | Native  | Browser-native; `subtle.crypto` for AES-GCM, ECDH, ECDSA                  |
-| Web Frontend       | libsodium-wrappers     | Latest  | For argon2id password hashing (via WASM)                                   |
-| Backend (Go)       | `crypto/*` stdlib      | Go 1.21+| Built-in; AES-GCM, ECDSA, ECDH, SHA-256 all available                      |
-| Backend (Node)     | Node.js `crypto`       | LTS     | Built-in; AES-GCM, ECDH, ECDSA available                                   |
-| Backend (Node)     | `argon2` npm package   | Latest  | For password hashing (native bindings to PHC winner)                       |
-| iOS                | CryptoKit              | iOS 13+ | Apple's modern crypto framework                                            |
-| iOS (legacy)       | CommonCrypto           | —       | Use only for algorithms not in CryptoKit                                   |
-| Android            | Google Tink            | Latest  | Multi-language, well-audited                                               |
-| Android (fallback) | BouncyCastle           | Latest  | Use if Tink incompatible with existing code                                |
-| KMP                | Platform adapter       | —       | Shared module defines interface; platforms implement with native libraries |
-| Flutter            | Platform channel       | —       | All crypto in native code — never implement in pure Dart                   |
+| Platform           | Library              | Version  | Notes                                                                      |
+| ------------------ | -------------------- | -------- | -------------------------------------------------------------------------- |
+| Web Frontend       | Web Crypto API       | Native   | Browser-native; `subtle.crypto` for AES-GCM, ECDH, ECDSA                   |
+| Web Frontend       | libsodium-wrappers   | Latest   | For argon2id password hashing (via WASM)                                   |
+| Backend (Go)       | `crypto/*` stdlib    | Go 1.21+ | Built-in; AES-GCM, ECDSA, ECDH, SHA-256 all available                      |
+| Backend (Node)     | Node.js `crypto`     | LTS      | Built-in; AES-GCM, ECDH, ECDSA available                                   |
+| Backend (Node)     | `argon2` npm package | Latest   | For password hashing (native bindings to PHC winner)                       |
+| iOS                | CryptoKit            | iOS 13+  | Apple's modern crypto framework                                            |
+| iOS (legacy)       | CommonCrypto         | —        | Use only for algorithms not in CryptoKit                                   |
+| Android            | Google Tink          | Latest   | Multi-language, well-audited                                               |
+| Android (fallback) | BouncyCastle         | Latest   | Use if Tink incompatible with existing code                                |
+| KMP                | Platform adapter     | —        | Shared module defines interface; platforms implement with native libraries |
+| Flutter            | Platform channel     | —        | All crypto in native code — never implement in pure Dart                   |
 
 **Implementation requirements:**
 

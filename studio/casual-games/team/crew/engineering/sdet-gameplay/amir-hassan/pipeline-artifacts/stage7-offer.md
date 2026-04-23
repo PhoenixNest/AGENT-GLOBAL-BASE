@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer extended and accepted. Proceeding to Stage 8."
-candidate_name: "Amir Hassan"
-candidate_id: "G36"
-entity_type: "studio"
-stage: "stage-7"
-division: "engineering"
-role: "sdet-gameplay"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer extended and accepted. Proceeding to Stage 8.'
+candidate_name: 'Amir Hassan'
+candidate_id: 'G36'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'engineering'
+role: 'sdet-gameplay'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Amir Hassan (G36)

@@ -29,14 +29,14 @@ Builds and maintains the test infrastructure that enables fast, reliable, and sc
 // Custom test runner with parallelization and reporting
 // Built on top of Jest/Vitest for extensibility
 
-import { Worker } from "worker_threads";
-import { EventEmitter } from "events";
-import * as path from "path";
+import { Worker } from 'worker_threads';
+import { EventEmitter } from 'events';
+import * as path from 'path';
 
 interface TestResult {
   filePath: string;
   testName: string;
-  status: "pass" | "fail" | "skip" | "flaky";
+  status: 'pass' | 'fail' | 'skip' | 'flaky';
   duration: number;
   error?: string;
   retryCount: number;
@@ -47,7 +47,7 @@ interface TestRunnerConfig {
   maxWorkers: number;
   retryFlakyTests: number;
   quarantineThreshold: number; // Times failed before quarantine
-  reporters: ("json" | "junit" | "html" | "console")[];
+  reporters: ('json' | 'junit' | 'html' | 'console')[];
   setupFiles?: string[];
   teardownFiles?: string[];
 }
@@ -94,15 +94,13 @@ class ParallelTestRunner extends EventEmitter {
     }));
   }
 
-  private async distributeToWorkers(
-    groups: TestGroup[],
-  ): Promise<TestResult[][]> {
+  private async distributeToWorkers(groups: TestGroup[]): Promise<TestResult[][]> {
     const workers: Worker[] = [];
     const results: TestResult[][] = [];
 
     // Create worker pool
     for (let i = 0; i < this.config.maxWorkers; i++) {
-      const worker = new Worker(path.resolve(__dirname, "test-worker.js"), {
+      const worker = new Worker(path.resolve(__dirname, 'test-worker.js'), {
         workerData: {
           config: this.config,
           flakyHistory: Object.fromEntries(this.flakyTestHistory),
@@ -112,10 +110,7 @@ class ParallelTestRunner extends EventEmitter {
     }
 
     // Distribute test groups using longest-processing-time-first
-    const assignments: TestGroup[][] = Array.from(
-      { length: workers.length },
-      () => [],
-    );
+    const assignments: TestGroup[][] = Array.from({ length: workers.length }, () => []);
     let workerIndex = 0;
 
     for (const group of groups) {
@@ -126,11 +121,10 @@ class ParallelTestRunner extends EventEmitter {
     // Execute in parallel
     const promises = workers.map((worker, i) => {
       return new Promise<TestResult[]>((resolve, reject) => {
-        worker.on("message", (result: TestResult[]) => resolve(result));
-        worker.on("error", reject);
-        worker.on("exit", (code) => {
-          if (code !== 0)
-            reject(new Error(`Worker ${i} exited with code ${code}`));
+        worker.on('message', (result: TestResult[]) => resolve(result));
+        worker.on('error', reject);
+        worker.on('exit', (code) => {
+          if (code !== 0) reject(new Error(`Worker ${i} exited with code ${code}`));
         });
         worker.postMessage(assignments[i]);
       });
@@ -164,24 +158,24 @@ class ParallelTestRunner extends EventEmitter {
   private async generateReports(results: TestResult[], flakyTests: string[]) {
     const summary = {
       total: results.length,
-      passed: results.filter((r) => r.status === "pass").length,
-      failed: results.filter((r) => r.status === "fail").length,
+      passed: results.filter((r) => r.status === 'pass').length,
+      failed: results.filter((r) => r.status === 'fail').length,
       flaky: flakyTests.length,
       duration: results.reduce((sum, r) => sum + r.duration, 0),
     };
 
     for (const reporter of this.config.reporters) {
       switch (reporter) {
-        case "json":
+        case 'json':
           await this.writeJsonReport(results, summary);
           break;
-        case "junit":
+        case 'junit':
           await this.writeJunitReport(results, summary);
           break;
-        case "html":
+        case 'html':
           await this.writeHtmlReport(results, summary, flakyTests);
           break;
-        case "console":
+        case 'console':
           this.printConsoleReport(results, summary, flakyTests);
           break;
       }
@@ -191,9 +185,9 @@ class ParallelTestRunner extends EventEmitter {
 
 // Test worker (runs in separate thread)
 // test-worker.js
-import { parentPort, workerData } from "worker_threads";
+import { parentPort, workerData } from 'worker_threads';
 
-parentPort!.on("message", async (testGroups: TestGroup[]) => {
+parentPort!.on('message', async (testGroups: TestGroup[]) => {
   const results: TestResult[] = [];
 
   for (const group of testGroups) {
@@ -226,7 +220,7 @@ parentPort!.on("message", async (testGroups: TestGroup[]) => {
         results.push({
           filePath: group.file,
           testName: test.name,
-          status: passed ? "pass" : "fail",
+          status: passed ? 'pass' : 'fail',
           duration: test.duration,
           error,
           retryCount: retries - 1,
@@ -246,7 +240,7 @@ parentPort!.on("message", async (testGroups: TestGroup[]) => {
 
 ```yaml
 # docker-compose.test.yml — Ephemeral test environment
-version: "3.8"
+version: '3.8'
 
 services:
   # PostgreSQL with test data
@@ -257,9 +251,9 @@ services:
       POSTGRES_USER: test_user
       POSTGRES_PASSWORD: test_password
     ports:
-      - "5432" # Dynamic port
+      - '5432' # Dynamic port
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U test_user"]
+      test: ['CMD-SHELL', 'pg_isready -U test_user']
       interval: 2s
       timeout: 3s
       retries: 10
@@ -270,9 +264,9 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379"
+      - '6379'
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 2s
       timeout: 3s
       retries: 5
@@ -289,8 +283,7 @@ services:
       zookeeper:
         condition: service_healthy
     healthcheck:
-      test:
-        ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list"]
+      test: ['CMD-SHELL', 'kafka-topics --bootstrap-server localhost:9092 --list']
       interval: 5s
       timeout: 10s
       retries: 10
@@ -300,7 +293,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
     healthcheck:
-      test: ["CMD-SHELL", "echo ruok | nc localhost 2181"]
+      test: ['CMD-SHELL', 'echo ruok | nc localhost 2181']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -311,7 +304,7 @@ services:
     volumes:
       - ./test-data/wiremock:/home/wiremock
     ports:
-      - "8089"
+      - '8089'
 
   # Test runner
   test-runner:
@@ -339,22 +332,19 @@ services:
 
 ```typescript
 // testcontainers setup for integration tests
-import {
-  PostgreSqlContainer,
-  StartedPostgreSqlContainer,
-} from "@testcontainers/postgresql";
-import { RedisContainer } from "@testcontainers/redis";
+import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
+import { RedisContainer } from '@testcontainers/redis';
 
-describe("UserRepository Integration Tests", () => {
+describe('UserRepository Integration Tests', () => {
   let postgres: StartedPostgreSqlContainer;
   let db: Database;
 
   beforeAll(async () => {
     // Start PostgreSQL container
-    postgres = await new PostgreSqlContainer("postgres:16-alpine")
-      .withDatabase("test_db")
-      .withUsername("test_user")
-      .withPassword("test_password")
+    postgres = await new PostgreSqlContainer('postgres:16-alpine')
+      .withDatabase('test_db')
+      .withUsername('test_user')
+      .withPassword('test_password')
       .withExposedPorts(5432)
       .withStartupTimeout(30_000)
       .start();
@@ -371,13 +361,13 @@ describe("UserRepository Integration Tests", () => {
 
   beforeEach(async () => {
     // Clean state before each test
-    await db.query("TRUNCATE users, orders, order_items CASCADE");
+    await db.query('TRUNCATE users, orders, order_items CASCADE');
   });
 
-  test("creates user and retrieves by ID", async () => {
+  test('creates user and retrieves by ID', async () => {
     const user = await db.users.create({
-      name: "Test User",
-      email: "test@example.com",
+      name: 'Test User',
+      email: 'test@example.com',
     });
 
     expect(user.id).toBeDefined();
@@ -386,18 +376,18 @@ describe("UserRepository Integration Tests", () => {
     expect(retrieved).toEqual(user);
   });
 
-  test("handles duplicate email", async () => {
+  test('handles duplicate email', async () => {
     await db.users.create({
-      name: "User 1",
-      email: "dup@example.com",
+      name: 'User 1',
+      email: 'dup@example.com',
     });
 
     await expect(
       db.users.create({
-        name: "User 2",
-        email: "dup@example.com",
-      }),
-    ).rejects.toThrow("duplicate key");
+        name: 'User 2',
+        email: 'dup@example.com',
+      })
+    ).rejects.toThrow('duplicate key');
   });
 });
 ```
@@ -586,12 +576,10 @@ class TestResultDashboard {
   private results: TestSuiteResult[] = [];
 
   async aggregate(runners: string[]): Promise<TestSuiteResult> {
-    const suiteResults = await Promise.all(
-      runners.map((r) => this.fetchResults(r)),
-    );
+    const suiteResults = await Promise.all(runners.map((r) => this.fetchResults(r)));
 
     return {
-      runner: "aggregated",
+      runner: 'aggregated',
       timestamp: new Date().toISOString(),
       build_id: suiteResults[0].build_id,
       total: suiteResults.reduce((sum, r) => sum + r.total, 0),
@@ -606,7 +594,7 @@ class TestResultDashboard {
 
   generateTrendReport(days: number = 30): TrendReport {
     const recent = this.results.filter(
-      (r) => new Date(r.timestamp) > new Date(Date.now() - days * 86400000),
+      (r) => new Date(r.timestamp) > new Date(Date.now() - days * 86400000)
     );
 
     const daily = recent.reduce(
@@ -619,27 +607,24 @@ class TestResultDashboard {
         acc[day].flaky += r.flaky;
         return acc;
       },
-      {} as Record<string, any>,
+      {} as Record<string, any>
     );
 
     return {
       period_days: days,
       daily_data: daily,
-      pass_rate_trend: this.calculateTrend(daily, "pass_rate"),
-      flaky_count_trend: this.calculateTrend(daily, "flaky_count"),
-      duration_trend: this.calculateTrend(daily, "duration"),
+      pass_rate_trend: this.calculateTrend(daily, 'pass_rate'),
+      flaky_count_trend: this.calculateTrend(daily, 'flaky_count'),
+      duration_trend: this.calculateTrend(daily, 'duration'),
     };
   }
 
   generateHealthScore(): number {
     const recent = this.results.slice(-100);
 
-    const passRate =
-      recent.reduce((s, r) => s + r.passed / r.total, 0) / recent.length;
-    const flakyRate =
-      recent.reduce((s, r) => s + r.flaky / r.total, 0) / recent.length;
-    const avgDuration =
-      recent.reduce((s, r) => s + r.duration_ms, 0) / recent.length;
+    const passRate = recent.reduce((s, r) => s + r.passed / r.total, 0) / recent.length;
+    const flakyRate = recent.reduce((s, r) => s + r.flaky / r.total, 0) / recent.length;
+    const avgDuration = recent.reduce((s, r) => s + r.duration_ms, 0) / recent.length;
 
     // Health score: 0-100
     // Weighted: 50% pass rate, 30% flaky rate, 20% duration

@@ -53,6 +53,6 @@ Backend service development using Go, Python, and PostgreSQL. Owned by the Backe
 | Guideline             | File                                                               | Owner         |
 | --------------------- | ------------------------------------------------------------------ | ------------- |
 | AWS Fundamentals      | [`cloud/aws-fundamentals.md`](cloud/aws-fundamentals.md)           | Thabo Mokoena |
-| AWS Architecture      | [`guidelines/aws-architecture.md`](guidelines/aws-architecture.md)           | Thabo Mokoena |
+| AWS Architecture      | [`guidelines/aws-architecture.md`](guidelines/aws-architecture.md) | Thabo Mokoena |
 | Backend Observability | [`cloud/backend-observability.md`](cloud/backend-observability.md) | Kael Jensen   |
 | API Testing           | [`cloud/api-testing.md`](cloud/api-testing.md)                     | Priya Sharma  |

@@ -1,18 +1,18 @@
 ---
-document_id: "**"
-role_title: "Senior Game Designer (G26)"
-role_family: "Creative"
-seniority: "Senior"
-priority: "P1"
-reports_to: "Lead Game Designer (Mei Watanabe)"
+document_id: '**'
+role_title: 'Senior Game Designer (G26)'
+role_family: 'Creative'
+seniority: 'Senior'
+priority: 'P1'
+reports_to: 'Lead Game Designer (Mei Watanabe)'
 compensation_band:
   min: 110000
   max: 145000
-entity_type: "studio"
-stage: "stage-1"
-division: "creative-design"
-role: "senior-game-designer"
-document_type: "Position Specification Document"
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'creative-design'
+role: 'senior-game-designer'
+document_type: 'Position Specification Document'
 ---
 
 # Position Specification Document

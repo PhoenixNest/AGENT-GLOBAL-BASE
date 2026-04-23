@@ -1,6 +1,6 @@
 ---
 name: android-data-networking-android-data-layer
-description: "Android skill: Android Data Layer"
+description: 'Android skill: Android Data Layer'
 ---
 
 # Android Data Layer

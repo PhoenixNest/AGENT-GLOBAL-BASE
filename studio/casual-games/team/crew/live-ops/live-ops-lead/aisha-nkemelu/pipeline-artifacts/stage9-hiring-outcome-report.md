@@ -1,9 +1,9 @@
 ---
-entity_type: "studio"
-stage: "stage-9"
-division: "live-ops"
-role: "live-ops-lead"
-document_type: "Hiring Outcome Report"
+entity_type: 'studio'
+stage: 'stage-9'
+division: 'live-ops'
+role: 'live-ops-lead'
+document_type: 'Hiring Outcome Report'
 ---
 
 # Stage 9: Hiring Outcome Report — Live Ops Lead (G29)

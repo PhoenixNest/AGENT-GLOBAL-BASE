@@ -1,6 +1,5 @@
 ---
-description:
-  Use for distributed backend architecture and web engineering leadership.
+description: Use for distributed backend architecture and web engineering leadership.
   Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for web
   and backend platform strategy.
 mode: subagent

@@ -12,21 +12,21 @@ This skill covers Docker container orchestration, multi-container deployment pat
 ## Docker Compose for Development
 
 ```yaml
-version: "3.8"
+version: '3.8'
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - DATABASE_URL=postgres://app:pass@db:5432/app
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -36,7 +36,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U app"]
+      test: ['CMD-SHELL', 'pg_isready -U app']
 
 volumes:
   pgdata:

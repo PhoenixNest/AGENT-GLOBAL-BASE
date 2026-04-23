@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-architecture-review-shadowing
-description: "Architecture skill: Architecture Review Shadowing"
+description: 'Architecture skill: Architecture Review Shadowing'
 ---
 
 # Architecture Review Shadowing

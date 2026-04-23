@@ -1,6 +1,6 @@
 ---
 name: localization-guidelines-mobile-ui-translation-japanese
-description: "Localization skill: Mobile Ui Translation Japanese"
+description: 'Localization skill: Mobile Ui Translation Japanese'
 ---
 
 # Mobile UI Translation

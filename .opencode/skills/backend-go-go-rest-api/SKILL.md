@@ -1,6 +1,6 @@
 ---
 name: backend-go-go-rest-api
-description: "Backend skill: Go Rest Api"
+description: 'Backend skill: Go Rest Api'
 ---
 
 # Go REST API Development

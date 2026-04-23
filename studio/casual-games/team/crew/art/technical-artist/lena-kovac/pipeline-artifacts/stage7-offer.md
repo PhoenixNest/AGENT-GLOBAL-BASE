@@ -1,12 +1,12 @@
 ---
-gate_status: "** ✅ Offer extended. Proceeding to Stage 8."
-candidate_name: "Lena Kovac"
-candidate_id: "G8"
-entity_type: "studio"
-stage: "stage-7"
-division: "art"
-role: "technical-artist"
-document_type: "Offer Document"
+gate_status: '** ✅ Offer extended. Proceeding to Stage 8.'
+candidate_name: 'Lena Kovac'
+candidate_id: 'G8'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'art'
+role: 'technical-artist'
+document_type: 'Offer Document'
 ---
 
 # Stage 7-9: Offer, Provisioning, Hiring Outcome — Lena Kovac (G8)

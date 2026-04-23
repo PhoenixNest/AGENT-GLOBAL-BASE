@@ -1,6 +1,5 @@
 ---
-description:
-  Use for GraphQL API development (Apollo Server), AWS cloud infrastructure
+description: Use for GraphQL API development (Apollo Server), AWS cloud infrastructure
   (Terraform, ECS, RDS), and Node.js/TypeScript backend. Engage during Stage 5 (Backend
   Development) for GraphQL and cloud deployment.
 mode: subagent

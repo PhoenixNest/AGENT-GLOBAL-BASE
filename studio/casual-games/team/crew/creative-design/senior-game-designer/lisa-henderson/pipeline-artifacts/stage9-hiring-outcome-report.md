@@ -2,15 +2,15 @@
 vetting_total: 17
 composite_score: 4.36
 time_to_fill_days: 5
-final_decision: "HIRED"
-reports_to: "** Mei Watanabe (Lead Game Designer)"
-candidate_name: "L"
-document_id: "**"
-entity_type: "studio"
-stage: "stage-9"
-division: "creative-design"
-role: "senior-game-designer"
-document_type: "Hiring Outcome Report"
+final_decision: 'HIRED'
+reports_to: '** Mei Watanabe (Lead Game Designer)'
+candidate_name: 'L'
+document_id: '**'
+entity_type: 'studio'
+stage: 'stage-9'
+division: 'creative-design'
+role: 'senior-game-designer'
+document_type: 'Hiring Outcome Report'
 ---
 
 # Hiring Outcome Report — Lisa Henderson (G26)

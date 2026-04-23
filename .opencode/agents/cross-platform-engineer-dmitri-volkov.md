@@ -1,6 +1,5 @@
 ---
-description:
-  Use for KMP shared modules, cross-platform architecture, and Swift language
+description: Use for KMP shared modules, cross-platform architecture, and Swift language
   familiarity. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification)
   for KMP implementation.
 mode: subagent

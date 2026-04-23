@@ -1,6 +1,6 @@
 ---
 name: ios-infrastructure-ios-ci-cd
-description: "Ios skill: Ios Ci Cd"
+description: 'Ios skill: Ios Ci Cd'
 ---
 
 # iOS CI/CD

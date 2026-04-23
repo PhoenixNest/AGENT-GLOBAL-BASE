@@ -9,20 +9,21 @@ Design, implement, and maintain secure Infrastructure as Code (IaC) using Terraf
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| Terraform Module Architecture | Designing reusable, composable, secure Terraform modules | Creates modules with input validation, output documentation, version pinning, and security defaults; modules used across 3+ projects without modification |
-| State Management | Secure handling of Terraform state files containing sensitive data | State stored in encrypted remote backend with access controls; state file never committed to repository; state locking prevents concurrent modifications |
-| Drift Detection | Identifying and remediating configuration drift between IaC and live infrastructure | Automated drift detection runs daily; drift alerts within 1 hour; 100% of drift incidents investigated and remediated within 24 hours |
-| Policy-as-Code (OPA/Sentinel) | Enforcing infrastructure security policies through automated checks | Writes Sentinel/OPA policies that prevent 100% of common misconfigurations (open S3, unencrypted RDS, public-facing databases); policies tested against known-bad configurations |
-| GitOps Workflows | Managing infrastructure changes through Git-based approval workflows | All infrastructure changes via PR; requires 2+ approvals; automated plan preview in PR comments; zero manual infrastructure changes |
-| IaC Security Scanning | Automated security analysis of Terraform configurations | Integrates tfsec/checkov into CI pipeline; blocks deployment of non-compliant infrastructure; maintains custom rules for company-specific security requirements |
+| Dimension                     | Description                                                                         | Proficiency Indicators                                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Terraform Module Architecture | Designing reusable, composable, secure Terraform modules                            | Creates modules with input validation, output documentation, version pinning, and security defaults; modules used across 3+ projects without modification                        |
+| State Management              | Secure handling of Terraform state files containing sensitive data                  | State stored in encrypted remote backend with access controls; state file never committed to repository; state locking prevents concurrent modifications                         |
+| Drift Detection               | Identifying and remediating configuration drift between IaC and live infrastructure | Automated drift detection runs daily; drift alerts within 1 hour; 100% of drift incidents investigated and remediated within 24 hours                                            |
+| Policy-as-Code (OPA/Sentinel) | Enforcing infrastructure security policies through automated checks                 | Writes Sentinel/OPA policies that prevent 100% of common misconfigurations (open S3, unencrypted RDS, public-facing databases); policies tested against known-bad configurations |
+| GitOps Workflows              | Managing infrastructure changes through Git-based approval workflows                | All infrastructure changes via PR; requires 2+ approvals; automated plan preview in PR comments; zero manual infrastructure changes                                              |
+| IaC Security Scanning         | Automated security analysis of Terraform configurations                             | Integrates tfsec/checkov into CI pipeline; blocks deployment of non-compliant infrastructure; maintains custom rules for company-specific security requirements                  |
 
 ## Execution Guidance
 
 ### 1. Terraform Module Architecture
 
 **Module Design Principles:**
+
 1. **Single Responsibility**: Each module manages one logical infrastructure component
 2. **Security Defaults**: Secure configuration is the default; insecurity requires explicit override
 3. **Input Validation**: Validate all inputs with `validation` blocks
@@ -362,6 +363,7 @@ resource "aws_kms_key" "state_key" {
 ```
 
 **State File Security Rules:**
+
 1. State files **never** stored locally on developer machines in production
 2. State access restricted to CI/CD pipeline role only (no human access)
 3. State bucket has Object Lock enabled (prevents deletion/modification for retention period)
@@ -378,7 +380,7 @@ resource "aws_kms_key" "state_key" {
 name: Infrastructure — Drift Detection
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
+    - cron: '0 */6 * * *' # Every 6 hours
   workflow_dispatch:
 
 permissions:
@@ -691,9 +693,11 @@ Post-deployment verification
 ## Infrastructure Change Request
 
 ### Description
+
 [What is changing and why?]
 
 ### Affected Resources
+
 - [ ] VPC/Networking
 - [ ] Compute (EC2/ECS/Lambda)
 - [ ] Database (RDS/DynamoDB)
@@ -704,11 +708,13 @@ Post-deployment verification
 - [ ] Other: [specify]
 
 ### Environment
+
 - [ ] Development
 - [ ] Staging
 - [ ] Production
 
 ### Security Impact
+
 - [ ] New IAM permissions
 - [ ] Network changes (security groups, NACLs)
 - [ ] Encryption changes
@@ -718,7 +724,9 @@ Post-deployment verification
 
 ### Terraform Plan Summary
 ```
+
 # Paste terraform plan output here (resources to add/change/destroy)
+
 ```
 
 ### Rollback Plan
@@ -734,23 +742,23 @@ Post-deployment verification
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 3** (Architecture) | Infrastructure architecture designed; Terraform module structure defined; security requirements for infrastructure documented |
-| **Stage 4** (Implementation Plan) | IaC implementation plan includes module development, policy-as-code creation, and GitOps workflow setup |
-| **Stage 5** (Development) | Infrastructure provisioned via Terraform; drift detection active; policy checks enforced on all changes |
-| **Stage 6** (Code Review) | Terraform configuration reviewed for security; policy check results included in review |
-| **Stage 10** (Release Readiness) | Infrastructure security posture confirmed; drift detection current; all policy checks passing |
+| Pipeline Stage                    | Application                                                                                                                   |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 3** (Architecture)        | Infrastructure architecture designed; Terraform module structure defined; security requirements for infrastructure documented |
+| **Stage 4** (Implementation Plan) | IaC implementation plan includes module development, policy-as-code creation, and GitOps workflow setup                       |
+| **Stage 5** (Development)         | Infrastructure provisioned via Terraform; drift detection active; policy checks enforced on all changes                       |
+| **Stage 6** (Code Review)         | Terraform configuration reviewed for security; policy check results included in review                                        |
+| **Stage 10** (Release Readiness)  | Infrastructure security posture confirmed; drift detection current; all policy checks passing                                 |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **IaC Coverage** | 100% of infrastructure defined in Terraform; no manual infrastructure changes |
-| **Policy Enforcement** | 100% of Terraform changes pass policy checks before merge |
-| **State Security** | Zero state file exposure incidents; state access limited to CI/CD pipeline role |
-| **Drift Detection** | Drift detected within 6 hours; 100% of drift incidents investigated within 24 hours |
-| **Module Quality** | All modules pass tfsec with zero critical/high findings; all modules documented |
-| **GitOps Compliance** | 100% of infrastructure changes via Git PR workflow; zero manual `terraform apply` |
-| **Encryption** | 100% of storage resources encrypted at rest; 100% of network traffic encrypted in transit |
-| **Access Control** | All infrastructure access via IAM roles; no long-lived access keys |
+| Metric                 | Standard                                                                                  |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| **IaC Coverage**       | 100% of infrastructure defined in Terraform; no manual infrastructure changes             |
+| **Policy Enforcement** | 100% of Terraform changes pass policy checks before merge                                 |
+| **State Security**     | Zero state file exposure incidents; state access limited to CI/CD pipeline role           |
+| **Drift Detection**    | Drift detected within 6 hours; 100% of drift incidents investigated within 24 hours       |
+| **Module Quality**     | All modules pass tfsec with zero critical/high findings; all modules documented           |
+| **GitOps Compliance**  | 100% of infrastructure changes via Git PR workflow; zero manual `terraform apply`         |
+| **Encryption**         | 100% of storage resources encrypted at rest; 100% of network traffic encrypted in transit |
+| **Access Control**     | All infrastructure access via IAM roles; no long-lived access keys                        |

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Swift Concurrency migration, SwiftUI + The Composable Architecture
+description: Use for Swift Concurrency migration, SwiftUI + The Composable Architecture
   (TCA) implementation, and iOS mentoring. Engage during Stage 5 (Development) for
   SwiftUI/TCA architecture implementation, Stage 6 (Code Review) for Swift Concurrency
   and TCA code review, and Stage 8 (Integrity Verification) for architecture conformance.

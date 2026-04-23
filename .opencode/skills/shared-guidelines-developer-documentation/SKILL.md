@@ -1,6 +1,6 @@
 ---
 name: shared-guidelines-developer-documentation
-description: "Shared skill: Developer Documentation"
+description: 'Shared skill: Developer Documentation'
 ---
 
 # Developer Documentation

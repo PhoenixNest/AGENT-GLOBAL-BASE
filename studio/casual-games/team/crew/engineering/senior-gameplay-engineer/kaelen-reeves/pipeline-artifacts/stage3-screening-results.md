@@ -1,13 +1,13 @@
 ---
-generated_at: "**"
-gate_status: "** ✅ All 50 candidates screened. Assessment batteries assigned. Proceeding to Stage 4."
-candidate_name: "Battery Assignment"
-candidate_id: "G11"
-entity_type: "studio"
-stage: "stage-3"
-division: "engineering"
-role: "senior-gameplay-engineer"
-document_type: "Screening Results"
+generated_at: '**'
+gate_status: '** ✅ All 50 candidates screened. Assessment batteries assigned. Proceeding to Stage 4.'
+candidate_name: 'Battery Assignment'
+candidate_id: 'G11'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'engineering'
+role: 'senior-gameplay-engineer'
+document_type: 'Screening Results'
 ---
 
 # Stage 3: Automated Screening — Assessment Battery Assignment (G11)

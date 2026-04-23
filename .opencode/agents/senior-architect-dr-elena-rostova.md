@@ -1,6 +1,5 @@
 ---
-description:
-  Use for ADR governance, UML engineering, architecture decision reviews,
+description: Use for ADR governance, UML engineering, architecture decision reviews,
   and mobile ADR production. Engage during Stage 3 (Architecture), Stage 6 (Code Review),
   and Stage 8 (Integrity Verification) for architectural conformance and ADR governance.
 mode: subagent

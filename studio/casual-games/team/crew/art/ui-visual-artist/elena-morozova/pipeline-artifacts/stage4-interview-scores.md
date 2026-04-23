@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All assessments completed. Composite Score 4.420 (93rd percentile). Proceeding to Stage 5."
-candidate_name: "Visual Artist"
-candidate_id: "G21"
-entity_type: "studio"
-stage: "stage-4"
-division: "art"
-role: "ui-visual-artist"
-document_type: "Interview Scores"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All assessments completed. Composite Score 4.420 (93rd percentile). Proceeding to Stage 5.'
+candidate_name: 'Visual Artist'
+candidate_id: 'G21'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'art'
+role: 'ui-visual-artist'
+document_type: 'Interview Scores'
 ---
 
 # Interview Scores — UI Visual Artist (G21)

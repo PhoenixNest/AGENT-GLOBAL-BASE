@@ -1,6 +1,6 @@
 ---
 name: shared-guidelines-multi-tenant-isolation
-description: "Shared skill: Multi Tenant Isolation"
+description: 'Shared skill: Multi Tenant Isolation'
 ---
 
 # Multi-Tenant Data Isolation
@@ -26,15 +26,13 @@ This skill covers multi-tenant data isolation strategies, schema separation patt
 ```typescript
 async function tenantMiddleware(req, res, next) {
   const tenantId = extractTenantId(req);
-  req.tenantContext = { tenantId, schema: "public" };
+  req.tenantContext = { tenantId, schema: 'public' };
   next();
 }
 
 class TenantRepository {
   async findAll(tenantContext) {
-    return db.query("SELECT * FROM records WHERE tenant_id = $1", [
-      tenantContext.tenantId,
-    ]);
+    return db.query('SELECT * FROM records WHERE tenant_id = $1', [tenantContext.tenantId]);
   }
 }
 ```

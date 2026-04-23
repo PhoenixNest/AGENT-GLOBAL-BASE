@@ -1,6 +1,5 @@
 ---
-description:
-  Use for supply chain security, CI/CD pipeline hardening, SBOM generation,
+description: Use for supply chain security, CI/CD pipeline hardening, SBOM generation,
   secure coding training, and Security Champions program. Engage during Stage 5 (Development)
   for supply chain security reviews and Stage 6 (Code Review) for dependency scanning
   reviews.

@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-technical-project-management
-description: "Architecture skill: Technical Project Management"
+description: 'Architecture skill: Technical Project Management'
 ---
 
 # Technical Project Management

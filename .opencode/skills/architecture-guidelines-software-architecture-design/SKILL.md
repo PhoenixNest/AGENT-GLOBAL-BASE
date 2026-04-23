@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-software-architecture-design
-description: "Architecture skill: Software Architecture Design"
+description: 'Architecture skill: Software Architecture Design'
 ---
 
 # Software Architecture Design

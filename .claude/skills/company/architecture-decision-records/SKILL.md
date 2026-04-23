@@ -35,23 +35,26 @@ What forces are in tension?]
 
 ## Alternatives Considered
 
-| Option | Pros | Cons | Eliminated Reason |
-|--------|------|------|-------------------|
-| [Option A] | [pros] | [cons] | [why rejected] |
-| [Option B] | [pros] | [cons] | [why rejected] |
-| [Chosen option] | [pros] | [cons] | N/A — selected |
+| Option          | Pros   | Cons   | Eliminated Reason |
+| --------------- | ------ | ------ | ----------------- |
+| [Option A]      | [pros] | [cons] | [why rejected]    |
+| [Option B]      | [pros] | [cons] | [why rejected]    |
+| [Chosen option] | [pros] | [cons] | N/A — selected    |
 
 ## Consequences
 
 **Positive:**
+
 - [Consequence 1]
 - [Consequence 2]
 
 **Negative / Trade-offs:**
+
 - [Consequence 1]
 - [Consequence 2]
 
 **Risks:**
+
 - [Risk 1 — and how it is mitigated]
 
 ## UML Reference
@@ -74,6 +77,7 @@ A project-level `ADR-INDEX.md` lists all ADRs with status and one-line summary.
 ## When to Write an ADR
 
 Write an ADR for every decision that:
+
 - Affects more than one module or platform
 - Cannot be easily reversed without significant rework
 - Involves a technology selection (library, framework, API, database)
@@ -81,6 +85,7 @@ Write an ADR for every decision that:
 - Is controversial or had meaningful alternatives
 
 Do NOT write an ADR for:
+
 - Implementation details within a single function or class
 - Naming conventions (document in a style guide instead)
 - Decisions with no meaningful alternatives
@@ -98,8 +103,8 @@ Do NOT write an ADR for:
 ```markdown
 # ADR Index — {Project Name}
 
-| ID | Title | Status | Date | Deciders |
-|----|-------|--------|------|----------|
+| ID      | Title   | Status   | Date       | Deciders            |
+| ------- | ------- | -------- | ---------- | ------------------- |
 | ADR-001 | [title] | Accepted | YYYY-MM-DD | CTO, CIO, Architect |
 | ADR-002 | [title] | Accepted | YYYY-MM-DD | CTO, CIO, Architect |
 ```

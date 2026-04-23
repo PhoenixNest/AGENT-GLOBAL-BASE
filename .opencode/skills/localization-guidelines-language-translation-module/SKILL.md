@@ -1,6 +1,6 @@
 ---
 name: localization-guidelines-language-translation-module
-description: "Localization skill: Language Translation Module"
+description: 'Localization skill: Language Translation Module'
 ---
 
 # Language Translation Module

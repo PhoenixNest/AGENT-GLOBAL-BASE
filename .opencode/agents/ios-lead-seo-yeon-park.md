@@ -1,6 +1,5 @@
 ---
-description:
-  Use for iOS application development with SwiftUI, Swift Concurrency,
+description: Use for iOS application development with SwiftUI, Swift Concurrency,
   MVVM architecture, Keychain security, CoreData, URLSession, and App Store Connect
   submission. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification)
   for iOS platform implementation.

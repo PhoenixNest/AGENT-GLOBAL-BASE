@@ -1,6 +1,6 @@
 ---
 name: backend-go-go-testing
-description: "Backend skill: Go Testing"
+description: 'Backend skill: Go Testing'
 ---
 
 # Go Testing
@@ -450,7 +450,7 @@ exclude:
   paths:
     - "mock_.*\\.go$"
     - ".*_test\\.go$"
-    - "cmd/"
+    - 'cmd/'
 ```
 
 ### Test Best Practices

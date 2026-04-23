@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-native-mobile-testing
-description: "Testing Qa skill: Native Mobile Testing"
+description: 'Testing Qa skill: Native Mobile Testing'
 ---
 
 # Native Mobile Testing
@@ -882,7 +882,7 @@ class PerformanceInterceptor : Interceptor {
   uses: actions/upload-artifact@v4
   with:
     name: test-results
-    path: "**/build/outputs/androidTest-results/"
+    path: '**/build/outputs/androidTest-results/'
 ```
 
 ### 8.2 iOS CI Configuration

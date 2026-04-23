@@ -201,7 +201,7 @@ func TestUserRepository_Integration(t *testing.T) {
 
 ```yaml
 # docker-compose.test.yml
-version: "3.8"
+version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
@@ -210,7 +210,7 @@ services:
       POSTGRES_USER: testuser
       POSTGRES_PASSWORD: testpass
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U testuser"]
+      test: ['CMD-SHELL', 'pg_isready -U testuser']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -218,7 +218,7 @@ services:
   redis:
     image: redis:7-alpine
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 3s
       retries: 5
@@ -238,7 +238,7 @@ services:
     volumes:
       - ./testdata/wiremock:/home/wiremock
     ports:
-      - "8089:8080"
+      - '8089:8080'
 
   app:
     build: .
@@ -264,24 +264,24 @@ services:
 
 ```javascript
 // load-test.js
-import http from "k6/http";
-import { check, sleep } from "k6";
-import { Rate } from "k6/metrics";
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+import { Rate } from 'k6/metrics';
 
-const errorRate = new Rate("errors");
+const errorRate = new Rate('errors');
 
 export const options = {
   stages: [
-    { duration: "2m", target: 100 }, // Ramp up to 100 VUs
-    { duration: "5m", target: 100 }, // Stay at 100 VUs
-    { duration: "2m", target: 500 }, // Spike to 500 VUs
-    { duration: "5m", target: 500 }, // Stay at 500 VUs (stress test)
-    { duration: "2m", target: 0 }, // Ramp down
+    { duration: '2m', target: 100 }, // Ramp up to 100 VUs
+    { duration: '5m', target: 100 }, // Stay at 100 VUs
+    { duration: '2m', target: 500 }, // Spike to 500 VUs
+    { duration: '5m', target: 500 }, // Stay at 500 VUs (stress test)
+    { duration: '2m', target: 0 }, // Ramp down
   ],
   thresholds: {
-    http_req_duration: ["p(50)<100", "p(95)<300", "p(99)<500"],
-    http_req_failed: ["rate<0.01"], // < 1% error rate
-    errors: ["rate<0.05"], // < 5% custom error rate
+    http_req_duration: ['p(50)<100', 'p(95)<300', 'p(99)<500'],
+    http_req_failed: ['rate<0.01'], // < 1% error rate
+    errors: ['rate<0.05'], // < 5% custom error rate
   },
 };
 
@@ -289,7 +289,7 @@ export default function () {
   const params = {
     headers: {
       Authorization: `Bearer ${__ENV.AUTH_TOKEN}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 
@@ -298,9 +298,9 @@ export default function () {
   const res = http.get(`http://api:8080/users/${userId}`, params);
 
   const checkRes = check(res, {
-    "status is 200": (r) => r.status === 200,
-    "response time < 200ms": (r) => r.timings.duration < 200,
-    "has user data": (r) => JSON.parse(r.body).id !== undefined,
+    'status is 200': (r) => r.status === 200,
+    'response time < 200ms': (r) => r.timings.duration < 200,
+    'has user data': (r) => JSON.parse(r.body).id !== undefined,
   });
 
   errorRate.add(!checkRes);
@@ -309,14 +309,14 @@ export default function () {
   // POST /orders
   const orderPayload = JSON.stringify({
     userId: userId,
-    items: [{ productId: "prod-123", quantity: 2 }],
+    items: [{ productId: 'prod-123', quantity: 2 }],
   });
 
-  const orderRes = http.post("http://api:8080/orders", orderPayload, params);
+  const orderRes = http.post('http://api:8080/orders', orderPayload, params);
 
   check(orderRes, {
-    "order status is 201": (r) => r.status === 201,
-    "order response time < 500ms": (r) => r.timings.duration < 500,
+    'order status is 201': (r) => r.status === 201,
+    'order response time < 500ms': (r) => r.timings.duration < 500,
   });
 
   sleep(1);

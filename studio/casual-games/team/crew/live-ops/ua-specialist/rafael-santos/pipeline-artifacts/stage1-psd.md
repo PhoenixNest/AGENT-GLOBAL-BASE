@@ -1,10 +1,10 @@
 ---
-priority: "P0"
-entity_type: "studio"
-stage: "stage-1"
-division: "live-ops"
-role: "ua-specialist"
-document_type: "Position Specification Document"
+priority: 'P0'
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'live-ops'
+role: 'ua-specialist'
+document_type: 'Position Specification Document'
 ---
 
 # Stage 1: Position Specification Document (PSD)

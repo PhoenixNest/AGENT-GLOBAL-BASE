@@ -1,11 +1,11 @@
 ---
-generated_at: "**"
-candidate_name: "Simulation Scores"
-entity_type: "studio"
-stage: "stage-4"
-division: "leadership"
-role: "creative-director"
-document_type: "Interview Scores"
+generated_at: '**'
+candidate_name: 'Simulation Scores'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'leadership'
+role: 'creative-director'
+document_type: 'Interview Scores'
 ---
 
 # Stage 4: Interview Simulation Scores

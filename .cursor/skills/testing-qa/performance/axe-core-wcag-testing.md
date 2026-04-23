@@ -53,13 +53,13 @@ In the 10-stage development pipeline, axe-core testing is executed during:
 ### Basic Configuration
 
 ```javascript
-import axe from "axe-core";
+import axe from 'axe-core';
 
 // Run axe with default configuration
 const results = await axe.run(document, {
   runOnly: {
-    type: "tag",
-    values: ["wcag2a", "wcag2aa", "wcag21aa"],
+    type: 'tag',
+    values: ['wcag2a', 'wcag2aa', 'wcag21aa'],
   },
 });
 ```
@@ -70,8 +70,8 @@ The context parameter determines which parts of the DOM to test. Use include/exc
 
 ```javascript
 const context = {
-  include: [["#main-content"]],
-  exclude: [["#third-party-widget"], ["#skip-nav"]],
+  include: [['#main-content']],
+  exclude: [['#third-party-widget'], ['#skip-nav']],
 };
 
 const results = await axe.run(context);
@@ -83,22 +83,22 @@ const results = await axe.run(context);
 axe.configure({
   rules: [
     {
-      id: "custom-heading-level",
-      selector: "h1, h2, h3, h4, h5, h6",
-      tags: ["cat.structure", "best-practice"],
+      id: 'custom-heading-level',
+      selector: 'h1, h2, h3, h4, h5, h6',
+      tags: ['cat.structure', 'best-practice'],
       metadata: {
-        description: "Ensure heading levels increase sequentially",
-        help: "Heading levels should not skip more than one level",
-        helpUrl: "https://dequeuniversity.com/rules/axe/heading-levels",
+        description: 'Ensure heading levels increase sequentially',
+        help: 'Heading levels should not skip more than one level',
+        helpUrl: 'https://dequeuniversity.com/rules/axe/heading-levels',
       },
-      any: ["heading-level"],
+      any: ['heading-level'],
       all: [],
       none: [],
     },
   ],
   checks: [
     {
-      id: "heading-level",
+      id: 'heading-level',
       evaluate: function (node) {
         const level = parseInt(node.tagName.charAt(1));
         const parentLevel = this.data?.parentLevel || 0;
@@ -115,8 +115,8 @@ axe.configure({
 const results = await axe.run(context, {
   // Restrict which rules run
   runOnly: {
-    type: "tag",
-    values: ["wcag2a", "wcag21aa"],
+    type: 'tag',
+    values: ['wcag2a', 'wcag21aa'],
   },
   // Limit execution time (milliseconds)
   elementRef: true,
@@ -126,15 +126,15 @@ const results = await axe.run(context, {
   absolutePaths: false,
   // Skip performance-heavy rules if needed
   rules: {
-    "color-contrast": { enabled: true },
-    "duplicate-id": { enabled: true },
+    'color-contrast': { enabled: true },
+    'duplicate-id': { enabled: true },
     label: { enabled: true },
     // Disable rules that are not relevant to your project
     marquee: { enabled: false },
     blink: { enabled: false },
   },
   // Impact level filtering (critical, serious, moderate, minor)
-  resultTypes: ["violations", "passes", "incomplete"],
+  resultTypes: ['violations', 'passes', 'incomplete'],
 });
 ```
 
@@ -194,41 +194,41 @@ const results = await axe.run(context, {
 ```javascript
 // jest.config.js
 module.exports = {
-  testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["@testing-library/jest-dom", "jest-axe/extend-expect"],
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['@testing-library/jest-dom', 'jest-axe/extend-expect'],
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    '^.+\\.jsx?$': 'babel-jest',
   },
 };
 
 // accessibility.test.jsx
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import { axe, toHaveNoViolations } from "jest-axe";
-import MyComponent from "./MyComponent";
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import MyComponent from './MyComponent';
 
 expect.extend(toHaveNoViolations);
 
-describe("MyComponent accessibility", () => {
-  it("has no accessibility violations", async () => {
+describe('MyComponent accessibility', () => {
+  it('has no accessibility violations', async () => {
     const { container } = render(<MyComponent />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  it("passes specific WCAG criteria", async () => {
+  it('passes specific WCAG criteria', async () => {
     const { container } = render(<MyComponent />);
     const results = await axe(container, {
-      runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
+      runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
     });
     expect(results).toHaveNoViolations();
   });
 
-  it("has no critical accessibility violations", async () => {
+  it('has no critical accessibility violations', async () => {
     const { container } = render(<MyComponent />);
     const results = await axe(container);
     const criticalViolations = results.violations.filter(
-      (v) => v.impact === "critical" || v.impact === "serious",
+      (v) => v.impact === 'critical' || v.impact === 'serious'
     );
     expect(criticalViolations).toHaveLength(0);
   });
@@ -239,22 +239,20 @@ describe("MyComponent accessibility", () => {
 
 ```javascript
 // playwright-accessibility.test.js
-import { test, expect } from "@playwright/test";
-import { injectAxe, checkA11y, getViolations } from "axe-playwright";
+import { test, expect } from '@playwright/test';
+import { injectAxe, checkA11y, getViolations } from 'axe-playwright';
 
-test.describe("Accessibility Tests", () => {
-  test("homepage has no critical accessibility violations", async ({
-    page,
-  }) => {
-    await page.goto("/");
+test.describe('Accessibility Tests', () => {
+  test('homepage has no critical accessibility violations', async ({ page }) => {
+    await page.goto('/');
     await injectAxe(page);
 
     const violations = await getViolations(page, null, {
-      runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
+      runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
     });
 
     const criticalViolations = violations.filter(
-      (v) => v.impact === "critical" || v.impact === "serious",
+      (v) => v.impact === 'critical' || v.impact === 'serious'
     );
 
     // Log all violations for reporting
@@ -271,8 +269,8 @@ test.describe("Accessibility Tests", () => {
     expect(criticalViolations).toHaveLength(0);
   });
 
-  test("form page has accessible labels", async ({ page }) => {
-    await page.goto("/form");
+  test('form page has accessible labels', async ({ page }) => {
+    await page.goto('/form');
     await injectAxe(page);
     await checkA11y(page, null, {
       detailedReport: true,
@@ -286,48 +284,40 @@ test.describe("Accessibility Tests", () => {
 
 ```javascript
 // cypress/e2e/accessibility.cy.js
-describe("Accessibility Tests", () => {
+describe('Accessibility Tests', () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit('/');
     cy.injectAxe();
   });
 
-  it("has no accessibility violations on homepage", () => {
+  it('has no accessibility violations on homepage', () => {
     cy.checkA11y(
       null,
       {
-        runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
+        runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
       },
       (violations) => {
         cy.log(`Found ${violations.length} accessibility violations`);
         violations.forEach((violation) => {
-          cy.log(
-            `[${violation.impact}] ${violation.id}: ${violation.description}`,
-          );
+          cy.log(`[${violation.impact}] ${violation.id}: ${violation.description}`);
         });
       },
-      true, // detailedReport
+      true // detailedReport
     );
   });
 
-  it("has no critical violations on form page", () => {
-    cy.visit("/form");
-    cy.checkA11y(
-      "#main-content",
-      { runOnly: ["wcag2a", "wcag2aa"] },
-      (violations) => {
-        const critical = violations.filter(
-          (v) => v.impact === "critical" || v.impact === "serious",
-        );
-        expect(critical).to.have.length(0);
-      },
-    );
+  it('has no critical violations on form page', () => {
+    cy.visit('/form');
+    cy.checkA11y('#main-content', { runOnly: ['wcag2a', 'wcag2aa'] }, (violations) => {
+      const critical = violations.filter((v) => v.impact === 'critical' || v.impact === 'serious');
+      expect(critical).to.have.length(0);
+    });
   });
 
-  it("validates accessibility after user interaction", () => {
+  it('validates accessibility after user interaction', () => {
     cy.get('[data-testid="open-modal"]').click();
     cy.checkA11y('[role="dialog"]', {
-      runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
+      runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
     });
   });
 });
@@ -355,8 +345,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -475,34 +465,32 @@ axe-core returns a structured results object:
 
 ```javascript
 // scripts/a11y-trend-analysis.js
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
-const RESULTS_DIR = "./test-results/accessibility";
+const RESULTS_DIR = './test-results/accessibility';
 
 function analyzeTrends() {
   const files = fs.readdirSync(RESULTS_DIR).sort();
   const trends = [];
 
   for (const file of files) {
-    const data = JSON.parse(
-      fs.readFileSync(path.join(RESULTS_DIR, file), "utf-8"),
-    );
+    const data = JSON.parse(fs.readFileSync(path.join(RESULTS_DIR, file), 'utf-8'));
     trends.push({
-      date: file.replace(".json", ""),
+      date: file.replace('.json', ''),
       violations: data.violations.length,
-      critical: data.violations.filter((v) => v.impact === "critical").length,
-      serious: data.violations.filter((v) => v.impact === "serious").length,
-      moderate: data.violations.filter((v) => v.impact === "moderate").length,
-      minor: data.violations.filter((v) => v.impact === "minor").length,
+      critical: data.violations.filter((v) => v.impact === 'critical').length,
+      serious: data.violations.filter((v) => v.impact === 'serious').length,
+      moderate: data.violations.filter((v) => v.impact === 'moderate').length,
+      minor: data.violations.filter((v) => v.impact === 'minor').length,
     });
   }
 
-  console.log("Accessibility Violation Trends:");
-  console.log("--------------------------------");
+  console.log('Accessibility Violation Trends:');
+  console.log('--------------------------------');
   trends.forEach((t) => {
     console.log(
-      `${t.date}: ${t.violations} total (critical: ${t.critical}, serious: ${t.serious}, moderate: ${t.moderate}, minor: ${t.minor})`,
+      `${t.date}: ${t.violations} total (critical: ${t.critical}, serious: ${t.serious}, moderate: ${t.moderate}, minor: ${t.minor})`
     );
   });
 
@@ -511,9 +499,7 @@ function analyzeTrends() {
 
   if (previous) {
     const delta = latest.violations - previous.violations;
-    console.log(
-      `\nChange from previous: ${delta > 0 ? "+" : ""}${delta} violations`,
-    );
+    console.log(`\nChange from previous: ${delta > 0 ? '+' : ''}${delta} violations`);
   }
 
   return trends;
@@ -530,25 +516,25 @@ analyzeTrends();
 
 ```javascript
 // jest-axe setup with React Testing Library
-import React from "react";
-import { render } from "@testing-library/react";
-import { axe, toHaveNoViolations } from "jest-axe";
-import Button from "./Button";
+import React from 'react';
+import { render } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import Button from './Button';
 
 expect.extend(toHaveNoViolations);
 
-describe("Button accessibility", () => {
-  it("renders with accessible label", async () => {
+describe('Button accessibility', () => {
+  it('renders with accessible label', async () => {
     const { container } = render(<Button>Submit</Button>);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  it("icon-only button has aria-label", async () => {
+  it('icon-only button has aria-label', async () => {
     const { container } = render(
       <Button aria-label="Close dialog">
         <CloseIcon />
-      </Button>,
+      </Button>
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -556,10 +542,10 @@ describe("Button accessibility", () => {
 });
 
 // Runtime accessibility checking during development with @axe-core/react
-import { checkA11y } from "@axe-core/react";
+import { checkA11y } from '@axe-core/react';
 
 // In development mode only
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   checkA11y();
 }
 ```
@@ -568,15 +554,15 @@ if (process.env.NODE_ENV === "development") {
 
 ```typescript
 // app.module.ts
-import { NgModule } from "@angular/core";
-import { AxeModule } from "ngx-axe";
+import { NgModule } from '@angular/core';
+import { AxeModule } from 'ngx-axe';
 
 @NgModule({
   imports: [
     AxeModule.forRoot({
-      runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
+      runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
       // Exclude specific elements (e.g., third-party iframes)
-      exclude: [".third-party-widget"],
+      exclude: ['.third-party-widget'],
     }),
     // ... other imports
   ],
@@ -584,15 +570,15 @@ import { AxeModule } from "ngx-axe";
 export class AppModule {}
 
 // Component-level testing
-import { TestBed } from "@angular/core/testing";
-import { axe, toHaveNoViolations } from "jest-axe";
-import { render } from "@testing-library/angular";
-import { MyComponent } from "./my.component";
+import { TestBed } from '@angular/core/testing';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import { render } from '@testing-library/angular';
+import { MyComponent } from './my.component';
 
 expect.extend(toHaveNoViolations);
 
-describe("MyComponent", () => {
-  it("should be accessible", async () => {
+describe('MyComponent', () => {
+  it('should be accessible', async () => {
     const fixture = await render(MyComponent);
     const results = await axe(fixture.container);
     expect(results).toHaveNoViolations();
@@ -604,31 +590,31 @@ describe("MyComponent", () => {
 
 ```javascript
 // main.js
-import { createApp } from "vue";
-import VueAxe from "vue-axe";
-import App from "./App.vue";
+import { createApp } from 'vue';
+import VueAxe from 'vue-axe';
+import App from './App.vue';
 
 const app = createApp(App);
 
 app.use(VueAxe, {
   config: {
-    runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
+    runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
   },
   manual: false, // Auto-inject and run on page load
   clearConsoleOnPass: false,
 });
 
-app.mount("#app");
+app.mount('#app');
 
 // Component testing with vue-testing-library
-import { render } from "@testing-library/vue";
-import { axe, toHaveNoViolations } from "jest-axe";
-import MyComponent from "./MyComponent.vue";
+import { render } from '@testing-library/vue';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import MyComponent from './MyComponent.vue';
 
 expect.extend(toHaveNoViolations);
 
-describe("MyComponent accessibility", () => {
-  it("has no violations", async () => {
+describe('MyComponent accessibility', () => {
+  it('has no violations', async () => {
     const { container } = render(MyComponent);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
@@ -640,13 +626,10 @@ describe("MyComponent accessibility", () => {
 
 ```javascript
 // For static sites, use axe-core directly with Puppeteer or Playwright
-import { chromium } from "playwright";
-import axe from "axe-core";
+import { chromium } from 'playwright';
+import axe from 'axe-core';
 
-const INJECTED_SCRIPT = fs.readFileSync(
-  require.resolve("axe-core/axe.min.js"),
-  "utf-8",
-);
+const INJECTED_SCRIPT = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf-8');
 
 async function testPage(url) {
   const browser = await chromium.launch();
@@ -659,24 +642,22 @@ async function testPage(url) {
   // Run axe-core and get results
   const results = await page.evaluate(() =>
     axe.run({
-      runOnly: ["wcag2a", "wcag2aa", "wcag21aa"],
-    }),
+      runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa'],
+    })
   );
 
   await browser.close();
 
   console.log(`Violations found: ${results.violations.length}`);
   results.violations.forEach((violation) => {
-    console.log(
-      `  [${violation.impact}] ${violation.id}: ${violation.description}`,
-    );
+    console.log(`  [${violation.impact}] ${violation.id}: ${violation.description}`);
   });
 
   return results;
 }
 
 // Batch test multiple pages
-const pages = ["/", "/about", "/contact", "/products"];
+const pages = ['/', '/about', '/contact', '/products'];
 for (const page of pages) {
   await testPage(`https://example.com${page}`);
 }
@@ -695,7 +676,7 @@ const results = await axe.run(context, {
     marquee: { enabled: false },
     blink: { enabled: false },
     // Disable rules handled by third-party libraries
-    "aria-allowed-role": { enabled: false },
+    'aria-allowed-role': { enabled: false },
   },
 });
 ```
@@ -704,13 +685,13 @@ const results = await axe.run(context, {
 
 ```javascript
 const results = await axe.run({
-  include: [["#main-content"]],
+  include: [['#main-content']],
   exclude: [
     // Exclude third-party widgets you cannot modify
-    ["#google-maps-widget"],
-    ["#stripe-payment-form"],
+    ['#google-maps-widget'],
+    ['#stripe-payment-form'],
     // Exclude legacy code pending remediation
-    ["#legacy-forms"],
+    ['#legacy-forms'],
   ],
 });
 ```
@@ -728,13 +709,11 @@ function filterByImpact(results, minimumImpact) {
 
   const threshold = impactOrder[minimumImpact] || 0;
 
-  return results.violations.filter(
-    (violation) => impactOrder[violation.impact] >= threshold,
-  );
+  return results.violations.filter((violation) => impactOrder[violation.impact] >= threshold);
 }
 
 // Only report serious and critical violations
-const significantViolations = filterByImpact(results, "serious");
+const significantViolations = filterByImpact(results, 'serious');
 ```
 
 ### Team-Specific Rule Tuning by Platform
@@ -743,18 +722,18 @@ const significantViolations = filterByImpact(results, "serious");
 // platform-specific rule configuration
 const platformConfig = {
   android: {
-    runOnly: ["wcag2a", "wcag2aa", "wcag21aa", "best-practice"],
+    runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice'],
     rules: {
-      "heading-order": { enabled: true },
+      'heading-order': { enabled: true },
       label: { enabled: true },
-      "color-contrast": { enabled: true },
+      'color-contrast': { enabled: true },
     },
   },
   ios: {
-    runOnly: ["wcag2a", "wcag2aa", "wcag21aa", "best-practice"],
+    runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice'],
     rules: {
-      "aria-allowed-role": { enabled: false }, // iOS uses different patterns
-      "heading-order": { enabled: true },
+      'aria-allowed-role': { enabled: false }, // iOS uses different patterns
+      'heading-order': { enabled: true },
       label: { enabled: true },
     },
   },
@@ -829,12 +808,7 @@ function compareWithBaseline(results, baselinePath) {
 </label>
 
 <!-- ✅ GOOD: ARIA label (when visible label is not appropriate) -->
-<input
-  type="text"
-  name="search"
-  aria-label="Search products"
-  placeholder="Search"
-/>
+<input type="text" name="search" aria-label="Search products" placeholder="Search" />
 ```
 
 ### Insufficient Color Contrast (WCAG 1.4.3)
@@ -952,8 +926,7 @@ function compareWithBaseline(results, baselinePath) {
 <!-- Removed from tab order -->
 
 <!-- CSS approach for visual reordering without breaking focus -->
-.form-group { display: flex; flex-direction: column; /* Visual order matches DOM
-order */ }
+.form-group { display: flex; flex-direction: column; /* Visual order matches DOM order */ }
 ```
 
 ### Duplicate IDs (WCAG 4.1.1)

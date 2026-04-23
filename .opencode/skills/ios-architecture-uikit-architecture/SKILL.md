@@ -1,6 +1,6 @@
 ---
 name: ios-architecture-uikit-architecture
-description: "Ios skill: Uikit Architecture"
+description: 'Ios skill: Uikit Architecture'
 ---
 
 # UIKit Architecture Patterns

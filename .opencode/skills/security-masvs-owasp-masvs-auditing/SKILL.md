@@ -1,6 +1,6 @@
 ---
 name: security-masvs-owasp-masvs-auditing
-description: "Security skill: Owasp Masvs Auditing"
+description: 'Security skill: Owasp Masvs Auditing'
 ---
 
 # OWASP MASVS Auditing

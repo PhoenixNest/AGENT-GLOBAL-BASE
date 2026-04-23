@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-kubernetes-at-scale
-description: "Devops skill: Kubernetes At Scale"
+description: 'Devops skill: Kubernetes At Scale'
 ---
 
 # Kubernetes at Scale

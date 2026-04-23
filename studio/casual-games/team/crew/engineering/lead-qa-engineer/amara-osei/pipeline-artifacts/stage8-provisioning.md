@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All onboarding items confirmed ready. Proceeding to Stage 9."
-candidate_name: "Amara Osei"
-candidate_id: "G6"
-entity_type: "studio"
-stage: "stage-8"
-division: "engineering"
-role: "lead-qa-engineer"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All onboarding items confirmed ready. Proceeding to Stage 9.'
+candidate_name: 'Amara Osei'
+candidate_id: 'G6'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'engineering'
+role: 'lead-qa-engineer'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Amara Osei (G6)

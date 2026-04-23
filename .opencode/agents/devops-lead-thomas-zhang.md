@@ -1,6 +1,5 @@
 ---
-description:
-  Use for CI/CD infrastructure engineering, pipeline security integration,
+description: Use for CI/CD infrastructure engineering, pipeline security integration,
   compliance foundations, and mobile scanning tools. Engage during Stage 5 (Development)
   for CI/CD pipeline setup and Stage 8 (Integrity Verification) for pipeline security
   conformance.

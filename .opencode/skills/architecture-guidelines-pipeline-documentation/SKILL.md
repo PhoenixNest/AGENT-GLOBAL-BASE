@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-pipeline-documentation
-description: "Architecture skill: Pipeline Documentation"
+description: 'Architecture skill: Pipeline Documentation'
 ---
 
 # Pipeline Documentation

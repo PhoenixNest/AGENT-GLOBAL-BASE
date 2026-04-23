@@ -1,6 +1,6 @@
 ---
 name: security-architecture-emerging-threat-evaluation
-description: "Security skill: Emerging Threat Evaluation"
+description: 'Security skill: Emerging Threat Evaluation'
 ---
 
 # Emerging Threat Evaluation

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for advanced Kotlin, Kotlin Coroutines/Flow, Kotlin Multiplatform
+description: Use for advanced Kotlin, Kotlin Coroutines/Flow, Kotlin Multiplatform
   shared modules, and Android architecture patterns (MVVM, Clean Architecture, MVI).
   Engage during Stage 5 (Development) for Android platform implementation and Stage
   6 (Code Review) for Android architectural conformance.

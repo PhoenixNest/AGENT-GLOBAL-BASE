@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-adr-technical-writing
-description: "Architecture skill: Adr Technical Writing"
+description: 'Architecture skill: Adr Technical Writing'
 ---
 
 # ADR Technical Writing

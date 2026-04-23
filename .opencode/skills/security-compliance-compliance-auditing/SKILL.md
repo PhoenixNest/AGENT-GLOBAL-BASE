@@ -1,6 +1,6 @@
 ---
 name: security-compliance-compliance-auditing
-description: "Security skill: Compliance Auditing"
+description: 'Security skill: Compliance Auditing'
 ---
 
 # Compliance Auditing
@@ -209,11 +209,11 @@ Request logged as fulfilled; evidence retained (Day 28-30)
 ```yaml
 # soa-mobile-app.yml
 statement_of_applicability:
-  standard: "ISO/IEC 27001:2022"
-  organization: "Mobile Product Company"
-  scope: "Mobile application development and operation"
-  version: "1.0"
-  date: "2026-04-01"
+  standard: 'ISO/IEC 27001:2022'
+  organization: 'Mobile Product Company'
+  scope: 'Mobile application development and operation'
+  version: '1.0'
+  date: '2026-04-01'
 
   controls:
     - control_id: A.8.24

@@ -9,14 +9,14 @@ Design, implement, and manage comprehensive AWS security monitoring infrastructu
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| CloudWatch Security Monitoring | Configuring CloudWatch for security event detection and alerting | Creates custom metrics and alarms for security-relevant events; achieves MTTD <5 minutes for critical threats; integrates with SNS/PagerDuty for alerting |
-| GuardDuty Management | Configuring and tuning Amazon GuardDuty threat detection | GuardDuty enabled across all accounts and regions; finding false positive rate <10%; automated response to critical findings via EventBridge |
-| Security Hub Orchestration | Managing AWS Security Hub for centralized security posture management | Security Hub enabled with all available standards (CIS, PCI DSS, AWS Foundational); findings aggregated and prioritized; compliance score ≥95% |
-| VPC Flow Log Analysis | Configuring and analyzing VPC Flow Logs for network security monitoring | Flow logs enabled on all VPCs; analysis detects unauthorized network access, data exfiltration patterns, and lateral movement; retention ≥365 days |
-| CloudTrail & Audit Logging | Ensuring comprehensive API audit logging | CloudTrail enabled in all regions with log file validation; management and data events logged; logs shipped to SIEM; integrity verified |
-| Incident Response Integration | Connecting monitoring alerts to incident response workflows | Automated alerting with runbook attachment; mean time to respond (MTTR) <15 minutes for critical alerts; post-incident documentation |
+| Dimension                      | Description                                                             | Proficiency Indicators                                                                                                                                    |
+| ------------------------------ | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CloudWatch Security Monitoring | Configuring CloudWatch for security event detection and alerting        | Creates custom metrics and alarms for security-relevant events; achieves MTTD <5 minutes for critical threats; integrates with SNS/PagerDuty for alerting |
+| GuardDuty Management           | Configuring and tuning Amazon GuardDuty threat detection                | GuardDuty enabled across all accounts and regions; finding false positive rate <10%; automated response to critical findings via EventBridge              |
+| Security Hub Orchestration     | Managing AWS Security Hub for centralized security posture management   | Security Hub enabled with all available standards (CIS, PCI DSS, AWS Foundational); findings aggregated and prioritized; compliance score ≥95%            |
+| VPC Flow Log Analysis          | Configuring and analyzing VPC Flow Logs for network security monitoring | Flow logs enabled on all VPCs; analysis detects unauthorized network access, data exfiltration patterns, and lateral movement; retention ≥365 days        |
+| CloudTrail & Audit Logging     | Ensuring comprehensive API audit logging                                | CloudTrail enabled in all regions with log file validation; management and data events logged; logs shipped to SIEM; integrity verified                   |
+| Incident Response Integration  | Connecting monitoring alerts to incident response workflows             | Automated alerting with runbook attachment; mean time to respond (MTTR) <15 minutes for critical alerts; post-incident documentation                      |
 
 ## Execution Guidance
 
@@ -33,13 +33,13 @@ alarms:
   - name: UnauthorizedAPICalls
     metric: CloudWatchMetrics/UnauthorizedAPI
     threshold: 5
-    period: 300  # 5 minutes
+    period: 300 # 5 minutes
     evaluation_periods: 1
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/unauthorized-api-calls"
+    runbook: 'https://wiki.company.internal/runbooks/unauthorized-api-calls'
 
   - name: RootAccountUsage
     metric: CloudWatchMetrics/RootAccountUsage
@@ -50,7 +50,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/root-account-usage"
+    runbook: 'https://wiki.company.internal/runbooks/root-account-usage'
 
   - name: IAMPolicyChange
     metric: CloudWatchMetrics/IAMPolicyChange
@@ -60,7 +60,7 @@ alarms:
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
-    runbook: "https://wiki.company.internal/runbooks/iam-policy-change"
+    runbook: 'https://wiki.company.internal/runbooks/iam-policy-change'
 
   # Network Security
   - name: SGChange
@@ -71,7 +71,7 @@ alarms:
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
-    runbook: "https://wiki.company.internal/runbooks/security-group-change"
+    runbook: 'https://wiki.company.internal/runbooks/security-group-change'
 
   - name: NACLChange
     metric: CloudWatchMetrics/NACLChange
@@ -92,7 +92,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/s3-bucket-policy-change"
+    runbook: 'https://wiki.company.internal/runbooks/s3-bucket-policy-change'
 
   - name: KMSKeyDeletion
     metric: CloudWatchMetrics/KMSKeyDeletion
@@ -103,7 +103,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/kms-key-deletion"
+    runbook: 'https://wiki.company.internal/runbooks/kms-key-deletion'
 
   # Compute Security
   - name: EC2PublicIPAssigned
@@ -114,7 +114,7 @@ alarms:
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
-    runbook: "https://wiki.company.internal/runbooks/ec2-public-ip"
+    runbook: 'https://wiki.company.internal/runbooks/ec2-public-ip'
 ```
 
 **Terraform — CloudWatch Alarm Configuration:**
@@ -335,9 +335,11 @@ resource "aws_guardduty_organization_configuration" "this" {
   "source": ["aws.guardduty"],
   "detail-type": ["GuardDuty Finding"],
   "detail": {
-    "severity": [{
-      "numeric": [">=", 7.0]
-    }]
+    "severity": [
+      {
+        "numeric": [">=", 7.0]
+      }
+    ]
   }
 }
 ```
@@ -359,21 +361,21 @@ def lambda_handler(event, context):
     severity = finding['severity']
     finding_type = finding['type']
     region = finding['region']
-    
+
     # Critical findings (7.0-10.0) trigger automated response
     if severity >= 7.0:
         affected_resource = finding.get('resource', {})
-        
+
         # Auto-isolate compromised EC2 instance
         if affected_resource.get('instanceDetails'):
             instance_id = affected_resource['instanceDetails']['instanceId']
-            
+
             # Remove instance from all security groups (isolate)
             ec2.modify_instance_attribute(
                 InstanceId=instance_id,
                 Groups=[os.environ['ISOLATION_SECURITY_GROUP']]
             )
-            
+
             # Create snapshot of EBS volumes for forensics
             for volume in affected_resource['instanceDetails'].get('blockDeviceMapping', []):
                 ec2.create_snapshot(
@@ -387,7 +389,7 @@ def lambda_handler(event, context):
                         ]
                     }]
                 )
-        
+
         # Notify security team via PagerDuty
         sns.publish(
             TopicArn=os.environ['PAGERDUTY_SNS_ARN'],
@@ -402,7 +404,7 @@ def lambda_handler(event, context):
                 'console_url': f"https://console.aws.amazon.com/guardduty/home?region={region}#/findings?search=id%3D{finding_id}"
             }, indent=2)
         )
-    
+
     return {
         'statusCode': 200,
         'body': json.dumps(f'Processed finding {finding_id}')
@@ -447,20 +449,20 @@ resource "aws_securityhub_finding_aggregator" "this" {
 
 **Security Hub Compliance Dashboard — Key Metrics:**
 
-| Standard | Total Controls | Passed | Failed | Compliance % |
-|----------|---------------|--------|--------|-------------|
-| CIS AWS Foundations 1.2.0 | 46 | 44 | 2 | 95.7% |
-| AWS Foundational BP | 123 | 118 | 5 | 95.9% |
-| PCI DSS v4.0 | 287 | 280 | 7 | 97.6% |
-| NIST 800-53 Rev 5 | 325 | 315 | 10 | 96.9% |
+| Standard                  | Total Controls | Passed | Failed | Compliance % |
+| ------------------------- | -------------- | ------ | ------ | ------------ |
+| CIS AWS Foundations 1.2.0 | 46             | 44     | 2      | 95.7%        |
+| AWS Foundational BP       | 123            | 118    | 5      | 95.9%        |
+| PCI DSS v4.0              | 287            | 280    | 7      | 97.6%        |
+| NIST 800-53 Rev 5         | 325            | 315    | 10     | 96.9%        |
 
 **Failed Controls — Remediation Priority:**
 
-| Control | Standard | Severity | Description | Remediation | Owner |
-|---------|----------|----------|-------------|-------------|-------|
-| CIS 2.1.1 | CIS 1.2.0 | Medium | CloudTrail log file validation not enabled | Enable log file validation | Leila Khoury |
-| CIS 2.1.2 | CIS 1.2.0 | Medium | CloudTrail not enabled in all regions | Enable multi-region trail | Leila Khoury |
-| FSBP.IAM.4 | AWS FSBP | Low | IAM root access key exists | Delete root access keys | Dr. Priya Mehta |
+| Control    | Standard  | Severity | Description                                | Remediation                | Owner           |
+| ---------- | --------- | -------- | ------------------------------------------ | -------------------------- | --------------- |
+| CIS 2.1.1  | CIS 1.2.0 | Medium   | CloudTrail log file validation not enabled | Enable log file validation | Leila Khoury    |
+| CIS 2.1.2  | CIS 1.2.0 | Medium   | CloudTrail not enabled in all regions      | Enable multi-region trail  | Leila Khoury    |
+| FSBP.IAM.4 | AWS FSBP  | Low      | IAM root access key exists                 | Delete root access keys    | Dr. Priya Mehta |
 
 ### 4. VPC Flow Logs Analysis
 
@@ -722,14 +724,14 @@ resource "aws_s3_bucket_object_lock_configuration" "cloudtrail" {
 
 **Alert Routing Matrix:**
 
-| Alert Source | Severity | Notification Channel | Response SLA | Runbook |
-|-------------|----------|---------------------|--------------|---------|
-| GuardDuty | Critical (7.0-10.0) | PagerDuty P1 + Slack #security-incidents | 5 minutes | runbooks/guardduty-critical |
-| GuardDuty | High (4.0-6.9) | Slack #security-alerts | 30 minutes | runbooks/guardduty-high |
-| CloudWatch Alarm | Critical | PagerDuty P1 + Slack #security-incidents | 5 minutes | runbooks/cloudwatch-critical |
-| CloudWatch Alarm | High | Slack #security-alerts | 15 minutes | runbooks/cloudwatch-high |
-| Security Hub | Failed Control | Slack #compliance-alerts | Next business day | runbooks/securityhub-failed |
-| VPC Flow Logs | Anomaly | Slack #security-alerts | 30 minutes | runbooks/vpc-anomaly |
+| Alert Source     | Severity            | Notification Channel                     | Response SLA      | Runbook                      |
+| ---------------- | ------------------- | ---------------------------------------- | ----------------- | ---------------------------- |
+| GuardDuty        | Critical (7.0-10.0) | PagerDuty P1 + Slack #security-incidents | 5 minutes         | runbooks/guardduty-critical  |
+| GuardDuty        | High (4.0-6.9)      | Slack #security-alerts                   | 30 minutes        | runbooks/guardduty-high      |
+| CloudWatch Alarm | Critical            | PagerDuty P1 + Slack #security-incidents | 5 minutes         | runbooks/cloudwatch-critical |
+| CloudWatch Alarm | High                | Slack #security-alerts                   | 15 minutes        | runbooks/cloudwatch-high     |
+| Security Hub     | Failed Control      | Slack #compliance-alerts                 | Next business day | runbooks/securityhub-failed  |
+| VPC Flow Logs    | Anomaly             | Slack #security-alerts                   | 30 minutes        | runbooks/vpc-anomaly         |
 
 **Incident Response Runbook — GuardDuty Critical Finding:**
 
@@ -737,21 +739,25 @@ resource "aws_s3_bucket_object_lock_configuration" "cloudtrail" {
 # Runbook: GuardDuty Critical Finding Response
 
 ## Trigger
+
 GuardDuty finding with severity ≥ 7.0
 
 ## Initial Response (0-5 minutes)
+
 1. [ ] Acknowledge PagerDuty alert
 2. [ ] Open GuardDuty console → navigate to finding
 3. [ ] Record finding ID, type, severity, and description
 4. [ ] Post initial notification to #security-incidents Slack channel
 
 ## Triage (5-15 minutes)
+
 5. [ ] Identify affected resource (EC2 instance, IAM user, etc.)
 6. [ ] Check if resource is production or non-production
 7. [ ] Review recent API activity for affected resource (CloudTrail)
 8. [ ] Determine if finding is true positive or false positive
 
 ## Containment (15-30 minutes) — True Positive
+
 9. [ ] **EC2 compromise**: Isolate instance (move to quarantine security group)
 10. [ ] **IAM compromise**: Disable IAM user/role, rotate credentials
 11. [ ] **S3 exposure**: Block public access, review bucket policy
@@ -759,18 +765,21 @@ GuardDuty finding with severity ≥ 7.0
 13. [ ] Preserve CloudTrail logs for investigation
 
 ## Investigation (30 minutes - 2 hours)
+
 14. [ ] Determine attack vector and timeline
 15. [ ] Identify all affected resources
 16. [ ] Check for lateral movement
 17. [ ] Determine data exposure (if any)
 
 ## Eradication & Recovery (2-4 hours)
+
 18. [ ] Remove attacker access (delete unauthorized resources, keys)
 19. [ ] Patch vulnerability that enabled compromise
 20. [ ] Restore affected services from clean state
 21. [ ] Verify eradication (re-scan with GuardDuty)
 
 ## Post-Incident (24-48 hours)
+
 22. [ ] Write incident report
 23. [ ] Conduct blameless post-mortem
 24. [ ] Update runbook with lessons learned
@@ -780,24 +789,24 @@ GuardDuty finding with severity ≥ 7.0
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 3** (Architecture) | Infrastructure monitoring architecture designed; CloudWatch, GuardDuty, Security Hub, and CloudTrail integration specified |
-| **Stage 5** (Development) | Monitoring infrastructure provisioned via Terraform; all logging and alerting configured and tested |
-| **Stage 6** (Code Review) | Monitoring configuration reviewed; alert thresholds validated; runbooks verified |
-| **Stage 8** (Integrity Verification) | Monitoring systems verified operational; test alerts confirm end-to-end alerting pipeline |
-| **Stage 10** (Release Readiness) | Monitoring coverage confirmed for all production infrastructure; incident response runbooks validated |
+| Pipeline Stage                       | Application                                                                                                                |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 3** (Architecture)           | Infrastructure monitoring architecture designed; CloudWatch, GuardDuty, Security Hub, and CloudTrail integration specified |
+| **Stage 5** (Development)            | Monitoring infrastructure provisioned via Terraform; all logging and alerting configured and tested                        |
+| **Stage 6** (Code Review)            | Monitoring configuration reviewed; alert thresholds validated; runbooks verified                                           |
+| **Stage 8** (Integrity Verification) | Monitoring systems verified operational; test alerts confirm end-to-end alerting pipeline                                  |
+| **Stage 10** (Release Readiness)     | Monitoring coverage confirmed for all production infrastructure; incident response runbooks validated                      |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **GuardDuty Coverage** | GuardDuty enabled in 100% of AWS accounts and regions; all datasources (S3, EKS, EBS) enabled |
-| **CloudTrail Coverage** | Multi-region trail with management and data events; log file validation enabled; 365-day retention |
-| **VPC Flow Logs** | Flow logs enabled on 100% of VPCs; ALL traffic type; 365-day retention |
-| **Security Hub Compliance** | Security Hub enabled with CIS, AWS FSBP, and PCI DSS standards; compliance score ≥95% |
-| **MTTD (Critical)** | Mean time to detect critical threats <5 minutes |
-| **MTTR (Critical)** | Mean time to respond to critical alerts <15 minutes |
-| **Alert Accuracy** | <10% false positive rate on security alerts |
-| **Runbook Coverage** | 100% of alert types have documented runbooks; runbooks tested quarterly |
-| **S3 Access Logging** | 100% of S3 buckets have access logging enabled; logs retained for 365 days |
+| Metric                      | Standard                                                                                           |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| **GuardDuty Coverage**      | GuardDuty enabled in 100% of AWS accounts and regions; all datasources (S3, EKS, EBS) enabled      |
+| **CloudTrail Coverage**     | Multi-region trail with management and data events; log file validation enabled; 365-day retention |
+| **VPC Flow Logs**           | Flow logs enabled on 100% of VPCs; ALL traffic type; 365-day retention                             |
+| **Security Hub Compliance** | Security Hub enabled with CIS, AWS FSBP, and PCI DSS standards; compliance score ≥95%              |
+| **MTTD (Critical)**         | Mean time to detect critical threats <5 minutes                                                    |
+| **MTTR (Critical)**         | Mean time to respond to critical alerts <15 minutes                                                |
+| **Alert Accuracy**          | <10% false positive rate on security alerts                                                        |
+| **Runbook Coverage**        | 100% of alert types have documented runbooks; runbooks tested quarterly                            |
+| **S3 Access Logging**       | 100% of S3 buckets have access logging enabled; logs retained for 365 days                         |

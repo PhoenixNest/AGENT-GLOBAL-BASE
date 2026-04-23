@@ -145,14 +145,14 @@ function Modal({ isOpen, onClose, children }) {
       modalRef.current?.focus();
       // Trap focus
       const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
+        if (e.key === 'Escape') {
           onClose();
           return;
         }
-        if (e.key !== "Tab") return;
+        if (e.key !== 'Tab') return;
 
         const focusable = modalRef.current?.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
         if (!focusable?.length) return;
 
@@ -168,8 +168,8 @@ function Modal({ isOpen, onClose, children }) {
         }
       };
 
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
     }
   }, [isOpen, onClose]);
 
@@ -183,13 +183,7 @@ function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-      ref={modalRef}
-      tabIndex={-1}
-    >
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title" ref={modalRef} tabIndex={-1}>
       <h2 id="modal-title">Modal Title</h2>
       {children}
     </div>
@@ -238,20 +232,9 @@ function ToastAnnouncer({ message }: { message: string }) {
 }
 
 // Loading state announcement
-function LoadingAnnouncer({
-  isLoading,
-  label,
-}: {
-  isLoading: boolean;
-  label: string;
-}) {
+function LoadingAnnouncer({ isLoading, label }: { isLoading: boolean; label: string }) {
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-      className="sr-only"
-    >
+    <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
       {isLoading ? `${label} is loading` : `${label} has finished loading`}
     </div>
   );
@@ -261,12 +244,7 @@ function LoadingAnnouncer({
 function ErrorAnnouncer({ error }: { error: string | null }) {
   if (!error) return null;
   return (
-    <div
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-      className="sr-only"
-    >
+    <div role="alert" aria-live="assertive" aria-atomic="true" className="sr-only">
       {error}
     </div>
   );
@@ -300,29 +278,28 @@ function ErrorAnnouncer({ error }: { error: string | null }) {
 
 ```js
 // jest.config.js — axe-core integration with Jest
-import { configureAxe, toHaveNoViolations } from "jest-axe";
+import { configureAxe, toHaveNoViolations } from 'jest-axe';
 
 expect.extend(toHaveNoViolations);
 
 const axe = configureAxe({
   rules: {
     // Override rule severity for specific patterns
-    "color-contrast": { enabled: true },
+    'color-contrast': { enabled: true },
     label: { enabled: true },
-    "link-name": { enabled: true },
-    "image-alt": { enabled: true },
+    'link-name': { enabled: true },
+    'image-alt': { enabled: true },
     // Custom rule for domain-specific patterns
-    "custom-focus-visible": {
-      selector:
-        'button, [role="button"], [role="link"], a, input, select, textarea',
-      tags: ["cat.keyboard"],
-      none: ["custom-focus-visible-check"],
+    'custom-focus-visible': {
+      selector: 'button, [role="button"], [role="link"], a, input, select, textarea',
+      tags: ['cat.keyboard'],
+      none: ['custom-focus-visible-check'],
     },
   },
 });
 
 // Test every rendered component
-test("Button component has no accessibility violations", async () => {
+test('Button component has no accessibility violations', async () => {
   const { container } = render(<Button>Click me</Button>);
   const results = await axe(container);
   expect(results).toHaveNoViolations();
@@ -337,12 +314,12 @@ export const parameters = {
   a11y: {
     config: {
       rules: [
-        { id: "color-contrast", enabled: true },
-        { id: "label", enabled: true },
+        { id: 'color-contrast', enabled: true },
+        { id: 'label', enabled: true },
       ],
     },
     options: {
-      checks: { "color-contrast": { shadowDOM: true } },
+      checks: { 'color-contrast': { shadowDOM: true } },
     },
   },
 };

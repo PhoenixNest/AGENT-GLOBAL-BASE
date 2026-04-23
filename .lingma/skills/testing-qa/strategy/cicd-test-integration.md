@@ -427,7 +427,7 @@ jobs:
   flaky-test-scan:
     runs-on: ubuntu-latest
     schedule:
-      - cron: "0 2 * * *" # Run daily at 2 AM
+      - cron: '0 2 * * *' # Run daily at 2 AM
     steps:
       - name: Run tests 10x
         run: |
@@ -459,7 +459,7 @@ jobs:
   quarantined-tests:
     runs-on: ubuntu-latest
     schedule:
-      - cron: "0 3 * * *"
+      - cron: '0 3 * * *'
     steps:
       - name: Run quarantined tests
         run: ./scripts/test-quarantined.sh
@@ -613,7 +613,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{ matrix.language }}"
+          category: '/language:${{ matrix.language }}'
 ```
 
 ### DAST (Dynamic Application Security Testing)

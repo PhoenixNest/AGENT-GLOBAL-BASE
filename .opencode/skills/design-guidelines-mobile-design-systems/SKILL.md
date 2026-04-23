@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-mobile-design-systems
-description: "Design skill: Mobile Design Systems"
+description: 'Design skill: Mobile Design Systems'
 ---
 
 # Mobile Design Systems

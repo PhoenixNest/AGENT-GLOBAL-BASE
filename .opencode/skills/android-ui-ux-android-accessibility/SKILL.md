@@ -1,6 +1,6 @@
 ---
 name: android-ui-ux-android-accessibility
-description: "Android skill: Android Accessibility"
+description: 'Android skill: Android Accessibility'
 ---
 
 # Android Accessibility

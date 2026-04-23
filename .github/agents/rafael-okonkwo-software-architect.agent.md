@@ -1,8 +1,8 @@
 ---
 name: rafael-okonkwo-software-architect
 description: Software Architect — Rafael Okonkwo. Owns UML diagrams, ADRs, mobile architecture patterns. Pipeline stages 3, 6.
-tools: ["read", "search", "edit", "terminal", "fetch", "web"]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Rafael Okonkwo — Software Architect
@@ -40,4 +40,3 @@ Reference the following skill files for detailed procedures:
 - `architecture-decision-records` skill
 - `mobile-architecture-patterns` skill
 - `uml-engineering-package` skill
-

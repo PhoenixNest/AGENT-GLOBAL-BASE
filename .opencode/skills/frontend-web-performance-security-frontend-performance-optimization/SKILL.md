@@ -1,6 +1,6 @@
 ---
 name: frontend-web-performance-security-frontend-performance-optimizat
-description: "Frontend Web skill: Frontend Performance Optimization"
+description: 'Frontend Web skill: Frontend Performance Optimization'
 ---
 
 # Frontend Performance Optimization — React Specialization
@@ -79,7 +79,7 @@ Hook dependency change
 // React DevTools → Settings → "Record why each component rendered"
 
 // In production, use the Profiler API
-import { Profiler } from "react";
+import { Profiler } from 'react';
 
 function onRenderCallback(
   id,
@@ -88,7 +88,7 @@ function onRenderCallback(
   baseDuration,
   startTime,
   commitTime,
-  interactions,
+  interactions
 ) {
   // actualDuration: time spent rendering this component + descendants
   // baseDuration: estimated time if no memoization was used
@@ -137,13 +137,13 @@ const SimpleText = React.memo(function SimpleText({ text }) {
 // Benefit: None — text changes every render anyway
 
 // ❌ WORSE: Component with inline object/array props (shallow comparison always fails)
-<ExpensiveChart data={[...items]} config={{ theme: "dark" }} />;
+<ExpensiveChart data={[...items]} config={{ theme: 'dark' }} />;
 // Every render creates new array and new object → React.memo is useless
 // FIX: Lift data and config outside component or memoize them
 
 // ✅ CORRECT: Stable props that enable React.memo to work
 const chartData = useMemo(() => computeChartData(items), [items]);
-const chartConfig = useMemo(() => ({ theme: "dark" }), []);
+const chartConfig = useMemo(() => ({ theme: 'dark' }), []);
 <ExpensiveChart data={chartData} config={chartConfig} />;
 ```
 
@@ -153,9 +153,7 @@ const chartConfig = useMemo(() => ({ theme: "dark" }), []);
 function Dashboard({ items, filter, sortBy }) {
   // ✅ CORRECT: Expensive computation that depends on changing values
   const filteredItems = useMemo(() => {
-    return items
-      .filter((item) => item.matches(filter))
-      .sort((a, b) => a[sortBy] - b[sortBy]);
+    return items.filter((item) => item.matches(filter)).sort((a, b) => a[sortBy] - b[sortBy]);
   }, [items, filter, sortBy]);
 
   // ✅ CORRECT: Creating a stable reference for child component
@@ -164,7 +162,7 @@ function Dashboard({ items, filter, sortBy }) {
       labels: filteredItems.map((i) => i.name),
       values: filteredItems.map((i) => i.value),
     }),
-    [filteredItems],
+    [filteredItems]
   );
 
   // ❌ WRONG: Memoizing primitive values (React already bails out on === equality)
@@ -174,7 +172,7 @@ function Dashboard({ items, filter, sortBy }) {
   const staticData = useMemo(() => computeInitialData(), []); // Only if truly static
 
   // ❌ WRONG: useMemo as a substitute for state
-  const formData = useMemo(() => ({ name: "", email: "" }), []); // Use useState instead
+  const formData = useMemo(() => ({ name: '', email: '' }), []); // Use useState instead
 
   return (
     <div>
@@ -213,8 +211,7 @@ function Parent() {
   return (
     <>
       <MemoizedChild onItemClick={handleClick} /> {/* memo benefit realized */}
-      <NonMemoizedChild onClick={handleClick} />{" "}
-      {/* no memo benefit, but harmless */}
+      <NonMemoizedChild onClick={handleClick} /> {/* no memo benefit, but harmless */}
     </>
   );
 }
@@ -268,8 +265,8 @@ function UserProfile() {
 **react-window implementation** — production pattern:
 
 ```tsx
-import { FixedSizeList as List, FixedSizeGrid as Grid } from "react-window";
-import { memo, useCallback, useMemo } from "react";
+import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
+import { memo, useCallback, useMemo } from 'react';
 
 // Memoize individual row items — critical for virtual scroll performance
 const MemoizedRow = memo(function RowItem({ item, index, style, onClick }) {
@@ -298,7 +295,7 @@ function VirtualList({ items, onItemClick }) {
         />
       );
     },
-    [items, handleRowClick],
+    [items, handleRowClick]
   );
 
   return (
@@ -318,18 +315,18 @@ function VirtualList({ items, onItemClick }) {
 **Variable height items** — when rows have different heights:
 
 ```tsx
-import { VariableSizeList } from "react-window";
+import { VariableSizeList } from 'react-window';
 
 function VariableHeightList({ items }) {
   // Measure item heights (can be estimated initially, refined after render)
   const getItemSize = useCallback(
     (index) => {
       const item = items[index];
-      if (item.type === "header") return 64;
-      if (item.type === "detail") return 128;
+      if (item.type === 'header') return 64;
+      if (item.type === 'detail') return 128;
       return 48; // default
     },
-    [items],
+    [items]
   );
 
   return (
@@ -361,13 +358,13 @@ function VariableHeightList({ items }) {
 
 ```tsx
 // Route-level lazy loading with Suspense
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Settings = lazy(() => import("./pages/Settings"));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Settings = lazy(() => import('./pages/Settings'));
 
 function App() {
   return (
     <Suspense fallback={<AppSkeleton />}>
-      {" "}
+      {' '}
       {/* Top-level fallback for route transitions */}
       <Router>
         <Route path="/dashboard" element={<Dashboard />} />
@@ -379,8 +376,8 @@ function App() {
 
 // Component-level Suspense — below-the-fold content
 function Dashboard() {
-  const Chart = lazy(() => import("./components/Chart"));
-  const RecentActivity = lazy(() => import("./components/RecentActivity"));
+  const Chart = lazy(() => import('./components/Chart'));
+  const RecentActivity = lazy(() => import('./components/RecentActivity'));
 
   return (
     <div>
@@ -403,10 +400,10 @@ function Dashboard() {
 **React 18 useTransition for non-blocking updates:**
 
 ```tsx
-import { useTransition, useState } from "react";
+import { useTransition, useState } from 'react';
 
 function SearchPage() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isPending, startTransition] = useTransition();
 
@@ -423,8 +420,7 @@ function SearchPage() {
   return (
     <div>
       <input value={query} onChange={(e) => handleSearch(e.target.value)} />
-      {isPending && <Spinner />}{" "}
-      {/* Shows only when results are being computed */}
+      {isPending && <Spinner />} {/* Shows only when results are being computed */}
       <ResultsList results={results} />
     </div>
   );
@@ -438,17 +434,17 @@ function SearchPage() {
 ```tsx
 // Conditional loading — feature flag controlled
 async function loadFeature() {
-  if (featureFlags.isEnabled("new-editor")) {
-    return import("./features/NewEditor");
+  if (featureFlags.isEnabled('new-editor')) {
+    return import('./features/NewEditor');
   }
-  return import("./features/LegacyEditor");
+  return import('./features/LegacyEditor');
 }
 
 // Preloading — start loading before user navigates
 function Navigation() {
   function handleHover() {
     // Start loading the module so it's ready when clicked
-    import("./pages/Settings");
+    import('./pages/Settings');
   }
 
   return (
@@ -461,20 +457,19 @@ function Navigation() {
 }
 
 // Error boundary for lazy components
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary } from 'react-error-boundary';
 
 function SafeLazyComponent() {
-  const HeavyComponent = lazy(() => import("./HeavyComponent"));
+  const HeavyComponent = lazy(() => import('./HeavyComponent'));
 
   return (
     <ErrorBoundary
       fallback={
         <div>
-          Failed to load component.{" "}
-          <button onClick={() => window.location.reload()}>Reload</button>
+          Failed to load component. <button onClick={() => window.location.reload()}>Reload</button>
         </div>
       }
-      onError={(error) => logger.error("Lazy component failed to load", error)}
+      onError={(error) => logger.error('Lazy component failed to load', error)}
     >
       <Suspense fallback={<ComponentSkeleton />}>
         <HeavyComponent />
@@ -492,7 +487,7 @@ function SafeLazyComponent() {
 
 // Common tree-shaking failures:
 // ❌ Side-effectful imports
-import "./side-effect-module"; // Prevents tree shaking of the entire module
+import './side-effect-module'; // Prevents tree shaking of the entire module
 
 // ❌ Mutating exports
 export const config = {};

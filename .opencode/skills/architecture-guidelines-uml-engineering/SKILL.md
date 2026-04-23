@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-uml-engineering
-description: "Architecture skill: Uml Engineering"
+description: 'Architecture skill: Uml Engineering'
 ---
 
 # UML Engineering

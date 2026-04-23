@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-api-technical-writing
-description: "Backend skill: Api Technical Writing"
+description: 'Backend skill: Api Technical Writing'
 ---
 
 # API Technical Writing

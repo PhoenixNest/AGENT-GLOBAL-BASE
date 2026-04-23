@@ -1,6 +1,6 @@
 ---
 name: testing-qa-strategy-localization-testing-strategy
-description: "Testing Qa skill: Localization Testing Strategy"
+description: 'Testing Qa skill: Localization Testing Strategy'
 ---
 
 # Localization Testing Strategy
@@ -872,7 +872,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-asset-verification
-          path: "**/build/outputs/androidTest-results/**/*.xml"
+          path: '**/build/outputs/androidTest-results/**/*.xml'
 
   asset-verification-ios:
     runs-on: macos-latest
@@ -889,7 +889,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-asset-verification
-          path: "**/test-results/**/*.xml"
+          path: '**/test-results/**/*.xml'
 
   # Pillar C: Cross-platform parity
   cross-platform-parity:
@@ -1038,7 +1038,7 @@ Both sign-offs must be present before item #6 is marked complete.
 - [ ] P0/P1 defects remain — Stage 9 incomplete
 - [ ] P2/P3 defects deferred — listed for Stage 10 user decision
 
-**Sign-off:** ****\*\*\*\*****\_****\*\*\*\*****
+**Sign-off:** \***\*\*\*\*\*\*\***\_\***\*\*\*\*\*\*\***
 **Test Lead, Priscilla Oduya**
 ```
 

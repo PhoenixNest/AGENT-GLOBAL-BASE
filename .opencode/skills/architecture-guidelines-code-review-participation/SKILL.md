@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-code-review-participation
-description: "Architecture skill: Code Review Participation"
+description: 'Architecture skill: Code Review Participation'
 ---
 
 # Code Review Participation Process

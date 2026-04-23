@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-visual-regression-testing
-description: "Testing Qa skill: Visual Regression Testing"
+description: 'Testing Qa skill: Visual Regression Testing'
 ---
 
 # Visual Regression Testing
@@ -363,10 +363,10 @@ rtl-tests:
     - fa # Persian
     - ur # Urdu
   verification:
-    - "All layout directions mirrored correctly"
-    - "Non-mirgradable elements preserved (media, progress)"
-    - "Text truncation handled at RTL boundary"
-  baseline: "RTL-specific baselines required (not mirrored LTR)"
+    - 'All layout directions mirrored correctly'
+    - 'Non-mirgradable elements preserved (media, progress)'
+    - 'Text truncation handled at RTL boundary'
+  baseline: 'RTL-specific baselines required (not mirrored LTR)'
 ```
 
 ---
@@ -467,13 +467,13 @@ name: Visual Regression
 on:
   pull_request:
     paths:
-      - "src/**"
-      - "assets/**"
-      - "*.css"
-      - "*.scss"
-      - "*.xml" # Android layouts
-      - "*.swift" # iOS views
-      - "*.jet" # Compose layouts
+      - 'src/**'
+      - 'assets/**'
+      - '*.css'
+      - '*.scss'
+      - '*.xml' # Android layouts
+      - '*.swift' # iOS views
+      - '*.jet' # Compose layouts
 
 jobs:
   visual-regression:
@@ -481,10 +481,10 @@ jobs:
     strategy:
       matrix:
         viewport:
-          - { name: "mobile-sm", width: 320, height: 568 }
-          - { name: "mobile-md", width: 375, height: 812 }
-          - { name: "tablet", width: 768, height: 1024 }
-          - { name: "desktop", width: 1920, height: 1080 }
+          - { name: 'mobile-sm', width: 320, height: 568 }
+          - { name: 'mobile-md', width: 375, height: 812 }
+          - { name: 'tablet', width: 768, height: 1024 }
+          - { name: 'desktop', width: 1920, height: 1080 }
 
     steps:
       - uses: actions/checkout@v4
@@ -529,39 +529,39 @@ jobs:
 
 ```typescript
 // playwright-visual.config.ts
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: "./tests/visual",
+  testDir: './tests/visual',
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : undefined,
-  reporter: [["html", { outputFolder: "test-results/visual" }]],
+  reporter: [['html', { outputFolder: 'test-results/visual' }]],
   use: {
-    baseURL: "http://localhost:3000",
-    screenshot: "only-on-failure",
-    trace: "on-first-retry",
+    baseURL: 'http://localhost:3000',
+    screenshot: 'only-on-failure',
+    trace: 'on-first-retry',
   },
   projects: [
     {
-      name: "chromium-mobile",
+      name: 'chromium-mobile',
       use: {
-        ...devices["Pixel 7"],
+        ...devices['Pixel 7'],
         hasTouch: true,
         viewport: { width: 393, height: 851 },
       },
     },
     {
-      name: "chromium-tablet",
+      name: 'chromium-tablet',
       use: {
-        ...devices["iPad Mini"],
+        ...devices['iPad Mini'],
         viewport: { width: 768, height: 1024 },
       },
     },
     {
-      name: "chromium-desktop",
+      name: 'chromium-desktop',
       use: {
-        ...devices["Desktop Chrome"],
+        ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
       },
     },
@@ -569,26 +569,26 @@ export default defineConfig({
 });
 
 // tests/visual/homepage.visual.spec.ts
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test.describe("Homepage visual regression", () => {
-  test("matches baseline — default state", async ({ page }) => {
-    await page.goto("/");
-    await expect(page).toHaveScreenshot("homepage-default.png", {
+test.describe('Homepage visual regression', () => {
+  test('matches baseline — default state', async ({ page }) => {
+    await page.goto('/');
+    await expect(page).toHaveScreenshot('homepage-default.png', {
       maxDiffPixels: 100,
       maxDiffPixelRatio: 0.001, // 0.1% threshold
       threshold: 0.1, // Per-pixel sensitivity
-      animations: "disabled",
-      mask: [page.locator(".dynamic-timestamp"), page.locator(".user-avatar")],
+      animations: 'disabled',
+      mask: [page.locator('.dynamic-timestamp'), page.locator('.user-avatar')],
       omitBackground: false,
       fullPage: true,
     });
   });
 
-  test("matches baseline — dark mode", async ({ page }) => {
-    await page.goto("/");
-    await page.emulateMedia({ colorScheme: "dark" });
-    await expect(page).toHaveScreenshot("homepage-dark.png", {
+  test('matches baseline — dark mode', async ({ page }) => {
+    await page.goto('/');
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await expect(page).toHaveScreenshot('homepage-dark.png', {
       maxDiffPixelRatio: 0.001,
       fullPage: true,
     });
@@ -604,7 +604,7 @@ name: Visual Regression PR Comment
 
 on:
   workflow_run:
-    workflows: ["Visual Regression"]
+    workflows: ['Visual Regression']
     types: [completed]
 
 jobs:
@@ -664,7 +664,7 @@ visual-regression:
       changes:
         - src/**/*
         - assets/**/*
-        - "*.css"
+        - '*.css'
 
 update-baseline:
   stage: deploy

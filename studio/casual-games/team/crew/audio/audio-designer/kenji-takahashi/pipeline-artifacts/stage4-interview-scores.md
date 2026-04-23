@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-gate_status: "** ✅ Proceeding to Stage 5."
-candidate_name: "Audio Designer"
-candidate_id: "G28"
-entity_type: "studio"
-stage: "stage-4"
-division: "audio"
-role: "audio-designer"
-document_type: "Interview Scores"
+document_id: '**'
+gate_status: '** ✅ Proceeding to Stage 5.'
+candidate_name: 'Audio Designer'
+candidate_id: 'G28'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'audio'
+role: 'audio-designer'
+document_type: 'Interview Scores'
 ---
 
 # Interview Scores — Audio Designer (G28)

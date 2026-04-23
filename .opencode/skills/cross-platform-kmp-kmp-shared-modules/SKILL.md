@@ -1,6 +1,6 @@
 ---
 name: cross-platform-kmp-kmp-shared-modules
-description: "Cross Platform skill: Kmp Shared Modules"
+description: 'Cross Platform skill: Kmp Shared Modules'
 ---
 
 # KMP Shared Modules

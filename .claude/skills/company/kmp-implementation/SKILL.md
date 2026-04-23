@@ -13,6 +13,7 @@ Implement shared business logic and data layers using Kotlin Multiplatform for p
 ## When KMP is the Right Choice
 
 Use KMP (not Flutter) when:
+
 - The platform has already committed to native UI on both Android (Compose) and iOS (SwiftUI)
 - The shared code requirement is business logic, networking, and database — not UI
 - The team has existing native iOS/Android expertise and wants to share logic, not UI
@@ -158,6 +159,7 @@ kotlin {
 ## Code Review Standards
 
 Before Stage 6:
+
 - [ ] `commonMain` has zero Android SDK or iOS SDK imports
 - [ ] All `expect`/`actual` declarations have implementations for all targets
 - [ ] Shared module builds for all targets: `./gradlew :shared:build`

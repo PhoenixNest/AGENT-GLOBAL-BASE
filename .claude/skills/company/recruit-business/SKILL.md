@@ -18,13 +18,13 @@ disable-model-invocation: false
 
 ## Seniority Rubric
 
-| Criterion | Analyst / Associate | Manager / Senior | Director / Principal | VP / Head-of | C-suite |
-|---|---|---|---|---|---|
-| Scope | Project / process | Team / function | Department | Business unit | Company |
-| Decision authority | Executes decisions | Makes team decisions | Makes department decisions | Business unit strategy | Company strategy |
-| Stakeholder influence | Internal team | Cross-functional | Exec alignment | Board / investors | Market / regulators |
-| Track record | Completed projects | Team outcomes | Function transformed | Unit-level P&L or strategic win | Company outcome |
-| Network | Internal | Industry contacts | Senior industry network | Board-level relationships | Industry leadership |
+| Criterion             | Analyst / Associate | Manager / Senior     | Director / Principal       | VP / Head-of                    | C-suite             |
+| --------------------- | ------------------- | -------------------- | -------------------------- | ------------------------------- | ------------------- |
+| Scope                 | Project / process   | Team / function      | Department                 | Business unit                   | Company             |
+| Decision authority    | Executes decisions  | Makes team decisions | Makes department decisions | Business unit strategy          | Company strategy    |
+| Stakeholder influence | Internal team       | Cross-functional     | Exec alignment             | Board / investors               | Market / regulators |
+| Track record          | Completed projects  | Team outcomes        | Function transformed       | Unit-level P&L or strategic win | Company outcome     |
+| Network               | Internal            | Industry contacts    | Senior industry network    | Board-level relationships       | Industry leadership |
 
 **Domain-specific depth signals:**
 

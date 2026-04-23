@@ -12,11 +12,13 @@ This skill covers Infrastructure as Code (IaC) using GitOps workflows, including
 ## Terraform Architecture
 
 **Module design principles**:
+
 - Reusable modules with input validation, output documentation, and version constraints.
 - Environment-specific configurations via Terragrunt `terragrunt.hcl` inheritance.
 - Remote state sharing between modules using `terraform_remote_state` data sources.
 
 **Best practices**:
+
 ```hcl
 # Version pinning
 terraform {
@@ -40,6 +42,7 @@ terraform {
 ## Terragrunt DRY Patterns
 
 **Directory structure**:
+
 ```
 infrastructure/
 ├── live/
@@ -59,6 +62,7 @@ infrastructure/
 ```
 
 **Terragrunt inheritance**:
+
 ```hcl
 # live/prod/terragrunt.hcl
 remote_state {
@@ -91,12 +95,14 @@ inputs = {
 ## Atlantis Workflow
 
 **Atlantics server configuration**:
+
 - Webhook receiver for GitHub/GitLab PR events.
 - Automatic `terraform plan` on PR creation/update.
 - Manual `atlantis apply` comment for controlled apply.
 - State locking via DynamoDB during plan/apply.
 
 **PR-based change governance**:
+
 1. Developer creates branch with IaC changes.
 2. PR triggers Atlantis → runs `terraform plan`.
 3. Plan output posted as PR comment.
@@ -107,11 +113,13 @@ inputs = {
 ## State Management
 
 **Locking strategy**:
+
 - DynamoDB table for state locking (prevents concurrent modifications).
 - S3 bucket with versioning enabled (enables rollback to previous state).
 - State file encryption at rest (S3 server-side encryption).
 
 **State separation**:
+
 - One state file per module per environment.
 - No shared state files across environments.
 - Remote state references for cross-module dependencies.

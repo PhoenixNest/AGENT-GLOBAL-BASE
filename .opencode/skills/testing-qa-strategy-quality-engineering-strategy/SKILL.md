@@ -1,6 +1,6 @@
 ---
 name: testing-qa-strategy-quality-engineering-strategy
-description: "Testing Qa skill: Quality Engineering Strategy"
+description: 'Testing Qa skill: Quality Engineering Strategy'
 ---
 
 # Quality Engineering Strategy

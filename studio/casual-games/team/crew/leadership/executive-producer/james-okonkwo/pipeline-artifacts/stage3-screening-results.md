@@ -1,11 +1,11 @@
 ---
-generated_at: "**"
-candidate_name: "Screening Results"
-entity_type: "studio"
-stage: "stage-3"
-division: "leadership"
-role: "executive-producer"
-document_type: "Screening Results"
+generated_at: '**'
+candidate_name: 'Screening Results'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'leadership'
+role: 'executive-producer'
+document_type: 'Screening Results'
 ---
 
 # Stage 3: Automated Screening Results

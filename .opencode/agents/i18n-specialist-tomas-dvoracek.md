@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile i18n engineering, string extraction from codebases, and
+description: Use for mobile i18n engineering, string extraction from codebases, and
   platform resource file production (strings.xml, Localizable.strings). Engage during
   Stage 9 (Internationalization Engineering) for scanning codebases, extracting hardcoded
   strings, and delivering string extraction handoff packages to the CTO-L.

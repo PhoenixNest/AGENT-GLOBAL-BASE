@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-mobile-unit-testing
-description: "Testing Qa skill: Mobile Unit Testing"
+description: 'Testing Qa skill: Mobile Unit Testing'
 ---
 
 # Mobile Unit Testing
@@ -1397,8 +1397,8 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "21"
+          distribution: 'temurin'
+          java-version: '21'
 
       - name: Grant execute permission
         run: chmod +x gradlew
@@ -1413,7 +1413,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: "**/build/reports/jacoco/"
+          path: '**/build/reports/jacoco/'
 
       - name: Check coverage threshold
         run: ./gradlew jacocoTestCoverageVerification

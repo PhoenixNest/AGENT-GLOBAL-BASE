@@ -1,10 +1,12 @@
 # Agent-specific configuration files
+
 CLAUDE.md
 GEMINI.md
 LINGMA.md
 QWEN.md
 
 # Agent-specific configuration directories
+
 .claude/
 .cursor/
 .gemini/

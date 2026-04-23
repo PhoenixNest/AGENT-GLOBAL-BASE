@@ -1,6 +1,6 @@
 ---
 name: ios-infrastructure-swift-familiarization
-description: "Ios skill: Swift Familiarization"
+description: 'Ios skill: Swift Familiarization'
 ---
 
 # Swift Familiarization

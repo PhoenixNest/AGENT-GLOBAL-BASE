@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-iac-gitops
-description: "Devops skill: Iac Gitops"
+description: 'Devops skill: Iac Gitops'
 ---
 
 # IaC & GitOps

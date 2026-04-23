@@ -8,7 +8,7 @@
 | **Decision Date** | YYYY-MM-DD                                     |
 | **Authors**       | Security Architect (Natalia Petrova)           |
 | **Reviewers**     | CSO (Dr. Sarah Chen), CTO (Dr. Kenji Nakamura) |
-| **Stage**         | 3 -- Architecture                               |
+| **Stage**         | 3 -- Architecture                              |
 | **Category**      | Security / Cryptography                        |
 
 ---
@@ -26,20 +26,20 @@ Without standardized cryptographic standards, backend teams may independently se
 | Status         | Algorithm                | Key Size | Mode | Usage                                          |
 | -------------- | ------------------------ | -------- | ---- | ---------------------------------------------- |
 | **Approved**   | AES                      | 256-bit  | GCM  | All new development (authenticated encryption) |
-| **Deprecated** | AES                      | 256-bit  | CBC  | Existing code only -- migrate within 6 months   |
+| **Deprecated** | AES                      | 256-bit  | CBC  | Existing code only -- migrate within 6 months  |
 | **Prohibited** | DES, 3DES, RC4, Blowfish | --       | --   | Must not be used under any circumstance        |
 
 **Rationale:** AES-256-GCM provides authenticated encryption (confidentiality + integrity) in a single operation. CBC requires separate MAC, creating implementation complexity and potential for encrypt-then-MAC ordering mistakes.
 
 ### Asymmetric Encryption
 
-| Use Case                 | Algorithm | Parameters                      |
-| ------------------------ | --------- | ------------------------------- |
-| Key exchange             | ECDH      | Curve25519 (preferred) or P-256 |
-| JWT signing              | EdDSA (Ed25519) | --                         |
-| Digital signatures       | ECDSA     | P-256 (secp256r1)               |
-| High-security signatures | ECDSA     | P-384 (secp384r1)               |
-| RSA fallback             | RSA       | 4096-bit minimum, OAEP padding  |
+| Use Case                 | Algorithm       | Parameters                      |
+| ------------------------ | --------------- | ------------------------------- |
+| Key exchange             | ECDH            | Curve25519 (preferred) or P-256 |
+| JWT signing              | EdDSA (Ed25519) | --                              |
+| Digital signatures       | ECDSA           | P-256 (secp256r1)               |
+| High-security signatures | ECDSA           | P-384 (secp384r1)               |
+| RSA fallback             | RSA             | 4096-bit minimum, OAEP padding  |
 
 **Rationale:** ECC provides equivalent security to RSA at much smaller key sizes (P-256 approx RSA-3072). Curve25519 is preferred for ECDH due to implementation simplicity and resistance to side-channel attacks. EdDSA (Ed25519) preferred for JWT signing due to deterministic signatures and faster verification.
 
@@ -55,23 +55,23 @@ Without standardized cryptographic standards, backend teams may independently se
 
 ### Password Hashing
 
-| Status         | Algorithm                             | Parameters                                  |
-| -------------- | ------------------------------------- | ------------------------------------------- |
-| **Preferred**  | Argon2id                              | Memory: 64MB, iterations: 3, parallelism: 4 |
-| **Fallback**   | bcrypt                                | Cost factor: 12 (OWASP 2023)                |
-| **Prohibited** | MD5, SHA-1, plain SHA-256, unsalted   | --                                          |
+| Status         | Algorithm                           | Parameters                                  |
+| -------------- | ----------------------------------- | ------------------------------------------- |
+| **Preferred**  | Argon2id                            | Memory: 64MB, iterations: 3, parallelism: 4 |
+| **Fallback**   | bcrypt                              | Cost factor: 12 (OWASP 2023)                |
+| **Prohibited** | MD5, SHA-1, plain SHA-256, unsalted | --                                          |
 
 **Rationale:** Argon2id is the winner of the Password Hashing Competition and is recommended by OWASP. It is memory-hard, making GPU/ASIC attacks expensive. bcrypt is acceptable where Argon2 libraries are unavailable.
 
 ### Random Number Generation
 
-| Runtime              | API                                    | Notes                                |
-| -------------------- | -------------------------------------- | ------------------------------------ |
-| Go                   | `crypto/rand.Read`                     | CSPRNG, backed by OS entropy         |
-| Node.js              | `crypto.randomBytes`                   | CSPRNG, backed by OpenSSL            |
-| Python               | `secrets.token_bytes`                  | CSPRNG, backed by OS                 |
-| Java                 | `java.security.SecureRandom`           | Not `java.util.Random`               |
-| Rust                 | `rand::rngs::OsRng`                    | CSPRNG, backed by OS                 |
+| Runtime | API                          | Notes                        |
+| ------- | ---------------------------- | ---------------------------- |
+| Go      | `crypto/rand.Read`           | CSPRNG, backed by OS entropy |
+| Node.js | `crypto.randomBytes`         | CSPRNG, backed by OpenSSL    |
+| Python  | `secrets.token_bytes`        | CSPRNG, backed by OS         |
+| Java    | `java.security.SecureRandom` | Not `java.util.Random`       |
+| Rust    | `rand::rngs::OsRng`          | CSPRNG, backed by OS         |
 
 **Prohibited:** `java.util.Random`, `Math.random()`, `Math.random` in JavaScript, any PRNG not explicitly designed for cryptographic use.
 
@@ -79,13 +79,13 @@ Without standardized cryptographic standards, backend teams may independently se
 
 ## TLS Configuration
 
-| Requirement             | Value                                              |
-| ----------------------- | -------------------------------------------------- |
-| Minimum version         | TLS 1.3 (TLS 1.2 permitted only with CSO waiver)  |
-| Approved cipher suites  | TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256 |
-| Key exchange            | X25519 (preferred) or P-256                       |
-| Certificate type        | ECDSA P-256 (preferred) or RSA 4096-bit            |
-| Certificate management  | ACME automated renewal (Let's Encrypt or cloud CA) |
+| Requirement            | Value                                                |
+| ---------------------- | ---------------------------------------------------- |
+| Minimum version        | TLS 1.3 (TLS 1.2 permitted only with CSO waiver)     |
+| Approved cipher suites | TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256 |
+| Key exchange           | X25519 (preferred) or P-256                          |
+| Certificate type       | ECDSA P-256 (preferred) or RSA 4096-bit              |
+| Certificate management | ACME automated renewal (Let's Encrypt or cloud CA)   |
 
 ---
 
@@ -103,16 +103,16 @@ Without standardized cryptographic standards, backend teams may independently se
 
 ## Library Selection Per Runtime
 
-| Runtime | Library              | Version | Notes                                                      |
-| ------- | -------------------- | ------- | ---------------------------------------------------------- |
-| Go      | `crypto/*` (stdlib)  | Go 1.21+| Well-audited, maintained by Go team                        |
-| Go      | `golang.org/x/crypto`| Latest  | Supplemental (Argon2, bcrypt, ed25519)                     |
-| Node.js | `crypto` (stdlib)    | Node 20+| OpenSSL-backed, sufficient for most needs                  |
-| Node.js | `@noble/curves`      | Latest  | Pure-JS elliptic curve crypto (Ed25519, secp256k1)         |
-| Python  | `cryptography`       | Latest  | Well-audited, PyCA maintained                              |
-| Python  | `hashlib` (stdlib)   | Python 3.10+ | SHA-2/SHA-3, HMAC                      |
-| Java    | Bouncy Castle        | Latest  | Comprehensive crypto provider                              |
-| Java    | `java.security` (stdlib) | Java 17+ | Baseline crypto, JSSE for TLS        |
+| Runtime | Library                  | Version      | Notes                                              |
+| ------- | ------------------------ | ------------ | -------------------------------------------------- |
+| Go      | `crypto/*` (stdlib)      | Go 1.21+     | Well-audited, maintained by Go team                |
+| Go      | `golang.org/x/crypto`    | Latest       | Supplemental (Argon2, bcrypt, ed25519)             |
+| Node.js | `crypto` (stdlib)        | Node 20+     | OpenSSL-backed, sufficient for most needs          |
+| Node.js | `@noble/curves`          | Latest       | Pure-JS elliptic curve crypto (Ed25519, secp256k1) |
+| Python  | `cryptography`           | Latest       | Well-audited, PyCA maintained                      |
+| Python  | `hashlib` (stdlib)       | Python 3.10+ | SHA-2/SHA-3, HMAC                                  |
+| Java    | Bouncy Castle            | Latest       | Comprehensive crypto provider                      |
+| Java    | `java.security` (stdlib) | Java 17+     | Baseline crypto, JSSE for TLS                      |
 
 **Implementation requirements:**
 
@@ -139,12 +139,12 @@ Without standardized cryptographic standards, backend teams may independently se
 
 ## Alternatives Considered
 
-| Alternative                               | Why Rejected                                                                                |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Custom cryptographic implementations      | Implementation risk extremely high -- even experts make mistakes                             |
-| Third-party crypto wrappers (non-audited) | Supply chain risk; many wrappers have vulnerabilities in their abstractions                 |
-| No standardization (team choice)          | Creates audit nightmare, inconsistent security posture, impossible to deprecate             |
-| libsodium / NaCl                          | Evaluated -- excellent library but adds dependency complexity across multiple runtimes       |
+| Alternative                               | Why Rejected                                                                           |
+| ----------------------------------------- | -------------------------------------------------------------------------------------- |
+| Custom cryptographic implementations      | Implementation risk extremely high -- even experts make mistakes                       |
+| Third-party crypto wrappers (non-audited) | Supply chain risk; many wrappers have vulnerabilities in their abstractions            |
+| No standardization (team choice)          | Creates audit nightmare, inconsistent security posture, impossible to deprecate        |
+| libsodium / NaCl                          | Evaluated -- excellent library but adds dependency complexity across multiple runtimes |
 
 ---
 

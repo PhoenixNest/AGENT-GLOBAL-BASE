@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-real-time-architecture
-description: "Backend skill: Real Time Architecture"
+description: 'Backend skill: Real Time Architecture'
 ---
 
 # Real-Time Architecture

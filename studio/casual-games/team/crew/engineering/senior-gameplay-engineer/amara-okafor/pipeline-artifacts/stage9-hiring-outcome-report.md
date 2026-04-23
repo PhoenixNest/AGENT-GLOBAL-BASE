@@ -1,11 +1,11 @@
 ---
-final_decision: "HIRED"
-document_id: "**"
-entity_type: "studio"
-stage: "stage-9"
-division: "engineering"
-role: "senior-gameplay-engineer"
-document_type: "Hiring Outcome Report"
+final_decision: 'HIRED'
+document_id: '**'
+entity_type: 'studio'
+stage: 'stage-9'
+division: 'engineering'
+role: 'senior-gameplay-engineer'
+document_type: 'Hiring Outcome Report'
 ---
 
 # Stage 9: Hiring Outcome Report (G12)

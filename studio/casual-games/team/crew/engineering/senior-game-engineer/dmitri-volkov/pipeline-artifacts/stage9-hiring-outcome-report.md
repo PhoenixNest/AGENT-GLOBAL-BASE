@@ -1,12 +1,12 @@
 ---
-final_decision: "HIRED"
-candidate_name: "D"
-document_id: "**"
-entity_type: "studio"
-stage: "stage-9"
-division: "engineering"
-role: "senior-game-engineer"
-document_type: "Hiring Outcome Report"
+final_decision: 'HIRED'
+candidate_name: 'D'
+document_id: '**'
+entity_type: 'studio'
+stage: 'stage-9'
+division: 'engineering'
+role: 'senior-game-engineer'
+document_type: 'Hiring Outcome Report'
 ---
 
 # Hiring Outcome Report — Dmitri Volkov (G7)

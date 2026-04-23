@@ -174,8 +174,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "zulu"
-          java-version: "17"
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -188,7 +188,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: "**/build/test-results/testDebugUnitTest/*.xml"
+          path: '**/build/test-results/testDebugUnitTest/*.xml'
 
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -203,7 +203,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: instrumented-test-results
-          path: "**/build/outputs/androidTest-results/"
+          path: '**/build/outputs/androidTest-results/'
 
       - name: Publish test results
         if: always()
@@ -219,7 +219,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          files: "**/build/reports/jacoco/jacoco.xml"
+          files: '**/build/reports/jacoco/jacoco.xml'
           fail_ci_if_error: true
 ```
 

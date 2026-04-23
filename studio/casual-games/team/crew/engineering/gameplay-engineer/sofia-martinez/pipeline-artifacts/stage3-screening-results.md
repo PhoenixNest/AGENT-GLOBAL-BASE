@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-gate_status: "** ✅ Screening complete. Sofia Martinez advanced with 4.3/5 (87th percentile). Proceeding to Stage 4."
-candidate_name: "Screening Results"
-candidate_id: "G16"
-entity_type: "studio"
-stage: "stage-3"
-division: "engineering"
-role: "gameplay-engineer"
-document_type: "Screening Results"
+document_id: '**'
+gate_status: '** ✅ Screening complete. Sofia Martinez advanced with 4.3/5 (87th percentile). Proceeding to Stage 4.'
+candidate_name: 'Screening Results'
+candidate_id: 'G16'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'engineering'
+role: 'gameplay-engineer'
+document_type: 'Screening Results'
 ---
 
 # Stage 3: Screening Results (G16)

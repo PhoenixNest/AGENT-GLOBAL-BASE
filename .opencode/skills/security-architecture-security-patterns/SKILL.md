@@ -1,6 +1,6 @@
 ---
 name: security-architecture-security-patterns
-description: "Security skill: Security Patterns"
+description: 'Security skill: Security Patterns'
 ---
 
 # Security Patterns

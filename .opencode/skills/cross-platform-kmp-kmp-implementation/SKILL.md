@@ -1,6 +1,6 @@
 ---
 name: cross-platform-kmp-kmp-implementation
-description: "Cross Platform skill: Kmp Implementation"
+description: 'Cross Platform skill: Kmp Implementation'
 ---
 
 # KMP Implementation

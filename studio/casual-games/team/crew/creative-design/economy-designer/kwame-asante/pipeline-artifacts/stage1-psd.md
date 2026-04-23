@@ -1,13 +1,13 @@
 ---
-role_title: "Economy Designer"
-seniority: "Senior"
-priority: "P2"
-reports_to: "Mei Watanabe"
-entity_type: "studio"
-stage: "stage-1"
-division: "creative-design"
-role: "economy-designer"
-document_type: "Position Specification Document"
+role_title: 'Economy Designer'
+seniority: 'Senior'
+priority: 'P2'
+reports_to: 'Mei Watanabe'
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'creative-design'
+role: 'economy-designer'
+document_type: 'Position Specification Document'
 ---
 
 # Stages 1-9: Complete Pipeline — Economy Designer (G34)

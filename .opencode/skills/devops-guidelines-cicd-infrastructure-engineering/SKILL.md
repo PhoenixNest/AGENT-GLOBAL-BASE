@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-cicd-infrastructure-engineering
-description: "Devops skill: Cicd Infrastructure Engineering"
+description: 'Devops skill: Cicd Infrastructure Engineering'
 ---
 
 # CI/CD Infrastructure Engineering

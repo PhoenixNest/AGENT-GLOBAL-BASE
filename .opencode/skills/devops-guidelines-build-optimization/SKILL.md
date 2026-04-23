@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-build-optimization
-description: "Devops skill: Build Optimization"
+description: 'Devops skill: Build Optimization'
 ---
 
 # Build Optimization

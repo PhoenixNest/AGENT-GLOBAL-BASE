@@ -1,6 +1,5 @@
 ---
-description:
-  Use for design systems architecture, frontend performance optimization,
+description: Use for design systems architecture, frontend performance optimization,
   WCAG 2.1 AA compliance, and frontend security. Engage during Stage 5 (Development)
   for frontend implementation and Stage 8 (Integrity Verification) for frontend conformance
   review.

@@ -1,6 +1,6 @@
 ---
 name: shared-guidelines-webauthn-biometric-auth
-description: "Shared skill: Webauthn Biometric Auth"
+description: 'Shared skill: Webauthn Biometric Auth'
 ---
 
 # WebAuthn & Biometric Authentication

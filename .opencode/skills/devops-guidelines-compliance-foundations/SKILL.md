@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-compliance-foundations
-description: "Devops skill: Compliance Foundations"
+description: 'Devops skill: Compliance Foundations'
 ---
 
 # Compliance Foundations

@@ -12,21 +12,21 @@ Implement production-grade iOS applications from the UML Engineering Package, ID
 
 ## Technology Stack
 
-| Layer | Technology | Version Policy |
-|-------|-----------|----------------|
-| Language | Swift | Latest stable |
-| UI | SwiftUI (primary) + UIKit (interop only) | Latest stable |
-| Architecture | MVVM + Clean Architecture | See patterns below |
-| Async | Swift Concurrency (async/await, actors) | Prefer over Combine for new code |
-| Reactive | Combine | Use for existing pipelines; Observation framework for new |
-| Navigation | NavigationStack (iOS 16+) | Coordinator pattern for pre-16 |
-| Persistence | CoreData / SwiftData | SwiftData for iOS 17+ new projects |
-| Network | URLSession | No third-party HTTP client |
-| Serialisation | Codable (JSONDecoder/Encoder) | |
-| DI | Constructor injection + Environment | No third-party DI framework |
-| Build | Xcode + Swift Package Manager | No CocoaPods for new dependencies |
+| Layer         | Technology                               | Version Policy                                            |
+| ------------- | ---------------------------------------- | --------------------------------------------------------- |
+| Language      | Swift                                    | Latest stable                                             |
+| UI            | SwiftUI (primary) + UIKit (interop only) | Latest stable                                             |
+| Architecture  | MVVM + Clean Architecture                | See patterns below                                        |
+| Async         | Swift Concurrency (async/await, actors)  | Prefer over Combine for new code                          |
+| Reactive      | Combine                                  | Use for existing pipelines; Observation framework for new |
+| Navigation    | NavigationStack (iOS 16+)                | Coordinator pattern for pre-16                            |
+| Persistence   | CoreData / SwiftData                     | SwiftData for iOS 17+ new projects                        |
+| Network       | URLSession                               | No third-party HTTP client                                |
+| Serialisation | Codable (JSONDecoder/Encoder)            |                                                           |
+| DI            | Constructor injection + Environment      | No third-party DI framework                               |
+| Build         | Xcode + Swift Package Manager            | No CocoaPods for new dependencies                         |
 
-*Specific versions are governed by the TSD from Stage 3. The TSD overrides this table.*
+_Specific versions are governed by the TSD from Stage 3. The TSD overrides this table._
 
 ## Architecture Patterns
 
@@ -94,6 +94,7 @@ private struct HomeContent: View {
 ```
 
 **Rules:**
+
 - ViewModels are `@Observable` classes injected via constructor — not `@StateObject` + `ObservableObject` for new code
 - Use `task {}` for async work tied to view lifecycle — never `onAppear` + `Task {}`
 - Preview annotations on all content views with realistic preview data
@@ -122,6 +123,7 @@ final class ItemRepositoryImpl: ItemRepository {
 ## iOS-Specific Requirements
 
 ### Security
+
 - **Keychain:** All tokens, credentials, and sensitive user data stored in Keychain via `SecItemAdd`/`SecItemCopyMatching`; use `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` for most sensitive items
 - **Certificate pinning:** Implement via URLSession delegate `urlSession(_:didReceive:completionHandler:)` per SRD requirements
 - **App Transport Security:** No `NSAllowsArbitraryLoads` exceptions — all network connections HTTPS
@@ -129,18 +131,21 @@ final class ItemRepositoryImpl: ItemRepository {
 - Never log sensitive data (tokens, PII, payment details) — use `os_log` with privacy annotations
 
 ### Localization
+
 - All user-visible strings: `String(localized: "key.name")` or `Text("key.name")` (SwiftUI auto-localizes)
 - Plurals: `String(localized: "key.name \(count) items")` with stringsdict entry
 - Never use `NSLocalizedString` in new SwiftUI code — use the Swift 5.9+ `String(localized:)` API
 - Test in pseudo-language and right-to-left (use iOS Scheme argument `-AppleLanguages "(ar)"`)
 
 ### Accessibility
+
 - All interactive elements: `.accessibilityLabel()` with descriptive text
 - Touch targets: minimum 44×44pt via `.frame(minWidth: 44, minHeight: 44)`
 - Test with VoiceOver enabled before Stage 6
 - Dynamic Type: all text uses `Font` with automatic scaling; test at largest accessibility size
 
 ### HIG Compliance (per IDS)
+
 - Navigation: use `NavigationStack` with typed `NavigationPath`; no custom back button overrides
 - Bottom sheets: use `.sheet` and `.confirmationDialog` — custom sheet presentations must match detent spec in IDS
 - Safe areas: all content respects `.safeAreaInset()` — no hard-coded padding for status bar or home indicator
@@ -149,6 +154,7 @@ final class ItemRepositoryImpl: ItemRepository {
 ## App Store Submission Checklist
 
 Before Stage 10 Release Readiness:
+
 - [ ] Deployment target matches TSD minimum iOS version
 - [ ] All required entitlements present in `.entitlements` file
 - [ ] Privacy manifest (`PrivacyInfo.xcprivacy`) declares all API usage and data collection
@@ -161,6 +167,7 @@ Before Stage 10 Release Readiness:
 ## Code Review Standards
 
 Before submitting for Stage 6, verify:
+
 - [ ] All features in the Coding Implementation Plan are implemented
 - [ ] App compiles with zero warnings in release configuration
 - [ ] App runs on minimum supported iOS version (per TSD)

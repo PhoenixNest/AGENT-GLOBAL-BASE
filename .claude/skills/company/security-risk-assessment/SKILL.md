@@ -15,6 +15,7 @@ Establish systematic security risk assessment processes, conduct threat modeling
 ### 1. Threat Modeling
 
 **STRIDE Methodology:**
+
 - **S**poofing — identity verification weaknesses
 - **T**ampering — data integrity vulnerabilities
 - **R**epudiation — audit trail gaps
@@ -23,6 +24,7 @@ Establish systematic security risk assessment processes, conduct threat modeling
 - **E**levation of Privilege — authorization bypasses
 
 **Process:**
+
 1. Map data flows and trust boundaries
 2. Identify assets and entry points
 3. Enumerate threats per component
@@ -32,11 +34,13 @@ Establish systematic security risk assessment processes, conduct threat modeling
 ### 2. Risk Scoring
 
 **CVSS v3.1 Framework:**
+
 - Base Score: exploitability + impact
 - Temporal Score: exploit maturity + remediation level
 - Environmental Score: business context
 
 **Risk Matrix:**
+
 - Critical (9.0-10.0): immediate action required
 - High (7.0-8.9): fix within 7 days
 - Medium (4.0-6.9): fix within 30 days
@@ -59,6 +63,7 @@ Establish systematic security risk assessment processes, conduct threat modeling
 **Level 2 (Defense in Depth):** Advanced security controls; threat modeling required; for apps handling sensitive data.
 
 **Verification Categories:**
+
 - V1: Architecture, Design and Threat Modeling
 - V2: Data Storage and Privacy
 - V3: Cryptography

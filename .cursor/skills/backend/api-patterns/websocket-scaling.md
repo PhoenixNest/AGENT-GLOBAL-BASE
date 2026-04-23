@@ -315,7 +315,7 @@ class WebSocketClient {
     this.ws.onopen = () => {
       this.reconnectAttempts = 0;
       this.flushMessageQueue();
-      console.log("WebSocket connected");
+      console.log('WebSocket connected');
     };
 
     this.ws.onmessage = (event) => {
@@ -328,13 +328,13 @@ class WebSocketClient {
     };
 
     this.ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
+      console.error('WebSocket error:', error);
     };
   }
 
   scheduleReconnect() {
     if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error("Max reconnection attempts reached");
+      console.error('Max reconnection attempts reached');
       return;
     }
 
@@ -343,9 +343,7 @@ class WebSocketClient {
     const jitter = Math.random() * 500; // Prevent thundering herd
     const totalDelay = Math.min(delay + jitter, 30000); // Cap at 30s
 
-    console.log(
-      `Reconnecting in ${totalDelay}ms (attempt ${this.reconnectAttempts + 1})`,
-    );
+    console.log(`Reconnecting in ${totalDelay}ms (attempt ${this.reconnectAttempts + 1})`);
 
     setTimeout(() => {
       this.reconnectAttempts++;

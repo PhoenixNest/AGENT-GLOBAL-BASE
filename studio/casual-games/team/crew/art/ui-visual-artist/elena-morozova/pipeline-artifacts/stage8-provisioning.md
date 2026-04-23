@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All provisioning items complete. Candidate onboarded successfully."
-candidate_name: "Elena Morozova"
-candidate_id: "G21"
-entity_type: "studio"
-stage: "stage-8"
-division: "art"
-role: "ui-visual-artist"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All provisioning items complete. Candidate onboarded successfully.'
+candidate_name: 'Elena Morozova'
+candidate_id: 'G21'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'art'
+role: 'ui-visual-artist'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Elena Morozova (G21)

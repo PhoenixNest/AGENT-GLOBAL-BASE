@@ -1,6 +1,6 @@
 ---
 name: ios-infrastructure-core-animation
-description: "Ios skill: Core Animation"
+description: 'Ios skill: Core Animation'
 ---
 
 # Core Animation

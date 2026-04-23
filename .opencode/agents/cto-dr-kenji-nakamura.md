@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile technology architecture, SPEC development, software architecture
+description: Use for mobile technology architecture, SPEC development, software architecture
   design with UML modeling, technology evaluation, and technical project management.
   Engage during Stage 3 (UML Engineering Package), Stage 4 (Implementation Plan),
   Stage 5 (Development), Stage 6 (Code Review), Stage 7 (Testing), Stage 8 (Integrity

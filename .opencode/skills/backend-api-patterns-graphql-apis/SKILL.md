@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-graphql-apis
-description: "Backend skill: Graphql Apis"
+description: 'Backend skill: Graphql Apis'
 ---
 
 # GraphQL APIs
@@ -147,10 +147,7 @@ scalar DateTime
 # Custom directive
 directive @auth(requires: UserRole = USER) on FIELD_DEFINITION
 directive @rateLimit(max: Int = 100, window: Int = 60) on FIELD_DEFINITION
-directive @cacheControl(
-  maxAge: Int
-  scope: CacheControlScope
-) on FIELD_DEFINITION | OBJECT
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT
 
 enum CacheControlScope {
   PUBLIC
@@ -313,14 +310,14 @@ class Order:
 
 ```javascript
 // gateway.js
-const { ApolloGateway, IntrospectAndCompose } = require("@apollo/gateway");
+const { ApolloGateway, IntrospectAndCompose } = require('@apollo/gateway');
 
 const gateway = new ApolloGateway({
   supergraphSdl: new IntrospectAndCompose({
     subgraphs: [
-      { name: "users", url: "http://user-service:4001/graphql" },
-      { name: "orders", url: "http://order-service:4002/graphql" },
-      { name: "products", url: "http://product-service:4003/graphql" },
+      { name: 'users', url: 'http://user-service:4001/graphql' },
+      { name: 'orders', url: 'http://order-service:4002/graphql' },
+      { name: 'products', url: 'http://product-service:4003/graphql' },
     ],
   }),
 });
@@ -331,7 +328,7 @@ const server = new ApolloServer({
   // Gateway can add request context
   context: ({ req }) => ({
     authHeader: req.headers.authorization,
-    requestId: req.headers["x-request-id"],
+    requestId: req.headers['x-request-id'],
   }),
 });
 ```

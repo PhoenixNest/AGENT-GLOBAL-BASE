@@ -1,13 +1,13 @@
 ---
-role_title: "Technical Artist"
-seniority: "Senior"
-priority: "P1"
-reports_to: "Art Director"
-entity_type: "studio"
-stage: "stage-1"
-division: "art"
-role: "technical-artist"
-document_type: "Position Specification Document"
+role_title: 'Technical Artist'
+seniority: 'Senior'
+priority: 'P1'
+reports_to: 'Art Director'
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'art'
+role: 'technical-artist'
+document_type: 'Position Specification Document'
 ---
 
 # Pipeline Artifacts — Technical Artist (G8) — Lena Kovac

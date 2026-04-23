@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-ids-fluency
-description: "Design skill: Ids Fluency"
+description: 'Design skill: Ids Fluency'
 ---
 
 # Interaction Design Specification Fluency

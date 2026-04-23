@@ -13,6 +13,7 @@ Implement production-grade cross-platform Flutter applications from the UML Engi
 ## When Flutter is the Right Choice
 
 Use Flutter (not KMP) when:
+
 - A single UI codebase is required for both platforms
 - The project requires custom visual design that does not need to match platform-native widgets exactly
 - Speed of cross-platform feature delivery is prioritised
@@ -20,20 +21,20 @@ Use Flutter (not KMP) when:
 
 ## Technology Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Language | Dart (latest stable) |
-| UI | Flutter (latest stable) |
-| State management | Riverpod (preferred) |
-| Navigation | go_router |
-| Networking | dio or http |
-| Local storage | drift (SQLite) or isar |
-| Secure storage | flutter_secure_storage |
-| DI | Riverpod providers (no separate DI framework needed) |
-| Localisation | flutter_localizations + ARB files |
-| Image loading | cached_network_image |
+| Layer            | Technology                                           |
+| ---------------- | ---------------------------------------------------- |
+| Language         | Dart (latest stable)                                 |
+| UI               | Flutter (latest stable)                              |
+| State management | Riverpod (preferred)                                 |
+| Navigation       | go_router                                            |
+| Networking       | dio or http                                          |
+| Local storage    | drift (SQLite) or isar                               |
+| Secure storage   | flutter_secure_storage                               |
+| DI               | Riverpod providers (no separate DI framework needed) |
+| Localisation     | flutter_localizations + ARB files                    |
+| Image loading    | cached_network_image                                 |
 
-*Specific package versions are governed by the TSD from Stage 3.*
+_Specific package versions are governed by the TSD from Stage 3._
 
 ## Architecture Pattern
 
@@ -193,12 +194,14 @@ Usage: `AppLocalizations.of(context)!.checkoutConfirmButton`
 ## App Store and Google Play Submission
 
 **Android (Google Play):**
+
 - Build: `flutter build appbundle --release`
 - Sign with upload keystore (separate from debug keystore)
 - Minimum SDK: per TSD
 - ProGuard/R8 obfuscation: enabled in release builds
 
 **iOS (App Store):**
+
 - Build: `flutter build ipa --release`
 - Requires Xcode for signing — export IPA via Xcode archive
 - Privacy manifest: `PrivacyInfo.xcprivacy` required for Flutter plugins that access sensitive APIs
@@ -207,6 +210,7 @@ Usage: `AppLocalizations.of(context)!.checkoutConfirmButton`
 ## Code Review Standards
 
 Before Stage 6:
+
 - [ ] All features in the Coding Implementation Plan implemented
 - [ ] App runs on Android minimum SDK (per TSD) and latest Android
 - [ ] App runs on iOS minimum deployment target (per TSD) and latest iOS

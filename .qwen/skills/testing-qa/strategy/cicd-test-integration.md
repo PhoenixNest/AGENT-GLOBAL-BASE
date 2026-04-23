@@ -427,7 +427,7 @@ jobs:
   flaky-test-scan:
     runs-on: ubuntu-latest
     schedule:
-      - cron: "0 2 * * *" # Run daily at 2 AM
+      - cron: '0 2 * * *' # Run daily at 2 AM
     steps:
       - name: Run tests 10x
         run: |
@@ -459,7 +459,7 @@ jobs:
   quarantined-tests:
     runs-on: ubuntu-latest
     schedule:
-      - cron: "0 3 * * *"
+      - cron: '0 3 * * *'
     steps:
       - name: Run quarantined tests
         run: ./scripts/test-quarantined.sh
@@ -613,7 +613,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{ matrix.language }}"
+          category: '/language:${{ matrix.language }}'
 ```
 
 ### DAST (Dynamic Application Security Testing)
@@ -821,11 +821,11 @@ jobs:
 
 ### Pipeline Document References
 
-| Document               | Location                                     | Purpose                         |
-| ---------------------- | -------------------------------------------- | ------------------------------- |
-| Pipeline Definition    | `.qwen/pipeline/mobile-development/pipeline.md`  | 10-stage pipeline specification |
+| Document               | Location                                            | Purpose                         |
+| ---------------------- | --------------------------------------------------- | ------------------------------- |
+| Pipeline Definition    | `.qwen/pipeline/mobile-development/pipeline.md`     | 10-stage pipeline specification |
 | Monitoring System      | `company/pipeline/mobile-development/monitoring.md` | Progress tracking and recovery  |
-| Defect Severity System | `QWEN.md`                                    | P0-P3 defect classification     |
+| Defect Severity System | `QWEN.md`                                           | P0-P3 defect classification     |
 
 ### External Resources
 

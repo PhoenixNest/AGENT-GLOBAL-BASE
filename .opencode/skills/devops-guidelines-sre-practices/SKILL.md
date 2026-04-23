@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-sre-practices
-description: "Devops skill: Sre Practices"
+description: 'Devops skill: Sre Practices'
 ---
 
 # SRE Practices

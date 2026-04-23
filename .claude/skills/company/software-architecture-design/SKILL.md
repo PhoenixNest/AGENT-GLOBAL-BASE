@@ -154,23 +154,31 @@ Document important architectural decisions using ADRs. Template:
 # ADR-XXX: [Decision Title]
 
 ## Status
+
 [Proposed | Accepted | Deprecated | Superseded by ADR-YYY]
 
 ## Context
+
 What is the issue we're facing? What factors are driving this decision?
 
 ## Decision
+
 What architecture or approach have we chosen?
 
 ## Consequences
+
 ### Positive
+
 - Benefit 1
 
 ### Negative
+
 - Trade-off 1
 
 ## Alternatives Considered
+
 ### Alternative 1: [Name]
+
 - Pros: ...
 - Cons: ...
 - Why rejected: ...
@@ -183,18 +191,21 @@ When to write an ADR: choosing between architectural patterns; selecting third-p
 ## Mobile-Specific Considerations
 
 ### iOS
+
 - App lifecycle: handle background/foreground transitions
 - Memory constraints: iOS aggressively terminates apps
 - App Transport Security: HTTPS requirements
 - Background execution limits: 30 seconds for most tasks
 
 ### Android
+
 - Process death: system can kill app processes anytime
 - Configuration changes: handle rotation and multi-window
 - Background restrictions: Doze mode and app standby
 - Jetpack Compose vs Views: modern UI toolkit adoption
 
 ### Cross-Platform
+
 - **Offline-first**: Mobile networks are unreliable
 - **Battery efficiency**: Minimize network calls and background work
 - **Shared business logic**: Consider Kotlin Multiplatform Mobile

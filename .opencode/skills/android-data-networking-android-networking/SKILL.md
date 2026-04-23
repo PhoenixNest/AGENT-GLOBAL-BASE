@@ -1,6 +1,6 @@
 ---
 name: android-data-networking-android-networking
-description: "Android skill: Android Networking"
+description: 'Android skill: Android Networking'
 ---
 
 # Android Networking

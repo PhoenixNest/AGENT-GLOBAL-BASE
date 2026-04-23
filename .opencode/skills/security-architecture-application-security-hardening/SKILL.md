@@ -1,6 +1,6 @@
 ---
 name: security-architecture-application-security-hardening
-description: "Security skill: Application Security Hardening"
+description: 'Security skill: Application Security Hardening'
 ---
 
 # Application Security Hardening

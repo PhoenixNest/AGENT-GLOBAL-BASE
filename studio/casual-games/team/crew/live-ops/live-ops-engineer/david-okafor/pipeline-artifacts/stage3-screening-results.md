@@ -1,11 +1,11 @@
 ---
-generated_at: "**"
-candidate_name: "Ops Engineer"
-entity_type: "studio"
-stage: "stage-3"
-division: "live-ops"
-role: "live-ops-engineer"
-document_type: "Screening Results"
+generated_at: '**'
+candidate_name: 'Ops Engineer'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'live-ops'
+role: 'live-ops-engineer'
+document_type: 'Screening Results'
 ---
 
 # Stage 3: Automated Screening Results — Live Ops Engineer #1 (G30)

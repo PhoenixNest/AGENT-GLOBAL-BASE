@@ -1,6 +1,6 @@
 ---
 name: ios-testing-quality-ios-accessibility
-description: "Ios skill: Ios Accessibility"
+description: 'Ios skill: Ios Accessibility'
 ---
 
 # iOS Accessibility

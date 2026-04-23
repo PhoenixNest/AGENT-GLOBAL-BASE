@@ -1,12 +1,12 @@
 ---
-gate_status: "** ✅ CLEAR"
-candidate_name: "Lena Kovac"
-candidate_id: "G8"
-entity_type: "studio"
-stage: "stage-6"
-division: "art"
-role: "technical-artist"
-document_type: "Background Check"
+gate_status: '** ✅ CLEAR'
+candidate_name: 'Lena Kovac'
+candidate_id: 'G8'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'art'
+role: 'technical-artist'
+document_type: 'Background Check'
 ---
 
 # Stage 6-9: Background Check, Offer, Provisioning, Hiring Outcome — Lena Kovac (G8)

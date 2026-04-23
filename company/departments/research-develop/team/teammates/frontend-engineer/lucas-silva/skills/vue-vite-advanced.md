@@ -28,9 +28,9 @@ This skill provides advanced expertise in Vue 3 Composition API architecture, Vi
 
 ```ts
 // composables/useTodos.ts
-import { ref, computed, watch, onMounted, onUnmounted } from "vue";
-import type { Ref, ComputedRef } from "vue";
-import { api } from "@/lib/api";
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import type { Ref, ComputedRef } from 'vue';
+import { api } from '@/lib/api';
 
 interface Todo {
   id: string;
@@ -56,13 +56,13 @@ export function useTodos(): UseTodosReturn {
   const todos = ref<Todo[]>([]);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
-  const filter = ref("");
+  const filter = ref('');
 
   // Computed — derived state, auto-updates when dependencies change
   const filteredTodos = computed(() => {
     if (!filter.value) return todos.value;
     return todos.value.filter((todo) =>
-      todo.title.toLowerCase().includes(filter.value.toLowerCase()),
+      todo.title.toLowerCase().includes(filter.value.toLowerCase())
     );
   });
 
@@ -71,11 +71,10 @@ export function useTodos(): UseTodosReturn {
     isLoading.value = true;
     error.value = null;
     try {
-      const response = await api.get<Todo[]>("/todos");
+      const response = await api.get<Todo[]>('/todos');
       todos.value = response.data;
     } catch (err) {
-      error.value =
-        err instanceof Error ? err.message : "Failed to fetch todos";
+      error.value = err instanceof Error ? err.message : 'Failed to fetch todos';
     } finally {
       isLoading.value = false;
     }
@@ -83,10 +82,10 @@ export function useTodos(): UseTodosReturn {
 
   async function addTodo(title: string) {
     try {
-      const response = await api.post<Todo>("/todos", { title });
+      const response = await api.post<Todo>('/todos', { title });
       todos.value.push(response.data);
     } catch (err) {
-      error.value = "Failed to add todo";
+      error.value = 'Failed to add todo';
       throw err;
     }
   }
@@ -104,7 +103,7 @@ export function useTodos(): UseTodosReturn {
     } catch (err) {
       // Rollback
       todo.completed = previousCompleted;
-      error.value = "Failed to update todo";
+      error.value = 'Failed to update todo';
       throw err;
     }
   }
@@ -121,7 +120,7 @@ export function useTodos(): UseTodosReturn {
     } catch (err) {
       // Rollback
       todos.value.splice(index, 0, removedTodo);
-      error.value = "Failed to delete todo";
+      error.value = 'Failed to delete todo';
       throw err;
     }
   }
@@ -158,26 +157,18 @@ export function useTodos(): UseTodosReturn {
 
 ```vue
 <script setup lang="ts">
-import { useTodos } from "@/composables/useTodos";
+import { useTodos } from '@/composables/useTodos';
 
 // Destructure — all refs maintain reactivity
-const {
-  filteredTodos,
-  isLoading,
-  error,
-  filter,
-  addTodo,
-  toggleTodo,
-  deleteTodo,
-} = useTodos();
+const { filteredTodos, isLoading, error, filter, addTodo, toggleTodo, deleteTodo } = useTodos();
 
 // Local state
-const newTodoTitle = ref("");
+const newTodoTitle = ref('');
 
 async function handleAddTodo() {
   if (!newTodoTitle.value.trim()) return;
   await addTodo(newTodoTitle.value);
-  newTodoTitle.value = "";
+  newTodoTitle.value = '';
 }
 </script>
 
@@ -202,12 +193,7 @@ async function handleAddTodo() {
           :aria-label="todo.title"
         />
         <span :class="{ completed: todo.completed }">{{ todo.title }}</span>
-        <button
-          @click="deleteTodo(todo.id)"
-          :aria-label="`Delete ${todo.title}`"
-        >
-          ✕
-        </button>
+        <button @click="deleteTodo(todo.id)" :aria-label="`Delete ${todo.title}`">✕</button>
       </li>
     </ul>
   </div>
@@ -218,21 +204,13 @@ async function handleAddTodo() {
 
 ```ts
 // composables/useAuthenticatedTodos.ts
-import { useAuth } from "./useAuth";
-import { useTodos } from "./useTodos";
-import { watch } from "vue";
+import { useAuth } from './useAuth';
+import { useTodos } from './useTodos';
+import { watch } from 'vue';
 
 export function useAuthenticatedTodos() {
   const { isAuthenticated, user, login } = useAuth();
-  const {
-    todos,
-    filteredTodos,
-    isLoading,
-    error,
-    addTodo,
-    toggleTodo,
-    deleteTodo,
-  } = useTodos();
+  const { todos, filteredTodos, isLoading, error, addTodo, toggleTodo, deleteTodo } = useTodos();
 
   // Watch auth state — refetch when user changes
   watch(user, (newUser, oldUser) => {
@@ -260,20 +238,20 @@ export function useAuthenticatedTodos() {
 
 ```ts
 // App.vue — provide at root
-import { provide, ref } from "vue";
+import { provide, ref } from 'vue';
 
-const theme = ref<"light" | "dark">("light");
-provide("theme", theme);
-provide("toggleTheme", () => {
-  theme.value = theme.value === "light" ? "dark" : "light";
+const theme = ref<'light' | 'dark'>('light');
+provide('theme', theme);
+provide('toggleTheme', () => {
+  theme.value = theme.value === 'light' ? 'dark' : 'light';
 });
 
 // Any descendant component — inject
-const theme = inject<Ref<"light" | "dark">>("theme");
-const toggleTheme = inject<() => void>("toggleTheme");
+const theme = inject<Ref<'light' | 'dark'>>('theme');
+const toggleTheme = inject<() => void>('toggleTheme');
 
 // ✅ Type-safe with injection keys
-const ThemeKey = Symbol() as InjectionKey<Ref<"light" | "dark">>;
+const ThemeKey = Symbol() as InjectionKey<Ref<'light' | 'dark'>>;
 provide(ThemeKey, theme);
 const theme = inject(ThemeKey); // Type-inferred
 ```
@@ -291,21 +269,21 @@ const theme = inject(ThemeKey); // Type-inferred
 
 ```ts
 // plugins/mdx-loader.ts
-import type { Plugin } from "vite";
-import { compile } from "@mdx-js/mdx";
+import type { Plugin } from 'vite';
+import { compile } from '@mdx-js/mdx';
 
 export function mdxLoader(): Plugin {
   return {
-    name: "mdx-loader",
+    name: 'mdx-loader',
 
     // Transform hook — runs on each module
     async transform(code, id) {
-      if (!id.endsWith(".mdx")) return null;
+      if (!id.endsWith('.mdx')) return null;
 
       // Compile MDX to JSX
       const compiled = await compile(code, {
         jsx: true,
-        jsxImportSource: "react",
+        jsxImportSource: 'react',
       });
 
       return {
@@ -333,11 +311,11 @@ export function mdxLoader(): Plugin {
 
     // HMR handling
     handleHotUpdate({ file, server }) {
-      if (file.endsWith(".mdx")) {
+      if (file.endsWith('.mdx')) {
         // Invalidate and re-transform
         server.ws.send({
-          type: "full-reload",
-          path: "*",
+          type: 'full-reload',
+          path: '*',
         });
       }
     },
@@ -348,18 +326,18 @@ export function mdxLoader(): Plugin {
 **Using plugins in vite.config.ts:**
 
 ```ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
-import { mdxLoader } from "./plugins/mdx-loader";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { mdxLoader } from './plugins/mdx-loader';
 
 export default defineConfig({
   plugins: [vue(), vueJsx(), mdxLoader()],
 
   // Build optimization
   build: {
-    target: "es2020",
-    minify: "terser",
+    target: 'es2020',
+    minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
@@ -369,9 +347,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["vue", "vue-router", "pinia"],
-          charts: ["chart.js"],
-          utils: ["lodash-es", "date-fns"],
+          vendor: ['vue', 'vue-router', 'pinia'],
+          charts: ['chart.js'],
+          utils: ['lodash-es', 'date-fns'],
         },
       },
     },
@@ -385,8 +363,8 @@ export default defineConfig({
       overlay: true, // Show error overlay
     },
     proxy: {
-      "/api": {
-        target: "http://localhost:8080",
+      '/api': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
     },
@@ -409,9 +387,9 @@ export default defineConfig({
   // Resolve aliases
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@/composables": path.resolve(__dirname, "src/composables"),
-      "@/components": path.resolve(__dirname, "src/components"),
+      '@': path.resolve(__dirname, 'src'),
+      '@/composables': path.resolve(__dirname, 'src/composables'),
+      '@/components': path.resolve(__dirname, 'src/components'),
     },
   },
 });
@@ -448,13 +426,7 @@ function useLocalState() {
 export default defineConfig({
   server: {
     watch: {
-      ignored: [
-        "**/node_modules/**",
-        "**/.git/**",
-        "**/dist/**",
-        "**/coverage/**",
-        "**/.turbo/**",
-      ],
+      ignored: ['**/node_modules/**', '**/.git/**', '**/dist/**', '**/coverage/**', '**/.turbo/**'],
     },
   },
 });
@@ -484,26 +456,26 @@ Template changes → HMR updates template only (state preserved)
 
 ```ts
 // router/index.ts
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: () => import("@/pages/HomePage.vue"), // Dynamic import → code split
+    path: '/',
+    name: 'Home',
+    component: () => import('@/pages/HomePage.vue'), // Dynamic import → code split
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: () => import("@/pages/DashboardPage.vue"),
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('@/pages/DashboardPage.vue'),
     children: [
       {
-        path: "analytics",
-        component: () => import("@/pages/DashboardAnalytics.vue"),
+        path: 'analytics',
+        component: () => import('@/pages/DashboardAnalytics.vue'),
       },
       {
-        path: "settings",
-        component: () => import("@/pages/DashboardSettings.vue"),
+        path: 'settings',
+        component: () => import('@/pages/DashboardSettings.vue'),
       },
     ],
   },
@@ -516,7 +488,7 @@ const router = createRouter({
   scrollBehavior: (to, from, savedPosition) => {
     // Prefetch the target route's components
     to.matched.forEach((record) => {
-      if (typeof record.components?.default === "function") {
+      if (typeof record.components?.default === 'function') {
         record.components.default(); // Trigger dynamic import
       }
     });
@@ -531,11 +503,11 @@ export default router;
 
 ```vue
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from 'vue';
 
 // Async component with loading and error states
 const HeavyChart = defineAsyncComponent({
-  loader: () => import("@/components/HeavyChart.vue"),
+  loader: () => import('@/components/HeavyChart.vue'),
   loadingComponent: ChartSkeleton,
   errorComponent: ChartError,
   delay: 200, // Wait 200ms before showing loading component
@@ -544,7 +516,7 @@ const HeavyChart = defineAsyncComponent({
 
 // Async component with retry
 const ExternalWidget = defineAsyncComponent({
-  loader: () => import("@/components/ExternalWidget.vue"),
+  loader: () => import('@/components/ExternalWidget.vue'),
   onError(error, retry, fail, attempts) {
     if (attempts <= 3) {
       retry(); // Retry up to 3 times
@@ -577,16 +549,16 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           // Vendor chunks
-          if (id.includes("node_modules")) {
-            if (id.includes("vue") || id.includes("pinia")) return "vendor-vue";
-            if (id.includes("lodash")) return "vendor-lodash";
-            if (id.includes("chart.js")) return "vendor-charts";
-            return "vendor-other";
+          if (id.includes('node_modules')) {
+            if (id.includes('vue') || id.includes('pinia')) return 'vendor-vue';
+            if (id.includes('lodash')) return 'vendor-lodash';
+            if (id.includes('chart.js')) return 'vendor-charts';
+            return 'vendor-other';
           }
 
           // Feature chunks
-          if (id.includes("/features/analytics/")) return "feature-analytics";
-          if (id.includes("/features/settings/")) return "feature-settings";
+          if (id.includes('/features/analytics/')) return 'feature-analytics';
+          if (id.includes('/features/settings/')) return 'feature-settings';
         },
       },
     },
@@ -600,10 +572,10 @@ export default defineConfig({
 
 ```ts
 // ✅ Tree-shakeable — only used APIs are included
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch } from 'vue';
 
 // ❌ Not tree-shakeable — imports entire Vue
-import Vue from "vue";
+import Vue from 'vue';
 
 // Ensure package.json has sideEffects flag
 // package.json:

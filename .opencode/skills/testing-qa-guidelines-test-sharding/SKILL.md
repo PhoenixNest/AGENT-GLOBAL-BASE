@@ -1,6 +1,6 @@
 ---
 name: testing-qa-guidelines-test-sharding
-description: "Testing Qa skill: Test Sharding"
+description: 'Testing Qa skill: Test Sharding'
 ---
 
 # Test Sharding

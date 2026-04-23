@@ -25,6 +25,7 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 **When:** Validate interaction flows, identify friction points.
 
 **Protocol:**
+
 - Recruit 5-8 participants per platform (iOS/Android)
 - Create task scenarios (e.g., "Find and purchase item X")
 - Observe without leading ("What would you do next?" not "Would you tap here?")
@@ -38,6 +39,7 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 **When:** Measure impact of design changes on key metrics.
 
 **Protocol:**
+
 - Define hypothesis: "Changing X will improve Y by Z%"
 - Identify primary metric (e.g., conversion rate, retention)
 - Set sample size for statistical power (typically 80% power, 95% confidence)
@@ -51,6 +53,7 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 **When:** Understand user mental models, motivations, pain points.
 
 **Protocol:**
+
 - Recruit 8-12 participants representing target segments
 - Semi-structured interviews (30-45 min)
 - Ask open-ended questions ("Tell me about the last time you...")
@@ -64,6 +67,7 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 **When:** Understand behavior over time in natural context.
 
 **Protocol:**
+
 - Recruit 10-15 participants
 - Ask participants to log experiences over 1-2 weeks
 - Provide prompts (e.g., "When did you use the app today? What were you trying to do?")
@@ -76,16 +80,19 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 ### When to Trust Data vs. Intuition
 
 **Trust quantitative data when:**
+
 - Sample size is sufficient (n > 100 per variant for A/B tests)
 - Metric directly measures user value (retention, task success)
 - Result is statistically significant (p < 0.05)
 
 **Trust qualitative research when:**
+
 - Understanding WHY behind quantitative results
 - Exploring new problem spaces
 - Identifying unmet needs
 
 **Trust design intuition when:**
+
 - Violating platform conventions (users expect iOS/Android patterns)
 - Accessibility requirements (non-negotiable)
 - Ethical concerns (dark patterns may test well but harm users)
@@ -102,12 +109,14 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 ## Quality Standards
 
 **Usability Testing:**
+
 - [ ] Recruited representative users (not internal employees)
 - [ ] Tested on actual devices (not desktop simulators)
 - [ ] Observed without leading participants
 - [ ] Identified severity of issues (critical/major/minor)
 
 **A/B Experiments:**
+
 - [ ] Defined hypothesis upfront
 - [ ] Calculated required sample size
 - [ ] Ran for sufficient duration (minimum 1 week)
@@ -115,6 +124,7 @@ Ground design decisions in user evidence rather than intuition, using mixed-meth
 - [ ] Considered secondary metrics (no unintended harm)
 
 **Qualitative Research:**
+
 - [ ] Asked open-ended questions
 - [ ] Probed for specifics (not accepting vague answers)
 - [ ] Recorded and transcribed

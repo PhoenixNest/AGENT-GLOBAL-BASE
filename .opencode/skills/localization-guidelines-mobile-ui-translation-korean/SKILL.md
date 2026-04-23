@@ -1,6 +1,6 @@
 ---
 name: localization-guidelines-mobile-ui-translation-korean
-description: "Localization skill: Mobile Ui Translation Korean"
+description: 'Localization skill: Mobile Ui Translation Korean'
 ---
 
 # Mobile UI Translation

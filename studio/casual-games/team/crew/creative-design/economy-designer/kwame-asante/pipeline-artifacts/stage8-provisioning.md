@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All provisioning items complete. Candidate onboarded successfully."
-candidate_name: "Kwame Asante"
-candidate_id: "G34"
-entity_type: "studio"
-stage: "stage-8"
-division: "creative-design"
-role: "economy-designer"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All provisioning items complete. Candidate onboarded successfully.'
+candidate_name: 'Kwame Asante'
+candidate_id: 'G34'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'creative-design'
+role: 'economy-designer'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Kwame Asante (G34)

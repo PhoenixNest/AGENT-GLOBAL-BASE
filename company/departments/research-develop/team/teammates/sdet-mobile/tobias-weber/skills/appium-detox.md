@@ -96,16 +96,16 @@ def test_login_flow(driver):
 **3. iOS Test (JavaScript — WebDriverIO)**
 
 ```javascript
-const wdio = require("webdriverio");
+const wdio = require('webdriverio');
 
 const opts = {
   port: 4723,
   capabilities: {
-    platformName: "iOS",
-    platformVersion: "17.0",
-    deviceName: "iPhone 15",
-    app: "/path/to/MyApp.app",
-    automationName: "XCUITest",
+    platformName: 'iOS',
+    platformVersion: '17.0',
+    deviceName: 'iPhone 15',
+    app: '/path/to/MyApp.app',
+    automationName: 'XCUITest',
     noReset: false,
     fullReset: true,
     newCommandTimeout: 120,
@@ -118,30 +118,27 @@ async function runTest() {
 
   try {
     // Login flow
-    const emailField = await driver.$("~emailField");
-    await emailField.setValue("test@company.com");
+    const emailField = await driver.$('~emailField');
+    await emailField.setValue('test@company.com');
 
-    const passwordField = await driver.$("~passwordField");
-    await passwordField.setValue("SecurePass123!");
+    const passwordField = await driver.$('~passwordField');
+    await passwordField.setValue('SecurePass123!');
 
-    const loginButton = await driver.$("~loginButton");
+    const loginButton = await driver.$('~loginButton');
     await loginButton.click();
 
     // Wait for home screen
-    const homeTitle = await driver.$("~homeScreenTitle");
+    const homeTitle = await driver.$('~homeScreenTitle');
     await homeTitle.waitForExist({ timeout: 15000 });
     const text = await homeTitle.getText();
-    console.assert(
-      text.includes("Welcome"),
-      `Expected welcome message, got: ${text}`,
-    );
+    console.assert(text.includes('Welcome'), `Expected welcome message, got: ${text}`);
 
     // Scroll test
-    const productList = await driver.$("~productList");
+    const productList = await driver.$('~productList');
     await productList.swipeUp();
 
     // Verify last item visible
-    const lastItem = await driver.$("~product-item-99");
+    const lastItem = await driver.$('~product-item-99');
     await lastItem.waitForDisplayed({ timeout: 5000 });
   } finally {
     await driver.deleteSession();
@@ -204,49 +201,49 @@ def test_legacy_screen_interaction(driver):
 module.exports = {
   testRunner: {
     args: {
-      $0: "jest",
-      config: "e2e/jest.config.js",
+      $0: 'jest',
+      config: 'e2e/jest.config.js',
     },
     jest: {
       setupTimeout: 300000, // 5 min for build + launch
     },
   },
   apps: {
-    "ios.debug": {
-      type: "ios.app",
-      binaryPath: "ios/build/Build/Products/Debug-iphonesimulator/MyApp.app",
+    'ios.debug': {
+      type: 'ios.app',
+      binaryPath: 'ios/build/Build/Products/Debug-iphonesimulator/MyApp.app',
       build:
-        "xcodebuild -workspace ios/MyApp.xcworkspace -scheme MyApp -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        'xcodebuild -workspace ios/MyApp.xcworkspace -scheme MyApp -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build',
     },
-    "android.debug": {
-      type: "android.apk",
-      binaryPath: "android/app/build/outputs/apk/debug/app-debug.apk",
+    'android.debug': {
+      type: 'android.apk',
+      binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
       build:
-        "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..',
     },
   },
   devices: {
     simulator: {
-      type: "ios.simulator",
+      type: 'ios.simulator',
       device: {
-        type: "iPhone 15",
+        type: 'iPhone 15',
       },
     },
     emulator: {
-      type: "android.emulator",
+      type: 'android.emulator',
       device: {
-        avdName: "Pixel_6_API_34",
+        avdName: 'Pixel_6_API_34',
       },
     },
   },
   configurations: {
-    "ios.sim.debug": {
-      device: "simulator",
-      app: "ios.debug",
+    'ios.sim.debug': {
+      device: 'simulator',
+      app: 'ios.debug',
     },
-    "android.emu.debug": {
-      device: "emulator",
-      app: "android.debug",
+    'android.emu.debug': {
+      device: 'emulator',
+      app: 'android.debug',
     },
   },
 };
@@ -256,31 +253,31 @@ module.exports = {
 
 ```javascript
 module.exports = {
-  rootDir: "..",
-  testMatch: ["<rootDir>/e2e/**/*.test.js"],
+  rootDir: '..',
+  testMatch: ['<rootDir>/e2e/**/*.test.js'],
   testTimeout: 120000,
   maxWorkers: 1,
-  globalSetup: "detox/runners/jest/globalSetup",
-  globalTeardown: "detox/runners/jest/globalTeardown",
-  reporters: ["detox/runners/jest/reporter"],
-  testEnvironment: "detox/runners/jest/testEnvironment",
+  globalSetup: 'detox/runners/jest/globalSetup',
+  globalTeardown: 'detox/runners/jest/globalTeardown',
+  reporters: ['detox/runners/jest/reporter'],
+  testEnvironment: 'detox/runners/jest/testEnvironment',
   verbose: true,
-  setupFilesAfterEnv: ["<rootDir>/e2e/init.js"],
+  setupFilesAfterEnv: ['<rootDir>/e2e/init.js'],
 };
 ```
 
 **3. Test Initialization (`e2e/init.js`)**
 
 ```javascript
-const detox = require("detox");
-const adapter = require("detox/runners/jest/adapter");
+const detox = require('detox');
+const adapter = require('detox/runners/jest/adapter');
 
 jest.setTimeout(300000);
 
 beforeAll(async () => {
   await detox.init();
   await device.launchApp({
-    permissions: { notifications: "YES", camera: "YES", photos: "YES" },
+    permissions: { notifications: 'YES', camera: 'YES', photos: 'YES' },
     launchArgs: { uiTestingMode: true },
   });
 });
@@ -298,47 +295,47 @@ afterAll(async () => {
 **4. Standard Test Suite**
 
 ```javascript
-describe("Checkout Flow", () => {
+describe('Checkout Flow', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
     await loginAsTestUser();
   });
 
-  it("should complete purchase with valid card", async () => {
+  it('should complete purchase with valid card', async () => {
     // Navigate to checkout
-    await element(by.id("cartButton")).tap();
-    await element(by.id("checkoutButton")).tap();
+    await element(by.id('cartButton')).tap();
+    await element(by.id('checkoutButton')).tap();
 
     // Fill payment form
-    await element(by.id("cardNumberInput")).typeText("4111111111111111");
-    await element(by.id("expiryInput")).typeText("1228");
-    await element(by.id("cvvInput")).typeText("123");
+    await element(by.id('cardNumberInput')).typeText('4111111111111111');
+    await element(by.id('expiryInput')).typeText('1228');
+    await element(by.id('cvvInput')).typeText('123');
 
     // Submit
-    await element(by.id("payButton")).tap();
+    await element(by.id('payButton')).tap();
 
     // Verify confirmation (Detox auto-waits — no explicit wait needed)
-    await expect(element(by.id("orderConfirmation"))).toBeVisible();
-    await expect(element(by.text("Order confirmed"))).toBeVisible();
+    await expect(element(by.id('orderConfirmation'))).toBeVisible();
+    await expect(element(by.text('Order confirmed'))).toBeVisible();
   });
 
-  it("should show error for expired card", async () => {
-    await element(by.id("cartButton")).tap();
-    await element(by.id("checkoutButton")).tap();
+  it('should show error for expired card', async () => {
+    await element(by.id('cartButton')).tap();
+    await element(by.id('checkoutButton')).tap();
 
-    await element(by.id("cardNumberInput")).typeText("4000000000000002");
-    await element(by.id("payButton")).tap();
+    await element(by.id('cardNumberInput')).typeText('4000000000000002');
+    await element(by.id('payButton')).tap();
 
-    await expect(element(by.id("errorBanner"))).toBeVisible();
-    await expect(element(by.text("Card expired"))).toBeVisible();
+    await expect(element(by.id('errorBanner'))).toBeVisible();
+    await expect(element(by.text('Card expired'))).toBeVisible();
   });
 });
 
 async function loginAsTestUser() {
-  await element(by.id("emailField")).typeText("test@company.com");
-  await element(by.id("passwordField")).typeText("SecurePass123!");
-  await element(by.id("loginButton")).tap();
-  await expect(element(by.id("homeScreenTitle"))).toBeVisible();
+  await element(by.id('emailField')).typeText('test@company.com');
+  await element(by.id('passwordField')).typeText('SecurePass123!');
+  await element(by.id('loginButton')).tap();
+  await expect(element(by.id('homeScreenTitle'))).toBeVisible();
 }
 ```
 
@@ -348,10 +345,7 @@ async function loginAsTestUser() {
 // Mock server setup (using MSW or custom mock)
 beforeAll(async () => {
   // Blacklist real API endpoints — Detox will wait for these to settle
-  await device.setURLBlacklist([
-    ".*api\\.company\\.com.*",
-    ".*analytics\\.company\\.com.*",
-  ]);
+  await device.setURLBlacklist(['.*api\\.company\\.com.*', '.*analytics\\.company\\.com.*']);
 });
 
 // Using mock-server in the app's debug build
@@ -360,15 +354,15 @@ beforeEach(async () => {
   await device.launchApp({
     launchArgs: {
       uiTestingMode: true,
-      mockApiBaseUrl: "http://localhost:8080",
+      mockApiBaseUrl: 'http://localhost:8080',
     },
     newInstance: true,
   });
 
   // Configure mock responses
-  await mockServer.post("/api/v1/orders", {
+  await mockServer.post('/api/v1/orders', {
     status: 201,
-    body: { orderId: "ORD-12345", status: "confirmed" },
+    body: { orderId: 'ORD-12345', status: 'confirmed' },
   });
 });
 ```
@@ -376,36 +370,36 @@ beforeEach(async () => {
 **6. Scrollable List Testing**
 
 ```javascript
-it("should scroll to find specific item", async () => {
-  const scrollView = element(by.type("RCTScrollView"));
+it('should scroll to find specific item', async () => {
+  const scrollView = element(by.type('RCTScrollView'));
 
   // Swipe up until target element is visible
-  await waitFor(element(by.id("product-item-special")))
+  await waitFor(element(by.id('product-item-special')))
     .toBeVisible()
     .whileElement(scrollView)
-    .scroll(200, "down");
+    .scroll(200, 'down');
 
-  await expect(element(by.id("product-item-special"))).toBeVisible();
-  await element(by.id("product-item-special")).tap();
+  await expect(element(by.id('product-item-special'))).toBeVisible();
+  await element(by.id('product-item-special')).tap();
 
   // Verify detail screen
-  await expect(element(by.id("productDetailTitle"))).toBeVisible();
+  await expect(element(by.id('productDetailTitle'))).toBeVisible();
 });
 ```
 
 **7. Deep Link Testing**
 
 ```javascript
-it("should navigate to product detail via deep link", async () => {
+it('should navigate to product detail via deep link', async () => {
   await device.launchApp({
     newInstance: true,
-    url: "myapp://product/12345",
+    url: 'myapp://product/12345',
     launchArgs: { uiTestingMode: true },
   });
 
   // App should open directly to product detail
-  await expect(element(by.id("productDetailTitle"))).toBeVisible();
-  await expect(element(by.text("Product 12345"))).toBeVisible();
+  await expect(element(by.id('productDetailTitle'))).toBeVisible();
+  await expect(element(by.text('Product 12345'))).toBeVisible();
 });
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-network-security-fundamentals
-description: "Devops skill: Network Security Fundamentals"
+description: 'Devops skill: Network Security Fundamentals'
 ---
 
 # Network Security Fundamentals

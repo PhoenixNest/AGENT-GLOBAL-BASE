@@ -40,6 +40,7 @@ Deprioritize anything scoring ≤ 2 on both. Escalate to CEO anything scoring 5/
 ### Step 3 — Assess technical complexity
 
 Run a working session with the engineering lead. Produce a one-page complexity assessment covering:
+
 - Estimated implementation scope (S/M/L/XL)
 - Platform-specific risks (iOS vs. Android behavioral differences, OS version constraints, API deprecations)
 - Third-party dependencies and their reliability
@@ -47,6 +48,7 @@ Run a working session with the engineering lead. Produce a one-page complexity a
 ### Step 4 — Set success and kill criteria
 
 Every roadmap item must have:
+
 - A primary metric (what moves if this works)
 - A kill condition (what triggers us to stop)
 - A measurement window (how long before we decide)

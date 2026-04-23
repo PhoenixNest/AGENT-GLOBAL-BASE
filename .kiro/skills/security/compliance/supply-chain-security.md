@@ -96,7 +96,7 @@ name: Security — SBOM Generation
 on:
   push:
     branches: [main]
-    tags: ["v*"]
+    tags: ['v*']
 
 jobs:
   generate-sbom:
@@ -245,7 +245,7 @@ security cms -D -i embedded.mobileprovision
 name: Security — SLSA L3 Build
 on:
   push:
-    tags: ["v*"]
+    tags: ['v*']
 
 permissions:
   id-token: write # For keyless signing
@@ -353,7 +353,7 @@ actions:
 name: Security — Action Vetting
 on:
   pull_request:
-    paths: [".github/workflows/**"]
+    paths: ['.github/workflows/**']
 
 jobs:
   check-approved-actions:
@@ -405,7 +405,7 @@ npm audit --json | jq '.advisories[] | select(.module_name | test("^[a-z]{1,2}[0
 name: Security — Dependency Lock Verification
 on:
   pull_request:
-    paths: ["**/build.gradle", "**/Podfile", "**/pubspec.yaml"]
+    paths: ['**/build.gradle', '**/Podfile', '**/pubspec.yaml']
 
 jobs:
   verify-lock:

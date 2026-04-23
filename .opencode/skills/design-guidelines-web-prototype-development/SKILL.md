@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-web-prototype-development
-description: "Design skill: Web Prototype Development"
+description: 'Design skill: Web Prototype Development'
 ---
 
 # Web Prototype Development

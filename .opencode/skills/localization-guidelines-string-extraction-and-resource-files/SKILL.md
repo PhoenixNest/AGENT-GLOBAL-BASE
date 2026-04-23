@@ -1,6 +1,6 @@
 ---
 name: localization-guidelines-string-extraction-and-resource-files
-description: "Localization skill: String Extraction And Resource Files"
+description: 'Localization skill: String Extraction And Resource Files'
 ---
 
 # String Extraction and Resource Files

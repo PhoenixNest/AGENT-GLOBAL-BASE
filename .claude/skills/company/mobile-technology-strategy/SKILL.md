@@ -86,29 +86,34 @@ Continuously research, evaluate, and select mobile technologies that establish c
 # Technology Selection: [Technology Name]
 
 ## Executive Summary
+
 [2-3 sentences: What are we selecting and why?]
 
 ## Business Context
+
 - Problem: What business need drives this?
 - Opportunity: What advantage does this create?
 - Timeline: When do we need this?
 - Budget: What resources are available?
 
 ## Options Evaluated
-| Criterion | Weight | Option 1 | Option 2 | Option 3 |
-|-----------|--------|----------|----------|----------|
-| Performance | 25% | 4/5 | 3/5 | 5/5 |
-| Maturity | 20% | 5/5 | 3/5 | 2/5 |
-| Team Fit | 20% | 3/5 | 5/5 | 2/5 |
-| Cost | 15% | 4/5 | 4/5 | 5/5 |
-| Ecosystem | 20% | 5/5 | 3/5 | 3/5 |
-| **Total** | | **4.15** | **3.65** | **3.45** |
+
+| Criterion   | Weight | Option 1 | Option 2 | Option 3 |
+| ----------- | ------ | -------- | -------- | -------- |
+| Performance | 25%    | 4/5      | 3/5      | 5/5      |
+| Maturity    | 20%    | 5/5      | 3/5      | 2/5      |
+| Team Fit    | 20%    | 3/5      | 5/5      | 2/5      |
+| Cost        | 15%    | 4/5      | 4/5      | 5/5      |
+| Ecosystem   | 20%    | 5/5      | 3/5      | 3/5      |
+| **Total**   |        | **4.15** | **3.65** | **3.45** |
 
 ## Recommendation
+
 **Selected: [Option Name]**
 [2-3 paragraphs explaining why]
 
 **Trade-offs Accepted:**
+
 - [What we're giving up]
 
 **Risks and Mitigations:**
@@ -116,15 +121,18 @@ Continuously research, evaluate, and select mobile technologies that establish c
 |------|------------|--------|------------|
 
 ## Implementation Plan
+
 1. **Phase 1**: [Pilot/POC]
 2. **Phase 2**: [Limited rollout]
 3. **Phase 3**: [Full adoption]
 
 ## Success Metrics
+
 - [Metric 1]: [Target]
 - [Metric 2]: [Target]
 
 ## Decision Authority
+
 - Recommended by: CTO
 - Reviewed by: CIO, CPO
 - Date: [YYYY-MM-DD]

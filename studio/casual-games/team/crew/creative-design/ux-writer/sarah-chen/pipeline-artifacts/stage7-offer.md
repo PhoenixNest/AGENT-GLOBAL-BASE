@@ -1,12 +1,12 @@
 ---
-document_id: "**"
-generated_at: "**"
-candidate_name: "Offer Package"
-entity_type: "studio"
-stage: "stage-7"
-division: "creative-design"
-role: "ux-writer"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+candidate_name: 'Offer Package'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'creative-design'
+role: 'ux-writer'
+document_type: 'Offer Document'
 ---
 
 # Stage 7: Offer Package

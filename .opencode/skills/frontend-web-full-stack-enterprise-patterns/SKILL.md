@@ -1,6 +1,6 @@
 ---
 name: frontend-web-full-stack-enterprise-patterns
-description: "Frontend Web skill: Enterprise Patterns"
+description: 'Frontend Web skill: Enterprise Patterns'
 ---
 
 # Enterprise Patterns

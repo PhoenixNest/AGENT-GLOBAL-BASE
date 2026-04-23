@@ -1,11 +1,11 @@
 ---
-title: "Data Pipeline Ownership: Kafka → Data Lake → BI"
-owner: "Dr. Priya Mehta, CIO"
-created: "2026-04-12"
-status: "Draft"
-stage: "4"
-audit-condition: "C4"
-tags: ["data-pipeline", "kafka", "data-lake", "bi", "ownership", "analytics"]
+title: 'Data Pipeline Ownership: Kafka → Data Lake → BI'
+owner: 'Dr. Priya Mehta, CIO'
+created: '2026-04-12'
+status: 'Draft'
+stage: '4'
+audit-condition: 'C4'
+tags: ['data-pipeline', 'kafka', 'data-lake', 'bi', 'ownership', 'analytics']
 ---
 
 # Data Pipeline Ownership: Kafka → Data Lake → BI

@@ -1,6 +1,6 @@
 ---
 name: backend-cloud-api-testing
-description: "Backend skill: Api Testing"
+description: 'Backend skill: Api Testing'
 ---
 
 # API Testing — REST, GraphQL & Authentication Validation

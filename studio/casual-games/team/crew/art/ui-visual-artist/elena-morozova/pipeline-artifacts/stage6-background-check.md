@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Background check CLEAR. Proceeding to Stage 7."
-candidate_name: "Elena Morozova"
-candidate_id: "G21"
-entity_type: "studio"
-stage: "stage-6"
-division: "art"
-role: "ui-visual-artist"
-document_type: "Background Check"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Background check CLEAR. Proceeding to Stage 7.'
+candidate_name: 'Elena Morozova'
+candidate_id: 'G21'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'art'
+role: 'ui-visual-artist'
+document_type: 'Background Check'
 ---
 
 # Background Check Report — Elena Morozova (G21)

@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All assessments completed. Composite Score 4.370/5 (90th percentile). Proceeding to Stage 5."
-candidate_name: "Associate Producer"
-candidate_id: "G35"
-entity_type: "studio"
-stage: "stage-4"
-division: "production"
-role: "associate-producer"
-document_type: "Interview Scores"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All assessments completed. Composite Score 4.370/5 (90th percentile). Proceeding to Stage 5.'
+candidate_name: 'Associate Producer'
+candidate_id: 'G35'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'production'
+role: 'associate-producer'
+document_type: 'Interview Scores'
 ---
 
 # Interview Scores — Associate Producer (G35)

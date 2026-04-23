@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer extended and accepted. Proceeding to Stage 8."
-candidate_name: "Lena Muller"
-candidate_id: "G35"
-entity_type: "studio"
-stage: "stage-7"
-division: "production"
-role: "associate-producer"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer extended and accepted. Proceeding to Stage 8.'
+candidate_name: 'Lena Muller'
+candidate_id: 'G35'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'production'
+role: 'associate-producer'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Lena Muller (G35)

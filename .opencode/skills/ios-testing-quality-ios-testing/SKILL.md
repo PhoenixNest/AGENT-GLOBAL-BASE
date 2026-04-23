@@ -1,6 +1,6 @@
 ---
 name: ios-testing-quality-ios-testing
-description: "Ios skill: Ios Testing"
+description: 'Ios skill: Ios Testing'
 ---
 
 # iOS Testing

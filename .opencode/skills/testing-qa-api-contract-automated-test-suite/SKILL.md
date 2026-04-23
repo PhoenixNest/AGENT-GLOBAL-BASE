@@ -1,6 +1,6 @@
 ---
 name: testing-qa-api-contract-automated-test-suite
-description: "Testing Qa skill: Automated Test Suite"
+description: 'Testing Qa skill: Automated Test Suite'
 ---
 
 # Automated Test Suite

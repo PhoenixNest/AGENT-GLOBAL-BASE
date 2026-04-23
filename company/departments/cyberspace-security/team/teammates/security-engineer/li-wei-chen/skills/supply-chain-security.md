@@ -9,14 +9,14 @@ Comprehensive methodology for securing the software supply chain from source cod
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| SBOM Generation & Management | Creating and maintaining machine-readable inventories of all software components | Generates CycloneDX and SPDX SBOMs for every build; achieves 100% dependency coverage (direct + transitive); integrates SBOM generation into CI/CD with zero build-time overhead |
-| Artifact Signing & Verification | Cryptographic signing of build artifacts using Sigstore/cosign | Signs all release artifacts (APK, AAB, IPA) with cosign; implements Sigstore keyless signing with OIDC; verifies signatures in distribution pipeline |
-| SLSA Framework Implementation | Implementing supply chain security levels per SLSA specification | Achieves SLSA Level 3 for all build pipelines; implements provenance generation; enforces hermetic builds; documents SLSA compliance for auditors |
-| CI/CD Action Vetting | Evaluating and approving third-party CI/CD actions and plugins | Vets all GitHub Actions before use; maintains approved actions registry; pins actions to commit SHA; monitors for action compromise via Dependabot |
-| Dependency Verification | Ensuring all dependencies are authentic and untampered | Implements dependency lock files; verifies checksums; monitors for typosquatting; implements allowlist-based dependency approval |
-| Build Pipeline Hardening | Securing the build environment against tampering | Implements isolated build runners; enforces least-privilege access; secures build secrets; implements build reproducibility checks |
+| Dimension                       | Description                                                                      | Proficiency Indicators                                                                                                                                                           |
+| ------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SBOM Generation & Management    | Creating and maintaining machine-readable inventories of all software components | Generates CycloneDX and SPDX SBOMs for every build; achieves 100% dependency coverage (direct + transitive); integrates SBOM generation into CI/CD with zero build-time overhead |
+| Artifact Signing & Verification | Cryptographic signing of build artifacts using Sigstore/cosign                   | Signs all release artifacts (APK, AAB, IPA) with cosign; implements Sigstore keyless signing with OIDC; verifies signatures in distribution pipeline                             |
+| SLSA Framework Implementation   | Implementing supply chain security levels per SLSA specification                 | Achieves SLSA Level 3 for all build pipelines; implements provenance generation; enforces hermetic builds; documents SLSA compliance for auditors                                |
+| CI/CD Action Vetting            | Evaluating and approving third-party CI/CD actions and plugins                   | Vets all GitHub Actions before use; maintains approved actions registry; pins actions to commit SHA; monitors for action compromise via Dependabot                               |
+| Dependency Verification         | Ensuring all dependencies are authentic and untampered                           | Implements dependency lock files; verifies checksums; monitors for typosquatting; implements allowlist-based dependency approval                                                 |
+| Build Pipeline Hardening        | Securing the build environment against tampering                                 | Implements isolated build runners; enforces least-privilege access; secures build secrets; implements build reproducibility checks                                               |
 
 ## Execution Guidance
 
@@ -61,6 +61,7 @@ syft platforms/android/code/app/build/outputs/apk/release/app-release.apk \
 
 **SBOM Content Requirements:**
 Every SBOM must include:
+
 - Component name, version, and type (library, framework, application)
 - Supplier information (vendor, maintainer)
 - Licenses (SPDX license identifier)
@@ -203,6 +204,7 @@ cosign sign-blob \
 **iOS App Signing:**
 
 iOS uses Apple's code signing infrastructure. Ensure:
+
 - Distribution certificates are stored in secure keychain (not committed to repo)
 - Provisioning profiles are regenerated automatically (CI/CD integration with App Store Connect API)
 - `codesign` verification passes before distribution
@@ -222,12 +224,12 @@ security cms -D -i embedded.mobileprovision
 
 **SLSA Level Requirements:**
 
-| Requirement | SLSA L1 | SLSA L2 | SLSA L3 | SLSA L4 |
-|-------------|---------|---------|---------|---------|
-| **Build Process** | Scripted build | Version-controlled build | Hermetic build | Two-person review |
-| **Provenance** | Available | Authenticated | Non-falsifiable | Tamper-resistant |
-| **Source** | Version-controlled | Verified history | Verified branch protection | Verified hermetic source |
-| **Build Platform** | Same service | Same service | Isolated build | Isolated + verified |
+| Requirement        | SLSA L1            | SLSA L2                  | SLSA L3                    | SLSA L4                  |
+| ------------------ | ------------------ | ------------------------ | -------------------------- | ------------------------ |
+| **Build Process**  | Scripted build     | Version-controlled build | Hermetic build             | Two-person review        |
+| **Provenance**     | Available          | Authenticated            | Non-falsifiable            | Tamper-resistant         |
+| **Source**         | Version-controlled | Verified history         | Verified branch protection | Verified hermetic source |
+| **Build Platform** | Same service       | Same service             | Isolated build             | Isolated + verified      |
 
 **Target: SLSA Level 3 for all mobile app builds.**
 
@@ -241,7 +243,7 @@ on:
     tags: ['v*']
 
 permissions:
-  id-token: write   # For keyless signing
+  id-token: write # For keyless signing
   contents: read
   actions: read
 
@@ -251,10 +253,10 @@ jobs:
     # SLSA L3 requires isolated, ephemeral build environment
     container:
       image: our-registry.example.com/android-build:latest
-      options: --network=none  # Hermetic build — no network after deps fetched
+      options: --network=none # Hermetic build — no network after deps fetched
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # Pinned to SHA (SLSA requirement)
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # Pinned to SHA (SLSA requirement)
 
       # Pre-fetched dependencies (network allowed)
       - name: Fetch Dependencies
@@ -298,6 +300,7 @@ slsa-verifier verify-artifact \
 **Every GitHub Action must pass vetting before use:**
 
 **Vetting Checklist:**
+
 1. [ ] **Source verification**: Action source code is publicly auditable
 2. [ ] **Author reputation**: Published by trusted organization or individual with verified identity
 3. [ ] **Version pinning**: Pinned to specific commit SHA (not `@v2` or `@main`)
@@ -313,7 +316,7 @@ slsa-verifier verify-artifact \
 # Maintained by Li Wei Chen — Supply Chain Security
 actions:
   actions/checkout:
-    sha: b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.7
+    sha: b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.7
     approved-by: li-wei-chen
     approved-date: 2026-03-15
     last-reviewed: 2026-03-15
@@ -321,7 +324,7 @@ actions:
     risk-level: low
 
   actions/upload-artifact:
-    sha: 65465776419d6a896ff3000970e7d35117509b68  # v4.3.0
+    sha: 65465776419d6a896ff3000970e7d35117509b68 # v4.3.0
     approved-by: li-wei-chen
     approved-date: 2026-03-15
     last-reviewed: 2026-03-15
@@ -329,7 +332,7 @@ actions:
     risk-level: low
 
   anchore/scan-action:
-    sha: 334813936482935266612031e241a33f950c8f08  # v3.3.0
+    sha: 334813936482935266612031e241a33f950c8f08 # v3.3.0
     approved-by: li-wei-chen
     approved-date: 2026-03-20
     last-reviewed: 2026-03-20
@@ -445,23 +448,23 @@ allowed:
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 1** (SRD) | Defines supply chain security requirements: SBOM mandate, signing requirements, SLSA level targets |
-| **Stage 4** (Implementation Plan) | CI/CD pipeline design includes supply chain security controls; action vetting process documented |
-| **Stage 5** (Development) | SBOM generated on every build; dependencies monitored continuously; action vetting enforced |
-| **Stage 6** (Code Review) | Supply chain security review: SBOM completeness, signature verification, provenance validation |
-| **Stage 8** (Integrity Verification) | Verifies all artifacts are signed and verifiable; validates SLSA provenance; confirms SBOM accuracy |
-| **Stage 10** (Release Readiness) | Provides supply chain security sign-off: all artifacts signed, SBOMs generated, provenance verified, SLSA compliance confirmed |
+| Pipeline Stage                       | Application                                                                                                                    |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Stage 1** (SRD)                    | Defines supply chain security requirements: SBOM mandate, signing requirements, SLSA level targets                             |
+| **Stage 4** (Implementation Plan)    | CI/CD pipeline design includes supply chain security controls; action vetting process documented                               |
+| **Stage 5** (Development)            | SBOM generated on every build; dependencies monitored continuously; action vetting enforced                                    |
+| **Stage 6** (Code Review)            | Supply chain security review: SBOM completeness, signature verification, provenance validation                                 |
+| **Stage 8** (Integrity Verification) | Verifies all artifacts are signed and verifiable; validates SLSA provenance; confirms SBOM accuracy                            |
+| **Stage 10** (Release Readiness)     | Provides supply chain security sign-off: all artifacts signed, SBOMs generated, provenance verified, SLSA compliance confirmed |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **SBOM Coverage** | 100% of production dependencies (direct + transitive) included in SBOM |
-| **Artifact Signing** | 100% of release artifacts signed with cosign/Sigstore; signature verifiable by any party |
-| **SLSA Compliance** | SLSA Level 3 achieved for all production builds |
-| **Action Vetting** | 100% of CI/CD actions approved, pinned to SHA, and monitored for updates |
+| Metric                      | Standard                                                                                             |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **SBOM Coverage**           | 100% of production dependencies (direct + transitive) included in SBOM                               |
+| **Artifact Signing**        | 100% of release artifacts signed with cosign/Sigstore; signature verifiable by any party             |
+| **SLSA Compliance**         | SLSA Level 3 achieved for all production builds                                                      |
+| **Action Vetting**          | 100% of CI/CD actions approved, pinned to SHA, and monitored for updates                             |
 | **Dependency Verification** | Zero typosquatting incidents; all dependencies match approved allowlist or have documented exception |
-| **Build Hermeticity** | Build reproducibility verified — identical source produces byte-identical artifacts |
-| **Provenance** | Every release artifact has non-falsifiable SLSA provenance attestation |
+| **Build Hermeticity**       | Build reproducibility verified — identical source produces byte-identical artifacts                  |
+| **Provenance**              | Every release artifact has non-falsifiable SLSA provenance attestation                               |

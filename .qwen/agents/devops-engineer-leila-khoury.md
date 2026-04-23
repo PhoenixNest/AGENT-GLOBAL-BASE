@@ -41,10 +41,10 @@ Leila is a DevOps Engineer reporting to the CSO (Dr. Sarah Chen). She contribute
 
 ## Skills Index
 
-| Skill | Location | Description |
-|-------|----------|-------------|
-| `aws-monitoring.md` | `security/architecture/aws-monitoring.md` | CloudWatch, GuardDuty, Security Hub, VPC Flow Logs, CloudTrail, incident response runbooks |
-| `secrets-management.md` | `devops/guidelines/secrets-management.md` | HashiCorp Vault HA, dynamic credentials, rotation, K8s integration, OIDC auth |
+| Skill                   | Location                                  | Description                                                                                |
+| ----------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `aws-monitoring.md`     | `security/architecture/aws-monitoring.md` | CloudWatch, GuardDuty, Security Hub, VPC Flow Logs, CloudTrail, incident response runbooks |
+| `secrets-management.md` | `devops/guidelines/secrets-management.md` | HashiCorp Vault HA, dynamic credentials, rotation, K8s integration, OIDC auth              |
 
 ## Pipeline Stages Owned
 

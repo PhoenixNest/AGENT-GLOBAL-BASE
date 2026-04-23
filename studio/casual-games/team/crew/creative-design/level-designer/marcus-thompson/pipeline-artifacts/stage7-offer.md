@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer accepted. Proceeding to Stage 8."
-candidate_name: "Marcus Thompson"
-candidate_id: "G27"
-entity_type: "studio"
-stage: "stage-7"
-division: "creative-design"
-role: "level-designer"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer accepted. Proceeding to Stage 8.'
+candidate_name: 'Marcus Thompson'
+candidate_id: 'G27'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'creative-design'
+role: 'level-designer'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Marcus Thompson (G27)

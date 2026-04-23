@@ -1,6 +1,6 @@
 ---
 name: backend-database-database-sharding
-description: "Backend skill: Database Sharding"
+description: 'Backend skill: Database Sharding'
 ---
 
 # Database Sharding

@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-ci-cd-optimization
-description: "Devops skill: Ci Cd Optimization"
+description: 'Devops skill: Ci Cd Optimization'
 ---
 
 # CI/CD Optimization
@@ -161,15 +161,15 @@ Parallelized pipeline (after optimization):
     - changes:
         - src/api/**/*
       variables:
-        TEST_SCOPE: "api"
+        TEST_SCOPE: 'api'
     - changes:
         - src/ui/**/*
       variables:
-        TEST_SCOPE: "ui"
+        TEST_SCOPE: 'ui'
     - changes:
         - src/shared/**/*
       variables:
-        TEST_SCOPE: "all"
+        TEST_SCOPE: 'all'
 
 # Dynamic test allocation based on historical duration
 test-shard:
@@ -299,7 +299,7 @@ build --disk_cache=/tmp/bazel-disk-cache
 name: Cache Warming
 on:
   schedule:
-    - cron: "0 2 * * *" # 2 AM daily
+    - cron: '0 2 * * *' # 2 AM daily
   workflow_dispatch:
 
 jobs:

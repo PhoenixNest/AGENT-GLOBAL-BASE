@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Jetpack Compose UI development, Android CI/CD pipeline optimization,
+description: Use for Jetpack Compose UI development, Android CI/CD pipeline optimization,
   and modern Kotlin Android development. Engage during Stage 5 (Development) for Compose
   screen implementation and CI/CD pipeline setup.
 mode: subagent

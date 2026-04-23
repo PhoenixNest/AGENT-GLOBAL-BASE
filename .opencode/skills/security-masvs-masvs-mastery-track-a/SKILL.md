@@ -1,6 +1,6 @@
 ---
 name: security-masvs-masvs-mastery-track-a
-description: "Security skill: Masvs Mastery Track A"
+description: 'Security skill: Masvs Mastery Track A'
 ---
 
 # MASVS Mastery Track A

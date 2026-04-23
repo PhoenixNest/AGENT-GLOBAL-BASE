@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile platform engineering leadership, KMP strategy, and mobile
+description: Use for mobile platform engineering leadership, KMP strategy, and mobile
   organization scaling. Engage during Stage 5 (Development) and Stage 8 (Integrity
   Verification) for mobile engineering strategy.
 mode: subagent

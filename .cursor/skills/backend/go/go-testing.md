@@ -450,7 +450,7 @@ exclude:
   paths:
     - "mock_.*\\.go$"
     - ".*_test\\.go$"
-    - "cmd/"
+    - 'cmd/'
 ```
 
 ### Test Best Practices

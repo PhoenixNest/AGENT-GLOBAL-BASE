@@ -1,15 +1,6 @@
 {
   "name": "ios-engineer-arjun-mehta",
   "description": "Use for iOS test automation, accessibility engineering, and performance profiling. Engage during Stage 5 (Development) for iOS test and accessibility implementation, Stage 6 (Code Review) for testing and accessibility conformance, and Stage 7 (Automated Testing) for iOS test execution.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/ios/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/ios/SKILL.md"]
 }

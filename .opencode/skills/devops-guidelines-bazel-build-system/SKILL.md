@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-bazel-build-system
-description: "Devops skill: Bazel Build System"
+description: 'Devops skill: Bazel Build System'
 ---
 
 # Bazel Build System

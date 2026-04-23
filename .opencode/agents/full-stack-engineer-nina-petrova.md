@@ -1,6 +1,5 @@
 ---
-description:
-  Use for rapid MVP development with React, Node.js, PostgreSQL, and PRD
+description: Use for rapid MVP development with React, Node.js, PostgreSQL, and PRD
   fluency. Engage during Stage 5 (Development) for full-stack MVP delivery and Stage
   4 (Implementation Plan) for PRD-to-spec translation.
 mode: subagent

@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3."
-candidate_name: "Economy Designer"
-candidate_id: "G34"
-entity_type: "studio"
-stage: "stage-2"
-division: "creative-design"
-role: "economy-designer"
-document_type: "Sourcing Shortlist"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3.'
+candidate_name: 'Economy Designer'
+candidate_id: 'G34'
+entity_type: 'studio'
+stage: 'stage-2'
+division: 'creative-design'
+role: 'economy-designer'
+document_type: 'Sourcing Shortlist'
 ---
 
 # Sourcing Shortlist — Economy Designer (G34)

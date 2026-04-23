@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile SDET test automation, mobile UI testing, and platform-specific
+description: Use for mobile SDET test automation, mobile UI testing, and platform-specific
   test tooling (Espresso, XCUITest, Maestro, Appium). Engage during Stage 5 (Development)
   for test automation infrastructure and Stage 7 (Automated Testing) for mobile test
   suite development and execution.

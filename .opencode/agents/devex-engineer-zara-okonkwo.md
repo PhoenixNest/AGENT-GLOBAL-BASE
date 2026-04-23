@@ -1,6 +1,5 @@
 ---
-description:
-  Use for CI/CD optimization, test infrastructure, and developer onboarding
+description: Use for CI/CD optimization, test infrastructure, and developer onboarding
   automation. Engage during Stage 5 (Development) for CI/CD infrastructure and Stage
   7 (Testing) for test infrastructure optimization.
 mode: subagent

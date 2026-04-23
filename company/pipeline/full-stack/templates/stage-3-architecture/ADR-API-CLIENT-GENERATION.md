@@ -58,15 +58,15 @@ paths:
             type: string
             format: uuid
       responses:
-        "200":
+        '200':
           description: User profile
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "404":
+                $ref: '#/components/schemas/User'
+        '404':
           description: User not found
-        "401":
+        '401':
           description: Unauthorized
 
 components:
@@ -120,8 +120,8 @@ npx openapi-diff api-spec/openapi-v1.2.2.yaml api-spec/openapi-v1.2.3.yaml --fai
 generatorName: typescript-axios
 outputDir: clients/typescript
 additionalProperties:
-  npmName: "@company/api-client"
-  npmVersion: "1.2.3"
+  npmName: '@company/api-client'
+  npmVersion: '1.2.3'
   supportsES6: true
   withInterfaces: true
   withSeparateModelsAndApi: true
@@ -134,10 +134,10 @@ additionalProperties:
 generatorName: swift5
 outputDir: clients/swift
 additionalProperties:
-  projectName: "CompanyAPIClient"
-  podAuthors: "Company Engineering"
-  podSummary: "Auto-generated API client for Company services"
-  responseAs: "Combine" # Use Combine framework for async/await
+  projectName: 'CompanyAPIClient'
+  podAuthors: 'Company Engineering'
+  podSummary: 'Auto-generated API client for Company services'
+  responseAs: 'Combine' # Use Combine framework for async/await
 ```
 
 #### Android (Kotlin)
@@ -147,10 +147,10 @@ additionalProperties:
 generatorName: kotlin
 outputDir: clients/kotlin
 additionalProperties:
-  groupId: "com.company.api"
-  artifactId: "client"
-  artifactVersion: "1.2.3"
-  library: "jvm-retrofit2"
+  groupId: 'com.company.api'
+  artifactId: 'client'
+  artifactVersion: '1.2.3'
+  library: 'jvm-retrofit2'
   useCoroutines: true
 ```
 
@@ -215,7 +215,7 @@ fi
 
 ```typescript
 // clients/typescript/src/ApiClient.ts
-import { Configuration, DefaultApi } from "./generated";
+import { Configuration, DefaultApi } from './generated';
 
 export class ApiClient {
   private api: DefaultApi;
@@ -236,9 +236,9 @@ export class ApiClient {
       if (error.response?.status === 404) {
         throw new NotFoundError(`User ${id} not found`);
       } else if (error.response?.status === 401) {
-        throw new AuthenticationError("Invalid token");
+        throw new AuthenticationError('Invalid token');
       } else {
-        throw new ApiError("Unknown error", error);
+        throw new ApiError('Unknown error', error);
       }
     }
   }
@@ -253,7 +253,7 @@ export class ApiClient {
         await sleep(Math.pow(2, i) * 1000); // 1s, 2s, 4s
       }
     }
-    throw new Error("Unreachable");
+    throw new Error('Unreachable');
   }
 }
 ```
@@ -348,7 +348,7 @@ name: Generate & Publish API Clients
 on:
   push:
     paths:
-      - "api-spec/openapi.yaml"
+      - 'api-spec/openapi.yaml'
 
 jobs:
   validate-spec:

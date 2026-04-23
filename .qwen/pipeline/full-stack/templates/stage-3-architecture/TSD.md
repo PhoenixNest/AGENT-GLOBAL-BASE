@@ -37,19 +37,19 @@
 
 ### 2.1 Web Framework Selection
 
-| Option        | Pros   | Cons   | TCO (24-month) | Lock-in Risk   | Verdict     |
-| ------------- | ------ | ------ | -------------- | -------------- | ----------- |
-| Next.js       | [List] | [List] | [$X]           | [Low/Med/High] | ✅ Selected |
-| Remix         | [List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
-| Vite + React  | [List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
+| Option       | Pros   | Cons   | TCO (24-month) | Lock-in Risk   | Verdict     |
+| ------------ | ------ | ------ | -------------- | -------------- | ----------- |
+| Next.js      | [List] | [List] | [$X]           | [Low/Med/High] | ✅ Selected |
+| Remix        | [List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
+| Vite + React | [List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
 
 ### 2.2 Backend Framework Selection
 
-| Option        | Pros   | Cons   | TCO (24-month) | Lock-in Risk   | Verdict     |
-| ------------- | ------ | ------ | -------------- | -------------- | ----------- |
-| Go net/http   | [List] | [List] | [$X]           | [Low/Med/High] | ✅ Selected |
-| Node.js/Express|[List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
-| Python/FastAPI|[List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
+| Option          | Pros   | Cons   | TCO (24-month) | Lock-in Risk   | Verdict     |
+| --------------- | ------ | ------ | -------------- | -------------- | ----------- |
+| Go net/http     | [List] | [List] | [$X]           | [Low/Med/High] | ✅ Selected |
+| Node.js/Express | [List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
+| Python/FastAPI  | [List] | [List] | [$X]           | [Low/Med/High] | ❌ Rejected |
 
 ### 2.3 [Technology Domain]
 
@@ -132,13 +132,13 @@
 
 > **Reference:** See Test Architecture Document (TAD) for full test strategy.
 
-| Layer             | Web                 | Android             | iOS                | Backend            | KMP Shared                           | Flutter                  |
-| ----------------- | ------------------- | ------------------- | ------------------ | ------------------ | ------------------------------------ | ------------------------ |
-| Unit tests        | Vitest + RTL        | JUnit 5 + MockK     | XCTest             | Go test / Jest     | kotlin.test                          | test                     |
-| Integration tests | Vitest + MSW        | JUnit + Robolectric | XCTest + mocks     | testcontainers     | kotlin.test                          | test + mocks             |
-| UI tests          | Playwright          | Espresso            | XCTest UI          | N/A                | N/A (delegated to platform adapters) | Flutter integration test |
-| E2E tests         | Playwright          | [Maestro / Appium]  | [Maestro / Appium] | k6 / Postman       | N/A                                  | [Maestro / Appium]       |
-| Performance tests | Lighthouse CI       | Android Profiler    | Xcode Instruments  | k6                 | N/A                                  | DevTools                 |
+| Layer             | Web           | Android             | iOS                | Backend        | KMP Shared                           | Flutter                  |
+| ----------------- | ------------- | ------------------- | ------------------ | -------------- | ------------------------------------ | ------------------------ |
+| Unit tests        | Vitest + RTL  | JUnit 5 + MockK     | XCTest             | Go test / Jest | kotlin.test                          | test                     |
+| Integration tests | Vitest + MSW  | JUnit + Robolectric | XCTest + mocks     | testcontainers | kotlin.test                          | test + mocks             |
+| UI tests          | Playwright    | Espresso            | XCTest UI          | N/A            | N/A (delegated to platform adapters) | Flutter integration test |
+| E2E tests         | Playwright    | [Maestro / Appium]  | [Maestro / Appium] | k6 / Postman   | N/A                                  | [Maestro / Appium]       |
+| Performance tests | Lighthouse CI | Android Profiler    | Xcode Instruments  | k6             | N/A                                  | DevTools                 |
 
 ---
 

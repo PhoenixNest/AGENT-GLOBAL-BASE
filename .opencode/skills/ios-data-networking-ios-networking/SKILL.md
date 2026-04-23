@@ -1,6 +1,6 @@
 ---
 name: ios-data-networking-ios-networking
-description: "Ios skill: Ios Networking"
+description: 'Ios skill: Ios Networking'
 ---
 
 # iOS Networking

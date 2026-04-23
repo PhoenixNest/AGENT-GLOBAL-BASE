@@ -1,6 +1,6 @@
 ---
 name: security-masvs-masvs-overview
-description: "Security skill: Masvs Overview"
+description: 'Security skill: Masvs Overview'
 ---
 
 # OWASP MASVS Overview

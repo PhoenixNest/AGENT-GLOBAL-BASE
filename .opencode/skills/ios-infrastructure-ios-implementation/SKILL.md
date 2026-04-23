@@ -1,6 +1,6 @@
 ---
 name: ios-infrastructure-ios-implementation
-description: "Ios skill: Ios Implementation"
+description: 'Ios skill: Ios Implementation'
 ---
 
 # iOS Implementation

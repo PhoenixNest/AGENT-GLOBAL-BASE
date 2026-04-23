@@ -9,26 +9,28 @@ Comprehensive methodology for conducting offensive security assessments against 
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| Static Analysis | Reverse engineering of APK/IPA binaries without execution | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |
-| Dynamic Analysis | Runtime instrumentation and behavioral analysis of running apps | Hooks 90%+ of target methods via Frida scripts in <2 hours; bypasses root/jailbreak detection, SSL pinning, and anti-debugging protections; traces cryptographic operations and key extraction at runtime |
-| Network Interception | MITM analysis of mobile app communication channels | Configures Burp Suite with mobile proxy + CA certificate pinning bypass; intercepts and mutates WebSocket, gRPC, and MQTT traffic; identifies insecure API endpoints and data exposure |
-| Reverse Engineering | Deep binary analysis for vulnerability discovery | Maps native code attack surfaces in ARM64/x86_64; identifies buffer overflows, format string vulns, and insecure IPC in shared libraries; reconstructs custom encryption protocols from disassembly |
-| Vulnerability Exploitation | Proof-of-concept exploit development | Develops working PoCs for identified vulnerabilities (insecure data storage, broken cryptography, intent hijacking, deep link abuse); demonstrates impact without causing data loss |
-| OWASP MASVS Assessment | Structured verification against MASVS controls | Maps every finding to specific MASVS requirement (V1–V8); produces assessment reports that directly feed Stage 6 Code Review and Stage 8 Integrity Verification gate criteria |
+| Dimension                  | Description                                                     | Proficiency Indicators                                                                                                                                                                                                    |
+| -------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Static Analysis            | Reverse engineering of APK/IPA binaries without execution       | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |
+| Dynamic Analysis           | Runtime instrumentation and behavioral analysis of running apps | Hooks 90%+ of target methods via Frida scripts in <2 hours; bypasses root/jailbreak detection, SSL pinning, and anti-debugging protections; traces cryptographic operations and key extraction at runtime                 |
+| Network Interception       | MITM analysis of mobile app communication channels              | Configures Burp Suite with mobile proxy + CA certificate pinning bypass; intercepts and mutates WebSocket, gRPC, and MQTT traffic; identifies insecure API endpoints and data exposure                                    |
+| Reverse Engineering        | Deep binary analysis for vulnerability discovery                | Maps native code attack surfaces in ARM64/x86_64; identifies buffer overflows, format string vulns, and insecure IPC in shared libraries; reconstructs custom encryption protocols from disassembly                       |
+| Vulnerability Exploitation | Proof-of-concept exploit development                            | Develops working PoCs for identified vulnerabilities (insecure data storage, broken cryptography, intent hijacking, deep link abuse); demonstrates impact without causing data loss                                       |
+| OWASP MASVS Assessment     | Structured verification against MASVS controls                  | Maps every finding to specific MASVS requirement (V1–V8); produces assessment reports that directly feed Stage 6 Code Review and Stage 8 Integrity Verification gate criteria                                             |
 
 ## Execution Guidance
 
 ### 1. Pre-Engagement Reconnaissance
 
 **Scope Definition:**
+
 - Confirm target app version(s), build numbers, and platform(s) (iOS, Android, or both)
 - Identify the app's security tier per SRD classification (e.g., financial data = MASVS Level 2 + MSTG)
 - Gather threat model from Stage 1 SRD to prioritize attack surfaces
 - Confirm rules of engagement: production vs. staging environment, data handling constraints
 
 **Information Gathering:**
+
 - Download target APK from Play Store (using `apktool` or third-party downloaders) or obtain IPA from TestFlight/enterprise distribution
 - Enumerate app's public attack surface: app store metadata, manifest-permission requests, deep link schemes, associated domains, public API endpoints
 - Review app's privacy policy, security.txt, and any published security documentation
@@ -37,6 +39,7 @@ Comprehensive methodology for conducting offensive security assessments against 
 ### 2. Static Analysis Phase
 
 **Automated Static Analysis with MobSF:**
+
 ```bash
 # Deploy MobSF (Docker recommended for reproducibility)
 docker pull opensecurity/mobile-security-framework-mobsf
@@ -48,6 +51,7 @@ curl -X POST -F "hash=<returned_hash>" http://localhost:8000/api/v1/scan
 ```
 
 **MobSF Output Review — Critical Checkpoints:**
+
 1. **Manifest analysis**: exported activities/services/receivers with missing permission guards; `android:allowBackup="true"`; `android:debuggable="true"`; cleartext traffic permitted
 2. **Code-level findings**: hardcoded API keys, AWS credentials, Firebase tokens; hardcoded encryption keys/IVs; insecure random number generation (`java.util.Random` vs `SecureRandom`)
 3. **WebView vulnerabilities**: `setJavaScriptEnabled(true)`, `addJavascriptInterface()`, missing `setAllowFileAccess(false)` — all potential RCE vectors
@@ -57,6 +61,7 @@ curl -X POST -F "hash=<returned_hash>" http://localhost:8000/api/v1/scan
 **Manual Static Analysis — Deep Dive:**
 
 **Jadx-GUI Decompilation:**
+
 ```bash
 jadx -d output/ --deobf --deobf-min 3 app-release.apk
 # --deobf enables deobfuscation; --deobf-min sets minimum name length
@@ -69,6 +74,7 @@ jadx -d output/ --deobf --deobf-min 3 app-release.apk
 - Review custom cryptographic implementations — flag any non-standard algorithms or home-grown key derivation
 
 **Native Library Analysis:**
+
 ```bash
 # Extract native libraries
 unzip app-release.apk "lib/*" -d native-libs/
@@ -88,6 +94,7 @@ ghidra native-libs/lib/arm64-v8a/libcrypto.so
 **Frida Instrumentation:**
 
 **Environment Setup:**
+
 ```bash
 pip install frida frida-tools objection
 # Verify device connectivity
@@ -97,58 +104,72 @@ frida-ps -U
 
 **Core Frida Scripts — Production Templates:**
 
-*Bypass SSL Pinning:*
+_Bypass SSL Pinning:_
+
 ```javascript
 // ssl-unpinning.js — Android OkHttp + NSURLSession bypass
-Java.perform(function() {
-    // OkHttp 3.x CertificatePinner check bypass
-    var CertificatePinner = Java.use('okhttp3.CertificatePinner');
-    CertificatePinner.check.overload('java.lang.String', 'java.util.List').implementation = function() {};
+Java.perform(function () {
+  // OkHttp 3.x CertificatePinner check bypass
+  var CertificatePinner = Java.use('okhttp3.CertificatePinner');
+  CertificatePinner.check.overload('java.lang.String', 'java.util.List').implementation =
+    function () {};
 
-    // TrustManager bypass — accept all certificates
-    var TrustManager = Java.registerClass({
-        name: 'com.example.TrustManager',
-        implements: [Java.use('javax.net.ssl.X509TrustManager')],
-        methods: [{
-            name: 'checkClientTrusted',
-            returnType: 'void',
-            argumentTypes: ['javax.security.cert.X509Certificate[]', 'java.lang.String']
-        }, {
-            name: 'checkServerTrusted',
-            returnType: 'void',
-            argumentTypes: ['javax.security.cert.X509Certificate[]', 'java.lang.String']
-        }, {
-            name: 'getAcceptedIssuers',
-            returnType: 'java.security.cert.X509Certificate[]',
-            argumentTypes: [],
-            implementation: function() { return []; }
-        }]
-    });
-    var SSLContext = Java.use('javax.net.ssl.SSLContext');
-    SSLContext.init.overload('[Ljavax.net.ssl.KeyManager;', '[Ljavax.net.ssl.TrustManager;', 'java.security.SecureRandom').implementation = function(km, tm, sr) {
-        this.init(km, [TrustManager.$new()], sr);
-    };
+  // TrustManager bypass — accept all certificates
+  var TrustManager = Java.registerClass({
+    name: 'com.example.TrustManager',
+    implements: [Java.use('javax.net.ssl.X509TrustManager')],
+    methods: [
+      {
+        name: 'checkClientTrusted',
+        returnType: 'void',
+        argumentTypes: ['javax.security.cert.X509Certificate[]', 'java.lang.String'],
+      },
+      {
+        name: 'checkServerTrusted',
+        returnType: 'void',
+        argumentTypes: ['javax.security.cert.X509Certificate[]', 'java.lang.String'],
+      },
+      {
+        name: 'getAcceptedIssuers',
+        returnType: 'java.security.cert.X509Certificate[]',
+        argumentTypes: [],
+        implementation: function () {
+          return [];
+        },
+      },
+    ],
+  });
+  var SSLContext = Java.use('javax.net.ssl.SSLContext');
+  SSLContext.init.overload(
+    '[Ljavax.net.ssl.KeyManager;',
+    '[Ljavax.net.ssl.TrustManager;',
+    'java.security.SecureRandom'
+  ).implementation = function (km, tm, sr) {
+    this.init(km, [TrustManager.$new()], sr);
+  };
 });
 ```
 
-*Runtime Method Tracing:*
+_Runtime Method Tracing:_
+
 ```javascript
 // trace-crypto.js — Hook all cryptographic operations
-Java.perform(function() {
-    var Cipher = Java.use('javax.crypto.Cipher');
-    Cipher.doFinal.overload('[B').implementation = function(input) {
-        console.log('[CRYPTO] doFinal called');
-        console.log('[CRYPTO] Input (hex): ' + bytesToHex(input));
-        console.log('[CRYPTO] Algorithm: ' + this.getAlgorithm());
-        console.log('[CRYPTO] Key (hex): ' + bytesToHex(this.getParameters().getEncoded()));
-        var result = this.doFinal(input);
-        console.log('[CRYPTO] Output (hex): ' + bytesToHex(result));
-        return result;
-    };
+Java.perform(function () {
+  var Cipher = Java.use('javax.crypto.Cipher');
+  Cipher.doFinal.overload('[B').implementation = function (input) {
+    console.log('[CRYPTO] doFinal called');
+    console.log('[CRYPTO] Input (hex): ' + bytesToHex(input));
+    console.log('[CRYPTO] Algorithm: ' + this.getAlgorithm());
+    console.log('[CRYPTO] Key (hex): ' + bytesToHex(this.getParameters().getEncoded()));
+    var result = this.doFinal(input);
+    console.log('[CRYPTO] Output (hex): ' + bytesToHex(result));
+    return result;
+  };
 });
 ```
 
 **Objection Runtime Exploration:**
+
 ```bash
 # Launch with Frida Gadget or injected agent
 objection -g com.example.app explore
@@ -173,6 +194,7 @@ file download /data/data/com.example.app/databases/app.db .
 ```
 
 **Root/Jailbreak Detection Bypass:**
+
 ```bash
 # Using objection
 objection -g com.example.app explore
@@ -188,6 +210,7 @@ ios jailbreak disable            # Disable common jailbreak detection
 ### 4. Network Interception
 
 **Burp Suite Configuration for Mobile:**
+
 1. Configure Burp proxy listener on `0.0.0.0:8080`
 2. Install Burp CA certificate on device:
    - Android: `adb push cacert.der /data/local/tmp/burpca.der` → install via Settings → Security → Install from storage
@@ -197,6 +220,7 @@ ios jailbreak disable            # Disable common jailbreak detection
 4. For certificate-pinned apps: deploy Frida SSL unpinning script (see above) or use Burp's `SSL Pass-Through` for pinned domains
 
 **Traffic Analysis Checklist:**
+
 - [ ] All connections use TLS 1.2+ (no SSLv3, TLS 1.0, TLS 1.1)
 - [ ] Certificate validation is enforced (not accepting self-signed in production)
 - [ ] Sensitive data is not transmitted in URLs or headers
@@ -210,20 +234,21 @@ ios jailbreak disable            # Disable common jailbreak detection
 
 **Common Mobile Attack Vectors:**
 
-| Attack Vector | Impact | Testing Method |
-|---------------|--------|----------------|
-| Insecure Data Storage | Credential/key theft | Extract app data via `adb backup` or rooted filesystem access |
-| Broken Cryptography | Data decryption at rest/in transit | Identify algorithm/mode; attempt known-plaintext attack |
-| Insecure Communication | MITM data interception | Burp Suite interception with/without pinning bypass |
-| Insecure Authentication | Account takeover | Token replay, session fixation, biometric bypass |
-| Insufficient Cryptography | Key recovery | Memory dumping, key extraction from Keychain/Keystore |
-| Client Code Quality | Reverse engineering, tampering | Decompile, modify, repack, and resign APK/IPA |
-| Code Tampering | Unauthorized behavior modification | Patch smali/IL code, bypass license checks, inject hooks |
-| Reverse Engineering | Intellectual property theft, vulnerability discovery | Full decompilation + analysis of business logic |
-| Extraneous Functionality | Unauthorized access to hidden features | Enumerate hidden activities, debug flags, test endpoints |
-| Platform Interaction | Intent hijacking, URL scheme abuse | Craft malicious intents/deep links targeting exported components |
+| Attack Vector             | Impact                                               | Testing Method                                                   |
+| ------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------- |
+| Insecure Data Storage     | Credential/key theft                                 | Extract app data via `adb backup` or rooted filesystem access    |
+| Broken Cryptography       | Data decryption at rest/in transit                   | Identify algorithm/mode; attempt known-plaintext attack          |
+| Insecure Communication    | MITM data interception                               | Burp Suite interception with/without pinning bypass              |
+| Insecure Authentication   | Account takeover                                     | Token replay, session fixation, biometric bypass                 |
+| Insufficient Cryptography | Key recovery                                         | Memory dumping, key extraction from Keychain/Keystore            |
+| Client Code Quality       | Reverse engineering, tampering                       | Decompile, modify, repack, and resign APK/IPA                    |
+| Code Tampering            | Unauthorized behavior modification                   | Patch smali/IL code, bypass license checks, inject hooks         |
+| Reverse Engineering       | Intellectual property theft, vulnerability discovery | Full decompilation + analysis of business logic                  |
+| Extraneous Functionality  | Unauthorized access to hidden features               | Enumerate hidden activities, debug flags, test endpoints         |
+| Platform Interaction      | Intent hijacking, URL scheme abuse                   | Craft malicious intents/deep links targeting exported components |
 
 **PoC Development Standards:**
+
 - Demonstrate impact without destroying user data
 - Use non-destructive proof-of-concept payloads
 - Document exact reproduction steps (app version, device, OS version)
@@ -233,6 +258,7 @@ ios jailbreak disable            # Disable common jailbreak detection
 ### 6. Reporting & Defect Classification
 
 **Finding Documentation Format:**
+
 ```markdown
 ### Finding #N: [Title]
 
@@ -246,6 +272,7 @@ ios jailbreak disable            # Disable common jailbreak detection
 [Concise technical description of the vulnerability]
 
 **Reproduction Steps:**
+
 1. [Step-by-step reproduction]
 2. ...
 
@@ -261,21 +288,21 @@ ios jailbreak disable            # Disable common jailbreak detection
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 1** (SRD) | Provides threat intelligence input for security requirements; identifies platform-specific attack surfaces that must be addressed in SRD |
-| **Stage 6** (Code Review) | Executes penetration testing as part of the review panel; produces Defect Report with findings classified P0–P3; findings feed directly into code remediation priorities |
+| Pipeline Stage                       | Application                                                                                                                                                                   |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 1** (SRD)                    | Provides threat intelligence input for security requirements; identifies platform-specific attack surfaces that must be addressed in SRD                                      |
+| **Stage 6** (Code Review)            | Executes penetration testing as part of the review panel; produces Defect Report with findings classified P0–P3; findings feed directly into code remediation priorities      |
 | **Stage 8** (Integrity Verification) | Validates that previously identified vulnerabilities have been properly remediated; conducts regression pen testing on fixed code; verifies no new attack surfaces introduced |
-| **Stage 10** (Release Readiness) | Provides final security assessment sign-off for CSO release checklist item #4 (SRD enforced, OWASP MASVS compliant) |
+| **Stage 10** (Release Readiness)     | Provides final security assessment sign-off for CSO release checklist item #4 (SRD enforced, OWASP MASVS compliant)                                                           |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **Test Coverage** | 100% of MASVS Level 1 controls assessed; Level 2 controls assessed for apps handling financial/sensitive data |
-| **Tool Coverage** | Minimum 3 tools per analysis phase (1 automated + 2 manual) for cross-validation |
-| **Finding Quality** | Every finding includes: reproduction steps, evidence, impact assessment, remediation guidance, MASVS mapping, CVSS score |
-| **False Positive Rate** | < 5% false positive rate in reported findings (validated by peer review) |
-| **Turnaround Time** | Initial scan results within 2 business days; full report within 5 business days of engagement start |
-| **Reproducibility** | 100% of P0/P1 findings must be independently reproducible by a second engineer |
-| **Remediation Verification** | All P0/P1 fixes verified within 48 hours of remediation submission |
+| Metric                       | Standard                                                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Test Coverage**            | 100% of MASVS Level 1 controls assessed; Level 2 controls assessed for apps handling financial/sensitive data            |
+| **Tool Coverage**            | Minimum 3 tools per analysis phase (1 automated + 2 manual) for cross-validation                                         |
+| **Finding Quality**          | Every finding includes: reproduction steps, evidence, impact assessment, remediation guidance, MASVS mapping, CVSS score |
+| **False Positive Rate**      | < 5% false positive rate in reported findings (validated by peer review)                                                 |
+| **Turnaround Time**          | Initial scan results within 2 business days; full report within 5 business days of engagement start                      |
+| **Reproducibility**          | 100% of P0/P1 findings must be independently reproducible by a second engineer                                           |
+| **Remediation Verification** | All P0/P1 fixes verified within 48 hours of remediation submission                                                       |

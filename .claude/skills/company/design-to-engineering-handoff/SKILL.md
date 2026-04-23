@@ -26,15 +26,18 @@ Bridge the gap between design intent and engineering implementation through clea
 # [Feature Name]
 
 ## Business Context
+
 - Problem: [What user problem does this solve?]
 - Success Metrics: [How will we measure success?]
 - Priority: [P0/P1/P2]
 
 ## Design Goals
+
 - [Goal 1]
 - [Goal 2]
 
 ## Platform Scope
+
 - iOS: [version support]
 - Android: [version support]
 ```
@@ -60,11 +63,13 @@ Screen: [Name]
 ### 3. Implementation Notes
 
 **iOS Considerations:**
+
 - Use SwiftUI/UIKit: [recommendation with rationale]
 - Navigation: [push/modal/sheet]
 - Data loading: [Combine/async-await]
 
 **Android Considerations:**
+
 - Use Compose/Views: [recommendation with rationale]
 - Navigation: [Fragment/Compose Navigation]
 - Data loading: [Coroutines/Flow]
@@ -90,17 +95,20 @@ Error Handling:
 Before finalizing designs, assess with engineering:
 
 **Technical Constraints:**
+
 - [ ] Platform API availability (iOS/Android version support)
 - [ ] Performance implications (rendering, memory, battery)
 - [ ] Third-party dependencies required
 - [ ] Backend API changes needed
 
 **Implementation Complexity:**
+
 - Simple (< 2 days): [list components]
 - Medium (2-5 days): [list components]
 - Complex (> 5 days): [list components]
 
 **Risk Areas:**
+
 - [ ] Custom animations (may need performance optimization)
 - [ ] Complex gestures (may conflict with system gestures)
 - [ ] Accessibility edge cases (screen reader navigation)
@@ -130,11 +138,13 @@ Before finalizing designs, assess with engineering:
 ## Communication Guidelines
 
 **When Design Needs to Push Back:**
+
 - "This interaction pattern violates iOS HIG [section X] — users will expect [Y] instead"
 - "Reducing this tap target below 44pt will fail accessibility review"
 - "This animation duration feels wrong in user testing — can we try [X]ms instead?"
 
 **When Engineering Pushes Back:**
+
 - Listen to technical constraints
 - Ask: "What's the blocker? Performance, API limitation, platform constraint?"
 - Propose alternatives: "If [ideal] is too complex, would [simpler version] work?"

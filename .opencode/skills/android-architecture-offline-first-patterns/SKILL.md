@@ -1,6 +1,6 @@
 ---
 name: android-architecture-offline-first-patterns
-description: "Android skill: Offline First Patterns"
+description: 'Android skill: Offline First Patterns'
 ---
 
 # Offline-First Patterns

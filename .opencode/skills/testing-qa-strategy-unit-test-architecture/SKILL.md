@@ -1,6 +1,6 @@
 ---
 name: testing-qa-strategy-unit-test-architecture
-description: "Testing Qa skill: Unit Test Architecture"
+description: 'Testing Qa skill: Unit Test Architecture'
 ---
 
 # Unit Test Architecture

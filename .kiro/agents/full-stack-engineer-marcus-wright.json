@@ -1,14 +1,7 @@
 {
   "name": "full-stack-engineer-marcus-wright",
   "description": "Use for full-stack development with Vue.js, .NET, and multi-tenant API architecture. Engage during Stage 5 (Development) for Vue/.NET implementation.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
   "resources": [
     "skill://.kiro/skills/frontend-web/SKILL.md",
     "skill://.kiro/skills/backend/SKILL.md"

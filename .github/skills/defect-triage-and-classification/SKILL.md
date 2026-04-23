@@ -11,12 +11,12 @@ Classify every identified defect by severity before remediation begins. Severity
 
 ## Severity Definitions
 
-| Level | Definition | Release Impact | Decision Authority |
-|-------|------------|----------------|--------------------|
-| P0 | App crash / data loss / security breach | Blocks release — non-negotiable | CTO + CSO — cannot be overridden |
-| P1 | Core feature broken / major UX failure (feature completely unusable) | Blocks release — non-negotiable | CTO — cannot be overridden |
-| P2 | Minor feature degraded / cosmetic issue / edge-case UX problem | User decides to fix or defer | User has explicit final authority |
-| P3 | Polish / nice-to-have / minor visual inconsistency | User decides to fix or defer | User has explicit final authority |
+| Level | Definition                                                           | Release Impact                  | Decision Authority                |
+| ----- | -------------------------------------------------------------------- | ------------------------------- | --------------------------------- |
+| P0    | App crash / data loss / security breach                              | Blocks release — non-negotiable | CTO + CSO — cannot be overridden  |
+| P1    | Core feature broken / major UX failure (feature completely unusable) | Blocks release — non-negotiable | CTO — cannot be overridden        |
+| P2    | Minor feature degraded / cosmetic issue / edge-case UX problem       | User decides to fix or defer    | User has explicit final authority |
+| P3    | Polish / nice-to-have / minor visual inconsistency                   | User decides to fix or defer    | User has explicit final authority |
 
 **Authority rule:** P0/P1 classification is final. The user cannot override a P0 or P1 classification to permit release. P2/P3 decisions belong entirely to the user — the Test Lead makes no judgement on those deferrals.
 
@@ -47,6 +47,7 @@ For each defect, apply the tree in order:
 ## Escalation Protocol
 
 ### P0 Escalation
+
 1. Test Lead immediately notifies CTO and CSO — do not wait for the next review cycle
 2. CTO halts all other development on the affected platform
 3. CTO assigns the highest-available engineer to remediation
@@ -54,11 +55,13 @@ For each defect, apply the tree in order:
 5. CSO reviews all P0 security defects personally before re-classification to fixed
 
 ### P1 Escalation
+
 1. Test Lead notifies CTO at the end of the current test run
 2. CTO assigns a named engineer and sets a remediation deadline
 3. Test Lead verifies the fix and confirms regression passes before closing
 
 ### P2/P3 User Decision Gate
+
 After each test run, the Test Lead produces a P2/P3 Decision Request for the user:
 
 ```markdown
@@ -68,10 +71,10 @@ The following defects have been classified as P2 or P3. As the product owner,
 you have final authority to fix or defer each item. Please confirm your decision
 for each before Stage {N} can close.
 
-| Bug ID | Severity | Description | Fix or Defer? |
-|--------|----------|-------------|---------------|
-| BUG-{N} | P2 | [description] | [ ] Fix [ ] Defer |
-| BUG-{N} | P3 | [description] | [ ] Fix [ ] Defer |
+| Bug ID  | Severity | Description   | Fix or Defer?     |
+| ------- | -------- | ------------- | ----------------- |
+| BUG-{N} | P2       | [description] | [ ] Fix [ ] Defer |
+| BUG-{N} | P3       | [description] | [ ] Fix [ ] Defer |
 
 Deferred defects are documented in the Defect Report and will not block release.
 They may be addressed in a future release.
@@ -87,18 +90,23 @@ The Defect Report is produced at Stage 6 (Code Review) and updated at Stage 7 (A
 # Defect Report — {Project Name} — v{N} — {Date}
 
 ## P0 Defects
+
 [Table: Bug ID | Description | Status | Assigned | Resolved Date]
 
 ## P1 Defects
+
 [Table: Bug ID | Description | Status | Assigned | Resolved Date]
 
 ## P2 Defects — User Decision Required
+
 [Table: Bug ID | Description | User Decision | Decision Date]
 
 ## P3 Defects — User Decision Required
+
 [Table: Bug ID | Description | User Decision | Decision Date]
 
 ## Sign-off Gate
+
 - [ ] All P0 defects resolved
 - [ ] All P1 defects resolved
 - [ ] User has confirmed Fix or Defer for all P2 defects

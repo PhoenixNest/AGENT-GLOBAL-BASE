@@ -1,6 +1,5 @@
 ---
-description:
-  Use for CI/CD pipeline security, IaC security scanning, and supply chain
+description: Use for CI/CD pipeline security, IaC security scanning, and supply chain
   hardening (SLSA framework). Engage during Stage 1 (Security Requirements), Stage
   6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness)
   for CI/CD and infrastructure security.

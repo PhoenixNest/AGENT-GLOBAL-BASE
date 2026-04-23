@@ -302,7 +302,7 @@ Every external dependency must have the following documented:
 ```yaml
 # Resilience Configuration Template (per dependency)
 dependency:
-  name: "payment-gateway"
+  name: 'payment-gateway'
   criticality: P0 # Blocks core feature if down
 
   circuit_breaker:
@@ -323,19 +323,19 @@ dependency:
     request_ms: 10000
 
   fallback:
-    strategy: "queue-and-retry-later"
+    strategy: 'queue-and-retry-later'
     # Queue the payment request locally; retry on next sync
     # Notify user: "Payment queued, will process when service is available"
 
   idempotency:
-    key_header: "Idempotency-Key"
+    key_header: 'Idempotency-Key'
     key_ttl_hours: 24
     # Every payment request carries a UUID; server deduplicates
 
   blast_radius:
-    affected_features: ["checkout", "subscription-renewal"]
-    degradation_mode: "Queue payments; allow browse to continue"
-    user_impact: "Cannot complete purchase; can still browse catalog"
+    affected_features: ['checkout', 'subscription-renewal']
+    degradation_mode: 'Queue payments; allow browse to continue'
+    user_impact: 'Cannot complete purchase; can still browse catalog'
 ```
 
 #### 5.2 Retry Budget

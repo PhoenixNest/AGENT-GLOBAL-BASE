@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-cqrs-architecture
-description: "Backend skill: Cqrs Architecture"
+description: 'Backend skill: Cqrs Architecture'
 ---
 
 # CQRS Architecture — Command Query Responsibility Segregation

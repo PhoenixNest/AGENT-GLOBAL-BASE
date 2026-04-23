@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-mobile-architecture-patterns
-description: "Architecture skill: Mobile Architecture Patterns"
+description: 'Architecture skill: Mobile Architecture Patterns'
 ---
 
 # Mobile Architecture Patterns

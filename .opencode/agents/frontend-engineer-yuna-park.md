@@ -1,6 +1,5 @@
 ---
-description:
-  Use for React state management and advanced React testing. Engage during
+description: Use for React state management and advanced React testing. Engage during
   Stage 5 (Development) for frontend implementation.
 mode: subagent
 tools:

@@ -588,9 +588,9 @@ metadata:
   name: mobile-app-backend
   namespace: mobile-app
   annotations:
-    vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/role: "mobile-app-backend"
-    vault.hashicorp.com/agent-inject-secret-db-creds: "database/creds/mobile-app-readwrite"
+    vault.hashicorp.com/agent-inject: 'true'
+    vault.hashicorp.com/role: 'mobile-app-backend'
+    vault.hashicorp.com/agent-inject-secret-db-creds: 'database/creds/mobile-app-readwrite'
     vault.hashicorp.com/agent-inject-template-db-creds: |
       {{- with secret "database/creds/mobile-app-readwrite" -}}
       DATABASE_HOST=mobile-app-db.example.com
@@ -600,15 +600,15 @@ metadata:
       DATABASE_PASSWORD={{ .Data.password }}
       DATABASE_SSL_MODE=verify-full
       {{- end }}
-    vault.hashicorp.com/agent-inject-secret-api-keys: "secret/data/mobile/api-keys"
+    vault.hashicorp.com/agent-inject-secret-api-keys: 'secret/data/mobile/api-keys'
     vault.hashicorp.com/agent-inject-template-api-keys: |
       {{- with secret "secret/data/mobile/api-keys" -}}
       STRIPE_API_KEY={{ .Data.data.stripe-key }}
       SENDGRID_API_KEY={{ .Data.data.sendgrid-key }}
       {{- end }}
-    vault.hashicorp.com/agent-pre-populate-only: "false"
-    vault.hashicorp.com/agent-run-as-user: "1000"
-    vault.hashicorp.com/agent-run-as-group: "1000"
+    vault.hashicorp.com/agent-pre-populate-only: 'false'
+    vault.hashicorp.com/agent-run-as-user: '1000'
+    vault.hashicorp.com/agent-run-as-group: '1000'
 spec:
   replicas: 3
   selector:
@@ -625,11 +625,11 @@ spec:
           image: ghcr.io/our-org/mobile-api-backend:latest
           env:
             - name: DATABASE_HOST
-              value: "mobile-app-db.example.com"
+              value: 'mobile-app-db.example.com'
             - name: DATABASE_PORT
-              value: "5432"
+              value: '5432'
             - name: DATABASE_NAME
-              value: "mobile_app"
+              value: 'mobile_app'
           envFrom:
             - secretRef:
                 name: mobile-app-env-secrets # Populated by Vault Agent
@@ -645,8 +645,8 @@ metadata:
   name: mobile-app-backend
   namespace: mobile-app
   annotations:
-    vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/role: "mobile-app-backend"
+    vault.hashicorp.com/agent-inject: 'true'
+    vault.hashicorp.com/role: 'mobile-app-backend'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -654,9 +654,9 @@ metadata:
   name: mobile-app-backend-role
   namespace: mobile-app
 rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "list", "watch"]
+  - apiGroups: ['']
+    resources: ['secrets']
+    verbs: ['get', 'list', 'watch']
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -681,7 +681,7 @@ roleRef:
 name: Deploy to Production
 on:
   push:
-    tags: ["v*"]
+    tags: ['v*']
 
 permissions:
   id-token: write

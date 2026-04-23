@@ -1,6 +1,6 @@
 ---
 name: android-ui-ux-jetpack-compose
-description: "Android skill: Jetpack Compose"
+description: 'Android skill: Jetpack Compose'
 ---
 
 # Jetpack Compose

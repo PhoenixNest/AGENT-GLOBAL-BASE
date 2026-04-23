@@ -1,6 +1,6 @@
 ---
 name: android-language-core-android-implementation
-description: "Android skill: Android Implementation"
+description: 'Android skill: Android Implementation'
 ---
 
 # Android Implementation

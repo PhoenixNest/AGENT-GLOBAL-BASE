@@ -28,7 +28,7 @@ Integrates React frontends with Python FastAPI backends, leveraging React Query 
 
 ```typescript
 // queryClient configuration
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,16 +49,16 @@ const queryClient = new QueryClient({
 });
 
 // API client with error handling
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
-  headers: { "Content-Type": "application/json" },
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // Request interceptor: attach auth token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("auth_token");
+  const token = localStorage.getItem('auth_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -75,29 +75,29 @@ api.interceptors.response.use(
       if (Array.isArray(detail)) {
         // Pydantic validation errors
         return Promise.reject({
-          type: "validation",
+          type: 'validation',
           errors: detail.map((e: any) => ({
-            field: e.loc.join("."),
+            field: e.loc.join('.'),
             message: e.msg,
           })),
         });
       }
       // Simple error message
       return Promise.reject({
-        type: "api",
+        type: 'api',
         message: detail,
         code: error.response.data.code,
       });
     }
-    return Promise.reject({ type: "network", message: "Network error" });
-  },
+    return Promise.reject({ type: 'network', message: 'Network error' });
+  }
 );
 
 // User queries
 const userKeys = {
-  all: ["users"] as const,
-  detail: (id: string) => ["users", id] as const,
-  me: ["users", "me"] as const,
+  all: ['users'] as const,
+  detail: (id: string) => ['users', id] as const,
+  me: ['users', 'me'] as const,
 };
 
 export function useUser(id: string) {
@@ -112,7 +112,7 @@ export function useUsers(page = 1, search?: string) {
     queryKey: [...userKeys.all, { page, search }],
     queryFn: () =>
       api
-        .get("/api/users", {
+        .get('/api/users', {
           params: { page, search, page_size: 20 },
         })
         .then((r) => r.data),
@@ -124,8 +124,7 @@ export function useCreateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreateUserInput) =>
-      api.post("/api/users", data).then((r) => r.data),
+    mutationFn: (data: CreateUserInput) => api.post('/api/users', data).then((r) => r.data),
 
     // Optimistic update
     onMutate: async (newUser) => {
@@ -138,7 +137,7 @@ export function useCreateUser() {
       // Optimistically update
       queryClient.setQueryData(userKeys.all, (old: any[] = []) => [
         ...old,
-        { ...newUser, id: "temp-id", created_at: new Date().toISOString() },
+        { ...newUser, id: 'temp-id', created_at: new Date().toISOString() },
       ]);
 
       return { previous };
@@ -161,11 +160,9 @@ export function useCreateUser() {
 // Infinite query for scrollable lists
 export function useInfiniteUsers() {
   return useInfiniteQuery({
-    queryKey: ["users", "infinite"],
+    queryKey: ['users', 'infinite'],
     queryFn: ({ pageParam = 1 }) =>
-      api
-        .get("/api/users", { params: { page: pageParam, page_size: 20 } })
-        .then((r) => r.data),
+      api.get('/api/users', { params: { page: pageParam, page_size: 20 } }).then((r) => r.data),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.has_more ? allPages.length + 1 : undefined;
     },
@@ -572,9 +569,7 @@ async def login_verify(request: LoginVerifyRequest):
 // WebAuthn registration
 export async function registerBiometric(userId: string) {
   // Step 1: Get registration options from server
-  const options = await api
-    .post(`/api/webauthn/register/options`)
-    .then((r) => r.data);
+  const options = await api.post(`/api/webauthn/register/options`).then((r) => r.data);
 
   // Step 2: Create credential using browser API
   const credential = (await navigator.credentials.create({
@@ -582,7 +577,7 @@ export async function registerBiometric(userId: string) {
   })) as PublicKeyCredential;
 
   // Step 3: Send response back to server
-  const response = await api.post("/api/webauthn/register/verify", {
+  const response = await api.post('/api/webauthn/register/verify', {
     response: publicKeyCredentialToJSON(credential),
     transports: (credential.response as any).getTransports?.(),
   });
@@ -603,7 +598,7 @@ export async function authenticateBiometric(userId: string) {
   })) as PublicKeyCredential;
 
   // Step 3: Verify with server
-  const response = await api.post("/api/webauthn/login/verify", {
+  const response = await api.post('/api/webauthn/login/verify', {
     response: publicKeyCredentialToJSON(credential),
   });
 

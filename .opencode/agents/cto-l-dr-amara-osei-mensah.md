@@ -1,6 +1,5 @@
 ---
-description:
-  Use for localization strategy, translation quality governance, and Language
+description: Use for localization strategy, translation quality governance, and Language
   Translation Module execution. Engage during Stage 9 (Internationalization Engineering)
   and Stage 10 (Release Readiness) for multilingual translation requests, string extraction
   validation, and Translation Verification Reports.

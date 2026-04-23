@@ -1,15 +1,6 @@
 {
   "name": "devex-engineer-kai-nakamura",
   "description": "Use for build optimization, developer analytics, and internal tooling. Engage during Stage 5 (Development) for developer experience and build performance.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/devops/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/devops/SKILL.md"]
 }

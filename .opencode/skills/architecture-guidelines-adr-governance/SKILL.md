@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-adr-governance
-description: "Architecture skill: Adr Governance"
+description: 'Architecture skill: Adr Governance'
 ---
 
 # ADR Governance

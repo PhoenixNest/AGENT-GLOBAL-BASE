@@ -17,6 +17,7 @@ The UML Engineering Package consists of three diagram types plus a documentation
 ### 1. Class Diagrams
 
 Cover every major domain entity:
+
 - All data models with fields, types, visibility modifiers, and relationships
 - Inheritance hierarchies and interface implementations
 - Associations, aggregations, and compositions with cardinality
@@ -29,6 +30,7 @@ Cover every major domain entity:
 ### 2. Sequence Diagrams
 
 Cover every major user flow identified in the PRD and IDS:
+
 - All participating actors (User, ViewModel, Repository, API, Database, etc.)
 - Every message/call with method name and parameters
 - Return values and their types
@@ -40,6 +42,7 @@ Cover every major user flow identified in the PRD and IDS:
 ### 3. Component Diagrams
 
 Cover the overall system architecture:
+
 - All major components (modules, layers, services, databases)
 - Dependencies between components with direction arrows
 - Interface boundaries (what each component exposes vs. consumes)
@@ -51,6 +54,7 @@ Cover the overall system architecture:
 ### 4. Documentation Layer
 
 Each diagram is accompanied by:
+
 - **Purpose statement** — one sentence on what the diagram shows
 - **Scope** — what is in scope and explicitly what is out of scope
 - **Key decisions** — 2–3 sentences on non-obvious design choices and their rationale
@@ -60,35 +64,44 @@ Each diagram is accompanied by:
 ## Authorship Workflow
 
 ### Step 1: Artifact Intake
+
 Read in full, in order:
+
 1. Final PRD (product requirements, user flows, data requirements)
 2. SRD (security requirements — affect data model and API design)
 3. Approved web prototype (visual structure informs component hierarchy)
 4. IDS (interaction patterns inform ViewModel state machines and navigation stack)
 
 ### Step 2: Domain Modelling
+
 - Identify all domain entities from the PRD
 - Map relationships between entities
 - Draft class diagram stubs before detailing methods
 
 ### Step 3: Flow Mapping
+
 - List all user flows from PRD and IDS
 - For each flow, identify all system participants
 - Draft sequence diagrams top-down (happy path first, error paths second)
 
 ### Step 4: Component Decomposition
+
 - Identify modular boundaries based on domain and team ownership
 - Assign clean architecture layers: presentation / domain / data
 - Map third-party dependencies to their integration points
 
 ### Step 5: CTO + CIO Joint Review
+
 Before finalisation, submit draft package to CTO and CIO:
+
 - Walk through each diagram
 - Flag any open questions
 - Incorporate feedback and regenerate affected diagrams
 
 ### Step 6: Feasibility Confirmation
+
 After CTO + CIO review, confirm in writing:
+
 - [ ] All PRD requirements are representable in the proposed architecture
 - [ ] No technical constraint renders any requirement infeasible
 - [ ] Package is ready for user submission

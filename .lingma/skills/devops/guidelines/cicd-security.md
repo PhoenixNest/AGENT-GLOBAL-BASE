@@ -42,7 +42,7 @@ Design, implement, and maintain secure CI/CD pipelines that protect the software
 name: Build & Sign Release
 on:
   push:
-    tags: ["v*"]
+    tags: ['v*']
 
 # CRITICAL: Minimal permissions
 permissions:
@@ -271,7 +271,7 @@ chmod +x /opt/actions-runner/cleanup.sh
 name: Release — Sign & Verify
 on:
   push:
-    tags: ["v*"]
+    tags: ['v*']
 
 permissions:
   id-token: write

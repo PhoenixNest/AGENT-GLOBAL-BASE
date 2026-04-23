@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Background verification complete. Candidate cleared for Stage 7."
-candidate_name: "Amara Osei"
-candidate_id: "G6"
-entity_type: "studio"
-stage: "stage-6"
-division: "engineering"
-role: "lead-qa-engineer"
-document_type: "Background Check"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Background verification complete. Candidate cleared for Stage 7.'
+candidate_name: 'Amara Osei'
+candidate_id: 'G6'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'engineering'
+role: 'lead-qa-engineer'
+document_type: 'Background Check'
 ---
 
 # Background Check Report — Amara Osei (G6)

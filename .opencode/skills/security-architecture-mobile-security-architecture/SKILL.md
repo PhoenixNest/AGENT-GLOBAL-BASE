@@ -1,6 +1,6 @@
 ---
 name: security-architecture-mobile-security-architecture
-description: "Security skill: Mobile Security Architecture"
+description: 'Security skill: Mobile Security Architecture'
 ---
 
 # Mobile Security Architecture

@@ -1,6 +1,6 @@
 ---
 name: cross-platform-flutter-flutter-implementation
-description: "Cross Platform skill: Flutter Implementation"
+description: 'Cross Platform skill: Flutter Implementation'
 ---
 
 # Flutter Implementation

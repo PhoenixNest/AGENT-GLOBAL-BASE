@@ -1,6 +1,6 @@
 ---
 name: testing-qa-strategy-defect-triage-and-classification
-description: "Testing Qa skill: Defect Triage And Classification"
+description: 'Testing Qa skill: Defect Triage And Classification'
 ---
 
 # Defect Triage and Classification

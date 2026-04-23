@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-user-research-driven-design
-description: "Design skill: User Research Driven Design"
+description: 'Design skill: User Research Driven Design'
 ---
 
 # User Research-Driven Design

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile design leadership, design system creation, interaction
+description: Use for mobile design leadership, design system creation, interaction
   design specifications, design-to-engineering handoff, and user research-driven design
   decisions. Engage during Stage 2 (Web Prototype + IDS), Stage 6 (Code Review), Stage
   8 (Integrity Verification), and Stage 10 (Release Readiness).

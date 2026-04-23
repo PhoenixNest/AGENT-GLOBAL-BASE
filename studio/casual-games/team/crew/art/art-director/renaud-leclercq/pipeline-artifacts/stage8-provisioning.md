@@ -1,12 +1,12 @@
 ---
-document_id: "**"
-generated_at: "**"
-candidate_name: "Provisioning Checklist"
-entity_type: "studio"
-stage: "stage-8"
-division: "art"
-role: "art-director"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+candidate_name: 'Provisioning Checklist'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'art'
+role: 'art-director'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record

@@ -1,6 +1,6 @@
 ---
 name: security-masvs-masvs-certification
-description: "Security skill: Masvs Certification"
+description: 'Security skill: Masvs Certification'
 ---
 
 # MASVS Certification Process

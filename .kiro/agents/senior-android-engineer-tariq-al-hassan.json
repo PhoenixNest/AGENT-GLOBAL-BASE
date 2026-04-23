@@ -1,15 +1,6 @@
 {
   "name": "senior-android-engineer-tariq-al-hassan",
   "description": "Use for advanced Kotlin, Kotlin Coroutines/Flow, Kotlin Multiplatform shared modules, and Android architecture patterns (MVVM, Clean Architecture, MVI). Engage during Stage 5 (Development) for Android platform implementation and Stage 6 (Code Review) for Android architectural conformance.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/android/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/android/SKILL.md"]
 }

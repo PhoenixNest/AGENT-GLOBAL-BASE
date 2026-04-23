@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer accepted. Proceeding to Stage 8."
-candidate_name: "Tomasz Kowalski"
-candidate_id: "G23"
-entity_type: "studio"
-stage: "stage-7"
-division: "art"
-role: "3d-artist"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer accepted. Proceeding to Stage 8.'
+candidate_name: 'Tomasz Kowalski'
+candidate_id: 'G23'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'art'
+role: '3d-artist'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Tomasz Kowalski (G23)

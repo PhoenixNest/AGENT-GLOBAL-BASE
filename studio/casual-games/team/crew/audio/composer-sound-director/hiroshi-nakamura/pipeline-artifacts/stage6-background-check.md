@@ -1,12 +1,12 @@
 ---
-gate_status: "** ✅ CLEAR"
-candidate_name: "Hiroshi Nakamura"
-candidate_id: "G10"
-entity_type: "studio"
-stage: "stage-6"
-division: "audio"
-role: "composer-sound-director"
-document_type: "Background Check"
+gate_status: '** ✅ CLEAR'
+candidate_name: 'Hiroshi Nakamura'
+candidate_id: 'G10'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'audio'
+role: 'composer-sound-director'
+document_type: 'Background Check'
 ---
 
 # Stages 6-9: Background Check, Offer, Provisioning, Hiring Outcome — Hiroshi Nakamura (G10)

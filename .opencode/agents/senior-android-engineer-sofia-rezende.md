@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Android accessibility engineering (WCAG 2.1 AA), design system
+description: Use for Android accessibility engineering (WCAG 2.1 AA), design system
   component architecture, and TDD advocacy. Engage during Stage 5 (Development) for
   Android accessibility implementation and design system components, and Stage 6/8
   (Code Review, Integrity Verification) for accessibility conformance.

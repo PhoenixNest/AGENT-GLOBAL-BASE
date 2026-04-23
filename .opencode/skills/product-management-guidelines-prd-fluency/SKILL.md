@@ -1,6 +1,6 @@
 ---
 name: product-management-guidelines-prd-fluency
-description: "Product Management skill: Prd Fluency"
+description: 'Product Management skill: Prd Fluency'
 ---
 
 # PRD Fluency

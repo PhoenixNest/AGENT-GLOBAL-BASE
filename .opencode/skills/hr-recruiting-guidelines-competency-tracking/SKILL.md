@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-competency-tracking
-description: "Hr Recruiting skill: Competency Tracking"
+description: 'Hr Recruiting skill: Competency Tracking'
 ---
 
 # Competency Tracking

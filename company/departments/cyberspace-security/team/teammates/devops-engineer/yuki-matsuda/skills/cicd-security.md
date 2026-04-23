@@ -9,20 +9,21 @@ Design, implement, and maintain secure CI/CD pipelines that protect the software
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| Secrets Management | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access |
-| Pipeline Hardening | Protecting CI/CD pipelines from tampering and unauthorized access | Pipelines run in isolated, ephemeral environments; no persistent runner access; all pipeline changes require code review; zero pipeline compromise incidents |
-| Artifact Signing | Cryptographic signing of build artifacts within CI/CD | All release artifacts signed within pipeline using cosign/Sigstore; signature verification enforced in deployment pipeline; keyless signing with OIDC |
-| Supply Chain Verification | Verifying integrity of all pipeline inputs and dependencies | All actions pinned to SHA; dependencies verified against allowlist; SBOM generated and verified at each stage; SLSA provenance generated |
-| SBOM Integration | Embedding SBOM generation into the build pipeline | SBOM generated for every build (CycloneDX + SPDX); SBOM scanned for vulnerabilities; SBOM signed and archived |
-| Security Gate Enforcement | Implementing automated security checks that block unsafe deployments | Gates enforce: SAST pass, DAST pass, dependency scan pass, SBOM generated, artifact signed; zero instances of gate bypass in production |
+| Dimension                 | Description                                                              | Proficiency Indicators                                                                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Secrets Management        | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access                |
+| Pipeline Hardening        | Protecting CI/CD pipelines from tampering and unauthorized access        | Pipelines run in isolated, ephemeral environments; no persistent runner access; all pipeline changes require code review; zero pipeline compromise incidents |
+| Artifact Signing          | Cryptographic signing of build artifacts within CI/CD                    | All release artifacts signed within pipeline using cosign/Sigstore; signature verification enforced in deployment pipeline; keyless signing with OIDC        |
+| Supply Chain Verification | Verifying integrity of all pipeline inputs and dependencies              | All actions pinned to SHA; dependencies verified against allowlist; SBOM generated and verified at each stage; SLSA provenance generated                     |
+| SBOM Integration          | Embedding SBOM generation into the build pipeline                        | SBOM generated for every build (CycloneDX + SPDX); SBOM scanned for vulnerabilities; SBOM signed and archived                                                |
+| Security Gate Enforcement | Implementing automated security checks that block unsafe deployments     | Gates enforce: SAST pass, DAST pass, dependency scan pass, SBOM generated, artifact signed; zero instances of gate bypass in production                      |
 
 ## Execution Guidance
 
 ### 1. Secrets Management in CI/CD
 
 **Principles:**
+
 1. **Never** store secrets in repository files (including `.env`, `.properties`, `.plist`)
 2. **Never** pass secrets through environment variables visible in logs
 3. **Always** use dynamic, short-lived credentials where possible
@@ -40,14 +41,14 @@ on:
 
 # CRITICAL: Minimal permissions
 permissions:
-  id-token: write    # For OIDC token generation (keyless signing)
-  contents: read     # For checkout
-  actions: read      # For artifact access
+  id-token: write # For OIDC token generation (keyless signing)
+  contents: read # For checkout
+  actions: read # For artifact access
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: production  # Environment protection rules apply
+    environment: production # Environment protection rules apply
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
@@ -156,16 +157,16 @@ vault write auth/jwt/role/github-ci-mobile-app \
 
 **GitHub Actions Security Hardening Checklist:**
 
-| Control | Implementation | Verification |
-|---------|---------------|--------------|
-| **Action pinning** | All actions pinned to commit SHA | Automated check in PR workflow |
-| **Minimal permissions** | `permissions:` block with least privilege | Code review + automated policy check |
-| **Environment protection** | Production environment with approval gates | GitHub environment settings |
-| **Ephemeral runners** | Self-hosted runners destroyed after each job | Runner lifecycle monitoring |
-| **No secrets in logs** | `::add-mask::` for all secrets; log scanning | Automated log scanning |
-| **Branch protection** | Main branch requires 2+ approvals, status checks | GitHub branch protection rules |
-| **Fork PR restrictions** | No secret access from fork PRs | GitHub default behavior (verify) |
-| **Dependency review** | All pipeline dependencies reviewed and approved | Approved actions registry |
+| Control                    | Implementation                                   | Verification                         |
+| -------------------------- | ------------------------------------------------ | ------------------------------------ |
+| **Action pinning**         | All actions pinned to commit SHA                 | Automated check in PR workflow       |
+| **Minimal permissions**    | `permissions:` block with least privilege        | Code review + automated policy check |
+| **Environment protection** | Production environment with approval gates       | GitHub environment settings          |
+| **Ephemeral runners**      | Self-hosted runners destroyed after each job     | Runner lifecycle monitoring          |
+| **No secrets in logs**     | `::add-mask::` for all secrets; log scanning     | Automated log scanning               |
+| **Branch protection**      | Main branch requires 2+ approvals, status checks | GitHub branch protection rules       |
+| **Fork PR restrictions**   | No secret access from fork PRs                   | GitHub default behavior (verify)     |
+| **Dependency review**      | All pipeline dependencies reviewed and approved  | Approved actions registry            |
 
 **Pipeline Security Policy (OPA/Conftest):**
 
@@ -471,23 +472,23 @@ jobs:
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 4** (Implementation Plan) | CI/CD pipeline architecture designed with security controls; secrets management strategy documented; security gate criteria defined |
-| **Stage 5** (Development) | CI/CD pipeline operational with security gates; SAST/DAST/dependency scanning running on every PR; secrets managed via Vault |
-| **Stage 6** (Code Review) | Pipeline security configuration reviewed; secrets management verified; gate effectiveness validated |
-| **Stage 8** (Integrity Verification) | Pipeline provenance verified; artifact signatures validated; SBOM completeness confirmed |
-| **Stage 10** (Release Readiness) | CI/CD security gate results provided to CTO panel; confirms all security checks passed before release |
+| Pipeline Stage                       | Application                                                                                                                         |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 4** (Implementation Plan)    | CI/CD pipeline architecture designed with security controls; secrets management strategy documented; security gate criteria defined |
+| **Stage 5** (Development)            | CI/CD pipeline operational with security gates; SAST/DAST/dependency scanning running on every PR; secrets managed via Vault        |
+| **Stage 6** (Code Review)            | Pipeline security configuration reviewed; secrets management verified; gate effectiveness validated                                 |
+| **Stage 8** (Integrity Verification) | Pipeline provenance verified; artifact signatures validated; SBOM completeness confirmed                                            |
+| **Stage 10** (Release Readiness)     | CI/CD security gate results provided to CTO panel; confirms all security checks passed before release                               |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **Secrets Management** | Zero hardcoded secrets in any repository or pipeline configuration |
-| **Pipeline Isolation** | All CI/CD jobs run in ephemeral, isolated environments |
-| **Artifact Signing** | 100% of release artifacts signed with cosign/Sigstore; signatures verifiable by any party |
-| **Security Gates** | All 5 gates (SAST, DAST, Dependency, SBOM, Signing) must pass before deployment |
-| **Action Pinning** | 100% of CI/CD actions pinned to commit SHA |
-| **Secret Rotation** | All CI/CD secrets rotated on ≤90-day schedule |
-| **Audit Trail** | 100% of pipeline executions logged with artifact hashes, signatures, and gate results |
-| **Gate Reliability** | Zero instances of security gate bypass in production |
+| Metric                 | Standard                                                                                  |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| **Secrets Management** | Zero hardcoded secrets in any repository or pipeline configuration                        |
+| **Pipeline Isolation** | All CI/CD jobs run in ephemeral, isolated environments                                    |
+| **Artifact Signing**   | 100% of release artifacts signed with cosign/Sigstore; signatures verifiable by any party |
+| **Security Gates**     | All 5 gates (SAST, DAST, Dependency, SBOM, Signing) must pass before deployment           |
+| **Action Pinning**     | 100% of CI/CD actions pinned to commit SHA                                                |
+| **Secret Rotation**    | All CI/CD secrets rotated on ≤90-day schedule                                             |
+| **Audit Trail**        | 100% of pipeline executions logged with artifact hashes, signatures, and gate results     |
+| **Gate Reliability**   | Zero instances of security gate bypass in production                                      |

@@ -1,12 +1,12 @@
 ---
-generated_at: "**"
-candidate_name: "Data Analyst"
-candidate_id: "G33"
-entity_type: "studio"
-stage: "stage-2"
-division: "live-ops"
-role: "data-analyst"
-document_type: "Sourcing Shortlist"
+generated_at: '**'
+candidate_name: 'Data Analyst'
+candidate_id: 'G33'
+entity_type: 'studio'
+stage: 'stage-2'
+division: 'live-ops'
+role: 'data-analyst'
+document_type: 'Sourcing Shortlist'
 ---
 
 # Stage 2: Sourcing Shortlist — Data Analyst (G33)

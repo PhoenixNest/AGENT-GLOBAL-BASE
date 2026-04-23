@@ -20,25 +20,25 @@
 
 ## 2. Track Activation
 
-| Track                    | Status                   | Lead               | Engineers | Notes   |
-| ------------------------ | ------------------------ | ------------------ | --------- | ------- |
-| B-API (Public API)       | [FULL / LIGHT / Dormant] | [Name]             | [N]       | [Notes] |
-| B-DATA (Data Layer)      | [FULL / LIGHT / Dormant] | [Name]             | [N]       | [Notes] |
-| B-RT (Real-time / Events)| [FULL / LIGHT / Dormant] | [Name]             | [N]       | [Notes] |
+| Track                     | Status                   | Lead   | Engineers | Notes   |
+| ------------------------- | ------------------------ | ------ | --------- | ------- |
+| B-API (Public API)        | [FULL / LIGHT / Dormant] | [Name] | [N]       | [Notes] |
+| B-DATA (Data Layer)       | [FULL / LIGHT / Dormant] | [Name] | [N]       | [Notes] |
+| B-RT (Real-time / Events) | [FULL / LIGHT / Dormant] | [Name] | [N]       | [Notes] |
 
 ---
 
 ## 3. Technology Decision Registry
 
-| ADR                              | Decision                    | Compliant?   | Notes |
-| -------------------------------- | --------------------------- | ------------ | ----- |
-| ADR-NNN (API Strategy)           | [Decision]                  | Yes / No     |       |
-| ADR-NNN (String Key Taxonomy)    | [Decision]                  | Yes / No     |       |
-| ADR-NNN (Security: Cryptography) | [Decision]                  | Yes / No     |       |
-| ADR-NNN (Security: API Security) | [Decision]                  | Yes / No     |       |
-| ADR-NNN (Data Model)             | [Decision]                  | Yes / No     |       |
-| ADR-NNN (Error Handling)         | [Decision]                  | Yes / No     |       |
-| TSD vN                           | [All technology selections] | Yes / No     |       |
+| ADR                              | Decision                    | Compliant? | Notes |
+| -------------------------------- | --------------------------- | ---------- | ----- |
+| ADR-NNN (API Strategy)           | [Decision]                  | Yes / No   |       |
+| ADR-NNN (String Key Taxonomy)    | [Decision]                  | Yes / No   |       |
+| ADR-NNN (Security: Cryptography) | [Decision]                  | Yes / No   |       |
+| ADR-NNN (Security: API Security) | [Decision]                  | Yes / No   |       |
+| ADR-NNN (Data Model)             | [Decision]                  | Yes / No   |       |
+| ADR-NNN (Error Handling)         | [Decision]                  | Yes / No   |       |
+| TSD vN                           | [All technology selections] | Yes / No   |       |
 
 **CTO Sign-off:** All technology decisions verified against Stage 3 ADRs/TSD
 
@@ -50,12 +50,12 @@
 
 ### 4.1 Phase 1 -- Foundation / Setup
 
-| Task ID | Task                                                                  | Track          | Assigned To | Dependencies   | Estimate |
-| ------- | --------------------------------------------------------------------- | -------------- | ----------- | -------------- | -------- |
-| T-001   | [Task description]                                                    | [B-API/B-DATA/B-RT] | [Name]   | [None / T-XXX] | [X days] |
-| T-002   | Create `key-index.csv` with column schema per ADR-STRING-KEY-TAXONOMY | [All]          | [Name]      | ADR-NNN        | [X days] |
-| T-003   | Set up CI/CD pipeline with automated testing gates                    | [All]          | [Name]      | None           | [X days] |
-| T-004   | Provision database schema and migrations framework                    | [B-DATA]       | [Name]      | None           | [X days] |
+| Task ID | Task                                                                  | Track               | Assigned To | Dependencies   | Estimate |
+| ------- | --------------------------------------------------------------------- | ------------------- | ----------- | -------------- | -------- |
+| T-001   | [Task description]                                                    | [B-API/B-DATA/B-RT] | [Name]      | [None / T-XXX] | [X days] |
+| T-002   | Create `key-index.csv` with column schema per ADR-STRING-KEY-TAXONOMY | [All]               | [Name]      | ADR-NNN        | [X days] |
+| T-003   | Set up CI/CD pipeline with automated testing gates                    | [All]               | [Name]      | None           | [X days] |
+| T-004   | Provision database schema and migrations framework                    | [B-DATA]            | [Name]      | None           | [X days] |
 
 ### 4.2 Phase 2 -- Core Features
 
@@ -73,27 +73,27 @@ Dependencies are organized by layer. Each layer must be resolved before the next
 
 ### 5.1 Data Layer
 
-| Dependency              | Dependent Track(s)    | Blocked By | Status                                       |
-| ----------------------- | --------------------- | ---------- | -------------------------------------------- |
-| [e.g., Database schema] | [B-API, B-RT]         | [B-DATA]   | Not Started / In Progress / Resolved         |
+| Dependency              | Dependent Track(s) | Blocked By | Status                               |
+| ----------------------- | ------------------ | ---------- | ------------------------------------ |
+| [e.g., Database schema] | [B-API, B-RT]      | [B-DATA]   | Not Started / In Progress / Resolved |
 
 ### 5.2 Domain Layer
 
-| Dependency                   | Dependent Track(s)    | Blocked By | Status                                       |
-| ---------------------------- | --------------------- | ---------- | -------------------------------------------- |
-| [e.g., Service layer]        | [B-API]               | [B-DATA]   | Not Started / In Progress / Resolved         |
+| Dependency            | Dependent Track(s) | Blocked By | Status                               |
+| --------------------- | ------------------ | ---------- | ------------------------------------ |
+| [e.g., Service layer] | [B-API]            | [B-DATA]   | Not Started / In Progress / Resolved |
 
 ### 5.3 API Layer
 
-| Dependency                  | Dependent Track(s) | Blocked By              | Status                                       |
-| --------------------------- | ------------------ | ----------------------- | -------------------------------------------- |
-| [e.g., REST endpoints]      | [B-API]            | [B-DATA domain layer]   | Not Started / In Progress / Resolved         |
+| Dependency             | Dependent Track(s) | Blocked By            | Status                               |
+| ---------------------- | ------------------ | --------------------- | ------------------------------------ |
+| [e.g., REST endpoints] | [B-API]            | [B-DATA domain layer] | Not Started / In Progress / Resolved |
 
 ### 5.4 Real-time Layer
 
-| Dependency                   | Dependent Track(s) | Blocked By              | Status                                       |
-| ---------------------------- | ------------------ | ----------------------- | -------------------------------------------- |
-| [e.g., WebSocket/Event stream] | [B-RT]           | [B-DATA + B-API]        | Not Started / In Progress / Resolved         |
+| Dependency                     | Dependent Track(s) | Blocked By       | Status                               |
+| ------------------------------ | ------------------ | ---------------- | ------------------------------------ |
+| [e.g., WebSocket/Event stream] | [B-RT]             | [B-DATA + B-API] | Not Started / In Progress / Resolved |
 
 ---
 
@@ -103,23 +103,23 @@ A formal API Design Fidelity Checkpoint must be conducted at approximately **60%
 
 ### Participants
 
-| Role           | Responsibility                                 |
-| -------------- | ---------------------------------------------- |
-| CTO            | Reviews API design and conformance to spec     |
-| CPO            | Validates API meets PRD requirements           |
-| Backend Leads  | Present working endpoints for review           |
+| Role          | Responsibility                             |
+| ------------- | ------------------------------------------ |
+| CTO           | Reviews API design and conformance to spec |
+| CPO           | Validates API meets PRD requirements       |
+| Backend Leads | Present working endpoints for review       |
 
 ### Checkpoint Criteria
 
-| Criterion                           | Verification Method                       | Pass/Fail |
-| ----------------------------------- | ----------------------------------------- | --------- |
-| All API endpoints match OpenAPI spec| curl/Postman against running service      | /         |
-| Request/response schemas correct    | JSON Schema validation against spec       | /         |
-| Error response format consistent    | Trigger errors, verify format             | /         |
-| Pagination format consistent        | Test paginated endpoints                  | /         |
-| Authentication/authorization works  | Test with valid/invalid tokens            | /         |
-| Rate limiting functional            | Exceed limit, verify 429 response         | /         |
-| Security headers present            | Inspect response headers                  | /         |
+| Criterion                            | Verification Method                  | Pass/Fail |
+| ------------------------------------ | ------------------------------------ | --------- |
+| All API endpoints match OpenAPI spec | curl/Postman against running service | /         |
+| Request/response schemas correct     | JSON Schema validation against spec  | /         |
+| Error response format consistent     | Trigger errors, verify format        | /         |
+| Pagination format consistent         | Test paginated endpoints             | /         |
+| Authentication/authorization works   | Test with valid/invalid tokens       | /         |
+| Rate limiting functional             | Exceed limit, verify 429 response    | /         |
+| Security headers present             | Inspect response headers             | /         |
 
 ### Remediation Thresholds
 
@@ -154,16 +154,16 @@ See `GANTT.md` in the same directory for the visual timeline.
 
 ## 8. CI/CD Readiness
 
-| Component                    | Status                  | Owner  | Notes                         |
-| ---------------------------- | ----------------------- | ------ | ----------------------------- |
-| B-API CI pipeline            | Ready / In Progress     | [Name] | [Notes]                       |
-| B-DATA CI pipeline           | Ready / In Progress     | [Name] | [Notes]                       |
-| B-RT CI pipeline             | Ready / In Progress     | [Name] | [Notes]                       |
-| SAST integration             | Ready / In Progress     | [Name] | [Notes]                       |
-| DAST integration             | Ready / In Progress     | [Name] | [Notes]                       |
-| Container registry configured| Ready / In Progress     | [Name] | [Notes]                       |
-| SIS completed and CSO-signed | Yes / No                | [Name] | Required before Stage 5 Day 1 |
-| key-index.csv created        | Yes / No                | [Name] | Per String Key Taxonomy ADR   |
+| Component                     | Status              | Owner  | Notes                         |
+| ----------------------------- | ------------------- | ------ | ----------------------------- |
+| B-API CI pipeline             | Ready / In Progress | [Name] | [Notes]                       |
+| B-DATA CI pipeline            | Ready / In Progress | [Name] | [Notes]                       |
+| B-RT CI pipeline              | Ready / In Progress | [Name] | [Notes]                       |
+| SAST integration              | Ready / In Progress | [Name] | [Notes]                       |
+| DAST integration              | Ready / In Progress | [Name] | [Notes]                       |
+| Container registry configured | Ready / In Progress | [Name] | [Notes]                       |
+| SIS completed and CSO-signed  | Yes / No            | [Name] | Required before Stage 5 Day 1 |
+| key-index.csv created         | Yes / No            | [Name] | Per String Key Taxonomy ADR   |
 
 > **SIS is a security baseline document.** Any changes to SIS after Stage 5 Day 1 require CSO re-approval. SIS changes that alter security controls constitute a Stage 3 re-entry event.
 

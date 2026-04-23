@@ -1,10 +1,10 @@
 ---
-candidate_name: "Ops Engineer"
-entity_type: "studio"
-stage: "stage-4"
-division: "live-ops"
-role: "live-ops-engineer"
-document_type: "Interview Scores"
+candidate_name: 'Ops Engineer'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'live-ops'
+role: 'live-ops-engineer'
+document_type: 'Interview Scores'
 ---
 
 # Stage 4: Interview Simulation & Scored Assessments — Live Ops Engineer #1 (G30)

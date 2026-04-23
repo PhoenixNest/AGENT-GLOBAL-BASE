@@ -1,6 +1,5 @@
 ---
-description:
-  Use for build optimization, developer analytics, and internal tooling.
+description: Use for build optimization, developer analytics, and internal tooling.
   Engage during Stage 5 (Development) for developer experience and build performance.
 mode: subagent
 tools:

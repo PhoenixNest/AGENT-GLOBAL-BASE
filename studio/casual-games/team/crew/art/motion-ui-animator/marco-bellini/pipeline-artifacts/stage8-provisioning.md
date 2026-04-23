@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Provisioning complete."
-candidate_name: "Marco Bellini"
-candidate_id: "G22"
-entity_type: "studio"
-stage: "stage-8"
-division: "art"
-role: "motion-ui-animator"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Provisioning complete.'
+candidate_name: 'Marco Bellini'
+candidate_id: 'G22'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'art'
+role: 'motion-ui-animator'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Marco Bellini (G22)

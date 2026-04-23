@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-infrastructure-as-code
-description: "Devops skill: Infrastructure As Code"
+description: 'Devops skill: Infrastructure As Code'
 ---
 
 # Infrastructure as Code (IaC) Security
@@ -385,7 +385,7 @@ resource "aws_kms_key" "state_key" {
 name: Infrastructure — Drift Detection
 on:
   schedule:
-    - cron: "0 */6 * * *" # Every 6 hours
+    - cron: '0 */6 * * *' # Every 6 hours
   workflow_dispatch:
 
 permissions:
@@ -600,7 +600,7 @@ deny_contains msg if {
 name: Infrastructure — Policy Check
 on:
   pull_request:
-    paths: ["terraform/**"]
+    paths: ['terraform/**']
 
 jobs:
   tfsec:

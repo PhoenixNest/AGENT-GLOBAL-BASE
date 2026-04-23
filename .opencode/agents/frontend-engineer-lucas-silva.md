@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Vue 3 + Vite advanced patterns and Vue testing. Engage during
+description: Use for Vue 3 + Vite advanced patterns and Vue testing. Engage during
   Stage 5 (Development) for frontend implementation.
 mode: subagent
 tools:

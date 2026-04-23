@@ -35,16 +35,16 @@
 
 ## Platform Resource File Validation
 
-| Platform       | File                      | Valid?       | Placeholder Integrity                           | Truncation Risks                                 |
-| -------------- | ------------------------- | ------------ | ----------------------------------------------- | ------------------------------------------------ |
-| Web Frontend   | `messages.json`           | ☐ Yes / ☐ No | All `{placeholder}` intact                      | [>40% generic — flexible CSS layout]             |
-| Web Frontend   | `metadata.json`           | ☐ Yes / ☐ No | SEO/meta strings valid                          | [Title: 60 chars, Description: 160 chars]        |
-| Android        | `strings.xml`             | ☐ Yes / ☐ No | All `%1$s`, `%d` intact                         | [>35% expansion for buttons, >50% for body text] |
-| Android        | `strings-plurals.xml`     | ☐ Yes / ☐ No | Plural rules correct                            | [N/A]                                            |
-| iOS            | `Localizable.strings`     | ☐ Yes / ☐ No | All `%@`, `%d` intact                           | [>30% expansion for nav titles, >45% for body]   |
-| iOS            | `Localizable.stringsdict` | ☐ Yes / ☐ No | All pluralisation keys have stringsdict entries | [N/A]                                            |
-| KMP            | `key-index.csv`           | ☐ Yes / ☐ No | All placeholders intact                         | [>40% generic — flexible layout]                 |
-| Flutter        | `.arb`                    | ☐ Yes / ☐ No | All `{placeholder}` intact                      | [>40% generic — flexible layout]                 |
+| Platform     | File                      | Valid?       | Placeholder Integrity                           | Truncation Risks                                 |
+| ------------ | ------------------------- | ------------ | ----------------------------------------------- | ------------------------------------------------ |
+| Web Frontend | `messages.json`           | ☐ Yes / ☐ No | All `{placeholder}` intact                      | [>40% generic — flexible CSS layout]             |
+| Web Frontend | `metadata.json`           | ☐ Yes / ☐ No | SEO/meta strings valid                          | [Title: 60 chars, Description: 160 chars]        |
+| Android      | `strings.xml`             | ☐ Yes / ☐ No | All `%1$s`, `%d` intact                         | [>35% expansion for buttons, >50% for body text] |
+| Android      | `strings-plurals.xml`     | ☐ Yes / ☐ No | Plural rules correct                            | [N/A]                                            |
+| iOS          | `Localizable.strings`     | ☐ Yes / ☐ No | All `%@`, `%d` intact                           | [>30% expansion for nav titles, >45% for body]   |
+| iOS          | `Localizable.stringsdict` | ☐ Yes / ☐ No | All pluralisation keys have stringsdict entries | [N/A]                                            |
+| KMP          | `key-index.csv`           | ☐ Yes / ☐ No | All placeholders intact                         | [>40% generic — flexible layout]                 |
+| Flutter      | `.arb`                    | ☐ Yes / ☐ No | All `{placeholder}` intact                      | [>40% generic — flexible layout]                 |
 
 > **Platform-specific truncation thresholds:** Android buttons 35%, Android body 50%, iOS nav titles 30%, iOS body 45%, Flutter generic 40%. CJK languages compress 30-40% vs English; German expands 25-35%.
 

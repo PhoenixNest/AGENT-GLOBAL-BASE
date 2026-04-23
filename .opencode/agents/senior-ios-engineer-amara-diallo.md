@@ -1,6 +1,5 @@
 ---
-description:
-  Use for iOS networking architecture, CI/CD pipeline automation, and testing
+description: Use for iOS networking architecture, CI/CD pipeline automation, and testing
   infrastructure. Engage during Stage 5 (Development) for networking layer and CI/CD
   implementation, Stage 6 (Code Review) for networking and testing conformance, and
   Stage 7 (Automated Testing) for iOS test infrastructure.

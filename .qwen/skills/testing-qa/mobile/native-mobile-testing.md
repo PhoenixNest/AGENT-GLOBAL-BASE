@@ -882,7 +882,7 @@ class PerformanceInterceptor : Interceptor {
   uses: actions/upload-artifact@v4
   with:
     name: test-results
-    path: "**/build/outputs/androidTest-results/"
+    path: '**/build/outputs/androidTest-results/'
 ```
 
 ### 8.2 iOS CI Configuration
@@ -996,11 +996,11 @@ During Stage 8 integrity review, native mobile artifacts undergo:
 
 ### 10.3 Pipeline References
 
-| Document                        | Path                                         |
-| ------------------------------- | -------------------------------------------- |
-| Pipeline Definition             | `.qwen/pipeline/mobile-development/pipeline.md`  |
-| Stage 7: Automated Testing      | Stage 7 in pipeline                          |
-| Stage 8: Integrity Verification | Stage 8 in pipeline                          |
+| Document                        | Path                                                |
+| ------------------------------- | --------------------------------------------------- |
+| Pipeline Definition             | `.qwen/pipeline/mobile-development/pipeline.md`     |
+| Stage 7: Automated Testing      | Stage 7 in pipeline                                 |
+| Stage 8: Integrity Verification | Stage 8 in pipeline                                 |
 | Monitoring System               | `company/pipeline/mobile-development/monitoring.md` |
 
 ---

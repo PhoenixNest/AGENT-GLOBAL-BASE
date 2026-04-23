@@ -1,6 +1,6 @@
 ---
 name: android-testing-quality-android-testing
-description: "Android skill: Android Testing"
+description: 'Android skill: Android Testing'
 ---
 
 # Android Testing

@@ -1,6 +1,6 @@
 ---
 name: ios-architecture-tca-architecture
-description: "Ios skill: Tca Architecture"
+description: 'Ios skill: Tca Architecture'
 ---
 
 # TCA Architecture

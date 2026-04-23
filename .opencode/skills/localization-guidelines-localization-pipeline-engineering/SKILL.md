@@ -1,6 +1,6 @@
 ---
 name: localization-guidelines-localization-pipeline-engineering
-description: "Localization skill: Localization Pipeline Engineering"
+description: 'Localization skill: Localization Pipeline Engineering'
 ---
 
 # Localization Pipeline Engineering

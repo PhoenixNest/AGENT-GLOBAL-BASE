@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer accepted. Proceeding to Stage 8."
-candidate_name: "Lisa Henderson"
-candidate_id: "G26"
-entity_type: "studio"
-stage: "stage-7"
-division: "creative-design"
-role: "senior-game-designer"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer accepted. Proceeding to Stage 8.'
+candidate_name: 'Lisa Henderson'
+candidate_id: 'G26'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'creative-design'
+role: 'senior-game-designer'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Lisa Henderson (G26)

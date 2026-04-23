@@ -1,6 +1,5 @@
 ---
-description:
-  Use for iOS test automation, accessibility engineering, and performance
+description: Use for iOS test automation, accessibility engineering, and performance
   profiling. Engage during Stage 5 (Development) for iOS test and accessibility implementation,
   Stage 6 (Code Review) for testing and accessibility conformance, and Stage 7 (Automated
   Testing) for iOS test execution.

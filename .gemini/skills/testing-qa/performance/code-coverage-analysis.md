@@ -354,7 +354,7 @@ Different modules have different risk profiles and coverage requirements:
     token: ${{ secrets.GITHUB_TOKEN }}
     min-coverage-overall: 80
     min-coverage-changed-files: 90
-    title: "Android Coverage Report"
+    title: 'Android Coverage Report'
 ```
 
 **GitHub Actions (iOS):**

@@ -85,9 +85,9 @@ built and operated.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| V: MASVS Certification | CSO (SC) | ✅ PASS | April 5, 2026 |
-| W: Supervised Mobile Pentesting | CSO (SC) | ✅ PASS | April 5, 2026 |
+| Module                          | Delivering Officer | Status  | Date          |
+| ------------------------------- | ------------------ | ------- | ------------- |
+| V: MASVS Certification          | CSO (SC)           | ✅ PASS | April 5, 2026 |
+| W: Supervised Mobile Pentesting | CSO (SC)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

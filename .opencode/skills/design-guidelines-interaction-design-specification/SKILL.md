@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-interaction-design-specification
-description: "Design skill: Interaction Design Specification"
+description: 'Design skill: Interaction Design Specification'
 ---
 
 # Interaction Design Specification

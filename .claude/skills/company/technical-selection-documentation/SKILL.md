@@ -23,6 +23,7 @@ Produce clear, actionable technical documentation that enables executive decisio
 ### 1. Technology Selection Document
 
 **Structure:**
+
 - **Executive Summary** (3-4 sentences): Decision, rationale, cost, timeline
 - **Options Evaluated**: Table comparing 2-4 alternatives
 - **Recommendation**: Which option and why
@@ -36,6 +37,7 @@ Produce clear, actionable technical documentation that enables executive decisio
 ### 2. Version Analysis Report
 
 **Structure:**
+
 - **Current State**: What version we're on, why
 - **Target Version**: What we're considering
 - **Breaking Changes**: What breaks, migration effort
@@ -49,6 +51,7 @@ Produce clear, actionable technical documentation that enables executive decisio
 ### 3. Architecture Decision Record (ADR)
 
 **Structure:**
+
 - **Status**: Proposed / Accepted / Deprecated
 - **Context**: What problem are we solving?
 - **Decision**: What we're doing
@@ -60,18 +63,21 @@ Produce clear, actionable technical documentation that enables executive decisio
 ## Quality Standards
 
 ### Clarity
+
 - No jargon without definition
 - Use tables for comparisons
 - Lead with conclusion, then evidence
 - One idea per paragraph
 
 ### Rigor
+
 - Every claim cited (documentation, benchmarks, case studies)
 - Quantify when possible (cost, time, performance)
 - State assumptions explicitly
 - Include confidence level (high/medium/low)
 
 ### Actionability
+
 - Clear recommendation
 - Specific next steps with owners
 - Timeline with milestones
@@ -83,35 +89,42 @@ Produce clear, actionable technical documentation that enables executive decisio
 # Technology Selection: Mobile Analytics Platform
 
 ## Executive Summary
+
 Recommend adopting Amplitude over Mixpanel for mobile analytics. Amplitude provides superior mobile SDK performance (40% smaller bundle size), better iOS/Android platform support, and $120K lower annual cost at our scale. Implementation: 6 weeks, Q2 2026.
 
 ## Options Evaluated
-| Criterion | Amplitude | Mixpanel | Firebase Analytics |
-|---|---|---|---|
-| Mobile SDK size | 2.1 MB | 3.5 MB | 1.8 MB (bundled) |
-| iOS/Android support | Excellent | Good | Excellent |
-| Annual cost (100M events) | $180K | $300K | $0 (limited features) |
-| Query flexibility | High | High | Low |
+
+| Criterion                 | Amplitude | Mixpanel | Firebase Analytics    |
+| ------------------------- | --------- | -------- | --------------------- |
+| Mobile SDK size           | 2.1 MB    | 3.5 MB   | 1.8 MB (bundled)      |
+| iOS/Android support       | Excellent | Good     | Excellent             |
+| Annual cost (100M events) | $180K     | $300K    | $0 (limited features) |
+| Query flexibility         | High      | High     | Low                   |
 
 ## Recommendation
+
 **Adopt Amplitude.** Best balance of mobile performance, feature completeness, and cost.
 
 ## Total Cost of Ownership (3 years)
+
 - Licensing: $540K ($180K/year)
 - Implementation: $80K (6 weeks engineering)
 - Total: $630K
 
 ## Implementation Plan
+
 - Week 1-2: SDK integration (iOS/Android)
 - Week 3-4: Event schema migration
 - Week 5: QA and validation
 - Week 6: Production rollout
 
 ## Risk Assessment
+
 - **Data migration complexity**: Medium. Mitigation: Run both platforms in parallel for 2 weeks.
 - **Vendor lock-in**: Low. Standard event format, export API available.
 
 ## Success Criteria
+
 - Mobile app bundle size increase < 3 MB
 - Event delivery latency < 5 seconds
 - Zero data loss during migration

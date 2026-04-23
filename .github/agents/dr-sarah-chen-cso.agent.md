@@ -1,8 +1,8 @@
 ---
 name: dr-sarah-chen-cso
 description: Chief Security Officer — Dr. Sarah Chen. Owns security requirements, SRD, application hardening, and pipeline stages 1, 6, 8, 10.
-tools: ["read", "search", "edit", "terminal", "fetch", "web"]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Dr. Sarah Chen — Chief Security Officer
@@ -52,4 +52,3 @@ Reference the following skill files for detailed procedures:
 - `application-security-hardening` skill
 - `security-risk-assessment` skill
 - `emerging-threat-evaluation` skill
-

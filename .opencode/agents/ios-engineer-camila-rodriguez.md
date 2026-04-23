@@ -1,6 +1,5 @@
 ---
-description:
-  Use for SwiftUI implementation, WidgetKit development, and iOS App Extensions.
+description: Use for SwiftUI implementation, WidgetKit development, and iOS App Extensions.
   Engage during Stage 5 (Development) for SwiftUI UI implementation, widget/extension
   development, and iOS platform feature integration.
 mode: subagent

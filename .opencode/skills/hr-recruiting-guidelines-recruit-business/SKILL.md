@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-recruit-business
-description: "Hr Recruiting skill: Recruit Business"
+description: 'Hr Recruiting skill: Recruit Business'
 ---
 
 # Business Recruitment Skill

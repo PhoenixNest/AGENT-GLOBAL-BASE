@@ -188,21 +188,21 @@ E2E tests validate complete user journeys through the application, from UI to ba
 appId: com.company.app
 ---
 - launchApp
-- assertVisible: "Welcome"
-- tapOn: "Sign In"
+- assertVisible: 'Welcome'
+- tapOn: 'Sign In'
 - tapOn:
-    id: "email_field"
-- inputText: "test@example.com"
+    id: 'email_field'
+- inputText: 'test@example.com'
 - tapOn:
-    id: "password_field"
-- inputText: "SecurePass123!"
-- tapOn: "Login"
-- assertVisible: "Dashboard"
+    id: 'password_field'
+- inputText: 'SecurePass123!'
+- tapOn: 'Login'
+- assertVisible: 'Dashboard'
 - assertVisible:
-    text: "Hello, Test User"
-- tapOn: "Sync"
-- assertVisible: "Last synced: Just now"
-- assertVisible: "All data up to date"
+    text: 'Hello, Test User'
+- tapOn: 'Sync'
+- assertVisible: 'Last synced: Just now'
+- assertVisible: 'All data up to date'
 ```
 
 ### 5. Accessibility Testing
@@ -788,26 +788,26 @@ tags:
 ---
 - launchApp
 - runFlow: login.yaml
-- tapOn: "Products"
+- tapOn: 'Products'
 - tapOn:
-    id: "product_card_1"
-- tapOn: "Add to Cart"
+    id: 'product_card_1'
+- tapOn: 'Add to Cart'
 - assertVisible:
-    id: "cart_badge"
-    text: "1"
+    id: 'cart_badge'
+    text: '1'
 - tapOn:
-    id: "cart_button"
-- assertVisible: "Cart"
+    id: 'cart_button'
+- assertVisible: 'Cart'
 - assertVisible:
-    id: "item_name"
-    text: "Test Product"
-- tapOn: "Checkout"
-- tapOn: "Confirm Purchase"
-- assertVisible: "Purchase Successful"
+    id: 'item_name'
+    text: 'Test Product'
+- tapOn: 'Checkout'
+- tapOn: 'Confirm Purchase'
+- assertVisible: 'Purchase Successful'
 - assertVisible:
-    text: "Order confirmed"
-- tapOn: "Back to Home"
-- assertVisible: "Dashboard"
+    text: 'Order confirmed'
+- tapOn: 'Back to Home'
+- assertVisible: 'Dashboard'
 ```
 
 **Running Maestro Tests:**
@@ -900,8 +900,8 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "21"
+          distribution: 'temurin'
+          java-version: '21'
       - name: Run Android unit tests
         run: ./gradlew testDebugUnitTest
       - name: Upload test results
@@ -909,12 +909,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-test-results
-          path: "**/build/test-results/test*/"
+          path: '**/build/test-results/test*/'
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: android-coverage
-          path: "**/build/reports/jacoco/"
+          path: '**/build/reports/jacoco/'
 
   ios-unit-tests:
     runs-on: macos-15

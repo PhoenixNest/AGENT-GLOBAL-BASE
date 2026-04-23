@@ -1,18 +1,8 @@
 ---
 name: priscilla-oduya-test-lead
 description: Test Lead — Priscilla Oduya. Owns automated testing, defect classification (P0-P3), regression testing. Pipeline stages 7, 8.
-tools:
-  [
-    "read",
-    "search",
-    "edit",
-    "terminal",
-    "runNotebookCell",
-    "createNotebook",
-    "fetch",
-    "web",
-  ]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'runNotebookCell', 'createNotebook', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Priscilla Oduya — Test Lead
@@ -61,4 +51,3 @@ Reference the following skill files for detailed procedures:
 
 - `automated-test-suite` skill
 - `defect-triage-and-classification` skill
-

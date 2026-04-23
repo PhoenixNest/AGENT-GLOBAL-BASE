@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-mobile-platform-strategy
-description: "Architecture skill: Mobile Platform Strategy"
+description: 'Architecture skill: Mobile Platform Strategy'
 ---
 
 # Mobile Platform Strategy

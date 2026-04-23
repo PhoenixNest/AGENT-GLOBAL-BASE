@@ -9,40 +9,42 @@ Comprehensive methodology for securing web applications and APIs that serve as b
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| OWASP Top 10 (2021) Mastery | Deep understanding of all 10 web application risk categories | Identifies every OWASP Top 10 category in code review; produces remediation guidance that eliminates entire classes of vulnerabilities; tracks OWASP 2021 changes from 2017 edition |
-| API Security (OWASP API Top 10) | Specialized knowledge of API-specific attack vectors | Designs API security controls for all API1:2023 through API10:2023 categories; implements BOLA/BFLA detection; secures GraphQL endpoints |
-| WAF Engineering | Designing and tuning Web Application Firewall rules | Writes custom ModSecurity/Cloudflare WAF rules with <1% false positive rate; implements virtual patching for zero-day vulnerabilities; tunes WAF to block OWASP Top 10 attack patterns |
-| Secure Code Review | Manual and automated review of backend source code | Reviews 500+ LOC/hour with ≥90% vulnerability detection rate; identifies business logic flaws that automated tools miss; produces actionable findings with code-level remediation |
-| Authentication Bypass Detection | Identifying and exploiting authentication weaknesses | Discovers authentication bypass vectors in OAuth 2.0, JWT, session management; tests for JWT algorithm confusion, signature stripping, token replay |
-| Threat Modeling for APIs | Systematic identification of API attack surfaces | Produces STRIDE-based threat models for all API endpoints; identifies trust boundary violations; maps data flow from mobile client through API to database |
+| Dimension                       | Description                                                  | Proficiency Indicators                                                                                                                                                                 |
+| ------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OWASP Top 10 (2021) Mastery     | Deep understanding of all 10 web application risk categories | Identifies every OWASP Top 10 category in code review; produces remediation guidance that eliminates entire classes of vulnerabilities; tracks OWASP 2021 changes from 2017 edition    |
+| API Security (OWASP API Top 10) | Specialized knowledge of API-specific attack vectors         | Designs API security controls for all API1:2023 through API10:2023 categories; implements BOLA/BFLA detection; secures GraphQL endpoints                                               |
+| WAF Engineering                 | Designing and tuning Web Application Firewall rules          | Writes custom ModSecurity/Cloudflare WAF rules with <1% false positive rate; implements virtual patching for zero-day vulnerabilities; tunes WAF to block OWASP Top 10 attack patterns |
+| Secure Code Review              | Manual and automated review of backend source code           | Reviews 500+ LOC/hour with ≥90% vulnerability detection rate; identifies business logic flaws that automated tools miss; produces actionable findings with code-level remediation      |
+| Authentication Bypass Detection | Identifying and exploiting authentication weaknesses         | Discovers authentication bypass vectors in OAuth 2.0, JWT, session management; tests for JWT algorithm confusion, signature stripping, token replay                                    |
+| Threat Modeling for APIs        | Systematic identification of API attack surfaces             | Produces STRIDE-based threat models for all API endpoints; identifies trust boundary violations; maps data flow from mobile client through API to database                             |
 
 ## Execution Guidance
 
 ### 1. OWASP Top 10 (2021) — Assessment & Remediation
 
-| Rank | Category | Mobile Backend Relevance | Key Controls |
-|------|----------|-------------------------|--------------|
-| **A01** | Broken Access Control | **CRITICAL** — APIs are primary attack surface | Enforce authorization on every endpoint; implement RBAC/ABAC; deny by default; log access control failures |
-| **A02** | Cryptographic Failures | **CRITICAL** — Data in transit/storage | TLS 1.2+ everywhere; AES-256-GCM for data at rest; proper key management; no sensitive data in logs |
-| **A03** | Injection | **HIGH** — SQL, NoSQL, command injection | Parameterized queries; input validation; ORM usage; WAF rules for SQLi patterns |
-| **A04** | Insecure Design | **HIGH** — Architecture-level flaws | Threat modeling; secure design patterns; abuse case modeling; reference architectures |
-| **A05** | Security Misconfiguration | **HIGH** — Cloud and server configs | Hardened baselines; automated config scanning; disable verbose errors; remove default accounts |
-| **A06** | Vulnerable Components | **HIGH** — Dependency management | SBOM; automated dependency scanning; patch SLAs; component inventory |
-| **A07** | Identification & Auth Failures | **CRITICAL** — Mobile auth flows | MFA; rate limiting; credential stuffing protection; secure session management; OAuth 2.0 PKCE |
-| **A08** | Software & Data Integrity Failures | **HIGH** — CI/CD and update integrity | Code signing; SBOM verification; secure update mechanisms; integrity checks |
-| **A09** | Security Logging & Monitoring | **MEDIUM** — Detection capability | Structured logging; SIEM integration; alerting on security events; log integrity protection |
-| **A10** | Server-Side Request Forgery | **MEDIUM** — Mobile callback/webhook URLs | URL allowlisting; disable HTTP redirects; validate all user-supplied URLs |
+| Rank    | Category                           | Mobile Backend Relevance                       | Key Controls                                                                                               |
+| ------- | ---------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **A01** | Broken Access Control              | **CRITICAL** — APIs are primary attack surface | Enforce authorization on every endpoint; implement RBAC/ABAC; deny by default; log access control failures |
+| **A02** | Cryptographic Failures             | **CRITICAL** — Data in transit/storage         | TLS 1.2+ everywhere; AES-256-GCM for data at rest; proper key management; no sensitive data in logs        |
+| **A03** | Injection                          | **HIGH** — SQL, NoSQL, command injection       | Parameterized queries; input validation; ORM usage; WAF rules for SQLi patterns                            |
+| **A04** | Insecure Design                    | **HIGH** — Architecture-level flaws            | Threat modeling; secure design patterns; abuse case modeling; reference architectures                      |
+| **A05** | Security Misconfiguration          | **HIGH** — Cloud and server configs            | Hardened baselines; automated config scanning; disable verbose errors; remove default accounts             |
+| **A06** | Vulnerable Components              | **HIGH** — Dependency management               | SBOM; automated dependency scanning; patch SLAs; component inventory                                       |
+| **A07** | Identification & Auth Failures     | **CRITICAL** — Mobile auth flows               | MFA; rate limiting; credential stuffing protection; secure session management; OAuth 2.0 PKCE              |
+| **A08** | Software & Data Integrity Failures | **HIGH** — CI/CD and update integrity          | Code signing; SBOM verification; secure update mechanisms; integrity checks                                |
+| **A09** | Security Logging & Monitoring      | **MEDIUM** — Detection capability              | Structured logging; SIEM integration; alerting on security events; log integrity protection                |
+| **A10** | Server-Side Request Forgery        | **MEDIUM** — Mobile callback/webhook URLs      | URL allowlisting; disable HTTP redirects; validate all user-supplied URLs                                  |
 
 #### A01: Broken Access Control — Deep Dive
 
 **Most Common API Access Control Failures:**
+
 1. **IDOR (Insecure Direct Object Reference)**: `GET /api/users/{userId}/transactions` — user can change `userId` to access others' data
 2. **Missing Function-Level Access Control**: Admin endpoints accessible to regular users
 3. **Privilege Escalation via JWT**: Modifying `role` claim in JWT token
 
 **Detection Methodology:**
+
 ```bash
 # Automated IDOR detection with Nuclei
 nuclei -t nuclei-templates/idor/ -u https://api.example.com \
@@ -57,6 +59,7 @@ nuclei -t nuclei-templates/idor/ -u https://api.example.com \
 ```
 
 **Remediation Pattern — Authorization Middleware:**
+
 ```kotlin
 // Spring Boot — Authorization middleware
 @Component
@@ -87,6 +90,7 @@ class ResourceAuthorizationFilter(
 #### A02: Cryptographic Failures — Mobile Backend Focus
 
 **Critical Checks:**
+
 - TLS termination happens at load balancer; verify backend-to-backend communication is also encrypted
 - API keys and secrets are never logged (implement request/response log scrubbing)
 - Database encryption at rest (AES-256) with separate key management (KMS)
@@ -115,6 +119,7 @@ Mobile App                    Backend API                    Auth Provider
 ```
 
 **Security Controls at Each Step:**
+
 1. **Login endpoint**: Rate limiting (5 attempts/min/IP), account lockout (10 attempts/15min), CAPTCHA after 3 failures
 2. **Token generation**: JWT with RS256, 15-min access token expiry, 7-day refresh token expiry, refresh token rotation
 3. **Token validation**: Signature verification, expiration check, issuer validation, audience validation, revocation check
@@ -122,18 +127,18 @@ Mobile App                    Backend API                    Auth Provider
 
 ### 2. OWASP API Security Top 10 (2023)
 
-| Rank | Category | Description | Mobile Impact |
-|------|----------|-------------|---------------|
-| **API1** | Broken Object Level Authorization | IDOR — accessing other users' resources | HIGH — Mobile apps expose resource IDs in URLs |
-| **API2** | Broken Authentication | Credential stuffing, weak token security | CRITICAL — Mobile auth tokens are high-value targets |
-| **API3** | Broken Object Property Level Auth | Mass assignment, excessive data exposure | HIGH — Mobile APIs often over-respond with data |
-| **API4** | Unrestricted Resource Consumption | DoS, rate limiting bypass | MEDIUM — Mobile apps can be weaponized for DDoS |
-| **API5** | Broken Function Level Authorization | Vertical privilege escalation | HIGH — Admin APIs accessible from mobile |
-| **API6** | Unrestricted Access to Sensitive Business Flows | Bot abuse, scraping | MEDIUM — Mobile API endpoints can be scraped |
-| **API7** | Server Side Request Forgery | SSRF via user-supplied URLs | MEDIUM — Webhook/callback URLs |
-| **API8** | Security Misconfiguration | Missing security headers, CORS misconfig | HIGH — CORS can expose APIs to unauthorized origins |
-| **API9** | Improper Inventory Management | Shadow APIs, deprecated endpoints | HIGH — Old API versions left active |
-| **API10** | Unsafe Consumption of APIs | Trusting third-party API responses | MEDIUM — Mobile SDKs consuming external APIs |
+| Rank      | Category                                        | Description                              | Mobile Impact                                        |
+| --------- | ----------------------------------------------- | ---------------------------------------- | ---------------------------------------------------- |
+| **API1**  | Broken Object Level Authorization               | IDOR — accessing other users' resources  | HIGH — Mobile apps expose resource IDs in URLs       |
+| **API2**  | Broken Authentication                           | Credential stuffing, weak token security | CRITICAL — Mobile auth tokens are high-value targets |
+| **API3**  | Broken Object Property Level Auth               | Mass assignment, excessive data exposure | HIGH — Mobile APIs often over-respond with data      |
+| **API4**  | Unrestricted Resource Consumption               | DoS, rate limiting bypass                | MEDIUM — Mobile apps can be weaponized for DDoS      |
+| **API5**  | Broken Function Level Authorization             | Vertical privilege escalation            | HIGH — Admin APIs accessible from mobile             |
+| **API6**  | Unrestricted Access to Sensitive Business Flows | Bot abuse, scraping                      | MEDIUM — Mobile API endpoints can be scraped         |
+| **API7**  | Server Side Request Forgery                     | SSRF via user-supplied URLs              | MEDIUM — Webhook/callback URLs                       |
+| **API8**  | Security Misconfiguration                       | Missing security headers, CORS misconfig | HIGH — CORS can expose APIs to unauthorized origins  |
+| **API9**  | Improper Inventory Management                   | Shadow APIs, deprecated endpoints        | HIGH — Old API versions left active                  |
+| **API10** | Unsafe Consumption of APIs                      | Trusting third-party API responses       | MEDIUM — Mobile SDKs consuming external APIs         |
 
 #### API3: Broken Object Property Level Authorization — Mass Assignment
 
@@ -152,6 +157,7 @@ PUT /api/users/me
 ```
 
 **Remediation — DTO Pattern:**
+
 ```kotlin
 // Kotlin — Use DTOs to control what properties are accepted
 data class UserUpdateRequest(
@@ -177,6 +183,7 @@ fun updateUser(
 #### API8: Security Misconfiguration — CORS
 
 **Dangerous CORS Configuration:**
+
 ```http
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
@@ -184,6 +191,7 @@ Access-Control-Allow-Credentials: true
 ```
 
 **Secure CORS Configuration:**
+
 ```http
 Access-Control-Allow-Origin: https://app.example.com
 Access-Control-Allow-Methods: GET, POST
@@ -254,6 +262,7 @@ SecRule REQUEST_BODY "@rx (role|isAdmin|isVerified|accountBalance)" \
 ```
 
 **WAF Tuning Process:**
+
 1. Deploy WAF in **Detection Mode** (log only, no blocking) for 2 weeks
 2. Analyze logs to identify false positive patterns
 3. Create whitelist rules for legitimate traffic patterns
@@ -265,40 +274,40 @@ SecRule REQUEST_BODY "@rx (role|isAdmin|isVerified|accountBalance)" \
 
 **Review Checklist per OWASP Top 10:**
 
-| Category | What to Look For | Code Patterns |
-|----------|-----------------|---------------|
-| **A01 Access Control** | Missing authorization checks | Endpoints without `@PreAuthorize`, `@Secured`, or middleware auth |
-| **A02 Crypto** | Weak algorithms, hardcoded keys | `MD5`, `SHA1`, `DES`, hardcoded secrets, missing TLS |
-| **A03 Injection** | Unparameterized queries | String concatenation in SQL, `eval()`, `exec()` |
-| **A04 Insecure Design** | Missing security controls | No rate limiting, no input validation, no audit logging |
-| **A05 Misconfiguration** | Default configs, verbose errors | Stack traces in responses, default passwords, debug mode |
-| **A06 Vulnerable Components** | Outdated dependencies | `package-lock.json` / `pom.xml` with known CVEs |
-| **A07 Auth Failures** | Weak auth flows | No MFA, no rate limiting on login, predictable tokens |
-| **A08 Integrity** | Unsigned artifacts, no SBOM | Missing code signing, no dependency verification |
-| **A09 Logging** | Missing security events | No auth failure logs, no access logs, no audit trail |
-| **A10 SSRF** | User-controlled URLs | `fetch(userUrl)`, `HttpClient.get(input)` without validation |
+| Category                      | What to Look For                | Code Patterns                                                     |
+| ----------------------------- | ------------------------------- | ----------------------------------------------------------------- |
+| **A01 Access Control**        | Missing authorization checks    | Endpoints without `@PreAuthorize`, `@Secured`, or middleware auth |
+| **A02 Crypto**                | Weak algorithms, hardcoded keys | `MD5`, `SHA1`, `DES`, hardcoded secrets, missing TLS              |
+| **A03 Injection**             | Unparameterized queries         | String concatenation in SQL, `eval()`, `exec()`                   |
+| **A04 Insecure Design**       | Missing security controls       | No rate limiting, no input validation, no audit logging           |
+| **A05 Misconfiguration**      | Default configs, verbose errors | Stack traces in responses, default passwords, debug mode          |
+| **A06 Vulnerable Components** | Outdated dependencies           | `package-lock.json` / `pom.xml` with known CVEs                   |
+| **A07 Auth Failures**         | Weak auth flows                 | No MFA, no rate limiting on login, predictable tokens             |
+| **A08 Integrity**             | Unsigned artifacts, no SBOM     | Missing code signing, no dependency verification                  |
+| **A09 Logging**               | Missing security events         | No auth failure logs, no access logs, no audit trail              |
+| **A10 SSRF**                  | User-controlled URLs            | `fetch(userUrl)`, `HttpClient.get(input)` without validation      |
 
 ### 5. Authentication Bypass Detection
 
 **JWT Attack Vectors:**
 
-| Attack | Description | Detection |
-|--------|-------------|-----------|
+| Attack                  | Description                                            | Detection                                                      |
+| ----------------------- | ------------------------------------------------------ | -------------------------------------------------------------- |
 | **Algorithm Confusion** | Change `alg` from RS256 to HS256, sign with public key | Backend must enforce algorithm; reject HS256 if RS256 expected |
-| **Signature Stripping** | Remove signature, set `alg: none` | Backend must reject `alg: none` in production |
-| **Token Replay** | Reuse expired or revoked tokens | Implement token revocation list; check `jti` claim |
-| **Claim Manipulation** | Modify `sub`, `role`, `exp` claims | Verify signature before trusting any claim |
-| **Key Confusion** | Use public key as HMAC secret | Use separate keys for signing and verification |
+| **Signature Stripping** | Remove signature, set `alg: none`                      | Backend must reject `alg: none` in production                  |
+| **Token Replay**        | Reuse expired or revoked tokens                        | Implement token revocation list; check `jti` claim             |
+| **Claim Manipulation**  | Modify `sub`, `role`, `exp` claims                     | Verify signature before trusting any claim                     |
+| **Key Confusion**       | Use public key as HMAC secret                          | Use separate keys for signing and verification                 |
 
 **OAuth 2.0 / OIDC Attack Vectors:**
 
-| Attack | Description | Prevention |
-|--------|-------------|------------|
-| **Authorization Code Interception** | Intercept auth code in redirect | Enforce PKCE for all OAuth clients (RFC 7636) |
-| **Redirect URI Manipulation** | Register malicious redirect URI | Exact match redirect URI validation; no wildcards |
-| **State Parameter Omission** | CSRF on OAuth flow | Always include and validate `state` parameter |
-| **Token Leakage via Referrer** | Access token exposed in HTTP Referer | Use fragment identifier for tokens; set Referrer-Policy |
-| **Refresh Token Rotation Bypass** | Steal refresh token | Implement automatic old-token revocation on rotation |
+| Attack                              | Description                          | Prevention                                              |
+| ----------------------------------- | ------------------------------------ | ------------------------------------------------------- |
+| **Authorization Code Interception** | Intercept auth code in redirect      | Enforce PKCE for all OAuth clients (RFC 7636)           |
+| **Redirect URI Manipulation**       | Register malicious redirect URI      | Exact match redirect URI validation; no wildcards       |
+| **State Parameter Omission**        | CSRF on OAuth flow                   | Always include and validate `state` parameter           |
+| **Token Leakage via Referrer**      | Access token exposed in HTTP Referer | Use fragment identifier for tokens; set Referrer-Policy |
+| **Refresh Token Rotation Bypass**   | Steal refresh token                  | Implement automatic old-token revocation on rotation    |
 
 **Testing Authentication Bypass:**
 
@@ -330,23 +339,23 @@ python3 jwt_tool.py <original_jwt> -X a -n
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 1** (SRD) | Identifies web API security requirements that complement mobile SRD; defines backend security controls that mobile app depends on |
-| **Stage 5** (Development) | Conducts secure code review of backend services as they are developed; provides real-time feedback to backend developers |
-| **Stage 6** (Code Review) | Reviews backend API code for OWASP Top 10 and API Top 10 vulnerabilities; findings included in Defect Report |
-| **Stage 7** (Automated Testing) | Ensures DAST scanning covers all API endpoints; validates that authentication bypass vectors are tested |
-| **Stage 8** (Integrity Verification) | Re-tests all previously identified API vulnerabilities; verifies WAF rules are deployed and functional |
-| **Stage 10** (Release Readiness) | Provides backend API security sign-off to CSO for release checklist item #4 |
+| Pipeline Stage                       | Application                                                                                                                       |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 1** (SRD)                    | Identifies web API security requirements that complement mobile SRD; defines backend security controls that mobile app depends on |
+| **Stage 5** (Development)            | Conducts secure code review of backend services as they are developed; provides real-time feedback to backend developers          |
+| **Stage 6** (Code Review)            | Reviews backend API code for OWASP Top 10 and API Top 10 vulnerabilities; findings included in Defect Report                      |
+| **Stage 7** (Automated Testing)      | Ensures DAST scanning covers all API endpoints; validates that authentication bypass vectors are tested                           |
+| **Stage 8** (Integrity Verification) | Re-tests all previously identified API vulnerabilities; verifies WAF rules are deployed and functional                            |
+| **Stage 10** (Release Readiness)     | Provides backend API security sign-off to CSO for release checklist item #4                                                       |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **OWASP Top 10 Coverage** | 100% of OWASP Top 10 (2021) controls assessed for all backend services |
-| **API Top 10 Coverage** | 100% of OWASP API Top 10 (2023) controls assessed for all API endpoints |
-| **Code Review Throughput** | ≥500 LOC/hour with ≥90% vulnerability detection rate (validated against known-vulnerable codebases) |
-| **WAF Effectiveness** | ≥95% of OWASP Top 10 attack patterns blocked; <1% false positive rate |
-| **Authentication Security** | Zero authentication bypass vulnerabilities in production (validated by pen testing) |
-| **Remediation SLA** | P0/P1 API vulnerabilities remediated within 24 hours; P2 within current sprint |
-| **Security Headers** | 100% of API responses include required security headers (HSTS, X-Content-Type-Options, X-Frame-Options, CSP) |
+| Metric                      | Standard                                                                                                     |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **OWASP Top 10 Coverage**   | 100% of OWASP Top 10 (2021) controls assessed for all backend services                                       |
+| **API Top 10 Coverage**     | 100% of OWASP API Top 10 (2023) controls assessed for all API endpoints                                      |
+| **Code Review Throughput**  | ≥500 LOC/hour with ≥90% vulnerability detection rate (validated against known-vulnerable codebases)          |
+| **WAF Effectiveness**       | ≥95% of OWASP Top 10 attack patterns blocked; <1% false positive rate                                        |
+| **Authentication Security** | Zero authentication bypass vulnerabilities in production (validated by pen testing)                          |
+| **Remediation SLA**         | P0/P1 API vulnerabilities remediated within 24 hours; P2 within current sprint                               |
+| **Security Headers**        | 100% of API responses include required security headers (HSTS, X-Content-Type-Options, X-Frame-Options, CSP) |

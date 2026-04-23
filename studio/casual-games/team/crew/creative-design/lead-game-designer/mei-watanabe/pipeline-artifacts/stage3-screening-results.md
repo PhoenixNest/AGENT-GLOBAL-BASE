@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All 50 candidates screened. Auto-rejected candidates logged with reason codes. Assessment batteries assigned to 12 advancing candidates. Proceeding to Stage 4."
-candidate_name: "Screening Results"
-entity_type: "studio"
-stage: "stage-3"
-division: "creative-design"
-role: "lead-game-designer"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All 50 candidates screened. Auto-rejected candidates logged with reason codes. Assessment batteries assigned to 12 advancing candidates. Proceeding to Stage 4.'
+candidate_name: 'Screening Results'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'creative-design'
+role: 'lead-game-designer'
+document_type: 'Screening Results'
 ---
 
 # Automated Screening Results

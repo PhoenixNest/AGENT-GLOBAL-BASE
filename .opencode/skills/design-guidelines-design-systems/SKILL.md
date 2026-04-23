@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-design-systems
-description: "Design skill: Design Systems"
+description: 'Design skill: Design Systems'
 ---
 
 # Design Systems Architecture
@@ -105,17 +105,17 @@ Component Tokens (Component-specific overrides)
 ```tsx
 // Button.stories.tsx
 export default {
-  title: "Components/Atoms/Button",
+  title: 'Components/Atoms/Button',
   component: Button,
   parameters: {
     ids: {
-      specRef: "IDS-SECTION-4.2", // Links to Interaction Design Specification
-      cdoApproval: "2026-03-15", // Date of CDO design sign-off
-      wcagLevel: "AA", // Accessibility compliance target
+      specRef: 'IDS-SECTION-4.2', // Links to Interaction Design Specification
+      cdoApproval: '2026-03-15', // Date of CDO design sign-off
+      wcagLevel: 'AA', // Accessibility compliance target
     },
     design: {
-      type: "figma",
-      url: "https://figma.com/file/.../Button?node-id=...",
+      type: 'figma',
+      url: 'https://figma.com/file/.../Button?node-id=...',
     },
   },
   // ...

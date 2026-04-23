@@ -1,15 +1,6 @@
 {
   "name": "devex-engineer-zara-okonkwo",
   "description": "Use for CI/CD optimization, test infrastructure, and developer onboarding automation. Engage during Stage 5 (Development) for CI/CD infrastructure and Stage 7 (Testing) for test infrastructure optimization.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/devops/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/devops/SKILL.md"]
 }

@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-aws-management
-description: "Devops skill: Aws Management"
+description: 'Devops skill: Aws Management'
 ---
 
 # AWS Management

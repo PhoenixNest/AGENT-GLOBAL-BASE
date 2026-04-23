@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All 50 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4."
-candidate_name: "Associate Producer"
-candidate_id: "G35"
-entity_type: "studio"
-stage: "stage-3"
-division: "production"
-role: "associate-producer"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All 50 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4.'
+candidate_name: 'Associate Producer'
+candidate_id: 'G35'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'production'
+role: 'associate-producer'
+document_type: 'Screening Results'
 ---
 
 # Screening Results — Associate Producer (G35)

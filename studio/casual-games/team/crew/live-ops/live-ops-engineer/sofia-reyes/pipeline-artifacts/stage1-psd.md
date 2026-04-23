@@ -1,11 +1,11 @@
 ---
-seniority: "Senior"
-priority: "P1"
-entity_type: "studio"
-stage: "stage-1"
-division: "live-ops"
-role: "live-ops-engineer"
-document_type: "Position Specification Document"
+seniority: 'Senior'
+priority: 'P1'
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'live-ops'
+role: 'live-ops-engineer'
+document_type: 'Position Specification Document'
 ---
 
 # Stage 1-3: PSD, Sourcing, Screening — Live Ops Engineer #2 (G31)

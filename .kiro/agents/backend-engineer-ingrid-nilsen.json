@@ -1,15 +1,6 @@
 {
   "name": "backend-engineer-ingrid-nilsen",
   "description": "Use for Python backend development (FastAPI, async Python), API integration resilience patterns, and PostgreSQL data processing. Engage during Stage 5 (Backend Development) for Python services and API integration.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/backend/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/backend/SKILL.md"]
 }

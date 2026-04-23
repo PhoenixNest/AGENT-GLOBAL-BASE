@@ -495,7 +495,7 @@ spec:
           name: http_requests_per_second
         target:
           type: AverageValue
-          averageValue: "1000"
+          averageValue: '1000'
   behavior:
     scaleUp:
       stabilizationWindowSeconds: 60

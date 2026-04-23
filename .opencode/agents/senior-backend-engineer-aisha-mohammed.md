@@ -1,6 +1,5 @@
 ---
-description:
-  Use for database architecture (PostgreSQL sharding, read replicas), API
+description: Use for database architecture (PostgreSQL sharding, read replicas), API
   gateway design, and API testing infrastructure. Engage during Stage 5 (Backend Development)
   for database and API work, and Stage 6 (Code Review) for database and API conformance.
 mode: subagent

@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-monitoring-audit
-description: "Devops skill: Monitoring Audit"
+description: 'Devops skill: Monitoring Audit'
 ---
 
 # Monitoring & Audit

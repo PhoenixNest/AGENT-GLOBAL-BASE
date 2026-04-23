@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer accepted. Proceeding to Stage 8."
-candidate_name: "Kenji Takahashi"
-candidate_id: "G28"
-entity_type: "studio"
-stage: "stage-7"
-division: "audio"
-role: "audio-designer"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer accepted. Proceeding to Stage 8.'
+candidate_name: 'Kenji Takahashi'
+candidate_id: 'G28'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'audio'
+role: 'audio-designer'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Kenji Takahashi (G28)

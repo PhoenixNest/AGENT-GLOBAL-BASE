@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile application penetration testing, OWASP MASVS compliance
+description: Use for mobile application penetration testing, OWASP MASVS compliance
   assessments, and mobile SAST/DAST pipeline operation. Engage during Stage 1 (Requirements)
   for security requirements reviews and Stage 6 (Code Review) for mobile security
   code reviews.

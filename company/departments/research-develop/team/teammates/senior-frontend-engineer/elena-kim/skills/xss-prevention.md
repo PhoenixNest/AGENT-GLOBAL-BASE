@@ -27,24 +27,21 @@ This skill provides deep expertise in cross-site scripting (XSS) prevention at t
 **Production-hardened DOMPurify configuration with custom hooks:**
 
 ```js
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify';
 
 // Step 1: Create a dedicated DOMPurify instance (don't use the global)
 const purify = DOMPurify();
 
 // Step 2: Register custom hooks for domain-specific sanitization
 // Hook: Remove any element with suspicious event handler-like attributes
-purify.addHook("beforeSanitizeAttributes", function (node) {
+purify.addHook('beforeSanitizeAttributes', function (node) {
   // Check all attributes for event handler patterns
   for (const attr of node.attributes) {
     if (/^on\w+$/i.test(attr.name)) {
       node.removeAttribute(attr.name);
     }
     // Block data URIs in src/href (can execute scripts)
-    if (
-      (attr.name === "src" || attr.name === "href") &&
-      /^data:/i.test(attr.value)
-    ) {
+    if ((attr.name === 'src' || attr.name === 'href') && /^data:/i.test(attr.value)) {
       // Allow data:image/* for inline images, block everything else
       if (!/^data:image\/(png|jpeg|gif|webp|svg\+xml);/i.test(attr.value)) {
         node.removeAttribute(attr.name);
@@ -54,26 +51,26 @@ purify.addHook("beforeSanitizeAttributes", function (node) {
 });
 
 // Hook: Add rel="noopener noreferrer" to all links (prevent tabnabbing)
-purify.addHook("afterSanitizeAttributes", function (node) {
-  if (node.tagName === "A" && node.hasAttribute("href")) {
-    node.setAttribute("rel", "noopener noreferrer");
+purify.addHook('afterSanitizeAttributes', function (node) {
+  if (node.tagName === 'A' && node.hasAttribute('href')) {
+    node.setAttribute('rel', 'noopener noreferrer');
     // Open external links in new tab
-    if (node.getAttribute("href").startsWith("http")) {
-      node.setAttribute("target", "_blank");
+    if (node.getAttribute('href').startsWith('http')) {
+      node.setAttribute('target', '_blank');
     }
   }
 });
 
 // Hook: Sanitize style attributes to prevent expression() and url() injection
-purify.addHook("beforeSanitizeAttributes", function (node) {
-  if (node.hasAttribute("style")) {
-    const style = node.getAttribute("style");
+purify.addHook('beforeSanitizeAttributes', function (node) {
+  if (node.hasAttribute('style')) {
+    const style = node.getAttribute('style');
     // Remove CSS expressions (IE legacy but still a vector)
     const sanitized = style
-      .replace(/expression\s*\(/gi, "")
-      .replace(/url\s*\(\s*['"]?javascript:/gi, "url(blocked:");
+      .replace(/expression\s*\(/gi, '')
+      .replace(/url\s*\(\s*['"]?javascript:/gi, 'url(blocked:');
     if (sanitized !== style) {
-      node.setAttribute("style", sanitized);
+      node.setAttribute('style', sanitized);
     }
   }
 });
@@ -82,106 +79,105 @@ purify.addHook("beforeSanitizeAttributes", function (node) {
 const SANITIZE_CONFIG = Object.freeze({
   ALLOWED_TAGS: [
     // Text formatting
-    "p",
-    "br",
-    "strong",
-    "em",
-    "u",
-    "s",
-    "blockquote",
-    "code",
-    "pre",
+    'p',
+    'br',
+    'strong',
+    'em',
+    'u',
+    's',
+    'blockquote',
+    'code',
+    'pre',
     // Lists
-    "ul",
-    "ol",
-    "li",
+    'ul',
+    'ol',
+    'li',
     // Links and media
-    "a",
-    "img",
-    "figure",
-    "figcaption",
+    'a',
+    'img',
+    'figure',
+    'figcaption',
     // Headings
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
     // Tables
-    "table",
-    "thead",
-    "tbody",
-    "tr",
-    "th",
-    "td",
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'th',
+    'td',
     // Semantic
-    "details",
-    "summary",
-    "del",
-    "ins",
-    "sub",
-    "sup",
-    "mark",
-    "abbr",
+    'details',
+    'summary',
+    'del',
+    'ins',
+    'sub',
+    'sup',
+    'mark',
+    'abbr',
     // Horizontal rule
-    "hr",
+    'hr',
   ],
   ALLOWED_ATTR: [
     // Standard
-    "href",
-    "title",
-    "alt",
-    "src",
-    "width",
-    "height",
-    "class",
-    "id",
-    "target",
-    "rel",
-    "colspan",
-    "rowspan",
-    "align",
-    "valign",
+    'href',
+    'title',
+    'alt',
+    'src',
+    'width',
+    'height',
+    'class',
+    'id',
+    'target',
+    'rel',
+    'colspan',
+    'rowspan',
+    'align',
+    'valign',
     // Accessibility
-    "aria-label",
-    "aria-describedby",
-    "aria-hidden",
-    "role",
+    'aria-label',
+    'aria-describedby',
+    'aria-hidden',
+    'role',
     // Abbreviation
-    "abbr",
+    'abbr',
   ],
   // URI validation — strict protocol allowlist
-  ALLOWED_URI_REGEXP:
-    /^(?:(?:(?:f|ht)tps?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+  ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
   // Forbidden — explicitly block dangerous elements and attributes
   FORBID_ATTR: [
-    "style",
-    "onerror",
-    "onload",
-    "onclick",
-    "onmouseover",
-    "onfocus",
-    "onblur",
-    "onmouseout",
-    "onkeydown",
-    "onkeyup",
+    'style',
+    'onerror',
+    'onload',
+    'onclick',
+    'onmouseover',
+    'onfocus',
+    'onblur',
+    'onmouseout',
+    'onkeydown',
+    'onkeyup',
   ],
   FORBID_TAGS: [
-    "script",
-    "style",
-    "iframe",
-    "object",
-    "embed",
-    "form",
-    "input",
-    "button",
-    "textarea",
-    "select",
-    "base",
-    "link",
-    "meta",
-    "noscript",
-    "template",
+    'script',
+    'style',
+    'iframe',
+    'object',
+    'embed',
+    'form',
+    'input',
+    'button',
+    'textarea',
+    'select',
+    'base',
+    'link',
+    'meta',
+    'noscript',
+    'template',
   ],
   // Security
   SANITIZE_DOM: true, // Protect against DOM Clobbering
@@ -198,11 +194,11 @@ const SANITIZE_CONFIG = Object.freeze({
 
 // Step 4: Export sanitized function
 export function sanitizeUserHTML(html) {
-  if (typeof html !== "string") return "";
-  if (html.length === 0) return "";
+  if (typeof html !== 'string') return '';
+  if (html.length === 0) return '';
   // Reject suspiciously long input (potential DoS)
   if (html.length > 100000) {
-    console.warn("Input exceeds maximum sanitization length (100KB)");
+    console.warn('Input exceeds maximum sanitization length (100KB)');
     return html.slice(0, 100000);
   }
   return purify.sanitize(html, SANITIZE_CONFIG);
@@ -215,17 +211,17 @@ export { purify };
 **Testing DOMPurify against known XSS vectors:**
 
 ```js
-import { sanitizeUserHTML, purify } from "./sanitizer";
+import { sanitizeUserHTML, purify } from './sanitizer';
 
-describe("XSS Prevention", () => {
+describe('XSS Prevention', () => {
   const xssVectors = [
     // Basic script injection
-    "<script>alert(1)</script>",
+    '<script>alert(1)</script>',
     // Event handler injection
     '<img src=x onerror="alert(1)">',
     // SVG-based XSS
     '<svg onload="alert(1)">',
-    "<svg><script>alert(1)</script></svg>",
+    '<svg><script>alert(1)</script></svg>',
     // JavaScript URL
     '<a href="javascript:alert(1)">click</a>',
     // Data URI XSS
@@ -233,7 +229,7 @@ describe("XSS Prevention", () => {
     // DOM Clobbering
     '<a id="defaultAvatar"></a><a id="defaultAvatar" name="avatar"></a>',
     // mXSS (mutation XSS) — IE/Edge specific
-    "<math><mtext><table><mglyph><style><img src=x onerror=alert(1)>",
+    '<math><mtext><table><mglyph><style><img src=x onerror=alert(1)>',
     // CSS expression (IE legacy)
     '<div style="width: expression(alert(1))">',
     // Base tag hijacking
@@ -245,9 +241,9 @@ describe("XSS Prevention", () => {
     // Encoded XSS
     '<img src=x onerror="&#97;&#108;&#101;&#114;&#116;(1)">',
     // Null byte injection
-    "<scr\0ipt>alert(1)</script>",
+    '<scr\0ipt>alert(1)</script>',
     // Newline injection
-    "<img\nsrc=x\nonerror=alert(1)>",
+    '<img\nsrc=x\nonerror=alert(1)>',
   ];
 
   xssVectors.forEach((vector, index) => {
@@ -271,10 +267,10 @@ describe("XSS Prevention", () => {
 
 ```js
 // Express middleware — generates per-request nonce
-const crypto = require("crypto");
+const crypto = require('crypto');
 
 function nonceMiddleware(req, res, next) {
-  const nonce = crypto.randomBytes(16).toString("base64");
+  const nonce = crypto.randomBytes(16).toString('base64');
   res.locals.nonce = nonce;
 
   // Set CSP header with nonce
@@ -289,9 +285,9 @@ function nonceMiddleware(req, res, next) {
     `base-uri 'self'`,
     `form-action 'self'`,
     `upgrade-insecure-requests`,
-  ].join("; ");
+  ].join('; ');
 
-  res.setHeader("Content-Security-Policy", cspDirectives);
+  res.setHeader('Content-Security-Policy', cspDirectives);
   next();
 }
 
@@ -343,10 +339,10 @@ function App({ config }) {
 
 // Read config without executing as script
 function getAppConfig() {
-  const el = document.getElementById("__app-config");
+  const el = document.getElementById('__app-config');
   if (!el) return {};
   try {
-    return JSON.parse(el.textContent || "{}");
+    return JSON.parse(el.textContent || '{}');
   } catch {
     return {};
   }
@@ -422,27 +418,27 @@ User Input
 // HTML context — escape entities
 function encodeHTML(str) {
   return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
 }
 
 // HTML attribute context — additionally encode spaces
 function encodeHTMLAttribute(str) {
-  return encodeHTML(str).replace(/\s/g, "&#x20;");
+  return encodeHTML(str).replace(/\s/g, '&#x20;');
 }
 
 // JavaScript string context
 function encodeJSString(str) {
   return str
-    .replace(/\\/g, "\\\\")
+    .replace(/\\/g, '\\\\')
     .replace(/"/g, '\\"')
     .replace(/'/g, "\\'")
-    .replace(/\n/g, "\\n")
-    .replace(/\r/g, "\\r")
-    .replace(/<\/script>/gi, "<\\/script>");
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r')
+    .replace(/<\/script>/gi, '<\\/script>');
 }
 
 // URL context
@@ -453,7 +449,7 @@ function encodeURL(str) {
 
 // CSS value context
 function encodeCSSValue(str) {
-  return str.replace(/[\\()]/g, "\\$&");
+  return str.replace(/[\\()]/g, '\\$&');
 }
 ```
 

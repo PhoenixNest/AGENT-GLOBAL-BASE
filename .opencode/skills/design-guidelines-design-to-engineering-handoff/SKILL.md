@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-design-to-engineering-handoff
-description: "Design skill: Design To Engineering Handoff"
+description: 'Design skill: Design To Engineering Handoff'
 ---
 
 # Design-to-Engineering Handoff

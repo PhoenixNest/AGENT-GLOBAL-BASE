@@ -56,20 +56,20 @@
 
 ### Data/ML
 
-| Component | Weight | Pass | Auto-Reject |
-| --------- | ------ | ---- | ----------- |
-| Statistical Reasoning Test | 35% | ≥ 80th pctile | < 60th pctile |
-| ML System Design Prompt | 35% | ≥ 4/5 | < 3/5 |
-| Data Pipeline Challenge | 30% | ≥ 4/5 | < 3/5 |
+| Component                  | Weight | Pass          | Auto-Reject   |
+| -------------------------- | ------ | ------------- | ------------- |
+| Statistical Reasoning Test | 35%    | ≥ 80th pctile | < 60th pctile |
+| ML System Design Prompt    | 35%    | ≥ 4/5         | < 3/5         |
+| Data Pipeline Challenge    | 30%    | ≥ 4/5         | < 3/5         |
 
 ### Business
 
-| Component | Weight | Pass | Auto-Reject |
-| --------- | ------ | ---- | ----------- |
-| Case Study Analysis | 35% | ≥ 80th pctile | < 60th pctile |
-| Financial Modeling Test | 25% | ≥ 4/5 | < 3/5 |
-| Strategic Reasoning Interview | 25% | ≥ 80th pctile | < 60th pctile |
-| Behavioral / Culture Add | 15% | ≥ 4/5 | < 3/5 |
+| Component                     | Weight | Pass          | Auto-Reject   |
+| ----------------------------- | ------ | ------------- | ------------- |
+| Case Study Analysis           | 35%    | ≥ 80th pctile | < 60th pctile |
+| Financial Modeling Test       | 25%    | ≥ 4/5         | < 3/5         |
+| Strategic Reasoning Interview | 25%    | ≥ 80th pctile | < 60th pctile |
+| Behavioral / Culture Add      | 15%    | ≥ 4/5         | < 3/5         |
 
 ## Universal Auto-Reject Triggers
 

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Android data layer architecture, offline-first patterns, and
+description: Use for Android data layer architecture, offline-first patterns, and
   Android test infrastructure (unit, UI, E2E). Engage during Stage 5 (Development)
   for Android data layer implementation and Stage 7 (Automated Testing) for Android
   test infrastructure.

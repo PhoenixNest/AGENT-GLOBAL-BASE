@@ -4,14 +4,14 @@ scores:
   craft_depth: 5
   leadership_signal: 4
   standards_signal: 5
-  red_flag_scan: "PASS"
+  red_flag_scan: 'PASS'
 total_score: 19
-result: "PASS"
-entity_type: "studio"
-stage: "stage-5"
-division: "leadership"
-role: "creative-director"
-document_type: "Vetting Gate"
+result: 'PASS'
+entity_type: 'studio'
+stage: 'stage-5'
+division: 'leadership'
+role: 'creative-director'
+document_type: 'Vetting Gate'
 ---
 
 # Creative Director — Vetting Gate: Sakura Ishimori

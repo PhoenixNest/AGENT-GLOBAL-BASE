@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-spec-development
-description: "Architecture skill: Spec Development"
+description: 'Architecture skill: Spec Development'
 ---
 
 # SPEC Development

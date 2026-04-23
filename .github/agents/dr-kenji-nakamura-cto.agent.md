@@ -1,18 +1,8 @@
 ---
 name: dr-kenji-nakamura-cto
 description: Chief Technology Officer — Dr. Kenji Nakamura. Owns UML engineering, SPEC development, software development, and pipeline stages 3, 4, 5, 6, 7, 8, 10.
-tools:
-  [
-    "read",
-    "search",
-    "edit",
-    "terminal",
-    "runNotebookCell",
-    "createNotebook",
-    "fetch",
-    "web",
-  ]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'runNotebookCell', 'createNotebook', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Dr. Kenji Nakamura — Chief Technology Officer
@@ -65,4 +55,3 @@ Reference the following skill files for detailed procedures:
 - `software-architecture-design` skill
 - `mobile-technology-strategy` skill
 - `technical-project-management` skill
-

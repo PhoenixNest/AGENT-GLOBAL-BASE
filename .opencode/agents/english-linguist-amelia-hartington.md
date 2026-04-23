@@ -1,6 +1,5 @@
 ---
-description:
-  Use for English (EN-US/EN-GB) UI string review, quality assurance, and
+description: Use for English (EN-US/EN-GB) UI string review, quality assurance, and
   copy standards. Engage during Stage 9 (Internationalization Engineering) for reviewing
   EN-source strings for mobile UI copy conventions and HIG compliance.
 mode: subagent

@@ -1,6 +1,6 @@
 ---
 name: product-management-guidelines-prd-authorship
-description: "Product Management skill: Prd Authorship"
+description: 'Product Management skill: Prd Authorship'
 ---
 
 # PRD Authorship

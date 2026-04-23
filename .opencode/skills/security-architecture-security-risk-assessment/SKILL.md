@@ -1,6 +1,6 @@
 ---
 name: security-architecture-security-risk-assessment
-description: "Security skill: Security Risk Assessment"
+description: 'Security skill: Security Risk Assessment'
 ---
 
 # Security Risk Assessment & Compliance

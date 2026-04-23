@@ -1,6 +1,6 @@
 ---
 name: cross-platform-kmp-kmp-architecture
-description: "Cross Platform skill: Kmp Architecture"
+description: 'Cross Platform skill: Kmp Architecture'
 ---
 
 # KMP Architecture

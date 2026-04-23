@@ -74,9 +74,9 @@ security programs he personally built and operated.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| A: MASVS Mastery (Track A) | CSO (SC) | ✅ PASS | April 5, 2026 |
-| G: Mobile Scanning Tools | CSO (SC) | ✅ PASS | April 5, 2026 |
+| Module                     | Delivering Officer | Status  | Date          |
+| -------------------------- | ------------------ | ------- | ------------- |
+| A: MASVS Mastery (Track A) | CSO (SC)           | ✅ PASS | April 5, 2026 |
+| G: Mobile Scanning Tools   | CSO (SC)           | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

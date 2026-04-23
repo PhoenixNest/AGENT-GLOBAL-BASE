@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Offer accepted. Proceeding to Stage 8."
-candidate_name: "Marco Bellini"
-candidate_id: "G22"
-entity_type: "studio"
-stage: "stage-7"
-division: "art"
-role: "motion-ui-animator"
-document_type: "Offer Document"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Offer accepted. Proceeding to Stage 8.'
+candidate_name: 'Marco Bellini'
+candidate_id: 'G22'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'art'
+role: 'motion-ui-animator'
+document_type: 'Offer Document'
 ---
 
 # Offer Document — Marco Bellini (G22)

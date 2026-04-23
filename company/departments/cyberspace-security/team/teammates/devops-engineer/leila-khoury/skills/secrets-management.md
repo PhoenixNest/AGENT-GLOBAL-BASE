@@ -9,15 +9,15 @@ Design, implement, and manage enterprise-grade secrets management infrastructure
 
 ## Competency Dimensions
 
-| Dimension | Description | Proficiency Indicators |
-|-----------|-------------|----------------------|
-| HashiCorp Vault Architecture | Designing and operating Vault clusters for production workloads | Deploys Vault in HA mode with auto-unseal; achieves 99.99% uptime; implements disaster recovery replication; manages Raft storage backend |
-| Dynamic Credentials | Configuring Vault to generate short-lived, on-demand credentials | Dynamic credentials for 100% of database and cloud service access; credentials expire within 1 hour; zero static credentials in production |
-| Secret Rotation | Automated rotation of all managed secrets | 100% of secrets rotated on defined schedule (≤90 days for static, ≤1 hour for dynamic); rotation failures alert within 5 minutes |
-| Access Policies | Fine-grained ACL and RBAC policies for secret access | Every secret access governed by least-privilege policy; policies version-controlled; access reviewed quarterly |
-| Audit Logging | Comprehensive, tamper-proof audit trail for all Vault operations | 100% of Vault operations logged (auth, access, policy changes); logs shipped to SIEM; log integrity verified |
-| Kubernetes Secrets Management | Integrating Vault with Kubernetes for pod-level secret injection | Vault Agent Injector deployed; secrets injected as environment variables or volumes; no Kubernetes Secrets for sensitive data |
-| CI/CD Integration | Securely providing secrets to CI/CD pipelines | CI/CD pipelines authenticate via OIDC (no static tokens); secrets scoped to specific workflows; secret access logged and monitored |
+| Dimension                     | Description                                                      | Proficiency Indicators                                                                                                                     |
+| ----------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| HashiCorp Vault Architecture  | Designing and operating Vault clusters for production workloads  | Deploys Vault in HA mode with auto-unseal; achieves 99.99% uptime; implements disaster recovery replication; manages Raft storage backend  |
+| Dynamic Credentials           | Configuring Vault to generate short-lived, on-demand credentials | Dynamic credentials for 100% of database and cloud service access; credentials expire within 1 hour; zero static credentials in production |
+| Secret Rotation               | Automated rotation of all managed secrets                        | 100% of secrets rotated on defined schedule (≤90 days for static, ≤1 hour for dynamic); rotation failures alert within 5 minutes           |
+| Access Policies               | Fine-grained ACL and RBAC policies for secret access             | Every secret access governed by least-privilege policy; policies version-controlled; access reviewed quarterly                             |
+| Audit Logging                 | Comprehensive, tamper-proof audit trail for all Vault operations | 100% of Vault operations logged (auth, access, policy changes); logs shipped to SIEM; log integrity verified                               |
+| Kubernetes Secrets Management | Integrating Vault with Kubernetes for pod-level secret injection | Vault Agent Injector deployed; secrets injected as environment variables or volumes; no Kubernetes Secrets for sensitive data              |
+| CI/CD Integration             | Securely providing secrets to CI/CD pipelines                    | CI/CD pipelines authenticate via OIDC (no static tokens); secrets scoped to specific workflows; secret access logged and monitored         |
 
 ## Execution Guidance
 
@@ -276,22 +276,22 @@ def get_db_connection():
         url='https://vault.company.internal:8200',
         namespace='mobile-app'
     )
-    
+
     # Authenticate using Kubernetes service account
     client.auth.kubernetes.login(
         role='mobile-app-backend',
         jwt=open('/var/run/secrets/kubernetes.io/serviceaccount/token').read()
     )
-    
+
     # Get dynamic database credentials
     creds = client.secrets.database.generate_credentials(
         name='mobile-app-readonly',
         mount_point='database'
     )
-    
+
     username = creds['data']['username']
     password = creds['data']['password']
-    
+
     # Connect with dynamic credentials
     return psycopg2.connect(
         host='mobile-app-db.example.com',
@@ -357,7 +357,7 @@ def check_rotation_status():
         url=os.environ['VAULT_ADDR'],
         token=os.environ['VAULT_TOKEN']
     )
-    
+
     # Check database credentials
     db_roles = ['mobile-app-readonly', 'mobile-app-readwrite']
     for role in db_roles:
@@ -539,37 +539,37 @@ vault audit list
 ```yaml
 # fluentd configuration for Vault audit logs
 <source>
-  @type tail
-  path /var/log/vault/audit.log
-  pos_file /var/log/fluentd/vault-audit.log.pos
-  tag vault.audit
-  format json
-  time_key time
-  time_format %iso8601
+@type tail
+path /var/log/vault/audit.log
+pos_file /var/log/fluentd/vault-audit.log.pos
+tag vault.audit
+format json
+time_key time
+time_format %iso8601
 </source>
 
 <match vault.audit>
-  @type splunk_hec
-  host splunk.company.internal
-  port 8088
-  token ${SPLUNK_HEC_TOKEN}
-  index vault-audit
-  source vault
-  sourcetype vault:audit
-  flush_interval 5s
+@type splunk_hec
+host splunk.company.internal
+port 8088
+token ${SPLUNK_HEC_TOKEN}
+index vault-audit
+source vault
+sourcetype vault:audit
+flush_interval 5s
 </match>
 ```
 
 **Audit Log Monitoring — Key Alerts:**
 
-| Alert Condition | Severity | Response |
-|-----------------|----------|----------|
-| Failed authentication attempt (5+ in 5 minutes) | High | Investigate potential brute force |
-| Policy modification | Critical | Verify authorized; investigate if not |
-| Secret engine disabled/enabled | Critical | Verify authorized; investigate if not |
-| Root token usage | Critical | Root tokens should never be used in production |
-| Audit device disabled | Critical | Immediately re-enable; investigate |
-| Access from unauthorized IP | High | Block IP; investigate access pattern |
+| Alert Condition                                 | Severity | Response                                       |
+| ----------------------------------------------- | -------- | ---------------------------------------------- |
+| Failed authentication attempt (5+ in 5 minutes) | High     | Investigate potential brute force              |
+| Policy modification                             | Critical | Verify authorized; investigate if not          |
+| Secret engine disabled/enabled                  | Critical | Verify authorized; investigate if not          |
+| Root token usage                                | Critical | Root tokens should never be used in production |
+| Audit device disabled                           | Critical | Immediately re-enable; investigate             |
+| Access from unauthorized IP                     | High     | Block IP; investigate access pattern           |
 
 ### 6. Kubernetes Secrets Management
 
@@ -583,9 +583,9 @@ metadata:
   name: mobile-app-backend
   namespace: mobile-app
   annotations:
-    vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/role: "mobile-app-backend"
-    vault.hashicorp.com/agent-inject-secret-db-creds: "database/creds/mobile-app-readwrite"
+    vault.hashicorp.com/agent-inject: 'true'
+    vault.hashicorp.com/role: 'mobile-app-backend'
+    vault.hashicorp.com/agent-inject-secret-db-creds: 'database/creds/mobile-app-readwrite'
     vault.hashicorp.com/agent-inject-template-db-creds: |
       {{- with secret "database/creds/mobile-app-readwrite" -}}
       DATABASE_HOST=mobile-app-db.example.com
@@ -595,15 +595,15 @@ metadata:
       DATABASE_PASSWORD={{ .Data.password }}
       DATABASE_SSL_MODE=verify-full
       {{- end }}
-    vault.hashicorp.com/agent-inject-secret-api-keys: "secret/data/mobile/api-keys"
+    vault.hashicorp.com/agent-inject-secret-api-keys: 'secret/data/mobile/api-keys'
     vault.hashicorp.com/agent-inject-template-api-keys: |
       {{- with secret "secret/data/mobile/api-keys" -}}
       STRIPE_API_KEY={{ .Data.data.stripe-key }}
       SENDGRID_API_KEY={{ .Data.data.sendgrid-key }}
       {{- end }}
-    vault.hashicorp.com/agent-pre-populate-only: "false"
-    vault.hashicorp.com/agent-run-as-user: "1000"
-    vault.hashicorp.com/agent-run-as-group: "1000"
+    vault.hashicorp.com/agent-pre-populate-only: 'false'
+    vault.hashicorp.com/agent-run-as-user: '1000'
+    vault.hashicorp.com/agent-run-as-group: '1000'
 spec:
   replicas: 3
   selector:
@@ -620,14 +620,14 @@ spec:
           image: ghcr.io/our-org/mobile-api-backend:latest
           env:
             - name: DATABASE_HOST
-              value: "mobile-app-db.example.com"
+              value: 'mobile-app-db.example.com'
             - name: DATABASE_PORT
-              value: "5432"
+              value: '5432'
             - name: DATABASE_NAME
-              value: "mobile_app"
+              value: 'mobile_app'
           envFrom:
             - secretRef:
-                name: mobile-app-env-secrets  # Populated by Vault Agent
+                name: mobile-app-env-secrets # Populated by Vault Agent
 ```
 
 **Kubernetes Service Account for Vault Auth:**
@@ -640,8 +640,8 @@ metadata:
   name: mobile-app-backend
   namespace: mobile-app
   annotations:
-    vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/role: "mobile-app-backend"
+    vault.hashicorp.com/agent-inject: 'true'
+    vault.hashicorp.com/role: 'mobile-app-backend'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -649,9 +649,9 @@ metadata:
   name: mobile-app-backend-role
   namespace: mobile-app
 rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "list", "watch"]
+  - apiGroups: ['']
+    resources: ['secrets']
+    verbs: ['get', 'list', 'watch']
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -739,24 +739,24 @@ vault write auth/jwt/role/github-actions-deploy \
 
 ## Pipeline Integration
 
-| Pipeline Stage | Application |
-|----------------|-------------|
-| **Stage 3** (Architecture) | Secrets management architecture designed; Vault integration points identified; dynamic credential strategy defined |
-| **Stage 4** (Implementation Plan) | Vault deployment plan included; secret rotation schedule defined; CI/CD integration approach documented |
-| **Stage 5** (Development) | Vault operational; all application secrets managed via Vault; dynamic credentials for database access; CI/CD pipelines authenticate via OIDC |
-| **Stage 6** (Code Review) | Secrets management reviewed; no hardcoded secrets in codebase; Vault access policies verified |
-| **Stage 8** (Integrity Verification) | Vault audit logs reviewed; secret rotation verified; all credentials confirmed as dynamic or properly rotated |
-| **Stage 10** (Release Readiness) | Secrets management posture confirmed; zero static secrets in production; audit trail complete |
+| Pipeline Stage                       | Application                                                                                                                                  |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 3** (Architecture)           | Secrets management architecture designed; Vault integration points identified; dynamic credential strategy defined                           |
+| **Stage 4** (Implementation Plan)    | Vault deployment plan included; secret rotation schedule defined; CI/CD integration approach documented                                      |
+| **Stage 5** (Development)            | Vault operational; all application secrets managed via Vault; dynamic credentials for database access; CI/CD pipelines authenticate via OIDC |
+| **Stage 6** (Code Review)            | Secrets management reviewed; no hardcoded secrets in codebase; Vault access policies verified                                                |
+| **Stage 8** (Integrity Verification) | Vault audit logs reviewed; secret rotation verified; all credentials confirmed as dynamic or properly rotated                                |
+| **Stage 10** (Release Readiness)     | Secrets management posture confirmed; zero static secrets in production; audit trail complete                                                |
 
 ## Quality Standards
 
-| Metric | Standard |
-|--------|----------|
-| **Secret Coverage** | 100% of production secrets managed via Vault; zero hardcoded secrets in codebase or configurations |
-| **Dynamic Credentials** | 100% of database and cloud service credentials are dynamic; TTL ≤1 hour for database, ≤4 hours for AWS |
-| **Secret Rotation** | 100% of static secrets rotated ≤90 days; 100% of dynamic credentials rotated on TTL expiry |
-| **Access Control** | Every secret access governed by least-privilege ACL policy; policies reviewed quarterly |
-| **Audit Logging** | 100% of Vault operations logged; logs shipped to SIEM within 5 minutes; log integrity verified |
-| **Vault Availability** | 99.99% uptime for Vault cluster; HA with 3 nodes; automated disaster recovery |
-| **CI/CD Integration** | 100% of CI/CD pipelines authenticate via OIDC; no static tokens for Vault access |
-| **Kubernetes Integration** | 100% of Kubernetes secrets injected via Vault Agent; no Kubernetes Secret objects for sensitive data |
+| Metric                     | Standard                                                                                               |
+| -------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Secret Coverage**        | 100% of production secrets managed via Vault; zero hardcoded secrets in codebase or configurations     |
+| **Dynamic Credentials**    | 100% of database and cloud service credentials are dynamic; TTL ≤1 hour for database, ≤4 hours for AWS |
+| **Secret Rotation**        | 100% of static secrets rotated ≤90 days; 100% of dynamic credentials rotated on TTL expiry             |
+| **Access Control**         | Every secret access governed by least-privilege ACL policy; policies reviewed quarterly                |
+| **Audit Logging**          | 100% of Vault operations logged; logs shipped to SIEM within 5 minutes; log integrity verified         |
+| **Vault Availability**     | 99.99% uptime for Vault cluster; HA with 3 nodes; automated disaster recovery                          |
+| **CI/CD Integration**      | 100% of CI/CD pipelines authenticate via OIDC; no static tokens for Vault access                       |
+| **Kubernetes Integration** | 100% of Kubernetes secrets injected via Vault Agent; no Kubernetes Secret objects for sensitive data   |

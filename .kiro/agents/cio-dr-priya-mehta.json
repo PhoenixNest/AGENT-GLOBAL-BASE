@@ -1,15 +1,6 @@
 {
   "name": "cio-dr-priya-mehta",
   "description": "Use for mobile technology strategy, emerging technology evaluation, mobile-native infrastructure architecture, and executive-grade technical documentation. Engage during Stage 3 (UML Engineering Package - ADRs/TSD), Stage 6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness).",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/architecture/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/architecture/SKILL.md"]
 }

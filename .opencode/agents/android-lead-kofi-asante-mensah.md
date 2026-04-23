@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Android application development with Jetpack Compose, MVVM architecture,
+description: Use for Android application development with Jetpack Compose, MVVM architecture,
   Kotlin Coroutines, Hilt DI, Room, Retrofit, and Google Play submission. Engage during
   Stage 5 (Development) and Stage 8 (Integrity Verification) for Android platform
   implementation.

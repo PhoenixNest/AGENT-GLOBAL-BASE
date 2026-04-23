@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-event-sourcing
-description: "Backend skill: Event Sourcing"
+description: 'Backend skill: Event Sourcing'
 ---
 
 # Event Sourcing

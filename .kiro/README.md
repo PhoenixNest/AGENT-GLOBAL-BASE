@@ -11,24 +11,24 @@ This directory contains Kiro IDE/CLI configurations, subagent definitions, skill
 
 ### Hardware — Asus Zenbook Pro 14 Duo OLED (UX8402VV)
 
-| Component             | Specification                                            |
-| --------------------- | -------------------------------------------------------- |
-| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads             |
-| **GPU**               | NVIDIA GeForce RTX 4060 — 8 GB GDDR6                     |
-| **RAM**               | 32 GB DDR5                                               |
-| **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB)                             |
-| **Primary Display**   | 14.5" OLED, 2880×1800, 120 Hz, Touch                     |
-| **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864                      |
-| **OS**                | Windows 11 Home Chinese Edition (家庭中文版)             |
+| Component             | Specification                                |
+| --------------------- | -------------------------------------------- |
+| **CPU**               | Intel Core i9-13900H — 14 cores / 20 threads |
+| **GPU**               | NVIDIA GeForce RTX 4060 — 8 GB GDDR6         |
+| **RAM**               | 32 GB DDR5                                   |
+| **Storage**           | M.2 NVMe PCIe 4.0 SSD (1 TB)                 |
+| **Primary Display**   | 14.5" OLED, 2880×1800, 120 Hz, Touch         |
+| **Secondary Display** | 12.7" ScreenPad Plus, IPS, 2880×864          |
+| **OS**                | Windows 11 Home Chinese Edition (家庭中文版) |
 
 ### Software
 
-| Component    | Value                                                                    |
-| ------------ | ------------------------------------------------------------------------ |
-| **Python**   | `C:\Program Files\Python\313\python.exe` (use `python`, NOT `python3`)   |
-| **Git Bash** | `C:\Program Files\Git\bin\bash.exe`                                      |
-| **Shell**    | PowerShell (primary), cmd.exe (secondary)                                |
-| **Kiro**     | Local installation with agents and skills enabled                        |
+| Component    | Value                                                                  |
+| ------------ | ---------------------------------------------------------------------- |
+| **Python**   | `C:\Program Files\Python\313\python.exe` (use `python`, NOT `python3`) |
+| **Git Bash** | `C:\Program Files\Git\bin\bash.exe`                                    |
+| **Shell**    | PowerShell (primary), cmd.exe (secondary)                              |
+| **Kiro**     | Local installation with agents and skills enabled                      |
 
 ---
 
@@ -87,15 +87,15 @@ All 77 company personnel are configured as Kiro subagents using the `invokeSubAg
 
 ### Tool Mapping (Qwen → Kiro)
 
-| Qwen Tool            | Kiro Tool |
-| -------------------- | --------- |
-| `read_file`          | `Read`    |
-| `write_file`         | `Write`   |
-| `read_many_files`    | `Read`    |
-| `run_shell_command`  | `Bash`    |
-| `search_files`       | `Glob`    |
-| `search_content`     | `Grep`    |
-| (auto-added)         | `Edit`    |
+| Qwen Tool           | Kiro Tool |
+| ------------------- | --------- |
+| `read_file`         | `Read`    |
+| `write_file`        | `Write`   |
+| `read_many_files`   | `Read`    |
+| `run_shell_command` | `Bash`    |
+| `search_files`      | `Glob`    |
+| `search_content`    | `Grep`    |
+| (auto-added)        | `Edit`    |
 
 ### C-Suite Supervisors (7)
 
@@ -157,14 +157,11 @@ Use the `invokeSubAgent` tool to delegate tasks to specialist subagents:
 
 ```typescript
 invokeSubAgent({
-  name: "cto-dr-kenji-nakamura",
-  prompt: "Produce a UML Engineering Package for the user authentication feature",
-  explanation: "Delegating Stage 3 architecture work to the CTO",
-  contextFiles: [
-    { path: "docs/prd.md" },
-    { path: "docs/srd.md" }
-  ]
-})
+  name: 'cto-dr-kenji-nakamura',
+  prompt: 'Produce a UML Engineering Package for the user authentication feature',
+  explanation: 'Delegating Stage 3 architecture work to the CTO',
+  contextFiles: [{ path: 'docs/prd.md' }, { path: 'docs/srd.md' }],
+});
 ```
 
 ### Agent Selection Guidelines
@@ -199,22 +196,22 @@ skills:
 
 ### Skill Categories
 
-| Category              | Guidelines | Location                  |
-| --------------------- | ---------- | ------------------------- |
-| Architecture          | 21         | `skills/architecture/`    |
-| Product Management    | 3          | `skills/product-management/` |
-| Design                | 8          | `skills/design/`          |
-| Security              | 25         | `skills/security/`        |
-| HR & Recruiting       | 9          | `skills/hr-recruiting/`   |
-| Localization          | 8          | `skills/localization/`    |
-| Android               | 13         | `skills/android/`         |
-| iOS                   | 16         | `skills/ios/`             |
-| Cross-Platform        | 6          | `skills/cross-platform/`  |
-| Frontend Web          | 20         | `skills/frontend-web/`    |
-| Backend               | 21         | `skills/backend/`         |
-| Testing & QA          | 21         | `skills/testing-qa/`      |
-| DevOps                | 21         | `skills/devops/`          |
-| Shared                | 7          | `skills/shared/`          |
+| Category           | Guidelines | Location                     |
+| ------------------ | ---------- | ---------------------------- |
+| Architecture       | 21         | `skills/architecture/`       |
+| Product Management | 3          | `skills/product-management/` |
+| Design             | 8          | `skills/design/`             |
+| Security           | 25         | `skills/security/`           |
+| HR & Recruiting    | 9          | `skills/hr-recruiting/`      |
+| Localization       | 8          | `skills/localization/`       |
+| Android            | 13         | `skills/android/`            |
+| iOS                | 16         | `skills/ios/`                |
+| Cross-Platform     | 6          | `skills/cross-platform/`     |
+| Frontend Web       | 20         | `skills/frontend-web/`       |
+| Backend            | 21         | `skills/backend/`            |
+| Testing & QA       | 21         | `skills/testing-qa/`         |
+| DevOps             | 21         | `skills/devops/`             |
+| Shared             | 7          | `skills/shared/`             |
 
 ---
 

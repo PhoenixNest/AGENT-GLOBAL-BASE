@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-mobile-architecture-strategy
-description: "Architecture skill: Mobile Architecture Strategy"
+description: 'Architecture skill: Mobile Architecture Strategy'
 ---
 
 # Mobile Architecture Strategy Skill

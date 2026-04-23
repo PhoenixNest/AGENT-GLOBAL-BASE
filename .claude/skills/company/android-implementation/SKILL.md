@@ -12,22 +12,22 @@ Implement production-grade Android applications from the UML Engineering Package
 
 ## Technology Stack
 
-| Layer | Technology | Version Policy |
-|-------|-----------|----------------|
-| Language | Kotlin | Latest stable |
-| UI | Jetpack Compose | Latest stable |
-| Architecture | MVVM + Clean Architecture | See patterns below |
-| DI | Hilt | Latest stable |
-| Async | Kotlin Coroutines + Flow | Latest stable |
-| Navigation | Navigation Compose | Latest stable |
-| Database | Room | Latest stable |
-| Network | Retrofit + OkHttp | Latest stable |
-| Serialisation | kotlinx.serialization | Prefer over Gson |
-| Image loading | Coil (Compose-native) | Latest stable |
-| Preferences | DataStore (Preferences or Proto) | Not SharedPreferences |
-| Build | Gradle + KSP | Convention plugins for multi-module |
+| Layer         | Technology                       | Version Policy                      |
+| ------------- | -------------------------------- | ----------------------------------- |
+| Language      | Kotlin                           | Latest stable                       |
+| UI            | Jetpack Compose                  | Latest stable                       |
+| Architecture  | MVVM + Clean Architecture        | See patterns below                  |
+| DI            | Hilt                             | Latest stable                       |
+| Async         | Kotlin Coroutines + Flow         | Latest stable                       |
+| Navigation    | Navigation Compose               | Latest stable                       |
+| Database      | Room                             | Latest stable                       |
+| Network       | Retrofit + OkHttp                | Latest stable                       |
+| Serialisation | kotlinx.serialization            | Prefer over Gson                    |
+| Image loading | Coil (Compose-native)            | Latest stable                       |
+| Preferences   | DataStore (Preferences or Proto) | Not SharedPreferences               |
+| Build         | Gradle + KSP                     | Convention plugins for multi-module |
 
-*Specific versions are locked in the Technology Selection Document (TSD) produced at Stage 3. The TSD governs — this skill provides patterns, not version overrides.*
+_Specific versions are locked in the Technology Selection Document (TSD) produced at Stage 3. The TSD governs — this skill provides patterns, not version overrides._
 
 ## Architecture Patterns
 
@@ -95,6 +95,7 @@ private fun HomeContent(
 ```
 
 **Rules:**
+
 - Never hoist state above what the composable needs
 - Always use `collectAsStateWithLifecycle()`, not `collectAsState()`
 - Preview annotations on all content composables
@@ -119,22 +120,26 @@ class ItemRepositoryImpl @Inject constructor(
 ## Android-Specific Requirements
 
 ### Security
+
 - Sensitive data: use Android Keystore for encryption keys; `EncryptedSharedPreferences` for key-value; Room with SQLCipher for encrypted databases
 - Network: enforce HTTPS via network security config; implement certificate pinning per SRD requirements
 - SafetyNet/Play Integrity: implement per SRD if the product requires attestation
 - Never log sensitive data (PII, tokens, payment details)
 
 ### Localization
+
 - All user-visible strings via `stringResource(R.string.key)` — zero hardcoded strings
 - Plurals via `pluralStringResource(R.plurals.key, count, count)`
 - Support RTL layouts: use `start`/`end` not `left`/`right` in all layout parameters
 
 ### Accessibility
+
 - All interactive composables: `Modifier.semantics { contentDescription = "..." }`
 - Touch targets: minimum 48dp × 48dp
 - Test with TalkBack enabled before Stage 6
 
 ### Performance
+
 - Minimize recomposition: use `key()` in lazy lists, stable data classes with `@Stable`
 - Profile with Android Studio's Compose Compiler Metrics before Stage 6
 - Use `LazyColumn`/`LazyRow` for all lists — never `Column` with `forEach`
@@ -142,6 +147,7 @@ class ItemRepositoryImpl @Inject constructor(
 ## Google Play Submission Checklist
 
 Before Stage 10 Release Readiness:
+
 - [ ] `targetSdkVersion` is current year's Android release or latest stable
 - [ ] App passes Play integrity check
 - [ ] Privacy policy URL configured in Play Console
@@ -154,6 +160,7 @@ Before Stage 10 Release Readiness:
 ## Code Review Standards
 
 Before submitting for Stage 6, verify:
+
 - [ ] All features in the Coding Implementation Plan are implemented
 - [ ] App compiles without warnings (treat warnings as errors: `allWarningsAsErrors = true`)
 - [ ] App runs on minimum supported SDK (as specified in TSD)

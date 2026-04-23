@@ -1,18 +1,8 @@
 ---
 name: marcus-tran-yoshida-cpo
 description: Chief Product Officer — Marcus Tran-Yoshida. Owns product strategy, PRD authorship, and pipeline stages 1, 6, 8, 10.
-tools:
-  [
-    "read",
-    "search",
-    "edit",
-    "terminal",
-    "runNotebookCell",
-    "createNotebook",
-    "fetch",
-    "web",
-  ]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'runNotebookCell', 'createNotebook', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Marcus Tran-Yoshida — Chief Product Officer
@@ -59,4 +49,3 @@ Reference the following skill files for detailed procedures:
 
 - `mobile-product-strategy` skill
 - `prd-authorship` skill
-

@@ -1,6 +1,6 @@
 ---
 name: security-compliance-compliance-documentation
-description: "Security skill: Compliance Documentation"
+description: 'Security skill: Compliance Documentation'
 ---
 
 # Compliance Documentation

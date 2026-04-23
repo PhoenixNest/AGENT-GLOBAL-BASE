@@ -27,60 +27,56 @@ Contract testing is essential in Stage 7 for validating that mobile clients (con
 **1. JavaScript Consumer Test (Node.js + Jest)**
 
 ```javascript
-const {
-  PactV4,
-  MatchersV3,
-  SpecificationVersion,
-} = require("@pact-foundation/pact");
-const path = require("path");
-const axios = require("axios");
+const { PactV4, MatchersV3, SpecificationVersion } = require('@pact-foundation/pact');
+const path = require('path');
+const axios = require('axios');
 
 const { somethingLike, eachLike, regex, integer, string } = MatchersV3;
 
 // Product API consumer test — mobile app consuming product service
 const productApiPact = new PactV4({
-  consumer: "MobileApp",
-  provider: "ProductService",
-  dir: path.resolve(process.cwd(), "pacts"),
+  consumer: 'MobileApp',
+  provider: 'ProductService',
+  dir: path.resolve(process.cwd(), 'pacts'),
   spec: SpecificationVersion.SPECIFICATION_VERSION_V3,
-  log: path.resolve(process.cwd(), "logs", "pact.log"),
-  logLevel: "info",
-  host: "127.0.0.1",
+  log: path.resolve(process.cwd(), 'logs', 'pact.log'),
+  logLevel: 'info',
+  host: '127.0.0.1',
 });
 
-describe("Product Service API Contract", () => {
-  describe("GET /products", () => {
-    it("returns a list of products", async () => {
+describe('Product Service API Contract', () => {
+  describe('GET /products', () => {
+    it('returns a list of products', async () => {
       // Define the expected interaction
       await productApiPact
-        .given("products exist in the database")
-        .uponReceiving("a request for products")
+        .given('products exist in the database')
+        .uponReceiving('a request for products')
         .withRequest({
-          method: "GET",
-          path: "/v1/products",
+          method: 'GET',
+          path: '/v1/products',
           headers: {
-            Authorization: regex("Bearer [a-zA-Z0-9_-]+", "Bearer valid-token"),
-            Accept: "application/json",
+            Authorization: regex('Bearer [a-zA-Z0-9_-]+', 'Bearer valid-token'),
+            Accept: 'application/json',
           },
           query: {
-            page: "1",
-            pageSize: "20",
+            page: '1',
+            pageSize: '20',
           },
         })
         .willRespondWith({
           status: 200,
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
           body: {
             data: eachLike(
               {
-                id: string("prod-abc123"),
-                name: string("Test Product"),
+                id: string('prod-abc123'),
+                name: string('Test Product'),
                 price: integer(2999), // Price in cents
-                currency: regex("[A-Z]{3}", "USD"),
+                currency: regex('[A-Z]{3}', 'USD'),
                 inStock: somethingLike(true),
-                category: somethingLike("electronics"),
+                category: somethingLike('electronics'),
               },
-              { min: 1 },
+              { min: 1 }
             ),
             total: integer(150),
             page: integer(1),
@@ -92,47 +88,47 @@ describe("Product Service API Contract", () => {
           // Make the actual request to the mock server
           const response = await axios.get(`${mockServer.url}/v1/products`, {
             headers: {
-              Authorization: "Bearer valid-token",
-              Accept: "application/json",
+              Authorization: 'Bearer valid-token',
+              Accept: 'application/json',
             },
             params: { page: 1, pageSize: 20 },
           });
 
           expect(response.status).toBe(200);
           expect(response.data.data).toHaveLength(1);
-          expect(response.data.data[0]).toHaveProperty("id");
-          expect(response.data.data[0]).toHaveProperty("name");
-          expect(response.data.data[0]).toHaveProperty("price");
+          expect(response.data.data[0]).toHaveProperty('id');
+          expect(response.data.data[0]).toHaveProperty('name');
+          expect(response.data.data[0]).toHaveProperty('price');
         });
     });
   });
 
-  describe("POST /products", () => {
-    it("creates a new product", async () => {
+  describe('POST /products', () => {
+    it('creates a new product', async () => {
       await productApiPact
-        .given("user has admin permissions")
-        .uponReceiving("a request to create a product")
+        .given('user has admin permissions')
+        .uponReceiving('a request to create a product')
         .withRequest({
-          method: "POST",
-          path: "/v1/products",
+          method: 'POST',
+          path: '/v1/products',
           headers: {
-            Authorization: regex("Bearer [a-zA-Z0-9_-]+", "Bearer admin-token"),
-            "Content-Type": "application/json",
+            Authorization: regex('Bearer [a-zA-Z0-9_-]+', 'Bearer admin-token'),
+            'Content-Type': 'application/json',
           },
           body: {
-            name: string("New Product"),
+            name: string('New Product'),
             price: integer(4999),
-            currency: string("USD"),
+            currency: string('USD'),
           },
         })
         .willRespondWith({
           status: 201,
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
           body: {
-            id: string("prod-new123"),
-            name: string("New Product"),
+            id: string('prod-new123'),
+            name: string('New Product'),
             price: integer(4999),
-            currency: string("USD"),
+            currency: string('USD'),
             inStock: somethingLike(false),
           },
         })
@@ -140,55 +136,52 @@ describe("Product Service API Contract", () => {
           const response = await axios.post(
             `${mockServer.url}/v1/products`,
             {
-              name: "New Product",
+              name: 'New Product',
               price: 4999,
-              currency: "USD",
+              currency: 'USD',
             },
             {
               headers: {
-                Authorization: "Bearer admin-token",
-                "Content-Type": "application/json",
+                Authorization: 'Bearer admin-token',
+                'Content-Type': 'application/json',
               },
-            },
+            }
           );
 
           expect(response.status).toBe(201);
-          expect(response.data).toHaveProperty("id");
+          expect(response.data).toHaveProperty('id');
         });
     });
   });
 
-  describe("GET /products/:id — Not Found", () => {
-    it("returns 404 for non-existent product", async () => {
+  describe('GET /products/:id — Not Found', () => {
+    it('returns 404 for non-existent product', async () => {
       await productApiPact
-        .given("product does not exist")
-        .uponReceiving("a request for a non-existent product")
+        .given('product does not exist')
+        .uponReceiving('a request for a non-existent product')
         .withRequest({
-          method: "GET",
-          path: "/v1/products/non-existent-id",
-          headers: { Authorization: regex("Bearer .+", "Bearer token") },
+          method: 'GET',
+          path: '/v1/products/non-existent-id',
+          headers: { Authorization: regex('Bearer .+', 'Bearer token') },
         })
         .willRespondWith({
           status: 404,
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
           body: {
-            code: string("PRODUCT_NOT_FOUND"),
-            message: string("Product not found"),
-            requestId: regex(
-              "[a-f0-9-]{36}",
-              "550e8400-e29b-41d4-a716-446655440000",
-            ),
+            code: string('PRODUCT_NOT_FOUND'),
+            message: string('Product not found'),
+            requestId: regex('[a-f0-9-]{36}', '550e8400-e29b-41d4-a716-446655440000'),
           },
         })
         .ExecuteTest(async (mockServer) => {
           try {
             await axios.get(`${mockServer.url}/v1/products/non-existent-id`, {
-              headers: { Authorization: "Bearer token" },
+              headers: { Authorization: 'Bearer token' },
             });
-            fail("Expected 404 error");
+            fail('Expected 404 error');
           } catch (error) {
             expect(error.response.status).toBe(404);
-            expect(error.response.data.code).toBe("PRODUCT_NOT_FOUND");
+            expect(error.response.data.code).toBe('PRODUCT_NOT_FOUND');
           }
         });
     });
@@ -224,55 +217,55 @@ npx pact-broker create-version-tag \
 **1. Provider Verification Test (Node.js)**
 
 ```javascript
-const { Verifier } = require("@pact-foundation/pact");
-const path = require("path");
+const { Verifier } = require('@pact-foundation/pact');
+const path = require('path');
 
 // Provider state handlers
 const stateHandlers = {
-  "products exist in the database": async () => {
+  'products exist in the database': async () => {
     // Seed test database with products
     await db.products.insertMany([
       {
-        id: "prod-abc123",
-        name: "Test Product",
+        id: 'prod-abc123',
+        name: 'Test Product',
         price: 2999,
-        currency: "USD",
+        currency: 'USD',
         inStock: true,
-        category: "electronics",
+        category: 'electronics',
       },
     ]);
     return { productCount: 1 };
   },
-  "user has admin permissions": async () => {
+  'user has admin permissions': async () => {
     // Set up admin user context
-    await db.users.upsert({ id: "admin-1", role: "admin" });
-    return { userId: "admin-1", role: "admin" };
+    await db.users.upsert({ id: 'admin-1', role: 'admin' });
+    return { userId: 'admin-1', role: 'admin' };
   },
-  "product does not exist": async () => {
+  'product does not exist': async () => {
     // Ensure product is not in database
-    await db.products.deleteOne({ id: "non-existent-id" });
+    await db.products.deleteOne({ id: 'non-existent-id' });
     return {};
   },
 };
 
-describe("ProductService Provider", () => {
-  it("validates pact with MobileApp consumer", async () => {
+describe('ProductService Provider', () => {
+  it('validates pact with MobileApp consumer', async () => {
     const config = {
-      provider: "ProductService",
-      providerBaseUrl: "http://localhost:3000",
-      pactBrokerUrl: "https://pact-broker.company.com",
+      provider: 'ProductService',
+      providerBaseUrl: 'http://localhost:3000',
+      pactBrokerUrl: 'https://pact-broker.company.com',
       pactBrokerUsername: process.env.PACT_BROKER_USERNAME,
       pactBrokerPassword: process.env.PACT_BROKER_PASSWORD,
 
       // Verify only pacts from main branch of consumer
       consumerVersionSelectors: [
-        { tag: "main", latest: true },
-        { tag: "prod", latest: true },
+        { tag: 'main', latest: true },
+        { tag: 'prod', latest: true },
       ],
 
       // Provider version tracking
-      providerVersion: process.env.PROVIDER_VERSION || "1.0.0",
-      providerVersionBranch: process.env.GIT_BRANCH || "main",
+      providerVersion: process.env.PROVIDER_VERSION || '1.0.0',
+      providerVersionBranch: process.env.GIT_BRANCH || 'main',
 
       // State handlers
       stateHandlers,
@@ -280,13 +273,13 @@ describe("ProductService Provider", () => {
       // Request filters (e.g., add auth middleware for provider verification)
       requestFilter: (req, res, next) => {
         // Add test auth bypass
-        req.headers["x-test-mode"] = "true";
+        req.headers['x-test-mode'] = 'true';
         next();
       },
 
       // Enable pending pacts (consumer tests written before provider implementation)
       enablePending: true,
-      includeWipPactsSince: "2026-01-01",
+      includeWipPactsSince: '2026-01-01',
     };
 
     const output = await new Verifier(config).verifyProvider();

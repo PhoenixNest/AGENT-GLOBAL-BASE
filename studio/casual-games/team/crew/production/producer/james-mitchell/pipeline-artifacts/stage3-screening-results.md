@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All screened. 14 advancing to Stage 4."
-candidate_name: "James Mitchell"
-candidate_id: "G9"
-entity_type: "studio"
-stage: "stage-3"
-division: "production"
-role: "producer"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All screened. 14 advancing to Stage 4.'
+candidate_name: 'James Mitchell'
+candidate_id: 'G9'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'production'
+role: 'producer'
+document_type: 'Screening Results'
 ---
 
 # Stage 3: Screening Results — James Mitchell (G9)

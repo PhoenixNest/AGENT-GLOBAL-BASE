@@ -1,6 +1,6 @@
 ---
 name: security-architecture-infrastructure-security
-description: "Security skill: Infrastructure Security"
+description: 'Security skill: Infrastructure Security'
 ---
 
 # Infrastructure Security
@@ -133,7 +133,7 @@ program_output:
 
 http_output:
   enabled: true
-  url: "http://falco-sidecar:8765/"
+  url: 'http://falco-sidecar:8765/'
   keep_alive: true
 
 json_output: true
@@ -386,26 +386,26 @@ CVE-2024-9012
 container_registry_policy:
   scanning:
     on_push: true
-    schedule: "daily"
-    severity_threshold: "HIGH" # Block on HIGH and above
+    schedule: 'daily'
+    severity_threshold: 'HIGH' # Block on HIGH and above
 
   signing:
     enabled: true
-    tool: "cosign"
-    key_management: "Cloud KMS"
+    tool: 'cosign'
+    key_management: 'Cloud KMS'
 
   admission_control:
     enabled: true
     policy:
-      - "Image must be scanned within last 24 hours"
-      - "No CRITICAL CVEs"
-      - "Image must be signed"
-      - "Image must be from approved registry"
+      - 'Image must be scanned within last 24 hours'
+      - 'No CRITICAL CVEs'
+      - 'Image must be signed'
+      - 'Image must be from approved registry'
 
   retention:
-    untagged_images: "7 days"
-    tagged_images: "90 days"
-    sbom_artifacts: "1 year"
+    untagged_images: '7 days'
+    tagged_images: '90 days'
+    sbom_artifacts: '1 year'
 ```
 
 ### Network Anomaly Detection
@@ -420,23 +420,23 @@ update_frequency: weekly
 services:
   order-service:
     expected_egress:
-      - destination: "cloud-sql-proxy:5432"
+      - destination: 'cloud-sql-proxy:5432'
         protocol: TCP
-        description: "Database connection"
-      - destination: "memorystore:6379"
+        description: 'Database connection'
+      - destination: 'memorystore:6379'
         protocol: TCP
-        description: "Redis cache"
-      - destination: "kafka:9092"
+        description: 'Redis cache'
+      - destination: 'kafka:9092'
         protocol: TCP
-        description: "Event publishing"
-      - destination: "dns:53"
+        description: 'Event publishing'
+      - destination: 'dns:53'
         protocol: UDP
-        description: "DNS resolution"
+        description: 'DNS resolution'
 
     expected_ingress:
-      - source: "api-gateway:8080"
+      - source: 'api-gateway:8080'
         protocol: TCP
-        description: "API requests"
+        description: 'API requests'
 
     anomaly_thresholds:
       new_destination_alert: true
@@ -455,8 +455,8 @@ metadata:
   name: order-service-network-policy
   namespace: production
   annotations:
-    network-monitoring: "enabled"
-    baseline-hash: "abc123..."
+    network-monitoring: 'enabled'
+    baseline-hash: 'abc123...'
 spec:
   podSelector:
     matchLabels:
@@ -511,14 +511,14 @@ spec:
 ```yaml
 # Allowed egress destinations (default deny all others)
 egress_allowlist:
-  - "*.googleapis.com:443" # GCP APIs
-  - "*.gcr.io:443" # Container registry
-  - "*.cloudsql.com:5432" # Cloud SQL
-  - "auth.company.com:443" # Authentication service
-  - "slack-webhook.company.com:443" # Alerting
+  - '*.googleapis.com:443' # GCP APIs
+  - '*.gcr.io:443' # Container registry
+  - '*.cloudsql.com:5432' # Cloud SQL
+  - 'auth.company.com:443' # Authentication service
+  - 'slack-webhook.company.com:443' # Alerting
 
 egress_deny:
-  - "0.0.0.0/0" # Default deny all
+  - '0.0.0.0/0' # Default deny all
 
 egress_logging:
   - log_all_denied: true

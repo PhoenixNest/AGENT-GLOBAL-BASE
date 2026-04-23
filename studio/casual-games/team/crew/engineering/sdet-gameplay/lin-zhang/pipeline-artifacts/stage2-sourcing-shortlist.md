@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3."
-candidate_name: "Ranked Candidates"
-entity_type: "studio"
-stage: "stage-2"
-division: "engineering"
-role: "sdet-gameplay"
-document_type: "Sourcing Shortlist"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3.'
+candidate_name: 'Ranked Candidates'
+entity_type: 'studio'
+stage: 'stage-2'
+division: 'engineering'
+role: 'sdet-gameplay'
+document_type: 'Sourcing Shortlist'
 ---
 
 # Sourcing Shortlist — SDET Gameplay #2 (G37)

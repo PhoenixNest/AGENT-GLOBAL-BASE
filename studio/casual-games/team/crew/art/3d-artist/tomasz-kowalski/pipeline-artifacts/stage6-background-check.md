@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-candidate_name: "Tomasz Kowalski"
-candidate_id: "G23"
-entity_type: "studio"
-stage: "stage-6"
-division: "art"
-role: "3d-artist"
-document_type: "Background Check"
+document_id: '**'
+generated_at: '**'
+candidate_name: 'Tomasz Kowalski'
+candidate_id: 'G23'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'art'
+role: '3d-artist'
+document_type: 'Background Check'
 ---
 
 # Background Check Report — Tomasz Kowalski (G23)

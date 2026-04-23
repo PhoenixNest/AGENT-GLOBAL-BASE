@@ -13,13 +13,13 @@ npm install @anthropic-ai/claude-agent-sdk
 ## Quick Start
 
 ```typescript
-import { query } from "@anthropic-ai/claude-agent-sdk";
+import { query } from '@anthropic-ai/claude-agent-sdk';
 
 for await (const message of query({
-  prompt: "Explain this codebase",
-  options: { allowedTools: ["Read", "Glob", "Grep"] },
+  prompt: 'Explain this codebase',
+  options: { allowedTools: ['Read', 'Glob', 'Grep'] },
 })) {
-  if ("result" in message) {
+  if ('result' in message) {
     console.log(message.result);
   }
 }
@@ -29,17 +29,17 @@ for await (const message of query({
 
 ## Built-in Tools
 
-| Tool      | Description                          |
-| --------- | ------------------------------------ |
-| Read      | Read files in the workspace          |
-| Write     | Create new files                     |
-| Edit      | Make precise edits to existing files |
-| Bash      | Execute shell commands               |
-| Glob      | Find files by pattern                |
-| Grep      | Search files by content              |
-| WebSearch | Search the web for information       |
+| Tool            | Description                          |
+| --------------- | ------------------------------------ |
+| Read            | Read files in the workspace          |
+| Write           | Create new files                     |
+| Edit            | Make precise edits to existing files |
+| Bash            | Execute shell commands               |
+| Glob            | Find files by pattern                |
+| Grep            | Search files by content              |
+| WebSearch       | Search the web for information       |
 | WebFetch        | Fetch and analyze web pages          |
-| AskUserQuestion | Ask user clarifying questions         |
+| AskUserQuestion | Ask user clarifying questions        |
 | Agent           | Spawn subagents                      |
 
 ---
@@ -48,13 +48,13 @@ for await (const message of query({
 
 ```typescript
 for await (const message of query({
-  prompt: "Refactor the authentication module",
+  prompt: 'Refactor the authentication module',
   options: {
-    allowedTools: ["Read", "Edit", "Write"],
-    permissionMode: "acceptEdits",
+    allowedTools: ['Read', 'Edit', 'Write'],
+    permissionMode: 'acceptEdits',
   },
 })) {
-  if ("result" in message) console.log(message.result);
+  if ('result' in message) console.log(message.result);
 }
 ```
 
@@ -72,14 +72,14 @@ Permission modes:
 
 ```typescript
 for await (const message of query({
-  prompt: "Open example.com and describe what you see",
+  prompt: 'Open example.com and describe what you see',
   options: {
     mcpServers: {
-      playwright: { command: "npx", args: ["@playwright/mcp@latest"] },
+      playwright: { command: 'npx', args: ['@playwright/mcp@latest'] },
     },
   },
 })) {
-  if ("result" in message) console.log(message.result);
+  if ('result' in message) console.log(message.result);
 }
 ```
 
@@ -88,21 +88,21 @@ for await (const message of query({
 You can define custom tools that run in-process using `tool()` and `createSdkMcpServer`:
 
 ```typescript
-import { query, tool, createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk";
-import { z } from "zod";
+import { query, tool, createSdkMcpServer } from '@anthropic-ai/claude-agent-sdk';
+import { z } from 'zod';
 
-const myTool = tool("my-tool", "Description", { input: z.string() }, async (args) => {
-  return { content: [{ type: "text", text: "result" }] };
+const myTool = tool('my-tool', 'Description', { input: z.string() }, async (args) => {
+  return { content: [{ type: 'text', text: 'result' }] };
 });
 
-const server = createSdkMcpServer({ name: "my-server", tools: [myTool] });
+const server = createSdkMcpServer({ name: 'my-server', tools: [myTool] });
 
 // Pass to query
 for await (const message of query({
-  prompt: "Use my-tool to do something",
+  prompt: 'Use my-tool to do something',
   options: { mcpServers: { myServer: server } },
 })) {
-  if ("result" in message) console.log(message.result);
+  if ('result' in message) console.log(message.result);
 }
 ```
 
@@ -111,29 +111,26 @@ for await (const message of query({
 ## Hooks
 
 ```typescript
-import { query, HookCallback } from "@anthropic-ai/claude-agent-sdk";
-import { appendFileSync } from "fs";
+import { query, HookCallback } from '@anthropic-ai/claude-agent-sdk';
+import { appendFileSync } from 'fs';
 
 const logFileChange: HookCallback = async (input) => {
-  const filePath = (input as any).tool_input?.file_path ?? "unknown";
-  appendFileSync(
-    "./audit.log",
-    `${new Date().toISOString()}: modified ${filePath}\n`,
-  );
+  const filePath = (input as any).tool_input?.file_path ?? 'unknown';
+  appendFileSync('./audit.log', `${new Date().toISOString()}: modified ${filePath}\n`);
   return {};
 };
 
 for await (const message of query({
-  prompt: "Refactor utils.py to improve readability",
+  prompt: 'Refactor utils.py to improve readability',
   options: {
-    allowedTools: ["Read", "Edit", "Write"],
-    permissionMode: "acceptEdits",
+    allowedTools: ['Read', 'Edit', 'Write'],
+    permissionMode: 'acceptEdits',
     hooks: {
-      PostToolUse: [{ matcher: "Edit|Write", hooks: [logFileChange] }],
+      PostToolUse: [{ matcher: 'Edit|Write', hooks: [logFileChange] }],
     },
   },
 })) {
-  if ("result" in message) console.log(message.result);
+  if ('result' in message) console.log(message.result);
 }
 ```
 
@@ -149,26 +146,26 @@ Available hook events: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `Notif
 query({ prompt: "...", options: { ... } })
 ```
 
-| Option                              | Type   | Description                                                                |
-| ----------------------------------- | ------ | -------------------------------------------------------------------------- |
-| `cwd`                               | string | Working directory for file operations                                      |
-| `allowedTools`                      | array  | Tools the agent can use (e.g., `["Read", "Edit", "Bash"]`)                |
-| `tools`                             | array  | Built-in tools to make available (restricts the default set)               |
-| `disallowedTools`                   | array  | Tools to explicitly disallow                                               |
-| `permissionMode`                    | string | How to handle permission prompts                                           |
-| `allowDangerouslySkipPermissions`   | bool   | Must be `true` to use `permissionMode: "bypassPermissions"`                |
-| `mcpServers`                        | object | MCP servers to connect to                                                  |
-| `hooks`                             | object | Hooks for customizing behavior                                             |
-| `systemPrompt`                      | string | Custom system prompt                                                       |
-| `maxTurns`                          | number | Maximum agent turns before stopping                                        |
-| `maxBudgetUsd`                      | number | Maximum budget in USD for the query                                        |
-| `model`                             | string | Model ID (default: determined by CLI)                                      |
-| `agents`                            | object | Subagent definitions (`Record<string, AgentDefinition>`)                   |
-| `outputFormat`                      | object | Structured output schema                                                   |
-| `thinking`                          | object | Thinking/reasoning control                                                 |
-| `betas`                             | array  | Beta features to enable (e.g., `["context-1m-2025-08-07"]`)               |
-| `settingSources`                    | array  | Settings to load (e.g., `["project"]`). Default: none (no CLAUDE.md files) |
-| `env`                               | object | Environment variables to set for the session                               |
+| Option                            | Type   | Description                                                                |
+| --------------------------------- | ------ | -------------------------------------------------------------------------- |
+| `cwd`                             | string | Working directory for file operations                                      |
+| `allowedTools`                    | array  | Tools the agent can use (e.g., `["Read", "Edit", "Bash"]`)                 |
+| `tools`                           | array  | Built-in tools to make available (restricts the default set)               |
+| `disallowedTools`                 | array  | Tools to explicitly disallow                                               |
+| `permissionMode`                  | string | How to handle permission prompts                                           |
+| `allowDangerouslySkipPermissions` | bool   | Must be `true` to use `permissionMode: "bypassPermissions"`                |
+| `mcpServers`                      | object | MCP servers to connect to                                                  |
+| `hooks`                           | object | Hooks for customizing behavior                                             |
+| `systemPrompt`                    | string | Custom system prompt                                                       |
+| `maxTurns`                        | number | Maximum agent turns before stopping                                        |
+| `maxBudgetUsd`                    | number | Maximum budget in USD for the query                                        |
+| `model`                           | string | Model ID (default: determined by CLI)                                      |
+| `agents`                          | object | Subagent definitions (`Record<string, AgentDefinition>`)                   |
+| `outputFormat`                    | object | Structured output schema                                                   |
+| `thinking`                        | object | Thinking/reasoning control                                                 |
+| `betas`                           | array  | Beta features to enable (e.g., `["context-1m-2025-08-07"]`)                |
+| `settingSources`                  | array  | Settings to load (e.g., `["project"]`). Default: none (no CLAUDE.md files) |
+| `env`                             | object | Environment variables to set for the session                               |
 
 ---
 
@@ -176,19 +173,19 @@ query({ prompt: "...", options: { ... } })
 
 ```typescript
 for await (const message of query({
-  prompt: "Use the code-reviewer agent to review this codebase",
+  prompt: 'Use the code-reviewer agent to review this codebase',
   options: {
-    allowedTools: ["Read", "Glob", "Grep", "Agent"],
+    allowedTools: ['Read', 'Glob', 'Grep', 'Agent'],
     agents: {
-      "code-reviewer": {
-        description: "Expert code reviewer for quality and security reviews.",
-        prompt: "Analyze code quality and suggest improvements.",
-        tools: ["Read", "Glob", "Grep"],
+      'code-reviewer': {
+        description: 'Expert code reviewer for quality and security reviews.',
+        prompt: 'Analyze code quality and suggest improvements.',
+        tools: ['Read', 'Glob', 'Grep'],
       },
     },
   },
 })) {
-  if ("result" in message) console.log(message.result);
+  if ('result' in message) console.log(message.result);
 }
 ```
 
@@ -198,12 +195,12 @@ for await (const message of query({
 
 ```typescript
 for await (const message of query({
-  prompt: "Find TODO comments",
-  options: { allowedTools: ["Read", "Glob", "Grep"] },
+  prompt: 'Find TODO comments',
+  options: { allowedTools: ['Read', 'Glob', 'Grep'] },
 })) {
-  if ("result" in message) {
+  if ('result' in message) {
     console.log(message.result);
-  } else if (message.type === "system" && message.subtype === "init") {
+  } else if (message.type === 'system' && message.subtype === 'init') {
     const sessionId = message.session_id; // Capture for resuming later
   }
 }

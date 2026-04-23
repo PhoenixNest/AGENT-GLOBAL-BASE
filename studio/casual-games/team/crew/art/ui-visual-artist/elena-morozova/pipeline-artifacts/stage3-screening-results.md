@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All 50 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4."
-candidate_name: "Visual Artist"
-candidate_id: "G21"
-entity_type: "studio"
-stage: "stage-3"
-division: "art"
-role: "ui-visual-artist"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All 50 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4.'
+candidate_name: 'Visual Artist'
+candidate_id: 'G21'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'art'
+role: 'ui-visual-artist'
+document_type: 'Screening Results'
 ---
 
 # Screening Results — UI Visual Artist (G21)

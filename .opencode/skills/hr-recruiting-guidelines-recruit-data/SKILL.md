@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-recruit-data
-description: "Hr Recruiting skill: Recruit Data"
+description: 'Hr Recruiting skill: Recruit Data'
 ---
 
 # Data & ML Recruitment Skill

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Korean (KO) UI string translation and localization. Engage during
+description: Use for Korean (KO) UI string translation and localization. Engage during
   Stage 9 (Internationalization Engineering) for translating mobile UI strings into
   Korean with honorific levels, character count constraints, and platform-specific
   formatting.

@@ -1,6 +1,6 @@
 ---
 name: cross-platform-flutter-flutter-i18n
-description: "Cross Platform skill: Flutter I18N"
+description: 'Cross Platform skill: Flutter I18N'
 ---
 
 # Flutter i18n

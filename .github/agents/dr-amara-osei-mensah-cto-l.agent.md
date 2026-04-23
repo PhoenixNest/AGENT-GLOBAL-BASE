@@ -1,8 +1,8 @@
 ---
 name: dr-amara-osei-mensah-cto-l
 description: Chief Translation Officer — Dr. Amara Osei-Mensah. Owns localization, i18n, translation pipelines, and pipeline stages 9, 10.
-tools: ["read", "search", "edit", "terminal", "fetch", "web"]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Dr. Amara Osei-Mensah — Chief Translation Officer

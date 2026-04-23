@@ -588,9 +588,9 @@ spec:
             periodSeconds: 20
           env:
             - name: PAYMENT_SERVICE_ADDR
-              value: "payment-service.production.svc.cluster.local:50052"
+              value: 'payment-service.production.svc.cluster.local:50052'
             - name: USER_SERVICE_ADDR
-              value: "user-service.production.svc.cluster.local:50053"
+              value: 'user-service.production.svc.cluster.local:50053'
 ```
 
 ### API Gateway Routing
@@ -622,7 +622,7 @@ spec:
   parentRefs:
     - name: api-gateway
   hostnames:
-    - "api.company.com"
+    - 'api.company.com'
   rules:
     - matches:
         - path:
@@ -1042,25 +1042,25 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *CreateOrderRequest)
 
 ```yaml
 # docker-compose.jaeger.yml
-version: "3.8"
+version: '3.8'
 services:
   jaeger:
     image: jaegertracing/all-in-one:latest
     ports:
-      - "16686:16686" # UI
-      - "4317:4317" # OTLP gRPC
-      - "4318:4318" # OTLP HTTP
+      - '16686:16686' # UI
+      - '4317:4317' # OTLP gRPC
+      - '4318:4318' # OTLP HTTP
     environment:
       - COLLECTOR_OTLP_ENABLED=true
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     ports:
-      - "4317:4317"
-      - "4318:4318"
+      - '4317:4317'
+      - '4318:4318'
     volumes:
       - ./otel-collector-config.yaml:/etc/otel/config.yaml
-    command: ["--config", "/etc/otel/config.yaml"]
+    command: ['--config', '/etc/otel/config.yaml']
     depends_on:
       - jaeger
 ```

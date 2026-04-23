@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-mobile-test-automation
-description: "Testing Qa skill: Mobile Test Automation"
+description: 'Testing Qa skill: Mobile Test Automation'
 ---
 
 # Mobile Test Automation

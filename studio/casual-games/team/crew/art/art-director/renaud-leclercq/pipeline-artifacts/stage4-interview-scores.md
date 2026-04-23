@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All assessments completed. Composite Score: 4.540/5 (96th percentile). Candidate exceeds 80th percentile threshold. Proceeding to Stage 5."
-candidate_name: "Scored Assessments"
-entity_type: "studio"
-stage: "stage-4"
-division: "art"
-role: "art-director"
-document_type: "Interview Scores"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All assessments completed. Composite Score: 4.540/5 (96th percentile). Candidate exceeds 80th percentile threshold. Proceeding to Stage 5.'
+candidate_name: 'Scored Assessments'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'art'
+role: 'art-director'
+document_type: 'Interview Scores'
 ---
 
 # Interview Simulation Scored Assessments

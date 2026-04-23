@@ -44,7 +44,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/unauthorized-api-calls"
+    runbook: 'https://wiki.company.internal/runbooks/unauthorized-api-calls'
 
   - name: RootAccountUsage
     metric: CloudWatchMetrics/RootAccountUsage
@@ -55,7 +55,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/root-account-usage"
+    runbook: 'https://wiki.company.internal/runbooks/root-account-usage'
 
   - name: IAMPolicyChange
     metric: CloudWatchMetrics/IAMPolicyChange
@@ -65,7 +65,7 @@ alarms:
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
-    runbook: "https://wiki.company.internal/runbooks/iam-policy-change"
+    runbook: 'https://wiki.company.internal/runbooks/iam-policy-change'
 
   # Network Security
   - name: SGChange
@@ -76,7 +76,7 @@ alarms:
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
-    runbook: "https://wiki.company.internal/runbooks/security-group-change"
+    runbook: 'https://wiki.company.internal/runbooks/security-group-change'
 
   - name: NACLChange
     metric: CloudWatchMetrics/NACLChange
@@ -97,7 +97,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/s3-bucket-policy-change"
+    runbook: 'https://wiki.company.internal/runbooks/s3-bucket-policy-change'
 
   - name: KMSKeyDeletion
     metric: CloudWatchMetrics/KMSKeyDeletion
@@ -108,7 +108,7 @@ alarms:
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
       - pagerduty-service: security-p1
-    runbook: "https://wiki.company.internal/runbooks/kms-key-deletion"
+    runbook: 'https://wiki.company.internal/runbooks/kms-key-deletion'
 
   # Compute Security
   - name: EC2PublicIPAssigned
@@ -119,7 +119,7 @@ alarms:
     comparison: GreaterThanThreshold
     actions:
       - sns-topic: arn:aws:sns:us-east-1:123456789012:security-alerts
-    runbook: "https://wiki.company.internal/runbooks/ec2-public-ip"
+    runbook: 'https://wiki.company.internal/runbooks/ec2-public-ip'
 ```
 
 **Terraform — CloudWatch Alarm Configuration:**

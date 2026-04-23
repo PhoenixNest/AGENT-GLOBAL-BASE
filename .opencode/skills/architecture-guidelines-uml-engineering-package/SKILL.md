@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-uml-engineering-package
-description: "Architecture skill: Uml Engineering Package"
+description: 'Architecture skill: Uml Engineering Package'
 ---
 
 # UML Engineering Package

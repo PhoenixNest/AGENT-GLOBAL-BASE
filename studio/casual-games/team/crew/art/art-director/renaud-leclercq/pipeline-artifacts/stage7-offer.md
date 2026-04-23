@@ -1,12 +1,12 @@
 ---
-generated_at: "**"
-gate_status: "** ✅ Offer generated within compensation bands. Offer extended to candidate. Response tracking initiated. Proceeding to Stage 8."
-candidate_name: "Date Window"
-entity_type: "studio"
-stage: "stage-7"
-division: "art"
-role: "art-director"
-document_type: "Offer Document"
+generated_at: '**'
+gate_status: '** ✅ Offer generated within compensation bands. Offer extended to candidate. Response tracking initiated. Proceeding to Stage 8.'
+candidate_name: 'Date Window'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'art'
+role: 'art-director'
+document_type: 'Offer Document'
 ---
 
 # Offer Document

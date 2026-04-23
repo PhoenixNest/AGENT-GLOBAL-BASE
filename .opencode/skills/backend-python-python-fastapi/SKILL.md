@@ -1,6 +1,6 @@
 ---
 name: backend-python-python-fastapi
-description: "Backend skill: Python Fastapi"
+description: 'Backend skill: Python Fastapi'
 ---
 
 # Python FastAPI Development

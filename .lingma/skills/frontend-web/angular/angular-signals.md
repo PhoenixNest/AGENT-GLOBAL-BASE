@@ -26,7 +26,7 @@ Signals complement RxJS rather than replacing it entirely. Use signals for synch
 ### Basic Signal Usage
 
 ```typescript
-import { signal, Signal, WritableSignal } from "@angular/core";
+import { signal, Signal, WritableSignal } from '@angular/core';
 
 // Writable signal with type inference
 const count = signal<number>(0);
@@ -48,15 +48,15 @@ const user = signal<User | null>(null);
 ### Signal Mutation Methods
 
 ```typescript
-import { signal } from "@angular/core";
+import { signal } from '@angular/core';
 
 const todos = signal<string[]>([]);
 
 // .set() — replace value entirely
-todos.set(["Learn Signals", "Build app"]);
+todos.set(['Learn Signals', 'Build app']);
 
 // .update() — compute new value from current
-todos.update((current) => [...current, "Test signals"]);
+todos.update((current) => [...current, 'Test signals']);
 
 // .mutate() — modify value in place (for mutable objects)
 interface Cart {
@@ -65,17 +65,17 @@ interface Cart {
 
 const cart = signal<Cart>({ items: [] });
 cart.mutate((state) => {
-  state.items.push({ name: "Widget", quantity: 1 });
+  state.items.push({ name: 'Widget', quantity: 1 });
 });
 ```
 
 ### Signal Initialization Patterns
 
 ```typescript
-import { signal, inject, OnInit } from "@angular/core";
+import { signal, inject, OnInit } from '@angular/core';
 
 // Immediate initialization
-const theme = signal<"light" | "dark">("light");
+const theme = signal<'light' | 'dark'>('light');
 
 // Lazy initialization with factory
 const expensiveState = signal(() => computeInitialState());
@@ -83,12 +83,12 @@ const expensiveState = signal(() => computeInitialState());
 // Initialized from service
 class TodoService {
   getInitialTodos() {
-    return ["Default todo"];
+    return ['Default todo'];
   }
 }
 
 @Component({
-  selector: "app-todo",
+  selector: 'app-todo',
   template: `...`,
 })
 class TodoComponent {
@@ -102,7 +102,7 @@ class TodoComponent {
 ### Creating Derived State
 
 ```typescript
-import { signal, computed } from "@angular/core";
+import { signal, computed } from '@angular/core';
 
 const count = signal(0);
 const doubleCount = computed(() => count() * 2);
@@ -115,12 +115,12 @@ interface Product {
 }
 
 const cartItems = signal<Product[]>([
-  { name: "Widget", price: 9.99, quantity: 2 },
-  { name: "Gadget", price: 24.99, quantity: 1 },
+  { name: 'Widget', price: 9.99, quantity: 2 },
+  { name: 'Gadget', price: 24.99, quantity: 1 },
 ]);
 
 const subtotal = computed(() =>
-  cartItems().reduce((sum, item) => sum + item.price * item.quantity, 0),
+  cartItems().reduce((sum, item) => sum + item.price * item.quantity, 0)
 );
 
 const taxRate = signal(0.08);
@@ -135,7 +135,7 @@ Computed signals are **memoized** — they only recalculate when their dependenc
 ```typescript
 const userId = signal(1);
 const userProfile = computed(() => {
-  console.log("Computing profile...");
+  console.log('Computing profile...');
   return fetchUserProfile(userId());
 });
 
@@ -156,7 +156,7 @@ const userProfile = computed(() => {
 ### Equality Functions for Custom Comparison
 
 ```typescript
-import { signal, computedEqual } from "@angular/core";
+import { signal, computedEqual } from '@angular/core';
 
 // Prevent unnecessary notifications for equivalent values
 const items = signal<Product[]>([], {
@@ -174,10 +174,10 @@ const lastUpdated = signal(new Date(), {
 ### Basic Effect Usage
 
 ```typescript
-import { signal, effect, inject } from "@angular/core";
+import { signal, effect, inject } from '@angular/core';
 
 @Component({
-  selector: "app-logger",
+  selector: 'app-logger',
   template: `...`,
 })
 class LoggerComponent {
@@ -195,9 +195,9 @@ class LoggerComponent {
 ### Effect Cleanup Functions
 
 ```typescript
-import { signal, effect } from "@angular/core";
+import { signal, effect } from '@angular/core';
 
-const url = signal("/api/data");
+const url = signal('/api/data');
 
 effect((onCleanup) => {
   const controller = new AbortController();
@@ -237,22 +237,22 @@ const doubled = computed(() => input() * 2);
 ### Effect Ordering
 
 ```typescript
-import { signal, effect } from "@angular/core";
+import { signal, effect } from '@angular/core';
 
 const a = signal(1);
 const b = signal(2);
 
 // Effects run in creation order by default
-effect(() => console.log("Effect 1:", a()));
-effect(() => console.log("Effect 2:", b()));
-effect(() => console.log("Effect 3:", a() + b()));
+effect(() => console.log('Effect 1:', a()));
+effect(() => console.log('Effect 2:', b()));
+effect(() => console.log('Effect 3:', a() + b()));
 
 // Use allowSignalWrites for explicit ordering when needed
 effect(
   () => {
     // Rare: only use when effect must write to signals
   },
-  { allowSignalWrites: true },
+  { allowSignalWrites: true }
 );
 ```
 
@@ -261,10 +261,10 @@ effect(
 ### Signal-Based Inputs (Angular 17.1+)
 
 ```typescript
-import { Component, input, computed } from "@angular/core";
+import { Component, input, computed } from '@angular/core';
 
 @Component({
-  selector: "app-user-card",
+  selector: 'app-user-card',
   template: `
     <h3>{{ fullName() }}</h3>
     <p>Email: {{ email() }}</p>
@@ -276,7 +276,7 @@ class UserCardComponent {
   lastName = input.required<string>();
 
   // Signal input with default value
-  email = input<string>("no-email@example.com");
+  email = input<string>('no-email@example.com');
 
   // Computed from inputs
   fullName = computed(() => `${this.firstName()} ${this.lastName()}`);
@@ -286,9 +286,9 @@ class UserCardComponent {
 ### RxJS Interoperability
 
 ```typescript
-import { signal, effect } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { interval, map } from "rxjs";
+import { signal, effect } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { interval, map } from 'rxjs';
 
 // RxJS → Signal
 const timer$ = interval(1000);
@@ -303,19 +303,19 @@ const count = signal(0);
 const count$ = toObservable(count);
 
 // Use in template with async pipe
-count$.subscribe((value) => console.log("Observable:", value));
+count$.subscribe((value) => console.log('Observable:', value));
 ```
 
 ### Taking Over Async Pipe
 
 ```typescript
-import { Component, signal, computed } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { HttpClient } from "@angular/common/http";
-import { inject } from "@angular/core";
+import { Component, signal, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 
 @Component({
-  selector: "app-users",
+  selector: 'app-users',
   template: `
     @if (users(); as userList) {
       <ul>
@@ -332,7 +332,7 @@ class UsersComponent {
   private http = inject(HttpClient);
 
   // Replace async pipe with signal
-  users = toSignal(this.http.get<User[]>("/api/users"), { initialValue: [] });
+  users = toSignal(this.http.get<User[]>('/api/users'), { initialValue: [] });
 }
 ```
 
@@ -341,10 +341,10 @@ class UsersComponent {
 ### Signal-Based Components with OnPush
 
 ```typescript
-import { Component, signal, ChangeDetectionStrategy } from "@angular/core";
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: "app-counter",
+  selector: 'app-counter',
   template: `
     <p>Count: {{ count() }}</p>
     <button (click)="increment()">Increment</button>
@@ -363,16 +363,10 @@ class CounterComponent {
 ### Signal Queries (Angular 17.2+)
 
 ```typescript
-import {
-  Component,
-  viewChild,
-  viewChildren,
-  contentChild,
-  contentChildren,
-} from "@angular/core";
+import { Component, viewChild, viewChildren, contentChild, contentChildren } from '@angular/core';
 
 @Component({
-  selector: "app-parent",
+  selector: 'app-parent',
   template: `
     <app-child #firstChild></app-child>
     <app-child></app-child>
@@ -380,7 +374,7 @@ import {
 })
 class ParentComponent {
   // Single view child as signal
-  firstChild = viewChild<ChildComponent>("firstChild");
+  firstChild = viewChild<ChildComponent>('firstChild');
 
   // Multiple view children as signal array
   allChildren = viewChildren(ChildComponent);
@@ -399,23 +393,23 @@ class ParentComponent {
 ### Signal-Based Component State Pattern
 
 ```typescript
-import { Component, signal, computed } from "@angular/core";
+import { Component, signal, computed } from '@angular/core';
 
 interface TodoState {
   todos: Todo[];
-  filter: "all" | "active" | "completed";
+  filter: 'all' | 'active' | 'completed';
   searchQuery: string;
 }
 
 @Component({
-  selector: "app-todo-list",
+  selector: 'app-todo-list',
   template: `...`,
 })
 class TodoListComponent {
   private state = signal<TodoState>({
     todos: [],
-    filter: "all",
-    searchQuery: "",
+    filter: 'all',
+    searchQuery: '',
   });
 
   todos = this.state;
@@ -425,16 +419,14 @@ class TodoListComponent {
 
     return todos
       .filter((todo) => {
-        if (filter === "active") return !todo.completed;
-        if (filter === "completed") return todo.completed;
+        if (filter === 'active') return !todo.completed;
+        if (filter === 'completed') return todo.completed;
         return true;
       })
-      .filter((todo) =>
-        todo.title.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
+      .filter((todo) => todo.title.toLowerCase().includes(searchQuery.toLowerCase()));
   });
 
-  setFilter(filter: TodoState["filter"]) {
+  setFilter(filter: TodoState['filter']) {
     this.state.update((s) => ({ ...s, filter }));
   }
 
@@ -461,7 +453,7 @@ class TodoListComponent {
 
 ```typescript
 // Phase 1: Coexistence — keep RxJS, add signals where convenient
-import { toSignal } from "@angular/core/rxjs-interop";
+import { toSignal } from '@angular/core/rxjs-interop';
 
 class MixedComponent {
   // Keep existing RxJS service
@@ -475,9 +467,7 @@ class MixedComponent {
 class SignalFirstComponent {
   state = signal<ComponentState>({ items: [], loading: false });
 
-  filteredItems = computed(() =>
-    this.state().items.filter((item) => item.active),
-  );
+  filteredItems = computed(() => this.state().items.filter((item) => item.active));
 
   loadItems() {
     this.dataService.getData().subscribe((items) => {
@@ -513,28 +503,28 @@ class PureSignalComponent {
 ### Testing Signal Values
 
 ```typescript
-import { signal, computed } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { signal, computed } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe("Signal Tests", () => {
-  it("should create signal with initial value", () => {
+describe('Signal Tests', () => {
+  it('should create signal with initial value', () => {
     const count = signal(0);
     expect(count()).toBe(0);
   });
 
-  it("should update with set()", () => {
+  it('should update with set()', () => {
     const count = signal(0);
     count.set(5);
     expect(count()).toBe(5);
   });
 
-  it("should update with update()", () => {
+  it('should update with update()', () => {
     const count = signal(0);
     count.update((n) => n + 1);
     expect(count()).toBe(1);
   });
 
-  it("should compute derived values", () => {
+  it('should compute derived values', () => {
     const price = signal(100);
     const tax = signal(0.1);
     const total = computed(() => price() * (1 + tax()));
@@ -550,12 +540,12 @@ describe("Signal Tests", () => {
 ### Testing Effects
 
 ```typescript
-import { signal, effect, EffectRef } from "@angular/core";
+import { signal, effect, EffectRef } from '@angular/core';
 
-describe("Effect Testing", () => {
-  it("should run effect when dependency changes", () => {
+describe('Effect Testing', () => {
+  it('should run effect when dependency changes', () => {
     const count = signal(0);
-    const logSpy = jasmine.createSpy("log");
+    const logSpy = jasmine.createSpy('log');
 
     const effectRef: EffectRef = effect(() => {
       logSpy(count());
@@ -569,8 +559,8 @@ describe("Effect Testing", () => {
     effectRef.destroy();
   });
 
-  it("should cleanup on effect destroy", () => {
-    const cleanupSpy = jasmine.createSpy("cleanup");
+  it('should cleanup on effect destroy', () => {
+    const cleanupSpy = jasmine.createSpy('cleanup');
 
     const effectRef = effect((onCleanup) => {
       onCleanup(() => cleanupSpy());
@@ -585,11 +575,11 @@ describe("Effect Testing", () => {
 ### Component Integration Testing
 
 ```typescript
-import { Component, signal, computed } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Component, signal, computed } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 @Component({
-  selector: "app-test-counter",
+  selector: 'app-test-counter',
   template: `
     <p data-testid="count">{{ count() }}</p>
     <p data-testid="double">{{ doubleCount() }}</p>
@@ -604,7 +594,7 @@ class TestCounterComponent {
   }
 }
 
-describe("CounterComponent", () => {
+describe('CounterComponent', () => {
   let component: TestCounterComponent;
   let fixture: ComponentFixture<TestCounterComponent>;
 
@@ -618,25 +608,21 @@ describe("CounterComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should display initial count", () => {
-    const countEl = fixture.nativeElement.querySelector(
-      '[data-testid="count"]',
-    );
-    expect(countEl.textContent).toBe("0");
+  it('should display initial count', () => {
+    const countEl = fixture.nativeElement.querySelector('[data-testid="count"]');
+    expect(countEl.textContent).toBe('0');
   });
 
-  it("should update computed value when signal changes", () => {
+  it('should update computed value when signal changes', () => {
     component.count.set(5);
     fixture.detectChanges();
 
-    const doubleEl = fixture.nativeElement.querySelector(
-      '[data-testid="double"]',
-    );
-    expect(doubleEl.textContent).toBe("10");
+    const doubleEl = fixture.nativeElement.querySelector('[data-testid="double"]');
+    expect(doubleEl.textContent).toBe('10');
   });
 
-  it("should increment on button click", () => {
-    const button = fixture.nativeElement.querySelector("button");
+  it('should increment on button click', () => {
+    const button = fixture.nativeElement.querySelector('button');
     button.click();
     fixture.detectChanges();
 
@@ -659,27 +645,27 @@ describe("CounterComponent", () => {
 
 ```typescript
 // Benchmark: Signal vs Zone.js change detection
-import { signal } from "@angular/core";
+import { signal } from '@angular/core';
 
 const iterations = 10000;
 
 // Signal-based update — O(1) per dependent
 const counter = signal(0);
-performance.mark("signal-start");
+performance.mark('signal-start');
 for (let i = 0; i < iterations; i++) {
   counter.set(i);
 }
-performance.mark("signal-end");
+performance.mark('signal-end');
 // ~2-5ms for 10,000 updates
 
 // Zone.js triggers full change detection each time
-performance.mark("zone-start");
+performance.mark('zone-start');
 for (let i = 0; i < iterations; i++) {
   this.zone.run(() => {
     this.value = i;
   });
 }
-performance.mark("zone-end");
+performance.mark('zone-end');
 // ~50-200ms for 10,000 updates
 ```
 

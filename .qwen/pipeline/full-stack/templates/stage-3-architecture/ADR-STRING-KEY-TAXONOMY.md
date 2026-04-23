@@ -68,11 +68,11 @@ Adopt the **dot-notation hierarchical convention**:
 
 Pluralisation requires platform-specific supplemental files that share the base key namespace.
 
-| Platform       | Base Key Pattern                       | Pluralisation File             | Pluralisation Entry                                                                          |
-| -------------- | -------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------- |
-| Web Frontend   | `{feature}.{screen}.{component}.count` | `messages.json` (inline)       | ICU Message Format: `"{count, plural, one {# month} other {# months}}"`                      |
-| iOS            | `{feature}.{screen}.{component}.count` | `Localizable.stringsdict`      | Same key name with `NSStringFormatSpecTypeKey` and `NSStringFormatValueTypeKey` entries      |
-| Android        | `{feature}.{screen}.{component}.count` | `res/plurals/strings.xml`      | `<plurals name="{feature}.{screen}.{component}.count">` with `<item quantity="...">` entries |
+| Platform     | Base Key Pattern                       | Pluralisation File        | Pluralisation Entry                                                                          |
+| ------------ | -------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------- |
+| Web Frontend | `{feature}.{screen}.{component}.count` | `messages.json` (inline)  | ICU Message Format: `"{count, plural, one {# month} other {# months}}"`                      |
+| iOS          | `{feature}.{screen}.{component}.count` | `Localizable.stringsdict` | Same key name with `NSStringFormatSpecTypeKey` and `NSStringFormatValueTypeKey` entries      |
+| Android      | `{feature}.{screen}.{component}.count` | `res/plurals/strings.xml` | `<plurals name="{feature}.{screen}.{component}.count">` with `<item quantity="...">` entries |
 
 **Example:**
 
@@ -84,11 +84,11 @@ Android plurals: subscription.paywall.plan.count → one: "%d month", other: "%d
 
 ### Locale Variant Handling
 
-| Scenario                        | Approach                                                                                                                                                                                                                                                              |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **zh-CN vs zh-TW**              | Same key namespace. Separate value files (`values-zh-rCN/strings.xml`, `zh_CN.lproj/Localizable.strings`, `locales/zh-CN/messages.json`).                                                                                                                             |
-| **RTL languages (ar, fa, he)**  | Same key namespace. Keys used in RTL layouts flagged in `key-index.csv` with `rtl_review: true` for layout review.                                                                                                                                                    |
-| **Locale-specific expressions** | If a string requires completely different wording per locale (not just translation), create separate keys: `greeting.morning.en`, `greeting.morning.ja`. Document rationale in `key-index.csv`.                                                                       |
+| Scenario                        | Approach                                                                                                                                                                                        |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **zh-CN vs zh-TW**              | Same key namespace. Separate value files (`values-zh-rCN/strings.xml`, `zh_CN.lproj/Localizable.strings`, `locales/zh-CN/messages.json`).                                                       |
+| **RTL languages (ar, fa, he)**  | Same key namespace. Keys used in RTL layouts flagged in `key-index.csv` with `rtl_review: true` for layout review.                                                                              |
+| **Locale-specific expressions** | If a string requires completely different wording per locale (not just translation), create separate keys: `greeting.morning.en`, `greeting.morning.ja`. Document rationale in `key-index.csv`. |
 
 ### String-Array Key Conventions
 

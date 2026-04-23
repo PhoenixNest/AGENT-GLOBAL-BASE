@@ -55,25 +55,25 @@ This skill establishes the React testing discipline that ensures component corre
 **Async testing patterns:**
 
 ```tsx
-import { render, screen, waitFor, findByRole } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor, findByRole } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 // ✅ CORRECT: Using findBy* for async queries
-test("displays user data after loading", async () => {
+test('displays user data after loading', async () => {
   render(<UserProfile userId="123" />);
 
   // findBy* automatically waits for element to appear
-  const heading = await screen.findByRole("heading", { name: /alice/i });
+  const heading = await screen.findByRole('heading', { name: /alice/i });
   expect(heading).toBeInTheDocument();
 });
 
 // ✅ CORRECT: Using waitFor for async assertions
-test("submits form and shows success message", async () => {
+test('submits form and shows success message', async () => {
   const user = userEvent.setup();
   render(<ContactForm onSubmit={handleSubmit} />);
 
-  await user.type(screen.getByLabelText("Email"), "test@example.com");
-  await user.click(screen.getByRole("button", { name: /submit/i }));
+  await user.type(screen.getByLabelText('Email'), 'test@example.com');
+  await user.click(screen.getByRole('button', { name: /submit/i }));
 
   // waitFor retries assertion until it passes or times out (default 1000ms)
   await waitFor(() => {
@@ -82,41 +82,41 @@ test("submits form and shows success message", async () => {
 });
 
 // ❌ WRONG: Using getBy* for async content
-test("displays user data", () => {
+test('displays user data', () => {
   render(<UserProfile userId="123" />);
   // getBy* throws immediately if element not found — doesn't wait
-  expect(screen.getByText("Alice")).toBeInTheDocument(); // Flaky!
+  expect(screen.getByText('Alice')).toBeInTheDocument(); // Flaky!
 });
 
 // ❌ WRONG: Using arbitrary setTimeout
-test("displays user data", async () => {
+test('displays user data', async () => {
   render(<UserProfile userId="123" />);
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Brittle — what if it takes 1001ms?
-  expect(screen.getByText("Alice")).toBeInTheDocument();
+  expect(screen.getByText('Alice')).toBeInTheDocument();
 });
 ```
 
 **Testing user interactions** — use `@testing-library/user-event`, not `fireEvent`:
 
 ```tsx
-import userEvent from "@testing-library/user-event";
+import userEvent from '@testing-library/user-event';
 
 // ✅ CORRECT: userEvent simulates real user behavior (focus, keyboard events, etc.)
-test("types in input field", async () => {
+test('types in input field', async () => {
   const user = userEvent.setup();
   render(<input data-testid="name-input" />);
 
-  await user.type(screen.getByTestId("name-input"), "Hello World");
-  expect(screen.getByTestId("name-input")).toHaveValue("Hello World");
+  await user.type(screen.getByTestId('name-input'), 'Hello World');
+  expect(screen.getByTestId('name-input')).toHaveValue('Hello World');
 });
 
 // ❌ WRONG: fireEvent bypasses browser behavior (no focus, no keydown/keyup sequence)
-import { fireEvent } from "@testing-library/react";
+import { fireEvent } from '@testing-library/react';
 
-test("types in input field", () => {
+test('types in input field', () => {
   render(<input data-testid="name-input" />);
-  fireEvent.change(screen.getByTestId("name-input"), {
-    target: { value: "Hello World" },
+  fireEvent.change(screen.getByTestId('name-input'), {
+    target: { value: 'Hello World' },
   });
   // This works but doesn't simulate real user behavior
 });
@@ -127,60 +127,51 @@ test("types in input field", () => {
 **Testing prop variants** — systematic coverage of all prop combinations:
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import { Button } from "./Button";
+import { render, screen } from '@testing-library/react';
+import { Button } from './Button';
 
-describe("Button", () => {
+describe('Button', () => {
   // Default rendering
-  it("renders with default props", () => {
+  it('renders with default props', () => {
     render(<Button>Click me</Button>);
-    expect(
-      screen.getByRole("button", { name: /click me/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
   });
 
   // Variant testing
   it.each([
-    ["primary", "bg-blue-500"],
-    ["secondary", "bg-gray-500"],
-    ["danger", "bg-red-500"],
-  ])("renders with %s variant", (variant, expectedClass) => {
+    ['primary', 'bg-blue-500'],
+    ['secondary', 'bg-gray-500'],
+    ['danger', 'bg-red-500'],
+  ])('renders with %s variant', (variant, expectedClass) => {
     render(<Button variant={variant as ButtonVariant}>Click me</Button>);
-    expect(screen.getByRole("button", { name: /click me/i })).toHaveClass(
-      expectedClass,
-    );
+    expect(screen.getByRole('button', { name: /click me/i })).toHaveClass(expectedClass);
   });
 
   // Size testing
-  it.each(["sm", "md", "lg"] as const)("renders with size %s", (size) => {
+  it.each(['sm', 'md', 'lg'] as const)('renders with size %s', (size) => {
     render(<Button size={size}>Click me</Button>);
-    expect(screen.getByRole("button", { name: /click me/i })).toHaveAttribute(
-      "data-size",
-      size,
-    );
+    expect(screen.getByRole('button', { name: /click me/i })).toHaveAttribute('data-size', size);
   });
 
   // Disabled state
-  it("is disabled when disabled prop is true", () => {
+  it('is disabled when disabled prop is true', () => {
     render(<Button disabled>Click me</Button>);
-    expect(screen.getByRole("button", { name: /click me/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /click me/i })).toBeDisabled();
   });
 
   // Loading state
-  it("shows spinner and is disabled when loading", () => {
+  it('shows spinner and is disabled when loading', () => {
     render(<Button loading>Click me</Button>);
-    const button = screen.getByRole("button", { name: /click me/i });
+    const button = screen.getByRole('button', { name: /click me/i });
     expect(button).toBeDisabled();
-    expect(screen.getByRole("status")).toBeInTheDocument(); // Spinner
+    expect(screen.getByRole('status')).toBeInTheDocument(); // Spinner
   });
 
   // Icon with label
-  it("renders icon when icon prop is provided", () => {
-    render(
-      <Button icon={<TrashIcon data-testid="trash-icon" />}>Delete</Button>,
-    );
-    expect(screen.getByTestId("trash-icon")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /delete/i })).toBeInTheDocument();
+  it('renders icon when icon prop is provided', () => {
+    render(<Button icon={<TrashIcon data-testid="trash-icon" />}>Delete</Button>);
+    expect(screen.getByTestId('trash-icon')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /delete/i })).toBeInTheDocument();
   });
 });
 ```
@@ -188,33 +179,33 @@ describe("Button", () => {
 **Testing state transitions:**
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { Accordion } from "./Accordion";
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Accordion } from './Accordion';
 
-describe("Accordion", () => {
-  it("toggles open/closed state on click", async () => {
+describe('Accordion', () => {
+  it('toggles open/closed state on click', async () => {
     const user = userEvent.setup();
     render(
       <Accordion title="Section 1">
         <p>Hidden content</p>
-      </Accordion>,
+      </Accordion>
     );
 
     // Initially closed
-    expect(screen.queryByText("Hidden content")).not.toBeInTheDocument();
-    const trigger = screen.getByRole("button", { name: /section 1/i });
-    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
+    const trigger = screen.getByRole('button', { name: /section 1/i });
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
     // Open
     await user.click(trigger);
-    expect(screen.getByText("Hidden content")).toBeInTheDocument();
-    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText('Hidden content')).toBeInTheDocument();
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
     // Close
     await user.click(trigger);
-    expect(screen.queryByText("Hidden content")).not.toBeInTheDocument();
-    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 });
 ```
@@ -222,45 +213,45 @@ describe("Accordion", () => {
 **Testing error boundaries:**
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import { ErrorBoundary } from "./ErrorBoundary";
+import { render, screen } from '@testing-library/react';
+import { ErrorBoundary } from './ErrorBoundary';
 
 // Component that throws on render
 function BrokenComponent() {
-  throw new Error("Something went wrong");
+  throw new Error('Something went wrong');
 }
 
-describe("ErrorBoundary", () => {
+describe('ErrorBoundary', () => {
   // Suppress console.error for expected errors
   beforeEach(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  it("displays fallback when child throws", () => {
+  it('displays fallback when child throws', () => {
     render(
       <ErrorBoundary fallback={<div role="alert">Something went wrong</div>}>
         <BrokenComponent />
-      </ErrorBoundary>,
+      </ErrorBoundary>
     );
 
-    expect(screen.getByRole("alert")).toHaveTextContent("Something went wrong");
+    expect(screen.getByRole('alert')).toHaveTextContent('Something went wrong');
   });
 
-  it("resets error state when reset button is clicked", async () => {
+  it('resets error state when reset button is clicked', async () => {
     const user = userEvent.setup();
     const onReset = jest.fn();
 
     render(
       <ErrorBoundary fallback={<button onClick={onReset}>Try again</button>}>
         <BrokenComponent />
-      </ErrorBoundary>,
+      </ErrorBoundary>
     );
 
-    await user.click(screen.getByRole("button", { name: /try again/i }));
+    await user.click(screen.getByRole('button', { name: /try again/i }));
     expect(onReset).toHaveBeenCalledTimes(1);
   });
 });
@@ -269,39 +260,35 @@ describe("ErrorBoundary", () => {
 **Testing Suspense boundaries:**
 
 ```tsx
-import { render, screen, Suspense } from "react";
-import { lazy } from "react";
+import { render, screen, Suspense } from 'react';
+import { lazy } from 'react';
 
 // Mock the lazy component
-jest.mock("./HeavyComponent", () => ({
+jest.mock('./HeavyComponent', () => ({
   HeavyComponent: () => <div data-testid="heavy-component">Loaded</div>,
 }));
 
-describe("Suspense boundary", () => {
-  it("shows fallback while component loads", async () => {
+describe('Suspense boundary', () => {
+  it('shows fallback while component loads', async () => {
     // Simulate async loading
     const HeavyComponent = lazy(
       () =>
         new Promise((resolve) =>
-          setTimeout(
-            () =>
-              resolve({ default: () => <div data-testid="heavy">Loaded</div> }),
-            100,
-          ),
-        ),
+          setTimeout(() => resolve({ default: () => <div data-testid="heavy">Loaded</div> }), 100)
+        )
     );
 
     render(
       <Suspense fallback={<div data-testid="loading">Loading...</div>}>
         <HeavyComponent />
-      </Suspense>,
+      </Suspense>
     );
 
     // Fallback shown initially
-    expect(screen.getByTestId("loading")).toHaveTextContent("Loading...");
+    expect(screen.getByTestId('loading')).toHaveTextContent('Loading...');
 
     // Component shown after loading
-    expect(await screen.findByTestId("heavy")).toHaveTextContent("Loaded");
+    expect(await screen.findByTestId('heavy')).toHaveTextContent('Loaded');
   });
 });
 ```
@@ -314,63 +301,60 @@ describe("Suspense boundary", () => {
 
 ```ts
 // test/mocks/handlers.ts
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from 'msw';
 
 export const handlers = [
   // GET endpoint
-  http.get("/api/users/:id", ({ params }) => {
+  http.get('/api/users/:id', ({ params }) => {
     return HttpResponse.json({
       id: params.id,
-      name: "Alice",
-      email: "alice@example.com",
+      name: 'Alice',
+      email: 'alice@example.com',
     });
   }),
 
   // POST endpoint with request body validation
-  http.post("/api/users", async ({ request }) => {
+  http.post('/api/users', async ({ request }) => {
     const body = await request.json();
     if (!body.name || !body.email) {
-      return HttpResponse.json(
-        { error: "Name and email are required" },
-        { status: 400 },
-      );
+      return HttpResponse.json({ error: 'Name and email are required' }, { status: 400 });
     }
     return HttpResponse.json(
-      { id: "new-user", name: body.name, email: body.email },
-      { status: 201 },
+      { id: 'new-user', name: body.name, email: body.email },
+      { status: 201 }
     );
   }),
 
   // Simulate network error
-  http.get("/api/users", () => {
+  http.get('/api/users', () => {
     return HttpResponse.error(); // Network error (not HTTP error)
   }),
 
   // Simulate HTTP error
-  http.get("/api/users/:id", ({ params }) => {
-    if (params.id === "999") {
-      return HttpResponse.json({ error: "User not found" }, { status: 404 });
+  http.get('/api/users/:id', ({ params }) => {
+    if (params.id === '999') {
+      return HttpResponse.json({ error: 'User not found' }, { status: 404 });
     }
-    return HttpResponse.json({ id: params.id, name: "Alice" });
+    return HttpResponse.json({ id: params.id, name: 'Alice' });
   }),
 
   // Delayed response (for loading state testing)
-  http.get("/api/slow-data", async () => {
+  http.get('/api/slow-data', async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    return HttpResponse.json({ data: "loaded" });
+    return HttpResponse.json({ data: 'loaded' });
   }),
 ];
 
 // test/mocks/server.ts
-import { setupServer } from "msw/node";
-import { handlers } from "./handlers";
+import { setupServer } from 'msw/node';
+import { handlers } from './handlers';
 
 export const server = setupServer(...handlers);
 
 // test/setup.ts (Jest/Vitest setup file)
-import { server } from "./mocks/server";
+import { server } from './mocks/server';
 
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers()); // Reset handlers between tests
 afterAll(() => server.close());
 ```
@@ -378,37 +362,35 @@ afterAll(() => server.close());
 **Per-test handler override:**
 
 ```tsx
-import { render, screen, waitFor } from "@testing-library/react";
-import { http, HttpResponse } from "msw";
-import { server } from "../test/mocks/server";
-import { UserProfile } from "./UserProfile";
+import { render, screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { server } from '../test/mocks/server';
+import { UserProfile } from './UserProfile';
 
-describe("UserProfile", () => {
-  it("displays user data on success", async () => {
+describe('UserProfile', () => {
+  it('displays user data on success', async () => {
     // Override handler for this test
     server.use(
-      http.get("/api/users/123", () => {
+      http.get('/api/users/123', () => {
         return HttpResponse.json({
-          id: "123",
-          name: "Bob",
-          email: "bob@example.com",
+          id: '123',
+          name: 'Bob',
+          email: 'bob@example.com',
         });
-      }),
+      })
     );
 
     render(<UserProfile userId="123" />);
 
-    expect(
-      await screen.findByRole("heading", { name: /bob/i }),
-    ).toBeInTheDocument();
-    expect(screen.getByText("bob@example.com")).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /bob/i })).toBeInTheDocument();
+    expect(screen.getByText('bob@example.com')).toBeInTheDocument();
   });
 
-  it("displays error on API failure", async () => {
+  it('displays error on API failure', async () => {
     server.use(
-      http.get("/api/users/123", () => {
-        return HttpResponse.json({ error: "Not found" }, { status: 404 });
-      }),
+      http.get('/api/users/123', () => {
+        return HttpResponse.json({ error: 'Not found' }, { status: 404 });
+      })
     );
 
     render(<UserProfile userId="123" />);
@@ -416,12 +398,12 @@ describe("UserProfile", () => {
     expect(await screen.findByText(/failed to load user/i)).toBeInTheDocument();
   });
 
-  it("displays loading state while fetching", async () => {
+  it('displays loading state while fetching', async () => {
     server.use(
-      http.get("/api/users/123", async () => {
+      http.get('/api/users/123', async () => {
         await new Promise((resolve) => setTimeout(resolve, 100));
-        return HttpResponse.json({ id: "123", name: "Bob" });
-      }),
+        return HttpResponse.json({ id: '123', name: 'Bob' });
+      })
     );
 
     render(<UserProfile userId="123" />);
@@ -430,9 +412,7 @@ describe("UserProfile", () => {
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
 
     // Data appears after loading
-    expect(
-      await screen.findByRole("heading", { name: /bob/i }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /bob/i })).toBeInTheDocument();
   });
 });
 ```
@@ -442,12 +422,12 @@ describe("UserProfile", () => {
 **Integration tests verify that components work together** — they use the real component tree with real state management and mocked network layer.
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { http, HttpResponse } from "msw";
-import { server } from "../test/mocks/server";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { TodoApp } from "./TodoApp";
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
+import { server } from '../test/mocks/server';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { TodoApp } from './TodoApp';
 
 // Custom render with providers
 function renderWithProviders(ui: React.ReactElement) {
@@ -458,79 +438,70 @@ function renderWithProviders(ui: React.ReactElement) {
     },
   });
 
-  return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
-  );
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 }
 
-describe("TodoApp — Integration", () => {
-  it("completes a full todo workflow", async () => {
+describe('TodoApp — Integration', () => {
+  it('completes a full todo workflow', async () => {
     const user = userEvent.setup();
 
     // Setup mock handlers
     server.use(
-      http.get("/api/todos", () => {
-        return HttpResponse.json([
-          { id: "1", title: "Existing todo", completed: false },
-        ]);
+      http.get('/api/todos', () => {
+        return HttpResponse.json([{ id: '1', title: 'Existing todo', completed: false }]);
       }),
-      http.post("/api/todos", async ({ request }) => {
+      http.post('/api/todos', async ({ request }) => {
         const body = await request.json();
-        return HttpResponse.json(
-          { id: "2", title: body.title, completed: false },
-          { status: 201 },
-        );
+        return HttpResponse.json({ id: '2', title: body.title, completed: false }, { status: 201 });
       }),
-      http.patch("/api/todos/:id", async ({ request }) => {
+      http.patch('/api/todos/:id', async ({ request }) => {
         const body = await request.json();
         return HttpResponse.json({
-          id: "1",
-          title: "Existing todo",
+          id: '1',
+          title: 'Existing todo',
           completed: body.completed,
         });
       }),
-      http.delete("/api/todos/:id", () => {
+      http.delete('/api/todos/:id', () => {
         return new HttpResponse(null, { status: 204 });
-      }),
+      })
     );
 
     renderWithProviders(<TodoApp />);
 
     // 1. Load existing todos
-    expect(await screen.findByText("Existing todo")).toBeInTheDocument();
+    expect(await screen.findByText('Existing todo')).toBeInTheDocument();
 
     // 2. Add new todo
-    const input = screen.getByPlaceholderText("Add a todo");
-    await user.type(input, "New todo");
-    await user.click(screen.getByRole("button", { name: /add/i }));
-    expect(await screen.findByText("New todo")).toBeInTheDocument();
+    const input = screen.getByPlaceholderText('Add a todo');
+    await user.type(input, 'New todo');
+    await user.click(screen.getByRole('button', { name: /add/i }));
+    expect(await screen.findByText('New todo')).toBeInTheDocument();
 
     // 3. Mark todo as complete
-    const checkbox = screen.getByRole("checkbox", { name: /existing todo/i });
+    const checkbox = screen.getByRole('checkbox', { name: /existing todo/i });
     await user.click(checkbox);
     expect(checkbox).toBeChecked();
 
     // 4. Delete todo
-    const deleteButton = screen.getByRole("button", {
+    const deleteButton = screen.getByRole('button', {
       name: /delete.*new todo/i,
     });
     await user.click(deleteButton);
     await waitFor(() => {
-      expect(screen.queryByText("New todo")).not.toBeInTheDocument();
+      expect(screen.queryByText('New todo')).not.toBeInTheDocument();
     });
   });
 
-  it("handles network error gracefully", async () => {
+  it('handles network error gracefully', async () => {
     const user = userEvent.setup();
 
-    server.use(http.get("/api/todos", () => HttpResponse.error()));
+    server.use(http.get('/api/todos', () => HttpResponse.error()));
 
     renderWithProviders(<TodoApp />);
 
-    expect(
-      await screen.findByText(/failed to load todos/i),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /retry/i })).toBeInTheDocument();
+    expect(await screen.findByText(/failed to load todos/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
   });
 });
 ```
@@ -539,11 +510,11 @@ describe("TodoApp — Integration", () => {
 
 ```tsx
 // test/test-utils.tsx
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RouterProvider, createMemoryRouter } from "react-router-dom";
-import type { ReactElement } from "react";
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import type { ReactElement } from 'react';
 
 // Custom render with all providers
 interface RenderOptions {
@@ -553,7 +524,7 @@ interface RenderOptions {
 }
 
 function customRender(ui: ReactElement, options: RenderOptions = {}) {
-  const { route = "/", initialEntries = [route], queryClient } = options;
+  const { route = '/', initialEntries = [route], queryClient } = options;
 
   const router = createMemoryRouter([{ path: route, element: ui }], {
     initialEntries,
@@ -572,7 +543,7 @@ function customRender(ui: ReactElement, options: RenderOptions = {}) {
     ...render(
       <QueryClientProvider client={qc}>
         <RouterProvider router={router} />
-      </QueryClientProvider>,
+      </QueryClientProvider>
     ),
     user: userEvent.setup(),
     router,
@@ -581,16 +552,16 @@ function customRender(ui: ReactElement, options: RenderOptions = {}) {
 }
 
 // Re-export everything from RTL
-export * from "@testing-library/react";
+export * from '@testing-library/react';
 export { customRender as render };
 
 // Custom assertions
 export const expectLoading = () => {
-  expect(screen.getByRole("status")).toBeInTheDocument();
+  expect(screen.getByRole('status')).toBeInTheDocument();
 };
 
 export const expectError = (message: string | RegExp) => {
-  expect(screen.getByRole("alert")).toHaveTextContent(message);
+  expect(screen.getByRole('alert')).toHaveTextContent(message);
 };
 
 export const expectToast = async (message: string | RegExp) => {
@@ -602,34 +573,34 @@ export const expectToast = async (message: string | RegExp) => {
 
 ```tsx
 // ❌ ANTI-PATTERN: Testing implementation details
-test("updates state correctly", () => {
+test('updates state correctly', () => {
   const { container } = render(<Counter />);
   // Testing internal state — this is an implementation detail!
   expect((container as any)._currentElement.state.count).toBe(0);
 });
 
 // ✅ CORRECT: Testing observable behavior
-test("displays correct count", async () => {
+test('displays correct count', async () => {
   const user = userEvent.setup();
   render(<Counter />);
-  expect(screen.getByText("Count: 0")).toBeInTheDocument();
-  await user.click(screen.getByRole("button", { name: /increment/i }));
-  expect(screen.getByText("Count: 1")).toBeInTheDocument();
+  expect(screen.getByText('Count: 0')).toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: /increment/i }));
+  expect(screen.getByText('Count: 1')).toBeInTheDocument();
 });
 
 // ❌ ANTI-PATTERN: Shallow rendering (enzyme)
 // Tests component in isolation, missing integration issues
 shallow(<MyComponent />)
-  .find("ChildComponent")
-  .prop("onClick")();
+  .find('ChildComponent')
+  .prop('onClick')();
 
 // ✅ CORRECT: Full DOM rendering
 render(<MyComponent />);
-await user.click(screen.getByRole("button"));
-expect(screen.getByText("Result")).toBeInTheDocument();
+await user.click(screen.getByRole('button'));
+expect(screen.getByText('Result')).toBeInTheDocument();
 
 // ❌ ANTI-PATTERN: Mocking child components
-jest.mock("./ChildComponent", () => () => <div>Mocked child</div>);
+jest.mock('./ChildComponent', () => () => <div>Mocked child</div>);
 // Hides integration issues between parent and child
 
 // ✅ CORRECT: Real child components (mock only network/external deps)
@@ -637,18 +608,18 @@ render(<ParentComponent />);
 // ChildComponent renders for real
 
 // ❌ ANTI-PATTERN: Testing by className
-expect(screen.getByTestId("submit-btn").className).toContain("bg-blue");
+expect(screen.getByTestId('submit-btn').className).toContain('bg-blue');
 
 // ✅ CORRECT: Testing by role and accessible name
-const button = screen.getByRole("button", { name: /submit/i });
-expect(button).toHaveAttribute("data-variant", "primary");
+const button = screen.getByRole('button', { name: /submit/i });
+expect(button).toHaveAttribute('data-variant', 'primary');
 
 // ❌ ANTI-PATTERN: Flaky tests with arbitrary timeouts
 await new Promise((resolve) => setTimeout(resolve, 500));
 
 // ✅ CORRECT: waitFor for async assertions
 await waitFor(() => {
-  expect(screen.getByText("Loaded")).toBeInTheDocument();
+  expect(screen.getByText('Loaded')).toBeInTheDocument();
 });
 ```
 

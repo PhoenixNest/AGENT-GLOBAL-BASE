@@ -1,6 +1,6 @@
 ---
 name: android-architecture-android-architecture
-description: "Android skill: Android Architecture"
+description: 'Android skill: Android Architecture'
 ---
 
 # Android Architecture

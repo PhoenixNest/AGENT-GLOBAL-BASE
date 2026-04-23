@@ -1,6 +1,5 @@
 ---
-description:
-  Use for full-stack development with Vue.js, .NET, and multi-tenant API
+description: Use for full-stack development with Vue.js, .NET, and multi-tenant API
   architecture. Engage during Stage 5 (Development) for Vue/.NET implementation.
 mode: subagent
 tools:

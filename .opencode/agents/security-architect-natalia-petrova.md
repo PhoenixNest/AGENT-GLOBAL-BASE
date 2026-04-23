@@ -1,6 +1,5 @@
 ---
-description:
-  Use for threat modeling, security architecture design, MASVS Track B,
+description: Use for threat modeling, security architecture design, MASVS Track B,
   mobile threat modeling, and ADR governance. Engage during Stage 1 (Requirements),
   Stage 3 (Architecture), Stage 6 (Code Review), Stage 8 (Integrity Verification),
   and Stage 10 (Release Readiness) for security architecture conformance.

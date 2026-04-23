@@ -13,13 +13,13 @@ Principal Designer, Head of Design, VP Design, Chief Design Officer (CDO).
 
 ## Seniority Rubric
 
-| Criterion | UX Designer | Product Designer | Senior Designer | Design Lead | Principal Designer | Head of Design | VP Design | CDO |
-|---|---|---|---|---|---|---|---|---|
-| Scope | Feature-level | Feature-level | Product area | Team of designers | Cross-product | Org-wide design system | Business unit | Company design vision |
-| Craft | Executes high-fidelity designs | Executes high-fidelity designs | Owns end-to-end design process | Defines design quality bar | Shapes design methodology | Establishes design systems at scale | Portfolio design strategy | Industry-recognized craft |
-| Research | Runs usability tests | Runs usability tests | Leads research for their area | Defines research methods | Sets org research standards | Research as competitive advantage | Research organization | Design intelligence |
-| Influence | Engineers + PM | Engineers + PM | Cross-functional | Design org | Exec design decisions | Board-level design narrative | Company brand | Market design leadership |
-| Track record | 2+ shipped features | 2+ shipped features | Shipped a product end-to-end | Built a design team | Org-wide design transformation | Design system adopted company-wide | Revenue impact through design | Industry awards / publications |
+| Criterion    | UX Designer                    | Product Designer               | Senior Designer                | Design Lead                | Principal Designer             | Head of Design                      | VP Design                     | CDO                            |
+| ------------ | ------------------------------ | ------------------------------ | ------------------------------ | -------------------------- | ------------------------------ | ----------------------------------- | ----------------------------- | ------------------------------ |
+| Scope        | Feature-level                  | Feature-level                  | Product area                   | Team of designers          | Cross-product                  | Org-wide design system              | Business unit                 | Company design vision          |
+| Craft        | Executes high-fidelity designs | Executes high-fidelity designs | Owns end-to-end design process | Defines design quality bar | Shapes design methodology      | Establishes design systems at scale | Portfolio design strategy     | Industry-recognized craft      |
+| Research     | Runs usability tests           | Runs usability tests           | Leads research for their area  | Defines research methods   | Sets org research standards    | Research as competitive advantage   | Research organization         | Design intelligence            |
+| Influence    | Engineers + PM                 | Engineers + PM                 | Cross-functional               | Design org                 | Exec design decisions          | Board-level design narrative        | Company brand                 | Market design leadership       |
+| Track record | 2+ shipped features            | 2+ shipped features            | Shipped a product end-to-end   | Built a design team        | Org-wide design transformation | Design system adopted company-wide  | Revenue impact through design | Industry awards / publications |
 
 ## Interview Simulation Protocol
 

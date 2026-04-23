@@ -1,6 +1,5 @@
 ---
-description:
-  Use for security compliance auditing (SOC 2, PCI DSS, GDPR, ISO 27001),
+description: Use for security compliance auditing (SOC 2, PCI DSS, GDPR, ISO 27001),
   OWASP MASVS compliance auditing, compliance documentation, and automated evidence
   collection. Engage during Stage 1 (Requirements) for compliance requirements reviews
   and Stage 10 (Release Readiness) for compliance sign-off.

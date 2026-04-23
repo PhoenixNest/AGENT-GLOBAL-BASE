@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All onboarding items confirmed ready."
-candidate_name: "Lena Kovac"
-candidate_id: "G8"
-entity_type: "studio"
-stage: "stage-8"
-division: "art"
-role: "technical-artist"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All onboarding items confirmed ready.'
+candidate_name: 'Lena Kovac'
+candidate_id: 'G8'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'art'
+role: 'technical-artist'
+document_type: 'Provisioning Record'
 ---
 
 # Stage 8: Provisioning — Lena Kovac (G8)

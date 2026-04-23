@@ -1,6 +1,6 @@
 ---
 name: design-guidelines-interaction-design-specification-cdo
-description: "Design skill: Interaction Design Specification Cdo"
+description: 'Design skill: Interaction Design Specification Cdo'
 ---
 
 # Interaction Design Specification

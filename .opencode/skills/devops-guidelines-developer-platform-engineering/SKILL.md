@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-developer-platform-engineering
-description: "Devops skill: Developer Platform Engineering"
+description: 'Devops skill: Developer Platform Engineering'
 ---
 
 # Developer Platform Engineering

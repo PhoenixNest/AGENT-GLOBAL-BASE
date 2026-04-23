@@ -1,6 +1,6 @@
 ---
 name: localization-guidelines-mobile-ui-translation-english
-description: "Localization skill: Mobile Ui Translation English"
+description: 'Localization skill: Mobile Ui Translation English'
 ---
 
 # Mobile UI Translation

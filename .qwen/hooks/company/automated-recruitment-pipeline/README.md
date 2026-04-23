@@ -156,23 +156,23 @@ All pipeline artifacts use **YAML frontmatter + markdown body**:
 
 ```yaml
 ---
-document_id: "VET-2026-G24-001"
-stage: "stage-5"
-entity_type: "studio"
-entity_root: "studio/casual-games/team"
-candidate_id: "G24"
-candidate_name: "Anya Petrova"
-role_title: "3D Artist #2"
-role_family: "art"
-seniority: "L2"
+document_id: 'VET-2026-G24-001'
+stage: 'stage-5'
+entity_type: 'studio'
+entity_root: 'studio/casual-games/team'
+candidate_id: 'G24'
+candidate_name: 'Anya Petrova'
+role_title: '3D Artist #2'
+role_family: 'art'
+seniority: 'L2'
 scores:
   impact_at_scale: 4
   craft_depth: 5
   leadership_signal: 3
   standards_signal: 4
-  red_flag_scan: "PASS"
+  red_flag_scan: 'PASS'
 total_score: 16
-result: "PASS"
+result: 'PASS'
 ---
 # VETTING GATE — Anya Petrova (G24)
 

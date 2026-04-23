@@ -262,25 +262,25 @@ This ADR establishes the authoritative security patterns for each platform layer
 
 ## 8.1 Enforcement Table
 
-| Enforcement Layer    | Mechanism                                              |
-| -------------------- | ------------------------------------------------------ |
-| Policy               | Stage 3 ADR lock — platform patterns not revisable     |
-| CI/CD                | Platform-specific security linting (Detekt/SwiftLint rules) |
-| Code Review          | Security team reviews platform patterns during Stage 6 Tier 1 |
-| Stage 8 Integrity    | Anti-trim verification includes platform-specific security controls presence and correctness |
+| Enforcement Layer | Mechanism                                                                                    |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| Policy            | Stage 3 ADR lock — platform patterns not revisable                                           |
+| CI/CD             | Platform-specific security linting (Detekt/SwiftLint rules)                                  |
+| Code Review       | Security team reviews platform patterns during Stage 6 Tier 1                                |
+| Stage 8 Integrity | Anti-trim verification includes platform-specific security controls presence and correctness |
 
 ---
 
 ## 8.2 STRIDE Threat Reference
 
-| STRIDE Category              | Threat                                      | Mitigation                                          |
-| ---------------------------- | ------------------------------------------- | --------------------------------------------------- |
-| **Spoofing**                 | Fake app or modified binary impersonating legitimate app | App Attest (iOS), Play Integrity (Android) with server-side verification |
-| **Tampering**                | Runtime code modification, resource patching, or binary re-signing | Jailbreak/root detection, code signature validation, runtime hooking detection, obfuscated detection logic |
-| **Repudiation**              | User denies performing sensitive action that should have been attested | Server-side attestation logs with hardware-backed device identity binding |
-| **Information Disclosure**   | Sensitive data exposed via insecure platform APIs (clipboard, screenshots, logs) | Secure clipboard, FLAG_SECURE, snapshot masking, no sensitive data in logs |
-| **Denial of Service**        | Attacker triggers false-positive in jailbreak/root detection, locking out legitimate users | Graceful degradation: server-side risk scoring + manual review fallback |
-| **Elevation of Privilege**   | Exploiting platform channel vulnerability to access native security APIs from untrusted code | Platform channel message validation, type checking, permission enforcement on native side |
+| STRIDE Category            | Threat                                                                                       | Mitigation                                                                                                 |
+| -------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Spoofing**               | Fake app or modified binary impersonating legitimate app                                     | App Attest (iOS), Play Integrity (Android) with server-side verification                                   |
+| **Tampering**              | Runtime code modification, resource patching, or binary re-signing                           | Jailbreak/root detection, code signature validation, runtime hooking detection, obfuscated detection logic |
+| **Repudiation**            | User denies performing sensitive action that should have been attested                       | Server-side attestation logs with hardware-backed device identity binding                                  |
+| **Information Disclosure** | Sensitive data exposed via insecure platform APIs (clipboard, screenshots, logs)             | Secure clipboard, FLAG_SECURE, snapshot masking, no sensitive data in logs                                 |
+| **Denial of Service**      | Attacker triggers false-positive in jailbreak/root detection, locking out legitimate users   | Graceful degradation: server-side risk scoring + manual review fallback                                    |
+| **Elevation of Privilege** | Exploiting platform channel vulnerability to access native security APIs from untrusted code | Platform channel message validation, type checking, permission enforcement on native side                  |
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-onboarding-program-design
-description: "Hr Recruiting skill: Onboarding Program Design"
+description: 'Hr Recruiting skill: Onboarding Program Design'
 ---
 
 # Engineering Onboarding Program Design

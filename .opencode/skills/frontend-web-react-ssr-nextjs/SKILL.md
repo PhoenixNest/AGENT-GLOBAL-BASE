@@ -1,6 +1,6 @@
 ---
 name: frontend-web-react-ssr-nextjs
-description: "Frontend Web skill: Ssr Nextjs"
+description: 'Frontend Web skill: Ssr Nextjs'
 ---
 
 # SSR/Next.js

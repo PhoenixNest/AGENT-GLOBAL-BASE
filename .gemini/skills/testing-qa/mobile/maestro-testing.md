@@ -41,22 +41,22 @@ appId: com.company.app
 
 - runFlow:
     when:
-      visible: "Allow notifications"
+      visible: 'Allow notifications'
     file: dismiss-notification-prompt.yaml
 
 - tapOn:
-    id: "emailField"
+    id: 'emailField'
 - inputText: ${EMAIL}
 - tapOn:
-    id: "passwordField"
+    id: 'passwordField'
 - inputText: ${PASSWORD}
 - tapOn:
-    id: "loginButton"
+    id: 'loginButton'
 
 - assertVisible:
-    id: "homeScreenTitle"
+    id: 'homeScreenTitle'
 - assertVisible:
-    text: "Welcome back"
+    text: 'Welcome back'
 - assertNoChanges:
     timeout: 2000
 
@@ -72,15 +72,15 @@ Reusable authentication sub-flow (`login.yaml`):
 appId: ${APP_ID}
 ---
 - tapOn:
-    id: "emailField"
+    id: 'emailField'
 - inputText: ${EMAIL}
 - tapOn:
-    id: "passwordField"
+    id: 'passwordField'
 - inputText: ${PASSWORD}
 - tapOn:
-    id: "loginButton"
+    id: 'loginButton'
 - assertVisible:
-    id: "homeScreenTitle"
+    id: 'homeScreenTitle'
 ```
 
 Parent flow includes it:
@@ -96,9 +96,9 @@ appId: ${APP_ID}
       PASSWORD: ${PASSWORD}
 
 - tapOn:
-    id: "settingsButton"
+    id: 'settingsButton'
 - assertVisible:
-    id: "settingsScreen"
+    id: 'settingsScreen'
 ```
 
 **3. Conditional Logic with Platform Branching**
@@ -110,14 +110,14 @@ appId: ${APP_ID}
 
 # Handle platform-specific permission dialogs
 - when:
-    visible: "Allow while using the app"
+    visible: 'Allow while using the app'
   then:
-    - tapOn: "Allow while using the app"
+    - tapOn: 'Allow while using the app'
   else:
     - when:
-        visible: "Allow"
+        visible: 'Allow'
       then:
-        - tapOn: "Allow"
+        - tapOn: 'Allow'
 
 # Platform-specific navigation patterns
 - runScript: |
@@ -128,7 +128,7 @@ appId: ${APP_ID}
     }
 
 - assertVisible:
-    id: "previousScreen"
+    id: 'previousScreen'
 ```
 
 **4. Data-Driven Test with External CSV**
@@ -157,33 +157,33 @@ appId: ${APP_ID}
 
 # Navigate to checkout with test product
 - tapOn:
-    id: "productCard"
+    id: 'productCard'
 - tapOn:
-    id: "addToCartButton"
+    id: 'addToCartButton'
 - tapOn:
-    id: "cartButton"
+    id: 'cartButton'
 - tapOn:
-    id: "checkoutButton"
+    id: 'checkoutButton'
 
 # Fill payment with data-driven values
 - tapOn:
-    id: "cardNumberField"
+    id: 'cardNumberField'
 - inputText: ${card_number}
 - tapOn:
-    id: "payButton"
+    id: 'payButton'
 
 # Assert expected result
 - when:
     visible:
-      id: "orderConfirmation"
+      id: 'orderConfirmation'
   then:
     - assertVisible:
-        id: "orderConfirmation"
+        id: 'orderConfirmation'
     - assertVisible:
         text: ${expected_result}
   else:
     - assertVisible:
-        id: "errorBanner"
+        id: 'errorBanner'
     - assertVisible:
         text: ${expected_result}
 ```
@@ -215,14 +215,14 @@ appId: ${APP_ID}
     maestro.env.ORDER_REF = `ORD-${timestamp}`
 
 - tapOn:
-    id: "signUpButton"
+    id: 'signUpButton'
 - inputText: ${UNIQUE_EMAIL}
 - inputText: ${UNIQUE_USERNAME}
 - tapOn:
-    id: "createAccountButton"
+    id: 'createAccountButton'
 
 - assertVisible:
-    id: "welcomeScreen"
+    id: 'welcomeScreen'
 - assertVisible:
     text: ${UNIQUE_USERNAME}
 ```
@@ -236,21 +236,21 @@ appId: ${APP_ID}
 
 # Capture baseline screenshots at key checkpoints
 - tapOn:
-    id: "homeButton"
+    id: 'homeButton'
 - assertVisible:
-    id: "homeScreenTitle"
+    id: 'homeScreenTitle'
 - assertNoChanges:
     timeout: 3000
-- takeScreenshot: "home-screen.png"
+- takeScreenshot: 'home-screen.png'
 
 # Navigate and verify visual state
 - tapOn:
-    id: "productCatalog"
+    id: 'productCatalog'
 - assertVisible:
-    id: "productGrid"
+    id: 'productGrid'
 - assertNoChanges:
     timeout: 2000
-- takeScreenshot: "product-catalog.png"
+- takeScreenshot: 'product-catalog.png'
 # Visual regression: compare against baseline
 # In CI: maestro test flow.yaml --format junit
 # Baseline comparison handled by CI pipeline with pixel-diff tool

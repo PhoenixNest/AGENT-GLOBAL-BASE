@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-observability-logging
-description: "Devops skill: Observability Logging"
+description: 'Devops skill: Observability Logging'
 ---
 
 # Observability & Logging
@@ -50,8 +50,8 @@ path:
 network.host: 0.0.0.0
 http.port: 9200
 
-discovery.seed_hosts: ["es-node-01", "es-node-02", "es-node-03"]
-cluster.initial_master_nodes: ["es-node-01", "es-node-02", "es-node-03"]
+discovery.seed_hosts: ['es-node-01', 'es-node-02', 'es-node-03']
+cluster.initial_master_nodes: ['es-node-01', 'es-node-02', 'es-node-03']
 
 # Performance tuning
 bootstrap.memory_lock: true
@@ -416,16 +416,16 @@ baselines:
       - period: 24h # Daily pattern
       - period: 168h # Weekly pattern
     exclusion_periods:
-      - "deployment windows"
-      - "known maintenance"
-    alert_threshold: "3 sigma from baseline"
+      - 'deployment windows'
+      - 'known maintenance'
+    alert_threshold: '3 sigma from baseline'
 
   order_api_latency_p95:
     calculation_window: 14_days
     update_frequency: daily
     seasonality:
       - period: 24h
-    alert_threshold: "2 sigma from baseline"
+    alert_threshold: '2 sigma from baseline'
 
   order_api_throughput:
     calculation_window: 7_days
@@ -433,7 +433,7 @@ baselines:
     seasonality:
       - period: 24h
       - period: 168h
-    alert_threshold: "50% deviation from baseline"
+    alert_threshold: '50% deviation from baseline'
 ```
 
 ### Real-Time Alerting
@@ -458,10 +458,10 @@ groups:
           team: backend
           service: order-service
         annotations:
-          summary: "Order API error rate > 5%"
-          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes"
-          runbook: "https://runbooks.company.com/order-service/high-error-rate"
-          dashboard: "https://grafana.company.com/d/order-service"
+          summary: 'Order API error rate > 5%'
+          description: 'Error rate is {{ $value | humanizePercentage }} for the last 5 minutes'
+          runbook: 'https://runbooks.company.com/order-service/high-error-rate'
+          dashboard: 'https://grafana.company.com/d/order-service'
 
       # Latency alert
       - alert: HighLatency
@@ -475,8 +475,8 @@ groups:
           severity: warning
           team: backend
         annotations:
-          summary: "Order API p95 latency > 500ms"
-          description: "p95 latency is {{ $value }}s"
+          summary: 'Order API p95 latency > 500ms'
+          description: 'p95 latency is {{ $value }}s'
 
       # Throughput anomaly
       - alert: ThroughputDrop
@@ -488,7 +488,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "Order API throughput dropped >50% vs last week"
+          summary: 'Order API throughput dropped >50% vs last week'
 
       # Database connection pool
       - alert: DatabaseConnectionPoolExhaustion
@@ -501,7 +501,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Database connection pool >90% full"
+          summary: 'Database connection pool >90% full'
 ```
 
 **Alert Routing:**
@@ -510,7 +510,7 @@ groups:
 # alertmanager.yml
 route:
   receiver: default-slack
-  group_by: ["service", "alertname"]
+  group_by: ['service', 'alertname']
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 4h
@@ -529,26 +529,26 @@ route:
 receivers:
   - name: default-slack
     slack_configs:
-      - channel: "#alerts"
+      - channel: '#alerts'
         send_resolved: true
-        title: "{{ .GroupLabels.alertname }}"
-        text: "{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}"
+        title: '{{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
 
   - name: pagerduty-critical
     pagerduty_configs:
-      - service_key: "<pagerduty-service-key>"
-        severity: "critical"
+      - service_key: '<pagerduty-service-key>'
+        severity: 'critical'
 
   - name: slack-warnings
     slack_configs:
-      - channel: "#alerts-warnings"
+      - channel: '#alerts-warnings'
         send_resolved: true
 
   - name: backend-slack
     slack_configs:
-      - channel: "#backend-alerts"
+      - channel: '#backend-alerts'
         send_resolved: true
-        title: "[Backend] {{ .GroupLabels.alertname }}"
+        title: '[Backend] {{ .GroupLabels.alertname }}'
 ```
 
 **Alert Deduplication and Correlation:**

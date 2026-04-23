@@ -1,6 +1,6 @@
 ---
 name: frontend-web-vue-vue-dotnet
-description: "Frontend Web skill: Vue Dotnet"
+description: 'Frontend Web skill: Vue Dotnet'
 ---
 
 # Vue 3 + .NET Integration

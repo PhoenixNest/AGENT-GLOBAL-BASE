@@ -1,13 +1,13 @@
 ---
 vetting_total: 17
-final_decision: "HIRED"
-candidate_name: "M"
-document_id: "**"
-entity_type: "studio"
-stage: "stage-9"
-division: "art"
-role: "motion-ui-animator"
-document_type: "Hiring Outcome Report"
+final_decision: 'HIRED'
+candidate_name: 'M'
+document_id: '**'
+entity_type: 'studio'
+stage: 'stage-9'
+division: 'art'
+role: 'motion-ui-animator'
+document_type: 'Hiring Outcome Report'
 ---
 
 # Hiring Outcome Report — Marco Bellini (G22)

@@ -1,13 +1,13 @@
 ---
-generated_at: "**"
-gate_status: "** ✅ All assessments completed. Composite Score calculated. Proceeding to Stage 5."
-candidate_name: "Scored Assessments"
-candidate_id: "G11"
-entity_type: "studio"
-stage: "stage-4"
-division: "engineering"
-role: "senior-gameplay-engineer"
-document_type: "Interview Scores"
+generated_at: '**'
+gate_status: '** ✅ All assessments completed. Composite Score calculated. Proceeding to Stage 5.'
+candidate_name: 'Scored Assessments'
+candidate_id: 'G11'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'engineering'
+role: 'senior-gameplay-engineer'
+document_type: 'Interview Scores'
 ---
 
 # Stage 4: Interview Simulation — Scored Assessments (G11)

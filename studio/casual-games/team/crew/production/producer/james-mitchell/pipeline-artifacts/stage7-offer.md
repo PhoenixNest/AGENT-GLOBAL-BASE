@@ -1,12 +1,12 @@
 ---
-gate_status: "** ✅ Offer extended."
-candidate_name: "James Mitchell"
-candidate_id: "G9"
-entity_type: "studio"
-stage: "stage-7"
-division: "production"
-role: "producer"
-document_type: "Offer Document"
+gate_status: '** ✅ Offer extended.'
+candidate_name: 'James Mitchell'
+candidate_id: 'G9'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'production'
+role: 'producer'
+document_type: 'Offer Document'
 ---
 
 # Stages 7-9: Offer, Provisioning, Hiring Outcome — James Mitchell (G9)

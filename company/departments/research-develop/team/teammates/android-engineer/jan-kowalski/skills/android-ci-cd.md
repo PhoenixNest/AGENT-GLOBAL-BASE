@@ -177,8 +177,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "zulu"
-          java-version: "17"
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -199,7 +199,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lint-reports
-          path: "**/build/reports/lint-results-*.html"
+          path: '**/build/reports/lint-results-*.html'
 
   unit-test:
     name: Unit Tests
@@ -212,8 +212,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "zulu"
-          java-version: "17"
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -226,13 +226,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: "**/build/test-results/testDebugUnitTest/*.xml"
+          path: '**/build/test-results/testDebugUnitTest/*.xml'
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: "**/build/reports/jacoco/"
+          path: '**/build/reports/jacoco/'
 
   instrumented-test:
     name: Instrumented Tests (API ${{ matrix.api-level }})
@@ -248,8 +248,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "zulu"
-          java-version: "17"
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Enable KVM
         run: |
@@ -273,7 +273,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: instrumented-test-results-api-${{ matrix.api-level }}
-          path: "**/build/outputs/androidTest-results/"
+          path: '**/build/outputs/androidTest-results/'
 
   build-release:
     name: Build Release APK
@@ -287,8 +287,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "zulu"
-          java-version: "17"
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -331,8 +331,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "zulu"
-          java-version: "17"
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Build Release APK
         run: ./gradlew :app:assembleRelease

@@ -1,12 +1,12 @@
 ---
-generated_at: "**"
-candidate_name: "Ops Lead"
-candidate_id: "G29"
-entity_type: "studio"
-stage: "stage-6"
-division: "live-ops"
-role: "live-ops-lead"
-document_type: "Background Check"
+generated_at: '**'
+candidate_name: 'Ops Lead'
+candidate_id: 'G29'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'live-ops'
+role: 'live-ops-lead'
+document_type: 'Background Check'
 ---
 
 # Stage 6: Background Verification Report — Live Ops Lead (G29)

@@ -74,19 +74,14 @@ This skill enables the design, implementation, and maintenance of robust React s
 
 ```tsx
 // ✅ CORRECT: Context for dependency injection (stable values)
-const ThemeContext = createContext({ theme: "light", toggle: () => {} });
+const ThemeContext = createContext({ theme: 'light', toggle: () => {} });
 
 function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
-  const toggle = useCallback(
-    () => setTheme((t) => (t === "light" ? "dark" : "light")),
-    [],
-  );
+  const [theme, setTheme] = useState('light');
+  const toggle = useCallback(() => setTheme((t) => (t === 'light' ? 'dark' : 'light')), []);
   const value = useMemo(() => ({ theme, toggle }), [theme, toggle]);
 
-  return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 // Consumer — only re-renders when theme changes (stable toggle reference)
@@ -109,7 +104,7 @@ function DataProvider({ children }) {
 }
 
 // ✅ FIX: Split context for high-frequency state — use Zustand instead
-import { create } from "zustand";
+import { create } from 'zustand';
 
 const useDataStore = create((set) => ({
   items: [],
@@ -137,9 +132,7 @@ function AppProvider({ children }) {
 
   return (
     <StableContext.Provider value={user}>
-      <DynamicContext.Provider value={notifications}>
-        {children}
-      </DynamicContext.Provider>
+      <DynamicContext.Provider value={notifications}>{children}</DynamicContext.Provider>
     </StableContext.Provider>
   );
 }
@@ -279,40 +272,36 @@ function CheckoutButton() {
 **RTK Query for server state** — the Redux approach to async state:
 
 ```ts
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const api = createApi({
-  reducerPath: "api",
+  reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api",
+    baseUrl: '/api',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
-      if (token) headers.set("authorization", `Bearer ${token}`);
+      if (token) headers.set('authorization', `Bearer ${token}`);
       return headers;
     },
   }),
-  tagTypes: ["User", "Post", "Comment"],
+  tagTypes: ['User', 'Post', 'Comment'],
   endpoints: (builder) => ({
     getPosts: builder.query<Post[], { page: number; limit: number }>({
       query: ({ page, limit }) => `/posts?page=${page}&limit=${limit}`,
-      providesTags: ["Post"],
+      providesTags: ['Post'],
     }),
     createPost: builder.mutation<Post, NewPost>({
-      query: (body) => ({ url: "/posts", method: "POST", body }),
-      invalidatesTags: ["Post"], // Invalidate all Post queries
+      query: (body) => ({ url: '/posts', method: 'POST', body }),
+      invalidatesTags: ['Post'], // Invalidate all Post queries
     }),
     updatePost: builder.mutation<Post, { id: string; body: Partial<Post> }>({
-      query: ({ id, body }) => ({ url: `/posts/${id}`, method: "PUT", body }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Post", id }],
+      query: ({ id, body }) => ({ url: `/posts/${id}`, method: 'PUT', body }),
+      invalidatesTags: (result, error, { id }) => [{ type: 'Post', id }],
     }),
   }),
 });
 
-export const {
-  useGetPostsQuery,
-  useCreatePostMutation,
-  useUpdatePostMutation,
-} = api;
+export const { useGetPostsQuery, useCreatePostMutation, useUpdatePostMutation } = api;
 
 // Optimistic update with rollback
 export const useOptimisticUpdatePost = () => {
@@ -325,12 +314,12 @@ export const useOptimisticUpdatePost = () => {
         {
           // Optimistic update
           fixedCacheKey: `post-${id}`,
-        },
+        }
       ).unwrap();
     } catch (error) {
       // RTK Query automatically rolls back on error
       // Show error toast
-      toast.error("Failed to update post");
+      toast.error('Failed to update post');
       throw error;
     }
   };
@@ -345,19 +334,19 @@ export const useOptimisticUpdatePost = () => {
 // ❌ DENORMALIZED — duplication, inconsistency risk
 const posts = [
   {
-    id: "1",
-    title: "Hello World",
-    author: { id: "a1", name: "Alice", avatar: "..." },
+    id: '1',
+    title: 'Hello World',
+    author: { id: 'a1', name: 'Alice', avatar: '...' },
     comments: [
       {
-        id: "c1",
-        text: "Great!",
-        author: { id: "a2", name: "Bob", avatar: "..." },
+        id: 'c1',
+        text: 'Great!',
+        author: { id: 'a2', name: 'Bob', avatar: '...' },
       },
       {
-        id: "c2",
-        text: "Thanks",
-        author: { id: "a1", name: "Alice", avatar: "..." },
+        id: 'c2',
+        text: 'Thanks',
+        author: { id: 'a1', name: 'Alice', avatar: '...' },
       },
     ],
   },
@@ -367,20 +356,20 @@ const posts = [
 // ✅ NORMALIZED — flat entities, references by ID
 const entities = {
   posts: {
-    "1": {
-      id: "1",
-      title: "Hello World",
-      authorId: "a1",
-      commentIds: ["c1", "c2"],
+    '1': {
+      id: '1',
+      title: 'Hello World',
+      authorId: 'a1',
+      commentIds: ['c1', 'c2'],
     },
   },
   users: {
-    a1: { id: "a1", name: "Alice", avatar: "..." },
-    a2: { id: "a2", name: "Bob", avatar: "..." },
+    a1: { id: 'a1', name: 'Alice', avatar: '...' },
+    a2: { id: 'a2', name: 'Bob', avatar: '...' },
   },
   comments: {
-    c1: { id: "c1", text: "Great!", authorId: "a2", postId: "1" },
-    c2: { id: "c2", text: "Thanks", authorId: "a1", postId: "1" },
+    c1: { id: 'c1', text: 'Great!', authorId: 'a2', postId: '1' },
+    c2: { id: 'c2', text: 'Thanks', authorId: 'a1', postId: '1' },
   },
 };
 
@@ -402,18 +391,18 @@ const selectPostWithDetails = (postId: string) => (state: RootState) => {
 **Normalization utilities** — use `normalizr` for complex API responses:
 
 ```ts
-import { normalize, schema } from "normalizr";
+import { normalize, schema } from 'normalizr';
 
 // Define entity schemas
-const userSchema = new schema.Entity("users");
-const commentSchema = new schema.Entity("comments", { author: userSchema });
-const postSchema = new schema.Entity("posts", {
+const userSchema = new schema.Entity('users');
+const commentSchema = new schema.Entity('comments', { author: userSchema });
+const postSchema = new schema.Entity('posts', {
   author: userSchema,
   comments: [commentSchema],
 });
 
 // Normalize API response
-const response = await fetch("/api/posts/1").then((r) => r.json());
+const response = await fetch('/api/posts/1').then((r) => r.json());
 const normalized = normalize(response, postSchema);
 
 // normalized.result → '1' (post ID)
@@ -452,15 +441,12 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
     const previousTodos = get().todos;
     set((state) => ({
       todos: [...state.todos, optimisticTodo],
-      undoStack: [
-        ...state.undoStack,
-        { todos: previousTodos, timestamp: Date.now() },
-      ],
+      undoStack: [...state.undoStack, { todos: previousTodos, timestamp: Date.now() }],
     }));
 
     try {
       // Send to server
-      const response = await api.post("/todos", { title });
+      const response = await api.post('/todos', { title });
       const serverTodo = response.data;
 
       // Replace optimistic todo with server response
@@ -473,7 +459,7 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
         todos: previousTodos,
         undoStack: state.undoStack.slice(0, -1),
       }));
-      toast.error("Failed to add todo");
+      toast.error('Failed to add todo');
       throw error;
     }
   },
@@ -484,10 +470,7 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
     // Optimistic delete
     set((state) => ({
       todos: state.todos.filter((t) => t.id !== id),
-      undoStack: [
-        ...state.undoStack,
-        { todos: previousTodos, timestamp: Date.now() },
-      ],
+      undoStack: [...state.undoStack, { todos: previousTodos, timestamp: Date.now() }],
     }));
 
     try {
@@ -495,15 +478,13 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
       // Clean up undo stack entry after 30 seconds
       setTimeout(() => {
         set((state) => ({
-          undoStack: state.undoStack.filter(
-            (u) => u.timestamp > Date.now() - 30000,
-          ),
+          undoStack: state.undoStack.filter((u) => u.timestamp > Date.now() - 30000),
         }));
       }, 30000);
     } catch (error) {
       // Rollback
       set({ todos: previousTodos });
-      toast.error("Failed to delete todo");
+      toast.error('Failed to delete todo');
       throw error;
     }
   },
@@ -516,19 +497,19 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
 const queryClient = useQueryClient();
 
 const mutation = useMutation({
-  mutationFn: (newTodo) => api.post("/todos", newTodo),
+  mutationFn: (newTodo) => api.post('/todos', newTodo),
 
   onMutate: async (newTodo) => {
     // Cancel outgoing refetches to avoid race condition
-    await queryClient.cancelQueries({ queryKey: ["todos"] });
+    await queryClient.cancelQueries({ queryKey: ['todos'] });
 
     // Snapshot current value
-    const previousTodos = queryClient.getQueryData(["todos"]);
+    const previousTodos = queryClient.getQueryData(['todos']);
 
     // Optimistically update
-    queryClient.setQueryData(["todos"], (old: Todo[]) => [
+    queryClient.setQueryData(['todos'], (old: Todo[]) => [
       ...old,
-      { ...newTodo, id: `temp-${Date.now()}`, status: "pending" },
+      { ...newTodo, id: `temp-${Date.now()}`, status: 'pending' },
     ]);
 
     // Return context with snapshot for rollback
@@ -537,12 +518,12 @@ const mutation = useMutation({
 
   onError: (error, newTodo, context) => {
     // Rollback on error
-    queryClient.setQueryData(["todos"], context.previousTodos);
+    queryClient.setQueryData(['todos'], context.previousTodos);
   },
 
   onSettled: () => {
     // Refetch after success or error to sync with server
-    queryClient.invalidateQueries({ queryKey: ["todos"] });
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
   },
 });
 ```

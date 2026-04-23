@@ -1,15 +1,15 @@
 ---
-document_id: "**"
-role_title: "Lead QA Engineer"
-seniority: "Principal"
-priority: "P1"
-reports_to: "Senior Game Engineer"
-candidate_name: "L"
-entity_type: "studio"
-stage: "stage-1"
-division: "engineering"
-role: "lead-qa-engineer"
-document_type: "Position Specification Document"
+document_id: '**'
+role_title: 'Lead QA Engineer'
+seniority: 'Principal'
+priority: 'P1'
+reports_to: 'Senior Game Engineer'
+candidate_name: 'L'
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'engineering'
+role: 'lead-qa-engineer'
+document_type: 'Position Specification Document'
 ---
 
 # Position Specification Document — Lead QA Engineer (G6)

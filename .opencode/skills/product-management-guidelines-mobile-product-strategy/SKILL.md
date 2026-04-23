@@ -1,6 +1,6 @@
 ---
 name: product-management-guidelines-mobile-product-strategy
-description: "Product Management skill: Mobile Product Strategy"
+description: 'Product Management skill: Mobile Product Strategy'
 ---
 
 # Mobile Product Strategy

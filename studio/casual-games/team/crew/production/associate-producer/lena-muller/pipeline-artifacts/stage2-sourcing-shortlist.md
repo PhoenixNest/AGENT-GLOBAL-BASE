@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3."
-candidate_name: "Associate Producer"
-candidate_id: "G35"
-entity_type: "studio"
-stage: "stage-2"
-division: "production"
-role: "associate-producer"
-document_type: "Sourcing Shortlist"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3.'
+candidate_name: 'Associate Producer'
+candidate_id: 'G35'
+entity_type: 'studio'
+stage: 'stage-2'
+division: 'production'
+role: 'associate-producer'
+document_type: 'Sourcing Shortlist'
 ---
 
 # Sourcing Shortlist — Associate Producer (G35)

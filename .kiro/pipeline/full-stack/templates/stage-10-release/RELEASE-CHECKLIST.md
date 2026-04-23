@@ -45,18 +45,18 @@
 
 #### Web Deployment
 
-| Sub-Item                                                   | Status       | Notes           |
-| ---------------------------------------------------------- | ------------ | --------------- |
-| Vercel production deploy successful                        | ☐ Yes / ☐ No |                 |
-| CDN propagation verified (all edge locations)              | ☐ Yes / ☐ No |                 |
-| DNS records verified (A, CNAME, MX, TXT)                   | ☐ Yes / ☐ No |                 |
-| SSL certificates valid (Let's Encrypt / custom)            | ☐ Yes / ☐ No |                 |
-| HSTS header present                                        | ☐ Yes / ☐ No |                 |
-| SEO validation complete (sitemap.xml, robots.txt)          | ☐ Yes / ☐ No |                 |
-| OG tags verified (Facebook, Twitter cards)                 | ☐ Yes / ☐ No |                 |
-| Core Web Vitals passing (LCP, CLS, INP)                    | ☐ Yes / ☐ No |                 |
-| Custom domain DNS configured                               | ☐ Yes / ☐ No |                 |
-| Web store listing localization complete                    | ☐ Yes / ☐ No | CTO-L co-signer |
+| Sub-Item                                          | Status       | Notes           |
+| ------------------------------------------------- | ------------ | --------------- |
+| Vercel production deploy successful               | ☐ Yes / ☐ No |                 |
+| CDN propagation verified (all edge locations)     | ☐ Yes / ☐ No |                 |
+| DNS records verified (A, CNAME, MX, TXT)          | ☐ Yes / ☐ No |                 |
+| SSL certificates valid (Let's Encrypt / custom)   | ☐ Yes / ☐ No |                 |
+| HSTS header present                               | ☐ Yes / ☐ No |                 |
+| SEO validation complete (sitemap.xml, robots.txt) | ☐ Yes / ☐ No |                 |
+| OG tags verified (Facebook, Twitter cards)        | ☐ Yes / ☐ No |                 |
+| Core Web Vitals passing (LCP, CLS, INP)           | ☐ Yes / ☐ No |                 |
+| Custom domain DNS configured                      | ☐ Yes / ☐ No |                 |
+| Web store listing localization complete           | ☐ Yes / ☐ No | CTO-L co-signer |
 
 #### Mobile Submission
 
@@ -76,16 +76,16 @@
 
 ### Web Deployment
 
-| Requirement                                | Status       | Notes |
-| ------------------------------------------ | ------------ | ----- |
-| Vercel production build successful         | ☐ Yes / ☐ No |       |
-| CDN edge propagation complete              | ☐ Yes / ☐ No |       |
-| DNS records configured and verified        | ☐ Yes / ☐ No |       |
-| SSL/TLS certificates valid                 | ☐ Yes / ☐ No |       |
-| HSTS header active                         | ☐ Yes / ☐ No |       |
-| Core Web Vitals passing                    | ☐ Yes / ☐ No |       |
-| SEO metadata complete                      | ☐ Yes / ☐ No |       |
-| Backend API live and healthy               | ☐ Yes / ☐ No |       |
+| Requirement                         | Status       | Notes |
+| ----------------------------------- | ------------ | ----- |
+| Vercel production build successful  | ☐ Yes / ☐ No |       |
+| CDN edge propagation complete       | ☐ Yes / ☐ No |       |
+| DNS records configured and verified | ☐ Yes / ☐ No |       |
+| SSL/TLS certificates valid          | ☐ Yes / ☐ No |       |
+| HSTS header active                  | ☐ Yes / ☐ No |       |
+| Core Web Vitals passing             | ☐ Yes / ☐ No |       |
+| SEO metadata complete               | ☐ Yes / ☐ No |       |
+| Backend API live and healthy        | ☐ Yes / ☐ No |       |
 
 ### Google Play
 

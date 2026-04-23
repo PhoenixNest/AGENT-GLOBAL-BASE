@@ -188,8 +188,8 @@ Composite = (Self × 0.20) + (Peer × 0.30) + (Supervisor × 0.50)
 
 ## Signatures
 
-- Supervisor: ********\_******** Date: **\_\_\_**
-- Engineer: ********\_******** Date: **\_\_\_**
+- Supervisor: **\*\*\*\***\_**\*\*\*\*** Date: **\_\_\_**
+- Engineer: **\*\*\*\***\_**\*\*\*\*** Date: **\_\_\_**
 ```
 
 ### Onboarding ROI Measurement

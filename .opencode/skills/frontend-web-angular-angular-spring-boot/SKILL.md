@@ -1,6 +1,6 @@
 ---
 name: frontend-web-angular-angular-spring-boot
-description: "Frontend Web skill: Angular Spring Boot"
+description: 'Frontend Web skill: Angular Spring Boot'
 ---
 
 # Angular + Spring Boot
@@ -30,14 +30,14 @@ Delivers enterprise full-stack applications using Angular frontend with Spring B
 
 ```typescript
 // user-list.component.ts
-import { Component, signal, computed, inject, OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { UserCardComponent } from "./user-card.component";
-import { UserService } from "../services/user.service";
-import { User } from "../models/user.model";
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { UserCardComponent } from './user-card.component';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 @Component({
-  selector: "app-user-list",
+  selector: 'app-user-list',
   standalone: true,
   imports: [CommonModule, UserCardComponent],
   template: `
@@ -72,16 +72,14 @@ export class UserListComponent implements OnInit {
   users = signal<User[]>([]);
   isLoading = signal<boolean>(false);
   error = signal<string | null>(null);
-  searchQuery = signal<string>("");
+  searchQuery = signal<string>('');
 
   // Computed signal for derived state
   filteredUsers = computed(() => {
     const query = this.searchQuery().toLowerCase();
     if (!query) return this.users();
     return this.users().filter(
-      (u) =>
-        u.name.toLowerCase().includes(query) ||
-        u.email.toLowerCase().includes(query),
+      (u) => u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query)
     );
   });
 
@@ -91,7 +89,7 @@ export class UserListComponent implements OnInit {
       const data = await this.userService.getUsers().toPromise();
       this.users.set(data ?? []);
     } catch (err) {
-      this.error.set("Failed to load users");
+      this.error.set('Failed to load users');
     } finally {
       this.isLoading.set(false);
     }
@@ -107,8 +105,8 @@ export class UserListComponent implements OnInit {
 
 ```typescript
 // user.store.ts — lightweight state management with signals
-import { Injectable, signal, computed } from "@angular/core";
-import { User } from "../models/user.model";
+import { Injectable, signal, computed } from '@angular/core';
+import { User } from '../models/user.model';
 
 interface UserState {
   users: User[];
@@ -117,7 +115,7 @@ interface UserState {
   error: string | null;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class UserStore {
   private state = signal<UserState>({
     users: [],

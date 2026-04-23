@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-distributed-systems
-description: "Backend skill: Distributed Systems"
+description: 'Backend skill: Distributed Systems'
 ---
 
 # Distributed Systems

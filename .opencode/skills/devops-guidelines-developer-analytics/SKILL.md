@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-developer-analytics
-description: "Devops skill: Developer Analytics"
+description: 'Devops skill: Developer Analytics'
 ---
 
 # Developer Analytics

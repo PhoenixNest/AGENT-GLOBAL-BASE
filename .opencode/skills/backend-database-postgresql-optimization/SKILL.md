@@ -1,6 +1,6 @@
 ---
 name: backend-database-postgresql-optimization
-description: "Backend skill: Postgresql Optimization"
+description: 'Backend skill: Postgresql Optimization'
 ---
 
 # PostgreSQL Optimization

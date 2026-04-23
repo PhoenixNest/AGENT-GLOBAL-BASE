@@ -1,28 +1,28 @@
 {
-    "hooks": {
-        "SessionStart": [
-            {
-                "type": "command",
-                "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Company Pipeline Active: 10-stage sequential workflow. Non-negotiable rules: (1) Stages are sequential, (2) PRD+SRD paired, (3) Tech decisions lock at Stage 3, (4) P0/P1 are release blockers, (5) User decides P2/P3, (6) No trim-to-pass, (7) Progress Sync >20% triggers CTO→CPO. Defect severity: P0=crash/data-loss/security, P1=core-feature-broken, P2=minor/cosmetic, P3=polish. Use /company-pipeline for full reference, /company-personnel for roster, @agent-name for subagents.\"}}'"
-            }
-        ],
-        "SubagentStart": [
-            {
-                "type": "command",
-                "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStart\",\"additionalContext\":\"Subagent activated. Remember: you are a specialist in the company pipeline. Follow your stage-specific gate criteria. P0/P1 defects are non-negotiable release blockers. Present P2/P3 defects for user decision. Never use trim-to-pass as remediation.\"}}'"
-            }
-        ],
-        "SubagentStop": [
-            {
-                "type": "command",
-                "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStop\",\"additionalContext\":\"Subagent completed. Verify: (1) All gate criteria for this stage are satisfied, (2) Defect classification is complete (P0-P3), (3) P0/P1 defects have remediation plans, (4) P2/P3 defects are presented for user decision, (5) No trim-to-pass anti-pattern was used. If any gate criterion is unmet, do not advance to the next stage.\"}}'"
-            }
-        ],
-        "Stop": [
-            {
-                "type": "command",
-                "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"Stop\",\"additionalContext\":\"Session ending. Pipeline reminder: ensure all artifacts produced in this session are properly documented and gate criteria are recorded. PRD+SRD must travel together. Technology decisions from Stage 3 are locked.\"}}'"
-            }
-        ]
-    }
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Company Pipeline Active: 10-stage sequential workflow. Non-negotiable rules: (1) Stages are sequential, (2) PRD+SRD paired, (3) Tech decisions lock at Stage 3, (4) P0/P1 are release blockers, (5) User decides P2/P3, (6) No trim-to-pass, (7) Progress Sync >20% triggers CTO→CPO. Defect severity: P0=crash/data-loss/security, P1=core-feature-broken, P2=minor/cosmetic, P3=polish. Use /company-pipeline for full reference, /company-personnel for roster, @agent-name for subagents.\"}}'"
+      }
+    ],
+    "SubagentStart": [
+      {
+        "type": "command",
+        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStart\",\"additionalContext\":\"Subagent activated. Remember: you are a specialist in the company pipeline. Follow your stage-specific gate criteria. P0/P1 defects are non-negotiable release blockers. Present P2/P3 defects for user decision. Never use trim-to-pass as remediation.\"}}'"
+      }
+    ],
+    "SubagentStop": [
+      {
+        "type": "command",
+        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStop\",\"additionalContext\":\"Subagent completed. Verify: (1) All gate criteria for this stage are satisfied, (2) Defect classification is complete (P0-P3), (3) P0/P1 defects have remediation plans, (4) P2/P3 defects are presented for user decision, (5) No trim-to-pass anti-pattern was used. If any gate criterion is unmet, do not advance to the next stage.\"}}'"
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"Stop\",\"additionalContext\":\"Session ending. Pipeline reminder: ensure all artifacts produced in this session are properly documented and gate criteria are recorded. PRD+SRD must travel together. Technology decisions from Stage 3 are locked.\"}}'"
+      }
+    ]
+  }
 }

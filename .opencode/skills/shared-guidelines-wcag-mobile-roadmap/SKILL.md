@@ -1,6 +1,6 @@
 ---
 name: shared-guidelines-wcag-mobile-roadmap
-description: "Shared skill: Wcag Mobile Roadmap"
+description: 'Shared skill: Wcag Mobile Roadmap'
 ---
 
 # WCAG 2.1 AA Mobile Compliance Roadmap

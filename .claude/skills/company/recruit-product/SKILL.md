@@ -13,13 +13,13 @@ Director of Product Management, VP Product, Chief Product Officer (CPO).
 
 ## Seniority Rubric
 
-| Criterion | PM | Senior PM | Principal PM | Group PM | Director PM | VP Product | CPO |
-|---|---|---|---|---|---|---|---|
-| Scope | Single product area | Product line | Cross-product | Multi-team product | Org-level product strategy | Business unit | Company product vision |
-| Discovery depth | Runs user interviews | Defines research agenda | Shapes product methodology | Sets discovery standards | Org-wide process | Portfolio strategy | Category creation |
-| Data fluency | Reads dashboards | Defines metrics | Builds measurement frameworks | Drives metric culture | OKR-level accountability | Board-level metrics | Investor narrative |
-| Stakeholder influence | Engineering + design | Cross-functional | Exec alignment | Org-wide prioritization | Business strategy | External partners | Market positioning |
-| Track record | Shipped 1–2 features | Shipped a product | Transformed a product line | Built a PM org | Multi-product delivery | Company revenue impact | Category leadership |
+| Criterion             | PM                   | Senior PM               | Principal PM                  | Group PM                 | Director PM                | VP Product             | CPO                    |
+| --------------------- | -------------------- | ----------------------- | ----------------------------- | ------------------------ | -------------------------- | ---------------------- | ---------------------- |
+| Scope                 | Single product area  | Product line            | Cross-product                 | Multi-team product       | Org-level product strategy | Business unit          | Company product vision |
+| Discovery depth       | Runs user interviews | Defines research agenda | Shapes product methodology    | Sets discovery standards | Org-wide process           | Portfolio strategy     | Category creation      |
+| Data fluency          | Reads dashboards     | Defines metrics         | Builds measurement frameworks | Drives metric culture    | OKR-level accountability   | Board-level metrics    | Investor narrative     |
+| Stakeholder influence | Engineering + design | Cross-functional        | Exec alignment                | Org-wide prioritization  | Business strategy          | External partners      | Market positioning     |
+| Track record          | Shipped 1–2 features | Shipped a product       | Transformed a product line    | Built a PM org           | Multi-product delivery     | Company revenue impact | Category leadership    |
 
 ## Interview Simulation Protocol
 

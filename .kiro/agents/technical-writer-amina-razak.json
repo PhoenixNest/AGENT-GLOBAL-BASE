@@ -1,15 +1,6 @@
 {
   "name": "technical-writer-amina-razak",
   "description": "Use for API documentation, SDK guides, and developer portal development. Engage during recruitment for developer documentation and API reference production.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/shared/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/shared/SKILL.md"]
 }

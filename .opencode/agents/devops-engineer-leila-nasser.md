@@ -1,6 +1,5 @@
 ---
-description:
-  Use for AWS cloud platform management, infrastructure monitoring, and
+description: Use for AWS cloud platform management, infrastructure monitoring, and
   audit logging. Engage during Stage 5 (Development) for cloud infrastructure and
   Stage 8 (Integrity Verification) for compliance conformance.
 mode: subagent

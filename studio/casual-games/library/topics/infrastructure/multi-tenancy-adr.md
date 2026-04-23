@@ -1,14 +1,13 @@
 ---
-title: "ADR-007: Multi-Tenant Architecture Strategy"
-status: "Draft"
-owner: "Priya Nair, Sr. Backend Engineer"
-reviewed-by: "Dr. Priya Mehta, CIO"
-created: "2026-04-12"
-review-date: "2026-04-26"
-stage: "3"
-audit-condition: "C3"
-tags:
-  ["architecture", "multi-tenancy", "data-isolation", "playfab", "self-hosted"]
+title: 'ADR-007: Multi-Tenant Architecture Strategy'
+status: 'Draft'
+owner: 'Priya Nair, Sr. Backend Engineer'
+reviewed-by: 'Dr. Priya Mehta, CIO'
+created: '2026-04-12'
+review-date: '2026-04-26'
+stage: '3'
+audit-condition: 'C3'
+tags: ['architecture', 'multi-tenancy', 'data-isolation', 'playfab', 'self-hosted']
 ---
 
 # ADR-007: Multi-Tenant Architecture Strategy
@@ -213,9 +212,8 @@ interface ITenantRepository<T> {
 
 // Example: ORM middleware auto-injection
 const tenantMiddleware = (req, res, next) => {
-  const tenantId = req.headers["x-tenant-id"] || req.context.titleId;
-  if (!tenantId)
-    return res.status(401).json({ error: "Missing tenant context" });
+  const tenantId = req.headers['x-tenant-id'] || req.context.titleId;
+  if (!tenantId) return res.status(401).json({ error: 'Missing tenant context' });
   req.tenantId = tenantId;
   next();
 };

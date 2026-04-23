@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All assessments completed."
-candidate_name: "Lena Kovac"
-entity_type: "studio"
-stage: "stage-4"
-division: "art"
-role: "technical-artist"
-document_type: "Interview Scores"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All assessments completed.'
+candidate_name: 'Lena Kovac'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'art'
+role: 'technical-artist'
+document_type: 'Interview Scores'
 ---
 
 # Stage 4: Interview Scores — Technical Artist (G8) — Lena Kovac

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Python backend development (FastAPI, async Python), API integration
+description: Use for Python backend development (FastAPI, async Python), API integration
   resilience patterns, and PostgreSQL data processing. Engage during Stage 5 (Backend
   Development) for Python services and API integration.
 mode: subagent

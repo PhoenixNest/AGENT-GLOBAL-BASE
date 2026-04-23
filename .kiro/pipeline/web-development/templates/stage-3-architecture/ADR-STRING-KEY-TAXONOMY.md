@@ -1,13 +1,13 @@
 # ADR: String Key Taxonomy
 
-| Field              | Value                                                                                       |
-| ------------------ | ------------------------------------------------------------------------------------------- |
-| **Status**         | Proposed                                                                                    |
-| **Context**        | Stage 3 — Web Application Pipeline (P1)                                                     |
-| **Decision**       | `{feature}.{screen}.{component}.{property}` dot-notation for all web UI string keys          |
-| **Date**           | YYYY-MM-DD                                                                                  |
-| **Authors**        | CTO (primary), Internationalization Specialist (Tomas Dvoracek)                             |
-| **Reviewers**      | CTO-L, Frontend Lead, Backend Lead                                                          |
+| Field         | Value                                                                               |
+| ------------- | ----------------------------------------------------------------------------------- |
+| **Status**    | Proposed                                                                            |
+| **Context**   | Stage 3 — Web Application Pipeline (P1)                                             |
+| **Decision**  | `{feature}.{screen}.{component}.{property}` dot-notation for all web UI string keys |
+| **Date**      | YYYY-MM-DD                                                                          |
+| **Authors**   | CTO (primary), Internationalization Specialist (Tomas Dvoracek)                     |
+| **Reviewers** | CTO-L, Frontend Lead, Backend Lead                                                  |
 
 ---
 
@@ -27,12 +27,12 @@ All UI strings in the web application use the naming convention `{feature}.{scre
 
 Format: `{feature}.{screen}.{component}.{property}`
 
-| Segment | Description | Example | Constraints |
-| ------- | ----------- | ------- | ----------- |
-| `feature` | Top-level feature/module | `auth`, `dashboard`, `settings` | lowercase, kebab-case for multi-word |
-| `screen` | Screen/page within feature | `login`, `profile`, `billing` | lowercase |
-| `component` | UI component or section | `form`, `header`, `footer`, `modal` | lowercase |
-| `property` | Semantic purpose of the string | `title`, `label`, `placeholder`, `error`, `description`, `cta` | lowercase |
+| Segment     | Description                    | Example                                                        | Constraints                          |
+| ----------- | ------------------------------ | -------------------------------------------------------------- | ------------------------------------ |
+| `feature`   | Top-level feature/module       | `auth`, `dashboard`, `settings`                                | lowercase, kebab-case for multi-word |
+| `screen`    | Screen/page within feature     | `login`, `profile`, `billing`                                  | lowercase                            |
+| `component` | UI component or section        | `form`, `header`, `footer`, `modal`                            | lowercase                            |
+| `property`  | Semantic purpose of the string | `title`, `label`, `placeholder`, `error`, `description`, `cta` | lowercase                            |
 
 ### Examples
 
@@ -90,23 +90,23 @@ For ordered or unordered lists, use indexed keys:
 
 ## key-index.csv Structure
 
-| Column | Description | Example |
-| ------ | ----------- | ------- |
-| `key` | String key in dot-notation | `auth.login.form.title` |
-| `source_value` | English default value | `Sign In` |
-| `source_file` | Source code location | `src/components/auth/LoginForm.tsx:42` |
-| `extraction_date` | Date string was extracted | `2026-04-13` |
-| `context` | Usage notes for translators | `Button text, max 20 chars` |
-| `status` | extracted → tm_analyzed → translated → post_edited → validated | `extracted` |
+| Column            | Description                                                    | Example                                |
+| ----------------- | -------------------------------------------------------------- | -------------------------------------- |
+| `key`             | String key in dot-notation                                     | `auth.login.form.title`                |
+| `source_value`    | English default value                                          | `Sign In`                              |
+| `source_file`     | Source code location                                           | `src/components/auth/LoginForm.tsx:42` |
+| `extraction_date` | Date string was extracted                                      | `2026-04-13`                           |
+| `context`         | Usage notes for translators                                    | `Button text, max 20 chars`            |
+| `status`          | extracted → tm_analyzed → translated → post_edited → validated | `extracted`                            |
 
 ## Alternatives Considered
 
-| Alternative | Assessment |
-| ----------- | ---------- |
-| **Flat keys** (`login_title`, `dashboard_welcome`) | Ambiguous at scale, no hierarchy, hard to organize |
+| Alternative                                                      | Assessment                                                                |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **Flat keys** (`login_title`, `dashboard_welcome`)               | Ambiguous at scale, no hierarchy, hard to organize                        |
 | **Nested JSON keys** (`{"auth": {"login": {"title": "Login"}}}`) | Not easily diffable, requires transformation layer, harder to grep/search |
-| **UUID-based keys** (`"k_12345"`) | Zero discoverability, requires lookup table, error-prone |
-| **Sentence keys** (`"Sign in to your account"`) | Breaks when English text changes, no structure |
+| **UUID-based keys** (`"k_12345"`)                                | Zero discoverability, requires lookup table, error-prone                  |
+| **Sentence keys** (`"Sign in to your account"`)                  | Breaks when English text changes, no structure                            |
 
 ## Enforcement
 

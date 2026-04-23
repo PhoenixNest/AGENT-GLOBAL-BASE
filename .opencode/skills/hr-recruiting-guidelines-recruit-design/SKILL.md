@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-recruit-design
-description: "Hr Recruiting skill: Recruit Design"
+description: 'Hr Recruiting skill: Recruit Design'
 ---
 
 # Design Recruitment Skill

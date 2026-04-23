@@ -1,6 +1,6 @@
 ---
 name: testing-qa-performance-k6-performance
-description: "Testing Qa skill: K6 Performance"
+description: 'Testing Qa skill: K6 Performance'
 ---
 
 # k6 Load Testing — Performance Engineering & Regression Detection
@@ -34,64 +34,64 @@ Performance testing is critical for Stage 7 automated testing to establish basel
 
 ```javascript
 // checkout-load-test.js
-import http from "k6/http";
-import { check, sleep, group } from "k6";
-import { Rate, Trend } from "k6/metrics";
+import http from 'k6/http';
+import { check, sleep, group } from 'k6';
+import { Rate, Trend } from 'k6/metrics';
 
 // Custom metrics
-const checkoutDuration = new Trend("checkout_duration", true);
-const errorRate = new Rate("checkout_errors");
+const checkoutDuration = new Trend('checkout_duration', true);
+const errorRate = new Rate('checkout_errors');
 
 // Thresholds — CI gates
 export const options = {
   thresholds: {
-    http_req_duration: ["p(95)<500", "p(99)<1000"],
-    http_req_failed: ["rate<0.01"], // < 1% error rate
-    checkout_duration: ["p(95)<2000"],
-    checkout_errors: ["rate<0.05"],
-    checks: ["rate>0.95"], // > 95% check pass rate
+    http_req_duration: ['p(95)<500', 'p(99)<1000'],
+    http_req_failed: ['rate<0.01'], // < 1% error rate
+    checkout_duration: ['p(95)<2000'],
+    checkout_errors: ['rate<0.05'],
+    checks: ['rate>0.95'], // > 95% check pass rate
   },
 
   // Scenario: ramp from 1 to 50 VUs over 5 minutes, hold for 10 minutes
   scenarios: {
     checkout_flow: {
-      executor: "ramping-vus",
+      executor: 'ramping-vus',
       startVUs: 1,
       stages: [
-        { duration: "5m", target: 50 }, // Ramp up
-        { duration: "10m", target: 50 }, // Sustained load
-        { duration: "3m", target: 0 }, // Ramp down
+        { duration: '5m', target: 50 }, // Ramp up
+        { duration: '10m', target: 50 }, // Sustained load
+        { duration: '3m', target: 0 }, // Ramp down
       ],
-      gracefulRampDown: "30s",
-      exec: "checkoutFlow",
+      gracefulRampDown: '30s',
+      exec: 'checkoutFlow',
     },
   },
 };
 
 // Shared data — loaded once in init context
-const testUsers = JSON.parse(open("./testdata/users.json"));
-const products = JSON.parse(open("./testdata/products.json"));
+const testUsers = JSON.parse(open('./testdata/users.json'));
+const products = JSON.parse(open('./testdata/products.json'));
 
 export function checkoutFlow() {
   const user = testUsers[__VU % testUsers.length];
   const product = products[Math.floor(Math.random() * products.length)];
 
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     Authorization: `Bearer ${user.token}`,
   };
 
-  group("Checkout Flow", function () {
+  group('Checkout Flow', function () {
     // Step 1: Get product
-    const productRes = http.get(
-      `https://api.staging.company.com/v1/products/${product.id}`,
-      { headers, tags: { step: "get_product" } },
-    );
+    const productRes = http.get(`https://api.staging.company.com/v1/products/${product.id}`, {
+      headers,
+      tags: { step: 'get_product' },
+    });
 
     check(productRes, {
-      "product status is 200": (r) => r.status === 200,
-      "product response < 300ms": (r) => r.timings.duration < 300,
-      "product has price": (r) => JSON.parse(r.body).price > 0,
+      'product status is 200': (r) => r.status === 200,
+      'product response < 300ms': (r) => r.timings.duration < 300,
+      'product has price': (r) => JSON.parse(r.body).price > 0,
     });
 
     sleep(1);
@@ -104,18 +104,17 @@ export function checkoutFlow() {
     });
 
     const orderStart = Date.now();
-    const orderRes = http.post(
-      "https://api.staging.company.com/v1/orders",
-      orderPayload,
-      { headers, tags: { step: "create_order" } },
-    );
+    const orderRes = http.post('https://api.staging.company.com/v1/orders', orderPayload, {
+      headers,
+      tags: { step: 'create_order' },
+    });
     const orderDuration = Date.now() - orderStart;
     checkoutDuration.add(orderDuration);
 
     check(orderRes, {
-      "order status is 201": (r) => r.status === 201,
-      "order response < 800ms": (r) => r.timings.duration < 800,
-      "order has ID": (r) => JSON.parse(r.body).orderId !== undefined,
+      'order status is 201': (r) => r.status === 201,
+      'order response < 800ms': (r) => r.timings.duration < 800,
+      'order has ID': (r) => JSON.parse(r.body).orderId !== undefined,
     });
 
     errorRate.add(orderRes.status >= 400);
@@ -127,23 +126,22 @@ export function checkoutFlow() {
     const paymentPayload = JSON.stringify({
       orderId: orderId,
       paymentMethod: {
-        type: "card",
+        type: 'card',
         token: user.paymentToken,
       },
     });
 
     const paymentStart = Date.now();
-    const paymentRes = http.post(
-      "https://api.staging.company.com/v1/payments",
-      paymentPayload,
-      { headers, tags: { step: "process_payment" } },
-    );
+    const paymentRes = http.post('https://api.staging.company.com/v1/payments', paymentPayload, {
+      headers,
+      tags: { step: 'process_payment' },
+    });
     const paymentDuration = Date.now() - paymentStart;
 
     check(paymentRes, {
-      "payment status is 200": (r) => r.status === 200,
-      "payment response < 1500ms": (r) => r.timings.duration < 1500,
-      "payment confirmed": (r) => JSON.parse(r.body).status === "confirmed",
+      'payment status is 200': (r) => r.status === 200,
+      'payment response < 1500ms': (r) => r.timings.duration < 1500,
+      'payment confirmed': (r) => JSON.parse(r.body).status === 'confirmed',
     });
 
     sleep(1);
@@ -159,51 +157,51 @@ export function teardown() {
 
 ```javascript
 // mixed-workload-test.js
-import http from "k6/http";
-import { check, sleep, group } from "k6";
-import { Trend, Counter } from "k6/metrics";
+import http from 'k6/http';
+import { check, sleep, group } from 'k6';
+import { Trend, Counter } from 'k6/metrics';
 
-const apiLatency = new Trend("api_latency", true);
-const activeUsers = new Counter("active_users");
+const apiLatency = new Trend('api_latency', true);
+const activeUsers = new Counter('active_users');
 
 export const options = {
   thresholds: {
-    http_req_duration: ["p(95)<500"],
-    api_latency: ["p(95)<400"],
-    http_req_failed: ["rate<0.01"],
+    http_req_duration: ['p(95)<500'],
+    api_latency: ['p(95)<400'],
+    http_req_failed: ['rate<0.01'],
   },
 
   scenarios: {
     // 70% of traffic: browsing products
     browse_products: {
-      executor: "constant-vus",
+      executor: 'constant-vus',
       vus: 70,
-      duration: "15m",
-      exec: "browseProducts",
-      gracefulStop: "10s",
+      duration: '15m',
+      exec: 'browseProducts',
+      gracefulStop: '10s',
     },
 
     // 20% of traffic: searching
     search: {
-      executor: "constant-vus",
+      executor: 'constant-vus',
       vus: 20,
-      duration: "15m",
-      exec: "searchProducts",
-      startTime: "1m", // Start 1 minute after browse
-      gracefulStop: "10s",
+      duration: '15m',
+      exec: 'searchProducts',
+      startTime: '1m', // Start 1 minute after browse
+      gracefulStop: '10s',
     },
 
     // 10% of traffic: checkout (most resource-intensive)
     checkout: {
-      executor: "ramping-vus",
+      executor: 'ramping-vus',
       startVUs: 5,
       stages: [
-        { duration: "5m", target: 10 },
-        { duration: "5m", target: 10 },
+        { duration: '5m', target: 10 },
+        { duration: '5m', target: 10 },
       ],
-      exec: "checkoutFlow",
-      startTime: "2m",
-      gracefulRampDown: "30s",
+      exec: 'checkoutFlow',
+      startTime: '2m',
+      gracefulRampDown: '30s',
     },
   },
 
@@ -216,23 +214,19 @@ export const options = {
 
 export function browseProducts() {
   activeUsers.add(1);
-  const res = http.get(
-    "https://api.staging.company.com/v1/products?page=1&pageSize=20",
-  );
-  check(res, { "browse: status 200": (r) => r.status === 200 });
+  const res = http.get('https://api.staging.company.com/v1/products?page=1&pageSize=20');
+  check(res, { 'browse: status 200': (r) => r.status === 200 });
   apiLatency.add(res.timings.duration);
   sleep(Math.random() * 3 + 2); // 2-5 second think time
 }
 
 export function searchProducts() {
   activeUsers.add(1);
-  const queries = ["phone", "laptop", "headphones", "tablet", "camera"];
+  const queries = ['phone', 'laptop', 'headphones', 'tablet', 'camera'];
   const query = queries[Math.floor(Math.random() * queries.length)];
 
-  const res = http.get(
-    `https://api.staging.company.com/v1/products/search?q=${query}`,
-  );
-  check(res, { "search: status 200": (r) => r.status === 200 });
+  const res = http.get(`https://api.staging.company.com/v1/products/search?q=${query}`);
+  check(res, { 'search: status 200': (r) => r.status === 200 });
   apiLatency.add(res.timings.duration);
   sleep(Math.random() * 2 + 1);
 }
@@ -241,14 +235,14 @@ export function checkoutFlow() {
   activeUsers.add(1);
   // Full checkout flow (see checkout-load-test.js)
   const token = `Bearer test-token-vu-${__VU}`;
-  const headers = { "Content-Type": "application/json", Authorization: token };
+  const headers = { 'Content-Type': 'application/json', Authorization: token };
 
   const orderRes = http.post(
-    "https://api.staging.company.com/v1/orders",
-    JSON.stringify({ productId: "prod-test", quantity: 1 }),
-    { headers },
+    'https://api.staging.company.com/v1/orders',
+    JSON.stringify({ productId: 'prod-test', quantity: 1 }),
+    { headers }
   );
-  check(orderRes, { "checkout: order created": (r) => r.status === 201 });
+  check(orderRes, { 'checkout: order created': (r) => r.status === 201 });
   apiLatency.add(orderRes.timings.duration);
   sleep(3);
 }
@@ -258,36 +252,36 @@ export function checkoutFlow() {
 
 ```javascript
 // spike-test.js
-import http from "k6/http";
-import { check, sleep } from "k6";
+import http from 'k6/http';
+import { check, sleep } from 'k6';
 
 export const options = {
   thresholds: {
-    http_req_duration: ["p(95)<1000", "p(99)<2000"],
-    http_req_failed: ["rate<0.05"], // Allow higher error rate during spike
+    http_req_duration: ['p(95)<1000', 'p(99)<2000'],
+    http_req_failed: ['rate<0.05'], // Allow higher error rate during spike
   },
 
   scenarios: {
     spike: {
-      executor: "ramping-vus",
+      executor: 'ramping-vus',
       startVUs: 10,
       stages: [
-        { duration: "2m", target: 10 }, // Normal load
-        { duration: "30s", target: 200 }, // SPIKE — 20x increase
-        { duration: "2m", target: 200 }, // Sustained spike
-        { duration: "2m", target: 10 }, // Recovery
-        { duration: "2m", target: 10 }, // Verify recovery
+        { duration: '2m', target: 10 }, // Normal load
+        { duration: '30s', target: 200 }, // SPIKE — 20x increase
+        { duration: '2m', target: 200 }, // Sustained spike
+        { duration: '2m', target: 10 }, // Recovery
+        { duration: '2m', target: 10 }, // Verify recovery
       ],
-      gracefulRampDown: "30s",
-      exec: "spikeTest",
+      gracefulRampDown: '30s',
+      exec: 'spikeTest',
     },
   },
 };
 
 export function spikeTest() {
-  const res = http.get("https://api.staging.company.com/v1/products");
+  const res = http.get('https://api.staging.company.com/v1/products');
   check(res, {
-    "status 200 or 429": (r) => r.status === 200 || r.status === 429,
+    'status 200 or 429': (r) => r.status === 200 || r.status === 429,
   });
   sleep(1);
 }
@@ -297,39 +291,37 @@ export function spikeTest() {
 
 ```javascript
 // soak-test.js
-import http from "k6/http";
-import { check, sleep } from "k6";
-import { Gauge } from "k6/metrics";
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+import { Gauge } from 'k6/metrics';
 
-const memoryUsage = new Gauge("memory_usage_mb");
+const memoryUsage = new Gauge('memory_usage_mb');
 
 export const options = {
   thresholds: {
-    http_req_duration: ["p(95)<500"],
-    http_req_failed: ["rate<0.01"],
+    http_req_duration: ['p(95)<500'],
+    http_req_failed: ['rate<0.01'],
     // Memory should not grow unbounded
-    memory_usage_mb: ["value<512"],
+    memory_usage_mb: ['value<512'],
   },
 
   scenarios: {
     soak: {
-      executor: "constant-vus",
+      executor: 'constant-vus',
       vus: 30,
-      duration: "4h", // 4-hour sustained load
-      exec: "soakTest",
+      duration: '4h', // 4-hour sustained load
+      exec: 'soakTest',
     },
   },
 };
 
 export function soakTest() {
-  const res = http.get("https://api.staging.company.com/v1/products");
-  check(res, { "soak: status 200": (r) => r.status === 200 });
+  const res = http.get('https://api.staging.company.com/v1/products');
+  check(res, { 'soak: status 200': (r) => r.status === 200 });
 
   // Track response time trend over time
   if (res.timings.duration > 1000) {
-    console.warn(
-      `Slow response detected: ${res.timings.duration}ms at iteration ${__ITER}`,
-    );
+    console.warn(`Slow response detected: ${res.timings.duration}ms at iteration ${__ITER}`);
   }
 
   sleep(2);
@@ -346,10 +338,10 @@ export const options = {
   ext: {
     loadimpact: {
       projectID: 123456,
-      name: "Checkout Load Test — Staging",
+      name: 'Checkout Load Test — Staging',
       distribution: {
-        "amazon:us:ashburn": { loadZone: "amazon:us:ashburn", percent: 50 },
-        "amazon:ie:dublin": { loadZone: "amazon:ie:dublin", percent: 50 },
+        'amazon:us:ashburn': { loadZone: 'amazon:us:ashburn', percent: 50 },
+        'amazon:ie:dublin': { loadZone: 'amazon:ie:dublin', percent: 50 },
       },
     },
   },
@@ -507,13 +499,13 @@ if __name__ == '__main__':
 name: k6 Performance Tests
 on:
   schedule:
-    - cron: "0 2 * * *" # Daily at 02:00 UTC
+    - cron: '0 2 * * *' # Daily at 02:00 UTC
   workflow_dispatch:
     inputs:
       environment:
-        description: "Target environment"
+        description: 'Target environment'
         required: true
-        default: "staging"
+        default: 'staging'
 
 jobs:
   k6-test:

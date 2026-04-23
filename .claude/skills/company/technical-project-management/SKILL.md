@@ -58,36 +58,44 @@ Manage technical projects from planning through delivery using phased methodolog
 
 ```markdown
 # Project Status Report: [Project Name]
+
 **Week of**: [Date]
 **Status**: 🟢 On Track | 🟡 At Risk | 🔴 Blocked
 
 ## Executive Summary
+
 [2-3 sentences: current state, key accomplishments, major concerns]
 
 ## Progress This Week
+
 - ✅ [Completed item 1]
 - ✅ [Completed item 2]
 
 ## Planned for Next Week
+
 - [ ] [Planned item 1]
 - [ ] [Planned item 2]
 
 ## Milestone Status
-| Milestone | Target Date | Status | Confidence |
-|-----------|-------------|--------|------------|
-| M1: Architecture Complete | YYYY-MM-DD | ✅ Done | - |
-| M2: Backend API Ready | YYYY-MM-DD | 🟡 At Risk | 70% |
+
+| Milestone                 | Target Date | Status     | Confidence |
+| ------------------------- | ----------- | ---------- | ---------- |
+| M1: Architecture Complete | YYYY-MM-DD  | ✅ Done    | -          |
+| M2: Backend API Ready     | YYYY-MM-DD  | 🟡 At Risk | 70%        |
 
 ## Risks and Issues
-| Risk/Issue | Impact | Status | Mitigation |
-|------------|--------|--------|------------|
-| [Risk 1] | High | Active | [Mitigation] |
+
+| Risk/Issue | Impact | Status | Mitigation   |
+| ---------- | ------ | ------ | ------------ |
+| [Risk 1]   | High   | Active | [Mitigation] |
 
 ## Metrics
+
 - **Velocity**: [N] story points (target: [N])
 - **Open bugs**: [N] (P0: [N], P1: [N], P2: [N])
 
 ## Blockers
+
 [None | List any blockers requiring executive intervention]
 ```
 
@@ -115,15 +123,15 @@ This is a non-negotiable pipeline rule. If a task is 20% over estimate, the CPO 
 
 ### Risk Assessment Matrix
 
-| Likelihood | Impact | Priority | Response |
-|------------|--------|----------|----------|
-| High | High | P0 | Immediate mitigation required |
-| High | Medium | P1 | Mitigation plan within 1 week |
-| Medium | High | P1 | Mitigation plan within 1 week |
-| High | Low | P2 | Monitor and document |
-| Medium | Medium | P2 | Monitor and document |
-| Low | High | P2 | Monitor and document |
-| Low/Medium | Low | P3 | Accept risk |
+| Likelihood | Impact | Priority | Response                      |
+| ---------- | ------ | -------- | ----------------------------- |
+| High       | High   | P0       | Immediate mitigation required |
+| High       | Medium | P1       | Mitigation plan within 1 week |
+| Medium     | High   | P1       | Mitigation plan within 1 week |
+| High       | Low    | P2       | Monitor and document          |
+| Medium     | Medium | P2       | Monitor and document          |
+| Low        | High   | P2       | Monitor and document          |
+| Low/Medium | Low    | P3       | Accept risk                   |
 
 ### Common Project Risks
 

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for microservices architecture, event-driven systems (Kafka, CQRS),
+description: Use for microservices architecture, event-driven systems (Kafka, CQRS),
   and API security patterns. Engage during Stage 5 (Backend Development) for microservices
   and event-driven features, and Stage 6 (Code Review) for security and architecture
   conformance.

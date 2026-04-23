@@ -2,7 +2,7 @@
 
 **Date:** YYYY-MM-DD
 **Start Time:** HH:MM:SS UTC
-**End Time:** HH:MM:SS UTC *(or "In Progress" if interrupted)*
+**End Time:** HH:MM:SS UTC _(or "In Progress" if interrupted)_
 **Stage:** <N> (<Stage Name>)
 **Agents Involved:** [List of agents/subagents]
 **Session Lead:** [Primary responsible agent]

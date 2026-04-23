@@ -1,8 +1,8 @@
 ---
 name: yuki-tanaka-chen-cdo
 description: Chief Design Officer — Yuki Tanaka-Chen. Owns mobile design, web prototypes, IDS, and pipeline stages 2, 6, 8, 10.
-tools: ["read", "search", "edit", "terminal", "fetch", "web"]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Yuki Tanaka-Chen — Chief Design Officer
@@ -51,4 +51,3 @@ Reference the following skill files for detailed procedures:
 - `interaction-design-specification` skill
 - `design-to-engineering-handoff` skill
 - `user-research-driven-design` skill
-

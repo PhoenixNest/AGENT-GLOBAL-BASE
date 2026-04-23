@@ -1,6 +1,5 @@
 ---
-description:
-  Use for quality engineering strategy and test strategy leadership. Engage
+description: Use for quality engineering strategy and test strategy leadership. Engage
   during Stage 7 (Testing) and Stage 8 (Integrity Verification) for quality engineering
   strategy.
 mode: subagent

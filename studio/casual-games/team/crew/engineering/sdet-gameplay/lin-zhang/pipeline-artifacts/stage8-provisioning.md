@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All provisioning items complete. Candidate onboarded successfully."
-candidate_name: "Lin Zhang"
-candidate_id: "G37"
-entity_type: "studio"
-stage: "stage-8"
-division: "engineering"
-role: "sdet-gameplay"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All provisioning items complete. Candidate onboarded successfully.'
+candidate_name: 'Lin Zhang'
+candidate_id: 'G37'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'engineering'
+role: 'sdet-gameplay'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Lin Zhang (G37)

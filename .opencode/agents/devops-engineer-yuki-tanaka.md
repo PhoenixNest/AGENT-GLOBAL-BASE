@@ -1,6 +1,5 @@
 ---
-description:
-  Use for CI/CD pipeline security, infrastructure-as-code (GitOps), and
+description: Use for CI/CD pipeline security, infrastructure-as-code (GitOps), and
   secrets management. Engage during Stage 5 (Development) for CI/CD security and Stage
   6 (Code Review) for dependency scanning reviews.
 mode: subagent

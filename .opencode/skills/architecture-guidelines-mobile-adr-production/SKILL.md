@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-mobile-adr-production
-description: "Architecture skill: Mobile Adr Production"
+description: 'Architecture skill: Mobile Adr Production'
 ---
 
 # Mobile ADR Production

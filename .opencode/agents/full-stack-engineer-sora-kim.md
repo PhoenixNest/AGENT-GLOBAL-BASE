@@ -1,6 +1,5 @@
 ---
-description:
-  Use for full-stack development with React, Python FastAPI, and React
+description: Use for full-stack development with React, Python FastAPI, and React
   Native prototyping. Engage during Stage 5 (Development) for React/FastAPI implementation
   and mobile prototyping.
 mode: subagent

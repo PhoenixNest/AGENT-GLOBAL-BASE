@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-device-farm-management
-description: "Testing Qa skill: Device Farm Management"
+description: 'Testing Qa skill: Device Farm Management'
 ---
 
 # Device Farm Management — Cloud Testing Infrastructure
@@ -197,34 +197,34 @@ Robo tests crawl the app automatically, discovering crashes, rendering issues, a
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
-  host: "hub-cloud.browserstack.com",
+  host: 'hub-cloud.browserstack.com',
   port: 443,
 
   capabilities: [
     {
-      "bstack:options": {
-        projectName: "CompanyApp-Mobile",
-        buildName: "Regression-Suite",
-        sessionName: "Android-Checkout-Flow",
+      'bstack:options': {
+        projectName: 'CompanyApp-Mobile',
+        buildName: 'Regression-Suite',
+        sessionName: 'Android-Checkout-Flow',
         debug: true,
         networkLogs: true,
         appiumLogs: true,
         video: true,
         seleniumLogs: true,
-        consoleLogs: "verbose",
+        consoleLogs: 'verbose',
       },
-      platformName: "Android",
-      "appium:deviceName": "Google Pixel 7",
-      "appium:platformVersion": "13.0",
-      "appium:automationName": "uiautomator2",
-      "appium:app": process.env.BROWSERSTACK_APP_ID,
+      platformName: 'Android',
+      'appium:deviceName': 'Google Pixel 7',
+      'appium:platformVersion': '13.0',
+      'appium:automationName': 'uiautomator2',
+      'appium:app': process.env.BROWSERSTACK_APP_ID,
     },
   ],
 
   maxInstances: 5, // Parallel sessions
   services: [
     [
-      "browserstack",
+      'browserstack',
       {
         browserstackLocal: false,
       },
@@ -233,11 +233,11 @@ exports.config = {
 
   reporters: [
     [
-      "junit",
+      'junit',
       {
-        outputDir: "./test-results/browserstack",
+        outputDir: './test-results/browserstack',
         outputFileFormat: function (opts) {
-          return `results-${opts.capabilities["bstack:options"].buildName}.xml`;
+          return `results-${opts.capabilities['bstack:options'].buildName}.xml`;
         },
       },
     ],

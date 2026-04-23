@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Flutter component architecture, Flutter i18n engineering (ARB
+description: Use for Flutter component architecture, Flutter i18n engineering (ARB
   files, locale switching, pluralization), and Flutter platform channels. Engage during
   Stage 5 (Development) for cross-platform Flutter implementation and Stage 9 (i18n
   Engineering) for i18n infrastructure.

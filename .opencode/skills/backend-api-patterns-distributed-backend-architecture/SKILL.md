@@ -1,6 +1,6 @@
 ---
 name: backend-api-patterns-distributed-backend-architecture
-description: "Backend skill: Distributed Backend Architecture"
+description: 'Backend skill: Distributed Backend Architecture'
 ---
 
 # Distributed Backend Architecture

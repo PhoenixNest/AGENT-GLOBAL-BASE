@@ -1,6 +1,5 @@
 ---
-description:
-  Use for observability/logging, infrastructure security monitoring, and
+description: Use for observability/logging, infrastructure security monitoring, and
   capacity planning. Engage during Stage 5 (Development) for monitoring infrastructure
   and Stage 8 (Integrity Verification) for observability conformance.
 mode: subagent

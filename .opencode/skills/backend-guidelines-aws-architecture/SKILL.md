@@ -1,6 +1,6 @@
 ---
 name: backend-guidelines-aws-architecture
-description: "Backend skill: Aws Architecture"
+description: 'Backend skill: Aws Architecture'
 ---
 
 # AWS Architecture

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for UIKit + Combine integration, iOS media processing, and Core Data
+description: Use for UIKit + Combine integration, iOS media processing, and Core Data
   persistence. Engage during Stage 5 (Development) for UIKit/Combine implementation,
   media pipeline, and Core Data persistence work.
 mode: subagent

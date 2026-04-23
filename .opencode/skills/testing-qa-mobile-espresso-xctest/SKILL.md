@@ -1,6 +1,6 @@
 ---
 name: testing-qa-mobile-espresso-xctest
-description: "Testing Qa skill: Espresso Xctest"
+description: 'Testing Qa skill: Espresso Xctest'
 ---
 
 # Espresso & XCTest — Native Mobile Test Automation

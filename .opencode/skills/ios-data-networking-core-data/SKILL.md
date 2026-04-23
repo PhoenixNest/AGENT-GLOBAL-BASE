@@ -1,6 +1,6 @@
 ---
 name: ios-data-networking-core-data
-description: "Ios skill: Core Data"
+description: 'Ios skill: Core Data'
 ---
 
 # Core Data

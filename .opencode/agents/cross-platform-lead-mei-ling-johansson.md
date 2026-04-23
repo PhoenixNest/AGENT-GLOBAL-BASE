@@ -1,6 +1,5 @@
 ---
-description:
-  Use for cross-platform implementation with Kotlin Multiplatform (KMP)
+description: Use for cross-platform implementation with Kotlin Multiplatform (KMP)
   and Flutter. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification)
   for KMP shared module architecture or Flutter application development.
 mode: subagent

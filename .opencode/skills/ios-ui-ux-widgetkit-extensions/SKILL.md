@@ -1,6 +1,6 @@
 ---
 name: ios-ui-ux-widgetkit-extensions
-description: "Ios skill: Widgetkit Extensions"
+description: 'Ios skill: Widgetkit Extensions'
 ---
 
 # WidgetKit & Extensions

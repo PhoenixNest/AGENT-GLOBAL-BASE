@@ -1,20 +1,12 @@
 ---
-title: "Self-Hosted Adapter PoC: IAuthService"
-owner: "Priya Nair, Sr. Backend Engineer"
-reviewed-by: "Dr. Priya Mehta, CIO"
-created: "2026-04-12"
-status: "Draft"
-stage: "4"
-audit-condition: "C5"
-tags:
-  [
-    "poc",
-    "self-hosted",
-    "iauthservice",
-    "authentication",
-    "migration",
-    "adapter",
-  ]
+title: 'Self-Hosted Adapter PoC: IAuthService'
+owner: 'Priya Nair, Sr. Backend Engineer'
+reviewed-by: 'Dr. Priya Mehta, CIO'
+created: '2026-04-12'
+status: 'Draft'
+stage: '4'
+audit-condition: 'C5'
+tags: ['poc', 'self-hosted', 'iauthservice', 'authentication', 'migration', 'adapter']
 ---
 
 # Self-Hosted Adapter PoC: IAuthService

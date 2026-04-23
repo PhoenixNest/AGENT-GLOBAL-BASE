@@ -32,16 +32,16 @@ This artifact certifies the completion of Phase A (String Extraction Validation)
 
 ## 2. Platform Resource Files Generated
 
-| Platform       | File Path                                  | Keys | Status                    |
-| -------------- | ------------------------------------------ | ---- | ------------------------- |
-| Web Frontend   | `locales/{lang}/messages.json`             | [N]  | ☐ Generated / ☐ Validated |
-| Web Frontend   | `locales/{lang}/metadata.json`             | [N]  | ☐ Generated / ☐ Validated |
-| Android        | `res/values/strings.xml`                   | [N]  | ☐ Generated / ☐ Validated |
-| Android        | `res/values/strings-plurals.xml`           | [N]  | ☐ Generated / ☐ Validated |
-| iOS            | `en.lproj/Localizable.strings`             | [N]  | ☐ Generated / ☐ Validated |
-| iOS            | `en.lproj/Localizable.stringsdict`         | [N]  | ☐ Generated / ☐ Validated |
-| KMP Shared     | `shared/resources/strings.json`            | [N]  | ☐ Generated / ☐ Validated |
-| Flutter        | `lib/l10n/app_en.arb`                      | [N]  | ☐ Generated / ☐ Validated |
+| Platform     | File Path                          | Keys | Status                    |
+| ------------ | ---------------------------------- | ---- | ------------------------- |
+| Web Frontend | `locales/{lang}/messages.json`     | [N]  | ☐ Generated / ☐ Validated |
+| Web Frontend | `locales/{lang}/metadata.json`     | [N]  | ☐ Generated / ☐ Validated |
+| Android      | `res/values/strings.xml`           | [N]  | ☐ Generated / ☐ Validated |
+| Android      | `res/values/strings-plurals.xml`   | [N]  | ☐ Generated / ☐ Validated |
+| iOS          | `en.lproj/Localizable.strings`     | [N]  | ☐ Generated / ☐ Validated |
+| iOS          | `en.lproj/Localizable.stringsdict` | [N]  | ☐ Generated / ☐ Validated |
+| KMP Shared   | `shared/resources/strings.json`    | [N]  | ☐ Generated / ☐ Validated |
+| Flutter      | `lib/l10n/app_en.arb`              | [N]  | ☐ Generated / ☐ Validated |
 
 ---
 

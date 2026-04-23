@@ -71,12 +71,15 @@ Include all six sections above. Keep it under 1500 words. Use tables for compari
 ## Example Scenarios
 
 **Scenario 1**: Should we use React Native or native iOS/Android?
+
 - Evaluate both against framework; focus on mobile platform fit and long-term maintenance cost; provide clear recommendation with migration risk assessment.
 
 **Scenario 2**: Engineering proposes adopting GraphQL for mobile APIs
+
 - Assess technical merit (query flexibility, payload size); evaluate mobile-specific benefits (reduced over-fetching, offline support); analyze implementation risk; recommend adoption path or alternative.
 
 **Scenario 3**: Vendor pitches a mobile analytics platform
+
 - Compare against existing solution and alternatives; assess cost structure and lock-in risk; evaluate data privacy implications for App Store/Play Store compliance; recommend trial, adoption, or pass.
 
 ## Quality Standards

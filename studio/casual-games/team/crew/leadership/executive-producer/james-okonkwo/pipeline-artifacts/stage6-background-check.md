@@ -1,11 +1,11 @@
 ---
-generated_at: "**"
-candidate_name: "Check Report"
-entity_type: "studio"
-stage: "stage-6"
-division: "leadership"
-role: "executive-producer"
-document_type: "Background Check"
+generated_at: '**'
+candidate_name: 'Check Report'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'leadership'
+role: 'executive-producer'
+document_type: 'Background Check'
 ---
 
 # Stage 6: Background Check Report

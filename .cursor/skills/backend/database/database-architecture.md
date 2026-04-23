@@ -156,8 +156,8 @@ const replicationLagQuery = `
   labels:
     severity: warning
   annotations:
-    summary: "Replica {{ $labels.instance }} lagging by {{ $value }}s"
-    description: "Read queries may return stale data. Consider routing to primary."
+    summary: 'Replica {{ $labels.instance }} lagging by {{ $value }}s'
+    description: 'Read queries may return stale data. Consider routing to primary.'
 ```
 
 ### PgBouncer Connection Pooling

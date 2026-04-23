@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Provisioning complete."
-candidate_name: "Javier Moreno"
-candidate_id: "G25"
-entity_type: "studio"
-stage: "stage-8"
-division: "art"
-role: "vfx-artist"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Provisioning complete.'
+candidate_name: 'Javier Moreno'
+candidate_id: 'G25'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'art'
+role: 'vfx-artist'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Javier Moreno (G25)

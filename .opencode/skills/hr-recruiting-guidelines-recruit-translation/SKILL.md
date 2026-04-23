@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-recruit-translation
-description: "Hr Recruiting skill: Recruit Translation"
+description: 'Hr Recruiting skill: Recruit Translation'
 ---
 
 # Translation & Localization Recruitment Skill

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for developer platform engineering and infrastructure strategy. Engage
+description: Use for developer platform engineering and infrastructure strategy. Engage
   during Stage 5 (Development) and Stage 8 (Integrity Verification) for platform and
   DevEx strategy.
 mode: subagent

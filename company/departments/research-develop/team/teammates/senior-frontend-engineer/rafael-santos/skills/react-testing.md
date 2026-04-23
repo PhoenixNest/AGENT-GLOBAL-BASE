@@ -69,9 +69,7 @@ test('submits comment and shows success message', async () => {
 ```typescript
 // WRONG: Testing implementation details (internal state, class names)
 expect(component.state().isOpen).toBe(true);
-expect(screen.getByTestId("submit-btn").classList.contains("active")).toBe(
-  true,
-);
+expect(screen.getByTestId('submit-btn').classList.contains('active')).toBe(true);
 
 // WRONG: Using act() manually — RTL handles this automatically
 act(() => {
@@ -79,7 +77,7 @@ act(() => {
 });
 
 // WRONG: Testing mock function calls instead of user-visible outcomes
-expect(mockApi).toHaveBeenCalledWith("/api/comments");
+expect(mockApi).toHaveBeenCalledWith('/api/comments');
 ```
 
 ### 2. Custom Render Patterns
@@ -158,30 +156,30 @@ test('displays user profile with translated labels', async () => {
 **Setup (`src/mocks/handlers.ts`):**
 
 ```typescript
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from 'msw';
 
 export const handlers = [
-  http.get("/api/users/:id", ({ params }) => {
+  http.get('/api/users/:id', ({ params }) => {
     return HttpResponse.json({
       id: params.id,
-      name: "Test User",
-      email: "test@example.com",
+      name: 'Test User',
+      email: 'test@example.com',
     });
   }),
 
-  http.post("/api/comments", async ({ request }) => {
+  http.post('/api/comments', async ({ request }) => {
     const body = await request.json();
     return HttpResponse.json(
-      { id: "new-id", ...body, createdAt: new Date().toISOString() },
-      { status: 201 },
+      { id: 'new-id', ...body, createdAt: new Date().toISOString() },
+      { status: 201 }
     );
   }),
 
-  http.get("/api/posts", () => {
+  http.get('/api/posts', () => {
     return HttpResponse.json({
       data: [
-        { id: "1", title: "Post 1" },
-        { id: "2", title: "Post 2" },
+        { id: '1', title: 'Post 1' },
+        { id: '2', title: 'Post 2' },
       ],
       meta: { total: 2 },
     });
@@ -192,13 +190,13 @@ export const handlers = [
 **Test Setup (`src/mocks/setup.ts`):**
 
 ```typescript
-import { setupServer } from "msw/node";
-import { handlers } from "./handlers";
-import { afterAll, afterEach, beforeAll } from "vitest";
+import { setupServer } from 'msw/node';
+import { handlers } from './handlers';
+import { afterAll, afterEach, beforeAll } from 'vitest';
 
 export const server = setupServer(...handlers);
 
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => {
   server.resetHandlers(); // Reset to default handlers between tests
   vi.clearAllMocks();
@@ -431,32 +429,31 @@ test('error boundary catches and displays render error', () => {
 **Use `renderHook` from `@testing-library/react` (v13+): **
 
 ```typescript
-import { renderHook, waitFor } from "@testing-library/react";
-import { useDebounce } from "./useDebounce";
-import { useAuth } from "./useAuth";
+import { renderHook, waitFor } from '@testing-library/react';
+import { useDebounce } from './useDebounce';
+import { useAuth } from './useAuth';
 
-test("useDebounce delays value updates", async () => {
+test('useDebounce delays value updates', async () => {
   vi.useFakeTimers();
 
-  const { result, rerender } = renderHook(
-    ({ value }) => useDebounce(value, 300),
-    { initialProps: { value: "hello" } },
-  );
+  const { result, rerender } = renderHook(({ value }) => useDebounce(value, 300), {
+    initialProps: { value: 'hello' },
+  });
 
-  expect(result.current).toBe("hello");
+  expect(result.current).toBe('hello');
 
   // Update input — should not debounce immediately
-  rerender({ value: "hello world" });
-  expect(result.current).toBe("hello"); // Still old value
+  rerender({ value: 'hello world' });
+  expect(result.current).toBe('hello'); // Still old value
 
   // Advance past debounce delay
   vi.advanceTimersByTime(300);
-  expect(result.current).toBe("hello world");
+  expect(result.current).toBe('hello world');
 
   vi.useRealTimers();
 });
 
-test("useAuth handles login flow with loading and error states", async () => {
+test('useAuth handles login flow with loading and error states', async () => {
   const { result } = renderHook(() => useAuth(), {
     wrapper: AuthProvider, // Provide necessary context
   });
@@ -467,26 +464,23 @@ test("useAuth handles login flow with loading and error states", async () => {
 
   // Trigger login
   await act(async () => {
-    await result.current.login("test@example.com", "password");
+    await result.current.login('test@example.com', 'password');
   });
 
   await waitFor(() => {
     expect(result.current.user).toEqual({
-      id: "123",
-      email: "test@example.com",
+      id: '123',
+      email: 'test@example.com',
     });
     expect(result.current.isLoading).toBe(false);
   });
 });
 
-test("useAuth handles login failure", async () => {
+test('useAuth handles login failure', async () => {
   server.use(
-    http.post("/api/auth/login", () => {
-      return HttpResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 },
-      );
-    }),
+    http.post('/api/auth/login', () => {
+      return HttpResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    })
   );
 
   const { result } = renderHook(() => useAuth(), {
@@ -494,9 +488,9 @@ test("useAuth handles login failure", async () => {
   });
 
   await act(async () => {
-    const response = await result.current.login("bad@example.com", "wrong");
+    const response = await result.current.login('bad@example.com', 'wrong');
     expect(response.ok).toBe(false);
-    expect(response.error).toBe("Invalid credentials");
+    expect(response.error).toBe('Invalid credentials');
   });
 
   expect(result.current.user).toBeNull();
@@ -568,18 +562,18 @@ test('modal traps focus and has correct ARIA attributes', async () => {
 
 ```typescript
 // Button.stories.tsx
-import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./Button";
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
-  title: "Components/Button",
+  title: 'Components/Button',
   component: Button,
   parameters: {
     chromatic: { diffThreshold: 0.2, viewports: [320, 1280] },
   },
   argTypes: {
-    variant: { control: "select", options: ["primary", "secondary", "ghost"] },
-    size: { control: "select", options: ["sm", "md", "lg"] },
+    variant: { control: 'select', options: ['primary', 'secondary', 'ghost'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
 };
 
@@ -587,16 +581,16 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
-  args: { variant: "primary", children: "Click me" },
+  args: { variant: 'primary', children: 'Click me' },
 };
 export const Secondary: Story = {
-  args: { variant: "secondary", children: "Cancel" },
+  args: { variant: 'secondary', children: 'Cancel' },
 };
 export const Loading: Story = {
-  args: { loading: true, children: "Submitting" },
+  args: { loading: true, children: 'Submitting' },
 };
 export const Disabled: Story = {
-  args: { disabled: true, children: "Disabled" },
+  args: { disabled: true, children: 'Disabled' },
 };
 ```
 
@@ -607,7 +601,7 @@ export const Disabled: Story = {
 name: Visual Regression
 on:
   pull_request:
-    paths: ["src/components/**", "**.stories.tsx"]
+    paths: ['src/components/**', '**.stories.tsx']
 
 jobs:
   chromatic:
@@ -640,13 +634,13 @@ jobs:
 
 ```typescript
 // vitest.config.ts
-import { defineConfig } from "vitest/config";
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
     coverage: {
-      provider: "istanbul",
-      reporter: ["text", "lcov", "html"],
+      provider: 'istanbul',
+      reporter: ['text', 'lcov', 'html'],
       thresholds: {
         lines: 85,
         functions: 90,
@@ -654,12 +648,12 @@ export default defineConfig({
         statements: 85,
       },
       exclude: [
-        "**/*.stories.tsx", // Storybook stories
-        "**/*.d.ts", // Type definitions
-        "src/mocks/**", // MSW handlers
-        "src/test-utils/**", // Test utilities
-        "src/types/**", // Pure type files
-        "src/index.ts", // Entry point barrel
+        '**/*.stories.tsx', // Storybook stories
+        '**/*.d.ts', // Type definitions
+        'src/mocks/**', // MSW handlers
+        'src/test-utils/**', // Test utilities
+        'src/types/**', // Pure type files
+        'src/index.ts', // Entry point barrel
       ],
     },
   },
@@ -685,20 +679,20 @@ export default defineConfig({
 
 ```typescript
 // vitest.config.ts
-import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
   test: {
     globals: true,
-    environment: "jsdom",
-    setupFiles: ["./src/mocks/setup.ts", "./src/test-setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
-    exclude: ["src/**/*.stories.{ts,tsx}", "src/mocks/**"],
-    reporters: ["default", "junit"],
+    environment: 'jsdom',
+    setupFiles: ['./src/mocks/setup.ts', './src/test-setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['src/**/*.stories.{ts,tsx}', 'src/mocks/**'],
+    reporters: ['default', 'junit'],
     outputFile: {
-      junit: "./test-results/junit.xml",
+      junit: './test-results/junit.xml',
     },
     sequence: {
       shuffle: true, // Catch order-dependent tests
@@ -726,7 +720,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: 'npm'
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint

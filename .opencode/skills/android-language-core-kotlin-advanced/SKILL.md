@@ -1,6 +1,6 @@
 ---
 name: android-language-core-kotlin-advanced
-description: "Android skill: Kotlin Advanced"
+description: 'Android skill: Kotlin Advanced'
 ---
 
 # Kotlin Advanced

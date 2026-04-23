@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-mobile-technology-strategy
-description: "Architecture skill: Mobile Technology Strategy"
+description: 'Architecture skill: Mobile Technology Strategy'
 ---
 
 # Mobile Technology Strategy

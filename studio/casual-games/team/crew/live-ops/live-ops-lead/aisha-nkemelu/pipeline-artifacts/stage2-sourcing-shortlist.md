@@ -1,12 +1,12 @@
 ---
-generated_at: "**"
-candidate_name: "Ops Lead"
-candidate_id: "G29"
-entity_type: "studio"
-stage: "stage-2"
-division: "live-ops"
-role: "live-ops-lead"
-document_type: "Sourcing Shortlist"
+generated_at: '**'
+candidate_name: 'Ops Lead'
+candidate_id: 'G29'
+entity_type: 'studio'
+stage: 'stage-2'
+division: 'live-ops'
+role: 'live-ops-lead'
+document_type: 'Sourcing Shortlist'
 ---
 
 # Stage 2: Sourcing Shortlist — Live Ops Lead (G29)

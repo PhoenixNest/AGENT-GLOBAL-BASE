@@ -1,15 +1,6 @@
 {
   "name": "cross-platform-engineer-fatima-al-zahra",
   "description": "Use for Flutter component architecture, Flutter i18n engineering (ARB files, locale switching, pluralization), and Flutter platform channels. Engage during Stage 5 (Development) for cross-platform Flutter implementation and Stage 9 (i18n Engineering) for i18n infrastructure.",
-  "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "grep",
-    "glob",
-    "code"
-  ],
-  "resources": [
-    "skill://.kiro/skills/cross-platform/SKILL.md"
-  ]
+  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+  "resources": ["skill://.kiro/skills/cross-platform/SKILL.md"]
 }

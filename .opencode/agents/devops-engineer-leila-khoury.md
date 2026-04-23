@@ -1,6 +1,5 @@
 ---
-description:
-  Use for AWS cloud monitoring, incident response automation, and HashiCorp
+description: Use for AWS cloud monitoring, incident response automation, and HashiCorp
   Vault infrastructure operations. Engage during Stage 1 (Security Requirements),
   Stage 6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness)
   for cloud monitoring and secrets management.

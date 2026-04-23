@@ -1,6 +1,6 @@
 ---
 name: ios-ui-ux-swiftui
-description: "Ios skill: Swiftui"
+description: 'Ios skill: Swiftui'
 ---
 
 # SwiftUI

@@ -1,6 +1,5 @@
 ---
-description:
-  Use for production-grade interactive web prototype development and Interaction
+description: Use for production-grade interactive web prototype development and Interaction
   Design Specification (IDS) authorship. Engage during Stage 2 (Web Prototype + IDS)
   for translating PRDs into browser-runnable HTML prototypes with gesture simulation
   and platform-native interaction annotations.

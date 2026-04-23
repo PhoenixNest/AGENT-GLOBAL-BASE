@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-gcp-multi-region
-description: "Devops skill: Gcp Multi Region"
+description: 'Devops skill: Gcp Multi Region'
 ---
 
 # GCP Multi-Region Architecture

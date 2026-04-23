@@ -1,6 +1,6 @@
 ---
 name: frontend-web-full-stack-api-versioning
-description: "Frontend Web skill: Api Versioning"
+description: 'Frontend Web skill: Api Versioning'
 ---
 
 # API Versioning
@@ -191,7 +191,7 @@ class APIFeatureFlags {
 
     // Percentage rollout
     if (flagConfig.rolloutPercentage !== undefined) {
-      const hash = this.hashUserId(userId ?? "anonymous");
+      const hash = this.hashUserId(userId ?? 'anonymous');
       return hash % 100 < flagConfig.rolloutPercentage;
     }
 
@@ -209,11 +209,8 @@ class APIFeatureFlags {
 }
 
 // Feature-gated API endpoint
-app.get("/api/v2/users", async (req, res) => {
-  const useNewFormat = await featureFlags.isEnabled(
-    "api-v2-response-format",
-    req.user?.id,
-  );
+app.get('/api/v2/users', async (req, res) => {
+  const useNewFormat = await featureFlags.isEnabled('api-v2-response-format', req.user?.id);
 
   const users = await userService.getUsers();
 
@@ -264,15 +261,15 @@ phases:
 # Monitoring during rollout
 alerts:
   - metric: error_rate
-    threshold: "> 1%"
+    threshold: '> 1%'
     action: halt rollout
 
   - metric: latency_p99
-    threshold: "> 500ms"
+    threshold: '> 500ms'
     action: halt rollout
 
   - metric: consumer_complaints
-    threshold: "> 5 per day"
+    threshold: '> 5 per day'
     action: review rollout
 ```
 

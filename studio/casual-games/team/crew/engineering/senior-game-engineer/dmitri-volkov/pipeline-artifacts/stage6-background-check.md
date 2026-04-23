@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ Background verification complete. Candidate cleared for Stage 7."
-candidate_name: "Dmitri Volkov"
-candidate_id: "G7"
-entity_type: "studio"
-stage: "stage-6"
-division: "engineering"
-role: "senior-game-engineer"
-document_type: "Background Check"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ Background verification complete. Candidate cleared for Stage 7.'
+candidate_name: 'Dmitri Volkov'
+candidate_id: 'G7'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'engineering'
+role: 'senior-game-engineer'
+document_type: 'Background Check'
 ---
 
 # Background Check Report — Dmitri Volkov (G7)

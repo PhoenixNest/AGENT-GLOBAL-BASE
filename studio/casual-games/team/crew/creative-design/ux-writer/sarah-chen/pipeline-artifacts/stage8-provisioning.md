@@ -1,12 +1,12 @@
 ---
-document_id: "**"
-generated_at: "**"
-candidate_name: "Provisioning Record"
-entity_type: "studio"
-stage: "stage-8"
-division: "creative-design"
-role: "ux-writer"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+candidate_name: 'Provisioning Record'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'creative-design'
+role: 'ux-writer'
+document_type: 'Provisioning Record'
 ---
 
 # Stage 8: Provisioning Record

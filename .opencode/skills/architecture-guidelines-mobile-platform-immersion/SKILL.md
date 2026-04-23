@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-mobile-platform-immersion
-description: "Architecture skill: Mobile Platform Immersion"
+description: 'Architecture skill: Mobile Platform Immersion'
 ---
 
 # Mobile Platform Immersion Program

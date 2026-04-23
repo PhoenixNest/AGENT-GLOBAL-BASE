@@ -32,7 +32,7 @@
 | **Offers Extended**     |                                                                  |
 | **Offers Accepted**     |                                                                  |
 | **Hired**               | [Name], [Start Date]                                             |
-| **Vetting Scores**      | Impact: __ Craft: __ Leadership: __ Standards: __ Red Flag: __   |
+| **Vetting Scores**      | Impact: ** Craft: ** Leadership: ** Standards: ** Red Flag: \_\_ |
 | **Selection Rationale** |                                                                  |
 
 ---
@@ -133,7 +133,7 @@
 
 **User Notes:**
 
-**Signed:** ************\_************ **Date:** ******\_******
+**Signed:** \***\*\*\*\*\*\*\***\_\***\*\*\*\*\*\*\*** **Date:** **\*\***\_**\*\***
 
 ---
 

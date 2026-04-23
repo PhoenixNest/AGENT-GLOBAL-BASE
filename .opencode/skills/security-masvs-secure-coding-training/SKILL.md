@@ -1,6 +1,6 @@
 ---
 name: security-masvs-secure-coding-training
-description: "Security skill: Secure Coding Training"
+description: 'Security skill: Secure Coding Training'
 ---
 
 # Secure Coding Training & Security Champions Program
@@ -276,30 +276,30 @@ Security Champions Program
 ```yaml
 # security-training-registry.yml
 engineers:
-  - name: "Jane Doe"
-    team: "Android"
-    hire_date: "2025-06-15"
+  - name: 'Jane Doe'
+    team: 'Android'
+    hire_date: '2025-06-15'
     training:
       SEC-101:
-        completed: "2025-06-20"
+        completed: '2025-06-20'
         score: 92
         status: certified
       SEC-201:
-        completed: "2025-07-10"
+        completed: '2025-07-10'
         score: 88
         status: certified
         ctf_completed: true
       SEC-302:
-        completed: "2025-08-01"
+        completed: '2025-08-01'
         score: 95
         status: certified
       SEC-401:
-        completed: "2025-09-15"
+        completed: '2025-09-15'
         deliverable_submitted: true
         status: certified
     annual_refresher:
       2026:
-        due_date: "2026-06-20"
+        due_date: '2026-06-20'
         status: pending
 
 compliance:
@@ -315,9 +315,9 @@ compliance:
 name: Security — Training Compliance Check
 on:
   schedule:
-    - cron: "0 9 1 * *" # First of every month at 9 AM
+    - cron: '0 9 1 * *' # First of every month at 9 AM
   pull_request:
-    paths: ["company/project/**"]
+    paths: ['company/project/**']
 
 jobs:
   check-compliance:

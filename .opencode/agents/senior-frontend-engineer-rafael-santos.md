@@ -1,6 +1,5 @@
 ---
-description:
-  Use for web performance optimization, React component testing infrastructure,
+description: Use for web performance optimization, React component testing infrastructure,
   and design system integration. Engage during Stage 2 (Design Implementation), Stage
   5 (Frontend Development), and Stage 6 (Code Review) for performance and testing
   quality.

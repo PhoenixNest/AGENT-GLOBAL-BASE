@@ -872,7 +872,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-asset-verification
-          path: "**/build/outputs/androidTest-results/**/*.xml"
+          path: '**/build/outputs/androidTest-results/**/*.xml'
 
   asset-verification-ios:
     runs-on: macos-latest
@@ -889,7 +889,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-asset-verification
-          path: "**/test-results/**/*.xml"
+          path: '**/test-results/**/*.xml'
 
   # Pillar C: Cross-platform parity
   cross-platform-parity:

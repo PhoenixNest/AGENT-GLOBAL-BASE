@@ -1,6 +1,5 @@
 ---
-description:
-  Use for UML Engineering Package production, mobile architecture patterns,
+description: Use for UML Engineering Package production, mobile architecture patterns,
   and Architecture Decision Records (ADRs). Engage during Stage 3 (UML Engineering
   Package), Stage 6 (Code Review), and Stage 8 (Integrity Verification) for architectural
   conformance review.

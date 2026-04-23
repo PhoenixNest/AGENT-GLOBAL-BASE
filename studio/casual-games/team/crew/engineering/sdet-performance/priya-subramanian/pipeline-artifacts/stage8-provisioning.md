@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All provisioning items complete. Candidate onboarded successfully."
-candidate_name: "Priya Subramanian"
-candidate_id: "G38"
-entity_type: "studio"
-stage: "stage-8"
-division: "engineering"
-role: "sdet-performance"
-document_type: "Provisioning Record"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All provisioning items complete. Candidate onboarded successfully.'
+candidate_name: 'Priya Subramanian'
+candidate_id: 'G38'
+entity_type: 'studio'
+stage: 'stage-8'
+division: 'engineering'
+role: 'sdet-performance'
+document_type: 'Provisioning Record'
 ---
 
 # Provisioning Record — Priya Subramanian (G38)

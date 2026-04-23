@@ -1,6 +1,6 @@
 ---
 name: security-architecture-security-operations
-description: "Security skill: Security Operations"
+description: 'Security skill: Security Operations'
 ---
 
 # Security Operations

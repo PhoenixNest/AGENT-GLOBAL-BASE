@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-architecture-decision-records
-description: "Architecture skill: Architecture Decision Records"
+description: 'Architecture skill: Architecture Decision Records'
 ---
 
 # Architecture Decision Records (ADRs)

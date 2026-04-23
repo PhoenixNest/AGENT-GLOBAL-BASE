@@ -1,6 +1,6 @@
 ---
 name: shared-guidelines-test-driven-development
-description: "Shared skill: Test Driven Development"
+description: 'Shared skill: Test Driven Development'
 ---
 
 # Test-Driven Development

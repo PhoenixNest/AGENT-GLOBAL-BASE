@@ -95,36 +95,36 @@
 
 ### Web Frontend
 
-| Pattern                          | Implementation                    | Notes                                                                                |
-| -------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------ |
-| Content Security Policy (CSP)    | [Policy directive string]         | Must block unsafe-inline, unsafe-eval; define allowed sources                        |
-| XSS prevention                   | [React auto-escape + DOMPurify]   | All user input sanitized; no innerHTML/dangerouslySetInnerHTML without sanitization  |
-| CSRF protection                  | [Double Submit Cookie / SameSite] | CSRF tokens for state-changing requests; SameSite=Strict on all session cookies      |
-| Cookie security                  | [HttpOnly; Secure; SameSite]      | All auth cookies: HttpOnly, Secure, SameSite=Strict or Lax                           |
-| Subresource Integrity (SRI)      | [SHA-384 hashes for CDN assets]  | All external scripts/stylesheets loaded with integrity attribute                     |
-| HTTPS enforcement                | [HSTS header]                     | max-age=31536000; includeSubDomains; preload                                         |
-| X-Frame-Options / Frame-ancestors| [DENY / CSP frame-ancestors]      | Prevent clickjacking via CSP frame-ancestors 'none'                                  |
-| Referrer-Policy                  | [strict-origin-when-cross-origin] | Control referrer information leakage                                                 |
-| Permissions-Policy               | [Policy directives]               | Restrict browser features (camera, microphone, geolocation)                          |
-| Input validation                 | [Zod / Yup schema]                | All form inputs validated client-side; never trust client-side validation alone      |
-| JWT storage                      | [HttpOnly cookie (NOT localStorage)] | Auth tokens stored in HttpOnly, Secure, SameSite cookies                       |
+| Pattern                           | Implementation                       | Notes                                                                               |
+| --------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------- |
+| Content Security Policy (CSP)     | [Policy directive string]            | Must block unsafe-inline, unsafe-eval; define allowed sources                       |
+| XSS prevention                    | [React auto-escape + DOMPurify]      | All user input sanitized; no innerHTML/dangerouslySetInnerHTML without sanitization |
+| CSRF protection                   | [Double Submit Cookie / SameSite]    | CSRF tokens for state-changing requests; SameSite=Strict on all session cookies     |
+| Cookie security                   | [HttpOnly; Secure; SameSite]         | All auth cookies: HttpOnly, Secure, SameSite=Strict or Lax                          |
+| Subresource Integrity (SRI)       | [SHA-384 hashes for CDN assets]      | All external scripts/stylesheets loaded with integrity attribute                    |
+| HTTPS enforcement                 | [HSTS header]                        | max-age=31536000; includeSubDomains; preload                                        |
+| X-Frame-Options / Frame-ancestors | [DENY / CSP frame-ancestors]         | Prevent clickjacking via CSP frame-ancestors 'none'                                 |
+| Referrer-Policy                   | [strict-origin-when-cross-origin]    | Control referrer information leakage                                                |
+| Permissions-Policy                | [Policy directives]                  | Restrict browser features (camera, microphone, geolocation)                         |
+| Input validation                  | [Zod / Yup schema]                   | All form inputs validated client-side; never trust client-side validation alone     |
+| JWT storage                       | [HttpOnly cookie (NOT localStorage)] | Auth tokens stored in HttpOnly, Secure, SameSite cookies                            |
 
 ### Backend API
 
-| Pattern                          | Implementation                    | Notes                                                                                |
-| -------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------ |
-| Rate limiting                    | [Token bucket / sliding window]   | Per-IP and per-user limits; configured per endpoint sensitivity                      |
-| Input validation                 | [Go validator / Zod on API]       | All inputs validated at API boundary; reject unexpected fields                       |
-| Output encoding                  | [JSON encoder with escaping]      | All responses properly encoded; no raw user data in responses                        |
-| Authentication (authN)           | [JWT / OAuth2 / API key]          | Token validation, expiry checks, issuer/audience verification                        |
-| Authorization (authZ)            | [RBAC / ABAC policy engine]       | Role-based or attribute-based access control on every endpoint                       |
-| TLS configuration                | [TLS 1.2+ minimum]                | Strong cipher suites only; HSTS enabled; certificate pinning for mobile clients      |
-| Request size limits              | [Max body size per endpoint]      | Prevent DoS via oversized payloads                                                   |
-| SQL injection prevention         | [Parameterized queries only]      | No string concatenation for SQL; ORM with parameterized queries                      |
-| CORS policy                      | [Allowed origins, methods, headers]| Explicitly configured; no wildcard (*) for production                                |
-| Audit logging                    | [Structured JSON logs]            | All authN/authZ events logged with request ID, user ID, timestamp                    |
-| Secret management                | [HashiCorp Vault / AWS Secrets]   | No secrets in env vars or config files; runtime secret injection                     |
-| API versioning                   | [URL path / Accept header]        | Versioned API endpoints; backward-compatible changes within same version             |
+| Pattern                  | Implementation                      | Notes                                                                           |
+| ------------------------ | ----------------------------------- | ------------------------------------------------------------------------------- |
+| Rate limiting            | [Token bucket / sliding window]     | Per-IP and per-user limits; configured per endpoint sensitivity                 |
+| Input validation         | [Go validator / Zod on API]         | All inputs validated at API boundary; reject unexpected fields                  |
+| Output encoding          | [JSON encoder with escaping]        | All responses properly encoded; no raw user data in responses                   |
+| Authentication (authN)   | [JWT / OAuth2 / API key]            | Token validation, expiry checks, issuer/audience verification                   |
+| Authorization (authZ)    | [RBAC / ABAC policy engine]         | Role-based or attribute-based access control on every endpoint                  |
+| TLS configuration        | [TLS 1.2+ minimum]                  | Strong cipher suites only; HSTS enabled; certificate pinning for mobile clients |
+| Request size limits      | [Max body size per endpoint]        | Prevent DoS via oversized payloads                                              |
+| SQL injection prevention | [Parameterized queries only]        | No string concatenation for SQL; ORM with parameterized queries                 |
+| CORS policy              | [Allowed origins, methods, headers] | Explicitly configured; no wildcard (\*) for production                          |
+| Audit logging            | [Structured JSON logs]              | All authN/authZ events logged with request ID, user ID, timestamp               |
+| Secret management        | [HashiCorp Vault / AWS Secrets]     | No secrets in env vars or config files; runtime secret injection                |
+| API versioning           | [URL path / Accept header]          | Versioned API endpoints; backward-compatible changes within same version        |
 
 ---
 

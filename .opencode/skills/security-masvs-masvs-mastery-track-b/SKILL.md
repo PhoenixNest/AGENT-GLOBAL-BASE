@@ -1,6 +1,6 @@
 ---
 name: security-masvs-masvs-mastery-track-b
-description: "Security skill: Masvs Mastery Track B"
+description: 'Security skill: Masvs Mastery Track B'
 ---
 
 # MASVS Mastery Track B — Defense-in-Depth (L2)

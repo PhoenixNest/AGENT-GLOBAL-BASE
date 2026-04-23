@@ -76,10 +76,10 @@ personally designed.
 
 ### Training Completion
 
-| Module | Delivering Officer | Status | Date |
-|--------|-------------------|--------|------|
-| A: MASVS Mastery (Track B) | CSO (SC) | ✅ PASS | April 5, 2026 |
-| H: Mobile Threat Modeling | CSO (SC) | ✅ PASS | April 5, 2026 |
-| B: ADR/TSD Governance | CIO (PM) + CTO (KN) | ✅ PASS | April 5, 2026 |
+| Module                     | Delivering Officer  | Status  | Date          |
+| -------------------------- | ------------------- | ------- | ------------- |
+| A: MASVS Mastery (Track B) | CSO (SC)            | ✅ PASS | April 5, 2026 |
+| H: Mobile Threat Modeling  | CSO (SC)            | ✅ PASS | April 5, 2026 |
+| B: ADR/TSD Governance      | CIO (PM) + CTO (KN) | ✅ PASS | April 5, 2026 |
 
 **All conditional training requirements satisfied. Duty commenced April 5, 2026.**

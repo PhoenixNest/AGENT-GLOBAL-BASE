@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Android networking layer, security implementation (certificate
+description: Use for Android networking layer, security implementation (certificate
   pinning, encrypted storage, biometric auth), and payment API integration. Engage
   during Stage 5 (Development) for Android networking and security implementation.
 mode: subagent

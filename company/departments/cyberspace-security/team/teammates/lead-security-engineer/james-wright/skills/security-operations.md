@@ -6,31 +6,34 @@ Comprehensive SIEM operations, SAST/DAST/SCA pipeline management, PR security re
 
 ## Competency Dimensions
 
-| Dimension | Proficiency Level | Key Capabilities |
-|-----------|------------------|------------------|
-| SIEM Operations | Expert | Splunk, ELK Stack, alert tuning, threat hunting, dashboard design |
-| SAST/DAST/SCA Pipeline | Expert | Tool integration, false positive reduction, policy-as-code, developer feedback loops |
-| PR Security Review | Advanced | Threat modeling at code level, secret detection, dependency risk assessment |
-| Vulnerability Management | Expert | Triage, SLA enforcement, remediation tracking, risk scoring (CVSS/EPSS) |
-| Supply Chain Security | Advanced | SBOM generation, dependency auditing, SLSA framework, provenance verification |
+| Dimension                | Proficiency Level | Key Capabilities                                                                     |
+| ------------------------ | ----------------- | ------------------------------------------------------------------------------------ |
+| SIEM Operations          | Expert            | Splunk, ELK Stack, alert tuning, threat hunting, dashboard design                    |
+| SAST/DAST/SCA Pipeline   | Expert            | Tool integration, false positive reduction, policy-as-code, developer feedback loops |
+| PR Security Review       | Advanced          | Threat modeling at code level, secret detection, dependency risk assessment          |
+| Vulnerability Management | Expert            | Triage, SLA enforcement, remediation tracking, risk scoring (CVSS/EPSS)              |
+| Supply Chain Security    | Advanced          | SBOM generation, dependency auditing, SLSA framework, provenance verification        |
 
 ## Execution Guidance
 
 ### SIEM Operations (Splunk, ELK)
 
 **Architecture:**
+
 - Deploy centralized log aggregation from all platforms (Android, iOS, KMP, Flutter backends)
 - Ingest application logs, infrastructure metrics, network flow data, and authentication events
 - Configure data retention policies: hot (7d), warm (30d), cold (1y), archive (7y) for compliance
 - Implement role-based access to SIEM dashboards following least-privilege principle
 
 **Alert Design:**
+
 - Use statistical anomaly detection for baseline deviation (failed login spikes, unusual API call patterns)
 - Create correlation rules linking multiple low-severity events into high-severity incidents
 - Implement alert fatigue reduction: suppress duplicates within 5-minute windows, auto-close resolved alerts
 - Escalation matrix: P0 → page security team within 5 min, P1 → within 15 min, P2 → next business day
 
 **Threat Hunting:**
+
 - Proactively search for IOCs (Indicators of Compromise) using MITRE ATT&CK framework mapping
 - Build hypothesis-driven hunts: "If an attacker has compromised X, we would see Y in the logs"
 - Document hunt findings in standardized runbooks for future automation
@@ -38,18 +41,21 @@ Comprehensive SIEM operations, SAST/DAST/SCA pipeline management, PR security re
 ### SAST/DAST/SCA Pipeline Management
 
 **SAST (Static Application Security Testing):**
+
 - Integrate SAST tools (Semgrep, CodeQL, SonarQube) into CI pipeline at the build stage
 - Configure language-specific rulesets: Swift/Objective-C for iOS, Kotlin/Java for Android, Dart for Flutter
 - Set quality gates: block merge on Critical/High severity findings; warn on Medium
 - Implement incremental scanning: only scan changed files and their dependencies to reduce scan time
 
 **DAST (Dynamic Application Security Testing):**
+
 - Deploy DAST scanners (OWASP ZAP, Burp Suite Enterprise) against staging environments
 - Configure authenticated scans with test user credentials covering all user roles
 - Schedule full scans nightly; incremental scans on every staging deployment
 - Map DAST findings back to source code locations for developer remediation
 
 **SCA (Software Composition Analysis):**
+
 - Run SCA (Snyk, Dependabot, Trivy) on every commit to detect vulnerable dependencies
 - Enforce allowlist/denylist policies for approved dependency versions
 - Generate SBOM (Software Bill of Materials) in SPDX format for every build artifact
@@ -84,17 +90,20 @@ For every pull request, evaluate:
 ### Supply Chain Security
 
 **SBOM Generation:**
+
 - Generate SBOM for every platform build (Android AAB, iOS IPA, Flutter APK)
 - Use Syft or CycloneDX CLI for automated SBOM creation
 - Store SBOM as a build artifact alongside the binary
 
 **Dependency Auditing:**
+
 - Maintain a centralized dependency registry with approved versions
 - Monitor for new CVEs in the dependency tree daily
 - Evaluate new dependencies against criteria: active maintenance, security track record, license compatibility
 - Implement dependency pinning: lock exact versions, no wildcard ranges in production
 
 **SLSA Framework Compliance:**
+
 - Target SLSA Level 2 for all production builds:
   - Build service (not developer workstation)
   - Build provenance (signed, tamper-evident build metadata)
@@ -102,15 +111,15 @@ For every pull request, evaluate:
 
 ## Pipeline Integration
 
-| Pipeline Stage | Security Operations Activity |
-|----------------|------------------------------|
-| Stage 1 (Requirements) | Define security acceptance criteria in SRD; identify threat surface |
+| Pipeline Stage         | Security Operations Activity                                                |
+| ---------------------- | --------------------------------------------------------------------------- |
+| Stage 1 (Requirements) | Define security acceptance criteria in SRD; identify threat surface         |
 | Stage 3 (Architecture) | Review architecture for security design patterns; threat model using STRIDE |
-| Stage 5 (Development) | SAST/SCA scans on every commit; PR security review checklist |
-| Stage 6 (Code Review) | Security sign-off on Defect Report; verify no P0/P1 security defects |
-| Stage 7 (Testing) | DAST scans against staging; vulnerability scan results in test report |
-| Stage 8 (Integrity) | SBOM verification; dependency audit; SLSA provenance check |
-| Stage 10 (Release) | Final security clearance; penetration test review; compliance attestation |
+| Stage 5 (Development)  | SAST/SCA scans on every commit; PR security review checklist                |
+| Stage 6 (Code Review)  | Security sign-off on Defect Report; verify no P0/P1 security defects        |
+| Stage 7 (Testing)      | DAST scans against staging; vulnerability scan results in test report       |
+| Stage 8 (Integrity)    | SBOM verification; dependency audit; SLSA provenance check                  |
+| Stage 10 (Release)     | Final security clearance; penetration test review; compliance attestation   |
 
 ## Quality Standards
 

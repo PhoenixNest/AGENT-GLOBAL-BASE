@@ -131,19 +131,19 @@ The following Cloud Script categories are **exempt** from dual approval:
 ```yaml
 # PlayFab Cloud Script pipeline — automated reviewer assignment
 code_review_rules:
-  - author: "aisha.bello"
+  - author: 'aisha.bello'
     categories:
       - economy_transactions
       - purchase_validation
       - anti_cheat_logic
       - data_export
     required_reviewers:
-      - "priya.nair" # design approval (always required)
-      - "priya.nair" # code review (primary)
-      - "dmitri.volkov" # code review (fallback)
+      - 'priya.nair' # design approval (always required)
+      - 'priya.nair' # code review (primary)
+      - 'dmitri.volkov' # code review (fallback)
     merge_block: true # cannot merge without both approvals
 
-  - author: "aisha.bello"
+  - author: 'aisha.bello'
     categories:
       - ui_only_settings
       - cosmetic_data

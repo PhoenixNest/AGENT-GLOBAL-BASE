@@ -1,6 +1,6 @@
 ---
 name: backend-database-postgresql-basics
-description: "Backend skill: Postgresql Basics"
+description: 'Backend skill: Postgresql Basics'
 ---
 
 # PostgreSQL Basics

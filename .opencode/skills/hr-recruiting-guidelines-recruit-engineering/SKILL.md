@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-recruit-engineering
-description: "Hr Recruiting skill: Recruit Engineering"
+description: 'Hr Recruiting skill: Recruit Engineering'
 ---
 
 # Engineering Recruitment Skill

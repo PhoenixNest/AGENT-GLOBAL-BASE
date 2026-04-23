@@ -1,11 +1,11 @@
 ---
-document_id: "**"
-candidate_name: "Scored Assessments"
-entity_type: "studio"
-stage: "stage-4"
-division: "creative-design"
-role: "ux-writer"
-document_type: "Interview Scores"
+document_id: '**'
+candidate_name: 'Scored Assessments'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'creative-design'
+role: 'ux-writer'
+document_type: 'Interview Scores'
 ---
 
 # Stage 4: Interview Simulation — Scored Assessments

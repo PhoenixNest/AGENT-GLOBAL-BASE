@@ -1,12 +1,12 @@
 ---
-document_id: "**"
-generated_at: "**"
-candidate_name: "Screening Results"
-entity_type: "studio"
-stage: "stage-3"
-division: "creative-design"
-role: "ux-writer"
-document_type: "Screening Results"
+document_id: '**'
+generated_at: '**'
+candidate_name: 'Screening Results'
+entity_type: 'studio'
+stage: 'stage-3'
+division: 'creative-design'
+role: 'ux-writer'
+document_type: 'Screening Results'
 ---
 
 # Stage 3: Automated Screening Results

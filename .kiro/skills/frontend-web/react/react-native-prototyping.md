@@ -300,11 +300,11 @@ class BiometricPackage : ReactPackage {
 
 ```typescript
 // src/native/BiometricModule.ts
-import { NativeModules } from "react-native";
+import { NativeModules } from 'react-native';
 
 interface BiometricResult {
   available: boolean;
-  type?: "faceID" | "touchID" | "fingerprint";
+  type?: 'faceID' | 'touchID' | 'fingerprint';
   error?: string;
 }
 
@@ -317,9 +317,7 @@ const { BiometricModule } = NativeModules;
 export default BiometricModule as BiometricModule;
 
 // Usage
-export async function authenticateWithBiometrics(
-  prompt: string,
-): Promise<boolean> {
+export async function authenticateWithBiometrics(prompt: string): Promise<boolean> {
   const { available } = await BiometricModule.isAvailable();
   if (!available) {
     return false;
@@ -329,7 +327,7 @@ export async function authenticateWithBiometrics(
     const result = await BiometricModule.authenticate(prompt);
     return result.success;
   } catch (error: any) {
-    if (error.code === "AUTH_ERROR_USER_FALLBACK") {
+    if (error.code === 'AUTH_ERROR_USER_FALLBACK') {
       // User chose password fallback
       return false;
     }

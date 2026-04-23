@@ -1,11 +1,11 @@
 ---
-generated_at: "**"
-candidate_name: "Offer Document"
-entity_type: "studio"
-stage: "stage-7"
-division: "leadership"
-role: "studio-director"
-document_type: "Offer Document"
+generated_at: '**'
+candidate_name: 'Offer Document'
+entity_type: 'studio'
+stage: 'stage-7'
+division: 'leadership'
+role: 'studio-director'
+document_type: 'Offer Document'
 ---
 
 # Stage 7: Offer Document

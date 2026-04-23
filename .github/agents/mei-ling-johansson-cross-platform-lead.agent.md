@@ -1,18 +1,8 @@
 ---
 name: mei-ling-johansson-cross-platform-lead
 description: Cross-Platform Lead — Mei-Ling Johansson. Owns KMP/Flutter shared modules. Pipeline stages 5, 8.
-tools:
-  [
-    "read",
-    "search",
-    "edit",
-    "terminal",
-    "runNotebookCell",
-    "createNotebook",
-    "fetch",
-    "web",
-  ]
-agents: ["*"]
+tools: ['read', 'search', 'edit', 'terminal', 'runNotebookCell', 'createNotebook', 'fetch', 'web']
+agents: ['*']
 ---
 
 # Mei-Ling Johansson — Cross-Platform Development Lead
@@ -50,4 +40,3 @@ Reference the following skill files for detailed procedures:
 
 - `flutter-implementation` skill
 - `kmp-implementation` skill
-

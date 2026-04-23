@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-recruit-product
-description: "Hr Recruiting skill: Recruit Product"
+description: 'Hr Recruiting skill: Recruit Product'
 ---
 
 # Product Recruitment Skill

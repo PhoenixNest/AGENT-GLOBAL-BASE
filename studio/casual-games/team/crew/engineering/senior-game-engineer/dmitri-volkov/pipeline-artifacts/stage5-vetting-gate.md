@@ -4,15 +4,15 @@ scores:
   craft_depth: 5
   leadership_signal: 4
   standards_signal: 4
-  red_flag_scan: "PASS"
+  red_flag_scan: 'PASS'
 total_score: 18
-result: "PASS"
-document_id: "**"
-entity_type: "studio"
-stage: "stage-5"
-division: "engineering"
-role: "senior-game-engineer"
-document_type: "Vetting Gate"
+result: 'PASS'
+document_id: '**'
+entity_type: 'studio'
+stage: 'stage-5'
+division: 'engineering'
+role: 'senior-game-engineer'
+document_type: 'Vetting Gate'
 ---
 
 # VETTING GATE

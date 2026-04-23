@@ -1,13 +1,13 @@
 ---
-document_id: "**"
-generated_at: "**"
-candidate_name: "Lisa Henderson"
-candidate_id: "G26"
-entity_type: "studio"
-stage: "stage-6"
-division: "creative-design"
-role: "senior-game-designer"
-document_type: "Background Check"
+document_id: '**'
+generated_at: '**'
+candidate_name: 'Lisa Henderson'
+candidate_id: 'G26'
+entity_type: 'studio'
+stage: 'stage-6'
+division: 'creative-design'
+role: 'senior-game-designer'
+document_type: 'Background Check'
 ---
 
 # Background Check Report — Lisa Henderson (G26)

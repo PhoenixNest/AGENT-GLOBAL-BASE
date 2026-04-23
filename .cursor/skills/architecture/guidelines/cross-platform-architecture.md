@@ -717,11 +717,11 @@ name: Mobile CI
 on:
   pull_request:
     paths:
-      - "shared/**"
-      - "androidApp/**"
-      - "iosApp/**"
-      - "build-logic/**"
-      - "ci/**"
+      - 'shared/**'
+      - 'androidApp/**'
+      - 'iosApp/**'
+      - 'build-logic/**'
+      - 'ci/**'
 
 jobs:
   shared-tests:

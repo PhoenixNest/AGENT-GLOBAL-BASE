@@ -1,6 +1,6 @@
 ---
 name: android-security-ci-cd-android-security
-description: "Android skill: Android Security"
+description: 'Android skill: Android Security'
 ---
 
 # Android Security

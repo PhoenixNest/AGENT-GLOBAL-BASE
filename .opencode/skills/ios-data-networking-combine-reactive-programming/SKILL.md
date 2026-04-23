@@ -1,6 +1,6 @@
 ---
 name: ios-data-networking-combine-reactive-programming
-description: "Ios skill: Combine Reactive Programming"
+description: 'Ios skill: Combine Reactive Programming'
 ---
 
 # Combine Framework — Reactive Programming

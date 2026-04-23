@@ -1,18 +1,18 @@
 ---
-document_id: "**"
-role_title: "Audio Designer (G28)"
-role_family: "Audio"
-seniority: "Senior"
-priority: "P2"
-reports_to: "Hiroshi Nakamura (Composer/Sound Director, Contract)"
+document_id: '**'
+role_title: 'Audio Designer (G28)'
+role_family: 'Audio'
+seniority: 'Senior'
+priority: 'P2'
+reports_to: 'Hiroshi Nakamura (Composer/Sound Director, Contract)'
 compensation_band:
   min: 100000
   max: 135000
-entity_type: "studio"
-stage: "stage-1"
-division: "audio"
-role: "audio-designer"
-document_type: "Position Specification Document"
+entity_type: 'studio'
+stage: 'stage-1'
+division: 'audio'
+role: 'audio-designer'
+document_type: 'Position Specification Document'
 ---
 
 # Position Specification Document

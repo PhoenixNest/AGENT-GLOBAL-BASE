@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Japanese (JA) UI string translation and localization. Engage
+description: Use for Japanese (JA) UI string translation and localization. Engage
   during Stage 9 (Internationalization Engineering) for translating mobile UI strings
   into Japanese with keigo levels, character count constraints, and platform-specific
   formatting.

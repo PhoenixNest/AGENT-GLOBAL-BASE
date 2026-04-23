@@ -1,6 +1,6 @@
 ---
 name: cross-platform-flutter-flutter-architecture
-description: "Cross Platform skill: Flutter Architecture"
+description: 'Cross Platform skill: Flutter Architecture'
 ---
 
 # Flutter Architecture

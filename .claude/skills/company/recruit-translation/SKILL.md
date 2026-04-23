@@ -13,12 +13,12 @@ Localization Manager, Head of Localization, Chief Translation Officer (CTO-L).
 
 ## Seniority Rubric
 
-| Criterion | Translator | Senior Translator | Localization Engineer | Localization Manager | Head of Localization | CTO-L |
-| --------- | ---------- | ----------------- | --------------------- | -------------------- | -------------------- | ----- |
-| Scope of impact | Single language pair | Multiple language pairs | Platform/tooling | Team delivery | Multi-team / multi-language | Company-wide |
-| Technical depth | Source → target translation | Style guide authorship | TM/CAT tooling, string engineering | Pipeline design | Localization strategy | Technology vision + linguistic governance |
-| Leadership | Self | Mentors 1–2 | Cross-functional contributor | Manages 3–6 linguists | Manages 10–30 | C-suite exec |
-| Track record | 1+ shipped translation projects | 2+ projects with quality metrics | Platform-level localization tooling | Team health + delivery | Org scaling + language expansion | Company-wide localization outcomes |
+| Criterion       | Translator                      | Senior Translator                | Localization Engineer               | Localization Manager   | Head of Localization             | CTO-L                                     |
+| --------------- | ------------------------------- | -------------------------------- | ----------------------------------- | ---------------------- | -------------------------------- | ----------------------------------------- |
+| Scope of impact | Single language pair            | Multiple language pairs          | Platform/tooling                    | Team delivery          | Multi-team / multi-language      | Company-wide                              |
+| Technical depth | Source → target translation     | Style guide authorship           | TM/CAT tooling, string engineering  | Pipeline design        | Localization strategy            | Technology vision + linguistic governance |
+| Leadership      | Self                            | Mentors 1–2                      | Cross-functional contributor        | Manages 3–6 linguists  | Manages 10–30                    | C-suite exec                              |
+| Track record    | 1+ shipped translation projects | 2+ projects with quality metrics | Platform-level localization tooling | Team health + delivery | Org scaling + language expansion | Company-wide localization outcomes        |
 
 ## Interview Simulation Protocol
 

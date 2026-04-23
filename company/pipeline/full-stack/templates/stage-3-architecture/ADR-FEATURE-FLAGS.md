@@ -73,11 +73,11 @@ Full-stack cross-platform products require coordinated feature releases across w
 ```javascript
 // SSR: Inject initial flag state into HTML
 const flags = await launchdarkly.allFlagsState(user);
-res.render("page", { flags });
+res.render('page', { flags });
 
 // Client-side: Subscribe to real-time updates
-ldClient.on("change", (updates) => {
-  if (updates["web.checkout.new-payment-flow"]) {
+ldClient.on('change', (updates) => {
+  if (updates['web.checkout.new-payment-flow']) {
     // Re-render checkout component with new flag state
     refreshCheckoutUI();
   }

@@ -380,13 +380,13 @@ Non-compliance must be documented in session logs with justification:
 
 ## Related Documents
 
-| Document                        | Location                                                                                                       |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Document                        | Location                                                                                                                     |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | **Full System Specification**   | [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md)                               |
 | **Pipeline Definition**         | [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md)                                   |
 | **Progress Sync Protocol**      | [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md) — Search "Progress Sync Protocol" |
-| **Testing (Defect Severity)**   | [`topics/testing.md`](testing.md)                                                                              |
-| **Project Directory Structure** | Refer to project root documentation                                                                            |
+| **Testing (Defect Severity)**   | [`topics/testing.md`](testing.md)                                                                                            |
+| **Project Directory Structure** | Refer to project root documentation                                                                                          |
 
 ---
 

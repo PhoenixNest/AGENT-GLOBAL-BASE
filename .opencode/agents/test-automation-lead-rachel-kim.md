@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile and API test automation framework architecture, flaky
+description: Use for mobile and API test automation framework architecture, flaky
   test detection, contract testing, and defect triage. Engage during Stage 7 (Automated
   Testing) and Stage 8 (Integrity Verification) for test infrastructure and quality
   gate enforcement.

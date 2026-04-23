@@ -110,22 +110,22 @@ Brief description of the product's security-relevant characteristics: data sensi
 
 ## 9. Supply Chain Security
 
-| Requirement             | Detail                                  |
-| ----------------------- | --------------------------------------- |
-| Third-party SDK vetting | [Security review required for each SDK] |
-| Dependency scanning     | [Automated per PR, SAST integration]    |
-| SBOM requirement        | [CycloneDX generated per build]         |
+| Requirement             | Detail                                                                                                                                                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Third-party SDK vetting | [Security review required for each SDK]                                                                                                                                                                       |
+| Dependency scanning     | [Automated per PR, SAST integration]                                                                                                                                                                          |
+| SBOM requirement        | [CycloneDX generated per build]                                                                                                                                                                               |
 | SBOM consumption policy | Automated build gate: fail on any critical or high CVE in SBOM. Weekly manual review of medium/low findings by Security Engineer (Li Wei Chen). New dependencies require security team approval before merge. |
 
 ---
 
 ## 9.1 Deep Linking Security
 
-| Requirement                  | Detail                                                                                         |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- |
-| Universal Links / App Links  | Validate all incoming deep links against allowlist. Reject unregistered schemes.               |
-| Deep link parameter validation | Sanitize and validate all parameters. Never trust data from deep link payloads.              |
-| OAuth redirect URI validation | Strict allowlist matching. Reject redirects to unregistered URIs.                            |
+| Requirement                           | Detail                                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Universal Links / App Links           | Validate all incoming deep links against allowlist. Reject unregistered schemes.                 |
+| Deep link parameter validation        | Sanitize and validate all parameters. Never trust data from deep link payloads.                  |
+| OAuth redirect URI validation         | Strict allowlist matching. Reject redirects to unregistered URIs.                                |
 | Intent hijacking prevention (Android) | Use explicit intents for sensitive operations. Set `android:exported="false"` where appropriate. |
 
 ---
@@ -134,12 +134,12 @@ Brief description of the product's security-relevant characteristics: data sensi
 
 The following controls prevent sensitive data from leaking through non-storage channels:
 
-| Control                        | Platform | Implementation                                                                 |
-| ------------------------------ | -------- | ------------------------------------------------------------------------------ |
-| Clipboard exclusion              | Android  | Use `FLAG_SENSITIVE_CONTENT` on `ClipData` for sensitive clipboard operations  |
-| Screenshot prevention            | Android  | `FLAG_SECURE` on screens showing sensitive data (prevents screenshots + recents thumbnail) |
-| App switcher masking             | iOS      | Snapshot masking in `sceneDidEnterBackground` to prevent sensitive data in app switcher |
-| Autocorrect exclusion            | iOS      | `UITextAutocorrectionTypeNo` on `UITextField` for sensitive inputs (passwords, PINs, tokens) |
+| Control               | Platform | Implementation                                                                               |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------- |
+| Clipboard exclusion   | Android  | Use `FLAG_SENSITIVE_CONTENT` on `ClipData` for sensitive clipboard operations                |
+| Screenshot prevention | Android  | `FLAG_SECURE` on screens showing sensitive data (prevents screenshots + recents thumbnail)   |
+| App switcher masking  | iOS      | Snapshot masking in `sceneDidEnterBackground` to prevent sensitive data in app switcher      |
+| Autocorrect exclusion | iOS      | `UITextAutocorrectionTypeNo` on `UITextField` for sensitive inputs (passwords, PINs, tokens) |
 
 > **Implementation details:** See ADR-SECURITY-STORAGE §Data Leakage Prevention for platform-specific implementation guidance.
 
@@ -147,13 +147,13 @@ The following controls prevent sensitive data from leaking through non-storage c
 
 ## 9.3 Runtime Application Self-Protection (RASP)
 
-| Requirement                  | Detail                                                                                         |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- |
-| Anti-tampering               | Detect code signature modification, resource modification, and runtime hooking (Frida, Cydia Substrate). |
-| Runtime hooking detection     | Detect common hooking frameworks (Frida, Cydia Substrate, Xposed, Magisk modules) at runtime. |
-| Debugger detection            | Detect attached debuggers at runtime and terminate or degrade gracefully.                      |
-| Emulator detection            | Detect execution in emulator/simulator environments and flag for server-side risk scoring.     |
-| Response to detection         | On detection: (1) log event to server, (2) degrade sensitive functionality, (3) optionally terminate session. |
+| Requirement               | Detail                                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Anti-tampering            | Detect code signature modification, resource modification, and runtime hooking (Frida, Cydia Substrate).      |
+| Runtime hooking detection | Detect common hooking frameworks (Frida, Cydia Substrate, Xposed, Magisk modules) at runtime.                 |
+| Debugger detection        | Detect attached debuggers at runtime and terminate or degrade gracefully.                                     |
+| Emulator detection        | Detect execution in emulator/simulator environments and flag for server-side risk scoring.                    |
+| Response to detection     | On detection: (1) log event to server, (2) degrade sensitive functionality, (3) optionally terminate session. |
 
 **MASVS Reference:** MASVS-RESILIENCE R4 (Runtime Integrity Checks)
 

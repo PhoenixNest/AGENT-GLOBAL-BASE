@@ -1,11 +1,11 @@
 ---
-gate_status: "** ✅ PASS"
-candidate_name: "James Mitchell"
-entity_type: "studio"
-stage: "stage-2"
-division: "production"
-role: "producer"
-document_type: "Sourcing Shortlist"
+gate_status: '** ✅ PASS'
+candidate_name: 'James Mitchell'
+entity_type: 'studio'
+stage: 'stage-2'
+division: 'production'
+role: 'producer'
+document_type: 'Sourcing Shortlist'
 ---
 
 # Stage 2-9: Pipeline Artifacts — Producer (G9) — James Mitchell

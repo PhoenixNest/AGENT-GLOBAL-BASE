@@ -1,6 +1,5 @@
 ---
-description:
-  Use for mobile platform security architecture, application security hardening,
+description: Use for mobile platform security architecture, application security hardening,
   security risk assessment, and emerging threat evaluation. Engage during Stage 1
   (Security Requirements Document), Stage 6 (Code Review), Stage 8 (Integrity Verification),
   and Stage 10 (Release Readiness).

@@ -1,14 +1,14 @@
 ---
-document_id: "**"
-generated_at: "**"
-gate_status: "** ✅ All assessments completed. Composite Score 4.410/5 (92nd percentile). Proceeding to Stage 5."
-candidate_name: "Case Study"
-candidate_id: "48hr"
-entity_type: "studio"
-stage: "stage-4"
-division: "engineering"
-role: "sdet-gameplay"
-document_type: "Interview Scores"
+document_id: '**'
+generated_at: '**'
+gate_status: '** ✅ All assessments completed. Composite Score 4.410/5 (92nd percentile). Proceeding to Stage 5.'
+candidate_name: 'Case Study'
+candidate_id: '48hr'
+entity_type: 'studio'
+stage: 'stage-4'
+division: 'engineering'
+role: 'sdet-gameplay'
+document_type: 'Interview Scores'
 ---
 
 # Interview Scores — SDET Gameplay #1 (G36)

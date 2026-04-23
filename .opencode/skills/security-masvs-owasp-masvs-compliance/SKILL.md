@@ -1,6 +1,6 @@
 ---
 name: security-masvs-owasp-masvs-compliance
-description: "Security skill: Owasp Masvs Compliance"
+description: 'Security skill: Owasp Masvs Compliance'
 ---
 
 # OWASP MASVS Compliance

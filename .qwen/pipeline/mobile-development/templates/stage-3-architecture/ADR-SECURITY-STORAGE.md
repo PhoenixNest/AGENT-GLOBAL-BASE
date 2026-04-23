@@ -80,14 +80,14 @@ Need for platform-appropriate secure storage of sensitive data including credent
 
 ## STRIDE Threat Reference
 
-| STRIDE Category              | Threat                                      | Mitigation                                          |
-| ---------------------------- | ------------------------------------------- | --------------------------------------------------- |
-| **Spoofing**                 | Malicious app impersonating legitimate app to access Keychain/Keystore items | Access group validation, Keychain/Keystore access control lists |
-| **Tampering**                | Backup file modification to inject malicious data or alter stored credentials | Hardware-backed storage, encryption at rest, backup exclusion for sensitive items |
-| **Repudiation**              | User denies performing an action that required stored credential verification | Audit logging of Keychain/Keystore access events with timestamps |
-| **Information Disclosure**   | Data-at-rest extraction from device storage via physical access or malware | Platform-native secure storage (Keychain/Keystore), hardware-backed encryption, DLP controls |
-| **Denial of Service**        | Keychain/Keystore locked out (passcode change, device reset) rendering app unusable | Graceful degradation: prompt user to re-authenticate and re-provision credentials |
-| **Elevation of Privilege**   | Exploiting insecure storage API to access another app's credentials or higher-privilege data | Sandboxed storage, per-app Keychain/Keystore isolation, no cross-app data sharing |
+| STRIDE Category            | Threat                                                                                       | Mitigation                                                                                   |
+| -------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **Spoofing**               | Malicious app impersonating legitimate app to access Keychain/Keystore items                 | Access group validation, Keychain/Keystore access control lists                              |
+| **Tampering**              | Backup file modification to inject malicious data or alter stored credentials                | Hardware-backed storage, encryption at rest, backup exclusion for sensitive items            |
+| **Repudiation**            | User denies performing an action that required stored credential verification                | Audit logging of Keychain/Keystore access events with timestamps                             |
+| **Information Disclosure** | Data-at-rest extraction from device storage via physical access or malware                   | Platform-native secure storage (Keychain/Keystore), hardware-backed encryption, DLP controls |
+| **Denial of Service**      | Keychain/Keystore locked out (passcode change, device reset) rendering app unusable          | Graceful degradation: prompt user to re-authenticate and re-provision credentials            |
+| **Elevation of Privilege** | Exploiting insecure storage API to access another app's credentials or higher-privilege data | Sandboxed storage, per-app Keychain/Keystore isolation, no cross-app data sharing            |
 
 ## MASVS Compliance
 

@@ -1,6 +1,6 @@
 ---
 name: devops-guidelines-cloud-infrastructure
-description: "Devops skill: Cloud Infrastructure"
+description: 'Devops skill: Cloud Infrastructure'
 ---
 
 # Cloud Infrastructure
@@ -495,7 +495,7 @@ spec:
           name: http_requests_per_second
         target:
           type: AverageValue
-          averageValue: "1000"
+          averageValue: '1000'
   behavior:
     scaleUp:
       stabilizationWindowSeconds: 60

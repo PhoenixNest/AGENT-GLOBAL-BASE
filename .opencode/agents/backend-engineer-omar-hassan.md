@@ -1,6 +1,5 @@
 ---
-description:
-  Use for Go microservices development, REST API implementation, and backend
+description: Use for Go microservices development, REST API implementation, and backend
   testing. Engage during Stage 5 (Backend Development) for Go services and API implementation.
 mode: subagent
 tools:

@@ -1,6 +1,6 @@
 ---
 name: hr-recruiting-guidelines-vet-candidate
-description: "Hr Recruiting skill: Vet Candidate"
+description: 'Hr Recruiting skill: Vet Candidate'
 ---
 
 # Elite Candidate Vetting Gate

@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-technical-selection-documentation
-description: "Architecture skill: Technical Selection Documentation"
+description: 'Architecture skill: Technical Selection Documentation'
 ---
 
 # Technical Selection Documentation Skill

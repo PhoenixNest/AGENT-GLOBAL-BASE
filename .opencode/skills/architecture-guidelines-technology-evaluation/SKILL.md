@@ -1,6 +1,6 @@
 ---
 name: architecture-guidelines-technology-evaluation
-description: "Architecture skill: Technology Evaluation"
+description: 'Architecture skill: Technology Evaluation'
 ---
 
 # Technology Evaluation Skill

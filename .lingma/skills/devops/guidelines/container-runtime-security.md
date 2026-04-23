@@ -19,7 +19,7 @@ This skill covers container runtime security, including Falco rules, eBPF-based 
 - rule: Unexpected K8s API Server Access
   desc: Detects unexpected access to the K8s API server from a pod
   condition: spawned_process and proc.name contains "kubectl" and not k8s.ns.name = "kube-system"
-  output: "Unexpected K8s API access (user=%user.name command=%proc.cmdline namespace=%k8s.ns.name)"
+  output: 'Unexpected K8s API access (user=%user.name command=%proc.cmdline namespace=%k8s.ns.name)'
   priority: WARNING
   tags: [k8s, runtime]
 ```
@@ -66,7 +66,7 @@ securityContext:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   capabilities:
-    drop: ["ALL"]
+    drop: ['ALL']
 ```
 
 ## Image Scanning Integration
