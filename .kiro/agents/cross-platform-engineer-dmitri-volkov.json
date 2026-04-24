@@ -1,6 +1,0 @@
-{
-  "name": "cross-platform-engineer-dmitri-volkov",
-  "description": "Use for KMP shared modules, cross-platform architecture, and Swift language familiarity. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for KMP implementation.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/cross-platform/SKILL.md"]
-}

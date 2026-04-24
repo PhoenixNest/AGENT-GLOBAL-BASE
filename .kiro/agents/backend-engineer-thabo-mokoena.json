@@ -1,6 +1,0 @@
-{
-  "name": "backend-engineer-thabo-mokoena",
-  "description": "Use for GraphQL API development (Apollo Server), AWS cloud infrastructure (Terraform, ECS, RDS), and Node.js/TypeScript backend. Engage during Stage 5 (Backend Development) for GraphQL and cloud deployment.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/backend/SKILL.md"]
-}

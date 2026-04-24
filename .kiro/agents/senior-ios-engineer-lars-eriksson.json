@@ -1,6 +1,0 @@
-{
-  "name": "senior-ios-engineer-lars-eriksson",
-  "description": "Use for Swift Concurrency migration, SwiftUI + The Composable Architecture (TCA) implementation, and iOS mentoring. Engage during Stage 5 (Development) for SwiftUI/TCA architecture implementation, Stage 6 (Code Review) for Swift Concurrency and TCA code review, and Stage 8 (Integrity Verification) for architecture conformance.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/ios/SKILL.md"]
-}

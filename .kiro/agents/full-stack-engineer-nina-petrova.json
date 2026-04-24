@@ -1,9 +1,0 @@
-{
-  "name": "full-stack-engineer-nina-petrova",
-  "description": "Use for rapid MVP development with React, Node.js, PostgreSQL, and PRD fluency. Engage during Stage 5 (Development) for full-stack MVP delivery and Stage 4 (Implementation Plan) for PRD-to-spec translation.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": [
-    "skill://.kiro/skills/frontend-web/SKILL.md",
-    "skill://.kiro/skills/backend/SKILL.md"
-  ]
-}

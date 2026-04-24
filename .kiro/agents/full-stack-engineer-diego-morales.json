@@ -1,9 +1,0 @@
-{
-  "name": "full-stack-engineer-diego-morales",
-  "description": "Use for enterprise full-stack development with Angular, Java Spring Boot, and reporting systems. Engage during Stage 5 (Development) for Angular/Spring Boot implementation.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": [
-    "skill://.kiro/skills/frontend-web/SKILL.md",
-    "skill://.kiro/skills/backend/SKILL.md"
-  ]
-}

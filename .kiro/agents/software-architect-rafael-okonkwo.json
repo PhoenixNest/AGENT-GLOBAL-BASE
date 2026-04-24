@@ -1,6 +1,0 @@
-{
-  "name": "software-architect-rafael-okonkwo",
-  "description": "Use for UML Engineering Package production, mobile architecture patterns, and Architecture Decision Records (ADRs). Engage during Stage 3 (UML Engineering Package), Stage 6 (Code Review), and Stage 8 (Integrity Verification) for architectural conformance review.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/architecture/SKILL.md"]
-}

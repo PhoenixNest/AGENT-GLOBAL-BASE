@@ -1,6 +1,0 @@
-{
-  "name": "chinese-linguist-wei-chen-liu",
-  "description": "Use for Chinese (ZH-CN/ZH-TW) UI string translation and localization. Engage during Stage 9 (Internationalization Engineering) for translating mobile UI strings into Simplified and Traditional Chinese with platform-specific formatting.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/localization/SKILL.md"]
-}

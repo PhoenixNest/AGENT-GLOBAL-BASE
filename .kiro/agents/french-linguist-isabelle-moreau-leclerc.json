@@ -1,6 +1,0 @@
-{
-  "name": "french-linguist-isabelle-moreau-leclerc",
-  "description": "Use for French (FR-FR/FR-CA) UI string translation and localization. Engage during Stage 9 (Internationalization Engineering) for translating mobile UI strings into European and Canadian French with register differentiation and platform-specific formatting.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/localization/SKILL.md"]
-}

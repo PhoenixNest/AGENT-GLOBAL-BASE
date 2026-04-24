@@ -1,6 +1,0 @@
-{
-  "name": "chro-dr-evelyn-hartwell",
-  "description": "Use for recruitment across all role families (engineering, product, design, data, translation, business). Engage when the user issues a recruitment request to identify, vet, and place elite candidates using the five-dimension elite gate.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/hr-recruiting/SKILL.md"]
-}

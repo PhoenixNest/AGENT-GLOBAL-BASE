@@ -1,6 +1,0 @@
-{
-  "name": "sdet-mobile-ananya-krishnan",
-  "description": "Use for mobile unit testing, test framework design, code coverage analysis, and test-driven development practices. Engage during Stage 5 (Development) for unit test infrastructure and Stage 7 (Automated Testing) for unit test suite development and coverage analysis.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/testing-qa/SKILL.md"]
-}

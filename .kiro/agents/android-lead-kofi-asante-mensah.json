@@ -1,6 +1,0 @@
-{
-  "name": "android-lead-kofi-asante-mensah",
-  "description": "Use for Android application development with Jetpack Compose, MVVM architecture, Kotlin Coroutines, Hilt DI, Room, Retrofit, and Google Play submission. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification) for Android platform implementation.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/android/SKILL.md"]
-}

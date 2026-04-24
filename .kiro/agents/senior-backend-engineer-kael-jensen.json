@@ -1,6 +1,0 @@
-{
-  "name": "senior-backend-engineer-kael-jensen",
-  "description": "Use for real-time systems architecture, WebSocket scaling, and backend observability. Engage during Stage 5 (Backend Development) for real-time features and Stage 6 (Code Review) for observability and WebSocket conformance.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/backend/SKILL.md"]
-}

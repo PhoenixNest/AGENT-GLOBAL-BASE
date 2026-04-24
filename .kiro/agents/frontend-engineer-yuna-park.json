@@ -1,6 +1,0 @@
-{
-  "name": "frontend-engineer-yuna-park",
-  "description": "Use for React state management and advanced React testing. Engage during Stage 5 (Development) for frontend implementation.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/frontend-web/SKILL.md"]
-}

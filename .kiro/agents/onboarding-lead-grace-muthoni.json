@@ -1,6 +1,0 @@
-{
-  "name": "onboarding-lead-grace-muthoni",
-  "description": "Use for engineering onboarding program design, competency tracking, and mentor program management. Engage during recruitment for ramp-up planning and new hire integration.",
-  "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
-  "resources": ["skill://.kiro/skills/shared/SKILL.md"]
-}
