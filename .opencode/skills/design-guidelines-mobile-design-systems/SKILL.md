@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-mobile-design-systems
-description: 'Design skill: Mobile Design Systems'
+description: Mobile design system creation for iOS and Android — platform-specific component libraries (iOS HIG, Android Material Design), interaction patterns, design tokens, accessibility standards (WCAG 2.1 AA), and design-to-production workflow. Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for mobile design system creation and Stage 5 (Development) for design token implementation. Trigger: mobile design system, iOS design system, Android design system, Material Design, HIG components, design tokens mobile.
+prerequisites:
+  - design-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Design Systems

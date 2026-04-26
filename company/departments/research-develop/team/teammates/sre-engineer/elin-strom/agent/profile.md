@@ -39,9 +39,32 @@ Elin is an SRE Engineer reporting to the DevOps Lead (Thomas Zhang). She contrib
 
 ## Skills Index
 
-- `skills/observability-logging.md` — ELK Stack, Fluentd, anomaly detection, real-time alerting
-- `skills/infrastructure-security.md` — Falco, OSQuery, container security, network anomaly detection
-- `skills/container-runtime-security.md` — Container runtime security, Falco rules, eBPF-based monitoring
+- `company/departments/research-develop/team/teammates/sre-engineer/elin-strom/skills/observability-logging.md` — ELK Stack, Fluentd, anomaly detection, real-time alerting
+- `company/departments/research-develop/team/teammates/sre-engineer/elin-strom/skills/infrastructure-security.md` — Falco, OSQuery, container security, network anomaly detection
+- `company/departments/research-develop/team/teammates/sre-engineer/elin-strom/skills/container-runtime-security.md` — Container runtime security, Falco rules, eBPF-based monitoring
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

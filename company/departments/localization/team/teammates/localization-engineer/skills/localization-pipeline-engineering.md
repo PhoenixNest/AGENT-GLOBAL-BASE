@@ -1,6 +1,7 @@
 ---
 name: localization-pipeline-engineering
 description: Localization pipeline design, TMS integration, string extraction automation, translated file retrieval, platform resource file generation, and pre-delivery format validation linting for iOS and Android.
+version: "1.0.0"
 ---
 
 # Localization Pipeline Engineering
@@ -8,6 +9,10 @@ description: Localization pipeline design, TMS integration, string extraction au
 ## Purpose
 
 Build and maintain the technical infrastructure that moves strings from the R&D handoff package through the translation workflow and back into production-ready platform resource files. This role is engineering — not linguistic. All linguistic decisions belong to the linguists and the CTO-L.
+
+## Why This Matters
+
+Automates string extraction, translation, and validation across iOS and Android. Manual localization introduces string mismatches, broken interpolations, and release-blocking i18n defects.
 
 ## Pipeline Architecture
 

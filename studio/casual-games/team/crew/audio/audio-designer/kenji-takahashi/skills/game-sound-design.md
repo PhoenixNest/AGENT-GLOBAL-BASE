@@ -1,3 +1,9 @@
+---
+name: studio-audio-game-sound-design
+description: Game sound design — sound effect creation, Foley recording, UI audio, combat audio, environmental ambience, and mobile audio optimization. Owned by Kenji Takahashi (Audio Designer). Use during Studio Pipeline Stages 3–5 for SFX production and audio integration. Trigger: sound design, SFX, Foley, UI audio, combat audio, environmental ambience, mobile audio, audio memory budget.
+version: "1.0.0"
+---
+
 # Game Sound Design
 
 **Skill ID:** game-sound-design

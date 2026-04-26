@@ -1,6 +1,7 @@
 ---
 name: security-overview
-description: Security skills overview
+description: Security skills overview — mobile security architecture, OWASP MASVS compliance (Tracks A, B, C), penetration testing, SAST/DAST pipeline, threat modeling, and security risk assessment. Owned by Dr. Sarah Chen (CSO). Use as entry point for security skill selection during Stage 1 (Requirements) for SRD and Stage 6 (Code Review) for security audit. Trigger: security overview, MASVS, penetration testing, threat modeling, SAST DAST, mobile security architecture, compliance, risk assessment.
+version: "1.0.0"
 ---
 
 # Security

@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-interaction-design-specification
-description: 'Design skill: Interaction Design Specification'
+description: Interaction Design Specification authoring for mobile products — component specs, state diagrams, gesture vocabularies, edge case matrices, and platform-specific interaction patterns (iOS HIG / Android Material Design 3). Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for IDS production and Stage 6 (Code Review) for IDS conformance verification. Trigger: interaction design specification, IDS authoring, component spec, state diagram, gesture vocabulary, edge case matrix.
+prerequisites:
+  - design-overview
+
+version: "1.0.0"
 ---
 
 # Interaction Design Specification

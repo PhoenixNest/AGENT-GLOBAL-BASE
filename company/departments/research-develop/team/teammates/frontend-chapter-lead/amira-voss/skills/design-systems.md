@@ -1,15 +1,8 @@
-# Design Systems Architecture
+---
+version: "1.0.0"
+---
 
-**Category:** Frontend Engineering / Design Systems
-**Owner:** Frontend Chapter Lead (Amira Voss)
-
-## Overview
-
-This skill enables the architecture, implementation, and governance of a production-grade design system that bridges CDO-authored IDS specifications with platform-specific frontend implementations. It covers token systems, component library architecture, cross-platform design-to-code handoff protocols, and Storybook-driven documentation — ensuring pixel-perfect realization of the Chief Design Officer's interaction specifications across all frontend surfaces. Directly supports Stage 2 (Web Prototype + IDS) through Stage 6 (Code Review) by maintaining a living, versioned design system that serves as the single source of truth between design intent and engineering implementation.
-
-## Competency Dimensions
-
-| Dimension                      | Description                                                                                   | Proficiency Indicators                                                                                     |
+| Competency                     | Description                                                                                   | Quality Criteria                                                                                           |
 | ------------------------------ | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | **Design Token Architecture**  | Multi-tier token systems (primitive → semantic → component) with platform-specific transforms | Tokens resolve correctly across iOS/Android/Web; zero manual color/spacing overrides in component code     |
 | **Component Library Design**   | Composable, accessible component APIs with strict variant/prop contracts                      | Components pass axe-core automated tests; Storybook stories cover 100% of documented IDS states            |
@@ -100,17 +93,17 @@ Component Tokens (Component-specific overrides)
 ```tsx
 // Button.stories.tsx
 export default {
-  title: 'Components/Atoms/Button',
+  title: "Components/Atoms/Button",
   component: Button,
   parameters: {
     ids: {
-      specRef: 'IDS-SECTION-4.2', // Links to Interaction Design Specification
-      cdoApproval: '2026-03-15', // Date of CDO design sign-off
-      wcagLevel: 'AA', // Accessibility compliance target
+      specRef: "IDS-SECTION-4.2", // Links to Interaction Design Specification
+      cdoApproval: "2026-03-15", // Date of CDO design sign-off
+      wcagLevel: "AA", // Accessibility compliance target
     },
     design: {
-      type: 'figma',
-      url: 'https://figma.com/file/.../Button?node-id=...',
+      type: "figma",
+      url: "https://figma.com/file/.../Button?node-id=...",
     },
   },
   // ...

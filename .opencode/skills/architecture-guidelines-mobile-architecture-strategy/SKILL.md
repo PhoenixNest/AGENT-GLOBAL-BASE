@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-mobile-architecture-strategy
-description: 'Architecture skill: Mobile Architecture Strategy'
+description: Mobile-native infrastructure and architecture strategy for iOS and Android — App Transport Security, background execution limits, battery optimisation, platform networking stacks, edge computing, and on-device ML. Owned by Dr. Priya Mehta (CIO). Use during Stage 3 (UML Engineering) for platform constraint analysis and Stage 4 (Implementation Plan) for feasibility assessment. Trigger: mobile architecture strategy, platform constraints, mobile infrastructure, offline-first, mobile performance, platform-native.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Architecture Strategy Skill

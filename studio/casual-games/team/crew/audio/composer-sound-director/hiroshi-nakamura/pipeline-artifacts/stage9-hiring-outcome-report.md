@@ -1,11 +1,11 @@
 ---
-candidate_name: 'H'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'audio'
-role: 'composer-sound-director'
-document_type: 'Hiring Outcome Report'
+candidate_name: "H"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "audio"
+role: "composer-sound-director"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Hiroshi Nakamura (G10)

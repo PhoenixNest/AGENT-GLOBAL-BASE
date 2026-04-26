@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 50 ranked. Proceeding to Stage 3.'
-candidate_name: 'Nina Kuznetsova'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'art'
-role: 'vfx-artist'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 50 ranked. Proceeding to Stage 3."
+candidate_name: "Nina Kuznetsova"
+entity_type: "studio"
+stage: "stage-2"
+division: "art"
+role: "vfx-artist"
+document_type: "Sourcing Shortlist"
 ---
 
 # Sourcing Shortlist — VFX Artist (G25)

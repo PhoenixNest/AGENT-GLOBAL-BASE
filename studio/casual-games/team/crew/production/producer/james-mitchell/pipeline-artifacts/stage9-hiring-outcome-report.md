@@ -1,12 +1,12 @@
 ---
-final_decision: 'HIRED'
-candidate_name: 'J'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'production'
-role: 'producer'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+candidate_name: "J"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "production"
+role: "producer"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — James Mitchell (G9)

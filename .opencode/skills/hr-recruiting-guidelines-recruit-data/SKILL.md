@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-recruit-data
-description: 'Hr Recruiting skill: Recruit Data'
+description: "Recruits data science, ML, and analytics roles — Data Analyst, Data Scientist, ML Engineer, Staff Data Scientist, ML Research Scientist, Head of Data, VP Data, CDAO — using seniority rubrics calibrated to production ML systems, novel research, and data org leadership, with interview simulation protocols and elite vetting. Owned by Dr. Evelyn Hartwell (CHRO). Use when recruiting for data science, machine learning, analytics, MLOps, or AI research roles. Trigger: recruit data, hire data scientist, hire ML engineer, recruit analytics, data recruitment, ML recruitment, CDAO, head of data."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Data & ML Recruitment Skill

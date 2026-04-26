@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All onboarding items confirmed ready. Proceeding to Stage 9.'
-candidate_name: 'Mei Watanabe'
-candidate_id: 'G5'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'creative-design'
-role: 'lead-game-designer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All onboarding items confirmed ready. Proceeding to Stage 9."
+candidate_name: "Mei Watanabe"
+candidate_id: "G5"
+entity_type: "studio"
+stage: "stage-8"
+division: "creative-design"
+role: "lead-game-designer"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Mei Watanabe (G5)

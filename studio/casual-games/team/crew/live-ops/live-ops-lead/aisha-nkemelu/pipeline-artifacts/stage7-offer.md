@@ -1,12 +1,12 @@
 ---
-generated_at: '**'
-candidate_name: 'Ops Lead'
-candidate_id: 'G29'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'live-ops'
-role: 'live-ops-lead'
-document_type: 'Offer Document'
+generated_at: "**"
+candidate_name: "Ops Lead"
+candidate_id: "G29"
+entity_type: "studio"
+stage: "stage-7"
+division: "live-ops"
+role: "live-ops-lead"
+document_type: "Offer Document"
 ---
 
 # Stage 7: Offer Package — Live Ops Lead (G29)

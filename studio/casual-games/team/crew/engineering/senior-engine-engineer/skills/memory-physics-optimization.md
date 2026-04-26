@@ -1,3 +1,9 @@
+---
+name: studio-engineering-memory-physics-optimization
+description: Memory management and physics system optimization — custom allocators, GC tuning, fragmentation reduction, collision detection, deterministic sync for mobile games. Owned by Viktor Stahl (Senior Engine Engineer). Use during Studio Pipeline Stages 5–6 for engine-level optimization and Stage 8 (Soft Launch) for performance validation. Trigger: memory optimization, physics optimization, custom allocators, collision detection, deterministic physics, fragmentation.
+version: "1.0.0"
+---
+
 # Memory & Physics Optimization
 
 **Skill Owner:** Viktor Stahl | **Version:** 1.0 | **Date:** 2026-04-20

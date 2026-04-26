@@ -1,6 +1,7 @@
 ---
 name: cohort-modeling
 description: Cohort decay modeling, retention curve analysis, and player segmentation for mobile game analytics.
+version: "1.0.0"
 ---
 
 # Cohort Modeling

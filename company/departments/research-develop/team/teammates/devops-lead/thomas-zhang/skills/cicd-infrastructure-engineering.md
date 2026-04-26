@@ -1,20 +1,15 @@
-# CI/CD Infrastructure Engineering
+---
+version: "1.0.0"
+---
 
-## Overview
-
-End-to-end CI/CD architecture design, build pipeline optimization, multi-platform build engineering, pipeline security hardening, and i18n pipeline automation. This skill enables a DevOps lead to design, implement, and maintain the continuous integration and delivery infrastructure that powers parallel development across Android, iOS, Cross-Platform (KMP/Flutter), and localization pipelines.
-
-## Competency Dimensions
-
-| Dimension                   | Proficiency Level | Key Capabilities                                                                  |
-| --------------------------- | ----------------- | --------------------------------------------------------------------------------- |
-| CI/CD Architecture          | Expert            | GitLab CI, ArgoCD, pipeline-as-code, multi-stage workflows, artifact management   |
-| Build Pipeline Optimization | Expert            | Parallel execution, caching strategies, incremental builds, build time reduction  |
-| Multi-Platform Builds       | Expert            | Android (Gradle), iOS (Xcode), KMP (Kotlin Multiplatform), Flutter — parallelized |
-| Pipeline Security           | Advanced          | Secret management, signed artifacts, supply chain security, runner isolation      |
-| i18n Pipeline Engineering   | Expert            | String extraction automation, TMS integration, translation validation, l10n QA    |
-| Infrastructure as Code      | Advanced          | Terraform, Ansible, Kubernetes manifests for CI/CD infrastructure                 |
-| GitOps Workflows            | Advanced          | Declarative infrastructure, automated deployments, drift detection                |
+--------------------- | ----------------- | --------------------------------------------------------------------------------- |
+| CI/CD Architecture | Expert | GitLab CI, ArgoCD, pipeline-as-code, multi-stage workflows, artifact management |
+| Build Pipeline Optimization | Expert | Parallel execution, caching strategies, incremental builds, build time reduction |
+| Multi-Platform Builds | Expert | Android (Gradle), iOS (Xcode), KMP (Kotlin Multiplatform), Flutter — parallelized |
+| Pipeline Security | Advanced | Secret management, signed artifacts, supply chain security, runner isolation |
+| i18n Pipeline Engineering | Expert | String extraction automation, TMS integration, translation validation, l10n QA |
+| Infrastructure as Code | Advanced | Terraform, Ansible, Kubernetes manifests for CI/CD infrastructure |
+| GitOps Workflows | Advanced | Declarative infrastructure, automated deployments, drift detection |
 
 ## Execution Guidance
 

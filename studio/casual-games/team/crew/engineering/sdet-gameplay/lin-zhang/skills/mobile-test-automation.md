@@ -1,6 +1,7 @@
 ---
 name: mobile-test-automation
 description: Mobile game test automation covering device farm management, cross-platform testing, touch input simulation, and platform certification testing.
+version: "1.0.0"
 ---
 
 # Mobile Test Automation

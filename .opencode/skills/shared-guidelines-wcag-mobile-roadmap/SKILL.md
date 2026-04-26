@@ -1,6 +1,10 @@
 ---
 name: shared-guidelines-wcag-mobile-roadmap
-description: 'Shared skill: Wcag Mobile Roadmap'
+description: "Roadmap for achieving WCAG 2.1 AA compliance in mobile applications — covering mobile-relevant success criteria (contrast ≥ 4.5:1, touch targets ≥ 44×44pt, text scaling to 200%, screen reader support), platform-specific implementation for Android (Compose semantics, BiometricPrompt) and iOS (VoiceOver traits, Dynamic Type), three-phase compliance verification (automated → manual → compliance report), and design system accessibility integration. Use during Stage 5 (Development) for accessibility implementation, Stage 7 (Testing) for manual screen reader testing, and Stage 8 (Integrity Verification) for compliance matrix production. Trigger: WCAG, accessibility, WCAG 2.1 AA, screen reader, VoiceOver, TalkBack, contrast ratio, touch target size, Dynamic Type, accessibility compliance, mobile accessibility."
+prerequisites:
+  - shared-overview
+
+version: "1.0.0"
 ---
 
 # WCAG 2.1 AA Mobile Compliance Roadmap

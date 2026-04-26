@@ -39,9 +39,32 @@ Nina is a Full-Stack Engineer reporting to the VP of Web & Backend Engineering (
 
 ## Skills Index
 
-- `skills/full-stack-mvp.md` — React + Node.js + PostgreSQL rapid prototyping, Docker, end-to-end delivery
-- `skills/prd-fluency.md` — Requirements translation, technical specification, edge case identification, trade-off analysis
-- `skills/docker-orchestration.md` — Docker container orchestration, multi-container deployment
+- `company/departments/research-develop/team/teammates/full-stack-engineer/nina-petrova/skills/full-stack-mvp.md` — React + Node.js + PostgreSQL rapid prototyping, Docker, end-to-end delivery
+- `company/departments/research-develop/team/teammates/full-stack-engineer/nina-petrova/skills/prd-fluency.md` — Requirements translation, technical specification, edge case identification, trade-off analysis
+- `company/departments/research-develop/team/teammates/full-stack-engineer/nina-petrova/skills/docker-orchestration.md` — Docker container orchestration, multi-container deployment
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

@@ -1,3 +1,9 @@
+---
+name: studio-engineering-cpp-engine-development
+description: Low-level C++ game engine development — memory management, custom allocators, lock-free data structures, engine architecture for mobile game engines. Owned by Viktor Stahl (Senior Engine Engineer). Use during Studio Pipeline Stages 3–5 for engine-level development and Stage 6 (Automated Testing) for engine validation. Trigger: C++ engine development, custom allocators, lock-free structures, memory management, engine architecture.
+version: "1.0.0"
+---
+
 # C++ Engine Development
 
 **Skill Owner:** Viktor Stahl | **Version:** 1.0 | **Date:** 2026-04-20

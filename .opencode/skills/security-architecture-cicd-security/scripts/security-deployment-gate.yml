@@ -1,0 +1,92 @@
+# .github/workflows/security-gate.yml
+name: Security — Deployment Gate
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+
+jobs:
+  security-gate:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+
+      # Gate 1: SAST Results
+      - name: Check SAST Gate
+        run: |
+          if [ -f semgrep-results.json ]; then
+            ERRORS=$(jq '[.results[] | select(.extra.severity == "ERROR")] | length' semgrep-results.json)
+            if [ "$ERRORS" -gt 0 ]; then
+              echo "❌ Gate 1 FAILED: $ERRORS SAST errors"
+              exit 1
+            fi
+            echo "✅ Gate 1 PASSED: SAST clean"
+          else
+            echo "⚠️ Gate 1 SKIPPED: No SAST results found"
+          fi
+
+      # Gate 2: Dependency Scan Results
+      - name: Check Dependency Gate
+        run: |
+          if [ -f snyk-results.json ]; then
+            CRITICAL=$(jq '[.vulnerabilities[] | select(.severity == "critical")] | length' snyk-results.json)
+            HIGH=$(jq '[.vulnerabilities[] | select(.severity == "high")] | length' snyk-results.json)
+            if [ "$CRITICAL" -gt 0 ]; then
+              echo "❌ Gate 2 FAILED: $CRITICAL critical dependency vulnerabilities"
+              exit 1
+            fi
+            echo "✅ Gate 2 PASSED: No critical dependency vulnerabilities"
+          else
+            echo "⚠️ Gate 2 SKIPPED: No dependency scan results"
+          fi
+
+      # Gate 3: SBOM Generated
+      - name: Check SBOM Gate
+        run: |
+          if [ -f bom-cyclonedx.json ]; then
+            COMPONENTS=$(jq '.components | length' bom-cyclonedx.json)
+            echo "✅ Gate 3 PASSED: SBOM generated with $COMPONENTS components"
+          else
+            echo "❌ Gate 3 FAILED: SBOM not generated"
+            exit 1
+          fi
+
+      # Gate 4: Artifact Signed
+      - name: Check Signing Gate
+        run: |
+          if [ -f "*.sig" ] && [ -f "*.pem" ]; then
+            echo "✅ Gate 4 PASSED: Artifact signed with cosign"
+          else
+            echo "❌ Gate 4 FAILED: Artifact not signed"
+            exit 1
+          fi
+
+      # Gate 5: DAST Results (for API backends)
+      - name: Check DAST Gate
+        run: |
+          if [ -f zap-summary.json ]; then
+            HIGH=$(jq '.alertCounts.risk["High"] // 0' zap-summary.json)
+            if [ "$HIGH" -gt 0 ]; then
+              echo "❌ Gate 5 FAILED: $HIGH high-risk DAST alerts"
+              exit 1
+            fi
+            echo "✅ Gate 5 PASSED: No high-risk DAST alerts"
+          else
+            echo "⚠️ Gate 5 SKIPPED: No DAST results (pipeline-specific scan not configured)"
+          fi
+
+      - name: Gate Summary
+        if: success()
+        run: |
+          echo "🎉 All security gates passed — deployment authorized"
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"

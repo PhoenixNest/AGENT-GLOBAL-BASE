@@ -1,3 +1,9 @@
+---
+name: studio-art-game-ui-art
+description: Complete ownership of static game UI visual assets — icons, illustrations, button states, typography, store screenshots, and promotional art with mobile-first optimization. Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 2–5 for UI art production. Trigger: game UI art, UI assets, button states, typography, store screenshots, promotional art, UI design system.
+version: "1.0.0"
+---
+
 # Game UI Art
 
 **Skill ID:** game-ui-art

@@ -44,10 +44,33 @@ Yuki owns the company's mobile design vision and execution, setting design quali
 
 ## Skills Index
 
-- `skills/mobile-design-systems.md` — Mobile design system creation: platform-specific component libraries, interaction patterns, design tokens, accessibility standards
-- `skills/interaction-design-specification.md` — Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints
-- `skills/design-to-engineering-handoff.md` — Design-engineering collaboration: technical design specs, implementation feasibility assessment, handoff documentation that eliminates ambiguity
-- `skills/user-research-driven-design.md` — Research-backed design decisions: usability testing, A/B experiments, qualitative research, data-informed iteration
+- `company/departments/brand-design/supervisor/chief-design-officer/skills/mobile-design-systems.md` — Mobile design system creation: platform-specific component libraries, interaction patterns, design tokens, accessibility standards
+- `company/departments/brand-design/supervisor/chief-design-officer/skills/interaction-design-specification.md` — Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints
+- `company/departments/brand-design/supervisor/chief-design-officer/skills/design-to-engineering-handoff.md` — Design-engineering collaboration: technical design specs, implementation feasibility assessment, handoff documentation that eliminates ambiguity
+- `company/departments/brand-design/supervisor/chief-design-officer/skills/user-research-driven-design.md` — Research-backed design decisions: usability testing, A/B experiments, qualitative research, data-informed iteration
+
+## Pipeline Stages
+
+2, 6, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

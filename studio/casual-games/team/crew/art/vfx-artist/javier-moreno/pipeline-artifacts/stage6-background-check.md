@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-candidate_name: 'Javier Moreno'
-candidate_id: 'G25'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'art'
-role: 'vfx-artist'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+candidate_name: "Javier Moreno"
+candidate_id: "G25"
+entity_type: "studio"
+stage: "stage-6"
+division: "art"
+role: "vfx-artist"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Javier Moreno (G25)

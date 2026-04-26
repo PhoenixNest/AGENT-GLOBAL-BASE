@@ -1,22 +1,14 @@
-# Secure Coding Training & Security Champions Program
+---
+version: "1.0.0"
+---
 
-**Category:** Developer Education & Security Culture
-**Owner:** Security Engineer #3 — Li Wei Chen (Supply Chain Security Specialist)
-
-## Overview
-
-Design, implement, and manage comprehensive secure coding education programs that embed security competency into the engineering organization. This skill covers secure coding curriculum design for mobile platforms (Kotlin/Android, Swift/iOS, Dart/Flutter, Kotlin Multiplatform), Security Champions program management, gamified learning strategies, completion tracking, and effectiveness measurement. The objective is to reduce developer-introduced vulnerabilities at the source by building security awareness and competency across all engineering teams, measured by a target reduction of 76% in developer-introduced vulnerabilities (based on Dr. Chen's Square benchmark).
-
-## Competency Dimensions
-
-| Dimension                    | Description                                                                    | Proficiency Indicators                                                                                                                                              |
-| ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Curriculum Design            | Creating platform-specific secure coding training materials                    | Develops training modules for Kotlin, Swift, Dart, and KMP with real-world vulnerability examples; achieves ≥90% trainee comprehension on post-training assessments |
-| Security Champions Program   | Recruiting, training, and managing security advocates within engineering teams | Establishes Security Champions in 100% of engineering teams; Champions identify ≥30% of vulnerabilities before formal security review; retention rate ≥80% annually |
-| Gamification & Engagement    | Designing motivational learning experiences that drive participation           | Achieves ≥85% course completion rate; CTF-style challenges with ≥50% participation; recognition program with quarterly awards                                       |
-| Effectiveness Measurement    | Quantifying training impact on code quality and vulnerability rates            | Tracks vulnerability density (vulns/KLOC) pre- and post-training; measures reduction in repeat findings; produces quarterly effectiveness reports                   |
-| Developer Education Strategy | Aligning training with engineering workflows and tools                         | Integrates training into onboarding; provides just-in-time learning via IDE plugins; maintains training wiki with searchable remediation patterns                   |
-| Completion Tracking          | Managing training compliance and certification                                 | 100% of engineers complete baseline training within 30 days of hire; annual refresher completion ≥95%; maintains training certification registry                    |
+---------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Curriculum Design | Creating platform-specific secure coding training materials | Develops training modules for Kotlin, Swift, Dart, and KMP with real-world vulnerability examples; achieves ≥90% trainee comprehension on post-training assessments |
+| Security Champions Program | Recruiting, training, and managing security advocates within engineering teams | Establishes Security Champions in 100% of engineering teams; Champions identify ≥30% of vulnerabilities before formal security review; retention rate ≥80% annually |
+| Gamification & Engagement | Designing motivational learning experiences that drive participation | Achieves ≥85% course completion rate; CTF-style challenges with ≥50% participation; recognition program with quarterly awards |
+| Effectiveness Measurement | Quantifying training impact on code quality and vulnerability rates | Tracks vulnerability density (vulns/KLOC) pre- and post-training; measures reduction in repeat findings; produces quarterly effectiveness reports |
+| Developer Education Strategy | Aligning training with engineering workflows and tools | Integrates training into onboarding; provides just-in-time learning via IDE plugins; maintains training wiki with searchable remediation patterns |
+| Completion Tracking | Managing training compliance and certification | 100% of engineers complete baseline training within 30 days of hire; annual refresher completion ≥95%; maintains training certification registry |
 
 ## Execution Guidance
 
@@ -271,30 +263,30 @@ Security Champions Program
 ```yaml
 # security-training-registry.yml
 engineers:
-  - name: 'Jane Doe'
-    team: 'Android'
-    hire_date: '2025-06-15'
+  - name: "Jane Doe"
+    team: "Android"
+    hire_date: "2025-06-15"
     training:
       SEC-101:
-        completed: '2025-06-20'
+        completed: "2025-06-20"
         score: 92
         status: certified
       SEC-201:
-        completed: '2025-07-10'
+        completed: "2025-07-10"
         score: 88
         status: certified
         ctf_completed: true
       SEC-302:
-        completed: '2025-08-01'
+        completed: "2025-08-01"
         score: 95
         status: certified
       SEC-401:
-        completed: '2025-09-15'
+        completed: "2025-09-15"
         deliverable_submitted: true
         status: certified
     annual_refresher:
       2026:
-        due_date: '2026-06-20'
+        due_date: "2026-06-20"
         status: pending
 
 compliance:
@@ -310,9 +302,9 @@ compliance:
 name: Security — Training Compliance Check
 on:
   schedule:
-    - cron: '0 9 1 * *' # First of every month at 9 AM
+    - cron: "0 9 1 * *" # First of every month at 9 AM
   pull_request:
-    paths: ['company/project/**']
+    paths: ["company/project/**"]
 
 jobs:
   check-compliance:

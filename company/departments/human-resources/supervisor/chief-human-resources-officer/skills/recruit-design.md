@@ -1,7 +1,12 @@
 ---
 name: recruit-design
 description: Recruit design talent across all seniority levels. Covers UX Designer, Product Designer, Senior Designer, Design Lead, Principal Designer, Head of Design, VP Design, and Chief Design Officer. Invokes vet-candidate gate before any placement.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Recruits elite UX/UI designers and design leaders. Weak design hires produce inconsistent UIs, accessibility violations, and user experience degradation.
 
 # Design Recruitment Skill
 

@@ -1,15 +1,8 @@
-# Jetpack Compose
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android UI
-**Owner:** Android Engineer (Jan Kowalski)
-
-## Overview
-
-This skill covers Jetpack Compose declarative UI development including state hoisting, recomposition optimization, theming with Material 3, and animation APIs. It applies to Stage 5 (Development) where all Android UI is built with Compose, Stage 6 (Code Review) where composables are reviewed for correctness and performance, and Stage 8 (Integrity Verification) where the CDO verifies IDS specifications are realized in Compose implementation.
-
-## Competency Dimensions
-
-| Dimension                  | Description                                                                                              | Proficiency Indicators                                                                                                             |
+| Competency                 | Description                                                                                              | Quality Criteria                                                                                                                   |
 | -------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Declarative UI             | Composable functions, composition lifecycle, slot APIs, mental model shift from imperative UI            | Composables are pure functions of state; no direct View manipulation; composition follows declarative mental model                 |
 | State Hoisting             | State flow direction, unidirectional data flow, stateless vs stateful composables, event callbacks       | State hoisted to caller; composables accept state + events as parameters; zero internal mutable state in reusable components       |

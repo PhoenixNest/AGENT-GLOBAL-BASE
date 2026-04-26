@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Proceeding to Stage 5.'
-candidate_name: 'Game Designer'
-candidate_id: 'G26'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'creative-design'
-role: 'senior-game-designer'
-document_type: 'Interview Scores'
+document_id: "**"
+gate_status: "** ✅ Proceeding to Stage 5."
+candidate_name: "Game Designer"
+candidate_id: "G26"
+entity_type: "studio"
+stage: "stage-4"
+division: "creative-design"
+role: "senior-game-designer"
+document_type: "Interview Scores"
 ---
 
 # Interview Scores — Senior Game Designer (G26)

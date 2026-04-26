@@ -1,15 +1,8 @@
-# Android Architecture
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android
-**Owner:** Senior Android Engineer (Tariq Al-Hassan)
-
-## Overview
-
-This skill defines production-grade Android application architecture patterns including MVVM, Clean Architecture, MVI, and state management with StateFlow. It governs the structural design of Android platform code during Stage 5 (Development), ensures alignment with ADRs established in Stage 3 (Architecture), and provides the architectural baseline against which code reviews (Stage 6) and integrity verification (Stage 8) are conducted.
-
-## Competency Dimensions
-
-| Dimension                    | Description                                                                                    | Proficiency Indicators                                                                                                                     |
+| Competency                   | Description                                                                                    | Quality Criteria                                                                                                                           |
 | ---------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | MVVM Pattern                 | ViewModel-View separation, LiveData/StateFlow state emission, unidirectional data flow         | ViewModel contains zero Android framework references; state emission is always explicit and testable; View observes state reactively       |
 | Clean Architecture           | Layer separation (data/domain/presentation), use case interactor pattern, dependency inversion | Domain layer has zero framework dependencies; data layer implements repository interfaces defined in domain; dependency graph flows inward |

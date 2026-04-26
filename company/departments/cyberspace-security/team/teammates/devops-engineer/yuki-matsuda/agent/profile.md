@@ -39,8 +39,31 @@ Yuki is a DevOps Engineer reporting to the CSO (Dr. Sarah Chen). She contributes
 
 ## Skills Index
 
-- `skills/cicd-security.md` — GitHub Actions security, Vault OIDC, OPA policy enforcement, artifact signing, SLSA
-- `skills/infrastructure-as-code.md` — Terraform security, Checkov, tfsec, IaC policy-as-code, GitOps security
+- `company/departments/cyberspace-security/team/teammates/devops-engineer/yuki-matsuda/skills/cicd-security.md` — GitHub Actions security, Vault OIDC, OPA policy enforcement, artifact signing, SLSA
+- `company/departments/cyberspace-security/team/teammates/devops-engineer/yuki-matsuda/skills/infrastructure-as-code.md` — Terraform security, Checkov, tfsec, IaC policy-as-code, GitOps security
+
+## Pipeline Stages
+
+1, 6, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

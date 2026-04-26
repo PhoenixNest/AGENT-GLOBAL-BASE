@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 47 candidates ranked and scored (niche role). Proceeding to Stage 3.'
-candidate_name: 'Ranked Candidates'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 47 candidates ranked and scored (niche role). Proceeding to Stage 3."
+candidate_name: "Ranked Candidates"
+entity_type: "studio"
+stage: "stage-2"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Sourcing Shortlist"
 ---
 
 # Sourcing Shortlist — SDET Performance (G38)

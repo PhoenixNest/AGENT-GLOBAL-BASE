@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Screening complete. Amara Okafor advanced with 4.8/5 (97th percentile). Proceeding to Stage 4.'
-candidate_name: 'Screening Results'
-candidate_id: 'G12'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Screening Results'
+document_id: "**"
+gate_status: "** ✅ Screening complete. Amara Okafor advanced with 4.8/5 (97th percentile). Proceeding to Stage 4."
+candidate_name: "Screening Results"
+candidate_id: "G12"
+entity_type: "studio"
+stage: "stage-3"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Screening Results"
 ---
 
 # Stage 3: Screening Results (G12)

@@ -1,0 +1,35 @@
+{
+  "category": "localization",
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "should_trigger": [
+    "string extraction",
+    "strings.xml",
+    "Localizable.strings",
+    "hardcoded strings",
+    "i18n engineering",
+    "localization pipeline",
+    "TMS integration",
+    "phrase lokalise",
+    "mobile UI translation",
+    "Chinese translation",
+    "Japanese translation",
+    "Korean translation",
+    "French translation",
+    "language translation module",
+    "BLEU score",
+    "plural form translation",
+    "character limit compliance",
+    "RTL layout",
+    "text expansion",
+    "locale formatting"
+  ],
+  "should_not_trigger": [
+    "jetpack compose",
+    "swiftui navigation",
+    "go microservices",
+    "kubernetes deployment",
+    "penetration testing"
+  ],
+  "instructions": "Verify AI platform correctly triggers localization skills for i18n/translation/string extraction queries and does not trigger for general engineering queries."
+}

@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-mobile-ui-translation-english
-description: 'Localization skill: Mobile Ui Translation English'
+description: English (EN) mobile UI string translation and linguistic QA — source string validation, English writing conventions (iOS HIG / Android Material Design 3), register calibration, MT post-editing, plural form coverage, and delivery to CTO-L for Translation Verification Report. Owned by the English Linguist. Use during Stage 9 (i18n Engineering) for English UI translation and source string review. Trigger: English translation, EN translation, English UI strings, source string validation, English localization.
+prerequisites:
+  - localization-guidelines-mobile-ui-translation
+
+version: "1.0.0"
 ---
 
 # Mobile UI Translation

@@ -1,6 +1,7 @@
 ---
 name: load-stress-testing
 description: Server load testing and concurrent player simulation for mobile game backend infrastructure.
+version: "1.0.0"
 ---
 
 # Load & Stress Testing

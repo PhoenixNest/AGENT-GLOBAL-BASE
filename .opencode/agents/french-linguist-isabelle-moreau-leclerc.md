@@ -1,5 +1,6 @@
 ---
-description: Use for French (FR-FR/FR-CA) UI string translation and localization.
+description:
+  Use for French (FR-FR/FR-CA) UI string translation and localization.
   Engage during Stage 9 (Internationalization Engineering) for translating mobile
   UI strings into European and Canadian French with register differentiation and platform-specific
   formatting.

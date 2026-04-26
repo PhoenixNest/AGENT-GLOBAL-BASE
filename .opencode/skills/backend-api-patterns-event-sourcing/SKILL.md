@@ -1,6 +1,10 @@
 ---
 name: backend-api-patterns-event-sourcing
-description: 'Backend skill: Event Sourcing'
+description: Event sourcing architecture for backend systems — immutable event streams, CQRS separation, Kafka integration for event distribution, Avro schema versioning, event replay strategies, and snapshot optimization. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for event sourcing design and Stage 5 (Development) for implementation. Trigger: event sourcing, event stream, kafka events, avro schema, event replay, snapshot optimization, cqrs events.
+prerequisites:
+  - backend-api-patterns-cqrs-architecture
+
+version: "1.0.0"
 ---
 
 # Event Sourcing

@@ -1,5 +1,6 @@
 ---
-description: Use for AWS cloud monitoring, incident response automation, and HashiCorp
+description:
+  Use for AWS cloud monitoring, incident response automation, and HashiCorp
   Vault infrastructure operations. Engage during Stage 1 (Security Requirements),
   Stage 6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness)
   for cloud monitoring and secrets management.
@@ -44,10 +45,10 @@ Leila is a DevOps Engineer reporting to the CSO (Dr. Sarah Chen). She contribute
 
 ## Skills Index
 
-| Skill                   | Location                                  | Description                                                                                |
-| ----------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `aws-monitoring.md`     | `security/architecture/aws-monitoring.md` | CloudWatch, GuardDuty, Security Hub, VPC Flow Logs, CloudTrail, incident response runbooks |
-| `secrets-management.md` | `devops/guidelines/secrets-management.md` | HashiCorp Vault HA, dynamic credentials, rotation, K8s integration, OIDC auth              |
+| Skill                                  | Location                                       | Description                                                                                |
+| -------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `security-architecture-aws-monitoring` | `skills/security-architecture-aws-monitoring/` | CloudWatch, GuardDuty, Security Hub, VPC Flow Logs, CloudTrail, incident response runbooks |
+| `devops-guidelines-secrets-management` | `skills/devops-guidelines-secrets-management/` | HashiCorp Vault HA, dynamic credentials, rotation, K8s integration, OIDC auth              |
 
 ## Pipeline Stages Owned
 

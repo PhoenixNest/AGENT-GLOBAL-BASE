@@ -1,12 +1,12 @@
 ---
-final_decision: 'HIRED'
-candidate_name: 'P'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+candidate_name: "P"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Priya Subramanian (G38)

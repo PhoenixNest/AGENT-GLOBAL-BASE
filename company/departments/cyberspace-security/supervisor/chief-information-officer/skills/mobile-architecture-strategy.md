@@ -1,6 +1,7 @@
 ---
 name: mobile-architecture-strategy
 description: Mobile-native infrastructure and architecture strategy for iOS and Android platforms. Covers platform constraints, offline-first design, SDK architecture, performance optimization, and cross-platform trade-offs. Use when designing mobile infrastructure or evaluating architectural decisions.
+version: "1.0.0"
 ---
 
 # Mobile Architecture Strategy Skill
@@ -16,6 +17,10 @@ Design mobile-native infrastructure and architecture that respects iOS and Andro
 - Product asks about mobile technical feasibility
 - Performance or reliability issues on mobile
 - Cross-platform architecture decisions
+
+## Why This Matters
+
+Aligns mobile architecture with platform capabilities and business goals. Architecture that ignores platform constraints (iOS App Store review, Android background limits) ships broken.
 
 ## Core Principles
 

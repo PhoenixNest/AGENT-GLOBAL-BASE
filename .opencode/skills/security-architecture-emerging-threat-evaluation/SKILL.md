@@ -1,6 +1,10 @@
 ---
 name: security-architecture-emerging-threat-evaluation
-description: 'Security skill: Emerging Threat Evaluation'
+description: Emerging threat evaluation for mobile platforms — zero-day vulnerability tracking, new attack vector analysis, quarterly threat landscape reports, proactive security advisory generation, and risk assessment for emerging mobile technologies (AI/ML on-device, new OS versions). Owned by Dr. Sarah Chen (CSO). Use during Stage 1 (Requirements) for threat intelligence input and Stage 10 (Release Readiness) for emerging risk assessment. Trigger: emerging threats, zero-day tracking, attack vector analysis, threat landscape, security advisory, mobile threat intelligence, new technology risk.
+prerequisites:
+  - security-overview
+
+version: "1.0.0"
 ---
 
 # Emerging Threat Evaluation

@@ -1,22 +1,14 @@
-# SAST/DAST Pipeline Engineering
+---
+version: "1.0.0"
+---
 
-**Category:** Application Security — CI/CD Integration
-**Owner:** Security Engineer #2 — Omar Farouq (SAST/DAST Pipeline Specialist)
-
-## Overview
-
-Design, implement, and maintain automated static and dynamic application security testing (SAST/DAST) pipelines integrated into the software development lifecycle. This skill covers SAST tool configuration (Semgrep, CodeQL), DAST automation (OWASP ZAP, Nuclei), dependency scanning (Snyk, Dependabot), CI/CD quality gate enforcement, false positive management, and security metrics reporting. The objective is to shift security left by catching vulnerabilities at the earliest possible stage while maintaining developer velocity through intelligent triage and automated remediation guidance.
-
-## Competency Dimensions
-
-| Dimension                 | Description                                                 | Proficiency Indicators                                                                                                                                                        |
-| ------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SAST Engine Configuration | Tuning static analysis tools for high signal-to-noise ratio | Writes custom Semgrep rules with <3% false positive rate; configures CodeQL for mobile-specific query packs; achieves 80%+ true positive rate on known vulnerability datasets |
-| DAST Automation           | Orchestrating dynamic scanning against mobile API backends  | Configures OWASP ZAP automation framework with authenticated scanning; achieves 95%+ endpoint coverage; integrates Nuclei templates for CVE-specific testing                  |
-| Dependency Scanning       | Managing software supply chain vulnerability detection      | Configures Snyk with custom ignore rules and SLA-based alerting; achieves 100% transitive dependency coverage; automates PR-based vulnerability remediation                   |
-| CI/CD Integration         | Embedding security gates into build pipelines               | Implements non-blocking (advisory) and blocking (gate) scan stages; pipeline adds <5 minutes to build time; gate failures provide actionable remediation guidance             |
-| False Positive Management | Systematic reduction of noise in security tooling           | Maintains <5% false positive rate across all SAST/DAST tools; implements baseline suppression with expiration; tracks FP trends with monthly reduction targets                |
-| Quality Gate Design       | Defining pass/fail criteria for automated security checks   | Designs gates that block P0/P1 vulnerabilities while allowing P2/P3 with documented exceptions; gate logic maps to defect severity classification system                      |
+| DAST Automation | Orchestrating dynamic scanning against mobile API backends | Configures OWASP ZAP automation framework with authenticated scanning; achieves 95%+ endpoint coverage; integrates Nuclei templates for CVE-specific testing |
+| Dependency Scanning | Managing software supply chain vulnerability detection | Configures Snyk with custom ignore rules and SLA-based alerting; achieves 100% transitive dependency coverage; automates PR-based vulnerability remediation |
+| CI/CD Integration | Embedding security gates into build pipelines | Implements non-blocking (advisory) and blocking (gate) scan stages; pipeline adds <5 minutes to build time; gate failures provide actionable remediation guidance |
+| False Positive Management | Systematic reduction of noise in security tooling | Maintains <5% false positive rate across all SAST/DAST tools; implements baseline suppression with expiration; tracks FP trends with monthly reduction targets |
+| Quality Gate Design | Defining pass/fail criteria for automated security checks | Designs gates that block P0/P1 vulnerabilities while allowing P2/P3 with documented exceptions; gate logic maps to defect severity classification system |
 
 ## Execution Guidance
 
@@ -163,7 +155,7 @@ jobs:
 
 ```yaml
 # .github/codeql/codeql-config.yml
-name: 'Mobile Security CodeQL'
+name: "Mobile Security CodeQL"
 queries:
   - uses: security-extended
   - uses: security-and-quality
@@ -172,11 +164,11 @@ paths:
   - platforms/android/code/
   - platforms/ios/code/
 paths-ignore:
-  - '**/test/**'
-  - '**/build/**'
-  - '**/.gradle/**'
-  - 'Pods/'
-  - '.build/'
+  - "**/test/**"
+  - "**/build/**"
+  - "**/.gradle/**"
+  - "Pods/"
+  - ".build/"
 ```
 
 **Key CodeQL Query Packs for Mobile:**
@@ -194,57 +186,57 @@ paths-ignore:
 # zap-automation.yaml
 env:
   contexts:
-    - name: 'Mobile API Backend'
+    - name: "Mobile API Backend"
       urls:
-        - 'https://api-staging.example.com'
+        - "https://api-staging.example.com"
       authentication:
-        method: 'json'
+        method: "json"
         parameters:
-          loginUrl: 'https://api-staging.example.com/auth/login'
+          loginUrl: "https://api-staging.example.com/auth/login"
           loginRequest: |
             {"username": "{{ZAP_AUTH_USER}}", "password": "{{ZAP_AUTH_PASS}}"}
         verification:
-          method: 'response'
+          method: "response"
           loggedInIndicator: "\\Q\"access_token\"\\E"
           loggedOutIndicator: "\\Q\"unauthorized\"\\E"
       users:
-        - name: 'Test User'
+        - name: "Test User"
           credentials:
-            username: 'zap-test-user@example.com'
-            password: '${ZAP_TEST_PASSWORD}'
+            username: "zap-test-user@example.com"
+            password: "${ZAP_TEST_PASSWORD}"
 
 jobs:
-  - type: 'spider'
-    name: 'API Spider'
+  - type: "spider"
+    name: "API Spider"
     parameters:
       maxDuration: 15
-      url: 'https://api-staging.example.com'
+      url: "https://api-staging.example.com"
 
-  - type: 'spiderAjax'
-    name: 'AJAX Spider'
+  - type: "spiderAjax"
+    name: "AJAX Spider"
     parameters:
       maxDuration: 20
 
-  - type: 'activeScan'
-    name: 'Active Security Scan'
+  - type: "activeScan"
+    name: "Active Security Scan"
     parameters:
-      policy: 'API-scan'
+      policy: "API-scan"
       maxRuleDurationInMins: 10
 
-  - type: 'passiveScan'
-    name: 'Passive Security Scan'
+  - type: "passiveScan"
+    name: "Passive Security Scan"
 
-  - type: 'report'
-    name: 'HTML Report'
+  - type: "report"
+    name: "HTML Report"
     parameters:
-      template: 'traditional-html'
-      reportFile: 'zap-report.html'
+      template: "traditional-html"
+      reportFile: "zap-report.html"
 
-  - type: 'outputSummary'
-    name: 'Quality Gate'
+  - type: "outputSummary"
+    name: "Quality Gate"
     parameters:
-      format: 'JSON'
-      summaryFile: 'zap-summary.json'
+      format: "JSON"
+      summaryFile: "zap-summary.json"
       failOnHigh: true
       failOnMedium: true
 ```
@@ -308,7 +300,7 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    - cron: '0 6 * * *' # Daily at 6 AM
+    - cron: "0 6 * * *" # Daily at 6 AM
 
 jobs:
   snyk-android:
@@ -414,7 +406,7 @@ suppressions:
 
   - rule: semgrep/insecure-random
     file: platforms/android/code/app/src/test/java/.../RandomTest.kt
-    justification: 'Test code only — not included in production build'
+    justification: "Test code only — not included in production build"
     expires: 2027-01-01
     status: false-positive
     approved-by: omar-farouq

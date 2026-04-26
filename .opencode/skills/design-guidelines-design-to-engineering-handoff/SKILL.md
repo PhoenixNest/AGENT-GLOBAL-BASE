@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-design-to-engineering-handoff
-description: 'Design skill: Design To Engineering Handoff'
+description: Design-to-engineering handoff for mobile products — technical design specs, implementation feasibility assessment, handoff documentation that eliminates ambiguity, component trees, state diagrams, and gesture conflict resolution. Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for handoff preparation and Stage 5 (Development) for implementation guidance. Trigger: design handoff, design to engineering, technical design spec, implementation feasibility, component tree, state diagram.
+prerequisites:
+  - design-overview
+
+version: "1.0.0"
 ---
 
 # Design-to-Engineering Handoff

@@ -1,6 +1,10 @@
 ---
 name: testing-qa-strategy-quality-engineering-strategy
-description: 'Testing Qa skill: Quality Engineering Strategy'
+description: Quality engineering strategy for mobile products — test pyramid design, quality metrics definition, risk-based testing, shift-left testing practices, quality gate design, and continuous quality monitoring for iOS and Android applications. Owned by Aisha Patel (VP Quality). Use during Stage 4 (Implementation Plan) for quality strategy definition and Stage 7 (Testing) for quality metrics validation. Trigger: quality engineering strategy, test pyramid design, quality metrics, risk-based testing, shift-left testing, quality gates, continuous quality monitoring.
+prerequisites:
+  - testing-qa-overview
+
+version: "1.0.0"
 ---
 
 # Quality Engineering Strategy

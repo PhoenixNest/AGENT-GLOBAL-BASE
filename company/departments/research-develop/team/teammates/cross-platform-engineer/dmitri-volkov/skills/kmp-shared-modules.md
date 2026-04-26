@@ -1,15 +1,8 @@
-# KMP Shared Modules
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Cross-Platform (KMP)
-**Owner:** Cross-Platform Engineer (Dmitri Volkov)
-
-## Overview
-
-This skill implements Kotlin Multiplatform shared module architecture covering expect/actual patterns, Kotlin/Native compilation, platform interop, and shared business logic design. It applies to Stage 5 (Development) where KMP shared modules are the foundation for cross-platform code reuse, Stage 6 (Code Review) where expect/actual completeness and platform interop correctness are audited, and Stage 8 (Integrity Verification) where shared module behavior is verified on both platforms.
-
-## Competency Dimensions
-
-| Dimension                    | Description                                                                                           | Proficiency Indicators                                                                                                                     |
+| Competency                   | Description                                                                                           | Quality Criteria                                                                                                                           |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Shared Module Architecture   | Module structure, source set organization, dependency management, Gradle multiplatform plugin         | Clean source set hierarchy (commonMain, androidMain, iosMain); shared module compiles for all targets; dependencies correctly scoped       |
 | Expect/Actual Pattern        | Declaration in common, platform-specific implementations, compile-time resolution, testing strategy   | Every `expect` has matching `actual` for all targets; actual implementations handle platform edge cases; expect/actual tested per platform |

@@ -1,6 +1,7 @@
 ---
 name: vet-candidate
 description: Shared elite-standards gate. Apply to every candidate before placement regardless of role family. Reject without compromise if they do not meet the bar.
+version: "1.0.0"
 ---
 
 # Elite Candidate Vetting Gate
@@ -8,6 +9,10 @@ description: Shared elite-standards gate. Apply to every candidate before placem
 ## Purpose
 
 Every candidate — regardless of role, seniority, or role family — must pass this gate before the CHRO places them. This is non-negotiable. The CHRO does not place mediocre candidates.
+
+## Why This Matters
+
+Applies the 20-point elite candidate vetting gate. Without rigorous vetting, sub-bar candidates enter the organization, creating long-term performance and culture costs.
 
 ## Five Vetting Dimensions
 

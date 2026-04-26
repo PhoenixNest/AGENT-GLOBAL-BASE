@@ -1,5 +1,6 @@
 ---
-description: Use for engineering onboarding program design, competency tracking, and
+description:
+  Use for engineering onboarding program design, competency tracking, and
   mentor program management. Engage during recruitment for ramp-up planning and new
   hire integration.
 mode: subagent

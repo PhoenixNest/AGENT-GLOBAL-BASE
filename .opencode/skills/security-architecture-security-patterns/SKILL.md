@@ -1,6 +1,10 @@
 ---
 name: security-architecture-security-patterns
-description: 'Security skill: Security Patterns'
+description: Security design patterns for mobile development — secure authentication flows, encrypted data storage patterns, secure communication patterns, input validation patterns, and platform-specific security implementations for iOS and Android. Owned by Viktor Horvath (Security Engineer). Use during Stage 5 (Development) for security pattern implementation and Stage 6 (Code Review) for pattern compliance verification. Trigger: security patterns, secure auth flow, encrypted storage, secure communication, input validation, iOS security patterns, Android security patterns.
+prerequisites:
+  - security-architecture-mobile-security-architecture
+
+version: "1.0.0"
 ---
 
 # Security Patterns

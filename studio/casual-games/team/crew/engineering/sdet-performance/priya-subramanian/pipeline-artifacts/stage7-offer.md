@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Offer extended and accepted. Proceeding to Stage 8.'
-candidate_name: 'Priya Subramanian'
-candidate_id: 'G38'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Offer Document'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Offer extended and accepted. Proceeding to Stage 8."
+candidate_name: "Priya Subramanian"
+candidate_id: "G38"
+entity_type: "studio"
+stage: "stage-7"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Offer Document"
 ---
 
 # Offer Document — Priya Subramanian (G38)

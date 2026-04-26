@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-iac-gitops
-description: 'Devops skill: Iac Gitops'
+description: Infrastructure as Code with GitOps for mobile infrastructure — Terraform/Pulumi for cloud resources, ArgoCD/Flux for Kubernetes deployments, environment promotion (dev → staging → prod), and drift detection for mobile backend infrastructure. Owned by Thomas Zhang (DevOps Lead). Use during Stage 4 (Implementation Plan) for IaC strategy and Stage 5 (Development) for GitOps pipeline implementation. Trigger: infrastructure as code, GitOps, Terraform, Pulumi, ArgoCD, Flux, environment promotion, drift detection, mobile infrastructure automation.
+prerequisites:
+  - devops-guidelines-infrastructure-as-code
+
+version: "1.0.0"
 ---
 
 # IaC & GitOps

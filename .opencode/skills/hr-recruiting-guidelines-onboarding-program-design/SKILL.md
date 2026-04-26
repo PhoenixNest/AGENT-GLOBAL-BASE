@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-onboarding-program-design
-description: 'Hr Recruiting skill: Onboarding Program Design'
+description: "Designs and operates the end-to-end engineering onboarding program for the 57-person FTE roster — from pre-boarding logistics through the 90-day ramp-to-productivity milestone, following a 4-stage model (Day 1 → Week 1 → Month 1 → Month 3) with automated environment provisioning, structured buddy assignments, and measurable competency gates at each stage transition. Owned by Engineering Onboarding Lead. Use when designing onboarding programs, setting up buddy systems, planning cohort scheduling, automating dev environment provisioning, or optimizing ramp-time metrics. Trigger: onboarding program, buddy system, ramp time, cohort scheduling, environment provisioning, 90-day review, first PR, new hire onboarding."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Engineering Onboarding Program Design

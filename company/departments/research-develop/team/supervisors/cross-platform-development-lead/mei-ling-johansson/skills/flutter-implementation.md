@@ -1,6 +1,7 @@
 ---
 name: flutter-implementation
 description: Flutter application development — Dart, widget architecture, Riverpod state management, platform channels for native API access, custom design systems, localization, and App Store / Google Play submission standards.
+version: "1.0.0"
 ---
 
 # Flutter Implementation
@@ -8,6 +9,10 @@ description: Flutter application development — Dart, widget architecture, Rive
 ## Purpose
 
 Implement production-grade cross-platform Flutter applications from the UML Engineering Package, IDS, and Coding Implementation Plan. All code is written in Dart, targets both Android and iOS from a single codebase, and follows the architecture patterns established here.
+
+## Why This Matters
+
+Implements Flutter app features. Poor implementation causes app store rejections, crashes, and user-facing bugs.
 
 ## When Flutter is the Right Choice
 

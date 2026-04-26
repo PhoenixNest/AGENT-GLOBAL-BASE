@@ -1,0 +1,39 @@
+{
+  "category": "android",
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "should_trigger": [
+    "jetpack compose",
+    "MVVM android",
+    "Hilt dependency injection",
+    "kotlin coroutines",
+    "StateFlow",
+    "Room database",
+    "Retrofit android",
+    "android clean architecture",
+    "offline first android",
+    "WorkManager sync",
+    "android security",
+    "OWASP MASVS",
+    "certificate pinning android",
+    "EncryptedSharedPreferences",
+    "android accessibility",
+    "TalkBack",
+    "android testing",
+    "Espresso",
+    "Compose testing",
+    "android CI/CD",
+    "Gradle optimization",
+    "Detekt",
+    "kotlin multiplatform",
+    "KMP android"
+  ],
+  "should_not_trigger": [
+    "ios swiftui",
+    "flutter widget",
+    "react native",
+    "django rest framework",
+    "terraform aws"
+  ],
+  "instructions": "Verify AI platform correctly triggers Android skills for Android-specific queries and does not trigger for iOS/Flutter/backend queries."
+}

@@ -1,15 +1,8 @@
-# SwiftUI
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — iOS UI
-**Owner:** iOS Engineer (Camila Rodriguez)
-
-## Overview
-
-This skill implements production-grade SwiftUI development covering declarative UI patterns, StateObject/ObservedObject lifecycle, custom transitions, view modifiers, and performance optimization. It applies to Stage 5 (Development) where all new iOS UI is built with SwiftUI, Stage 6 (Code Review) where view composition and state management are audited, and Stage 8 (Integrity Verification) where the CDO verifies IDS specifications are realized in SwiftUI implementation.
-
-## Competency Dimensions
-
-| Dimension                | Description                                                                                                     | Proficiency Indicators                                                                                                                    |
+| Competency               | Description                                                                                                     | Quality Criteria                                                                                                                          |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Declarative UI           | View protocol, body composition, view identity, view lifecycle, environment propagation                         | Views are pure functions of state; composition over inheritance; environment used for dependency injection                                |
 | State Management         | @State, @StateObject, @ObservedObject, @EnvironmentObject, @Binding, @Environment                               | Correct property wrapper selection per ownership model; no ObservableObject passed as value; binding used for two-way data flow           |

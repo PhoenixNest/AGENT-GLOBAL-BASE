@@ -1,22 +1,14 @@
-# Compliance Auditing
+---
+version: "1.0.0"
+---
 
-**Category:** Regulatory Compliance & Audit Management
-**Owner:** Compliance Analyst — Ingrid Solberg
-
-## Overview
-
-Comprehensive methodology for planning, executing, and managing compliance audits across multiple regulatory frameworks relevant to mobile application development and operation. This skill covers SOC 2 Type II, PCI DSS v4.0, GDPR, and ISO 27001 compliance programs, including audit planning, evidence collection automation, control assessment, gap analysis, remediation tracking, and external auditor coordination. The compliance program ensures that all mobile applications and their supporting infrastructure meet regulatory obligations and industry security standards, enabling market access and customer trust.
-
-## Competency Dimensions
-
-| Dimension           | Description                                                                                     | Proficiency Indicators                                                                                                                                                       |
-| ------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SOC 2 Type II       | Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) | Designs and maintains SOC 2 control framework; coordinates annual Type II audit with zero qualified opinions; manages 12-month observation period evidence collection        |
-| PCI DSS v4.0        | Payment Card Industry Data Security Standard — latest version                                   | Maps all payment-processing controls to PCI DSS v4.0 requirements; coordinates annual ROC (Report on Compliance) with QSA; manages SAQ completion for applicable scope       |
-| GDPR                | General Data Protection Regulation — EU data protection                                         | Maintains Records of Processing Activities (RoPA); coordinates DPO activities; manages data subject request (DSR) fulfillment; ensures cross-border data transfer compliance |
-| ISO 27001           | Information Security Management System (ISMS)                                                   | Develops Statement of Applicability (SoA); manages internal audit program; coordinates Stage 1 + Stage 2 certification audits; maintains ISMS documentation                  |
-| Audit Planning      | End-to-end audit lifecycle management                                                           | Produces comprehensive audit plans with scope, timeline, resource requirements, and deliverables; achieves zero audit scope creep incidents                                  |
-| Evidence Collection | Systematic gathering and organization of compliance evidence                                    | Automates 70%+ of evidence collection; maintains evidence repository with chain of custody; achieves 100% evidence completeness at audit time                                |
+------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SOC 2 Type II | Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) | Designs and maintains SOC 2 control framework; coordinates annual Type II audit with zero qualified opinions; manages 12-month observation period evidence collection |
+| PCI DSS v4.0 | Payment Card Industry Data Security Standard — latest version | Maps all payment-processing controls to PCI DSS v4.0 requirements; coordinates annual ROC (Report on Compliance) with QSA; manages SAQ completion for applicable scope |
+| GDPR | General Data Protection Regulation — EU data protection | Maintains Records of Processing Activities (RoPA); coordinates DPO activities; manages data subject request (DSR) fulfillment; ensures cross-border data transfer compliance |
+| ISO 27001 | Information Security Management System (ISMS) | Develops Statement of Applicability (SoA); manages internal audit program; coordinates Stage 1 + Stage 2 certification audits; maintains ISMS documentation |
+| Audit Planning | End-to-end audit lifecycle management | Produces comprehensive audit plans with scope, timeline, resource requirements, and deliverables; achieves zero audit scope creep incidents |
+| Evidence Collection | Systematic gathering and organization of compliance evidence | Automates 70%+ of evidence collection; maintains evidence repository with chain of custody; achieves 100% evidence completeness at audit time |
 
 ## Execution Guidance
 
@@ -204,11 +196,11 @@ Request logged as fulfilled; evidence retained (Day 28-30)
 ```yaml
 # soa-mobile-app.yml
 statement_of_applicability:
-  standard: 'ISO/IEC 27001:2022'
-  organization: 'Mobile Product Company'
-  scope: 'Mobile application development and operation'
-  version: '1.0'
-  date: '2026-04-01'
+  standard: "ISO/IEC 27001:2022"
+  organization: "Mobile Product Company"
+  scope: "Mobile application development and operation"
+  version: "1.0"
+  date: "2026-04-01"
 
   controls:
     - control_id: A.8.24

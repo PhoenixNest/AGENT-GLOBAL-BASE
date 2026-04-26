@@ -1,3 +1,9 @@
+---
+name: studio-art-mobile-art-pipeline
+description: Art pipeline design for mobile games — DCC tool integration, asset optimization, Perforce version control, CI/CD for art, and automated texture compression. Owned by Renaud Leclercq (Art Director). Use during Studio Pipeline Stages 0–5 for art pipeline setup and optimization. Trigger: art pipeline, DCC tools, Perforce, asset optimization, CI/CD art, texture compression, Addressables, art automation.
+version: "1.0.0"
+---
+
 # Mobile Art Pipeline
 
 **Skill Owner:** Renaud Leclercq (Art Director)

@@ -1,15 +1,8 @@
-# Frontend Performance Optimization
+---
+version: "1.0.0"
+---
 
-**Category:** Frontend Engineering / Performance
-**Owner:** Frontend Chapter Lead (Amira Voss)
-
-## Overview
-
-This skill establishes the performance engineering discipline for all frontend deliverables — from Stage 2 HTML prototypes through Stage 5 production builds and Stage 8 integrity verification. It covers Core Web Vitals optimization, Lighthouse CI integration, bundle analysis and code splitting strategies, rendering performance tuning, and the measurement infrastructure needed to guarantee that every shipped frontend surface meets or exceeds industry performance benchmarks. Performance is not an afterthought; it is a design constraint enforced from the first prototype iteration.
-
-## Competency Dimensions
-
-| Dimension                     | Description                                                              | Proficiency Indicators                                                            |
+| Competency                    | Description                                                              | Quality Criteria                                                                  |
 | ----------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
 | **Core Web Vitals Mastery**   | LCP, INP, CLS optimization with field and lab measurement correlation    | LCP < 2.5s, INP < 200ms, CLS < 0.1 on 4G + mid-tier device; lab/field delta < 15% |
 | **Bundle Architecture**       | Code splitting, tree shaking, dynamic imports, dependency analysis       | Initial bundle < 170KB gzipped; route-level code splitting with prefetch hints    |
@@ -93,7 +86,7 @@ INP replaced FID in March 2024 and measures the responsiveness of ALL interactio
 2. **Component-level splitting** — heavy components below the fold:
 
    ```tsx
-   const Chart = lazy(() => import('./components/Chart'));
+   const Chart = lazy(() => import("./components/Chart"));
    // Render fallback skeleton while loading
    <Suspense fallback={<ChartSkeleton />}>
      <Chart data={data} />
@@ -119,8 +112,8 @@ INP replaced FID in March 2024 and measures the responsiveness of ALL interactio
 
 4. **Conditional splitting** — features behind feature flags load only when enabled:
    ```tsx
-   if (featureFlags.isEnabled('new-editor')) {
-     const Editor = await import('./features/NewEditor');
+   if (featureFlags.isEnabled("new-editor")) {
+     const Editor = await import("./features/NewEditor");
    }
    ```
 
@@ -140,25 +133,25 @@ INP replaced FID in March 2024 and measures the responsiveness of ALL interactio
 module.exports = {
   ci: {
     collect: {
-      url: ['http://localhost:3000/', 'http://localhost:3000/dashboard'],
-      settings: { preset: 'desktop', chromeFlags: '--no-sandbox' },
+      url: ["http://localhost:3000/", "http://localhost:3000/dashboard"],
+      settings: { preset: "desktop", chromeFlags: "--no-sandbox" },
       numberOfRuns: 3, // Median of 3 runs for stability
     },
     assert: {
       assertions: {
-        'categories:performance': ['error', { minScore: 0.9 }],
-        'categories:accessibility': ['error', { minScore: 0.95 }],
-        'categories:best-practices': ['error', { minScore: 0.9 }],
-        'categories:seo': ['warn', { minScore: 0.8 }],
-        'largest-contentful-paint': ['error', { maxNumericValue: 2500 }],
-        interactive: ['error', { maxNumericValue: 3800 }],
-        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],
-        'total-byte-weight': ['error', { maxNumericValue: 174080 }], // 170KB gzip
-        'unused-javascript': ['warn', { maxNumericValue: 20480 }], // 20KB
+        "categories:performance": ["error", { minScore: 0.9 }],
+        "categories:accessibility": ["error", { minScore: 0.95 }],
+        "categories:best-practices": ["error", { minScore: 0.9 }],
+        "categories:seo": ["warn", { minScore: 0.8 }],
+        "largest-contentful-paint": ["error", { maxNumericValue: 2500 }],
+        interactive: ["error", { maxNumericValue: 3800 }],
+        "cumulative-layout-shift": ["error", { maxNumericValue: 0.1 }],
+        "total-byte-weight": ["error", { maxNumericValue: 174080 }], // 170KB gzip
+        "unused-javascript": ["warn", { maxNumericValue: 20480 }], // 20KB
       },
     },
     upload: {
-      target: 'temporary-public-storage', // Or Lighthouse Server
+      target: "temporary-public-storage", // Or Lighthouse Server
     },
   },
 };
@@ -192,7 +185,7 @@ function ExpensiveList({ items, filter }) {
 const ExpensiveList = memo(function ExpensiveList({ items, filter }) {
   const filtered = useMemo(
     () => items.filter((i) => i.matches(filter)),
-    [items, filter] // Only recompute when these change
+    [items, filter], // Only recompute when these change
   );
   return (
     <ul>
@@ -237,7 +230,7 @@ Is the component slow?
 - Set up alerting when p75 exceeds targets for > 1 hour (not instantaneous spikes)
 
 ```ts
-import { onLCP, onINP, onCLS } from 'web-vitals';
+import { onLCP, onINP, onCLS } from "web-vitals";
 
 function sendToAnalytics(metric) {
   // Batch and send to analytics

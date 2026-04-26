@@ -1,6 +1,10 @@
 ---
 name: backend-cloud-aws-fundamentals
-description: 'Backend skill: Aws Fundamentals'
+description: AWS cloud infrastructure for backend services — EC2 instance selection, ECS container orchestration, RDS configuration, S3 lifecycle management, IAM least-privilege policies, CloudWatch monitoring, and CloudFormation IaC. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for cloud infrastructure decisions and Stage 5 (Development) for AWS resource provisioning. Trigger: aws fundamentals, ec2, ecs, rds, s3, iam, cloudwatch, cloudformation, aws infrastructure.
+prerequisites:
+  - backend-overview
+
+version: "1.0.0"
 ---
 
 # AWS Fundamentals
@@ -129,7 +133,10 @@ ApiServerInstance:
         }
       },
       "healthCheck": {
-        "command": ["CMD-SHELL", "curl -f http://localhost:8080/healthz || exit 1"],
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:8080/healthz || exit 1"
+        ],
         "interval": 30,
         "timeout": 5,
         "retries": 3,
@@ -205,7 +212,7 @@ Database:
   Type: AWS::RDS::DBInstance
   Properties:
     Engine: postgres
-    EngineVersion: '16.2'
+    EngineVersion: "16.2"
     DBInstanceClass: db.r7g.large # Memory-optimized for database
     AllocatedStorage: 100
     MaxAllocatedStorage: 500 # Auto-scaling up to 500GB
@@ -214,15 +221,15 @@ Database:
     KmsKeyId: !Ref KmsKey
 
     DBName: !Ref DatabaseName
-    MasterUsername: !Sub '{{resolve:secretsmanager:${DatabaseSecret}::username}}'
-    MasterUserPassword: !Sub '{{resolve:secretsmanager:${DatabaseSecret}::password}}'
+    MasterUsername: !Sub "{{resolve:secretsmanager:${DatabaseSecret}::username}}"
+    MasterUserPassword: !Sub "{{resolve:secretsmanager:${DatabaseSecret}::password}}"
 
     # High availability
     MultiAZ: true
     DeletionProtection: true
     BackupRetentionPeriod: 35 # 35 days
-    PreferredBackupWindow: '03:00-04:00'
-    PreferredMaintenanceWindow: 'sun:04:00-sun:05:00'
+    PreferredBackupWindow: "03:00-04:00"
+    PreferredMaintenanceWindow: "sun:04:00-sun:05:00"
 
     # Network
     DBSubnetGroupName: !Ref DBSubnetGroup
@@ -291,7 +298,7 @@ DataBucket:
             NoncurrentDays: 365
         - Id: AbortIncompleteUploads
           Status: Enabled
-          Prefix: ''
+          Prefix: ""
           AbortIncompleteMultipartUpload:
             DaysAfterInitiation: 7
 ```
@@ -364,7 +371,7 @@ ApiCpuAlarm:
   Type: AWS::CloudWatch::Alarm
   Properties:
     AlarmName: !Sub ${AWS::StackName}-api-high-cpu
-    AlarmDescription: 'API service CPU utilization exceeds 80% for 5 minutes'
+    AlarmDescription: "API service CPU utilization exceeds 80% for 5 minutes"
     Namespace: AWS/ECS
     MetricName: CPUUtilization
     Dimensions:
@@ -386,7 +393,7 @@ ApiErrorRateAlarm:
   Type: AWS::CloudWatch::Alarm
   Properties:
     AlarmName: !Sub ${AWS::StackName}-api-high-error-rate
-    AlarmDescription: 'API 5xx error rate exceeds 1% for 5 minutes'
+    AlarmDescription: "API 5xx error rate exceeds 1% for 5 minutes"
     Namespace: AWS/ApplicationELB
     MetricName: HTTPCode_Target_5XX_Count
     Dimensions:
@@ -415,7 +422,7 @@ ApiErrorRateAlarm:
 **Template structure with best practices:**
 
 ```yaml
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Description: >
   API Service Infrastructure
   Deployed by: backend-team
@@ -453,13 +460,13 @@ Resources:
 # Outputs for cross-stack references
 Outputs:
   ApiEndpoint:
-    Description: 'API service endpoint URL'
+    Description: "API service endpoint URL"
     Value: !Sub https://${LoadBalancer.DNSName}
     Export:
       Name: !Sub ${AWS::StackName}-ApiEndpoint
 
   DatabaseEndpoint:
-    Description: 'RDS database endpoint'
+    Description: "RDS database endpoint"
     Value: !GetAtt Database.Endpoint.Address
     Export:
       Name: !Sub ${AWS::StackName}-DatabaseEndpoint

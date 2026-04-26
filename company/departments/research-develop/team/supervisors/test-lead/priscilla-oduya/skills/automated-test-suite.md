@@ -1,6 +1,7 @@
 ---
 name: automated-test-suite
 description: Design and execution of the automated test suite for iOS and Android mobile applications. Covers unit, integration, and E2E test layers; test pyramid standards; XCTest/XCUITest, Espresso/UiAutomator, Maestro, Detox; regression testing gates; and the Test Results Report.
+version: "1.0.0"
 ---
 
 # Automated Test Suite
@@ -8,6 +9,10 @@ description: Design and execution of the automated test suite for iOS and Androi
 ## Purpose
 
 Design, implement, and execute a comprehensive automated test suite for the project's iOS and Android codebases. The suite must achieve a 100% pass rate (accounting for user-approved P2/P3 deferrals) before Stage 7 closes. All failing tests block Stage 7 advancement until resolved or explicitly deferred by the user via the P0–P3 protocol.
+
+## Why This Matters
+
+Designs and executes automated test suites for iOS and Android. Without automated tests, regressions ship to production, causing P0/P1 defects and user trust loss.
 
 ## Test Pyramid
 
@@ -120,3 +125,16 @@ Upon suite completion, produce the Test Results Report:
 [ ] Regression testing passed for all fixed functionalities
 [ ] Report archived
 ```
+
+## Pipeline Cross-References
+
+This skill governs the following pipeline stages:
+
+| Pipeline           | Stage                                                                                | Template                                          |
+| ------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------- |
+| Mobile Development | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/mobile-development/pipeline.md` |
+| Web Development    | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/web-development/pipeline.md`    |
+| Backend Api        | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/backend-api/pipeline.md`        |
+| Full Stack         | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/full-stack/pipeline.md`         |
+
+Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-game-design-vision
+description: Game design vision and GDD authorship — core loop design, game design direction, economy balancing, and analytics instrumentation for casual games. Owned by Mei Watanabe (Lead Game Designer). Use during Studio Pipeline Stages 0–4 for game concept definition and design direction. Trigger: game design vision, GDD, core loop, game direction, design leadership, game concept.
+version: "1.0.0"
+---
+
 # Game Design Vision
 
 **Skill Owner:** Mei Watanabe (Lead Game Designer)

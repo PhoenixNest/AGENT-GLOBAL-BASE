@@ -1,21 +1,13 @@
-# Offline-First Patterns
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Data Architecture
-**Owner:** Senior Android Engineer (Priya Narayanan)
-
-## Overview
-
-This skill implements offline-first architecture patterns using Room database, WorkManager for background synchronization, conflict resolution strategies, and resilient data synchronization. It is critical to Stage 5 (Development) where data layer implementation determines app behavior under poor connectivity, and Stage 7 (Automated Testing) where offline scenarios must be comprehensively tested.
-
-## Competency Dimensions
-
-| Dimension                | Description                                                                      | Proficiency Indicators                                                                                                                                |
-| ------------------------ | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Room Database Design     | Entity relationships, type converters, indices, migrations, FTS full-text search | Normalized schema with appropriate denormalization for read patterns; migration paths tested for every schema change; query performance <50ms for P95 |
-| WorkManager Scheduling   | One-time vs periodic work, constraints, chaining, input/output data              | Work executes reliably across device reboots; constraints (network type, charging) correctly applied; work chaining handles partial failures          |
-| Sync Strategies          | Pull-based vs push-based sync, delta synchronization, exponential backoff        | Sync completes within budgeted time window; backoff handles prolonged outages gracefully; battery impact <2% daily                                    |
-| Conflict Resolution      | Last-write-wins, operational transformation, merge strategies, vector clocks     | Conflicts detected and resolved deterministically; user notified when manual resolution required; conflict rate tracked as telemetry                  |
-| Cache Invalidation & TTL | Cache freshness, time-to-live, stale-while-revalidate, cache-busting             | Cache serves data within freshness budget; stale data clearly indicated to user; cache eviction follows LRU or priority-based policy                  |
+------------------ | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Room Database Design | Entity relationships, type converters, indices, migrations, FTS full-text search | Normalized schema with appropriate denormalization for read patterns; migration paths tested for every schema change; query performance <50ms for P95 |
+| WorkManager Scheduling | One-time vs periodic work, constraints, chaining, input/output data | Work executes reliably across device reboots; constraints (network type, charging) correctly applied; work chaining handles partial failures |
+| Sync Strategies | Pull-based vs push-based sync, delta synchronization, exponential backoff | Sync completes within budgeted time window; backoff handles prolonged outages gracefully; battery impact <2% daily |
+| Conflict Resolution | Last-write-wins, operational transformation, merge strategies, vector clocks | Conflicts detected and resolved deterministically; user notified when manual resolution required; conflict rate tracked as telemetry |
+| Cache Invalidation & TTL | Cache freshness, time-to-live, stale-while-revalidate, cache-busting | Cache serves data within freshness budget; stale data clearly indicated to user; cache eviction follows LRU or priority-based policy |
 
 ## Execution Guidance
 

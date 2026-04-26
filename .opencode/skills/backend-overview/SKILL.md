@@ -1,6 +1,7 @@
 ---
 name: backend-overview
-description: Backend skills overview
+description: Backend service development overview — Go, Python, and PostgreSQL ecosystem covering REST APIs, microservices, event-driven systems, database optimization, and real-time communication. Owned by Dev Malhotra (Backend Chapter Lead). Use as entry point for all backend-related tasks across Stage 3 (Architecture), Stage 5 (Development), Stage 6 (Code Review), and Stage 7 (Testing). Trigger: backend overview, backend skills, backend development, go backend, python backend, database backend.
+version: "1.0.0"
 ---
 
 # Backend

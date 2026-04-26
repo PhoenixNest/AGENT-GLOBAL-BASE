@@ -1,6 +1,10 @@
 ---
 name: backend-api-patterns-graphql-apis
-description: 'Backend skill: Graphql Apis'
+description: GraphQL API design and implementation — schema optimization with types/interfaces/unions, DataLoader pattern for N+1 prevention, Apollo Federation for schema composition, subscriptions for real-time updates, and error handling with extensions. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for GraphQL schema design and Stage 5 (Development) for resolver implementation. Trigger: graphql api, schema design, dataloader, apollo federation, graphql subscriptions, n+1 query, resolver optimization.
+prerequisites:
+  - backend-api-patterns-api-gateway-design
+
+version: "1.0.0"
 ---
 
 # GraphQL APIs
@@ -147,7 +151,10 @@ scalar DateTime
 # Custom directive
 directive @auth(requires: UserRole = USER) on FIELD_DEFINITION
 directive @rateLimit(max: Int = 100, window: Int = 60) on FIELD_DEFINITION
-directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT
 
 enum CacheControlScope {
   PUBLIC
@@ -310,14 +317,14 @@ class Order:
 
 ```javascript
 // gateway.js
-const { ApolloGateway, IntrospectAndCompose } = require('@apollo/gateway');
+const { ApolloGateway, IntrospectAndCompose } = require("@apollo/gateway");
 
 const gateway = new ApolloGateway({
   supergraphSdl: new IntrospectAndCompose({
     subgraphs: [
-      { name: 'users', url: 'http://user-service:4001/graphql' },
-      { name: 'orders', url: 'http://order-service:4002/graphql' },
-      { name: 'products', url: 'http://product-service:4003/graphql' },
+      { name: "users", url: "http://user-service:4001/graphql" },
+      { name: "orders", url: "http://order-service:4002/graphql" },
+      { name: "products", url: "http://product-service:4003/graphql" },
     ],
   }),
 });
@@ -328,7 +335,7 @@ const server = new ApolloServer({
   // Gateway can add request context
   context: ({ req }) => ({
     authHeader: req.headers.authorization,
-    requestId: req.headers['x-request-id'],
+    requestId: req.headers["x-request-id"],
   }),
 });
 ```

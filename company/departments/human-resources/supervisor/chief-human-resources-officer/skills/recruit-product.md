@@ -1,7 +1,12 @@
 ---
 name: recruit-product
 description: Recruit product management talent across all seniority levels. Covers PM, Senior PM, Principal PM, Group PM, Director of Product, VP Product, and CPO. Invokes vet-candidate gate before any placement.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Sources and evaluates product managers and product leaders. Poor product hires ship features users don't want, misallocate engineering resources, and damage roadmap credibility.
 
 # Product Recruitment Skill
 

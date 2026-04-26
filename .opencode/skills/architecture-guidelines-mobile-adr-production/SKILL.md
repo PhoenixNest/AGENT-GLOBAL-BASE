@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-mobile-adr-production
-description: 'Architecture skill: Mobile Adr Production'
+description: Mobile ADR production for iOS and Android — ADR format, decision taxonomy, lifecycle management, supersession chains, and technology decision locking at Stage 3. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for mobile-specific ADR authorship and Stage 8 (Integrity Verification) for ADR conformance. Trigger: mobile ADR, architecture decision mobile, ADR production, technology decision locking, mobile architecture decision.
+prerequisites:
+  - architecture-guidelines-architecture-decision-records
+
+version: "1.0.0"
 ---
 
 # Mobile ADR Production

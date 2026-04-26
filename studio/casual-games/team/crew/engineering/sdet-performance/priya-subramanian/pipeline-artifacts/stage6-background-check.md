@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Background check CLEAR. Proceeding to Stage 7.'
-candidate_name: 'Priya Subramanian'
-candidate_id: 'G38'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Background check CLEAR. Proceeding to Stage 7."
+candidate_name: "Priya Subramanian"
+candidate_id: "G38"
+entity_type: "studio"
+stage: "stage-6"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Priya Subramanian (G38)

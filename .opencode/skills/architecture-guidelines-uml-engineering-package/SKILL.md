@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-uml-engineering-package
-description: 'Architecture skill: Uml Engineering Package'
+description: UML Engineering Package production for mobile projects — class, sequence, and component diagram authorship using PlantUML/Mermaid, zero-ambiguity architecture documentation standards traceable from product requirements to architectural choice. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for complete UML package delivery. Trigger: UML engineering package, architecture documentation package, UML diagrams, PlantUML package, Mermaid diagrams, architecture traceability.
+prerequisites:
+  - architecture-guidelines-uml-engineering
+
+version: "1.0.0"
 ---
 
 # UML Engineering Package

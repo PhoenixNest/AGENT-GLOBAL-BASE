@@ -1,6 +1,7 @@
 ---
 name: language-translation-module
 description: Governing standard for all multilingual translation requests submitted to the Localization Department. Covers string extraction validation, translation workflow, linguistic QA gates, platform-specific formatting validation, and Translation Verification Report sign-off.
+version: "1.0.0"
 ---
 
 # Language Translation Module
@@ -10,6 +11,10 @@ description: Governing standard for all multilingual translation requests submit
 This module governs every translation request submitted to the Localization Department. It is invoked by the CTO-L whenever the R&D Department delivers extracted strings and datasets for translation during Stage 9 (Internationalization Engineering) of the development pipeline. No translation work proceeds outside this module.
 
 ---
+
+## Why This Matters
+
+Governs all multilingual translation requests with quality gates. Without LTM, translations are inconsistent across platforms, causing user confusion and brand damage in international markets.
 
 ## Phase 1: String Extraction Validation
 
@@ -108,3 +113,14 @@ Upon passing all four phases, the CTO-L issues the **Translation Verification Re
 6. **CTO-L sign-off:** Dated signature confirming the localized codebase meets the Language Translation Module standard
 
 This report is archived alongside the localized codebase and presented as evidence for the **Localisation** checklist item (item #6) in the Stage 10 Release Readiness Check.
+
+## Pipeline Cross-References
+
+This skill governs the following pipeline stages:
+
+| Pipeline           | Stage                      | Template                                          |
+| ------------------ | -------------------------- | ------------------------------------------------- |
+| Mobile Development | Stage 9 (i18n Engineering) | `company/pipeline/mobile-development/pipeline.md` |
+| Web Development    | Stage 9 (i18n Engineering) | `company/pipeline/web-development/pipeline.md`    |
+
+Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

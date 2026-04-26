@@ -1,11 +1,11 @@
 ---
-final_decision: 'HIRED'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'art'
-role: 'art-director'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "art"
+role: "art-director"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report

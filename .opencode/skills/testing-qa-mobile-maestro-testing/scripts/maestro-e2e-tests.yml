@@ -1,0 +1,65 @@
+name: Maestro E2E Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  maestro-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [android, ios]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Maestro
+        uses: mobile-dev-inc/setup-maestro@v1
+
+      - name: Start Android Emulator
+        if: matrix.platform == 'android'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          script: |
+            maestro test flows/checkout-flow.yaml \
+              --env APP_ID=com.company.app \
+              --env EMAIL=ci@test.com \
+              --env PASSWORD=Test1234! \
+              --format junit \
+              --output test-results/maestro-android.xml
+
+      - name: Run iOS Tests (macOS runner)
+        if: matrix.platform == 'ios'
+        run: |
+          xcrun simctl boot "iPhone 15" || true
+          maestro test flows/checkout-flow.yaml \
+            --env APP_ID=com.company.app.test \
+            --env EMAIL=ci@test.com \
+            --env PASSWORD=Test1234! \
+            --format junit \
+            --output test-results/maestro-ios.xml
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-results-${{ matrix.platform }}
+          path: test-results/
+
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-screenshots-${{ matrix.platform }}
+          path: ~/.maestro/screenshots/
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          curl -X POST $SLACK_WEBHOOK \
+            -H 'Content-Type: application/json' \
+            -d "{\"text\": \"Maestro E2E tests failed on ${{ matrix.platform }}. Check artifacts for screenshots and logs.\"}"

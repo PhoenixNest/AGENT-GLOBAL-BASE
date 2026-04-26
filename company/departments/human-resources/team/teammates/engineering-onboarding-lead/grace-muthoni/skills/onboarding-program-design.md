@@ -1,17 +1,8 @@
-# Engineering Onboarding Program Design
+---
+version: "1.0.0"
+---
 
-**Category:** Talent Operations / Onboarding
-**Owner:** Engineering Onboarding Lead
-
-## Overview
-
-Designs and operates the end-to-end engineering onboarding program for the 57-person FTE roster, from pre-boarding logistics through the 90-day ramp-to-productivity milestone. The program follows a 4-stage model (Day 1 → Week 1 → Month 1 → Month 3) with automated environment provisioning, structured buddy assignments, and measurable competency gates at each stage transition.
-
-This skill covers program architecture, cohort scheduling, environment automation workflows, buddy system design, cross-functional coordination with platform leads, and continuous improvement based on ramp-time analytics and new-hire satisfaction NPS.
-
-## Competency Dimensions
-
-| Dimension                     | Description                                                                             | Proficiency Indicators                                                                                |
+| Competency                    | Description                                                                             | Quality Criteria                                                                                      |
 | ----------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Program Architecture          | Design multi-stage onboarding curricula scaled to 50+ FTE across multiple role families | Can design a 4-stage program with explicit gate criteria, deliverables, and success metrics per stage |
 | Environment Automation        | Integrate with engineering tooling to automate dev environment provisioning             | Achieves ≥80% zero-touch environment setup; reduces Day-1 friction to <2 hours                        |

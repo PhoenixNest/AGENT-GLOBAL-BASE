@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-design-systems
-description: 'Design skill: Design Systems'
+description: Design systems architecture for mobile and web — component libraries, design tokens, cross-platform token mapping, accessibility standards (WCAG 2.1 AA), and design-to-code synchronization. Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for design system creation and Stage 5 (Development) for design token implementation. Trigger: design systems, component library, design tokens, accessibility standards, design system architecture.
+prerequisites:
+  - design-overview
+
+version: "1.0.0"
 ---
 
 # Design Systems Architecture
@@ -105,17 +109,17 @@ Component Tokens (Component-specific overrides)
 ```tsx
 // Button.stories.tsx
 export default {
-  title: 'Components/Atoms/Button',
+  title: "Components/Atoms/Button",
   component: Button,
   parameters: {
     ids: {
-      specRef: 'IDS-SECTION-4.2', // Links to Interaction Design Specification
-      cdoApproval: '2026-03-15', // Date of CDO design sign-off
-      wcagLevel: 'AA', // Accessibility compliance target
+      specRef: "IDS-SECTION-4.2", // Links to Interaction Design Specification
+      cdoApproval: "2026-03-15", // Date of CDO design sign-off
+      wcagLevel: "AA", // Accessibility compliance target
     },
     design: {
-      type: 'figma',
-      url: 'https://figma.com/file/.../Button?node-id=...',
+      type: "figma",
+      url: "https://figma.com/file/.../Button?node-id=...",
     },
   },
   // ...

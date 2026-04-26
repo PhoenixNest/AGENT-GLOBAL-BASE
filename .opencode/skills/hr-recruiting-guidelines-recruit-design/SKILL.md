@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-recruit-design
-description: 'Hr Recruiting skill: Recruit Design'
+description: "Recruits design roles — UX Designer, Product Designer, Senior Designer, Design Lead, Principal Designer, Head of Design, VP Design, CDO — using seniority rubrics covering craft, research, and influence, with interview simulation protocols, portfolio evaluation, and elite vetting gate. Owned by Dr. Evelyn Hartwell (CHRO). Use when recruiting for UX, UI, product design, design systems, interaction design, or design leadership roles. Trigger: recruit design, hire designer, UX recruitment, product designer, design lead, CDO, design recruitment, portfolio review."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Design Recruitment Skill

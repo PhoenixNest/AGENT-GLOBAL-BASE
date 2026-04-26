@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All assessments completed. Composite Score: 4.560/5 (97th percentile). Candidate exceeds 80th percentile threshold. Proceeding to Stage 5.'
-candidate_name: 'Scored Assessments'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'engineering'
-role: 'senior-game-engineer'
-document_type: 'Interview Scores'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All assessments completed. Composite Score: 4.560/5 (97th percentile). Candidate exceeds 80th percentile threshold. Proceeding to Stage 5."
+candidate_name: "Scored Assessments"
+entity_type: "studio"
+stage: "stage-4"
+division: "engineering"
+role: "senior-game-engineer"
+document_type: "Interview Scores"
 ---
 
 # Interview Simulation Scored Assessments

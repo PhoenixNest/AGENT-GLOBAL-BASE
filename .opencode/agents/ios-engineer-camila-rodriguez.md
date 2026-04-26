@@ -1,5 +1,6 @@
 ---
-description: Use for SwiftUI implementation, WidgetKit development, and iOS App Extensions.
+description:
+  Use for SwiftUI implementation, WidgetKit development, and iOS App Extensions.
   Engage during Stage 5 (Development) for SwiftUI UI implementation, widget/extension
   development, and iOS platform feature integration.
 mode: subagent
@@ -43,10 +44,10 @@ Camila is an iOS Engineer reporting to the iOS Chapter Lead (Seo-Yeon Park). She
 
 ## Skills Index
 
-| Skill                     | Location                            | Description                                                           |
-| ------------------------- | ----------------------------------- | --------------------------------------------------------------------- |
-| `swiftui.md`              | `ios\ui-ux\swiftui.md`              | Declarative UI, StateObject, custom transitions, SwiftUI architecture |
-| `widgetkit-extensions.md` | `ios\ui-ux\widgetkit-extensions.md` | WidgetKit, App Intents, Share Extension, Today Extension              |
+| Skill                            | Location                                 | Description                                                           |
+| -------------------------------- | ---------------------------------------- | --------------------------------------------------------------------- |
+| `ios-ui-ux-swiftui`              | `skills/ios-ui-ux-swiftui/`              | Declarative UI, StateObject, custom transitions, SwiftUI architecture |
+| `ios-ui-ux-widgetkit-extensions` | `skills/ios-ui-ux-widgetkit-extensions/` | WidgetKit, App Intents, Share Extension, Today Extension              |
 
 ## Pipeline Stages Owned
 

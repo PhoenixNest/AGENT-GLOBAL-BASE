@@ -1,5 +1,6 @@
 ---
-description: Use for Android application development with Jetpack Compose, MVVM architecture,
+description:
+  Use for Android application development with Jetpack Compose, MVVM architecture,
   Kotlin Coroutines, Hilt DI, Room, Retrofit, and Google Play submission. Engage during
   Stage 5 (Development) and Stage 8 (Integrity Verification) for Android platform
   implementation.
@@ -44,9 +45,9 @@ Kofi owns all Android implementation within the R&D Department — translating t
 
 ## Skills Index
 
-| Skill                       | Location                                          | Description                                                                                                                                                   |
-| --------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `android-implementation.md` | `android\language-core\android-implementation.md` | Android application development: Jetpack Compose UI, MVVM architecture, Kotlin Coroutines, Hilt DI, Room, Retrofit, platform security, Google Play submission |
+| Skill                                  | Location                                       | Description                                                                                                                                                   |
+| -------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `android-language-core-implementation` | `skills/android-language-core-implementation/` | Android application development: Jetpack Compose UI, MVVM architecture, Kotlin Coroutines, Hilt DI, Room, Retrofit, platform security, Google Play submission |
 
 ## Pipeline Stages Owned
 

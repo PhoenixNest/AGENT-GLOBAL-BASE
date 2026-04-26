@@ -1,6 +1,10 @@
 ---
 name: frontend-web-performance-security-frontend-performance-baseline
-description: 'Frontend Web skill: Frontend Performance Baseline'
+description: Frontend performance baseline establishment — Core Web Vitals targets (LCP, INP, CLS), Lighthouse CI integration, synthetic monitoring, performance budgets, and regression detection. Owned by Amira Voss (Frontend Chapter Lead). Use during Stage 4 (Implementation Plan) for baseline definition and Stage 7 (Testing) for performance validation. Trigger: performance baseline, core web vitals, lcp, inp, cls, lighthouse ci, performance budget, web performance.
+prerequisites:
+  - frontend-web-overview
+
+version: "1.0.0"
 ---
 
 # Frontend Performance Baseline
@@ -194,7 +198,7 @@ jobs:
       - name: Serve and audit
         uses: treosh/lighthouse-ci-action@v12
         with:
-          configPath: './lighthouserc.yml'
+          configPath: "./lighthouserc.yml"
           uploadArtifacts: true
           temporaryPublicStorage: true
 
@@ -271,11 +275,17 @@ Budgets prevent incremental performance decay. They are enforced at build time a
 
 ```html
 <!-- Preload critical font -->
-<link rel="preload" href="/fonts/inter-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+<link
+  rel="preload"
+  href="/fonts/inter-latin-400.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
 
 <!-- Font face with fallback -->
-@font-face { font-family: 'Inter'; src: url('/fonts/inter-latin-400.woff2') format('woff2');
-font-display: swap; size-adjust: 100%; }
+@font-face { font-family: 'Inter'; src: url('/fonts/inter-latin-400.woff2')
+format('woff2'); font-display: swap; size-adjust: 100%; }
 ```
 
 ---
@@ -341,12 +351,12 @@ Lab metrics are necessary but insufficient. RUM captures actual user experience 
 ### RUM Implementation Snippet
 
 ```javascript
-import { onLCP, onINP, onCLS, onTTFB, onFCP } from 'web-vitals';
+import { onLCP, onINP, onCLS, onTTFB, onFCP } from "web-vitals";
 
 function sendToAnalytics(metric) {
   // Send to your analytics endpoint
   navigator.sendBeacon(
-    '/api/performance-metrics',
+    "/api/performance-metrics",
     JSON.stringify({
       name: metric.name,
       value: metric.value,
@@ -356,7 +366,7 @@ function sendToAnalytics(metric) {
       url: window.location.href,
       userAgent: navigator.userAgent,
       timestamp: Date.now(),
-    })
+    }),
   );
 }
 

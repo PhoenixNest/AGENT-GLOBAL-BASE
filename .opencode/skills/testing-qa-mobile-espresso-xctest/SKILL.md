@@ -1,6 +1,10 @@
----
+﻿---
 name: testing-qa-mobile-espresso-xctest
-description: 'Testing Qa skill: Espresso Xctest'
+description: Espresso and XCTest native UI test automation — Android Espresso with IdlingResource, Compose testing API, iOS XCUITest with accessibility identifiers, platform-specific gesture testing, and native UI test framework best practices. Owned by Rachel Kim (Test Automation Lead). Use during Stage 5 (Development) for native test framework implementation and Stage 7 (Testing) for UI test execution. Trigger: Espresso testing, XCUITest, Android UI testing, iOS UI testing, Compose testing, IdlingResource, accessibility identifiers, native gesture testing.
+prerequisites:
+  - testing-qa-mobile-unit-testing
+
+version: "1.0.0"
 ---
 
 # Espresso & XCTest — Native Mobile Test Automation

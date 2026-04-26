@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-candidate_name: 'Marco Bellini'
-candidate_id: 'G22'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'art'
-role: 'motion-ui-animator'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+candidate_name: "Marco Bellini"
+candidate_id: "G22"
+entity_type: "studio"
+stage: "stage-6"
+division: "art"
+role: "motion-ui-animator"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Marco Bellini (G22)

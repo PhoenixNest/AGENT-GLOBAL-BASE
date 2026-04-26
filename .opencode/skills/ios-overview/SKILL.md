@@ -1,6 +1,7 @@
 ---
 name: ios-overview
-description: Ios skills overview
+description: "iOS platform engineering overview — SwiftUI-first with Swift Concurrency, UIKit + Combine for legacy maintenance, owned by iOS Lead Seo-Yeon Park. Index of all 16 iOS sub-skills across UI/UX, architecture, data/networking, testing, and infrastructure. Use when navigating iOS skill directory or determining which iOS sub-skill applies to a task. Trigger: ios overview, ios skills, ios sub-guidelines, ios skill index, ios directory."
+version: "1.0.0"
 ---
 
 # iOS

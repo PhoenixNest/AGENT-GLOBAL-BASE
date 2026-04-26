@@ -1,5 +1,6 @@
 ---
-description: Use for iOS performance optimization, Core Animation, Metal-accelerated
+description:
+  Use for iOS performance optimization, Core Animation, Metal-accelerated
   rendering, and iOS security implementation. Engage during Stage 5 (Development)
   for performance-critical iOS implementation, Stage 6 (Code Review) for performance
   and security conformance review, and Stage 8 (Integrity Verification) for MASVS-aligned

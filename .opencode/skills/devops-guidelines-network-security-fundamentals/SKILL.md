@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-network-security-fundamentals
-description: 'Devops skill: Network Security Fundamentals'
+description: Network security fundamentals for mobile infrastructure — VPC design, security groups, WAF configuration, DDoS protection, private endpoints, and zero-trust network architecture for mobile API backends. Owned by Thomas Zhang (DevOps Lead). Use during Stage 3 (UML Engineering) for network architecture design and Stage 5 (Development) for network security implementation. Trigger: network security, VPC design, security groups, WAF, DDoS protection, private endpoints, zero-trust network, mobile API security, cloud networking.
+prerequisites:
+  - devops-overview
+
+version: "1.0.0"
 ---
 
 # Network Security Fundamentals

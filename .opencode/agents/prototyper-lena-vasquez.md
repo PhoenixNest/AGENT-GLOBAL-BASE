@@ -1,5 +1,6 @@
 ---
-description: Use for production-grade interactive web prototype development and Interaction
+description:
+  Use for production-grade interactive web prototype development and Interaction
   Design Specification (IDS) authorship. Engage during Stage 2 (Web Prototype + IDS)
   for translating PRDs into browser-runnable HTML prototypes with gesture simulation
   and platform-native interaction annotations.
@@ -44,10 +45,10 @@ Lena translates product requirements provided by the Chief Product Officer into 
 
 ## Skills Index
 
-| Skill                                 | Location                                                | Description                                                                                                                                                         |
-| ------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `web-prototype-development.md`        | `design\guidelines\web-prototype-development.md`        | Production-grade interactive web prototype development: single-file HTML prototypes, gesture simulation, micro-animations, platform-native component implementation |
-| `interaction-design-specification.md` | `design\guidelines\interaction-design-specification.md` | IDS authorship: component trees, gesture vocabularies, state diagrams, edge case matrices, iOS HIG and Android Material Design platform patterns                    |
+| Skill                                                | Location                                                     | Description                                                                                                                                                         |
+| ---------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `design-guidelines-web-prototype-development`        | `skills/design-guidelines-web-prototype-development/`        | Production-grade interactive web prototype development: single-file HTML prototypes, gesture simulation, micro-animations, platform-native component implementation |
+| `design-guidelines-interaction-design-specification` | `skills/design-guidelines-interaction-design-specification/` | IDS authorship: component trees, gesture vocabularies, state diagrams, edge case matrices, iOS HIG and Android Material Design platform patterns                    |
 
 ## Pipeline Stages Owned
 

@@ -1,3 +1,9 @@
+---
+name: studio-engineering-ai-behavior-programming
+description: AI behavior system design and implementation — behavior trees, utility AI, finite state machines, navigation/pathfinding optimization for mobile games. Owned by Kaelen Reeves (Senior Gameplay Engineer). Use during Studio Pipeline Stages 2–5 for AI system development and Stage 6 (Automated Testing) for AI behavior validation. Trigger: AI behavior, behavior trees, utility AI, pathfinding, NavMesh, enemy AI.
+version: "1.0.0"
+---
+
 # AI Behavior Programming
 
 **Skill Owner:** Kaelen Reeves

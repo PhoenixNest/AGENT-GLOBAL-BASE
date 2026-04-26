@@ -1,5 +1,6 @@
 ---
-description: Use for KMP shared modules, cross-platform architecture, and Swift language
+description:
+  Use for KMP shared modules, cross-platform architecture, and Swift language
   familiarity. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification)
   for KMP implementation.
 mode: subagent
@@ -43,11 +44,11 @@ Dmitri is a Cross-Platform Engineer reporting to the Cross-Platform Lead (Mei-Li
 
 ## Skills Index
 
-| Skill                      | Location                                      | Description                                                             |
-| -------------------------- | --------------------------------------------- | ----------------------------------------------------------------------- |
-| `kmp-architecture.md`      | `cross-platform\kmp\kmp-architecture.md`      | KMP shared modules, expect/actual, platform adapters, module boundaries |
-| `kmp-shared-modules.md`    | `cross-platform\kmp\kmp-shared-modules.md`    | ktor-client, coroutines, shared business logic, cross-platform strategy |
-| `swift-familiarization.md` | `ios\infrastructure\swift-familiarization.md` | Swift language fundamentals, concurrency, iOS platform awareness        |
+| Skill                                      | Location                                           | Description                                                             |
+| ------------------------------------------ | -------------------------------------------------- | ----------------------------------------------------------------------- |
+| `cross-platform-kmp-architecture`          | `skills/cross-platform-kmp-architecture/`          | KMP shared modules, expect/actual, platform adapters, module boundaries |
+| `cross-platform-kmp-shared-modules`        | `skills/cross-platform-kmp-shared-modules/`        | ktor-client, coroutines, shared business logic, cross-platform strategy |
+| `ios-infrastructure-swift-familiarization` | `skills/ios-infrastructure-swift-familiarization/` | Swift language fundamentals, concurrency, iOS platform awareness        |
 
 ## Pipeline Stages Owned
 

@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-container-runtime-security
-description: 'Devops skill: Container Runtime Security'
+description: Container runtime security for mobile backend services — container image scanning (Trivy/Grype), minimal base images (distroless), runtime threat detection (Falco), network policies, and Kubernetes pod security standards for mobile API infrastructure. Owned by Thomas Zhang (DevOps Lead). Use during Stage 5 (Development) for container security configuration and Stage 7 (Testing) for security scanning integration. Trigger: container security, image scanning, Trivy, Grype, distroless, Falco, runtime detection, network policies, pod security, Kubernetes security.
+prerequisites:
+  - devops-guidelines-cloud-infrastructure
+
+version: "1.0.0"
 ---
 
 # Container Runtime Security
@@ -19,7 +23,7 @@ This skill covers container runtime security, including Falco rules, eBPF-based 
 - rule: Unexpected K8s API Server Access
   desc: Detects unexpected access to the K8s API server from a pod
   condition: spawned_process and proc.name contains "kubectl" and not k8s.ns.name = "kube-system"
-  output: 'Unexpected K8s API access (user=%user.name command=%proc.cmdline namespace=%k8s.ns.name)'
+  output: "Unexpected K8s API access (user=%user.name command=%proc.cmdline namespace=%k8s.ns.name)"
   priority: WARNING
   tags: [k8s, runtime]
 ```
@@ -66,7 +70,7 @@ securityContext:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   capabilities:
-    drop: ['ALL']
+    drop: ["ALL"]
 ```
 
 ## Image Scanning Integration

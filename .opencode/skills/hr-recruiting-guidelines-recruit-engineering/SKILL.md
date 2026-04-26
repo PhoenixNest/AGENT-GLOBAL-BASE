@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-recruit-engineering
-description: 'Hr Recruiting skill: Recruit Engineering'
+description: "Recruits engineering roles — Software Engineer, Senior SE, Staff SE, Principal SE, Engineering Manager, Director of Engineering, VP Engineering, CTO — using seniority rubrics covering scope of impact, technical depth, leadership, and track record, with interview simulation protocols generating realistic candidate profiles and elite vetting gate. Owned by Dr. Evelyn Hartwell (CHRO). Use when recruiting for any engineering role, software developer, tech lead, engineering manager, or CTO. Trigger: recruit engineer, hire developer, software engineer recruitment, engineering recruitment, hire CTO, staff engineer, principal engineer, engineering manager."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Engineering Recruitment Skill

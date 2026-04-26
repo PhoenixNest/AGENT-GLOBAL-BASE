@@ -1,15 +1,8 @@
-# Android Data Layer
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Data Architecture
-**Owner:** Android Engineer (Nina Bergström)
-
-## Overview
-
-This skill implements the Android data layer covering the Repository pattern, Room database operations, Retrofit API clients, serialization strategies, and data synchronization mechanisms. It applies to Stage 5 (Development) where the data layer is the foundation for all platform code, Stage 6 (Code Review) where data flow correctness and error handling are audited, and Stage 7 (Automated Testing) where data layer tests validate repository contracts.
-
-## Competency Dimensions
-
-| Dimension              | Description                                                                                              | Proficiency Indicators                                                                                                                                 |
+| Competency             | Description                                                                                              | Quality Criteria                                                                                                                                       |
 | ---------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Repository Pattern     | Single data access abstraction, cache-then-network strategy, error propagation, data source coordination | ViewModel depends only on repository interface; repository coordinates multiple data sources transparently; error types are domain-specific            |
 | Room Database          | Entity design, DAO queries, TypeConverters, migrations, relations with junction tables, FTS search       | Schema properly indexed; migrations tested; complex queries use EXPLAIN for optimization; no N+1 query patterns                                        |

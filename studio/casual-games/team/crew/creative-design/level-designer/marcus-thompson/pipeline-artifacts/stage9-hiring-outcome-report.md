@@ -2,15 +2,15 @@
 vetting_total: 17
 composite_score: 4.38
 time_to_fill_days: 5
-final_decision: 'HIRED'
-reports_to: '** Mei Watanabe (Lead Game Designer)'
-candidate_name: 'M'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'creative-design'
-role: 'level-designer'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+reports_to: "** Mei Watanabe (Lead Game Designer)"
+candidate_name: "M"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "creative-design"
+role: "level-designer"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Marcus Thompson (G27)

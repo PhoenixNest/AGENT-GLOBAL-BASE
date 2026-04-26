@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Ops Engineer'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'live-ops'
-role: 'live-ops-engineer'
-document_type: 'Background Check'
+generated_at: "**"
+candidate_name: "Ops Engineer"
+entity_type: "studio"
+stage: "stage-6"
+division: "live-ops"
+role: "live-ops-engineer"
+document_type: "Background Check"
 ---
 
 # Stage 6: Background Verification Report — Live Ops Engineer #1 (G30)

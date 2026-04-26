@@ -39,8 +39,31 @@ Rachel owns the mobile and API test automation framework within the R&D Departme
 
 ## Skills Index
 
-- `skills/mobile-test-automation.md` — Mobile test framework architecture: Espresso, XCTest, Maestro, shared test DSL, flaky test detection, parallel test execution
-- `skills/defect-triage-protocol.md` — Defect triage: P0–P3 classification, quality scorecard methodology, triage certification
+- `company/departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/mobile-test-automation.md` — Mobile test framework architecture: Espresso, XCTest, Maestro, shared test DSL, flaky test detection, parallel test execution
+- `company/departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/defect-triage-protocol.md` — Defect triage: P0–P3 classification, quality scorecard methodology, triage certification
+
+## Pipeline Stages
+
+7, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

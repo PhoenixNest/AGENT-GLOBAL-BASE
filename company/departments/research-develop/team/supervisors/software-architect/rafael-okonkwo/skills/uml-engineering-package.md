@@ -1,6 +1,7 @@
 ---
 name: uml-engineering-package
 description: Production of the UML Engineering Package for mobile projects — class diagrams, sequence diagrams, component diagrams, and supporting documentation using PlantUML and Mermaid. Covers system design translation from PRD/IDS artifacts and architecture documentation standards.
+version: "1.0.0"
 ---
 
 # UML Engineering Package
@@ -8,6 +9,10 @@ description: Production of the UML Engineering Package for mobile projects — c
 ## Purpose
 
 Translate the approved web prototype, Interaction Design Specification (IDS), PRD, and SRD into a complete UML Engineering Package — the technical specification that the R&D Department implements against in Stage 5. Every diagram must be unambiguous: an engineer should be able to implement the system correctly from the UML alone, without requiring clarification.
+
+## Why This Matters
+
+Delivers complete UML engineering package with class, sequence, and component diagrams. Incomplete packages leave engineers guessing about system interactions and data flow.
 
 ## Package Contents
 
@@ -123,3 +128,16 @@ uml-package/
     component-[subsystem].puml
   rendered/               ← SVG exports of all diagrams
 ```
+
+## Pipeline Cross-References
+
+This skill governs the following pipeline stages:
+
+| Pipeline           | Stage                     | Template                                          |
+| ------------------ | ------------------------- | ------------------------------------------------- |
+| Mobile Development | Stage 3 (UML Engineering) | `company/pipeline/mobile-development/pipeline.md` |
+| Web Development    | Stage 3 (UML Engineering) | `company/pipeline/web-development/pipeline.md`    |
+| Backend Api        | Stage 3 (UML Engineering) | `company/pipeline/backend-api/pipeline.md`        |
+| Full Stack         | Stage 3 (UML Engineering) | `company/pipeline/full-stack/pipeline.md`         |
+
+Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

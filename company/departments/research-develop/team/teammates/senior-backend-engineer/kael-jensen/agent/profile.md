@@ -39,9 +39,32 @@ Kael is a Senior Backend Engineer reporting to the Backend Chapter Lead (Dev Mal
 
 ## Skills Index
 
-- `skills/real-time-architecture.md` — WebSocket, Redis pub/sub, connection management, failover
-- `skills/backend-observability.md` — Prometheus, Grafana, OpenTelemetry distributed tracing, SLO monitoring, automated alerting
-- `skills/websocket-scaling.md` — WebSocket scaling architecture, connection management at scale
+- `company/departments/research-develop/team/teammates/senior-backend-engineer/kael-jensen/skills/real-time-architecture.md` — WebSocket, Redis pub/sub, connection management, failover
+- `company/departments/research-develop/team/teammates/senior-backend-engineer/kael-jensen/skills/backend-observability.md` — Prometheus, Grafana, OpenTelemetry distributed tracing, SLO monitoring, automated alerting
+- `company/departments/research-develop/team/teammates/senior-backend-engineer/kael-jensen/skills/websocket-scaling.md` — WebSocket scaling architecture, connection management at scale
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

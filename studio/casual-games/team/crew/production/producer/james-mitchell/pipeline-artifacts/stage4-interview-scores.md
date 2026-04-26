@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All assessments completed.'
-candidate_name: 'James Mitchell'
-candidate_id: 'G9'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'production'
-role: 'producer'
-document_type: 'Interview Scores'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All assessments completed."
+candidate_name: "James Mitchell"
+candidate_id: "G9"
+entity_type: "studio"
+stage: "stage-4"
+division: "production"
+role: "producer"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Scores — James Mitchell (G9)

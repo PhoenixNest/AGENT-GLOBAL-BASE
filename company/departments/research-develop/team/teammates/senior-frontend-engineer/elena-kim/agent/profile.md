@@ -39,9 +39,32 @@ Elena is a Senior Frontend Engineer reporting to the Frontend Chapter Lead (Amir
 
 ## Skills Index
 
-- `skills/advanced-a11y.md` — WCAG 2.1 AA, keyboard navigation, screen readers, focus management, ARIA
-- `skills/xss-prevention.md` — CSP headers, DOMPurify sanitization, automated security linting, XSS prevention
-- `skills/pwa-engineering.md` — Progressive Web App development, service workers, offline support, manifest configuration
+- `company/departments/research-develop/team/teammates/senior-frontend-engineer/elena-kim/skills/advanced-a11y.md` — WCAG 2.1 AA, keyboard navigation, screen readers, focus management, ARIA
+- `company/departments/research-develop/team/teammates/senior-frontend-engineer/elena-kim/skills/xss-prevention.md` — CSP headers, DOMPurify sanitization, automated security linting, XSS prevention
+- `company/departments/research-develop/team/teammates/senior-frontend-engineer/elena-kim/skills/pwa-engineering.md` — Progressive Web App development, service workers, offline support, manifest configuration
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

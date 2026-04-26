@@ -4,14 +4,14 @@ scores:
   craft_depth: 5
   leadership_signal: 4
   standards_signal: 4
-  red_flag_scan: 'PASS'
+  red_flag_scan: "PASS"
 total_score: 18
-result: 'PASS'
-entity_type: 'studio'
-stage: 'stage-5'
-division: 'live-ops'
-role: 'live-ops-lead'
-document_type: 'Vetting Gate'
+result: "PASS"
+entity_type: "studio"
+stage: "stage-5"
+division: "live-ops"
+role: "live-ops-lead"
+document_type: "Vetting Gate"
 ---
 
 # Stage 5: Elite Vetting Gate — Live Ops Lead (G29)

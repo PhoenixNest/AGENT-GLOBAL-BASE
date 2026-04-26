@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Verification Report'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'live-ops'
-role: 'ua-specialist'
-document_type: 'Background Check'
+generated_at: "**"
+candidate_name: "Verification Report"
+entity_type: "studio"
+stage: "stage-6"
+division: "live-ops"
+role: "ua-specialist"
+document_type: "Background Check"
 ---
 
 # Stage 6: Background Verification Report — UA Specialist (G32)

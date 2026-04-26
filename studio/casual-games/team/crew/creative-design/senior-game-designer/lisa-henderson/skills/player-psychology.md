@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-player-psychology
+description: Player psychology application in game design — motivation models, behavioral patterns, engagement loops, retention drivers, and ethical design principles. Owned by Lisa Henderson (Senior Game Designer). Use during Studio Pipeline Stages 1–5 for retention design and difficulty balancing. Trigger: player psychology, motivation, retention, SDT, Bartle types, behavioral design, ethical design, difficulty curve.
+version: "1.0.0"
+---
+
 # Player Psychology
 
 **Skill ID:** player-psychology

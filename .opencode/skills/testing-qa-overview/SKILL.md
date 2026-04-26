@@ -1,6 +1,7 @@
 ---
 name: testing-qa-overview
-description: Testing Qa skills overview
+description: Testing & QA skills overview — mobile test automation, unit/integration/E2E testing, accessibility testing, performance testing, contract testing, defect triage, and quality engineering strategy for iOS and Android. Owned by Priscilla Oduya (Test Lead). Use as entry point for testing skill selection during Stage 4 (Implementation Plan) for test architecture and Stage 7 (Testing) for test execution. Trigger: testing overview, QA skills, mobile testing, test automation, accessibility testing, performance testing, defect triage, quality engineering.
+version: "1.0.0"
 ---
 
 # Testing & QA

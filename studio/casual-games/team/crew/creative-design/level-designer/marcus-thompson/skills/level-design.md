@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-level-design
+description: Level design for casual mobile games — layout design, pacing, spatial storytelling, and player guidance through environmental design. Owned by Marcus Thompson (Level Designer). Use during Studio Pipeline Stages 2–5 for level creation and difficulty progression. Trigger: level design, pacing, spatial design, difficulty curve, level layout, player guidance, campaign design.
+version: "1.0.0"
+---
+
 # Level Design
 
 **Skill ID:** level-design

@@ -1,5 +1,6 @@
 ---
-description: Use for SAST/DAST pipeline engineering, web application security scanning,
+description:
+  Use for SAST/DAST pipeline engineering, web application security scanning,
   WAF rule management, and vulnerability triage automation. Engage during Stage 6
   (Code Review) for security scanning reviews and Stage 8 (Integrity Verification)
   for security compliance checks.

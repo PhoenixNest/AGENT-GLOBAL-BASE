@@ -1,5 +1,6 @@
 ---
-description: Use for Jetpack Compose UI development, Android CI/CD pipeline optimization,
+description:
+  Use for Jetpack Compose UI development, Android CI/CD pipeline optimization,
   and modern Kotlin Android development. Engage during Stage 5 (Development) for Compose
   screen implementation and CI/CD pipeline setup.
 mode: subagent
@@ -43,10 +44,10 @@ Jan is an Android Engineer reporting to the Android Chapter Lead (Kofi Asante-Me
 
 ## Skills Index
 
-| Skill                | Location                                  | Description                                                      |
-| -------------------- | ----------------------------------------- | ---------------------------------------------------------------- |
-| `jetpack-compose.md` | `android/ui-ux/jetpack-compose.md`        | Compose UI, state management, animations, Navigation Compose     |
-| `android-ci-cd.md`   | `android/security-ci-cd/android-ci-cd.md` | GitHub Actions, Gradle Enterprise, Paparazzi, build optimization |
+| Skill                           | Location                                | Description                                                      |
+| ------------------------------- | --------------------------------------- | ---------------------------------------------------------------- |
+| `android-ui-ux-jetpack-compose` | `skills/android-ui-ux-jetpack-compose/` | Compose UI, state management, animations, Navigation Compose     |
+| `android-security-ci-cd-ci-cd`  | `skills/android-security-ci-cd-ci-cd/`  | GitHub Actions, Gradle Enterprise, Paparazzi, build optimization |
 
 ## Pipeline Stages Owned
 

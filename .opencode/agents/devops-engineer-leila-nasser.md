@@ -1,5 +1,6 @@
 ---
-description: Use for AWS cloud platform management, infrastructure monitoring, and
+description:
+  Use for AWS cloud platform management, infrastructure monitoring, and
   audit logging. Engage during Stage 5 (Development) for cloud infrastructure and
   Stage 8 (Integrity Verification) for compliance conformance.
 mode: subagent
@@ -43,11 +44,11 @@ Leila is a DevOps Engineer reporting to the DevOps Lead (Thomas Zhang). She cont
 
 ## Skills Index
 
-| Skill                              | Location                                             | Description                                                                 |
-| ---------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------- |
-| `aws-management.md`                | `devops\guidelines\aws-management.md`                | AWS Organizations, Control Tower, SCPs, cross-account IAM, CloudTrail       |
-| `monitoring-audit.md`              | `devops\guidelines\monitoring-audit.md`              | CloudWatch, Datadog, cost optimization, audit logging, compliance reporting |
-| `network-security-fundamentals.md` | `devops\guidelines\network-security-fundamentals.md` | Network security fundamentals, VPC security, security groups, NACLs         |
+| Skill                                             | Location                                                  | Description                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `devops-guidelines-aws-management`                | `skills/devops-guidelines-aws-management/`                | AWS Organizations, Control Tower, SCPs, cross-account IAM, CloudTrail       |
+| `devops-guidelines-monitoring-audit`              | `skills/devops-guidelines-monitoring-audit/`              | CloudWatch, Datadog, cost optimization, audit logging, compliance reporting |
+| `devops-guidelines-network-security-fundamentals` | `skills/devops-guidelines-network-security-fundamentals/` | Network security fundamentals, VPC security, security groups, NACLs         |
 
 ## Pipeline Stages Owned
 

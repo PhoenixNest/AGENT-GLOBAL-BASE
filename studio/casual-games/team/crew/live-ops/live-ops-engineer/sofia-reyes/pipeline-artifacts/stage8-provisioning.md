@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Ops Engineer'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'live-ops'
-role: 'live-ops-engineer'
-document_type: 'Provisioning Record'
+generated_at: "**"
+candidate_name: "Ops Engineer"
+entity_type: "studio"
+stage: "stage-8"
+division: "live-ops"
+role: "live-ops-engineer"
+document_type: "Provisioning Record"
 ---
 
 # Stage 8: Provisioning Record — Live Ops Engineer #2 (G31)

@@ -1,6 +1,10 @@
 ---
 name: product-management-guidelines-prd-authorship
-description: 'Product Management skill: Prd Authorship'
+description: "Produces Product Requirements Documents using JTBD framing, platform-specific UX constraints, instrumented metric definitions, edge case matrices, technical feasibility pre-assessment, launch sequencing, and explicit success/kill criteria — following an 11-section template with mandatory engineering, design, and data science review sign-offs. Owned by Marcus Tran-Yoshida (CPO). Use when writing PRDs, drafting product requirements, defining user stories with edge cases, specifying instrumentation events, or planning launch rollouts. Trigger: write PRD, product requirements, PRD template, JTBD, user stories, edge case matrix, instrumentation spec, launch sequencing, kill criteria, success criteria, product spec."
+prerequisites:
+  - product-management-overview
+
+version: "1.0.0"
 ---
 
 # PRD Authorship

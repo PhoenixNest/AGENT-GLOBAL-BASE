@@ -1,15 +1,8 @@
-# Event Sourcing
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Architecture
-**Owner:** Senior Backend Engineer (Viktor Horvath)
-
-## Overview
-
-Implements event sourcing as the persistence model for domain aggregates, capturing all state changes as an immutable sequence of events. Covers CQRS separation of read and write models, Kafka integration for event distribution, event schema versioning with Avro, event replay strategies for state reconstruction, and snapshot optimization for aggregate loading performance.
-
-## Competency Dimensions
-
-| Dimension               | Description                                                               | Proficiency Indicators                                                                                                          |
+| Competency              | Description                                                               | Quality Criteria                                                                                                                |
 | ----------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | Event Sourcing Patterns | Append-only event stores, aggregate reconstruction, temporal queries      | Designs event schemas that capture intent (not state changes); implements efficient aggregate reconstruction from event streams |
 | CQRS Implementation     | Command/query separation, read model projection, eventual consistency     | Designs projections that transform event streams into query-optimized read models; handles projection lag gracefully            |

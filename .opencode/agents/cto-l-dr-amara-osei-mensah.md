@@ -1,5 +1,6 @@
 ---
-description: Use for localization strategy, translation quality governance, and Language
+description:
+  Use for localization strategy, translation quality governance, and Language
   Translation Module execution. Engage during Stage 9 (Internationalization Engineering)
   and Stage 10 (Release Readiness) for multilingual translation requests, string extraction
   validation, and Translation Verification Reports.
@@ -48,9 +49,9 @@ Dr. Osei-Mensah owns the company's localization strategy and execution, governin
 
 ## Skills Index
 
-| Skill                            | Location                                                 | Description                                                                                                                                                                                  |
-| -------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `language-translation-module.md` | `localization\guidelines\language-translation-module.md` | Governing standard for all multilingual translation requests: string extraction validation, translation workflow, linguistic QA gates, platform formatting validation, and sign-off protocol |
+| Skill                                                 | Location                                                      | Description                                                                                                                                                                                  |
+| ----------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `localization-guidelines-language-translation-module` | `skills/localization-guidelines-language-translation-module/` | Governing standard for all multilingual translation requests: string extraction validation, translation workflow, linguistic QA gates, platform formatting validation, and sign-off protocol |
 
 ## Pipeline Stages Owned
 

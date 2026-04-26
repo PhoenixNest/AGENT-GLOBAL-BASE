@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-ids-fluency
-description: 'Design skill: Ids Fluency'
+description: Interaction Design Specification fluency for engineering teams — reading, interpreting, and correctly implementing from IDS documents, preventing UX defects at Stage 6 Code Review and Stage 8 Integrity Verification. Owned by Yuki Tanaka-Chen (CDO). Use during Stage 5 (Development) for IDS-guided implementation and Stage 6 (Code Review) for IDS conformance verification. Trigger: IDS fluency, interaction design specification, IDS interpretation, design spec implementation, UX defect prevention.
+prerequisites:
+  - design-guidelines-interaction-design-specification
+
+version: "1.0.0"
 ---
 
 # Interaction Design Specification Fluency

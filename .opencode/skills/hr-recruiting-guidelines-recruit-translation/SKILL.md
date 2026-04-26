@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-recruit-translation
-description: 'Hr Recruiting skill: Recruit Translation'
+description: "Recruits translation and localization roles — Translator, Senior Translator, Localization Engineer, Localization Manager, Head of Localization, CTO-L — using seniority rubrics covering scope of impact, technical depth in CAT tools and TM systems, leadership, and certified language pair declarations, with interview simulation protocols and elite vetting gate. Owned by Dr. Evelyn Hartwell (CHRO). Use when recruiting for translators, localization engineers, localization managers, or chief translation officer roles. Trigger: recruit translator, hire localization engineer, localization recruitment, translation recruitment, CTO-L, linguist recruitment, hire CAT specialist."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Translation & Localization Recruitment Skill

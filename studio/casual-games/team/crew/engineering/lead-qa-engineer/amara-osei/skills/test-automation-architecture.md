@@ -1,3 +1,9 @@
+---
+name: studio-engineering-test-automation-architecture
+description: Test automation framework design for game QA — Unity Test Framework, Appium, CI/CD integration, cross-device testing, regression test architecture. Owned by Amara Osei (Lead QA Engineer). Use during Studio Pipeline Stages 4–6 for test infrastructure setup and Stage 6 (Automated Testing) for test execution. Trigger: test automation architecture, QA framework, CI/CD testing, device farm, regression testing, Appium.
+version: "1.0.0"
+---
+
 # Test Automation Architecture
 
 **Skill Owner:** Amara Osei (Lead QA Engineer)

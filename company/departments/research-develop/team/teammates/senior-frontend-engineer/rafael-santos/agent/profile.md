@@ -39,9 +39,32 @@ Rafael is a Senior Frontend Engineer reporting to the Frontend Chapter Lead (Ami
 
 ## Skills Index
 
-- `skills/frontend-performance-optimization.md` — Web Vitals, code splitting, lazy loading, Lighthouse, critical CSS
-- `skills/react-testing.md` — Jest, React Testing Library, Cypress, visual regression testing, E2E test suites
-- `skills/ssr-nextjs.md` — Next.js SSR/SSG, server-side data fetching, hybrid rendering
+- `company/departments/research-develop/team/teammates/senior-frontend-engineer/rafael-santos/skills/frontend-performance-optimization.md` — Web Vitals, code splitting, lazy loading, Lighthouse, critical CSS
+- `company/departments/research-develop/team/teammates/senior-frontend-engineer/rafael-santos/skills/react-testing.md` — Jest, React Testing Library, Cypress, visual regression testing, E2E test suites
+- `company/departments/research-develop/team/teammates/senior-frontend-engineer/rafael-santos/skills/ssr-nextjs.md` — Next.js SSR/SSG, server-side data fetching, hybrid rendering
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

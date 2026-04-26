@@ -1,6 +1,7 @@
 ---
 name: technical-project-management
 description: Technical project management with phased delivery methodology, progress oversight, and milestone tracking. Use when the user needs to manage software projects, create project plans, track progress, manage risks, produce status reports, or oversee engineering execution. Trigger when user mentions "project management", "progress tracking", "milestone planning", "status report", or needs to manage technical project delivery.
+version: "1.0.0"
 ---
 
 # Technical Project Management
@@ -8,6 +9,10 @@ description: Technical project management with phased delivery methodology, prog
 ## Purpose
 
 Manage technical projects from planning through delivery using phased methodology. Provide visibility into progress, manage risks proactively, and ensure engineering teams deliver on time with quality.
+
+## Why This Matters
+
+Tracks progress, manages risks, and ensures on-time delivery. Without project management, teams lose visibility into schedule variance and miss Stage gate deadlines.
 
 ## When to Use This Skill
 

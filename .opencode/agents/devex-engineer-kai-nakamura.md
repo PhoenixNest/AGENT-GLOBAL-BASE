@@ -1,5 +1,6 @@
 ---
-description: Use for build optimization, developer analytics, and internal tooling.
+description:
+  Use for build optimization, developer analytics, and internal tooling.
   Engage during Stage 5 (Development) for developer experience and build performance.
 mode: subagent
 tools:
@@ -42,11 +43,11 @@ Kai is a Developer Experience Engineer reporting to the DevOps Lead (Thomas Zhan
 
 ## Skills Index
 
-| Skill                    | Location                                   | Description                                                              |
-| ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------ |
-| `build-optimization.md`  | `devops\guidelines\build-optimization.md`  | Gradle Enterprise, build cache, remote execution, build telemetry        |
-| `developer-analytics.md` | `devops\guidelines\developer-analytics.md` | CLI toolchain, code generation, project scaffolding, developer analytics |
-| `bazel-build-system.md`  | `devops\guidelines\bazel-build-system.md`  | Bazel build system, migration strategies, remote execution               |
+| Skill                                   | Location                                        | Description                                                              |
+| --------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------ |
+| `devops-guidelines-build-optimization`  | `skills/devops-guidelines-build-optimization/`  | Gradle Enterprise, build cache, remote execution, build telemetry        |
+| `devops-guidelines-developer-analytics` | `skills/devops-guidelines-developer-analytics/` | CLI toolchain, code generation, project scaffolding, developer analytics |
+| `devops-guidelines-bazel-build-system`  | `skills/devops-guidelines-bazel-build-system/`  | Bazel build system, migration strategies, remote execution               |
 
 ## Pipeline Stages Owned
 

@@ -1,5 +1,6 @@
 ---
-description: Use for security compliance auditing (SOC 2, PCI DSS, GDPR, ISO 27001),
+description:
+  Use for security compliance auditing (SOC 2, PCI DSS, GDPR, ISO 27001),
   OWASP MASVS compliance auditing, compliance documentation, and automated evidence
   collection. Engage during Stage 1 (Requirements) for compliance requirements reviews
   and Stage 10 (Release Readiness) for compliance sign-off.
@@ -44,11 +45,11 @@ Ingrid serves as Compliance Analyst within the Cyberspace Security Department, r
 
 ## Skills Index
 
-| Skill                         | Location                                          | Description                                                                    |
-| ----------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `compliance-auditing.md`      | `security\compliance\compliance-auditing.md`      | Compliance frameworks: SOC 2, PCI DSS, GDPR, ISO 27001, audit management       |
-| `owasp-masvs-auditing.md`     | `security\masvs\owasp-masvs-auditing.md`          | MASVS compliance assessment, mobile banking security auditing                  |
-| `compliance-documentation.md` | `security\compliance\compliance-documentation.md` | Risk assessments, control descriptions, evidence collection, remediation plans |
+| Skill                                 | Location                                      | Description                                                                    |
+| ------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------ |
+| `security-compliance-auditing`        | `skills/security-compliance-auditing/`        | Compliance frameworks: SOC 2, PCI DSS, GDPR, ISO 27001, audit management       |
+| `security-masvs-owasp-masvs-auditing` | `skills/security-masvs-owasp-masvs-auditing/` | MASVS compliance assessment, mobile banking security auditing                  |
+| `security-compliance-documentation`   | `skills/security-compliance-documentation/`   | Risk assessments, control descriptions, evidence collection, remediation plans |
 
 ## Pipeline Stages Owned
 

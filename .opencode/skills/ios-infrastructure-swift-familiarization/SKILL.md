@@ -1,6 +1,10 @@
 ---
 name: ios-infrastructure-swift-familiarization
-description: 'Ios skill: Swift Familiarization'
+description: "Swift language fundamentals for cross-platform engineers transitioning to iOS — value vs reference types, optionals, async/await, actors, app lifecycle, and KMP interoperability. Owned by Seo-Yeon Park (iOS Lead). Use when onboarding KMP/Flutter engineers to iOS codebase or reading Swift adapter code. Trigger: swift basics, swift fundamentals, swift language, optionals, value types, reference types, swift for kotlin, swift for flutter, kmp ios adapter, expect actual."
+prerequisites:
+  - ios-overview
+
+version: "1.0.0"
 ---
 
 # Swift Familiarization

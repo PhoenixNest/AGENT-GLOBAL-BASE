@@ -1,19 +1,14 @@
-# Threat Modeling
+---
+version: "1.0.0"
+---
 
-## Overview
-
-Systematic identification, analysis, and documentation of security threats across the application architecture. This skill encompasses STRIDE methodology, PASTA framework, attack tree construction, zero-trust architecture review, security code review patterns, and threat model documentation. It enables a security architect to proactively design defenses into the system rather than reactively patching vulnerabilities after deployment.
-
-## Competency Dimensions
-
-| Dimension               | Proficiency Level | Key Capabilities                                                                               |
-| ----------------------- | ----------------- | ---------------------------------------------------------------------------------------------- |
-| STRIDE Methodology      | Expert            | Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege analysis |
-| PASTA Framework         | Expert            | 7-stage risk-centric threat modeling aligned with business objectives                          |
-| Attack Trees            | Advanced          | Multi-path attack scenario modeling, probability-weighted threat analysis                      |
-| Zero-Trust Architecture | Advanced          | Identity-centric security, microsegmentation, continuous verification                          |
-| Security Code Review    | Advanced          | Identifying vulnerability patterns in code, secure coding standards enforcement                |
-| Threat Documentation    | Expert            | DFD-based threat models, risk registers, mitigation tracking                                   |
+----------------- | ----------------- | ---------------------------------------------------------------------------------------------- |
+| STRIDE Methodology | Expert | Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege analysis |
+| PASTA Framework | Expert | 7-stage risk-centric threat modeling aligned with business objectives |
+| Attack Trees | Advanced | Multi-path attack scenario modeling, probability-weighted threat analysis |
+| Zero-Trust Architecture | Advanced | Identity-centric security, microsegmentation, continuous verification |
+| Security Code Review | Advanced | Identifying vulnerability patterns in code, secure coding standards enforcement |
+| Threat Documentation | Expert | DFD-based threat models, risk registers, mitigation tracking |
 
 ## Execution Guidance
 

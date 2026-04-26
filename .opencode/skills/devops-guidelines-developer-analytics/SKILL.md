@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-developer-analytics
-description: 'Devops skill: Developer Analytics'
+description: Developer analytics for mobile engineering teams — DORA metrics tracking (deployment frequency, lead time, MTTR, change failure rate), code quality dashboards, pipeline performance monitoring, and engineering productivity reporting. Owned by Thomas Zhang (DevOps Lead). Use during Stage 5 (Development) for metrics instrumentation and Stage 10 (Release Readiness) for engineering health reporting. Trigger: developer analytics, DORA metrics, deployment frequency, lead time, MTTR, change failure rate, code quality dashboard, pipeline monitoring, engineering productivity.
+prerequisites:
+  - devops-overview
+
+version: "1.0.0"
 ---
 
 # Developer Analytics

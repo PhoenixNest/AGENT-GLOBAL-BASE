@@ -1,15 +1,8 @@
-# Android Test Infrastructure
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Testing Infrastructure
-**Owner:** Android Engineer (Nina Bergström)
-
-## Overview
-
-This skill establishes the testing infrastructure for Android applications covering test fixtures, CI integration, parallel test execution, and flaky test management. It applies to Stage 5 (Development) where test utilities are built alongside production code, Stage 6 (Code Review) where test infrastructure quality is evaluated, and Stage 7 (Automated Testing) where the full test suite execution depends on this infrastructure for reliability and speed.
-
-## Competency Dimensions
-
-| Dimension               | Description                                                                                                           | Proficiency Indicators                                                                                                                        |
+| Competency              | Description                                                                                                           | Quality Criteria                                                                                                                              |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | Test Fixtures           | Deterministic test data generation, factory pattern, builders, JSON fixtures, database seeding                        | Test data is reproducible across runs; fixtures cover edge cases (empty lists, null fields, boundary values); factory methods compose cleanly |
 | CI Integration          | GitHub Actions test orchestration, artifact management, test result publishing, coverage aggregation, matrix strategy | Tests run on CI in <30 minutes; test results published as actionable reports; coverage reports aggregated across modules                      |
@@ -174,8 +167,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -188,7 +181,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: '**/build/test-results/testDebugUnitTest/*.xml'
+          path: "**/build/test-results/testDebugUnitTest/*.xml"
 
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -203,7 +196,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: instrumented-test-results
-          path: '**/build/outputs/androidTest-results/'
+          path: "**/build/outputs/androidTest-results/"
 
       - name: Publish test results
         if: always()
@@ -219,7 +212,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          files: '**/build/reports/jacoco/jacoco.xml'
+          files: "**/build/reports/jacoco/jacoco.xml"
           fail_ci_if_error: true
 ```
 

@@ -1,5 +1,6 @@
 ---
-description: Use for CI/CD infrastructure engineering, pipeline security integration,
+description:
+  Use for CI/CD infrastructure engineering, pipeline security integration,
   compliance foundations, and mobile scanning tools. Engage during Stage 5 (Development)
   for CI/CD pipeline setup and Stage 8 (Integrity Verification) for pipeline security
   conformance.
@@ -44,11 +45,11 @@ Thomas owns the CI/CD pipeline architecture, cloud infrastructure operations, an
 
 ## Skills Index
 
-| Skill                                | Location                                               | Description                                                                                                         |
-| ------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `cicd-infrastructure-engineering.md` | `devops\guidelines\cicd-infrastructure-engineering.md` | CI/CD architecture: GitLab CI, ArgoCD, build optimization, pipeline security integration, i18n pipeline engineering |
-| `compliance-foundations.md`          | `devops\guidelines\compliance-foundations.md`          | Compliance frameworks, audit readiness, regulatory alignment                                                        |
-| `mobile-scanning-tools.md`           | `security\pentesting\mobile-scanning-tools.md`         | Mobile security scanning: MobSF, SAST/DAST for mobile                                                               |
+| Skill                                               | Location                                                    | Description                                                                                                         |
+| --------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `devops-guidelines-cicd-infrastructure-engineering` | `skills/devops-guidelines-cicd-infrastructure-engineering/` | CI/CD architecture: GitLab CI, ArgoCD, build optimization, pipeline security integration, i18n pipeline engineering |
+| `devops-guidelines-compliance-foundations`          | `skills/devops-guidelines-compliance-foundations/`          | Compliance frameworks, audit readiness, regulatory alignment                                                        |
+| `security-pentesting-mobile-scanning-tools`         | `skills/security-pentesting-mobile-scanning-tools/`         | Mobile security scanning: MobSF, SAST/DAST for mobile                                                               |
 
 ## Pipeline Stages Owned
 

@@ -1,5 +1,6 @@
 ---
-description: Use for GraphQL API development (Apollo Server), AWS cloud infrastructure
+description:
+  Use for GraphQL API development (Apollo Server), AWS cloud infrastructure
   (Terraform, ECS, RDS), and Node.js/TypeScript backend. Engage during Stage 5 (Backend
   Development) for GraphQL and cloud deployment.
 mode: subagent
@@ -43,11 +44,11 @@ Thabo is a Backend Engineer reporting to the Backend Chapter Lead (Dev Malhotra)
 
 ## Skills Index
 
-| Skill                 | Location                                 | Description                                                               |
-| --------------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
-| `graphql-apis.md`     | `backend\api-patterns\graphql-apis.md`   | Apollo Server, schema stitching, DataLoader, subscriptions                |
-| `aws-fundamentals.md` | `backend\cloud\aws-fundamentals.md`      | Terraform, ECS, RDS, auto-scaling, blue-green deployments                 |
-| `aws-architecture.md` | `backend\guidelines\aws-architecture.md` | AWS architecture foundations, service selection, multi-service deployment |
+| Skill                                 | Location                                      | Description                                                               |
+| ------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| `backend-api-patterns-graphql-apis`   | `skills/backend-api-patterns-graphql-apis/`   | Apollo Server, schema stitching, DataLoader, subscriptions                |
+| `backend-cloud-aws-fundamentals`      | `skills/backend-cloud-aws-fundamentals/`      | Terraform, ECS, RDS, auto-scaling, blue-green deployments                 |
+| `backend-guidelines-aws-architecture` | `skills/backend-guidelines-aws-architecture/` | AWS architecture foundations, service selection, multi-service deployment |
 
 ## Pipeline Stages Owned
 

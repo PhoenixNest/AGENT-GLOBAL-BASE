@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-mobile-ui-translation-chinese
-description: 'Localization skill: Mobile Ui Translation Chinese'
+description: Chinese (ZH) mobile UI string translation and linguistic QA — simplified/traditional character handling, CJK character limit compliance, platform writing conventions (iOS HIG / Android Material Design 3), register calibration, MT post-editing, plural form coverage, and delivery to CTO-L for Translation Verification Report. Owned by the Chinese Linguist. Use during Stage 9 (i18n Engineering) for Chinese UI translation. Trigger: Chinese translation, ZH translation, simplified Chinese, traditional Chinese, CJK localization, Chinese UI strings.
+prerequisites:
+  - localization-guidelines-mobile-ui-translation
+
+version: "1.0.0"
 ---
 
 # Mobile UI Translation

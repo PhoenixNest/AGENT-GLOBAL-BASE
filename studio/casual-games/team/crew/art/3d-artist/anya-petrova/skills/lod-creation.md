@@ -1,3 +1,9 @@
+---
+name: studio-art-lod-creation
+description: Level of Detail (LOD) creation for mobile games — automated and manual LOD generation, transition management, and performance optimization. Owned by Anya Petrova (3D Artist). Use during Studio Pipeline Stages 5–6 for LOD production and optimization. Trigger: LOD creation, level of detail, Simplygon, LOD generation, LOD transitions, performance optimization, mesh simplification.
+version: "1.0.0"
+---
+
 # LOD Creation
 
 **Skill ID:** lod-creation

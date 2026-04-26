@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-software-architecture-design
-description: 'Architecture skill: Software Architecture Design'
+description: Software architecture design with UML modelling for mobile projects — system design using PlantUML/Mermaid, architecture patterns (clean, MVVM, VIPER, TCA), logical project structures, dependency graphs, and system interaction models. Owned by Dr. Kenji Nakamura (CTO). Use during Stage 3 (UML Engineering) for architecture design and Stage 4 (Implementation Plan) for dependency mapping. Trigger: software architecture design, UML modelling, system design, architecture patterns, dependency graph, logical project structure.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Software Architecture Design

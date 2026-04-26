@@ -1,5 +1,6 @@
 ---
-description: Use for CI/CD optimization, test infrastructure, and developer onboarding
+description:
+  Use for CI/CD optimization, test infrastructure, and developer onboarding
   automation. Engage during Stage 5 (Development) for CI/CD infrastructure and Stage
   7 (Testing) for test infrastructure optimization.
 mode: subagent
@@ -43,11 +44,11 @@ Zara is a Developer Experience Engineer reporting to the DevOps Lead (Thomas Zha
 
 ## Skills Index
 
-| Skill                   | Location                                  | Description                                                                 |
-| ----------------------- | ----------------------------------------- | --------------------------------------------------------------------------- |
-| `ci-cd-optimization.md` | `devops\guidelines\ci-cd-optimization.md` | GitHub Actions, parallel test execution, CI telemetry, deployment frequency |
-| `test-infra.md`         | `devops\guidelines\test-infra.md`         | Flaky test detection, auto-quarantine, test parallelization, test analytics |
-| `test-sharding.md`      | `testing-qa\guidelines\test-sharding.md`  | Test sharding architecture, parallel execution, shard allocation            |
+| Skill                                  | Location                                       | Description                                                                 |
+| -------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------- |
+| `devops-guidelines-ci-cd-optimization` | `skills/devops-guidelines-ci-cd-optimization/` | GitHub Actions, parallel test execution, CI telemetry, deployment frequency |
+| `devops-guidelines-test-infra`         | `skills/devops-guidelines-test-infra/`         | Flaky test detection, auto-quarantine, test parallelization, test analytics |
+| `testing-qa-guidelines-test-sharding`  | `skills/testing-qa-guidelines-test-sharding/`  | Test sharding architecture, parallel execution, shard allocation            |
 
 ## Pipeline Stages Owned
 

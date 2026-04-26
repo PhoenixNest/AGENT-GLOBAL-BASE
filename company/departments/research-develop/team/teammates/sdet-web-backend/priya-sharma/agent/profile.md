@@ -39,10 +39,33 @@ Priya is an SDET (Web/Backend) reporting to the Test Automation Lead (Rachel Kim
 
 ## Skills Index
 
-- `skills/api-testing.md` — Playwright, RestAssured, API test automation
-- `skills/pact-contract-testing.md` — Pact, consumer-driven contracts, cross-service verification
-- `skills/k6-performance.md` — k6, Grafana, load testing, performance regression detection, SLO alerting
-- `skills/mobile-testing-fundamentals.md` — Mobile testing fundamentals, mobile-specific test patterns
+- `company/departments/research-develop/team/teammates/sdet-web-backend/priya-sharma/skills/api-testing.md` — Playwright, RestAssured, API test automation
+- `company/departments/research-develop/team/teammates/sdet-web-backend/priya-sharma/skills/pact-contract-testing.md` — Pact, consumer-driven contracts, cross-service verification
+- `company/departments/research-develop/team/teammates/sdet-web-backend/priya-sharma/skills/k6-performance.md` — k6, Grafana, load testing, performance regression detection, SLO alerting
+- `company/departments/research-develop/team/teammates/sdet-web-backend/priya-sharma/skills/mobile-testing-fundamentals.md` — Mobile testing fundamentals, mobile-specific test patterns
+
+## Pipeline Stages
+
+7, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

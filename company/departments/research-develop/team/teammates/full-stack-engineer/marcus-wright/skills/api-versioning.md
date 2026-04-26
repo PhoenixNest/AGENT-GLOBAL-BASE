@@ -1,15 +1,8 @@
-# API Versioning
+---
+version: "1.0.0"
+---
 
-**Category:** API Architecture
-**Owner:** Full-Stack Engineer (Marcus Wright)
-
-## Overview
-
-Manages REST API versioning across the product lifecycle, implementing versioning strategies (URL path, header, media type), backward compatibility patterns, feature flag-driven gradual rollouts, rollback procedures for breaking changes, and multi-tenant data isolation to ensure different tenant versions coexist without conflict.
-
-## Competency Dimensions
-
-| Dimension                   | Description                                                                                        | Proficiency Indicators                                                                                                                           |
+| Competency                  | Description                                                                                        | Quality Criteria                                                                                                                                 |
 | --------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Versioning Strategies       | URL path (/v1/, /v2/), custom header (X-API-Version), media type (application/vnd.company.v2+json) | Selects versioning strategy based on consumer needs; implements multiple versioning approaches simultaneously; documents version lifecycle       |
 | Backward Compatibility      | Non-breaking changes, additive updates, deprecated field handling, response shape preservation     | Identifies breaking vs non-breaking changes; implements additive-only changes within a version; deprecates fields gracefully with sunset headers |
@@ -186,7 +179,7 @@ class APIFeatureFlags {
 
     // Percentage rollout
     if (flagConfig.rolloutPercentage !== undefined) {
-      const hash = this.hashUserId(userId ?? 'anonymous');
+      const hash = this.hashUserId(userId ?? "anonymous");
       return hash % 100 < flagConfig.rolloutPercentage;
     }
 
@@ -204,8 +197,11 @@ class APIFeatureFlags {
 }
 
 // Feature-gated API endpoint
-app.get('/api/v2/users', async (req, res) => {
-  const useNewFormat = await featureFlags.isEnabled('api-v2-response-format', req.user?.id);
+app.get("/api/v2/users", async (req, res) => {
+  const useNewFormat = await featureFlags.isEnabled(
+    "api-v2-response-format",
+    req.user?.id,
+  );
 
   const users = await userService.getUsers();
 
@@ -256,15 +252,15 @@ phases:
 # Monitoring during rollout
 alerts:
   - metric: error_rate
-    threshold: '> 1%'
+    threshold: "> 1%"
     action: halt rollout
 
   - metric: latency_p99
-    threshold: '> 500ms'
+    threshold: "> 500ms"
     action: halt rollout
 
   - metric: consumer_complaints
-    threshold: '> 5 per day'
+    threshold: "> 5 per day"
     action: review rollout
 ```
 

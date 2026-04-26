@@ -39,9 +39,32 @@ Aisha owns quality engineering strategy and release gate authority across the R&
 
 ## Skills Index
 
-- `skills/quality-engineering-strategy.md` — Quality engineering: test automation architecture, quality scorecard design, release gate authority, SDET team building, product risk calibration
-- `skills/axe-core-wcag-testing.md` — axe-core WCAG 2.1 AA test suite, accessibility automation
-- `skills/localization-testing-strategy.md` — Localization testing strategy, TMS verification, pseudo-localization validation
+- `company/departments/research-develop/team/supervisors/vp-quality/skills/quality-engineering-strategy.md` — Quality engineering: test automation architecture, quality scorecard design, release gate authority, SDET team building, product risk calibration
+- `company/departments/research-develop/team/supervisors/vp-quality/skills/axe-core-wcag-testing.md` — axe-core WCAG 2.1 AA test suite, accessibility automation
+- `company/departments/research-develop/team/supervisors/vp-quality/skills/localization-testing-strategy.md` — Localization testing strategy, TMS verification, pseudo-localization validation
+
+## Pipeline Stages
+
+7, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

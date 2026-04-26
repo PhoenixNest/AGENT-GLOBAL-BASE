@@ -1,21 +1,13 @@
-# Android Security
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Security
-**Owner:** Senior Android Engineer (Priya Narayanan)
-
-## Overview
-
-This skill implements OWASP Mobile Application Security Verification Standard (MASVS) compliance on Android, covering Keystore integration, secure networking, data protection, and code obfuscation with ProGuard/R8. It applies to Stage 5 (Development) for secure implementation, Stage 6 (Code Review) for security audit, and Stage 8 (Integrity Verification) where CSO validates SRD compliance against the MASVS baseline.
-
-## Competency Dimensions
-
-| Dimension                           | Description                                                                                               | Proficiency Indicators                                                                                                                                      |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| OWASP MASVS Compliance              | Understanding of MASVS V1-V8 control families, L1 vs L2 certification levels, and verification procedures | Maps every security requirement from SRD to specific MASVS control IDs; achieves L1 baseline for all production releases; documents verification evidence   |
-| Android Keystore & Cryptography     | Key generation, hardware-backed storage, key attestation, encryption/decryption lifecycle                 | Uses Android Keystore for all cryptographic keys; implements key rotation; handles key invalidation gracefully (BIOMETRIC_ERROR, device lock screen change) |
-| Secure Networking                   | TLS configuration, certificate pinning, network security configuration, MITM protection                   | Implements certificate pinning with backup pins; Network Security Config disables cleartext; OkHttp configured with modern TLS 1.2+ cipher suites           |
-| Data Protection                     | EncryptedSharedPreferences, SQLCipher, secure file storage, clipboard/data leakage prevention             | All PII encrypted at rest; no sensitive data in logs, clipboard, or recent tasks; secure file deletion with overwrite                                       |
-| Code Obfuscation & Tamper Detection | R8/ProGuard rules, integrity checks, root/jailbreak detection, debugger detection                         | R8 shrinking removes 40%+ unused code; anti-tampering checks trigger graceful degradation; debuggable=false in release builds                               |
+----------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OWASP MASVS Compliance | Understanding of MASVS V1-V8 control families, L1 vs L2 certification levels, and verification procedures | Maps every security requirement from SRD to specific MASVS control IDs; achieves L1 baseline for all production releases; documents verification evidence |
+| Android Keystore & Cryptography | Key generation, hardware-backed storage, key attestation, encryption/decryption lifecycle | Uses Android Keystore for all cryptographic keys; implements key rotation; handles key invalidation gracefully (BIOMETRIC_ERROR, device lock screen change) |
+| Secure Networking | TLS configuration, certificate pinning, network security configuration, MITM protection | Implements certificate pinning with backup pins; Network Security Config disables cleartext; OkHttp configured with modern TLS 1.2+ cipher suites |
+| Data Protection | EncryptedSharedPreferences, SQLCipher, secure file storage, clipboard/data leakage prevention | All PII encrypted at rest; no sensitive data in logs, clipboard, or recent tasks; secure file deletion with overwrite |
+| Code Obfuscation & Tamper Detection | R8/ProGuard rules, integrity checks, root/jailbreak detection, debugger detection | R8 shrinking removes 40%+ unused code; anti-tampering checks trigger graceful degradation; debuggable=false in release builds |
 
 ## Execution Guidance
 

@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-architecture-review-shadowing
-description: 'Architecture skill: Architecture Review Shadowing'
+description: Architecture review shadowing for mobile projects — independent platform-lead evaluation of UML packages, ADRs, and TSD during Stage 3 before gate review. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for shadow review execution and Stage 4 (Implementation Plan) for effort estimation. Trigger: architecture review shadowing, shadow review, UML review, architecture feasibility, platform lead review.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Architecture Review Shadowing

@@ -1,0 +1,32 @@
+{
+  "category": "product-management",
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "should_trigger": [
+    "product strategy",
+    "mobile roadmap",
+    "prioritization",
+    "monetization",
+    "product vision",
+    "retention strategy",
+    "product OKR",
+    "write PRD",
+    "product requirements",
+    "PRD template",
+    "JTBD",
+    "edge case matrix",
+    "PRD translation",
+    "technical specification",
+    "edge case identification",
+    "trade-off analysis",
+    "build vs buy"
+  ],
+  "should_not_trigger": [
+    "jetpack compose",
+    "swiftui view",
+    "go http handler",
+    "terraform apply",
+    "semgrep scan"
+  ],
+  "instructions": "Verify AI platform correctly triggers product management skills for PRD/strategy/requirements queries and does not trigger for engineering/infrastructure queries."
+}

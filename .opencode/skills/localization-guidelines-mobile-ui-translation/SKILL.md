@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-mobile-ui-translation
-description: 'Localization skill: Mobile Ui Translation'
+description: Mobile UI string translation and linguistic QA — Language Translation Module workflow, character limit compliance, platform writing conventions (iOS HIG / Android Material Design 3), register calibration, MT post-editing, plural form coverage for EN/ZH/JA/KO/FR, and delivery to CTO-L for Translation Verification Report. Owned by Dr. Amara Osei-Mensah (CTO-L). Use during Stage 9 (i18n Engineering) for UI string translation. Trigger: mobile UI translation, UI string translation, linguistic QA, MT post-editing, plural form translation, character limit compliance.
+prerequisites:
+  - localization-guidelines-language-translation-module
+
+version: "1.0.0"
 ---
 
 # Mobile UI Translation

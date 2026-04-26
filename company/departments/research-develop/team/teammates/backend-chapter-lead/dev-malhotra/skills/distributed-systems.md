@@ -1,15 +1,8 @@
-# Distributed Systems
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Architecture
-**Owner:** Backend Chapter Lead (Dev Malhotra)
-
-## Overview
-
-Designs and operates distributed systems at scale, implementing microservices architecture with event-driven communication patterns, resilience engineering, and observability. This skill covers saga pattern orchestration, circuit breaker implementation, idempotency guarantees, and distributed tracing with OpenTelemetry across service boundaries.
-
-## Competency Dimensions
-
-| Dimension                  | Description                                                           | Proficiency Indicators                                                                                                                                            |
+| Competency                 | Description                                                           | Quality Criteria                                                                                                                                                  |
 | -------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Microservices Architecture | Service decomposition, bounded contexts, inter-service communication  | Can decompose a monolith into cohesive services with clear domain boundaries; selects synchronous vs asynchronous communication based on consistency requirements |
 | Event-Driven Design        | Event sourcing foundations, pub/sub patterns, event schema evolution  | Designs event schemas with forward/backward compatibility; implements dead-letter queues and retry policies with exponential backoff                              |

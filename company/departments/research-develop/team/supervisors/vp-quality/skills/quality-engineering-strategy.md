@@ -1,6 +1,7 @@
 ---
 name: quality-engineering-strategy
 description: Quality engineering strategy at enterprise scale: test pyramid design, quality scorecard with release gate authority, SDET team structure, product risk calibration, flaky test management, and 100% automated test pass rate enforcement across 57 engineers and 5 divisions.
+version: "1.0.0"
 ---
 
 # Quality Engineering Strategy

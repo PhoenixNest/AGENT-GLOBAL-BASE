@@ -1,6 +1,7 @@
 ---
 name: kmp-implementation
 description: Kotlin Multiplatform (KMP) shared module implementation — shared module architecture, expect/actual platform declarations, Ktor shared networking, SQLDelight shared database, Kotlin/Native memory model, Swift interoperability, and Gradle multi-module build configuration.
+version: "1.0.0"
 ---
 
 # KMP Implementation
@@ -8,6 +9,10 @@ description: Kotlin Multiplatform (KMP) shared module implementation — shared 
 ## Purpose
 
 Implement shared business logic and data layers using Kotlin Multiplatform for projects targeting both Android and iOS. The KMP shared module contains platform-agnostic code that eliminates duplication while the Android and iOS leads own their respective platform UI layers.
+
+## Why This Matters
+
+Implements KMP shared modules. Poor implementation causes platform integration failures and duplicate code.
 
 ## When KMP is the Right Choice
 

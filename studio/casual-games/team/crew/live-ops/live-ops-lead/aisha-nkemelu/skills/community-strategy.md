@@ -1,6 +1,7 @@
 ---
 name: community-strategy
 description: Community engagement, Discord management, player feedback loops, social media strategy, and community-driven event design for mobile games.
+version: "1.0.0"
 ---
 
 # Community Strategy

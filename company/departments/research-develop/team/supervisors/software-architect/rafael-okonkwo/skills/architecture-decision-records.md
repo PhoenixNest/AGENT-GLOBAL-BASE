@@ -1,6 +1,7 @@
 ---
 name: architecture-decision-records
 description: Authorship of Architecture Decision Records (ADRs) — structured documents capturing context, decision, alternatives considered, consequences, and UML-embedded rationale. Produces traceable records from product requirement to architectural choice.
+version: "1.0.0"
 ---
 
 # Architecture Decision Records (ADRs)
@@ -8,6 +9,10 @@ description: Authorship of Architecture Decision Records (ADRs) — structured d
 ## Purpose
 
 Document every significant architectural decision as a traceable, permanent record. An ADR answers: what was the context, what decision was made, what alternatives were considered, and what are the consequences. ADRs are immutable once approved — they record history, not current state. If a decision changes, a new ADR is written that supersedes the old one.
+
+## Why This Matters
+
+Documents critical technology and architecture choices with alternatives analysis. Missing ADRs force teams to reverse-engineer decisions from code, wasting 2-3 days per investigation.
 
 ## ADR Template
 

@@ -1,15 +1,8 @@
-# API Gateway Design
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Architecture
-**Owner:** Backend Chapter Lead (Dev Malhotra)
-
-## Overview
-
-Designs and implements API gateway patterns that serve as the single entry point for all client traffic, providing routing, rate limiting, authentication termination, load balancing, and resilience at the edge. Covers BFF (Backend-for-Frontend) pattern implementation, gateway-level circuit breakers, and mTLS termination with downstream service propagation.
-
-## Competency Dimensions
-
-| Dimension               | Description                                                          | Proficiency Indicators                                                                                                                    |
+| Competency              | Description                                                          | Quality Criteria                                                                                                                          |
 | ----------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Gateway Patterns        | BFF, aggregator, proxy, gateway routing strategies                   | Selects appropriate gateway topology per client type; implements route matching with path rewriting and header manipulation               |
 | Rate Limiting           | Token bucket, sliding window, leaky bucket algorithms                | Implements multi-tier rate limiting (global, per-tenant, per-user); configures burst allowances based on traffic analysis                 |
@@ -41,11 +34,11 @@ rate_limits:
   - actions:
       - remote_address: {} # Per-IP
       - request_headers:
-          header_name: 'x-api-key'
-          descriptor_key: 'api_key'
+          header_name: "x-api-key"
+          descriptor_key: "api_key"
   - actions:
       - generic_key:
-          descriptor_value: 'global' # Global limit
+          descriptor_value: "global" # Global limit
 
 # Token bucket parameters
 token_bucket:
@@ -143,7 +136,7 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - api.company.com
-    - '*.internal.company.com'
+    - "*.internal.company.com"
 ```
 
 **Downstream identity propagation:** After mTLS termination, the gateway extracts the client certificate subject and propagates it via `X-Client-Cert-Subject` header to downstream services. Services must validate this header only comes from the trusted gateway (enforced by network policy).
@@ -168,7 +161,7 @@ health_checks:
     unhealthy_threshold: 3
     healthy_threshold: 2
     http_health_check:
-      path: '/healthz'
+      path: "/healthz"
       expected_statuses:
         - start: 200
           end: 299
@@ -204,16 +197,16 @@ plugins:
 ```yaml
 # Envoy retry configuration
 retry_policy:
-  retry_on: '5xx,reset,connect-failure,retriable-4xx'
+  retry_on: "5xx,reset,connect-failure,retriable-4xx"
   num_retries: 3
   per_try_timeout: 2s
   retry_host_predicate:
     - name: envoy.retry_host_predicates.previous_hosts
   host_selection_retry_max_attempts: 5
   retriable_request_headers:
-    - name: ':method'
+    - name: ":method"
       string_match:
-        exact: 'GET'
+        exact: "GET"
   # Jitter: base_interval + random(0, base_interval)
   retry_back_off:
     base_interval: 100ms

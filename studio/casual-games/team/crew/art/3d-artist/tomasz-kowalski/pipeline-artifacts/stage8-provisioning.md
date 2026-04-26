@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Provisioning complete.'
-candidate_name: 'Tomasz Kowalski'
-candidate_id: 'G23'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'art'
-role: '3d-artist'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Provisioning complete."
+candidate_name: "Tomasz Kowalski"
+candidate_id: "G23"
+entity_type: "studio"
+stage: "stage-8"
+division: "art"
+role: "3d-artist"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Tomasz Kowalski (G23)

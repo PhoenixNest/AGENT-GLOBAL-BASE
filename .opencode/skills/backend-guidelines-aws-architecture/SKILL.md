@@ -1,6 +1,7 @@
 ---
 name: backend-guidelines-aws-architecture
-description: 'Backend skill: Aws Architecture'
+description: AWS cloud architecture patterns for backend services — compute service selection, high availability design, VPC networking, security groups, cost optimization, and multi-region deployment. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for cloud infrastructure decisions and Stage 5 (Development) for AWS resource provisioning. Trigger: aws architecture, ec2 selection, vpc design, high availability aws, multi-region, aws cost optimization.
+version: "1.0.0"
 ---
 
 # AWS Architecture

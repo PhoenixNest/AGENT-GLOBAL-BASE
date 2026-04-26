@@ -40,9 +40,32 @@ Hiroshi is an iOS Engineer reporting to the iOS Chapter Lead (Seo-Yeon Park). He
 
 ## Skills Index
 
-- `skills/uikit-combine.md` — UIKit, Combine reactive programming, data binding
-- `skills/core-data.md` — Core Data, batch fetching, faulting, migration
-- `skills/swiftui.md` — SwiftUI declarative UI, state management, view composition
+- `company/departments/research-develop/team/teammates/ios-engineer/hiroshi-tanaka/skills/uikit-combine.md` — UIKit, Combine reactive programming, data binding
+- `company/departments/research-develop/team/teammates/ios-engineer/hiroshi-tanaka/skills/core-data.md` — Core Data, batch fetching, faulting, migration
+- `company/departments/research-develop/team/teammates/ios-engineer/hiroshi-tanaka/skills/swiftui.md` — SwiftUI declarative UI, state management, view composition
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

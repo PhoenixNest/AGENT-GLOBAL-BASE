@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-kubernetes-at-scale
-description: 'Devops skill: Kubernetes At Scale'
+description: Kubernetes at scale for mobile backend services — cluster autoscaling, horizontal pod autoscaling, service mesh (Istio/Linkerd), multi-cluster federation, and GitOps-driven deployments for mobile API infrastructure handling 10K+ RPS. Owned by Thomas Zhang (DevOps Lead). Use during Stage 3 (UML Engineering) for backend architecture design and Stage 5 (Development) for Kubernetes cluster provisioning. Trigger: Kubernetes at scale, cluster autoscaling, HPA, service mesh, Istio, Linkerd, multi-cluster, mobile API scaling, high throughput backend.
+prerequisites:
+  - devops-guidelines-cloud-infrastructure
+
+version: "1.0.0"
 ---
 
 # Kubernetes at Scale

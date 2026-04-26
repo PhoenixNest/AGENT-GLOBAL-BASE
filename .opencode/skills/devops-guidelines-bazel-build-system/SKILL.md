@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-bazel-build-system
-description: 'Devops skill: Bazel Build System'
+description: Bazel build system for mobile monorepo — hermetic builds, remote caching, cross-platform toolchain configuration, dependency graph optimization, and reproducible builds for Android (rules_kotlin), iOS (rules_apple), and KMP shared modules. Owned by Thomas Zhang (DevOps Lead). Use during Stage 4 (Implementation Plan) for build infrastructure setup and Stage 5 (Development) for CI/CD pipeline configuration. Trigger: bazel, build system, monorepo build, hermetic build, remote cache, rules_kotlin, rules_apple, cross-platform toolchain, reproducible build.
+prerequisites:
+  - devops-guidelines-ci-cd-optimization
+
+version: "1.0.0"
 ---
 
 # Bazel Build System

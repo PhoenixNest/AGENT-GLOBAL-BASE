@@ -1,6 +1,7 @@
 ---
 name: live-ops-strategy
 description: End-to-end live operations strategy including content roadmap design, seasonal event architecture, KPI management, and A/B testing for F2P mobile games.
+version: "1.0.0"
 ---
 
 # Live Ops Strategy

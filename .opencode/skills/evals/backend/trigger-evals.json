@@ -1,0 +1,39 @@
+{
+  "category": "backend",
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "should_trigger": [
+    "go rest api",
+    "golang http handler",
+    "go microservices",
+    "grpc go",
+    "fastapi",
+    "python backend",
+    "pydantic",
+    "postgresql basics",
+    "sql queries",
+    "explain analyze",
+    "postgresql optimization",
+    "query tuning",
+    "database architecture",
+    "table partitioning",
+    "api gateway",
+    "rate limiting",
+    "graphql api",
+    "dataloader",
+    "websocket scaling",
+    "real-time architecture",
+    "event sourcing",
+    "cqrs",
+    "distributed systems",
+    "aws fundamentals"
+  ],
+  "should_not_trigger": [
+    "jetpack compose",
+    "swiftui",
+    "flutter widget",
+    "react state management",
+    "android room database"
+  ],
+  "instructions": "Verify AI platform correctly triggers backend skills for API/database/infrastructure queries and does not trigger for mobile/frontend queries."
+}

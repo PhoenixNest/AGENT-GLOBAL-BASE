@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-sre-practices
-description: 'Devops skill: Sre Practices'
+description: SRE practices for mobile backend services — SLO/SLI definition, error budget management, incident response runbooks, chaos engineering, capacity planning, and post-incident reviews for mobile API infrastructure. Owned by Thomas Zhang (DevOps Lead). Use during Stage 4 (Implementation Plan) for SLO definition and Stage 5 (Development) for reliability engineering implementation. Trigger: SRE practices, SLO, SLI, error budget, incident response, chaos engineering, capacity planning, post-incident review, mobile backend reliability, service reliability.
+prerequisites:
+  - devops-overview
+
+version: "1.0.0"
 ---
 
 # SRE Practices

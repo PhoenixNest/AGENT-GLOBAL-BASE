@@ -1,12 +1,12 @@
 ---
-gate_status: '** ✅ All screened. 11 advancing.'
-candidate_name: 'Hiroshi Nakamura'
-candidate_id: 'G10'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'audio'
-role: 'composer-sound-director'
-document_type: 'Screening Results'
+gate_status: "** ✅ All screened. 11 advancing."
+candidate_name: "Hiroshi Nakamura"
+candidate_id: "G10"
+entity_type: "studio"
+stage: "stage-3"
+division: "audio"
+role: "composer-sound-director"
+document_type: "Screening Results"
 ---
 
 # Stages 3-9: Pipeline Artifacts — Hiroshi Nakamura (G10)

@@ -1,17 +1,8 @@
-# Device Farm Management — Cloud Testing Infrastructure
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Test Infrastructure — Device Management
-**Owner:** SDET Mobile #2 (Tobias Weber)
-
-## Overview
-
-This skill covers the operation, optimization, and management of cloud-based device farms for mobile test execution. It encompasses AWS Device Farm, Firebase Test Lab, and BrowserStack — the three primary platforms for scalable mobile testing across real devices. Device farm management ensures that automated test suites execute reliably across the target device matrix, with comprehensive result aggregation, screenshot/video capture, and automated flaky test detection.
-
-Effective device farm management directly impacts Stage 7 test throughput and Stage 8 integrity verification confidence. A well-managed device farm provides the statistical confidence that a release candidate will perform correctly for end users across the fragmentation landscape of Android and iOS devices.
-
-## Competency Dimensions
-
-| Dimension                             | Description                                                                                                                                                            | Proficiency Indicators                                                                                                                                                                                                                                                                                     |
+| Competency                            | Description                                                                                                                                                            | Quality Criteria                                                                                                                                                                                                                                                                                           |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **AWS Device Farm**                   | Project configuration, device pool creation, test scheduling, Appium/Espresso/XCTest integration, result analysis, artifact download, pricing optimization             | Device pools configured by OS version, manufacturer, form factor; test runs scheduled via CLI (`aws devicefarm schedule-run`); artifacts (screenshots, logs, videos) downloaded programmatically; reserved device minutes purchased for cost optimization; results parsed from Device Farm's JSON report   |
 | **Firebase Test Lab**                 | Test matrix configuration, Robo test execution, instrumentation test runs, Game Loop test (if applicable), results via Firebase Console / gcloud CLI, shard management | Test matrices defined with `--device` flags for multi-device parallelism; sharding configured via `--numUniformShards`; Robo tests run on every major UI change; results aggregated via `gcloud firebase test android models list`; Flank used for advanced sharding and cost optimization                 |
@@ -192,34 +183,34 @@ Robo tests crawl the app automatically, discovering crashes, rendering issues, a
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
-  host: 'hub-cloud.browserstack.com',
+  host: "hub-cloud.browserstack.com",
   port: 443,
 
   capabilities: [
     {
-      'bstack:options': {
-        projectName: 'CompanyApp-Mobile',
-        buildName: 'Regression-Suite',
-        sessionName: 'Android-Checkout-Flow',
+      "bstack:options": {
+        projectName: "CompanyApp-Mobile",
+        buildName: "Regression-Suite",
+        sessionName: "Android-Checkout-Flow",
         debug: true,
         networkLogs: true,
         appiumLogs: true,
         video: true,
         seleniumLogs: true,
-        consoleLogs: 'verbose',
+        consoleLogs: "verbose",
       },
-      platformName: 'Android',
-      'appium:deviceName': 'Google Pixel 7',
-      'appium:platformVersion': '13.0',
-      'appium:automationName': 'uiautomator2',
-      'appium:app': process.env.BROWSERSTACK_APP_ID,
+      platformName: "Android",
+      "appium:deviceName": "Google Pixel 7",
+      "appium:platformVersion": "13.0",
+      "appium:automationName": "uiautomator2",
+      "appium:app": process.env.BROWSERSTACK_APP_ID,
     },
   ],
 
   maxInstances: 5, // Parallel sessions
   services: [
     [
-      'browserstack',
+      "browserstack",
       {
         browserstackLocal: false,
       },
@@ -228,11 +219,11 @@ exports.config = {
 
   reporters: [
     [
-      'junit',
+      "junit",
       {
-        outputDir: './test-results/browserstack',
+        outputDir: "./test-results/browserstack",
         outputFileFormat: function (opts) {
-          return `results-${opts.capabilities['bstack:options'].buildName}.xml`;
+          return `results-${opts.capabilities["bstack:options"].buildName}.xml`;
         },
       },
     ],

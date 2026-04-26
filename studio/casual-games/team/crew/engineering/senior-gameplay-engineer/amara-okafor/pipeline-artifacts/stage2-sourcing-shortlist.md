@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Top 50 candidates sourced and ranked. Proceeding to Stage 3.'
-candidate_name: 'Candidate Pipeline'
-candidate_id: 'G12'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+gate_status: "** ✅ Top 50 candidates sourced and ranked. Proceeding to Stage 3."
+candidate_name: "Candidate Pipeline"
+candidate_id: "G12"
+entity_type: "studio"
+stage: "stage-2"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2: Sourcing — Candidate Pipeline (G12)

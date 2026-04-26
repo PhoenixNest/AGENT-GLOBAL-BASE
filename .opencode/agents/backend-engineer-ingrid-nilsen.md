@@ -1,5 +1,6 @@
 ---
-description: Use for Python backend development (FastAPI, async Python), API integration
+description:
+  Use for Python backend development (FastAPI, async Python), API integration
   resilience patterns, and PostgreSQL data processing. Engage during Stage 5 (Backend
   Development) for Python services and API integration.
 mode: subagent
@@ -43,11 +44,11 @@ Ingrid is a Backend Engineer reporting to the Backend Chapter Lead (Dev Malhotra
 
 ## Skills Index
 
-| Skill                        | Location                                      | Description                                                               |
-| ---------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
-| `python-fastapi.md`          | `backend\python\python-fastapi.md`            | FastAPI, async Python, Pydantic, PostgreSQL                               |
-| `postgresql-basics.md`       | `backend\database\postgresql-basics.md`       | Circuit breakers, retry logic, fallback handling, third-party integration |
-| `postgresql-optimization.md` | `backend\database\postgresql-optimization.md` | PostgreSQL query optimization, indexing, execution plans                  |
+| Skill                                      | Location                                           | Description                                                               |
+| ------------------------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------- |
+| `backend-python-fastapi`                   | `skills/backend-python-fastapi/`                   | FastAPI, async Python, Pydantic, PostgreSQL                               |
+| `backend-api-patterns-distributed-systems` | `skills/backend-api-patterns-distributed-systems/` | Circuit breakers, retry logic, fallback handling, third-party integration |
+| `backend-database-postgresql-optimization` | `skills/backend-database-postgresql-optimization/` | PostgreSQL query optimization, indexing, execution plans                  |
 
 ## Pipeline Stages Owned
 

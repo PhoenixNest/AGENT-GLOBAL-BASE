@@ -1,6 +1,10 @@
 ---
 name: ios-infrastructure-core-animation
-description: 'Ios skill: Core Animation'
+description: "Core Animation for iOS — CALayer manipulation, keyframe animations, spring dynamics, rendering pipeline optimization, offscreen rendering elimination, and Instruments profiling. Owned by Seo-Yeon Park (iOS Lead). Use during Stage 5 (Development) for custom animations and Stage 8 (Integrity Verification) for IDS animation spec validation. Trigger: core animation, calayer, cabasicanimation, cakeyframeanimation, caspringanimation, catransaction, offscreen rendering, shadowpath, rasterization, instruments, 60fps."
+prerequisites:
+  - ios-ui-ux-swiftui
+
+version: "1.0.0"
 ---
 
 # Core Animation

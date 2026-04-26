@@ -1,6 +1,7 @@
 ---
 name: stakeholder-communication
 description: Status reporting, risk communication, and cross-team coordination for game production stakeholders.
+version: "1.0.0"
 ---
 
 # Stakeholder Communication

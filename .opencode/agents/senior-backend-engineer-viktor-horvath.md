@@ -1,5 +1,6 @@
 ---
-description: Use for microservices architecture, event-driven systems (Kafka, CQRS),
+description:
+  Use for microservices architecture, event-driven systems (Kafka, CQRS),
   and API security patterns. Engage during Stage 5 (Backend Development) for microservices
   and event-driven features, and Stage 6 (Code Review) for security and architecture
   conformance.
@@ -44,11 +45,11 @@ Viktor is a Senior Backend Engineer reporting to the Backend Chapter Lead (Dev M
 
 ## Skills Index
 
-| Skill                                        | Location                                     | Description                                                               |
-| -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------- |
-| `event-sourcing.md`                          | `backend\api-patterns\event-sourcing.md`     | Kafka, CQRS, event sourcing, Go microservices, distributed messaging      |
-| `security/architecture/security-patterns.md` | `security\architecture\security-patterns.md` | OWASP Top 10, JWT, rate limiting, input validation, security scanning     |
-| `cqrs-architecture.md`                       | `backend\api-patterns\cqrs-architecture.md`  | CQRS pattern deep-dive, read/write model separation, event-driven queries |
+| Skill                                     | Location                                          | Description                                                               |
+| ----------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------- |
+| `backend-api-patterns-event-sourcing`     | `skills/backend-api-patterns-event-sourcing/`     | Kafka, CQRS, event sourcing, Go microservices, distributed messaging      |
+| `security-architecture-security-patterns` | `skills/security-architecture-security-patterns/` | OWASP Top 10, JWT, rate limiting, input validation, security scanning     |
+| `backend-api-patterns-cqrs-architecture`  | `skills/backend-api-patterns-cqrs-architecture/`  | CQRS pattern deep-dive, read/write model separation, event-driven queries |
 
 ## Pipeline Stages Owned
 

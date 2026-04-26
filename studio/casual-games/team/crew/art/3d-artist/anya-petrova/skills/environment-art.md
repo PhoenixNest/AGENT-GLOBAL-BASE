@@ -1,3 +1,9 @@
+---
+name: studio-art-environment-art
+description: 3D environment art for mobile games — scene composition, spatial storytelling, modular environment design, and mobile performance optimization. Owned by Anya Petrova (3D Artist). Use during Studio Pipeline Stages 3–5 for environment production. Trigger: environment art, modular design, spatial storytelling, scene composition, terrain generation, mobile environments, environment optimization.
+version: "1.0.0"
+---
+
 # Environment Art
 
 **Skill ID:** environment-art

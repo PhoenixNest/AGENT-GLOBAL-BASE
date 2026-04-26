@@ -1,6 +1,7 @@
 ---
 name: performance-testing
 description: Mobile game performance testing including FPS benchmarking, memory profiling, GPU analysis, and thermal stress testing.
+version: "1.0.0"
 ---
 
 # Performance Testing

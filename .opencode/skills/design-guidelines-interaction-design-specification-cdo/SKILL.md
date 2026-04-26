@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-interaction-design-specification-cdo
-description: 'Design skill: Interaction Design Specification Cdo'
+description: CDO-level Interaction Design Specification authoring — executive-grade IDS with component trees, gesture vocabularies, state diagrams, edge case matrices, responsive breakpoints, and platform interaction patterns (iOS HIG / Android Material Design 3). Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for CDO-level IDS production and design fidelity validation. Trigger: CDO IDS, interaction design CDO, executive IDS, design specification, platform interaction patterns.
+prerequisites:
+  - design-guidelines-interaction-design-specification
+
+version: "1.0.0"
 ---
 
 # Interaction Design Specification

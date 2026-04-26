@@ -1,3 +1,9 @@
+---
+name: studio-art-character-rigging
+description: 2D skeletal rigging for casual game characters — bone hierarchy, weight painting, inverse kinematics, and performance-optimized rig structures for mobile. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 3–5 for character rig production. Trigger: character rigging, 2D rigging, Spine 2D, bone hierarchy, weight painting, IK, mobile rig optimization.
+version: "1.0.0"
+---
+
 # Character Rigging
 
 **Skill ID:** character-rigging

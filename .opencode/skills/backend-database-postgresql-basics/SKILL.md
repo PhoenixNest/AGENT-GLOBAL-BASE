@@ -1,6 +1,10 @@
 ---
 name: backend-database-postgresql-basics
-description: 'Backend skill: Postgresql Basics'
+description: PostgreSQL fundamentals for application developers — SQL queries with JOINs/CTEs, index selection (B-tree, GIN), EXPLAIN ANALYZE query plan analysis, transaction isolation levels, and Alembic schema migrations. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 5 (Development) for database query implementation and Stage 6 (Code Review) for query optimization review. Trigger: postgresql basics, sql queries, join, cte, index selection, explain analyze, transaction isolation, alembic migrations.
+prerequisites:
+  - backend-overview
+
+version: "1.0.0"
 ---
 
 # PostgreSQL Basics

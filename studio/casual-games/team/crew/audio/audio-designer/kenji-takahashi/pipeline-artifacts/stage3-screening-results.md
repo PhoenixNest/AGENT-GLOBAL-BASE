@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Screening complete. Proceeding to Stage 4.'
-candidate_name: 'Audio Designer'
-candidate_id: 'G28'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'audio'
-role: 'audio-designer'
-document_type: 'Screening Results'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Screening complete. Proceeding to Stage 4."
+candidate_name: "Audio Designer"
+candidate_id: "G28"
+entity_type: "studio"
+stage: "stage-3"
+division: "audio"
+role: "audio-designer"
+document_type: "Screening Results"
 ---
 
 # Screening Results — Audio Designer (G28)

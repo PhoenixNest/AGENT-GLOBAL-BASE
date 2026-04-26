@@ -1,12 +1,12 @@
 ---
-final_decision: 'HIRED'
-candidate_name: 'E'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'art'
-role: 'ui-visual-artist'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+candidate_name: "E"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "art"
+role: "ui-visual-artist"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Elena Morozova (G21)

@@ -1,15 +1,8 @@
-# Database Sharding
+---
+version: "1.0.0"
+---
 
-**Category:** Database Infrastructure
-**Owner:** Senior Backend Engineer (Aisha Mohammed)
-
-## Overview
-
-Designs and implements horizontal database partitioning (sharding) strategies that distribute data across multiple database instances to achieve linear scalability. Covers sharding key selection, hash-based and range-based distribution, distributed query execution across shards, eventual consistency guarantees, automated failover handling, and live rebalancing without downtime.
-
-## Competency Dimensions
-
-| Dimension                   | Description                                                             | Proficiency Indicators                                                                                                                             |
+| Competency                  | Description                                                             | Quality Criteria                                                                                                                                   |
 | --------------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Horizontal Partitioning     | Sharding vs partitioning distinction, shard topology, data distribution | Designs shard architecture that scales linearly; can explain why sharding is a last resort after vertical scaling, read replicas, and partitioning |
 | Sharding Strategies         | Hash-based, range-based, directory-based, geo-based                     | Selects strategy based on access patterns; implements consistent hashing for hash-based sharding to minimize rebalancing impact                    |

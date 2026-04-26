@@ -1,6 +1,7 @@
 ---
 name: distributed-backend-architecture
 description: Distributed backend systems architecture at web scale: microservices design with DDD, event-driven architecture (Kafka, gRPC), Kubernetes orchestration with Istio service mesh, database-per-service patterns, and observability at 220M+ MAU.
+version: "1.0.0"
 ---
 
 # Distributed Backend Architecture
@@ -8,6 +9,10 @@ description: Distributed backend systems architecture at web scale: microservice
 ## Purpose
 
 Design and operate backend systems serving 220M+ MAU with sub-500ms P99 latency, 99.99% availability, and zero-downtime deployments. Own the architecture for all web and backend services in the 10-stage pipeline — from PRD requirements (Stage 1) through release sign-off (Stage 10).
+
+## Why This Matters
+
+Designs distributed backend systems for mobile services. Poor distributed architecture causes data inconsistency, race conditions, and cascading failures.
 
 ## Microservices Design with Domain-Driven Design
 

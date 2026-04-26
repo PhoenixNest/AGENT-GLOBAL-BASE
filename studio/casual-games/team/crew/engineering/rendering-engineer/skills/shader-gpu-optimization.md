@@ -1,3 +1,9 @@
+---
+name: studio-engineering-shader-gpu-optimization
+description: Shader programming and GPU optimization for mobile — HLSL/GLSL/MSL, instruction count reduction, texture sampling optimization, bandwidth management. Owned by Lars Johansson (Rendering Engineer). Use during Studio Pipeline Stages 5–6 for shader optimization and Stage 8 (Soft Launch) for GPU performance validation. Trigger: shader optimization, GPU optimization, HLSL, Metal shaders, ARM Mali, texture optimization, post-processing.
+version: "1.0.0"
+---
+
 # Shader & GPU Optimization
 
 **Skill Owner:** Lars Johansson | **Version:** 1.0 | **Date:** 2026-04-20

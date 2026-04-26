@@ -1,15 +1,8 @@
-# Android CI/CD
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android DevOps
-**Owner:** Android Engineer (Jan Kowalski)
-
-## Overview
-
-This skill establishes continuous integration and delivery pipelines for Android applications covering Gradle optimization, GitHub Actions workflows, Firebase App Distribution for beta testing, and crash reporting integration. It applies to Stage 5 (Development) where build infrastructure is configured, Stage 6 (Code Review) where CI gates enforce quality standards, and Stage 7 (Automated Testing) where the full test suite runs in CI.
-
-## Competency Dimensions
-
-| Dimension                 | Description                                                                                                       | Proficiency Indicators                                                                                         |
+| Competency                | Description                                                                                                       | Quality Criteria                                                                                               |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Gradle Optimization       | Configuration cache, build cache, parallel execution, module dependency graph, build profiling                    | Clean build <3 minutes on CI; incremental build <30 seconds; zero dynamic version resolution in release builds |
 | GitHub Actions            | Workflow composition, matrix builds, caching strategies, artifact management, environment secrets                 | Parallel test execution across API levels; efficient dependency caching; secure secret management              |
@@ -177,8 +170,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -199,7 +192,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lint-reports
-          path: '**/build/reports/lint-results-*.html'
+          path: "**/build/reports/lint-results-*.html"
 
   unit-test:
     name: Unit Tests
@@ -212,8 +205,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -226,13 +219,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: '**/build/test-results/testDebugUnitTest/*.xml'
+          path: "**/build/test-results/testDebugUnitTest/*.xml"
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: '**/build/reports/jacoco/'
+          path: "**/build/reports/jacoco/"
 
   instrumented-test:
     name: Instrumented Tests (API ${{ matrix.api-level }})
@@ -248,8 +241,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Enable KVM
         run: |
@@ -273,7 +266,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: instrumented-test-results-api-${{ matrix.api-level }}
-          path: '**/build/outputs/androidTest-results/'
+          path: "**/build/outputs/androidTest-results/"
 
   build-release:
     name: Build Release APK
@@ -287,8 +280,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -331,8 +324,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Build Release APK
         run: ./gradlew :app:assembleRelease

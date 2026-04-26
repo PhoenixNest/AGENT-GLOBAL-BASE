@@ -1,3 +1,9 @@
+---
+name: studio-art-ui-animation
+description: Animation of game UI elements — button presses, screen transitions, reward celebrations, loading animations, and micro-interactions with mobile performance constraints. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 3–5 for UI animation production. Trigger: UI animation, screen transitions, reward celebration, micro-interactions, DOTween, Spine 2D, easing curves.
+version: "1.0.0"
+---
+
 # UI Animation
 
 **Skill ID:** ui-animation

@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Provisioning complete.'
-candidate_name: 'Marcus Thompson'
-candidate_id: 'G27'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'creative-design'
-role: 'level-designer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Provisioning complete."
+candidate_name: "Marcus Thompson"
+candidate_id: "G27"
+entity_type: "studio"
+stage: "stage-8"
+division: "creative-design"
+role: "level-designer"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Marcus Thompson (G27)

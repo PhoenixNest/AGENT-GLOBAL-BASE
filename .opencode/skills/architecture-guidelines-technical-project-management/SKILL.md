@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-technical-project-management
-description: 'Architecture skill: Technical Project Management'
+description: Technical project management for mobile development — phased delivery methodology, progress oversight, milestone tracking, Gantt chart production, risk management, Progress Sync Protocol, and CTO→CPO schedule risk notifications. Owned by Dr. Kenji Nakamura (CTO). Use during Stage 4 (Implementation Plan) for Gantt chart creation and Stage 5+ (Development) for progress tracking. Trigger: technical project management, Gantt chart, progress tracking, milestone tracking, risk management, schedule risk.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Technical Project Management

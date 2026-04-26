@@ -1,15 +1,8 @@
-# GraphQL APIs
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Development (GraphQL)
-**Owner:** Backend Engineer (Thabo Mokoena)
-
-## Overview
-
-Designs and implements GraphQL APIs with optimized schema design using types, interfaces, and unions, resolver optimization techniques, DataLoader pattern for N+1 query prevention, Apollo Federation for schema composition across services, subscription implementation for real-time updates, and comprehensive error handling with extensions.
-
-## Competency Dimensions
-
-| Dimension                      | Description                                                            | Proficiency Indicators                                                                                                                                       |
+| Competency                     | Description                                                            | Quality Criteria                                                                                                                                             |
 | ------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Schema Design                  | Object types, interfaces, unions, enums, input types, directives       | Designs schema following GraphQL best practices; uses interfaces for polymorphic types; selects unions vs interfaces correctly; implements custom directives |
 | Resolver Optimization          | Resolver execution order, batching, caching, parallel execution        | Identifies N+1 patterns; implements DataLoader for batch loading; configures resolver parallelism; avoids over-fetching in resolvers                         |
@@ -142,7 +135,10 @@ scalar DateTime
 # Custom directive
 directive @auth(requires: UserRole = USER) on FIELD_DEFINITION
 directive @rateLimit(max: Int = 100, window: Int = 60) on FIELD_DEFINITION
-directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT
 
 enum CacheControlScope {
   PUBLIC
@@ -305,14 +301,14 @@ class Order:
 
 ```javascript
 // gateway.js
-const { ApolloGateway, IntrospectAndCompose } = require('@apollo/gateway');
+const { ApolloGateway, IntrospectAndCompose } = require("@apollo/gateway");
 
 const gateway = new ApolloGateway({
   supergraphSdl: new IntrospectAndCompose({
     subgraphs: [
-      { name: 'users', url: 'http://user-service:4001/graphql' },
-      { name: 'orders', url: 'http://order-service:4002/graphql' },
-      { name: 'products', url: 'http://product-service:4003/graphql' },
+      { name: "users", url: "http://user-service:4001/graphql" },
+      { name: "orders", url: "http://order-service:4002/graphql" },
+      { name: "products", url: "http://product-service:4003/graphql" },
     ],
   }),
 });
@@ -323,7 +319,7 @@ const server = new ApolloServer({
   // Gateway can add request context
   context: ({ req }) => ({
     authHeader: req.headers.authorization,
-    requestId: req.headers['x-request-id'],
+    requestId: req.headers["x-request-id"],
   }),
 });
 ```

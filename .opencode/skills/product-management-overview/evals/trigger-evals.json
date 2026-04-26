@@ -1,0 +1,30 @@
+{
+  "category": "product-management",
+  "version": "1.0.0",
+  "generated": "2026-04-24",
+  "should_trigger": [
+    "product strategy",
+    "mobile roadmap",
+    "prioritization",
+    "monetization",
+    "write PRD",
+    "product requirements",
+    "PRD template",
+    "JTBD",
+    "PRD translation",
+    "technical specification",
+    "edge case identification",
+    "trade-off analysis",
+    "build vs buy",
+    "acceptance criteria"
+  ],
+  "should_not_trigger": [
+    "android kotlin",
+    "ios swift",
+    "go backend",
+    "react frontend",
+    "CI/CD pipeline",
+    "security audit"
+  ],
+  "instructions": "For each query, verify that the AI platform correctly triggers (or doesn't trigger) the relevant skills in this category."
+}

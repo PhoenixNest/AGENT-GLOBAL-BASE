@@ -1,6 +1,7 @@
 ---
 name: localization-overview
-description: Localization skills overview
+description: Localization skills overview — index of all localization-related skills including language translation module, localization pipeline engineering, mobile UI translation (EN/ZH/JA/KO/FR), and string extraction/resource files. Use to discover available localization capabilities and select the right skill for your task. Trigger: localization overview, localization skills, localization capabilities, i18n guidance.
+version: "1.0.0"
 ---
 
 # Localization

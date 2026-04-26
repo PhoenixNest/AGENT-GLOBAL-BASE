@@ -1,3 +1,9 @@
+---
+name: studio-audio-chiptune-composition
+description: Chiptune music composition and interactive audio system design for casual games — Deflemask/FamiTrack production, FMOD integration, and adaptive music systems. Owned by Hiroshi Nakamura (Composer / Sound Director). Use during Studio Pipeline Stages 3–5 for music composition and audio system setup. Trigger: chiptune composition, interactive music, FMOD, Deflemask, FamiTrack, game music, adaptive audio, NES chiptune.
+version: "1.0.0"
+---
+
 # Chiptune Composition
 
 **Skill Owner:** Hiroshi Nakamura (Composer / Sound Director)

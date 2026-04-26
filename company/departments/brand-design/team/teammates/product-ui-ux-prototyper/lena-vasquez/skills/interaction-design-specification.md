@@ -1,6 +1,7 @@
 ---
 name: interaction-design-specification
 description: Authorship of the Interaction Design Specification (IDS) — the governing document for native mobile interaction behaviour. Covers component trees, gesture vocabularies, state diagrams, edge case matrices, and platform-specific interaction patterns for iOS HIG and Android Material Design 3.
+version: "1.0.0"
 ---
 
 # Interaction Design Specification (IDS)
@@ -10,6 +11,10 @@ description: Authorship of the Interaction Design Specification (IDS) — the go
 The IDS is the governing document for native mobile interaction behaviour. It is produced after the web prototype is approved and user confirmation is received. The web prototype validates functional requirements and design style; the IDS governs how those interactions are implemented natively on iOS and Android.
 
 The IDS is delivered to the R&D Department and the CTO alongside the approved web prototype HTML file.
+
+## Why This Matters
+
+Ensures platform-native interaction patterns are preserved across implementation. Without IDS, engineers default to web-like interactions that violate iOS HIG and Android Material Design conventions.
 
 ## IDS Structure
 

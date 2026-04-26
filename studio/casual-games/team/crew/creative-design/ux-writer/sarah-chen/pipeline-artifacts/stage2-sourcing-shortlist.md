@@ -1,11 +1,11 @@
 ---
-document_id: '**'
-candidate_name: 'Sourcing Shortlist'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'creative-design'
-role: 'ux-writer'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+candidate_name: "Sourcing Shortlist"
+entity_type: "studio"
+stage: "stage-2"
+division: "creative-design"
+role: "ux-writer"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2: Sourcing Shortlist

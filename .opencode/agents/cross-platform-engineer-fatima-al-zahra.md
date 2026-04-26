@@ -1,5 +1,6 @@
 ---
-description: Use for Flutter component architecture, Flutter i18n engineering (ARB
+description:
+  Use for Flutter component architecture, Flutter i18n engineering (ARB
   files, locale switching, pluralization), and Flutter platform channels. Engage during
   Stage 5 (Development) for cross-platform Flutter implementation and Stage 9 (i18n
   Engineering) for i18n infrastructure.
@@ -44,11 +45,11 @@ Fatima is a Cross-Platform Engineer reporting to the Cross-Platform Lead (Mei-Li
 
 ## Skills Index
 
-| Skill                     | Location                                         | Description                                                                               |
-| ------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| `flutter-architecture.md` | `cross-platform\flutter\flutter-architecture.md` | Flutter component library, RTL support, Material Design, custom painters                  |
-| `flutter-i18n.md`         | `cross-platform\flutter\flutter-i18n.md`         | ARB files, code generation, locale switching, pluralization, gender-specific translations |
-| `kmp-architecture.md`     | `cross-platform\kmp\kmp-architecture.md`         | KMP shared modules, expect/actual, platform adapters, module boundaries                   |
+| Skill                                 | Location                                      | Description                                                                               |
+| ------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `cross-platform-flutter-architecture` | `skills/cross-platform-flutter-architecture/` | Flutter component library, RTL support, Material Design, custom painters                  |
+| `cross-platform-flutter-i18n`         | `skills/cross-platform-flutter-i18n/`         | ARB files, code generation, locale switching, pluralization, gender-specific translations |
+| `cross-platform-kmp-architecture`     | `skills/cross-platform-kmp-architecture/`     | KMP shared modules, expect/actual, platform adapters, module boundaries                   |
 
 ## Pipeline Stages Owned
 

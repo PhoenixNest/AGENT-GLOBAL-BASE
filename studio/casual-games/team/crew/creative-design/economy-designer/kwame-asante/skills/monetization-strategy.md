@@ -1,6 +1,7 @@
 ---
 name: monetization-strategy
 description: IAP design, battle pass architecture, limited-time offer strategy, and value proposition optimization for F2P games.
+version: "1.0.0"
 ---
 
 # Monetization Strategy

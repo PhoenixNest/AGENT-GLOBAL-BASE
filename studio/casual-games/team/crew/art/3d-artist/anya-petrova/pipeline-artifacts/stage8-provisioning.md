@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Provisioning complete.'
-candidate_name: 'Anya Petrova'
-candidate_id: 'G24'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'art'
-role: '3d-artist'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Provisioning complete."
+candidate_name: "Anya Petrova"
+candidate_id: "G24"
+entity_type: "studio"
+stage: "stage-8"
+division: "art"
+role: "3d-artist"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Anya Petrova (G24)

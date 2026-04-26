@@ -1,6 +1,7 @@
 ---
 name: bug-tracking-triage
 description: Automated bug triage, ML-based defect classification, and quality metrics tracking for game QA.
+version: "1.0.0"
 ---
 
 # Bug Tracking & Triage

@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-gcp-multi-region
-description: 'Devops skill: Gcp Multi Region'
+description: GCP multi-region architecture for mobile backends — global load balancing, Cloud Spanner multi-region, Cloud CDN edge caching, regional failover, and data residency compliance for GDPR/CCPA mobile services. Owned by Thomas Zhang (DevOps Lead). Use during Stage 3 (UML Engineering) for multi-region architecture design and Stage 5 (Development) for GCP infrastructure provisioning. Trigger: GCP multi-region, global load balancing, Cloud Spanner, Cloud CDN, regional failover, data residency, GDPR compliance, CCPA compliance, mobile backend scaling.
+prerequisites:
+  - devops-guidelines-cloud-infrastructure
+
+version: "1.0.0"
 ---
 
 # GCP Multi-Region Architecture

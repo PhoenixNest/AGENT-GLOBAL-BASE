@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All 47 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4.'
-candidate_name: 'Assessment Summary'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Screening Results'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All 47 candidates screened. Auto-rejects logged. Assessment batteries assigned. Proceeding to Stage 4."
+candidate_name: "Assessment Summary"
+entity_type: "studio"
+stage: "stage-3"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Screening Results"
 ---
 
 # Screening Results — SDET Performance (G38)

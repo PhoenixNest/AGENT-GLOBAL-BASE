@@ -1,6 +1,10 @@
----
+﻿---
 name: android-architecture-offline-first-patterns
-description: 'Android skill: Offline First Patterns'
+description: Offline-first architecture patterns for Android — Room database as single source of truth, WorkManager background sync, conflict resolution strategies (last-write-wins, merge, operational transform), delta synchronization, cache invalidation, and database migration discipline. Owned by Priya Narayanan (Senior Android Engineer). Use during Stage 5 (Development) for data layer offline implementation and Stage 7 (Automated Testing) for offline scenario tests. Trigger: offline first, room database, WorkManager sync, conflict resolution, delta sync, cache invalidation, database migration, offline architecture.
+prerequisites:
+  - android-data-networking-data-layer
+
+version: "1.0.0"
 ---
 
 # Offline-First Patterns

@@ -1,0 +1,12 @@
+# GitHub environment configuration
+environments:
+  production:
+    protection_rules:
+      required_reviewers: 2
+      wait_timer: 0
+    variables:
+      DEPLOY_TARGET: "production"
+    secrets:
+      # Scoped to production environment only
+      - KEYSTORE_B64
+      - FIREBASE_SA_KEY

@@ -1,3 +1,9 @@
+---
+name: studio-art-art-direction
+description: Art direction and visual pillar definition for casual games — mood boards, art style guides, visual identity, and performance budgeting for mobile. Owned by Renaud Leclercq (Art Director). Use during Studio Pipeline Stages 0–2 for art direction and style definition. Trigger: art direction, visual pillars, art style guide, mood board, visual identity, art review, performance budget.
+version: "1.0.0"
+---
+
 # Art Direction
 
 **Skill Owner:** Renaud Leclercq (Art Director)

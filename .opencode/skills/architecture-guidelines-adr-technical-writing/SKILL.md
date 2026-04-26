@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-adr-technical-writing
-description: 'Architecture skill: Adr Technical Writing'
+description: ADR and TSD technical writing for mobile architecture — structured ADR authoring, decision documentation, Technology Selection Document synthesis, and editorial standards for engineering audiences. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for ADR/TSD production and Stage 4 (Implementation Plan) for decision traceability. Trigger: ADR writing, technical documentation, TSD authoring, decision documentation, architecture documentation, technical writing.
+prerequisites:
+  - architecture-guidelines-adr-governance
+
+version: "1.0.0"
 ---
 
 # ADR Technical Writing
@@ -300,6 +304,8 @@ docs(adr): supersede ADR-007 with ADR-015 — [Reason]
 - Major revisions (v1 → v2 → v3) documented in version folder `README.md`
 - Accepted ADRs (in `final/`) are immutable — changes require a new superseding ADR
 - ADR index (`architecture/decisions/INDEX.md`) maintained with status, date, and cross-references for every ADR
+
+---
 
 ## Pipeline Integration
 

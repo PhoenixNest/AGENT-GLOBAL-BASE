@@ -1,5 +1,6 @@
 ---
-description: Use for full-stack development with Vue.js, .NET, and multi-tenant API
+description:
+  Use for full-stack development with Vue.js, .NET, and multi-tenant API
   architecture. Engage during Stage 5 (Development) for Vue/.NET implementation.
 mode: subagent
 tools:
@@ -42,11 +43,11 @@ Marcus is a Full-Stack Engineer reporting to the VP of Web & Backend Engineering
 
 ## Skills Index
 
-| Skill                       | Location                                      | Description                                                               |
-| --------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
-| `vue-dotnet.md`             | `frontend-web\vue\vue-dotnet.md`              | Vue 3, .NET 7, Entity Framework Core, multi-tenant architecture           |
-| `api-versioning.md`         | `frontend-web\full-stack\api-versioning.md`   | REST API versioning, rollback, multi-tenant isolation                     |
-| `multi-tenant-isolation.md` | `shared\guidelines\multi-tenant-isolation.md` | Multi-tenant data isolation, schema separation, tenant context management |
+| Skill                                      | Location                                           | Description                                                               |
+| ------------------------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------- |
+| `frontend-web-vue-dotnet`                  | `skills/frontend-web-vue-dotnet/`                  | Vue 3, .NET 7, Entity Framework Core, multi-tenant architecture           |
+| `frontend-web-full-stack-api-versioning`   | `skills/frontend-web-full-stack-api-versioning/`   | REST API versioning, rollback, multi-tenant isolation                     |
+| `shared-guidelines-multi-tenant-isolation` | `skills/shared-guidelines-multi-tenant-isolation/` | Multi-tenant data isolation, schema separation, tenant context management |
 
 ## Pipeline Stages Owned
 

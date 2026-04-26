@@ -1,13 +1,13 @@
 ---
-generated_at: '**'
-gate_status: '** ✅ All provisioning items completed. Candidate ready for Day 1. Proceeding to Stage 9.'
-candidate_name: 'Provisioning Record'
-candidate_id: 'G11'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Provisioning Record'
+generated_at: "**"
+gate_status: "** ✅ All provisioning items completed. Candidate ready for Day 1. Proceeding to Stage 9."
+candidate_name: "Provisioning Record"
+candidate_id: "G11"
+entity_type: "studio"
+stage: "stage-8"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Provisioning Record"
 ---
 
 # Stage 8: Provisioning Record (G11)

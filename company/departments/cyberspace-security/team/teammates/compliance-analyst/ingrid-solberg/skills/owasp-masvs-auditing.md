@@ -1,21 +1,13 @@
-# OWASP MASVS Auditing
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Security Compliance — MASVS Assessment
-**Owner:** Compliance Analyst — Ingrid Solberg
-
-## Overview
-
-Specialized methodology for conducting OWASP Mobile Application Security Verification Standard (MASVS) compliance audits specifically for mobile banking and financial services applications. This skill complements the mobile penetration testing expertise of Sana Khoury by providing the compliance audit perspective — systematic verification, gap analysis, remediation guidance, and auditor-ready reporting. While Sana Khoury executes the technical testing, Ingrid Solberg manages the compliance audit framework, ensures documentation meets regulatory standards, and produces audit reports suitable for banking regulators, external auditors, and compliance officers.
-
-## Competency Dimensions
-
-| Dimension                        | Description                                                      | Proficiency Indicators                                                                                                                                                                                                                  |
-| -------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MASVS Audit Methodology          | Structured approach to MASVS compliance auditing                 | Designs audit programs covering all V1–V8 categories; produces audit workpapers that satisfy banking regulator review; achieves zero audit findings on MASVS assessment methodology                                                     |
+-------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MASVS Audit Methodology | Structured approach to MASVS compliance auditing | Designs audit programs covering all V1–V8 categories; produces audit workpapers that satisfy banking regulator review; achieves zero audit findings on MASVS assessment methodology |
 | Mobile Banking Security Auditing | Domain-specific knowledge of financial app security requirements | Maps MASVS controls to banking-specific regulations (FFIEC, PSD2, RBI guidelines); identifies banking-specific attack vectors (transaction manipulation, account takeover); understands regulatory expectations for mobile banking apps |
-| Verification Procedures          | Detailed test procedures for each MASVS requirement              | Creates reproducible verification procedures that any auditor can execute; produces evidence packages that withstand regulatory scrutiny; maintains procedure library updated with MASVS version changes                                |
-| Gap Analysis                     | Systematic identification and documentation of compliance gaps   | Produces gap analysis reports with prioritized remediation roadmaps; maps gaps to specific MASVS requirements and regulatory obligations; tracks gap closure with evidence                                                              |
-| Remediation Guidance             | Actionable guidance for addressing compliance gaps               | Provides remediation guidance that is technically accurate, feasible, and aligned with MASVS intent; validates remediation effectiveness through re-testing; documents remediation evidence for auditors                                |
+| Verification Procedures | Detailed test procedures for each MASVS requirement | Creates reproducible verification procedures that any auditor can execute; produces evidence packages that withstand regulatory scrutiny; maintains procedure library updated with MASVS version changes |
+| Gap Analysis | Systematic identification and documentation of compliance gaps | Produces gap analysis reports with prioritized remediation roadmaps; maps gaps to specific MASVS requirements and regulatory obligations; tracks gap closure with evidence |
+| Remediation Guidance | Actionable guidance for addressing compliance gaps | Provides remediation guidance that is technically accurate, feasible, and aligned with MASVS intent; validates remediation effectiveness through re-testing; documents remediation evidence for auditors |
 
 ## Execution Guidance
 

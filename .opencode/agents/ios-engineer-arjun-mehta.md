@@ -1,5 +1,6 @@
 ---
-description: Use for iOS test automation, accessibility engineering, and performance
+description:
+  Use for iOS test automation, accessibility engineering, and performance
   profiling. Engage during Stage 5 (Development) for iOS test and accessibility implementation,
   Stage 6 (Code Review) for testing and accessibility conformance, and Stage 7 (Automated
   Testing) for iOS test execution.
@@ -44,11 +45,11 @@ Arjun is an iOS Engineer reporting to the iOS Chapter Lead (Seo-Yeon Park). He c
 
 ## Skills Index
 
-| Skill                  | Location                                   | Description                                                 |
-| ---------------------- | ------------------------------------------ | ----------------------------------------------------------- |
-| `ios-testing.md`       | `ios\testing-quality\ios-testing.md`       | XCTest, Quick/Nimble, XCUITest, snapshot testing            |
-| `ios-accessibility.md` | `ios\testing-quality\ios-accessibility.md` | VoiceOver, dynamic type, WCAG 2.1 AA, accessibility testing |
-| `swiftui.md`           | `ios\ui-ux\swiftui.md`                     | SwiftUI declarative UI, state management, view composition  |
+| Skill                                   | Location                                        | Description                                                 |
+| --------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
+| `ios-testing-quality-ios-testing`       | `skills/ios-testing-quality-ios-testing/`       | XCTest, Quick/Nimble, XCUITest, snapshot testing            |
+| `ios-testing-quality-ios-accessibility` | `skills/ios-testing-quality-ios-accessibility/` | VoiceOver, dynamic type, WCAG 2.1 AA, accessibility testing |
+| `ios-ui-ux-swiftui`                     | `skills/ios-ui-ux-swiftui/`                     | SwiftUI declarative UI, state management, view composition  |
 
 ## Pipeline Stages Owned
 

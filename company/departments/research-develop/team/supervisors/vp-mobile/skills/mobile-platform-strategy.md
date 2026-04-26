@@ -1,6 +1,7 @@
 ---
 name: mobile-platform-strategy
 description: Mobile platform strategy for consumer-scale applications: Kotlin Multiplatform architecture, cross-platform code sharing, mobile org scaling, competency matrix design, and delivery planning at 500M+ MAU.
+version: "1.0.0"
 ---
 
 # Mobile Platform Strategy
@@ -8,6 +9,10 @@ description: Mobile platform strategy for consumer-scale applications: Kotlin Mu
 ## Purpose
 
 Own all mobile engineering execution across Android, iOS, and cross-platform teams. Translate the Coding Implementation Plan and UML Engineering Package into platform-specific development plans, enforce architectural coherence across 30+ mobile engineers, and deliver at consumer scale (500M+ MAU, 99.9% crash-free rate, sub-400ms perceived latency).
+
+## Why This Matters
+
+Defines the strategic direction for iOS and Android platforms. Without platform strategy, teams drift toward lowest-common-denominator solutions that fail to leverage platform advantages.
 
 ## Kotlin Multiplatform Architecture (Shared-Logic, Native-UI)
 

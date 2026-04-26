@@ -1,12 +1,12 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Composite score 4.10/5.0 (88th percentile). Proceeding to Stage 5.'
-candidate_name: 'Ryu Tanaka'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'engineering'
-role: 'gameplay-engineer'
-document_type: 'Interview Scores'
+document_id: "**"
+gate_status: "** ✅ Composite score 4.10/5.0 (88th percentile). Proceeding to Stage 5."
+candidate_name: "Ryu Tanaka"
+entity_type: "studio"
+stage: "stage-4"
+division: "engineering"
+role: "gameplay-engineer"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Scores (G17) — Ryu Tanaka

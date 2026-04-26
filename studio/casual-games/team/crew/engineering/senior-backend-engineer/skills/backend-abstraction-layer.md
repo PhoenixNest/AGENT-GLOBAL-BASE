@@ -1,3 +1,9 @@
+---
+name: studio-engineering-backend-abstraction-layer
+description: Vendor-agnostic backend abstraction layer design — interface-based architecture, adapter patterns, dependency injection to prevent vendor lock-in for game backends. Owned by Priya Nair (Senior Backend Engineer). Use during Studio Pipeline Stages 3–5 for backend architecture and Stage 4 (Production Planning) for technology selection. Trigger: backend abstraction, vendor lock-in prevention, adapter pattern, interface design, microservices migration.
+version: "1.0.0"
+---
+
 # Backend Abstraction Layer Design
 
 **Skill Owner:** Priya Nair | **Version:** 1.0 | **Date:** 2026-04-20

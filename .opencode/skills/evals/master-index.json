@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "categories": [
+    "android",
+    "ios",
+    "backend",
+    "frontend",
+    "devops",
+    "security",
+    "testing",
+    "architecture",
+    "design",
+    "localization",
+    "cross-platform",
+    "hr-recruiting",
+    "product-management",
+    "shared"
+  ],
+  "total_eval_files": 14,
+  "description": "Master index of skill triggering evaluation suites. Each category directory contains a trigger-evals.json with should_trigger and should_not_trigger queries."
+}

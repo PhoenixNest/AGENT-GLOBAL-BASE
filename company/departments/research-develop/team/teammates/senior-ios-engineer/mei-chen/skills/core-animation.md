@@ -1,15 +1,8 @@
-# Core Animation
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — iOS Animation & Rendering
-**Owner:** Senior iOS Engineer (Mei Chen)
-
-## Overview
-
-This skill implements production-grade iOS animations using Core Animation covering CALayer manipulation, animation timing, the rendering pipeline, and performance optimization. It applies to Stage 5 (Development) where custom animations and visual effects are implemented, Stage 6 (Code Review) where animation performance and memory impact are audited, and Stage 8 (Integrity Verification) where the CDO verifies IDS animation specifications are realized.
-
-## Competency Dimensions
-
-| Dimension                | Description                                                                                          | Proficiency Indicators                                                                                                                 |
+| Competency               | Description                                                                                          | Quality Criteria                                                                                                                       |
 | ------------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | CALayer Architecture     | Layer tree vs presentation tree vs render tree, implicit vs explicit animations, layer properties    | Understands three-tree model; uses explicit animations for production; manipulates layer properties directly for performance           |
 | Animation Timing         | CAMediaTiming, timing functions, keyframe animations, group animations, spring dynamics              | Animations use appropriate timing functions; keyframe animations have smooth easing; spring animations use physically-based parameters |

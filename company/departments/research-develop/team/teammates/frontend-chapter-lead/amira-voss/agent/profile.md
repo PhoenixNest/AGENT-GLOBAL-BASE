@@ -39,12 +39,35 @@ Amira owns the frontend engineering chapter within the Web & Backend division, r
 
 ## Skills Index
 
-- `skills/design-systems.md` — Component library engineering, Storybook, accessibility, design-dev handoff
-- `skills/frontend-security.md` — Frontend security: CSP, XSS prevention, supply chain security, dependency auditing
-- `skills/performance-optimization.md` — Frontend architecture: React, design systems, token pipelines, performance optimization
-- `skills/frontend-performance-baseline.md` — Lighthouse, bundle analysis, TTI measurement, performance baselines
-- `skills/wcag-mobile-roadmap.md` — WCAG 2.1 AA mobile compliance roadmap planning
-- `skills/mobile-platform-immersion.md` — iOS & Android platform fundamentals, cross-platform awareness
+- `company/departments/research-develop/team/teammates/frontend-chapter-lead/amira-voss/skills/design-systems.md` — Component library engineering, Storybook, accessibility, design-dev handoff
+- `company/departments/research-develop/team/teammates/frontend-chapter-lead/amira-voss/skills/frontend-security.md` — Frontend security: CSP, XSS prevention, supply chain security, dependency auditing
+- `company/departments/research-develop/team/teammates/frontend-chapter-lead/amira-voss/skills/performance-optimization.md` — Frontend architecture: React, design systems, token pipelines, performance optimization
+- `company/departments/research-develop/team/teammates/frontend-chapter-lead/amira-voss/skills/frontend-performance-baseline.md` — Lighthouse, bundle analysis, TTI measurement, performance baselines
+- `company/departments/research-develop/team/teammates/frontend-chapter-lead/amira-voss/skills/wcag-mobile-roadmap.md` — WCAG 2.1 AA mobile compliance roadmap planning
+- `company/departments/research-develop/team/teammates/frontend-chapter-lead/amira-voss/skills/mobile-platform-immersion.md` — iOS & Android platform fundamentals, cross-platform awareness
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

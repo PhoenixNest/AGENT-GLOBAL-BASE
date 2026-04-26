@@ -1,5 +1,6 @@
 ---
-description: Use for React design system architecture, web accessibility engineering
+description:
+  Use for React design system architecture, web accessibility engineering
   (WCAG 2.1 AA), and frontend XSS prevention. Engage during Stage 2 (Design Implementation),
   Stage 5 (Frontend Development), and Stage 6 (Code Review) for accessibility and
   design system conformance.

@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-code-review-participation
-description: 'Architecture skill: Code Review Participation'
+description: Code review participation for mobile development — P0-P3 defect classification, review checklists, turnaround expectations, and disagreement resolution within the 10-stage pipeline. Owned by Rafael Okonkwo (Software Architect). Use during Stage 6 (Code Review) for panel reviews and Stage 8 (Integrity Verification) for regression detection. Trigger: code review, defect classification, PR review, review checklist, code review participation.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Code Review Participation Process

@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-economy-design
+description: Virtual economy design, currency balancing, monetization strategy, and live ops economy management for F2P casual games. Owned by Mei Watanabe (Lead Game Designer). Use during Studio Pipeline Stages 1–5 and 10 for economy modeling and live economy tuning. Trigger: economy design, currency balancing, dual currency, economy simulation, live ops economy, economy inflation, IAP strategy.
+version: "1.0.0"
+---
+
 # Economy Design
 
 **Skill Owner:** Mei Watanabe (Lead Game Designer)

@@ -1,6 +1,10 @@
 ---
 name: ios-infrastructure-ios-performance
-description: 'Ios skill: Ios Performance'
+description: "iOS performance optimization — Instruments profiling (Time Profiler, Allocations, Leaks), memory management, launch time optimization, three-tier image caching, rendering pipeline tuning, and table view performance. Owned by Seo-Yeon Park (iOS Lead). Use during Stage 5 (Development) for performance-critical code and Stage 8 (Integrity Verification) for launch time and memory benchmarks. Trigger: ios performance, instruments, time profiler, allocations, leaks, launch time, memory leak, nscache, image caching, offscreen rendering, scroll performance, signpost."
+prerequisites:
+  - ios-infrastructure-ios-implementation
+
+version: "1.0.0"
 ---
 
 # iOS Performance

@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Background verification complete. Candidate cleared for Stage 7.'
-candidate_name: 'Mei Watanabe'
-candidate_id: 'G5'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'creative-design'
-role: 'lead-game-designer'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Background verification complete. Candidate cleared for Stage 7."
+candidate_name: "Mei Watanabe"
+candidate_id: "G5"
+entity_type: "studio"
+stage: "stage-6"
+division: "creative-design"
+role: "lead-game-designer"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Mei Watanabe (G5)

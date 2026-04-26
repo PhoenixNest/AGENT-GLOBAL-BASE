@@ -1,15 +1,8 @@
-# Security Patterns
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Security
-**Owner:** Senior Backend Engineer (Viktor Horvath)
-
-## Overview
-
-Implements comprehensive security controls across backend services, addressing OWASP Top 10 (2021) vulnerabilities, API-specific threats from OWASP API Top 10, input validation pipelines, JWT security best practices, and security header enforcement. Covers the full spectrum from input sanitization to token lifecycle management with production-grade defense-in-depth patterns.
-
-## Competency Dimensions
-
-| Dimension                       | Description                                                                                                                                                                                                            | Proficiency Indicators                                                                                                                   |
+| Competency                      | Description                                                                                                                                                                                                            | Quality Criteria                                                                                                                         |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | OWASP Top 10 (2021)             | Broken Access Control, Cryptographic Failures, Injection, Insecure Design, Security Misconfiguration, Vulnerable Components, Authentication Failures, Data Integrity Failures, Logging Failures, SSRF                  | Implements controls for all 10 categories; conducts threat modeling using STRIDE; can demonstrate each vulnerability and its mitigation  |
 | API Security (OWASP API Top 10) | BOLA, Broken Authentication, Excessive Data Exposure, Lack of Resources, Broken Function Level Authorization, Mass Assignment, Security Misconfiguration, Injection, Improper Inventory Management, Unsafe Consumption | Designs API security posture addressing all 10 API-specific risks; implements object-level and function-level authorization consistently |

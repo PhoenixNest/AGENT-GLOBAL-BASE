@@ -1,5 +1,6 @@
 ---
-description: Use for mobile platform security architecture, application security hardening,
+description:
+  Use for mobile platform security architecture, application security hardening,
   security risk assessment, and emerging threat evaluation. Engage during Stage 1
   (Security Requirements Document), Stage 6 (Code Review), Stage 8 (Integrity Verification),
   and Stage 10 (Release Readiness).
@@ -48,12 +49,12 @@ Dr. Chen owns the company's mobile platform security strategy, digital informati
 
 ## Skills Index
 
-| Skill                               | Location                                                  | Description                                                                                                                   |
-| ----------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `mobile-security-architecture.md`   | `security\architecture\mobile-security-architecture.md`   | Mobile platform security architecture: iOS/Android security models, encryption, secure storage, platform-specific protections |
-| `application-security-hardening.md` | `security\architecture\application-security-hardening.md` | Application security hardening: code obfuscation, anti-tampering, RASP, threat mitigation strategies                          |
-| `security-risk-assessment.md`       | `security\architecture\security-risk-assessment.md`       | Security risk assessment and compliance: threat modeling, penetration testing, OWASP MASVS, PCI-DSS, security reviews         |
-| `emerging-threat-evaluation.md`     | `security\architecture\emerging-threat-evaluation.md`     | Emerging technology security evaluation: threat intelligence, security implications of new technologies, risk identification  |
+| Skill                                                  | Location                                                       | Description                                                                                                                   |
+| ------------------------------------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `security-architecture-mobile-security-architecture`   | `skills/security-architecture-mobile-security-architecture/`   | Mobile platform security architecture: iOS/Android security models, encryption, secure storage, platform-specific protections |
+| `security-architecture-application-security-hardening` | `skills/security-architecture-application-security-hardening/` | Application security hardening: code obfuscation, anti-tampering, RASP, threat mitigation strategies                          |
+| `security-architecture-security-risk-assessment`       | `skills/security-architecture-security-risk-assessment/`       | Security risk assessment and compliance: threat modeling, penetration testing, OWASP MASVS, PCI-DSS, security reviews         |
+| `security-architecture-emerging-threat-evaluation`     | `skills/security-architecture-emerging-threat-evaluation/`     | Emerging technology security evaluation: threat intelligence, security implications of new technologies, risk identification  |
 
 ## Pipeline Stages Owned
 

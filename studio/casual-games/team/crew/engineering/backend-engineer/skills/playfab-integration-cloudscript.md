@@ -1,3 +1,9 @@
+---
+name: studio-engineering-playfab-integration-cloudscript
+description: PlayFab SDK integration and Cloud Script development — authentication, economy, API wrapper design, PlayFab Events to Kafka data export pipeline. Owned by Aisha Bello (Backend Engineer). Use during Studio Pipeline Stages 5–8 for backend integration and Stage 8 (Soft Launch) for live ops validation. Trigger: PlayFab integration, Cloud Script, PlayFab SDK, Kafka pipeline, API wrapper, Azure Functions.
+version: "1.0.0"
+---
+
 # PlayFab Integration & Cloud Script
 
 **Skill Owner:** Aisha Bello | **Version:** 1.0 | **Date:** 2026-04-20

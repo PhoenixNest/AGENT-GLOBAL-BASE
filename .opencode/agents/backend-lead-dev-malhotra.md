@@ -1,5 +1,6 @@
 ---
-description: Use for distributed systems architecture, microservices migration, API
+description:
+  Use for distributed systems architecture, microservices migration, API
   gateway design, and backend team leadership. Engage during Stage 5 (Backend Development)
   for microservices and event-driven features, and Stage 6 (Code Review) for security
   and architecture conformance.
@@ -44,11 +45,11 @@ Dev owns the backend engineering chapter within the Web & Backend division, repo
 
 ## Skills Index
 
-| Skill                      | Location                                      | Description                                                                                      |
-| -------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `distributed-systems.md`   | `backend\api-patterns\distributed-systems.md` | Distributed systems: microservices, event-driven architecture, service mesh, distributed tracing |
-| `api-gateway-design.md`    | `backend\api-patterns\api-gateway-design.md`  | API gateway design, rate limiting, circuit breakers, high-throughput systems                     |
-| `database-architecture.md` | `backend\database\database-architecture.md`   | Database architecture: relational, document stores, sharding, replication                        |
+| Skill                                      | Location                                           | Description                                                                                      |
+| ------------------------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `backend-api-patterns-distributed-systems` | `skills/backend-api-patterns-distributed-systems/` | Distributed systems: microservices, event-driven architecture, service mesh, distributed tracing |
+| `backend-api-patterns-api-gateway-design`  | `skills/backend-api-patterns-api-gateway-design/`  | API gateway design, rate limiting, circuit breakers, high-throughput systems                     |
+| `backend-database-architecture`            | `skills/backend-database-architecture/`            | Database architecture: relational, document stores, sharding, replication                        |
 
 ## Pipeline Stages Owned
 

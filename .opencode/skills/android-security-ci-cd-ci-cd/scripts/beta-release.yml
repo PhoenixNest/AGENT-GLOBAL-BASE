@@ -1,0 +1,35 @@
+# .github/workflows/beta-release.yml
+name: Beta Release
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  beta-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease
+
+      - name: Distribute to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIALS }}
+          groups: beta-testers
+          file: app/build/outputs/apk/release/app-release.apk
+          releaseNotes: |
+            ${{ github.event.head_commit.message }}
+
+            Build: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}

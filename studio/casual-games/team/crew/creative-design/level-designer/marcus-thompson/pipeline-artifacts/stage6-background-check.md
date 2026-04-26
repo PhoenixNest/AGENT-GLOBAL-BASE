@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-candidate_name: 'Marcus Thompson'
-candidate_id: 'G27'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'creative-design'
-role: 'level-designer'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+candidate_name: "Marcus Thompson"
+candidate_id: "G27"
+entity_type: "studio"
+stage: "stage-6"
+division: "creative-design"
+role: "level-designer"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Marcus Thompson (G27)

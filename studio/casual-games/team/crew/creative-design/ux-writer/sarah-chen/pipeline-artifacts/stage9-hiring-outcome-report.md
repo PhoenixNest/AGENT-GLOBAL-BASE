@@ -1,10 +1,10 @@
 ---
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'creative-design'
-role: 'ux-writer'
-document_type: 'Hiring Outcome Report'
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "creative-design"
+role: "ux-writer"
+document_type: "Hiring Outcome Report"
 ---
 
 # HIRING OUTCOME REPORT

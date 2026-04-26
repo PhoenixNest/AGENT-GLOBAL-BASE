@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3.'
-candidate_name: 'Visual Artist'
-candidate_id: 'G21'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'art'
-role: 'ui-visual-artist'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 50 candidates ranked and scored. Proceeding to Stage 3."
+candidate_name: "Visual Artist"
+candidate_id: "G21"
+entity_type: "studio"
+stage: "stage-2"
+division: "art"
+role: "ui-visual-artist"
+document_type: "Sourcing Shortlist"
 ---
 
 # Sourcing Shortlist — UI Visual Artist (G21)

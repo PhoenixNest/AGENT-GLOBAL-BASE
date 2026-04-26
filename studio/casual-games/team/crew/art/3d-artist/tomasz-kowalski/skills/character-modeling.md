@@ -1,3 +1,9 @@
+---
+name: studio-art-character-modeling
+description: 3D character modeling for mobile games — anatomy, topology, stylized and realistic styles, rigging preparation, and mobile polycount budgets. Owned by Tomasz Kowalski (3D Artist). Use during Studio Pipeline Stages 3–5 for character model production. Trigger: character modeling, 3D characters, topology, retopology, ZBrush sculpting, mobile polycount, stylized characters, rigging prep.
+version: "1.0.0"
+---
+
 # Character Modeling
 
 **Skill ID:** character-modeling

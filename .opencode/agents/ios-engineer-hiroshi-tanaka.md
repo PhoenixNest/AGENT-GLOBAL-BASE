@@ -1,5 +1,6 @@
 ---
-description: Use for UIKit + Combine integration, iOS media processing, and Core Data
+description:
+  Use for UIKit + Combine integration, iOS media processing, and Core Data
   persistence. Engage during Stage 5 (Development) for UIKit/Combine implementation,
   media pipeline, and Core Data persistence work.
 mode: subagent
@@ -44,11 +45,11 @@ Hiroshi is an iOS Engineer reporting to the iOS Chapter Lead (Seo-Yeon Park). He
 
 ## Skills Index
 
-| Skill              | Location                           | Description                                                |
-| ------------------ | ---------------------------------- | ---------------------------------------------------------- |
-| `uikit-combine.md` | `ios\ui-ux\uikit-combine.md`       | UIKit, Combine reactive programming, data binding          |
-| `core-data.md`     | `ios\data-networking\core-data.md` | Core Data, batch fetching, faulting, migration             |
-| `swiftui.md`       | `ios\ui-ux\swiftui.md`             | SwiftUI declarative UI, state management, view composition |
+| Skill                           | Location                                | Description                                                |
+| ------------------------------- | --------------------------------------- | ---------------------------------------------------------- |
+| `ios-ui-ux-uikit-combine`       | `skills/ios-ui-ux-uikit-combine/`       | UIKit, Combine reactive programming, data binding          |
+| `ios-data-networking-core-data` | `skills/ios-data-networking-core-data/` | Core Data, batch fetching, faulting, migration             |
+| `ios-ui-ux-swiftui`             | `skills/ios-ui-ux-swiftui/`             | SwiftUI declarative UI, state management, view composition |
 
 ## Pipeline Stages Owned
 

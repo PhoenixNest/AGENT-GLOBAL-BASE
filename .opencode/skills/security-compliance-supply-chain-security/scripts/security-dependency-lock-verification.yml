@@ -1,0 +1,23 @@
+# .github/workflows/dependency-lock.yml
+name: Security — Dependency Lock Verification
+on:
+  pull_request:
+    paths: ["**/build.gradle", "**/Podfile", "**/pubspec.yaml"]
+
+jobs:
+  verify-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Gradle Lock
+        run: |
+          ./gradlew :app:dependencies --write-locks
+          git diff --exit-code -- '**/*.lockfile' || \
+            (echo "❌ Dependency lock file out of date" && exit 1)
+
+      - name: Verify Podfile.lock
+        run: |
+          pod install --repo-update
+          git diff --exit-code -- Podfile.lock || \
+            (echo "❌ Podfile.lock out of date" && exit 1)

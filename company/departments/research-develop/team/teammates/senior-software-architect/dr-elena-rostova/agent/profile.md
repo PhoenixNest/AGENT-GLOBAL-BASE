@@ -39,16 +39,39 @@ Dr. Rostova serves as Senior Software Architect within the R&D department, repor
 
 ## Skills Index
 
-- `skills/adr-governance.md` — ADR authorship, architecture review board processes, decision documentation
-- `skills/uml-engineering.md` — UML diagram authoring, sequence diagrams, component diagrams, data flow models
-- `skills/code-review-participation.md` — Hands-on code review participation, PR analysis
-- `skills/mobile-adr-production.md` — Mobile-specific ADR authorship for platform layering, KMP, offline-first
-- `skills/architecture-syncs.md` — Weekly architecture syncs with platform leads
-- `skills/mobile-platform-assessment.md` — Mobile platform architecture assessment methodology
-- `skills/adr-template-adaptation.md` — ADR template adaptation for mobile-first contexts
-- `skills/practice-uml-adr.md` — Practice UML and ADR through mobile platform immersion
-- `skills/uml-production-certification.md` — UML production certification for solo authorship
-- `skills/architecture-review-shadowing.md` — Architecture review shadowing program participation
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/adr-governance.md` — ADR authorship, architecture review board processes, decision documentation
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/uml-engineering.md` — UML diagram authoring, sequence diagrams, component diagrams, data flow models
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/code-review-participation.md` — Hands-on code review participation, PR analysis
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/mobile-adr-production.md` — Mobile-specific ADR authorship for platform layering, KMP, offline-first
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/architecture-syncs.md` — Weekly architecture syncs with platform leads
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/mobile-platform-assessment.md` — Mobile platform architecture assessment methodology
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/adr-template-adaptation.md` — ADR template adaptation for mobile-first contexts
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/practice-uml-adr.md` — Practice UML and ADR through mobile platform immersion
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/uml-production-certification.md` — UML production certification for solo authorship
+- `company/departments/research-develop/team/teammates/senior-software-architect/dr-elena-rostova/skills/architecture-review-shadowing.md` — Architecture review shadowing program participation
+
+## Pipeline Stages
+
+3, 6
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

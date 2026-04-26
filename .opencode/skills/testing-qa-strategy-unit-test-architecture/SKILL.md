@@ -1,6 +1,10 @@
 ---
 name: testing-qa-strategy-unit-test-architecture
-description: 'Testing Qa skill: Unit Test Architecture'
+description: Unit test architecture for mobile — test directory structure, naming conventions, test double patterns (mocks, stubs, fakes), domain layer test isolation, data layer test strategies, and test maintainability standards for Android, iOS, and KMP projects. Owned by Ananya Krishnan (SDET). Use during Stage 4 (Implementation Plan) for test architecture design and Stage 5 (Development) for unit test implementation. Trigger: unit test architecture, test directory structure, test naming conventions, test doubles, domain layer tests, data layer tests, test maintainability, mobile unit tests.
+prerequisites:
+  - testing-qa-overview
+
+version: "1.0.0"
 ---
 
 # Unit Test Architecture

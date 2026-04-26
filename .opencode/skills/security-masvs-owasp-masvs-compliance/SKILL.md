@@ -1,6 +1,10 @@
----
+﻿---
 name: security-masvs-owasp-masvs-compliance
-description: 'Security skill: Owasp Masvs Compliance'
+description: OWASP MASVS compliance methodology — per-control verification procedures, evidence collection workflows, compliance matrix generation, and L1/L2 compliance sign-off for iOS and Android applications. Owned by Sana Khoury (Security Engineer). Use during Stage 6 (Code Review) for compliance verification and Stage 10 (Release Readiness) for MASVS gate checklist item #4. Trigger: MASVS compliance, per-control verification, evidence collection, compliance matrix, L1 compliance, L2 compliance, MASVS sign-off, mobile app compliance.
+prerequisites:
+  - security-masvs-overview
+
+version: "1.0.0"
 ---
 
 # OWASP MASVS Compliance

@@ -1,5 +1,6 @@
 ---
-description: Use for cross-platform implementation with Kotlin Multiplatform (KMP)
+description:
+  Use for cross-platform implementation with Kotlin Multiplatform (KMP)
   and Flutter. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification)
   for KMP shared module architecture or Flutter application development.
 mode: subagent
@@ -43,10 +44,10 @@ Mei-Ling owns all cross-platform implementation within the R&D Department — tr
 
 ## Skills Index
 
-| Skill                       | Location                                           | Description                                                                                                                                                           |
-| --------------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `kmp-implementation.md`     | `cross-platform\kmp\kmp-implementation.md`         | Kotlin Multiplatform implementation: shared module architecture, expect/actual patterns, Ktor networking, SQLDelight database, Swift interoperability                 |
-| `flutter-implementation.md` | `cross-platform\flutter\flutter-implementation.md` | Flutter application development: Dart, widget architecture, platform channels, Riverpod state management, custom design systems, App Store and Google Play submission |
+| Skill                                   | Location                                        | Description                                                                                                                                                           |
+| --------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cross-platform-kmp-implementation`     | `skills/cross-platform-kmp-implementation/`     | Kotlin Multiplatform implementation: shared module architecture, expect/actual patterns, Ktor networking, SQLDelight database, Swift interoperability                 |
+| `cross-platform-flutter-implementation` | `skills/cross-platform-flutter-implementation/` | Flutter application development: Dart, widget architecture, platform channels, Riverpod state management, custom design systems, App Store and Google Play submission |
 
 ## Pipeline Stages Owned
 

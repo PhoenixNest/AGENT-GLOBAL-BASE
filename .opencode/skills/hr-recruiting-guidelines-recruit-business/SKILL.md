@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-recruit-business
-description: 'Hr Recruiting skill: Recruit Business'
+description: "Recruits business, GTM, finance, legal, and operations roles — Marketing, Sales, Finance, Legal, Operations, Strategy, and any role not fitting engineering/product/design/data families — using domain-specific seniority rubrics, interview simulation protocols, and the elite vetting gate. Owned by Dr. Evelyn Hartwell (CHRO). Use when recruiting for business roles, marketing, sales, finance, legal, operations, strategy, BizOps, or any non-technical role family. Trigger: recruit business, hire marketer, hire sales, hire finance, hire legal, hire operations, recruit BizOps, business recruitment, CMO, CFO, CRO, COO."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Business Recruitment Skill

@@ -1,6 +1,10 @@
 ---
 name: backend-api-patterns-distributed-systems
-description: 'Backend skill: Distributed Systems'
+description: Distributed systems patterns for backend services — saga pattern orchestration, circuit breaker implementation, idempotency guarantees, event-driven communication, and distributed tracing with OpenTelemetry. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for distributed pattern selection and Stage 5 (Development) for implementation. Trigger: distributed systems, saga pattern, circuit breaker, idempotency, event-driven, opentelemetry, resilience engineering.
+prerequisites:
+  - backend-overview
+
+version: "1.0.0"
 ---
 
 # Distributed Systems

@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Offer accepted. Proceeding to Stage 8.'
-candidate_name: 'Javier Moreno'
-candidate_id: 'G25'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'art'
-role: 'vfx-artist'
-document_type: 'Offer Document'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Offer accepted. Proceeding to Stage 8."
+candidate_name: "Javier Moreno"
+candidate_id: "G25"
+entity_type: "studio"
+stage: "stage-7"
+division: "art"
+role: "vfx-artist"
+document_type: "Offer Document"
 ---
 
 # Offer Document — Javier Moreno (G25)

@@ -1,6 +1,10 @@
 ---
 name: security-architecture-application-security-hardening
-description: 'Security skill: Application Security Hardening'
+description: Application security hardening for mobile — code obfuscation (ProGuard, DexGuard), anti-tampering, root/jailbreak detection, SSL pinning, Runtime Application Self-Protection (RASP), reverse engineering prevention. Owned by Dr. Sarah Chen (CSO). Use during Stage 5 (Development) for security implementation and Stage 6 (Code Review) for hardening verification. Trigger: app hardening, code obfuscation, ProGuard, DexGuard, anti-tampering, root detection, jailbreak detection, SSL pinning, RASP, reverse engineering prevention.
+prerequisites:
+  - security-overview
+
+version: "1.0.0"
 ---
 
 # Application Security Hardening

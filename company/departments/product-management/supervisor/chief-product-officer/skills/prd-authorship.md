@@ -1,7 +1,12 @@
 ---
 name: prd-authorship
 description: High-quality Product Requirement Document (PRD) authorship for mobile and general product features. Invoke this skill whenever Marcus is asked to write, review, structure, or improve a PRD, product spec, feature brief, or requirements document. Also use for: defining success metrics and instrumentation specs, writing JTBD problem statements, creating edge case matrices, assessing technical feasibility for product decisions, designing launch sequencing plans, or establishing kill conditions for a feature. If anyone on the team asks "can you write up the spec?" or "what should the PRD look like?" — this skill applies.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Translates ambiguous requirements into actionable, testable specifications. Poor PRDs cause 40% of engineering rework; high-quality PRDs reduce ambiguity-driven defects by 65%.
 
 # PRD Authorship
 
@@ -307,3 +312,16 @@ Marcus applies this checklist before approving any PRD (his own or a teammate's)
 - [ ] Success criteria has a number, a metric, and a time window
 - [ ] Kill condition is explicit and actionable
 - [ ] All three review sign-offs obtained before "Approved" status
+
+## Pipeline Cross-References
+
+This skill governs the following pipeline stages:
+
+| Pipeline           | Stage                  | Template                                          |
+| ------------------ | ---------------------- | ------------------------------------------------- |
+| Mobile Development | Stage 1 (Requirements) | `company/pipeline/mobile-development/pipeline.md` |
+| Web Development    | Stage 1 (Requirements) | `company/pipeline/web-development/pipeline.md`    |
+| Backend Api        | Stage 1 (Requirements) | `company/pipeline/backend-api/pipeline.md`        |
+| Full Stack         | Stage 1 (Requirements) | `company/pipeline/full-stack/pipeline.md`         |
+
+Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

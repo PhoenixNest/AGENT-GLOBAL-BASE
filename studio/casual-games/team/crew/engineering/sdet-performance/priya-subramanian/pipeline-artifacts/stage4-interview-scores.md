@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All assessments completed. Composite Score 4.520/5 (96th percentile). Proceeding to Stage 5.'
-candidate_name: 'Case Study'
-candidate_id: '48hr'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Interview Scores'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All assessments completed. Composite Score 4.520/5 (96th percentile). Proceeding to Stage 5."
+candidate_name: "Case Study"
+candidate_id: "48hr"
+entity_type: "studio"
+stage: "stage-4"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Interview Scores"
 ---
 
 # Interview Scores — SDET Performance (G38)

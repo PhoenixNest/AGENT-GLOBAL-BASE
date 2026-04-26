@@ -1,13 +1,13 @@
 ---
-role_title: 'SDET — Gameplay #2'
-seniority: 'Senior'
-priority: 'P1'
-reports_to: 'Amara Osei'
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'engineering'
-role: 'sdet-gameplay'
-document_type: 'Position Specification Document'
+role_title: "SDET — Gameplay #2"
+seniority: "Senior"
+priority: "P1"
+reports_to: "Amara Osei"
+entity_type: "studio"
+stage: "stage-1"
+division: "engineering"
+role: "sdet-gameplay"
+document_type: "Position Specification Document"
 ---
 
 # Stages 1-9: Complete Pipeline — SDET Gameplay #2 (G37)

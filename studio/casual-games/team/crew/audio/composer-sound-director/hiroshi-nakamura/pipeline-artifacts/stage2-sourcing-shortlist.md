@@ -1,11 +1,11 @@
 ---
-gate_status: '** ✅ PASS'
-candidate_name: 'Hiroshi Nakamura'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'audio'
-role: 'composer-sound-director'
-document_type: 'Sourcing Shortlist'
+gate_status: "** ✅ PASS"
+candidate_name: "Hiroshi Nakamura"
+entity_type: "studio"
+stage: "stage-2"
+division: "audio"
+role: "composer-sound-director"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2-9: Pipeline Artifacts — Composer/Sound Director (G10) — Hiroshi Nakamura

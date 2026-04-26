@@ -1,12 +1,12 @@
 ---
-gate_status: '** ✅ CLEAR'
-candidate_name: 'James Mitchell'
-candidate_id: 'G9'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'production'
-role: 'producer'
-document_type: 'Background Check'
+gate_status: "** ✅ CLEAR"
+candidate_name: "James Mitchell"
+candidate_id: "G9"
+entity_type: "studio"
+stage: "stage-6"
+division: "production"
+role: "producer"
+document_type: "Background Check"
 ---
 
 # Stages 6-9: Background Check, Offer, Provisioning, Hiring Outcome — James Mitchell (G9)

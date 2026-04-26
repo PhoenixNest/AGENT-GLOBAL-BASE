@@ -1,22 +1,14 @@
-# Supply Chain Security
+---
+version: "1.0.0"
+---
 
-**Category:** Software Supply Chain & Build Security
-**Owner:** Security Engineer #3 — Li Wei Chen (Supply Chain Security Specialist)
-
-## Overview
-
-Comprehensive methodology for securing the software supply chain from source code through build, signing, and distribution. This skill covers Software Bill of Materials (SBOM) generation using CycloneDX and SPDX standards, artifact signing with cosign and Sigstore, CI/CD pipeline hardening using the SLSA (Supply-chain Levels for Software Artifacts) framework, GitHub Actions marketplace vetting, and dependency verification. For mobile applications, supply chain security is critical — a compromised dependency or tampered build can affect billions of devices. This skill ensures end-to-end integrity of every artifact that ships to users.
-
-## Competency Dimensions
-
-| Dimension                       | Description                                                                      | Proficiency Indicators                                                                                                                                                           |
-| ------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SBOM Generation & Management    | Creating and maintaining machine-readable inventories of all software components | Generates CycloneDX and SPDX SBOMs for every build; achieves 100% dependency coverage (direct + transitive); integrates SBOM generation into CI/CD with zero build-time overhead |
-| Artifact Signing & Verification | Cryptographic signing of build artifacts using Sigstore/cosign                   | Signs all release artifacts (APK, AAB, IPA) with cosign; implements Sigstore keyless signing with OIDC; verifies signatures in distribution pipeline                             |
-| SLSA Framework Implementation   | Implementing supply chain security levels per SLSA specification                 | Achieves SLSA Level 3 for all build pipelines; implements provenance generation; enforces hermetic builds; documents SLSA compliance for auditors                                |
-| CI/CD Action Vetting            | Evaluating and approving third-party CI/CD actions and plugins                   | Vets all GitHub Actions before use; maintains approved actions registry; pins actions to commit SHA; monitors for action compromise via Dependabot                               |
-| Dependency Verification         | Ensuring all dependencies are authentic and untampered                           | Implements dependency lock files; verifies checksums; monitors for typosquatting; implements allowlist-based dependency approval                                                 |
-| Build Pipeline Hardening        | Securing the build environment against tampering                                 | Implements isolated build runners; enforces least-privilege access; secures build secrets; implements build reproducibility checks                                               |
+------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SBOM Generation & Management | Creating and maintaining machine-readable inventories of all software components | Generates CycloneDX and SPDX SBOMs for every build; achieves 100% dependency coverage (direct + transitive); integrates SBOM generation into CI/CD with zero build-time overhead |
+| Artifact Signing & Verification | Cryptographic signing of build artifacts using Sigstore/cosign | Signs all release artifacts (APK, AAB, IPA) with cosign; implements Sigstore keyless signing with OIDC; verifies signatures in distribution pipeline |
+| SLSA Framework Implementation | Implementing supply chain security levels per SLSA specification | Achieves SLSA Level 3 for all build pipelines; implements provenance generation; enforces hermetic builds; documents SLSA compliance for auditors |
+| CI/CD Action Vetting | Evaluating and approving third-party CI/CD actions and plugins | Vets all GitHub Actions before use; maintains approved actions registry; pins actions to commit SHA; monitors for action compromise via Dependabot |
+| Dependency Verification | Ensuring all dependencies are authentic and untampered | Implements dependency lock files; verifies checksums; monitors for typosquatting; implements allowlist-based dependency approval |
+| Build Pipeline Hardening | Securing the build environment against tampering | Implements isolated build runners; enforces least-privilege access; secures build secrets; implements build reproducibility checks |
 
 ## Execution Guidance
 
@@ -91,7 +83,7 @@ name: Security — SBOM Generation
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
 
 jobs:
   generate-sbom:
@@ -240,7 +232,7 @@ security cms -D -i embedded.mobileprovision
 name: Security — SLSA L3 Build
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 permissions:
   id-token: write # For keyless signing
@@ -348,7 +340,7 @@ actions:
 name: Security — Action Vetting
 on:
   pull_request:
-    paths: ['.github/workflows/**']
+    paths: [".github/workflows/**"]
 
 jobs:
   check-approved-actions:
@@ -400,7 +392,7 @@ npm audit --json | jq '.advisories[] | select(.module_name | test("^[a-z]{1,2}[0
 name: Security — Dependency Lock Verification
 on:
   pull_request:
-    paths: ['**/build.gradle', '**/Podfile', '**/pubspec.yaml']
+    paths: ["**/build.gradle", "**/Podfile", "**/pubspec.yaml"]
 
 jobs:
   verify-lock:

@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All onboarding items confirmed ready. Proceeding to Stage 9.'
-candidate_name: 'Dmitri Volkov'
-candidate_id: 'G7'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'engineering'
-role: 'senior-game-engineer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All onboarding items confirmed ready. Proceeding to Stage 9."
+candidate_name: "Dmitri Volkov"
+candidate_id: "G7"
+entity_type: "studio"
+stage: "stage-8"
+division: "engineering"
+role: "senior-game-engineer"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Dmitri Volkov (G7)

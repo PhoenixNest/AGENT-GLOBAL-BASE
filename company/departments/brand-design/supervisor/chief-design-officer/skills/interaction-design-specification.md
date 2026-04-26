@@ -1,6 +1,7 @@
 ---
 name: interaction-design-specification
 description: Produce technical interaction design documentation including component specs, state diagrams, gesture vocabularies, edge case matrices, and responsive breakpoints that eliminate ambiguity for engineering teams
+version: "1.0.0"
 ---
 
 # Interaction Design Specification
@@ -16,6 +17,10 @@ Create precise, unambiguous interaction design documentation that enables engine
 - Defining gesture-based interactions
 - Specifying component behavior across states
 - Resolving edge cases before implementation
+
+## Why This Matters
+
+Ensures platform-native interaction patterns are preserved across implementation. Without IDS, engineers default to web-like interactions that violate iOS HIG and Android Material Design conventions.
 
 ## Core Principles
 

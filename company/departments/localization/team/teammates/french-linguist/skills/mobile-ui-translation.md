@@ -1,6 +1,7 @@
 ---
 name: mobile-ui-translation
 description: Mobile UI string translation and quality assurance. Covers Language Translation Module workflow, character limit compliance, platform writing conventions (iOS HIG, Android Material Design), register calibration, MT post-editing, and linguistic QA gate before Translation Verification Report.
+version: "1.0.0"
 ---
 
 # Mobile UI Translation
@@ -10,6 +11,10 @@ description: Mobile UI string translation and quality assurance. Covers Language
 Translate mobile UI strings from the EN-source handoff package into the assigned target language, produce correctly structured platform resource files, and pass the linguistic QA gate before delivery to the Chief Translation Officer for the Translation Verification Report.
 
 All translation work operates within the **Language Translation Module** — the governing framework owned by the Chief Translation Officer (CTO-L). This skill defines the linguist's execution workflow within that framework.
+
+## Why This Matters
+
+Ensures UI strings meet platform writing conventions and character limits. Poorly translated UI breaks layouts, violates iOS HIG/Android Material Design, and reduces trust in international markets.
 
 ## Workflow
 

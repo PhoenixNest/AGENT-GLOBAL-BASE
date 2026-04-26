@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-competency-tracking
-description: 'Hr Recruiting skill: Competency Tracking'
+description: "Designs and operates the competency matrix and tracking system for all engineering FTEs across Android, iOS, Cross-Platform, Architecture, and Test Lead role families — establishing performance baselines at hire, tracking progression through role-family-specific competency dimensions, and producing data-driven insights for promotion readiness, skill gap remediation, and onboarding ROI calculation. Owned by Engineering Onboarding Lead. Use when tracking engineer performance, building competency matrices, designing assessment frameworks, constructing progress dashboards, running probationary evaluations, or calculating onboarding ROI. Trigger: competency tracking, competency matrix, performance baseline, skill gap, promotion readiness, probationary evaluation, onboarding ROI, assessment framework, progress dashboard."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Competency Tracking

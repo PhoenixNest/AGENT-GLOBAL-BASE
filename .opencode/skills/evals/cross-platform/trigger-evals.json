@@ -1,0 +1,35 @@
+{
+  "category": "cross-platform",
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "should_trigger": [
+    "KMP architecture",
+    "Kotlin Multiplatform",
+    "expect actual",
+    "Ktor shared networking",
+    "SQLDelight",
+    "shared module architecture",
+    "KMP implementation",
+    "Flutter architecture",
+    "Flutter state management",
+    "BLoC",
+    "Riverpod",
+    "widget architecture",
+    "platform channels",
+    "Flutter i18n",
+    "ARB files",
+    "Flutter localization",
+    "cross-platform API consistency",
+    "KMP contract verification",
+    "Flutter deployment",
+    "Dart coding"
+  ],
+  "should_not_trigger": [
+    "jetpack compose android only",
+    "swiftui ios only",
+    "django rest framework",
+    "terraform aws infrastructure",
+    "OWASP ZAP scanning"
+  ],
+  "instructions": "Verify AI platform correctly triggers cross-platform skills for KMP/Flutter queries and does not trigger for platform-specific-only or backend queries."
+}

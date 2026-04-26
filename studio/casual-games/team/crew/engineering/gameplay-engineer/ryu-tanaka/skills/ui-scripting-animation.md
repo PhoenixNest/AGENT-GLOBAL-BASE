@@ -1,3 +1,9 @@
+---
+name: studio-engineering-ui-scripting-animation
+description: UI scripting and animation for mobile games — C# UI scripting, Spine 2D integration, automated UI testing, bug fixing for game interfaces. Owned by Ryu Tanaka (Gameplay Engineer). Use during Studio Pipeline Stages 2–5 for UI development and Stage 6 (Automated Testing) for UI regression testing. Trigger: UI scripting, Spine animation, UI testing, Unity UI Toolkit, UI bug fixing, animation integration.
+version: "1.0.0"
+---
+
 # UI Scripting & Animation
 
 **Skill Owner:** Ryu Tanaka | **Version:** 1.0 | **Date:** 2026-04-20

@@ -1,6 +1,7 @@
 ---
 name: developer-platform-engineering
 description: Internal Developer Platform (IDP) engineering at scale: Backstage portal design, golden-path service scaffolding, GitOps deployment pipelines, self-service infrastructure with Terraform, DORA/SPACE metrics, and developer experience optimization for 50+ engineering teams.
+version: "1.0.0"
 ---
 
 # Developer Platform Engineering
@@ -8,6 +9,10 @@ description: Internal Developer Platform (IDP) engineering at scale: Backstage p
 ## Purpose
 
 Build and operate the internal developer platform that enables 50+ engineers across 5 divisions to ship code safely and quickly. The platform is a product — the engineering teams are the customers. Platform success is measured by adoption rate, deployment frequency, and developer satisfaction, not by feature count.
+
+## Why This Matters
+
+Builds internal developer platforms that accelerate engineering. Poor developer platforms force engineers to work around tooling, wasting time on infrastructure instead of features.
 
 ## Platform Philosophy: Golden Paths, Not Guardrails
 

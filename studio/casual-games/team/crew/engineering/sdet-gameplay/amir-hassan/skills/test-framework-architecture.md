@@ -1,6 +1,7 @@
 ---
 name: test-framework-architecture
 description: Extensible test framework design for game testing, including fixture management, page-object patterns for game UI, and reporting.
+version: "1.0.0"
 ---
 
 # Test Framework Architecture

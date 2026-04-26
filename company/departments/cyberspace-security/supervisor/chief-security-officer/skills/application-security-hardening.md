@@ -1,6 +1,7 @@
 ---
 name: application-security-hardening
 description: Implement comprehensive mobile application protection including code obfuscation, anti-tampering, runtime protection, and threat detection to prevent reverse engineering and malicious attacks
+version: "1.0.0"
 ---
 
 # Application Security Hardening
@@ -8,6 +9,10 @@ description: Implement comprehensive mobile application protection including cod
 ## Purpose
 
 Protect mobile applications from reverse engineering, tampering, and runtime attacks through multi-layered defense strategies. Implement security controls that detect and respond to threats while maintaining app performance and user experience.
+
+## Why This Matters
+
+Mobile apps are distributed to user devices where attackers have full access to the binary. Without hardening, reverse engineering exposes API keys, business logic, and user data — a P0 security breach.
 
 ## Core Protection Layers
 

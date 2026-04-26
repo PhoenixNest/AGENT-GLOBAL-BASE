@@ -1,22 +1,14 @@
-# Web Application Security
+---
+version: "1.0.0"
+---
 
-**Category:** Application Security — Web & API
-**Owner:** Security Engineer #2 — Omar Farouq (SAST/DAST Pipeline Specialist)
-
-## Overview
-
-Comprehensive methodology for securing web applications and APIs that serve as backends to mobile applications. This skill covers the OWASP Top 10 (2021 edition), OWASP API Security Top 10, Web Application Firewall (WAF) engineering, secure code review for backend services, and authentication bypass detection. Since mobile applications depend entirely on their backend APIs for data and functionality, the security of these services is inseparable from mobile platform security. All backend services must comply with OWASP Top 10 standards, and all APIs must comply with OWASP API Top 10 standards.
-
-## Competency Dimensions
-
-| Dimension                       | Description                                                  | Proficiency Indicators                                                                                                                                                                 |
-| ------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| OWASP Top 10 (2021) Mastery     | Deep understanding of all 10 web application risk categories | Identifies every OWASP Top 10 category in code review; produces remediation guidance that eliminates entire classes of vulnerabilities; tracks OWASP 2021 changes from 2017 edition    |
-| API Security (OWASP API Top 10) | Specialized knowledge of API-specific attack vectors         | Designs API security controls for all API1:2023 through API10:2023 categories; implements BOLA/BFLA detection; secures GraphQL endpoints                                               |
-| WAF Engineering                 | Designing and tuning Web Application Firewall rules          | Writes custom ModSecurity/Cloudflare WAF rules with <1% false positive rate; implements virtual patching for zero-day vulnerabilities; tunes WAF to block OWASP Top 10 attack patterns |
-| Secure Code Review              | Manual and automated review of backend source code           | Reviews 500+ LOC/hour with ≥90% vulnerability detection rate; identifies business logic flaws that automated tools miss; produces actionable findings with code-level remediation      |
-| Authentication Bypass Detection | Identifying and exploiting authentication weaknesses         | Discovers authentication bypass vectors in OAuth 2.0, JWT, session management; tests for JWT algorithm confusion, signature stripping, token replay                                    |
-| Threat Modeling for APIs        | Systematic identification of API attack surfaces             | Produces STRIDE-based threat models for all API endpoints; identifies trust boundary violations; maps data flow from mobile client through API to database                             |
+------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OWASP Top 10 (2021) Mastery | Deep understanding of all 10 web application risk categories | Identifies every OWASP Top 10 category in code review; produces remediation guidance that eliminates entire classes of vulnerabilities; tracks OWASP 2021 changes from 2017 edition |
+| API Security (OWASP API Top 10) | Specialized knowledge of API-specific attack vectors | Designs API security controls for all API1:2023 through API10:2023 categories; implements BOLA/BFLA detection; secures GraphQL endpoints |
+| WAF Engineering | Designing and tuning Web Application Firewall rules | Writes custom ModSecurity/Cloudflare WAF rules with <1% false positive rate; implements virtual patching for zero-day vulnerabilities; tunes WAF to block OWASP Top 10 attack patterns |
+| Secure Code Review | Manual and automated review of backend source code | Reviews 500+ LOC/hour with ≥90% vulnerability detection rate; identifies business logic flaws that automated tools miss; produces actionable findings with code-level remediation |
+| Authentication Bypass Detection | Identifying and exploiting authentication weaknesses | Discovers authentication bypass vectors in OAuth 2.0, JWT, session management; tests for JWT algorithm confusion, signature stripping, token replay |
+| Threat Modeling for APIs | Systematic identification of API attack surfaces | Produces STRIDE-based threat models for all API endpoints; identifies trust boundary violations; maps data flow from mobile client through API to database |
 
 ## Execution Guidance
 

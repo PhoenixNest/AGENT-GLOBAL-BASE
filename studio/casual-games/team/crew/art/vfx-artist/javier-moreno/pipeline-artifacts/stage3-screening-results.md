@@ -1,12 +1,12 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Screening complete. Proceeding to Stage 4.'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'art'
-role: 'vfx-artist'
-document_type: 'Screening Results'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Screening complete. Proceeding to Stage 4."
+entity_type: "studio"
+stage: "stage-3"
+division: "art"
+role: "vfx-artist"
+document_type: "Screening Results"
 ---
 
 # Screening Results — VFX Artist (G25)

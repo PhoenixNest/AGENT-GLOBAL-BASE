@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All assessments completed. Composite Score 4.500/5 (95th percentile). Proceeding to Stage 5.'
-candidate_name: 'Economy Designer'
-candidate_id: 'G34'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'creative-design'
-role: 'economy-designer'
-document_type: 'Interview Scores'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All assessments completed. Composite Score 4.500/5 (95th percentile). Proceeding to Stage 5."
+candidate_name: "Economy Designer"
+candidate_id: "G34"
+entity_type: "studio"
+stage: "stage-4"
+division: "creative-design"
+role: "economy-designer"
+document_type: "Interview Scores"
 ---
 
 # Interview Scores — Economy Designer (G34)

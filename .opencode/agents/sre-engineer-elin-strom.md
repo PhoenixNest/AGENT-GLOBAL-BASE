@@ -1,5 +1,6 @@
 ---
-description: Use for observability/logging, infrastructure security monitoring, and
+description:
+  Use for observability/logging, infrastructure security monitoring, and
   capacity planning. Engage during Stage 5 (Development) for monitoring infrastructure
   and Stage 8 (Integrity Verification) for observability conformance.
 mode: subagent
@@ -43,11 +44,11 @@ Elin is an SRE Engineer reporting to the DevOps Lead (Thomas Zhang). She contrib
 
 ## Skills Index
 
-| Skill                                             | Location                                           | Description                                                    |
-| ------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------- |
-| `observability-logging.md`                        | `devops\guidelines\observability-logging.md`       | ELK Stack, Fluentd, anomaly detection, real-time alerting      |
-| `infrastructure-security.md`                      | `security\architecture\infrastructure-security.md` | Falco, OSQuery, container security, network anomaly detection  |
-| `devops/guidelines/container-runtime-security.md` | `devops\guidelines\container-runtime-security.md`  | Container runtime security, Falco rules, eBPF-based monitoring |
+| Skill                                           | Location                                                | Description                                                    |
+| ----------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------- |
+| `devops-guidelines-observability-logging`       | `skills/devops-guidelines-observability-logging/`       | ELK Stack, Fluentd, anomaly detection, real-time alerting      |
+| `security-architecture-infrastructure-security` | `skills/security-architecture-infrastructure-security/` | Falco, OSQuery, container security, network anomaly detection  |
+| `devops-guidelines-container-runtime-security`  | `skills/devops-guidelines-container-runtime-security/`  | Container runtime security, Falco rules, eBPF-based monitoring |
 
 ## Pipeline Stages Owned
 

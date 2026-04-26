@@ -1,5 +1,6 @@
 ---
-description: Use for full-stack development with React, Python FastAPI, and React
+description:
+  Use for full-stack development with React, Python FastAPI, and React
   Native prototyping. Engage during Stage 5 (Development) for React/FastAPI implementation
   and mobile prototyping.
 mode: subagent
@@ -43,11 +44,11 @@ Sora is a Full-Stack Engineer reporting to the VP of Web & Backend Engineering (
 
 ## Skills Index
 
-| Skill                         | Location                                         | Description                                                     |
-| ----------------------------- | ------------------------------------------------ | --------------------------------------------------------------- |
-| `react-fastapi.md`            | `frontend-web\react\react-fastapi.md`            | React, Python FastAPI, multi-step forms, async task queues      |
-| `react-native-prototyping.md` | `frontend-web\react\react-native-prototyping.md` | React Native, native modules, document scanning, biometric auth |
-| `webauthn-biometric-auth.md`  | `shared\guidelines\webauthn-biometric-auth.md`   | WebAuthn, biometric authentication, passkey integration         |
+| Skill                                       | Location                                            | Description                                                     |
+| ------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------- |
+| `frontend-web-react-fastapi`                | `skills/frontend-web-react-fastapi/`                | React, Python FastAPI, multi-step forms, async task queues      |
+| `frontend-web-react-native-prototyping`     | `skills/frontend-web-react-native-prototyping/`     | React Native, native modules, document scanning, biometric auth |
+| `shared-guidelines-webauthn-biometric-auth` | `skills/shared-guidelines-webauthn-biometric-auth/` | WebAuthn, biometric authentication, passkey integration         |
 
 ## Pipeline Stages Owned
 

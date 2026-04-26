@@ -1,6 +1,7 @@
 ---
 name: launch-readiness
 description: Launch readiness checklist management, soft launch execution, global launch coordination, and post-launch transition planning for Stages 7, 8, and 9 of the game development pipeline.
+version: "1.0.0"
 ---
 
 # Launch Readiness

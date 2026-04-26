@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Background check CLEAR. Proceeding to Stage 7.'
-candidate_name: 'Lin Zhang'
-candidate_id: 'G37'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'engineering'
-role: 'sdet-gameplay'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Background check CLEAR. Proceeding to Stage 7."
+candidate_name: "Lin Zhang"
+candidate_id: "G37"
+entity_type: "studio"
+stage: "stage-6"
+division: "engineering"
+role: "sdet-gameplay"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Lin Zhang (G37)

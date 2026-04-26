@@ -87,6 +87,29 @@ The agent inherits the following skills:
 
 ---
 
+## Pipeline Stages
+
+Stage 1 (Requirements — Experimentation Spec sign-off), Stage 10 (Release Readiness — analytics platform availability)
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                  | Key Result                                                            | Progress | Status         |
+| -------------------------- | --------------------------------------------------------------------- | -------- | -------------- |
+| Experimentation governance | All primary-metric PRD specs reviewed within 48-hour SLA              | 100%     | ✅ On Track    |
+| Metric definition lock     | Stage 3 metric pins completed with zero revisions post-lock           | 100%     | ✅ On Track    |
+| Analytics platform         | Telemetry SDK governance and dashboard wiring for all active projects | 85%      | ⚠️ In Progress |
+| Org-building               | First three data team hires completed per recruitment plan            | 0%       | 📋 Planned Q3  |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                     | Target                   | Actual | Trend              |
+| -------------------------- | ------------------------ | ------ | ------------------ |
+| Spec review SLA compliance | 100% within 48 hours     | 100%   | → Stable           |
+| Metric definition accuracy | Zero post-lock revisions | 0      | → Stable           |
+| Telemetry health (dogfood) | 99% event firing rate    | N/A    | 📋 Pending Stage 5 |
+
 ## 7. Document Version History
 
 | Version | Date           | Author     | Changes                                                                                                     |

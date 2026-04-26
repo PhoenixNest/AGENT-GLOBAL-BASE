@@ -1,11 +1,11 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Composite 4.380 (92nd). Proceeding to Stage 5.'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'art'
-role: 'motion-ui-animator'
-document_type: 'Interview Scores'
+document_id: "**"
+gate_status: "** ✅ Composite 4.380 (92nd). Proceeding to Stage 5."
+entity_type: "studio"
+stage: "stage-4"
+division: "art"
+role: "motion-ui-animator"
+document_type: "Interview Scores"
 ---
 
 # Interview Scores — Motion/UI Animator (G22)

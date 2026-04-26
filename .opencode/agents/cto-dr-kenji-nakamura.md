@@ -1,5 +1,6 @@
 ---
-description: Use for mobile technology architecture, SPEC development, software architecture
+description:
+  Use for mobile technology architecture, SPEC development, software architecture
   design with UML modeling, technology evaluation, and technical project management.
   Engage during Stage 3 (UML Engineering Package), Stage 4 (Implementation Plan),
   Stage 5 (Development), Stage 6 (Code Review), Stage 7 (Testing), Stage 8 (Integrity
@@ -49,12 +50,12 @@ Dr. Nakamura owns the company's technology architecture and engineering leadersh
 
 ## Skills Index
 
-| Skill                             | Location                                                  | Description                                                                                                                                   |
-| --------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spec-development.md`             | `architecture\guidelines\spec-development.md`             | Comprehensive SPEC development: requirements interpretation, technical specification authorship, phased implementation planning               |
-| `software-architecture-design.md` | `architecture\guidelines\software-architecture-design.md` | Software architecture design with UML modeling: system design, architecture patterns, logical project structures                              |
-| `mobile-technology-strategy.md`   | `architecture\guidelines\mobile-technology-strategy.md`   | Mobile technology strategy and evaluation: emerging technology research, technology selection frameworks, competitive advantage establishment |
-| `technical-project-management.md` | `architecture\guidelines\technical-project-management.md` | Technical project management: phased delivery methodology, progress oversight, milestone tracking, risk management                            |
+| Skill                                                  | Location                                                       | Description                                                                                                                                   |
+| ------------------------------------------------------ | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `architecture-guidelines-spec-development`             | `skills/architecture-guidelines-spec-development/`             | Comprehensive SPEC development: requirements interpretation, technical specification authorship, phased implementation planning               |
+| `architecture-guidelines-software-architecture-design` | `skills/architecture-guidelines-software-architecture-design/` | Software architecture design with UML modeling: system design, architecture patterns, logical project structures                              |
+| `architecture-guidelines-mobile-technology-strategy`   | `skills/architecture-guidelines-mobile-technology-strategy/`   | Mobile technology strategy and evaluation: emerging technology research, technology selection frameworks, competitive advantage establishment |
+| `architecture-guidelines-technical-project-management` | `skills/architecture-guidelines-technical-project-management/` | Technical project management: phased delivery methodology, progress oversight, milestone tracking, risk management                            |
 
 ## Pipeline Stages Owned
 

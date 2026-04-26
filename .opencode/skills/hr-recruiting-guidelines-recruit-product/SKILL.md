@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-recruit-product
-description: 'Hr Recruiting skill: Recruit Product'
+description: "Recruits product roles — Product Manager, Senior PM, Principal PM, Group PM, Director of Product Management, VP Product, CPO — using seniority rubrics covering discovery depth, data fluency, stakeholder influence, and track record, with interview simulation protocols and elite vetting gate. Owned by Dr. Evelyn Hartwell (CHRO). Use when recruiting for product management, product strategy, product discovery, or product leadership roles. Trigger: recruit product, hire PM, product manager recruitment, product recruitment, hire CPO, group PM, director of product, VP product."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Product Recruitment Skill

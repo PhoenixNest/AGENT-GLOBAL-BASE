@@ -1,6 +1,7 @@
 ---
 name: paid-ua-management
 description: Multi-platform paid user acquisition management for mobile games, covering Meta Ads, Google UAC, and Apple Search Ads.
+version: "1.0.0"
 ---
 
 # Paid UA Management

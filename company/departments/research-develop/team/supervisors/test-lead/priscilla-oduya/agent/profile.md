@@ -39,8 +39,31 @@ Priscilla owns mobile quality engineering across Stage 7 (Automated Testing) and
 
 ## Skills Index
 
-- `skills/automated-test-suite.md` — Automated test suite design and execution: unit, integration, and E2E test layers for iOS and Android; test pyramid standards; XCTest, Espresso, Maestro, Detox
-- `skills/defect-triage-and-classification.md` — P0–P3 defect classification: severity decision trees, escalation protocols, user-decision gates for P2/P3, remediation tracking
+- `company/departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/automated-test-suite.md` — Automated test suite design and execution: unit, integration, and E2E test layers for iOS and Android; test pyramid standards; XCTest, Espresso, Maestro, Detox
+- `company/departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/defect-triage-and-classification.md` — P0–P3 defect classification: severity decision trees, escalation protocols, user-decision gates for P2/P3, remediation tracking
+
+## Pipeline Stages
+
+7, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

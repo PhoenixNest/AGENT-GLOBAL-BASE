@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Offer extended and accepted. Proceeding to Stage 8.'
-candidate_name: 'Kwame Asante'
-candidate_id: 'G34'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'creative-design'
-role: 'economy-designer'
-document_type: 'Offer Document'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Offer extended and accepted. Proceeding to Stage 8."
+candidate_name: "Kwame Asante"
+candidate_id: "G34"
+entity_type: "studio"
+stage: "stage-7"
+division: "creative-design"
+role: "economy-designer"
+document_type: "Offer Document"
 ---
 
 # Offer Document — Kwame Asante (G34)

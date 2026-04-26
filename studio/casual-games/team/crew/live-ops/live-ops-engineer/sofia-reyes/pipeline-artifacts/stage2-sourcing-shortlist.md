@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Ops Engineer'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'live-ops'
-role: 'live-ops-engineer'
-document_type: 'Sourcing Shortlist'
+generated_at: "**"
+candidate_name: "Ops Engineer"
+entity_type: "studio"
+stage: "stage-2"
+division: "live-ops"
+role: "live-ops-engineer"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2: Sourcing Shortlist — Live Ops Engineer #2 (G31)

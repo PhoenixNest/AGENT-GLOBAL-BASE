@@ -1,6 +1,7 @@
 ---
 name: economy-design
 description: F2P economy design, virtual currency balancing, pricing models, and data-driven economy iteration for mobile games.
+version: "1.0.0"
 ---
 
 # Economy Design

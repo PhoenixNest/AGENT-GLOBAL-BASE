@@ -1,13 +1,13 @@
 ---
-role_title: 'Producer'
-seniority: 'Senior'
-priority: 'P1'
-reports_to: 'Executive Producer'
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'production'
-role: 'producer'
-document_type: 'Position Specification Document'
+role_title: "Producer"
+seniority: "Senior"
+priority: "P1"
+reports_to: "Executive Producer"
+entity_type: "studio"
+stage: "stage-1"
+division: "production"
+role: "producer"
+document_type: "Position Specification Document"
 ---
 
 # Pipeline Artifacts — Producer (G9) — James Mitchell

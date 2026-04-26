@@ -1,13 +1,13 @@
 ---
-role_title: 'Associate Producer'
-seniority: 'Mid'
-priority: 'P2'
-reports_to: 'James Mitchell'
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'production'
-role: 'associate-producer'
-document_type: 'Position Specification Document'
+role_title: "Associate Producer"
+seniority: "Mid"
+priority: "P2"
+reports_to: "James Mitchell"
+entity_type: "studio"
+stage: "stage-1"
+division: "production"
+role: "associate-producer"
+document_type: "Position Specification Document"
 ---
 
 # Stages 1-9: Complete Pipeline — Associate Producer (G35)

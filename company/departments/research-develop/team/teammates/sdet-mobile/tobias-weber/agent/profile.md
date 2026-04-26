@@ -39,10 +39,33 @@ Tobias is an SDET (Mobile) reporting to the Test Automation Lead (Rachel Kim). H
 
 ## Skills Index
 
-- `skills/appium-detox.md` — Detox, Appium, React Native testing, cross-platform E2E
-- `skills/device-farm-management.md` — GitHub Actions, Bitrise, automated test triggers, test result reporting
-- `skills/cicd-test-integration.md` — CI/CD test integration, automated test triggers, blocking strategies
-- `skills/native-mobile-testing.md` — Native mobile test frameworks, Espresso, XCTest fundamentals
+- `company/departments/research-develop/team/teammates/sdet-mobile/tobias-weber/skills/appium-detox.md` — Detox, Appium, React Native testing, cross-platform E2E
+- `company/departments/research-develop/team/teammates/sdet-mobile/tobias-weber/skills/device-farm-management.md` — GitHub Actions, Bitrise, automated test triggers, test result reporting
+- `company/departments/research-develop/team/teammates/sdet-mobile/tobias-weber/skills/cicd-test-integration.md` — CI/CD test integration, automated test triggers, blocking strategies
+- `company/departments/research-develop/team/teammates/sdet-mobile/tobias-weber/skills/native-mobile-testing.md` — Native mobile test frameworks, Espresso, XCTest fundamentals
+
+## Pipeline Stages
+
+7, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

@@ -1,3 +1,9 @@
+---
+name: studio-art-prop-modeling
+description: 3D prop modeling for mobile games — rapid production pipeline, UV mapping, texturing, and mobile optimization for small-to-medium assets. Owned by Anya Petrova (3D Artist). Use during Studio Pipeline Stages 3–5 for prop asset production. Trigger: prop modeling, 3D props, UV mapping, texture atlasing, prop templates, mobile optimization, asset reuse.
+version: "1.0.0"
+---
+
 # Prop Modeling
 
 **Skill ID:** prop-modeling

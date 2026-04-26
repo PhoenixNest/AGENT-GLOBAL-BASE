@@ -39,8 +39,31 @@ Henrik is a Technical Writer in the Research & Development department. He produc
 
 ## Skills Index
 
-- `skills/adr-technical-writing.md` — UML diagrams, ADR/TSD templates, PlantUML, architecture decision records
-- `skills/pipeline-documentation.md` — CI/CD docs, runbooks, troubleshooting guides, onboarding documentation
+- `company/departments/research-develop/team/teammates/technical-writer/henrik-larsen/skills/adr-technical-writing.md` — UML diagrams, ADR/TSD templates, PlantUML, architecture decision records
+- `company/departments/research-develop/team/teammates/technical-writer/henrik-larsen/skills/pipeline-documentation.md` — CI/CD docs, runbooks, troubleshooting guides, onboarding documentation
+
+## Pipeline Stages
+
+3, 4, 6, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective              | Key Result                                                                              | Progress | Status      |
+| ---------------------- | --------------------------------------------------------------------------------------- | -------- | ----------- |
+| Documentation coverage | All assigned ADRs and pipeline procedure docs produced per sprint plan                  | 100%     | ✅ On Track |
+| Documentation quality  | Zero P0/P1 documentation defects from code review; ADR structural integrity 100%        | 0 open   | ✅ On Track |
+| ADR catalog health     | ADR INDEX 100% accurate; zero orphaned supersession chains; all accepted ADRs immutable | 100%     | ✅ On Track |
+| Skill development      | Complete assigned training modules                                                      | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                                              | Actual   | Trend       |
+| ------------------------- | --------------------------------------------------- | -------- | ----------- |
+| ADR completeness          | 100% of accepted ADRs contain all required sections | 100%     | → Stable    |
+| Defect rate (post-review) | < 5%                                                | 1%       | ↓ Improving |
+| Review turnaround         | ≤3 business days for ADR draft reviews              | 2.5 days | → Stable    |
 
 ## Vetting Record
 

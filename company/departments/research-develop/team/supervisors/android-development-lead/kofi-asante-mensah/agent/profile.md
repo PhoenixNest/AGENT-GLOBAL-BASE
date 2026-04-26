@@ -39,7 +39,30 @@ Kofi owns all Android implementation within the R&D Department — translating t
 
 ## Skills Index
 
-- `skills/android-implementation.md` — Android application development: Jetpack Compose UI, MVVM architecture, Kotlin Coroutines, Hilt DI, Room, Retrofit, platform security, Google Play submission
+- `company/departments/research-develop/team/supervisors/android-development-lead/kofi-asante-mensah/skills/android-implementation.md` — Android application development: Jetpack Compose UI, MVVM architecture, Kotlin Coroutines, Hilt DI, Room, Retrofit, platform security, Google Play submission
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

@@ -1,0 +1,18 @@
+jobs:
+  store-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload Encrypted Artifact
+        run: |
+          # Encrypt artifact before upload
+          openssl enc -aes-256-gcm -salt -pbkdf2 \
+            -in app-release.apk -out app-release.apk.enc \
+            -pass env:ARTIFACT_KEY
+        env:
+          ARTIFACT_KEY: ${{ secrets.ARTIFACT_ENCRYPTION_KEY }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: encrypted-release
+          path: app-release.apk.enc
+          retention-days: 90

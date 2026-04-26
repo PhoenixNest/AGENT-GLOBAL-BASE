@@ -1,5 +1,6 @@
 ---
-description: Use for Android data layer architecture, offline-first patterns, and
+description:
+  Use for Android data layer architecture, offline-first patterns, and
   Android test infrastructure (unit, UI, E2E). Engage during Stage 5 (Development)
   for Android data layer implementation and Stage 7 (Automated Testing) for Android
   test infrastructure.
@@ -44,10 +45,10 @@ Nina is an Android Engineer reporting to the Android Chapter Lead (Kofi Asante-M
 
 ## Skills Index
 
-| Skill                   | Location                                        | Description                                           |
-| ----------------------- | ----------------------------------------------- | ----------------------------------------------------- |
-| `android-data-layer.md` | `android\data-networking\android-data-layer.md` | Room, WorkManager, offline-first, conflict resolution |
-| `android-test-infra.md` | `android\testing-quality\android-test-infra.md` | JUnit 5, MockK, Espresso, Maestro E2E testing         |
+| Skill                                | Location                                     | Description                                           |
+| ------------------------------------ | -------------------------------------------- | ----------------------------------------------------- |
+| `android-data-networking-data-layer` | `skills/android-data-networking-data-layer/` | Room, WorkManager, offline-first, conflict resolution |
+| `android-testing-quality-test-infra` | `skills/android-testing-quality-test-infra/` | JUnit 5, MockK, Espresso, Maestro E2E testing         |
 
 ## Pipeline Stages Owned
 

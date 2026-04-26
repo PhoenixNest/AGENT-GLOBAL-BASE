@@ -1,7 +1,12 @@
 ---
 name: mobile-product-strategy
 description: End-to-end mobile product strategy for iOS and Android. Use this skill whenever Marcus is asked to set product direction, define a roadmap, prioritize features, evaluate commercial vs. quality trade-offs, assess platform constraints, plan a mobile launch, or advise on Android/iOS ecosystem strategy. Also invoke for any question about product vision, OKR setting, monetization architecture, A/B testing strategy, App Store/Google Play positioning, or mobile retention and engagement frameworks. If the team is debating what to build and why — especially on mobile — this skill applies.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Aligns product vision with platform capabilities and market opportunities. Without platform-native strategy, products ship with generic experiences that fail to leverage iOS/Android differentiators.
 
 # Mobile Product Strategy
 

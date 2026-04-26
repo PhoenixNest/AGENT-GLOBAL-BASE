@@ -1,6 +1,7 @@
 ---
 name: mobile-design-systems
 description: Create platform-specific mobile design systems for iOS and Android with component libraries, interaction patterns, design tokens, and accessibility standards that scale across product teams
+version: "1.0.0"
 ---
 
 # Mobile Design Systems
@@ -103,6 +104,10 @@ For each component, document:
 ## Overview
 [1-2 sentence description of purpose]
 
+
+## Why This Matters
+
+Prevents UI fragmentation across the product. A unified design system reduces design debt by 40% and ensures WCAG 2.1 AA compliance is baked into every component, not bolted on post-launch.
 ## Variants
 - Default
 - [List all variants: sizes, states, platform differences]

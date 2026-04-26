@@ -1,6 +1,7 @@
 ---
 name: ios-implementation
 description: iOS application development — SwiftUI UI implementation, MVVM architecture with Swift Concurrency, Keychain security, CoreData persistence, URLSession networking with certificate pinning, iOS Human Interface Guidelines compliance, and App Store Connect submission standards.
+version: "1.0.0"
 ---
 
 # iOS Implementation
@@ -8,6 +9,10 @@ description: iOS application development — SwiftUI UI implementation, MVVM arc
 ## Purpose
 
 Implement production-grade iOS applications from the UML Engineering Package, IDS, and Coding Implementation Plan. All code must be written in Swift, follow the established architecture pattern, and be ready for Stage 6 Code Review without known compilation or runtime issues.
+
+## Why This Matters
+
+Implements iOS app features with SwiftUI and UIKit. Poor implementation causes App Store rejections, crashes, and user-facing bugs.
 
 ## Technology Stack
 

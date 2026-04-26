@@ -1,15 +1,8 @@
-# Build Optimization
+---
+version: "1.0.0"
+---
 
-**Category:** Developer Experience
-**Owner:** Developer Experience Engineer (Kai Nakamura)
-
-## Overview
-
-Optimizes build systems for speed, reliability, and developer productivity, covering Gradle configuration cache, Bazel remote caching, incremental build design, build scan analysis for bottleneck identification, CI pipeline parallelization, and build time SLO management. Treats build performance as a first-class engineering metric.
-
-## Competency Dimensions
-
-| Dimension                   | Description                                                                                    | Proficiency Indicators                                                                                                                     |
+| Competency                  | Description                                                                                    | Quality Criteria                                                                                                                           |
 | --------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Gradle Configuration Cache  | Cache serialization, task input/output declaration, configuration phase optimization           | Achieves 100% configuration cache compatibility; identifies and fixes cache-incompatible tasks; reduces configuration phase to < 2 seconds |
 | Bazel Remote Caching        | Remote cache server setup, action caching, content-addressable storage, cache hit optimization | Configures remote cache for team-wide build acceleration; achieves > 70% cache hit rate; designs hermetic build rules                      |

@@ -1,5 +1,6 @@
 ---
-description: Use for SRE practices, multi-region cloud infrastructure, and error budget
+description:
+  Use for SRE practices, multi-region cloud infrastructure, and error budget
   management. Engage during Stage 5 (Development) for infrastructure and Stage 8 (Integrity
   Verification) for reliability conformance.
 mode: subagent

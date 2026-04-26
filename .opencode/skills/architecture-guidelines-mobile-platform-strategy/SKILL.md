@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-mobile-platform-strategy
-description: 'Architecture skill: Mobile Platform Strategy'
+description: Mobile platform strategy and evaluation for iOS and Android — emerging technology research, technology selection frameworks, competitive advantage establishment, and platform-specific feasibility analysis. Owned by Dr. Kenji Nakamura (CTO). Use during Stage 3 (UML Engineering) for platform strategy decisions and Stage 1 (Requirements) for feasibility pre-assessment. Trigger: mobile platform strategy, platform evaluation, technology selection, competitive analysis, platform feasibility.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Platform Strategy

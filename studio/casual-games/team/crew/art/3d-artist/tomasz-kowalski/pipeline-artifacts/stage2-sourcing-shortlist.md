@@ -1,12 +1,12 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 50 ranked. Proceeding to Stage 3.'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'art'
-role: '3d-artist'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 50 ranked. Proceeding to Stage 3."
+entity_type: "studio"
+stage: "stage-2"
+division: "art"
+role: "3d-artist"
+document_type: "Sourcing Shortlist"
 ---
 
 # Sourcing Shortlist — 3D Artist #1 (G23)

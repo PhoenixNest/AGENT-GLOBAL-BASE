@@ -1,6 +1,10 @@
 ---
 name: security-architecture-mobile-security-architecture
-description: 'Security skill: Mobile Security Architecture'
+description: Mobile security architecture for iOS and Android — Secure Enclave, Keychain, Android Keystore, SafetyNet, ATS, certificate pinning, encryption, biometric authentication, OWASP MASVS compliance. Owned by Dr. Sarah Chen (CSO). Use during Stage 1 (Requirements) for SRD authoring and Stage 3 (UML Engineering) for security architecture ADRs. Trigger: mobile security architecture, Secure Enclave, Keychain, Android Keystore, SafetyNet, ATS, certificate pinning, biometric auth, MASVS compliance, platform security.
+prerequisites:
+  - security-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Security Architecture

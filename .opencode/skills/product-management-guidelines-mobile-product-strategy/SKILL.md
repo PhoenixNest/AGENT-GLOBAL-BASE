@@ -1,6 +1,10 @@
 ---
 name: product-management-guidelines-mobile-product-strategy
-description: 'Product Management skill: Mobile Product Strategy'
+description: "Sets product vision, builds roadmaps, makes prioritization decisions, and balances product quality against commercial outcomes for mobile platforms (iOS and Android) — covering roadmap construction with commercial/quality filters, platform-specific decision making for iOS HIG and Android Material Design, monetization architecture, retention strategy, and OKR governance. Owned by Marcus Tran-Yoshida (CPO). Use when building product roadmaps, prioritizing features, making iOS/Android platform decisions, designing monetization models, or defining product OKRs. Trigger: product strategy, mobile roadmap, prioritization, monetization, iOS strategy, Android strategy, product vision, commercial quality balance, retention strategy, product OKR."
+prerequisites:
+  - product-management-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Product Strategy

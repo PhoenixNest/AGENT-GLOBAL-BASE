@@ -1,6 +1,7 @@
 ---
 name: defect-triage-and-classification
 description: P0–P3 defect severity classification, decision trees for ambiguous cases, escalation protocols for P0/P1 release blockers, and user-decision gates for P2/P3 deferrals. Applied in Stages 6, 7, and 8 of the development pipeline.
+version: "1.0.0"
 ---
 
 # Defect Triage and Classification
@@ -8,6 +9,10 @@ description: P0–P3 defect severity classification, decision trees for ambiguou
 ## Purpose
 
 Classify every identified defect by severity before remediation begins. Severity determines who decides whether to fix it, when it must be fixed, and whether it blocks release. No defect proceeds to remediation without a severity classification.
+
+## Why This Matters
+
+Classifies defects using P0-P3 severity system. Without triage, teams waste time on cosmetic issues while P0 defects block release.
 
 ## Severity Definitions
 
@@ -113,3 +118,16 @@ The Defect Report is produced at Stage 6 (Code Review) and updated at Stage 7 (A
 - [ ] User has confirmed Fix or Defer for all P3 defects
 - [ ] Test Lead sign-off: Priscilla Oduya
 ```
+
+## Pipeline Cross-References
+
+This skill governs defect classification in the following pipeline stages:
+
+| Pipeline                  | Stage                                                                                | Template                                          |
+| ------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------- |
+| Mobile Development        | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/mobile-development/pipeline.md` |
+| Web Development           | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/web-development/pipeline.md`    |
+| Backend API               | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/backend-api/pipeline.md`        |
+| Full-Stack Cross-Platform | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/full-stack/pipeline.md`         |
+
+Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

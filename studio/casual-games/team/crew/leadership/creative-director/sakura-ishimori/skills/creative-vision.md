@@ -1,6 +1,7 @@
 ---
 name: creative-vision
 description: Owns creative vision, art direction oversight, design quality, and Stage 0/1/2/3 creative deliverables. Defines visual pillars, co-authors GDD creative sections, directs prototype creative design, and ensures vertical slice quality bar.
+version: "1.0.0"
 ---
 
 # Creative Vision

@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 50 ranked. Proceeding to Stage 3.'
-candidate_name: 'Audio Designer'
-candidate_id: 'G28'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'audio'
-role: 'audio-designer'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 50 ranked. Proceeding to Stage 3."
+candidate_name: "Audio Designer"
+candidate_id: "G28"
+entity_type: "studio"
+stage: "stage-2"
+division: "audio"
+role: "audio-designer"
+document_type: "Sourcing Shortlist"
 ---
 
 # Sourcing Shortlist — Audio Designer (G28)

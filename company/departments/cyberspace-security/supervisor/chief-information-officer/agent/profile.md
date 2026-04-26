@@ -43,9 +43,32 @@ Dr. Mehta owns the company's technology strategy and architecture for mobile pla
 
 ## Skills Index
 
-- `skills/technology-evaluation.md` — Systematic evaluation of emerging technologies: research methodology, competitive analysis, risk assessment, and executive-grade documentation
-- `skills/mobile-architecture-strategy.md` — Mobile-native infrastructure and architecture strategy for iOS and Android platforms
-- `skills/technical-selection-documentation.md` — High-quality technical selection documents, version analysis reports, and architecture decision records
+- `company/departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md` — Systematic evaluation of emerging technologies: research methodology, competitive analysis, risk assessment, and executive-grade documentation
+- `company/departments/cyberspace-security/supervisor/chief-information-officer/skills/mobile-architecture-strategy.md` — Mobile-native infrastructure and architecture strategy for iOS and Android platforms
+- `company/departments/cyberspace-security/supervisor/chief-information-officer/skills/technical-selection-documentation.md` — High-quality technical selection documents, version analysis reports, and architecture decision records
+
+## Pipeline Stages
+
+3, 6, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

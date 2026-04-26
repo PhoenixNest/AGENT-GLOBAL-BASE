@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-economy-monetization
+description: Virtual economy design and monetization strategy for F2P mobile games — currency flows, sink/source balancing, IAP design, and monetization ethics. Owned by Lisa Henderson (Senior Game Designer). Use during Studio Pipeline Stages 1–5 for economy modeling and IAP strategy. Trigger: economy design, monetization, IAP, currency balancing, virtual economy, F2P monetization, sink source.
+version: "1.0.0"
+---
+
 # Economy & Monetization
 
 **Skill ID:** economy-monetization

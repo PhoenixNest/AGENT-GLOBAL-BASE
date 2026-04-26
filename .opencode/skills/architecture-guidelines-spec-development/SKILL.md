@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-spec-development
-description: 'Architecture skill: Spec Development'
+description: Comprehensive technical specification development for mobile projects — requirements interpretation, technical spec authoring with business context, architecture diagrams, API contracts, data models, phased implementation planning, and rollout/rollback procedures. Owned by Dr. Kenji Nakamura (CTO). Use during Stage 4 (Implementation Plan) for spec authoring and Stage 5 (Development) for implementation guidance. Trigger: spec development, technical specification, implementation spec, API contract, data model, phased implementation.
+prerequisites:
+  - architecture-guidelines-software-architecture-design
+
+version: "1.0.0"
 ---
 
 # SPEC Development

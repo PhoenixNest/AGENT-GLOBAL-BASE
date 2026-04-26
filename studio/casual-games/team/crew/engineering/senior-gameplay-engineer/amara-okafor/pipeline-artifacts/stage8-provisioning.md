@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ ALL items provisioned and completed. Proceeding to Stage 9 (Hiring Outcome).'
-candidate_name: 'Provisioning Checklist'
-candidate_id: 'G12'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ ALL items provisioned and completed. Proceeding to Stage 9 (Hiring Outcome)."
+candidate_name: "Provisioning Checklist"
+candidate_id: "G12"
+entity_type: "studio"
+stage: "stage-8"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Provisioning Record"
 ---
 
 # Stage 8: Provisioning Checklist (G12)

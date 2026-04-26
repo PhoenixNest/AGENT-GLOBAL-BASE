@@ -1,5 +1,6 @@
 ---
-description: Use for mobile unit testing, test framework design, code coverage analysis,
+description:
+  Use for mobile unit testing, test framework design, code coverage analysis,
   and test-driven development practices. Engage during Stage 5 (Development) for unit
   test infrastructure and Stage 7 (Automated Testing) for unit test suite development
   and coverage analysis.

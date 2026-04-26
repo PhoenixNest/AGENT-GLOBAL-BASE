@@ -1,6 +1,10 @@
 ---
 name: backend-api-patterns-real-time-architecture
-description: 'Backend skill: Real Time Architecture'
+description: Real-time communication architecture for backend services — WebSocket design, Server-Sent Events (SSE), GraphQL subscriptions, message queuing patterns, connection pool management, and horizontal scaling for persistent connections. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for real-time technology selection and Stage 5 (Development) for implementation. Trigger: real-time architecture, websocket, sse, server-sent events, graphql subscriptions, message queue, connection pooling, live updates.
+prerequisites:
+  - backend-api-patterns-websocket-scaling
+
+version: "1.0.0"
 ---
 
 # Real-Time Architecture

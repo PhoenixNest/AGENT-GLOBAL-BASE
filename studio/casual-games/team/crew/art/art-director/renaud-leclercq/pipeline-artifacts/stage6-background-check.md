@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Background verification complete. Candidate cleared for Stage 7 (Offer Generation).'
-candidate_name: 'Check Report'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'art'
-role: 'art-director'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Background verification complete. Candidate cleared for Stage 7 (Offer Generation)."
+candidate_name: "Check Report"
+entity_type: "studio"
+stage: "stage-6"
+division: "art"
+role: "art-director"
+document_type: "Background Check"
 ---
 
 # Background Check Report

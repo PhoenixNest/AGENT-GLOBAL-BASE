@@ -1,13 +1,13 @@
 ---
-role_title: 'Composer / Sound Director (Contract)'
-seniority: 'Principal'
-priority: 'P2'
-reports_to: 'Creative Director'
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'audio'
-role: 'composer-sound-director'
-document_type: 'Position Specification Document'
+role_title: "Composer / Sound Director (Contract)"
+seniority: "Principal"
+priority: "P2"
+reports_to: "Creative Director"
+entity_type: "studio"
+stage: "stage-1"
+division: "audio"
+role: "composer-sound-director"
+document_type: "Position Specification Document"
 ---
 
 # Pipeline Artifacts — Composer/Sound Director (G10) — Hiroshi Nakamura

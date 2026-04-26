@@ -1,6 +1,10 @@
 ---
 name: testing-qa-strategy-defect-triage-and-classification
-description: 'Testing Qa skill: Defect Triage And Classification'
+description: Defect triage and classification for mobile — P0–P3 severity decision trees, ambiguous case resolution, escalation protocols for P0/P1 release blockers, user-decision gates for P2/P3 deferrals, and remediation tracking. Owned by Priscilla Oduya (Test Lead). Use during Stage 6 (Code Review) for defect classification and Stage 7 (Testing) for bug triage. Trigger: defect triage, P0 P1 P2 P3 classification, severity decision tree, release blockers, bug tracking, defect escalation, mobile defect management.
+prerequisites:
+  - testing-qa-overview
+
+version: "1.0.0"
 ---
 
 # Defect Triage and Classification

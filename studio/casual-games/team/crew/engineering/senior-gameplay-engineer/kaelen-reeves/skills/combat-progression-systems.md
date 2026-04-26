@@ -1,3 +1,9 @@
+---
+name: studio-engineering-combat-progression-systems
+description: End-to-end combat and progression system design — damage calculation, hit confirmation, input buffering, combo systems, leveling, skill trees, and reward scheduling. Owned by Kaelen Reeves (Senior Gameplay Engineer). Use during Studio Pipeline Stages 2–5 for combat system implementation and Stage 8 (Soft Launch) for retention validation. Trigger: combat systems, progression systems, hit registration, input buffering, skill trees, damage calculation.
+version: "1.0.0"
+---
+
 # Combat & Progression Systems
 
 **Skill Owner:** Kaelen Reeves  

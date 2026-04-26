@@ -43,10 +43,33 @@ Dr. Nakamura owns the company's technology architecture and engineering leadersh
 
 ## Skills Index
 
-- `skills/spec-development.md` — Comprehensive SPEC development: requirements interpretation, technical specification authorship, phased implementation planning
-- `skills/software-architecture-design.md` — Software architecture design with UML modeling: system design, architecture patterns, logical project structures
-- `skills/mobile-technology-strategy.md` — Mobile technology strategy and evaluation: emerging technology research, technology selection frameworks, competitive advantage establishment
-- `skills/technical-project-management.md` — Technical project management: phased delivery methodology, progress oversight, milestone tracking, risk management
+- `company/departments/research-develop/supervisor/chief-technology-officer/skills/spec-development.md` — Comprehensive SPEC development: requirements interpretation, technical specification authorship, phased implementation planning
+- `company/departments/research-develop/supervisor/chief-technology-officer/skills/software-architecture-design.md` — Software architecture design with UML modeling: system design, architecture patterns, logical project structures
+- `company/departments/research-develop/supervisor/chief-technology-officer/skills/mobile-technology-strategy.md` — Mobile technology strategy and evaluation: emerging technology research, technology selection frameworks, competitive advantage establishment
+- `company/departments/research-develop/supervisor/chief-technology-officer/skills/technical-project-management.md` — Technical project management: phased delivery methodology, progress oversight, milestone tracking, risk management
+
+## Pipeline Stages
+
+3, 4, 5, 6, 7, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

@@ -1,13 +1,13 @@
 ---
-generated_at: '**'
-gate_status: '** ✅ Background check CLEAR. Proceeding to Stage 7.'
-candidate_name: 'Background Verification'
-candidate_id: 'G11'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Background Check'
+generated_at: "**"
+gate_status: "** ✅ Background check CLEAR. Proceeding to Stage 7."
+candidate_name: "Background Verification"
+candidate_id: "G11"
+entity_type: "studio"
+stage: "stage-6"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Background Check"
 ---
 
 # Stage 6: Background Verification (G11)

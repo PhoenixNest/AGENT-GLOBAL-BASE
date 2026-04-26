@@ -1,5 +1,6 @@
 ---
-description: Use for design systems architecture, frontend performance optimization,
+description:
+  Use for design systems architecture, frontend performance optimization,
   WCAG 2.1 AA compliance, and frontend security. Engage during Stage 5 (Development)
   for frontend implementation and Stage 8 (Integrity Verification) for frontend conformance
   review.
@@ -44,14 +45,14 @@ Amira owns the frontend engineering chapter within the Web & Backend division, r
 
 ## Skills Index
 
-| Skill                              | Location                                                             | Description                                                                             |
-| ---------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `design-systems.md`                | `design\guidelines\design-systems.md`                                | Component library engineering, Storybook, accessibility, design-dev handoff             |
-| `frontend-security.md`             | `frontend-web\performance-security\frontend-security.md`             | Frontend security: CSP, XSS prevention, supply chain security, dependency auditing      |
-| `performance-optimization.md`      | `shared\guidelines\performance-optimization.md`                      | Frontend architecture: React, design systems, token pipelines, performance optimization |
-| `frontend-performance-baseline.md` | `frontend-web\performance-security\frontend-performance-baseline.md` | Lighthouse, bundle analysis, TTI measurement, performance baselines                     |
-| `wcag-mobile-roadmap.md`           | `shared\guidelines\wcag-mobile-roadmap.md`                           | WCAG 2.1 AA mobile compliance roadmap planning                                          |
-| `mobile-platform-immersion.md`     | `architecture\guidelines\mobile-platform-immersion.md`               | iOS & Android platform fundamentals, cross-platform awareness                           |
+| Skill                                                             | Location                                                                  | Description                                                                             |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `design-guidelines-design-systems`                                | `skills/design-guidelines-design-systems/`                                | Component library engineering, Storybook, accessibility, design-dev handoff             |
+| `frontend-web-performance-security-frontend-security`             | `skills/frontend-web-performance-security-frontend-security/`             | Frontend security: CSP, XSS prevention, supply chain security, dependency auditing      |
+| `shared-guidelines-performance-optimization`                      | `skills/shared-guidelines-performance-optimization/`                      | Frontend architecture: React, design systems, token pipelines, performance optimization |
+| `frontend-web-performance-security-frontend-performance-baseline` | `skills/frontend-web-performance-security-frontend-performance-baseline/` | Lighthouse, bundle analysis, TTI measurement, performance baselines                     |
+| `shared-guidelines-wcag-mobile-roadmap`                           | `skills/shared-guidelines-wcag-mobile-roadmap/`                           | WCAG 2.1 AA mobile compliance roadmap planning                                          |
+| `architecture-guidelines-mobile-platform-immersion`               | `skills/architecture-guidelines-mobile-platform-immersion/`               | iOS & Android platform fundamentals, cross-platform awareness                           |
 
 ## Pipeline Stages Owned
 

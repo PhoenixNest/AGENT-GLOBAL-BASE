@@ -1,15 +1,8 @@
-# Go REST API Development
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Development (Go)
-**Owner:** Backend Engineer (Omar Hassan)
-
-## Overview
-
-Builds production-grade REST APIs in Go using idiomatic patterns including HTTP handler chains, composable middleware, structured error handling, context propagation for cancellation and timeouts, and structured logging with zap or zerolog. Emphasizes Go's philosophy of simplicity, explicit error handling, and standard library preference.
-
-## Competency Dimensions
-
-| Dimension           | Description                                                                      | Proficiency Indicators                                                                                                                                                       |
+| Competency          | Description                                                                      | Quality Criteria                                                                                                                                                             |
 | ------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | HTTP Handlers       | Handler functions, ServeMux routing, method dispatch, request/response lifecycle | Writes handlers following `func(w http.ResponseWriter, r *http.Request)` signature; uses `http.ServeMux` (Go 1.22+) for routing; separates handler logic from business logic |
 | Middleware Chains   | Handler wrapping, context enrichment, authentication, logging, recovery          | Composes middleware using functional wrapping; ensures middleware order is correct (recovery → logging → auth → handler); propagates context through chain                   |

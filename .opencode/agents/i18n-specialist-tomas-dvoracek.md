@@ -1,5 +1,6 @@
 ---
-description: Use for mobile i18n engineering, string extraction from codebases, and
+description:
+  Use for mobile i18n engineering, string extraction from codebases, and
   platform resource file production (strings.xml, Localizable.strings). Engage during
   Stage 9 (Internationalization Engineering) for scanning codebases, extracting hardcoded
   strings, and delivering string extraction handoff packages to the CTO-L.
@@ -44,9 +45,9 @@ Tomáš owns Stage 9 internationalization engineering within the R&D Department 
 
 ## Skills Index
 
-| Skill                                     | Location                                                          | Description                                                                                                                                                                                   |
-| ----------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `string-extraction-and-resource-files.md` | `localization\guidelines\string-extraction-and-resource-files.md` | Mobile string extraction, resource file production, and i18n compliance: Android strings.xml/plurals, iOS Localizable.strings/stringsdict, dataset identification, hardcoded string detection |
+| Skill                                                          | Location                                                               | Description                                                                                                                                                                                   |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `localization-guidelines-string-extraction-and-resource-files` | `skills/localization-guidelines-string-extraction-and-resource-files/` | Mobile string extraction, resource file production, and i18n compliance: Android strings.xml/plurals, iOS Localizable.strings/stringsdict, dataset identification, hardcoded string detection |
 
 ## Pipeline Stages Owned
 

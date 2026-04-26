@@ -1,6 +1,10 @@
 ---
 name: shared-guidelines-developer-documentation
-description: 'Shared skill: Developer Documentation'
+description: "Designs and maintains the developer portal architecture, getting started guides, integration tutorials, troubleshooting documentation, changelog management, and all developer experience (DX) content for the platform engineering ecosystem — covering information architecture, 5-minute quick starts, tested integration tutorials, symptom-first troubleshooting guides, and versioned changelogs with migration guides. Owned by Technical Writer. Use when writing developer documentation, building developer portals, creating API getting started guides, authoring integration tutorials, writing troubleshooting docs, or managing changelogs. Trigger: developer documentation, developer portal, getting started guide, API tutorial, integration guide, troubleshooting doc, changelog, developer experience, DX writing, API reference."
+prerequisites:
+  - shared-overview
+
+version: "1.0.0"
 ---
 
 # Developer Documentation
@@ -217,42 +221,12 @@ print('Found ${response.data.length} resources');
 2. [Explore the API Reference](/api-reference/) — See all available endpoints and models
 3. [Check out the Guides](/guides/) — Learn pagination, filtering, error handling, and more
 
-## Need Help?
-
-- [Troubleshooting](/troubleshooting/) — Common issues and solutions
-- [FAQ](/support/faq/) — Frequently asked questions
-- [Contact Support](/support/contact/) — Get help from our team
-
-````
-
-#### Getting Started Guide Design Principles
-
-| Principle | Application |
-|-----------|-------------|
-| **Zero prerequisites** | The quick start assumes nothing. Account creation, key generation, and SDK installation are all included. |
-| **Single path** | Don't offer choices in the quick start. One language, one endpoint, one response. Branching comes later. |
-| **Copy-paste ready** | Every code example works as-is. Replace `YOUR_API_KEY` and it runs. No hidden dependencies. |
-| **Immediate feedback** | The first API call returns visible, interesting data. Not a bare `{}` — something that makes the developer say "it works." |
-| **Clear next steps** | End with explicit pointers to deeper content. Don't leave developers wondering "what now?" |
-| **Mobile-friendly** | Developers follow quick starts on phones. Code blocks are horizontally scrollable. No wide tables. |
-
-### Integration Tutorials
-
-#### Tutorial Structure
-
-```markdown
-# Tutorial: [Integration Pattern Name]
-
-**Level:** [Beginner | Intermediate | Advanced]
-**Time:** ~[X] minutes
-**Prerequisites:**
-- [Prerequisite 1 with link]
-- [Prerequisite 2 with link]
-
 ## What You'll Build
+
 [1-2 sentences describing the end result of the tutorial]
 
 ## Architecture Overview
+
 [Brief diagram or description of how the components fit together]
 
 ```mermaid
@@ -260,7 +234,7 @@ flowchart LR
     A[Your App] -->|API Call| B[Company API]
     B -->|Response| A
     B -->|Webhook| C[Your Server]
-````
+```
 
 ## Step 1: [Setup Step]
 
@@ -278,369 +252,19 @@ flowchart LR
 
 [How to verify the integration works correctly]
 
-## Step 5: [Production Readiness]
-
-[What to consider before deploying to production: error handling, rate limiting, logging, monitoring]
-
-## Complete Code Example
-
-[Full, working code example that combines all steps — available as a downloadable gist or repo]
-
-## Common Pitfalls
-
-| Pitfall     | Symptoms          | Solution        |
-| ----------- | ----------------- | --------------- |
-| [Pitfall 1] | [What goes wrong] | [How to fix it] |
-| [Pitfall 2] | [What goes wrong] | [How to fix it] |
-
-## Next Steps
-
-- [Link to related tutorial]
-- [Link to API reference for deeper detail]
-- [Link to production best practices guide]
-
-## Troubleshooting
-
-[Link to relevant troubleshooting entries]
-
-````
-
-#### Tutorial Authoring Standards
-
-| Standard | Requirement |
-|----------|-------------|
-| **Tested end-to-end** | Every tutorial is executed from start to finish by the author before publication. All code examples are verified. |
-| **Time estimate accurate** | Actual completion time is within ±20% of the stated estimate. Measured by timing 3+ test runs. |
-| **Prerequisites explicit** | All prerequisites are listed upfront with links. No hidden assumptions. |
-| **Single objective** | Each tutorial teaches one integration pattern. Don't combine authentication, pagination, and webhooks in one tutorial. |
-| **Common pitfalls documented** | Every tutorial includes a "Common Pitfalls" section based on real developer support tickets. |
-| **Complete code available** | Full working code is available as a downloadable gist, GitHub repo, or inline code block. |
-| **Production guidance included** | Every tutorial ends with production readiness considerations (error handling, rate limiting, logging). |
-
-### Troubleshooting Documentation
-
-#### Troubleshooting Guide Structure
-
-```markdown
-# Troubleshooting: [Category]
-
-## Quick Diagnostic
-
-```mermaid
-flowchart TD
-    A[Problem: API call failing] --> B{HTTP Status Code?}
-    B -->|4xx| C[Client Error — See Section 1]
-    B -->|5xx| D[Server Error — See Section 2]
-    B -->|No response| E[Network Issue — See Section 3]
-    B -->|Timeout| F[Timeout — See Section 4]
-````
-
-## 1. Client Errors (4xx)
-
-### 401 Unauthorized
-
-**Symptom:** `{"error": {"code": "UNAUTHORIZED", "message": "...", "status": 401}}`
-
-**Common Causes:**
-
-1. API key not included in request
-2. API key expired or revoked
-3. JWT access token expired
-4. Incorrect `Authorization` header format
-
-**Resolution Steps:**
-
-1. Verify `Authorization: Bearer <token>` header is present
-2. Check token expiration: JWT tokens expire after 1 hour
-3. Refresh your token using the refresh token endpoint
-4. If using an API key, verify it's active in the Developer Dashboard
-
-**Still stuck?** [Contact Support](/support/contact/) with your request ID.
-
-### 403 Forbidden
-
-**Symptom:** `{"error": {"code": "FORBIDDEN", "message": "...", "status": 403}}`
-
-**Common Causes:**
-
-1. API key lacks required scope
-2. Account permissions insufficient
-
-**Resolution Steps:**
-
-1. Check the required scopes for the endpoint (listed in the API reference)
-2. Verify your API key has the required scopes in the Developer Dashboard
-3. Request additional scopes from your account administrator
-
-### 404 Not Found
-
-**Symptom:** `{"error": {"code": "NOT_FOUND", "message": "...", "status": 404}}`
-
-**Common Causes:**
-
-1. Resource ID is incorrect or malformed
-2. Resource has been deleted
-3. Endpoint URL is wrong
-
-**Resolution Steps:**
-
-1. Verify the resource ID format (UUID: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
-2. Check if the resource exists using the list endpoint
-3. Verify the endpoint URL matches the API reference
-
-### 429 Too Many Requests
-
-**Symptom:** `{"error": {"code": "RATE_LIMITED", "message": "...", "status": 429}}` with `Retry-After` header
-
-**Resolution Steps:**
-
-1. Read the `Retry-After` header value (seconds to wait)
-2. Implement exponential backoff in your client
-3. Review your rate limit tier in the Developer Dashboard
-4. Consider requesting a rate limit increase if your use case requires it
-
-## 2. Server Errors (5xx)
-
-### 500 Internal Server Error
-
-**Symptom:** `{"error": {"code": "INTERNAL_ERROR", "message": "...", "status": 500}}`
-
-**Resolution Steps:**
-
-1. Retry the request with exponential backoff (this may be transient)
-2. If the error persists, note the `X-Request-ID` header value
-3. [Contact Support](/support/contact/) with the request ID and error details
-4. Check the [Status Page](https://status.company.com) for known incidents
-
-### 503 Service Unavailable
-
-**Symptom:** HTTP 503 response or connection refused
-
-**Resolution Steps:**
-
-1. Check the [Status Page](https://status.company.com) for maintenance or outages
-2. Implement retry logic with exponential backoff
-3. If the outage is prolonged, subscribe to status notifications
-
-## 3. Network Issues
-
-### Connection Timeout
-
-**Symptom:** Request times out after 30 seconds with no response
-
-**Resolution Steps:**
-
-1. Verify your internet connection
-2. Check if `api.company.com` is reachable: `curl -I https://api.company.com/v1/`
-3. Verify no firewall or proxy is blocking the connection
-4. Check the [Status Page](https://status.company.com) for regional outages
-
-### SSL/TLS Errors
-
-**Symptom:** `SSL handshake failed` or `certificate verify failed`
-
-**Resolution Steps:**
-
-1. Verify your system's CA certificate bundle is up to date
-2. Check that your system clock is accurate (SSL validation is time-sensitive)
-3. Ensure you're connecting to `api.company.com` (not a typo or old endpoint)
-
-## 4. Timeout Issues
-
-### Request Timeout
-
-**Symptom:** Request completes but returns a timeout error after >30 seconds
-
-**Resolution Steps:**
-
-1. For list endpoints, reduce the `limit` parameter to return fewer results
-2. Use the `fields` parameter to request only the fields you need
-3. For large data exports, use the async export endpoint (if available)
-4. Implement pagination to process results in smaller batches
-
-## Error Code Reference
-
-| Error Code            | HTTP Status | Description                     | Documentation Link                            |
-| --------------------- | ----------- | ------------------------------- | --------------------------------------------- |
-| `UNAUTHORIZED`        | 401         | Authentication required         | [Auth Guide](/guides/authentication/)         |
-| `FORBIDDEN`           | 403         | Insufficient permissions        | [Scopes Reference](/api-reference/scopes/)    |
-| `NOT_FOUND`           | 404         | Resource not found              | —                                             |
-| `BAD_REQUEST`         | 400         | Invalid request body            | [API Reference](/api-reference/)              |
-| `CONFLICT`            | 409         | Resource conflict               | —                                             |
-| `RATE_LIMITED`        | 429         | Too many requests               | [Rate Limiting Guide](/guides/rate-limiting/) |
-| `INTERNAL_ERROR`      | 500         | Server error                    | —                                             |
-| `SERVICE_UNAVAILABLE` | 503         | Service temporarily unavailable | [Status Page](https://status.company.com)     |
-
-````
-
-#### Troubleshooting Documentation Standards
-
-| Standard | Requirement |
-|----------|-------------|
-| **Symptom-first organization** | Developers start with what they see (error message, status code), not with the root cause. Organize by symptom. |
-| **Actionable resolution** | Every troubleshooting entry includes specific, sequential steps to resolve the issue. No "contact support" as the first step. |
-| **Decision trees** | Use Mermaid flowcharts for multi-branch diagnostic paths. Developers can follow the tree to their specific issue. |
-| **Request ID emphasis** | Every error resolution that requires support interaction tells the developer to include the `X-Request-ID` header value. |
-| **Self-service prioritized** | ≥70% of troubleshooting entries should be resolvable without contacting support. |
-| **Support ticket linkage** | Troubleshooting content is updated based on support ticket analysis. Top 5 ticket categories get troubleshooting entries within 5 business days. |
-
-### Changelog Management
-
-#### Changelog Structure
-
-```markdown
-# Changelog
-
-All notable changes to the API are documented in this changelog.
-
-**Format:** [Keep a Changelog](https://keepachangelog.com/)
-**Versioning:** [Semantic Versioning](https://semver.org/)
-
-## [Unreleased]
-
-### Added
-- [Feature or endpoint added — with link to documentation]
-
-### Changed
-- [Behavior change — with migration guide if breaking]
-
-### Deprecated
-- [Feature or endpoint deprecated — with sunset date and migration path]
-
-### Removed
-- [Feature or endpoint removed — with link to migration guide]
-
-### Fixed
-- [Bug fix — with link to issue or description of impact]
-
-### Security
-- [Security-relevant change — with CVE reference if applicable]
-
-## [v1.2.0] — 2026-04-01
-
-### Added
-- `GET /api/v1/resources/{resourceId}/history` — Retrieve resource change history
-  ([Documentation](/api-reference/resources/get-resource-history/))
-- `fields` query parameter on `GET /api/v1/resources` — Sparse fieldset support
-  ([Documentation](/guides/pagination/#sparse-fieldsets))
-
-### Changed
-- Increased default `limit` on paginated endpoints from 10 to 20
-  ([Documentation](/guides/pagination/))
-
-### Deprecated
-- `GET /api/v1/legacy/resources` — Will be removed on 2026-07-01.
-  Migrate to `GET /api/v1/resources`.
-  ([Migration Guide](/guides/migration/legacy-to-v1/))
-
-### Fixed
-- Pagination `next` link now correctly includes `sort` parameter when sorting is applied
-- `created_at` timestamp now uses `Z` suffix (UTC) consistently across all endpoints
-
-## [v1.1.0] — 2026-02-15
-
-### Added
-- Webhook support for resource creation and deletion events
-  ([Documentation](/guides/webhooks/))
-- `X-Request-ID` response header on all endpoints for request tracing
-
-### Changed
-- Rate limit increased from 30 to 60 requests per minute for standard tier
-
-### Fixed
-- `409 Conflict` error now includes the conflicting resource ID in the response body
-
-## [v1.0.0] — 2026-01-15
-
-### Added
-- Initial public release
-- Resource CRUD operations (`GET`, `POST`, `PUT`, `DELETE`)
-- Pagination, sorting, and filtering on list endpoints
-- JWT-based authentication with refresh token support
-- Kotlin, Swift, and Dart SDKs
-````
-
-#### Changelog Management Process
-
-| Step | Action                                                                      | Owner                      | Timeline                           |
-| ---- | --------------------------------------------------------------------------- | -------------------------- | ---------------------------------- |
-| 1    | Developer submits changelog entry via PR with code changes                  | Developer                  | At time of code change             |
-| 2    | Technical Writer reviews entry for clarity, completeness, and format        | Technical Writer           | Within 2 business days             |
-| 3    | Entry added to `Unreleased` section                                         | Technical Writer           | After review approval              |
-| 4    | On release day, `Unreleased` section is versioned and dated                 | Technical Writer           | Day of release                     |
-| 5    | Deprecation notices communicated via email, dashboard banner, and changelog | Technical Writer + Product | ≥90 days before sunset             |
-| 6    | Migration guide published for any breaking changes                          | Technical Writer           | Concurrent with deprecation notice |
-| 7    | Changelog published to developer portal                                     | Technical Writer           | Day of release                     |
-
-#### Changelog Writing Standards
-
-| Standard                         | Requirement                                                                                                                               |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **Human-readable**               | Entries describe what changed and why, not just what commit was merged. "Added pagination support to list endpoints" not "Merge PR #142." |
-| **Categorized**                  | Every entry is categorized: Added, Changed, Deprecated, Removed, Fixed, Security.                                                         |
-| **Linked**                       | Every entry links to relevant documentation, migration guides, or issue trackers.                                                         |
-| **Versioned**                    | Every release has a version number (SemVer) and release date.                                                                             |
-| **Breaking changes highlighted** | Breaking changes are explicitly marked and include migration guidance.                                                                    |
-| **Deprecation timeline**         | Deprecated features include a specific sunset date (≥90 days from deprecation notice).                                                    |
-| **Security entries**             | Security-relevant changes are in a dedicated "Security" section with CVE references where applicable.                                     |
-
-### Developer Experience Writing
-
-#### DX Writing Principles
-
-| Principle                            | Application                                                                                                               |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| **Respect developer time**           | Get to the point. No marketing language, no filler. Developers scan; they don't read novels.                              |
-| **Show, don't tell**                 | Code examples > prose descriptions. A working example teaches more than three paragraphs of explanation.                  |
-| **Assume intelligence, not context** | Developers are smart but don't know your system. Explain concepts; don't dumb them down.                                  |
-| **Error-first mindset**              | Developers encounter errors before they encounter success. Document errors before happy paths in troubleshooting content. |
-| **Consistent terminology**           | Use the same term for the same concept everywhere. If it's an "API key" on page 1, it's not an "access token" on page 5.  |
-| **Progressive complexity**           | Start simple. Add complexity in layers. The quick start has no optional parameters. The API reference has all of them.    |
-| **Action-oriented headings**         | "Make Your First Request" not "Request Execution." "Handle Errors" not "Error Management."                                |
-| **Visual hierarchy**                 | Use headings, lists, tables, and code blocks to create scannable content. No walls of text.                               |
-
-#### Readability Standards
-
-| Metric                     | Target                   | Measurement                    |
-| -------------------------- | ------------------------ | ------------------------------ |
-| Flesch-Kincaid Grade Level | 8-10                     | Automated readability analysis |
-| Average sentence length    | ≤20 words                | Automated analysis             |
-| Code-to-prose ratio        | ≥40% code                | Content audit                  |
-| Heading density            | 1 heading per ≤150 words | Content audit                  |
-| Link density               | 1-3 links per 500 words  | Content audit                  |
-
-#### Voice & Tone Guidelines
-
-| Context         | Tone                              | Example                                                                            |
-| --------------- | --------------------------------- | ---------------------------------------------------------------------------------- |
-| Quick Start     | Direct, encouraging, concise      | "Copy your API key. You'll need it in the next step."                              |
-| API Reference   | Precise, technical, neutral       | "Returns a paginated list of resources. Requires `resources:read` scope."          |
-| Troubleshooting | Diagnostic, actionable, calm      | "A 401 error means the server couldn't verify your identity. Check your token."    |
-| Migration Guide | Clear, structured, cautious       | "Before migrating, review the breaking changes below. Test in staging first."      |
-| Changelog       | Factual, categorized, linked      | "Added `fields` query parameter for sparse fieldset support. ([Docs](#))"          |
-| Error Messages  | Specific, actionable, non-blaming | "The request body is missing the required `name` field. Include `name` and retry." |
-
-## Pipeline Integration
-
-| Pipeline Stage                   | Developer Documentation Relevance                                                                                                                                           |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stage 1-4                        | Not applicable — developer documentation not in scope during requirements, design, architecture, or planning stages                                                         |
-| Stage 5 (Development)            | **Primary creation stage** — developer documentation authored alongside platform implementation; getting started guides and API reference content created as APIs are built |
-| Stage 6 (Code Review)            | Developer documentation reviewed as part of code review; accuracy validated against implementation                                                                          |
-| Stage 7 (Testing)                | Code examples in documentation tested against staging environment; tutorial completion validated                                                                            |
-| Stage 8 (Integrity Verification) | Panel verifies documentation accuracy against implementation; discrepancies flagged as defects                                                                              |
-| Stage 9 (i18n)                   | Developer documentation updated if i18n affects developer-facing APIs or SDKs                                                                                               |
-| Stage 10 (Release)               | Developer documentation reviewed as part of release readiness; changelog published; portal content validated                                                                |
-
-## Quality Standards
-
-- **Getting Started Success Rate:** ≥80% of developers complete the quick start flow on first attempt without errors; measured via analytics and user testing
-- **Tutorial Completion Rate:** ≥75% of developers who start a tutorial complete it end-to-end; measured via tutorial tracking
-- **Troubleshooting Deflection:** ≥70% of support tickets are deflected by troubleshooting documentation (user finds solution in docs before contacting support); measured via support ticket analysis
-- **Changelog Read Rate:** ≥60% of active developers view the changelog within 7 days of a release; measured via portal analytics
-- **Documentation NPS:** ≥+40 net promoter score for overall developer documentation experience; measured via quarterly developer survey
-- **Content Freshness:** 100% of documentation pages reviewed and updated within 90 days; zero stale pages (>90 days without review)
-- **Search Success Rate:** ≥90% of portal searches result in a click on a relevant result within the first 3 results; measured via search analytics
-- **Error Message Quality:** 100% of API error responses documented with resolution guidance; zero error codes without troubleshooting entries
-- **Migration Guide Coverage:** 100% of breaking changes and deprecations have published migration guides ≥90 days before the change takes effect
-- **DX Writing Score:** ≥4.3/5 average rating on developer experience writing quality; measured via quarterly developer survey with specific writing quality questions
+---
+
+## Reference Materials
+
+Detailed examples and implementation guides are in `references/`:
+
+- [`error-troubleshooting.md`](references/error-troubleshooting.md) — API Error Troubleshooting
+- [`error-code-reference.md`](references/error-code-reference.md) — Error Code Reference
+- [`changelog-standards.md`](references/changelog-standards.md) — Changelog Standards
+- [`changelog.md`](references/changelog.md) — Changelog Example
+- [`execution-guidance.md`](references/execution-guidance.md) — Execution Guidance
+- [`methods.md`](references/methods.md) — HTTP Methods
+- [`pipeline-integration.md`](references/pipeline-integration.md) — Pipeline Integration
+- [`quality-standards.md`](references/quality-standards.md) — Quality Standards
+- [`quick-diagnostic.md`](references/quick-diagnostic.md) — Quick Diagnostic
+- [`troubleshooting.md`](references/troubleshooting.md) — Troubleshooting Guide

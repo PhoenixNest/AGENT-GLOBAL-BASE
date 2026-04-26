@@ -1,13 +1,13 @@
 ---
-generated_at: '**'
-gate_status: '** ✅ Offer generated within compensation bands. Offer extended. Proceeding to Stage 8.'
-candidate_name: 'Dmitri Volkov'
-candidate_id: 'G7'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'engineering'
-role: 'senior-game-engineer'
-document_type: 'Offer Document'
+generated_at: "**"
+gate_status: "** ✅ Offer generated within compensation bands. Offer extended. Proceeding to Stage 8."
+candidate_name: "Dmitri Volkov"
+candidate_id: "G7"
+entity_type: "studio"
+stage: "stage-7"
+division: "engineering"
+role: "senior-game-engineer"
+document_type: "Offer Document"
 ---
 
 # Offer Document — Dmitri Volkov (G7)

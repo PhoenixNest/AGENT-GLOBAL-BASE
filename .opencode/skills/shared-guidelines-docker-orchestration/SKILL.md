@@ -1,6 +1,10 @@
 ---
 name: shared-guidelines-docker-orchestration
-description: 'Shared skill: Docker Orchestration'
+description: "Docker container orchestration, multi-container deployment patterns, and container lifecycle management for application deployment — covering Docker Compose for development environments, multi-stage Dockerfiles for production builds, container security (non-root users, minimal base images, image scanning, read-only filesystems), and lifecycle management (health checks, graceful shutdown, log management, image tagging). Use during Stage 5 (Development) for containerized application deployment and Stage 7 (Testing) for test environment provisioning. Trigger: Docker, docker compose, container orchestration, multi-stage build, Dockerfile, container security, container lifecycle, health check, image scanning, Trivy."
+prerequisites:
+  - shared-overview
+
+version: "1.0.0"
 ---
 
 # Docker Orchestration
@@ -12,21 +16,21 @@ This skill covers Docker container orchestration, multi-container deployment pat
 ## Docker Compose for Development
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
       - DATABASE_URL=postgres://app:pass@db:5432/app
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -36,7 +40,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U app']
+      test: ["CMD-SHELL", "pg_isready -U app"]
 
 volumes:
   pgdata:

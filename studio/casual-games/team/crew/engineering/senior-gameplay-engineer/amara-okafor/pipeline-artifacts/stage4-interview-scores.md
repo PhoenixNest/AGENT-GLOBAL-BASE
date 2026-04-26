@@ -1,12 +1,12 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Composite score 4.31/5.0 (95th percentile) — well above 80th percentile threshold. Proceeding to Stage 5.'
-candidate_name: 'Amara Okafor'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Interview Scores'
+document_id: "**"
+gate_status: "** ✅ Composite score 4.31/5.0 (95th percentile) — well above 80th percentile threshold. Proceeding to Stage 5."
+candidate_name: "Amara Okafor"
+entity_type: "studio"
+stage: "stage-4"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Scores (G12) — Amara Okafor

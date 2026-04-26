@@ -1,17 +1,8 @@
-# Espresso & XCTest — Native Mobile Test Automation
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Test Automation — Native Frameworks
-**Owner:** SDET Mobile #1 (Ananya Krishnan)
-
-## Overview
-
-This skill covers production-grade test automation using Espresso (Android) and XCTest/XCUITest (iOS) — the two dominant native UI testing frameworks. It addresses test architecture, synchronization strategies, intent mocking, performance measurement, and parallel execution on device farms. These frameworks form the foundation of the Stage 7 automated test suite for all native mobile features.
-
-Mastery of both frameworks ensures comprehensive test coverage across the platform matrix, enables accurate defect reproduction at the native layer, and provides the test pyramid's integration and E2E layers with deterministic, fast-executing test suites.
-
-## Competency Dimensions
-
-| Dimension                          | Description                                                                                                                                                                                | Proficiency Indicators                                                                                                                                                                                                                                                |
+| Competency                         | Description                                                                                                                                                                                | Quality Criteria                                                                                                                                                                                                                                                      |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Espresso Test Architecture**     | Composing tests with ViewMatchers, ViewActions, and ViewAssertions; structuring test classes by feature module; managing test dependencies and build variants                              | Tests use fluent matcher compositions (`allOf()`, `anyOf()`, `not()`); custom matchers extend `TypeSafeMatcher<View>`; test classes follow `FeatureNameEspressoTest` naming; build variants include debug manifests with `android:usesCleartextTraffic` for mock APIs |
 | **Espresso Synchronization**       | IdlingResource API implementation, OkHttpIdlingResource integration, custom CountingIdlingResource for async operations, handling non-standard async patterns                              | Zero `Thread.sleep()` calls in test code; all async operations bridged via `IdlingResource`; custom idling resources registered in `@Before` and unregistered in `@After`; `EspressoIdlingResource` singleton wraps application-level async counters                  |

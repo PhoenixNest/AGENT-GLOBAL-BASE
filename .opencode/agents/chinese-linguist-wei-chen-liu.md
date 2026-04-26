@@ -1,5 +1,6 @@
 ---
-description: Use for Chinese (ZH-CN/ZH-TW) UI string translation and localization.
+description:
+  Use for Chinese (ZH-CN/ZH-TW) UI string translation and localization.
   Engage during Stage 9 (Internationalization Engineering) for translating mobile
   UI strings into Simplified and Traditional Chinese with platform-specific formatting.
 mode: subagent

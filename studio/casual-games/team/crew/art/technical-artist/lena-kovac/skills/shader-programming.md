@@ -1,3 +1,9 @@
+---
+name: studio-art-shader-programming
+description: HLSL/GLSL shader development and Unity URP shader optimization for mobile games — shader libraries, GPU profiling, and mobile shader performance tuning. Owned by Lena Kovac (Technical Artist). Use during Studio Pipeline Stages 3–5 for shader development and optimization. Trigger: shader programming, HLSL, GLSL, URP shaders, shader optimization, mobile shaders, GPU profiling, Shader Graph.
+version: "1.0.0"
+---
+
 # Shader Programming
 
 **Skill Owner:** Lena Kovac (Technical Artist)

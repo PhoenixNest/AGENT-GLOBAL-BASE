@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-string-extraction-and-resource-files
-description: 'Localization skill: String Extraction And Resource Files'
+description: Mobile i18n engineering — hardcoded string detection, Android strings.xml/plurals/string-array production, iOS Localizable.strings/Localizable.stringsdict/InfoPlist.strings production, key naming conventions, code refactoring to resource references, and CTO-L handoff package assembly. Stage 9 gate: zero hardcoded strings. Owned by the Internationalization Specialist. Use during Stage 9 (i18n Engineering) for string extraction and resource file generation. Trigger: string extraction, resource files, strings.xml, Localizable.strings, hardcoded strings, i18n engineering, key-index.csv.
+prerequisites:
+  - localization-overview
+
+version: "1.0.0"
 ---
 
 # String Extraction and Resource Files

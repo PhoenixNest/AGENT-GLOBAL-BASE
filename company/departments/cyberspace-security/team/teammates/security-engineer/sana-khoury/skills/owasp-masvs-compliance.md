@@ -1,22 +1,14 @@
-# OWASP MASVS Compliance
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Security Compliance & Assessment
-**Owner:** Security Engineer #1 — Sana Khoury (Mobile Penetration Testing Specialist)
-
-## Overview
-
-Authoritative methodology for assessing mobile applications against the OWASP Mobile Application Security Verification Standard (MASVS), the industry benchmark for mobile app security. This skill covers all eight verification categories (V1–V8), both Level 1 (standard security) and Level 2 (defense-in-depth) assessment tiers, and provides structured procedures for compliance auditing, gap analysis, and remediation tracking. MASVS compliance is a mandatory requirement for all mobile applications under the company's security policy, with Level 2 required for applications handling financial transactions, PII, or health data.
-
-## Competency Dimensions
-
-| Dimension                       | Description                                                                     | Proficiency Indicators                                                                                                                                        |
-| ------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MASVS Framework Mastery         | Complete understanding of all 8 verification categories and 2 assessment levels | Accurately maps any mobile security finding to specific MASVS requirement; distinguishes L1 vs L2 requirements; understands MASVS-R (resilience) requirements |
-| Verification Procedure Design   | Ability to design test procedures for each MASVS requirement                    | Creates reproducible test cases for every MASVS control; produces assessment matrices that auditors can independently verify                                  |
-| Compliance Assessment Execution | Conducting systematic MASVS assessments against live applications               | Completes full MASVS assessment in ≤5 business days; identifies compliance gaps with zero false negatives on L1 controls                                      |
-| Gap Analysis & Remediation      | Translating compliance gaps into actionable remediation plans                   | Produces prioritized remediation roadmaps with effort estimates; tracks remediation to closure with evidence                                                  |
-| Audit Reporting                 | Producing MASVS compliance reports for internal and external stakeholders       | Generates reports that satisfy SOC 2, PCI-DSS, and ISO 27001 auditors; maintains audit trail for all assessments                                              |
-| Continuous Compliance           | Integrating MASVS checks into CI/CD pipelines                                   | Automates 60%+ of L1 control verification through SAST/DAST rules; maintains compliance dashboard with real-time status                                       |
+------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MASVS Framework Mastery | Complete understanding of all 8 verification categories and 2 assessment levels | Accurately maps any mobile security finding to specific MASVS requirement; distinguishes L1 vs L2 requirements; understands MASVS-R (resilience) requirements |
+| Verification Procedure Design | Ability to design test procedures for each MASVS requirement | Creates reproducible test cases for every MASVS control; produces assessment matrices that auditors can independently verify |
+| Compliance Assessment Execution | Conducting systematic MASVS assessments against live applications | Completes full MASVS assessment in ≤5 business days; identifies compliance gaps with zero false negatives on L1 controls |
+| Gap Analysis & Remediation | Translating compliance gaps into actionable remediation plans | Produces prioritized remediation roadmaps with effort estimates; tracks remediation to closure with evidence |
+| Audit Reporting | Producing MASVS compliance reports for internal and external stakeholders | Generates reports that satisfy SOC 2, PCI-DSS, and ISO 27001 auditors; maintains audit trail for all assessments |
+| Continuous Compliance | Integrating MASVS checks into CI/CD pipelines | Automates 60%+ of L1 control verification through SAST/DAST rules; maintains compliance dashboard with real-time status |
 
 ## Execution Guidance
 

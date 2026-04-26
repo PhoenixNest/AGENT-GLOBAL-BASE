@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-architecture-decision-records
-description: 'Architecture skill: Architecture Decision Records'
+description: Architecture Decision Records authoring and management for mobile projects — ADR template design, decision capture, alternatives analysis, consequence documentation, and ADR indexing. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for decision documentation and Stage 6 (Code Review) for ADR conformance verification. Trigger: architecture decision record, ADR template, decision documentation, ADR indexing, architectural decision.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Architecture Decision Records (ADRs)

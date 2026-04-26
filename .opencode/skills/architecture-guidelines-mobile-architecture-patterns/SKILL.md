@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-mobile-architecture-patterns
-description: 'Architecture skill: Mobile Architecture Patterns'
+description: Mobile architecture patterns for iOS, Android, and cross-platform — clean architecture, MVVM, VIPER, TCA, modularisation strategy, and logical project structure design. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for pattern selection and Stage 5 (Development) for module structure implementation. Trigger: mobile architecture patterns, clean architecture, MVVM, VIPER, TCA, modularisation, project structure.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Architecture Patterns

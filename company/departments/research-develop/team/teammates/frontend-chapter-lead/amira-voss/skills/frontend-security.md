@@ -1,15 +1,8 @@
-# Frontend Security
+---
+version: "1.0.0"
+---
 
-**Category:** Frontend Engineering / Security
-**Owner:** Frontend Chapter Lead (Amira Voss)
-
-## Overview
-
-This skill establishes the frontend security engineering discipline that enforces the CSO's Security Requirements Document (SRD) at the application layer. It covers Content Security Policy implementation, cross-site scripting (XSS) prevention through DOMPurify and sanitization patterns, secure authentication flows including OAuth 2.0 PKCE, secure storage of sensitive data, and the security review protocols that feed into Stage 6 Code Review and Stage 8 Integrity Verification. Frontend security is the last line of defense before user data reaches the browser — and it must be treated with the same rigor as backend security controls.
-
-## Competency Dimensions
-
-| Dimension                   | Description                                                                             | Proficiency Indicators                                                                          |
+| Competency                  | Description                                                                             | Quality Criteria                                                                                |
 | --------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | **Content Security Policy** | CSP header design, nonce generation, hash-based allowlisting, violation reporting       | Zero `unsafe-inline` in production; CSP violation monitoring with < 1% false positive rate      |
 | **XSS Prevention**          | DOMPurify configuration, sanitization pipelines, template safety, innerHTML elimination | Zero `dangerouslySetInnerHTML` without DOMPurify; all user input sanitized before DOM insertion |
@@ -71,14 +64,14 @@ Content-Security-Policy:
 
 ```js
 // Express middleware example
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 function generateNonce(req, res, next) {
-  const nonce = crypto.randomBytes(16).toString('base64');
+  const nonce = crypto.randomBytes(16).toString("base64");
   res.locals.nonce = nonce;
   res.setHeader(
-    'Content-Security-Policy',
-    `script-src 'self' 'nonce-${nonce}'; style-src 'self' 'nonce-${nonce}'`
+    "Content-Security-Policy",
+    `script-src 'self' 'nonce-${nonce}'; style-src 'self' 'nonce-${nonce}'`,
   );
   next();
 }
@@ -87,22 +80,26 @@ function generateNonce(req, res, next) {
 **CSP violation reporting endpoint:**
 
 ```js
-app.post('/csp-violation', express.json({ type: 'application/csp-report' }), (req, res) => {
-  const violation = req.body['csp-report'];
-  // Log to monitoring system
-  logger.warn('CSP Violation', {
-    blockedURI: violation['blocked-uri'],
-    violatedDirective: violation['violated-directive'],
-    sourceFile: violation['source-file'],
-    lineNumber: violation['line-number'],
-    userAgent: req.headers['user-agent'],
-  });
-  // Alert if pattern suggests active attack (not just misconfiguration)
-  if (isSuspiciousPattern(violation)) {
-    securityTeam.alert(violation);
-  }
-  res.status(204).send(); // No content
-});
+app.post(
+  "/csp-violation",
+  express.json({ type: "application/csp-report" }),
+  (req, res) => {
+    const violation = req.body["csp-report"];
+    // Log to monitoring system
+    logger.warn("CSP Violation", {
+      blockedURI: violation["blocked-uri"],
+      violatedDirective: violation["violated-directive"],
+      sourceFile: violation["source-file"],
+      lineNumber: violation["line-number"],
+      userAgent: req.headers["user-agent"],
+    });
+    // Alert if pattern suggests active attack (not just misconfiguration)
+    if (isSuspiciousPattern(violation)) {
+      securityTeam.alert(violation);
+    }
+    res.status(204).send(); // No content
+  },
+);
 ```
 
 ### XSS Prevention — Defense in Depth
@@ -135,77 +132,85 @@ Layer 4: HTTP-Only, Secure, SameSite Cookies (protects session tokens)
 **DOMPurify configuration** — production settings:
 
 ```js
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 const SANITIZE_CONFIG = Object.freeze({
   ALLOWED_TAGS: [
-    'p',
-    'br',
-    'strong',
-    'em',
-    'u',
-    's',
-    'blockquote',
-    'code',
-    'pre',
-    'ul',
-    'ol',
-    'li',
-    'a',
-    'img',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'table',
-    'thead',
-    'tbody',
-    'tr',
-    'th',
-    'td',
-    'figure',
-    'figcaption',
-    'details',
-    'summary',
-    'del',
-    'ins',
-    'sub',
-    'sup',
+    "p",
+    "br",
+    "strong",
+    "em",
+    "u",
+    "s",
+    "blockquote",
+    "code",
+    "pre",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "img",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
+    "figure",
+    "figcaption",
+    "details",
+    "summary",
+    "del",
+    "ins",
+    "sub",
+    "sup",
   ],
   ALLOWED_ATTR: [
-    'href',
-    'title',
-    'alt',
-    'src',
-    'width',
-    'height',
-    'class',
-    'id',
-    'target',
-    'rel',
-    'colspan',
-    'rowspan',
-    'align',
-    'valign',
+    "href",
+    "title",
+    "alt",
+    "src",
+    "width",
+    "height",
+    "class",
+    "id",
+    "target",
+    "rel",
+    "colspan",
+    "rowspan",
+    "align",
+    "valign",
   ],
   ALLOWED_URI_REGEXP:
     /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
-  ADD_ATTR: ['rel'],
+  ADD_ATTR: ["rel"],
   ADD_DATA_ATTR: false, // Block all data-* attributes (can be vectors)
-  FORBID_ATTR: ['style', 'onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
+  FORBID_ATTR: [
+    "style",
+    "onerror",
+    "onload",
+    "onclick",
+    "onmouseover",
+    "onfocus",
+    "onblur",
+  ],
   FORBID_TAGS: [
-    'script',
-    'style',
-    'iframe',
-    'object',
-    'embed',
-    'form',
-    'input',
-    'button',
-    'textarea',
-    'select',
+    "script",
+    "style",
+    "iframe",
+    "object",
+    "embed",
+    "form",
+    "input",
+    "button",
+    "textarea",
+    "select",
   ],
   KEEP_CONTENT: true, // Strip tag but keep text content
   RETURN_DOM: false,
@@ -217,7 +222,7 @@ const SANITIZE_CONFIG = Object.freeze({
 });
 
 function sanitizeUserHTML(html) {
-  if (typeof html !== 'string') return '';
+  if (typeof html !== "string") return "";
   return DOMPurify.sanitize(html, SANITIZE_CONFIG);
 }
 ```
@@ -249,14 +254,14 @@ element.textContent = userInput // Use textContent, not innerHTML
 
 ```js
 function sanitizeUrl(url) {
-  if (!url) return '';
+  if (!url) return "";
   // Normalize and check protocol
   try {
     const parsed = new URL(url, window.location.origin);
-    const allowedProtocols = ['http:', 'https:', 'mailto:', 'tel:'];
+    const allowedProtocols = ["http:", "https:", "mailto:", "tel:"];
     if (!allowedProtocols.includes(parsed.protocol)) {
       console.warn(`Blocked URL with protocol: ${parsed.protocol}`);
-      return '#';
+      return "#";
     }
     return parsed.href;
   } catch {
@@ -320,17 +325,17 @@ CSRF Protection:
 **PKCE implementation** (using `@auth0/auth0-spa-js` or similar):
 
 ```ts
-import createAuth0Client from '@auth0/auth0-spa-js';
+import createAuth0Client from "@auth0/auth0-spa-js";
 
 const auth0 = await createAuth0Client({
-  domain: 'your-domain.auth0.com',
-  client_id: 'your-client-id',
+  domain: "your-domain.auth0.com",
+  client_id: "your-client-id",
   authorizationParams: {
     redirect_uri: window.location.origin,
-    audience: 'https://api.example.com',
-    scope: 'openid profile email',
+    audience: "https://api.example.com",
+    scope: "openid profile email",
   },
-  cacheLocation: 'memory', // NEVER 'localstorage'
+  cacheLocation: "memory", // NEVER 'localstorage'
   useRefreshTokens: true,
   useRefreshTokensFallback: false,
 });

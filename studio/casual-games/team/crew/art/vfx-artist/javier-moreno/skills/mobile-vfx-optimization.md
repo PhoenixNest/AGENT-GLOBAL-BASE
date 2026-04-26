@@ -1,3 +1,9 @@
+---
+name: studio-art-mobile-vfx-optimization
+description: Performance optimization of VFX for mobile platforms — particle count management, overdraw reduction, GPU profiling, and quality tier systems. Owned by Javier Moreno (VFX Artist). Use during Studio Pipeline Stages 5–6 for VFX performance tuning. Trigger: VFX optimization, mobile VFX, particle budget, overdraw reduction, GPU profiling, quality tiers, VFX performance.
+version: "1.0.0"
+---
+
 # Mobile VFX Optimization
 
 **Skill ID:** mobile-vfx-optimization

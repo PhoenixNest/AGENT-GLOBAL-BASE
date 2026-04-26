@@ -1,6 +1,10 @@
 ---
 name: security-architecture-security-operations
-description: 'Security skill: Security Operations'
+description: Security operations for mobile applications — incident response runbooks, security monitoring dashboards, vulnerability management workflows, security patch coordination, and 24/7 SOC integration for mobile product security. Owned by James Wright (Security Lead). Use during Stage 5 (Development) for security operations setup and Stage 10 (Release Readiness) for operational readiness validation. Trigger: security operations, incident response, security monitoring, vulnerability management, security patching, SOC integration, mobile security ops.
+prerequisites:
+  - security-overview
+
+version: "1.0.0"
 ---
 
 # Security Operations

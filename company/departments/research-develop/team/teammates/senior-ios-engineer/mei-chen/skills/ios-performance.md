@@ -1,15 +1,8 @@
-# iOS Performance
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — iOS Performance Optimization
-**Owner:** Senior iOS Engineer (Mei Chen)
-
-## Overview
-
-This skill implements comprehensive iOS performance optimization covering Instruments profiling, memory management, launch time optimization, image caching strategies, and rendering pipeline tuning. It applies to Stage 5 (Development) where performance is built in from the start, Stage 6 (Code Review) where performance regressions are caught, and Stage 8 (Integrity Verification) where launch time, memory footprint, and frame rate are measured against targets.
-
-## Competency Dimensions
-
-| Dimension                    | Description                                                                                               | Proficiency Indicators                                                                                                                    |
+| Competency                   | Description                                                                                               | Quality Criteria                                                                                                                          |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Instruments Profiling        | Time Profiler, Allocations, Leaks, VM Tracker, Energy Log, System Trace                                   | Identifies performance bottlenecks within 2 profiling sessions; interprets call tree correctly; uses signposts for custom instrumentation |
 | Memory Management            | ARC optimization, retain cycle detection, weak/unowned references, memory warnings, purgeable data        | Zero memory leaks in Allocations instrument; memory warning handling implemented; large objects use `NSPurgeableData`                     |

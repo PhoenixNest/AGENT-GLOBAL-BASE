@@ -1,6 +1,10 @@
 ---
 name: frontend-web-full-stack-api-versioning
-description: 'Frontend Web skill: Api Versioning'
+description: API versioning strategy and implementation — URL path/header/media type versioning, backward compatibility patterns, feature flag rollouts, rollback procedures, and multi-tenant data isolation. Owned by Amira Voss (Frontend Chapter Lead). Use during Stage 3 (Architecture) for versioning decisions and Stage 5 (Development) for API evolution. Trigger: api versioning, backward compatibility, feature flag rollout, api deprecation, multi-tenant versioning.
+prerequisites:
+  - frontend-web-overview
+
+version: "1.0.0"
 ---
 
 # API Versioning
@@ -191,7 +195,7 @@ class APIFeatureFlags {
 
     // Percentage rollout
     if (flagConfig.rolloutPercentage !== undefined) {
-      const hash = this.hashUserId(userId ?? 'anonymous');
+      const hash = this.hashUserId(userId ?? "anonymous");
       return hash % 100 < flagConfig.rolloutPercentage;
     }
 
@@ -209,8 +213,11 @@ class APIFeatureFlags {
 }
 
 // Feature-gated API endpoint
-app.get('/api/v2/users', async (req, res) => {
-  const useNewFormat = await featureFlags.isEnabled('api-v2-response-format', req.user?.id);
+app.get("/api/v2/users", async (req, res) => {
+  const useNewFormat = await featureFlags.isEnabled(
+    "api-v2-response-format",
+    req.user?.id,
+  );
 
   const users = await userService.getUsers();
 
@@ -261,15 +268,15 @@ phases:
 # Monitoring during rollout
 alerts:
   - metric: error_rate
-    threshold: '> 1%'
+    threshold: "> 1%"
     action: halt rollout
 
   - metric: latency_p99
-    threshold: '> 500ms'
+    threshold: "> 500ms"
     action: halt rollout
 
   - metric: consumer_complaints
-    threshold: '> 5 per day'
+    threshold: "> 5 per day"
     action: review rollout
 ```
 

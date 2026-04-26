@@ -1,7 +1,12 @@
 ---
 name: recruit-data
 description: Recruit data, ML, and analytics talent across all seniority levels. Covers Data Analyst, Data Scientist, ML Engineer, Staff Data Scientist, ML Research Scientist, Head of Data, VP Data, and CDAO. Invokes vet-candidate gate before any placement.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Sources and evaluates data science, ML, and analytics engineers. Bad data hires produce incorrect models, flawed analytics, and misleading business intelligence.
 
 # Data & ML Recruitment Skill
 

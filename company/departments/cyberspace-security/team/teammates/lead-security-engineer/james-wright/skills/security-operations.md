@@ -1,18 +1,13 @@
-# Security Operations
+---
+version: "1.0.0"
+---
 
-## Overview
-
-Comprehensive SIEM operations, SAST/DAST/SCA pipeline management, PR security review, vulnerability lifecycle management, and supply chain security. This skill enables a security engineer to build, operate, and continuously improve the security operations function across the entire software development lifecycle — from code commit to production monitoring.
-
-## Competency Dimensions
-
-| Dimension                | Proficiency Level | Key Capabilities                                                                     |
-| ------------------------ | ----------------- | ------------------------------------------------------------------------------------ |
-| SIEM Operations          | Expert            | Splunk, ELK Stack, alert tuning, threat hunting, dashboard design                    |
-| SAST/DAST/SCA Pipeline   | Expert            | Tool integration, false positive reduction, policy-as-code, developer feedback loops |
-| PR Security Review       | Advanced          | Threat modeling at code level, secret detection, dependency risk assessment          |
-| Vulnerability Management | Expert            | Triage, SLA enforcement, remediation tracking, risk scoring (CVSS/EPSS)              |
-| Supply Chain Security    | Advanced          | SBOM generation, dependency auditing, SLSA framework, provenance verification        |
+------------------ | ----------------- | ------------------------------------------------------------------------------------ |
+| SIEM Operations | Expert | Splunk, ELK Stack, alert tuning, threat hunting, dashboard design |
+| SAST/DAST/SCA Pipeline | Expert | Tool integration, false positive reduction, policy-as-code, developer feedback loops |
+| PR Security Review | Advanced | Threat modeling at code level, secret detection, dependency risk assessment |
+| Vulnerability Management | Expert | Triage, SLA enforcement, remediation tracking, risk scoring (CVSS/EPSS) |
+| Supply Chain Security | Advanced | SBOM generation, dependency auditing, SLSA framework, provenance verification |
 
 ## Execution Guidance
 

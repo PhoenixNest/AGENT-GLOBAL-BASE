@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Provisioning complete.'
-candidate_name: 'Kenji Takahashi'
-candidate_id: 'G28'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'audio'
-role: 'audio-designer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Provisioning complete."
+candidate_name: "Kenji Takahashi"
+candidate_id: "G28"
+entity_type: "studio"
+stage: "stage-8"
+division: "audio"
+role: "audio-designer"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Kenji Takahashi (G28)

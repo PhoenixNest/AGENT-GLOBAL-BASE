@@ -1,6 +1,10 @@
 ---
 name: frontend-web-react-ssr-nextjs
-description: 'Frontend Web skill: Ssr Nextjs'
+description: Next.js server-side rendering — SSR/SSG/ISR hybrid rendering strategies, server-side data fetching, App Router patterns, and SEO optimization for React applications. Owned by Amira Voss (Frontend Chapter Lead). Use during Stage 3 (Architecture) for rendering strategy selection and Stage 5 (Development) for Next.js implementation. Trigger: nextjs, ssr react, server-side rendering, ssg, isr, nextjs app router, seo optimization, react ssr.
+prerequisites:
+  - frontend-web-overview
+
+version: "1.0.0"
 ---
 
 # SSR/Next.js

@@ -1,15 +1,8 @@
-# ADR Governance
+---
+version: "1.0.0"
+---
 
-**Category:** Architecture Governance
-**Owner:** Senior Software Architect (Dr. Elena Rostova)
-
-## Overview
-
-Manages the Architecture Decision Record (ADR) lifecycle across the organization, establishing ADR template standards, designing architecture review processes, ensuring decision traceability from requirements through implementation, and assessing ADR quality. Ensures every significant architectural decision is documented, reviewed, and maintained throughout the system lifecycle.
-
-## Competency Dimensions
-
-| Dimension                   | Description                                                                                   | Proficiency Indicators                                                                                                                     |
+| Competency                  | Description                                                                                   | Quality Criteria                                                                                                                           |
 | --------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | ADR Lifecycle Management    | Proposed → Accepted → Superseded → Deprecated states, state transitions, governance           | Manages ADR state machine with clear transition criteria; ensures no ADR remains in "proposed" indefinitely; tracks supersession chains    |
 | ADR Template Standards      | Context, decision, consequences, alternatives sections; severity levels; metadata             | Enforces consistent ADR structure across all teams; tailors templates for decision complexity; ensures all required sections are populated |

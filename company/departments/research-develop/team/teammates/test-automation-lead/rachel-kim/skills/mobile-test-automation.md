@@ -1,20 +1,15 @@
-# Mobile Test Automation
+---
+version: "1.0.0"
+---
 
-## Overview
-
-Comprehensive mobile test automation architecture spanning unit, integration, E2E, and regression testing across Android, iOS, and cross-platform frameworks. This skill enables a test automation lead to design scalable test frameworks, manage device farms, detect and quarantine flaky tests, and integrate test execution into CI/CD pipelines — ensuring 100% automated test pass rate as required by the Stage 7 gate.
-
-## Competency Dimensions
-
-| Dimension                   | Proficiency Level | Key Capabilities                                                                       |
-| --------------------------- | ----------------- | -------------------------------------------------------------------------------------- |
-| Test Framework Architecture | Expert            | Multi-layer test strategy (unit, integration, E2E, regression), shared test DSL design |
-| Espresso + XCTest + Maestro | Expert            | Platform-native UI testing, cross-platform test orchestration, shared test scenarios   |
-| Flaky Test Detection        | Advanced          | Statistical analysis, auto-quarantine, root cause analysis, stabilization strategies   |
-| Parallel Test Execution     | Expert            | Test sharding, distributed execution, resource contention management                   |
-| Device Farm Management      | Advanced          | Physical + emulator/simulator management, device scheduling, environment provisioning  |
-| Test Result Aggregation     | Expert            | Unified reporting, trend analysis, defect correlation, dashboard design                |
-| CI/CD Test Pipeline         | Expert            | Gate enforcement, parallel orchestration, artifact publishing, failure triage          |
+--------------------- | ----------------- | -------------------------------------------------------------------------------------- |
+| Test Framework Architecture | Expert | Multi-layer test strategy (unit, integration, E2E, regression), shared test DSL design |
+| Espresso + XCTest + Maestro | Expert | Platform-native UI testing, cross-platform test orchestration, shared test scenarios |
+| Flaky Test Detection | Advanced | Statistical analysis, auto-quarantine, root cause analysis, stabilization strategies |
+| Parallel Test Execution | Expert | Test sharding, distributed execution, resource contention management |
+| Device Farm Management | Advanced | Physical + emulator/simulator management, device scheduling, environment provisioning |
+| Test Result Aggregation | Expert | Unified reporting, trend analysis, defect correlation, dashboard design |
+| CI/CD Test Pipeline | Expert | Gate enforcement, parallel orchestration, artifact publishing, failure triage |
 
 ## Execution Guidance
 

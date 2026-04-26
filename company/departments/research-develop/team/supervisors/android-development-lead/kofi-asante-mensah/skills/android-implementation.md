@@ -1,6 +1,7 @@
 ---
 name: android-implementation
 description: Android application development — Jetpack Compose UI implementation, MVVM architecture, Kotlin Coroutines, Hilt DI, Room database, Retrofit networking, Android security (Keystore, EncryptedSharedPreferences), and Google Play submission standards.
+version: "1.0.0"
 ---
 
 # Android Implementation
@@ -8,6 +9,10 @@ description: Android application development — Jetpack Compose UI implementati
 ## Purpose
 
 Implement production-grade Android applications from the UML Engineering Package, IDS, and Coding Implementation Plan. All code must be written in Kotlin, follow the established architecture pattern, and be ready for Stage 6 Code Review without known compilation or runtime bugs.
+
+## Why This Matters
+
+Implements Android app features with Jetpack Compose. Poor implementation causes Play Store rejections, crashes, and user-facing bugs.
 
 ## Technology Stack
 
@@ -168,3 +173,14 @@ Before submitting for Stage 6, verify:
 - [ ] All strings localized (zero hardcoded strings)
 - [ ] All sensitive operations use Android Keystore
 - [ ] Compose previews render correctly for all content composables
+
+## Pipeline Cross-References
+
+This skill governs the following pipeline stages:
+
+| Pipeline           | Stage                 | Template                                          |
+| ------------------ | --------------------- | ------------------------------------------------- |
+| Mobile Development | Stage 5 (Development) | `company/pipeline/mobile-development/pipeline.md` |
+| Full Stack         | Stage 5 (Development) | `company/pipeline/full-stack/pipeline.md`         |
+
+Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

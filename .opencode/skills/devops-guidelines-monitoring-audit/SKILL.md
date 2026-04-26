@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-monitoring-audit
-description: 'Devops skill: Monitoring Audit'
+description: Monitoring and audit for mobile DevOps — Prometheus/Grafana dashboards, structured logging (ELK/Loki), distributed tracing (Jaeger), audit log retention, and compliance reporting for mobile CI/CD pipelines. Owned by Thomas Zhang (DevOps Lead). Use during Stage 5 (Development) for monitoring instrumentation and Stage 8 (Integrity Verification) for audit compliance validation. Trigger: monitoring audit, Prometheus, Grafana, structured logging, ELK, Loki, distributed tracing, Jaeger, audit log retention, compliance reporting, mobile pipeline monitoring.
+prerequisites:
+  - devops-guidelines-observability-logging
+
+version: "1.0.0"
 ---
 
 # Monitoring & Audit

@@ -1,17 +1,8 @@
-# Maestro — Cross-Platform Mobile Test Automation
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Test Automation — Cross-Platform Frameworks
-**Owner:** SDET Mobile #1 (Ananya Krishnan)
-
-## Overview
-
-Maestro is a modern cross-platform mobile UI testing framework that uses YAML flow definitions to describe user interactions. It provides a unified testing language for Android and iOS, supports conditional logic, data-driven testing, and integrates natively with CI/CD pipelines. Unlike Appium, Maestro operates as a gray-box tool with built-in synchronization, eliminating the flaky wait patterns that plague traditional cross-platform test frameworks.
-
-This skill covers Maestro flow authoring, advanced conditional logic, data-driven test patterns, visual testing assertions, and CI/CD pipeline integration. Maestro complements the native Espresso/XCTest suites by providing a single-source test definition that runs identically on both platforms, reducing maintenance overhead for feature parity validation.
-
-## Competency Dimensions
-
-| Dimension                            | Description                                                                                                                                                                               | Proficiency Indicators                                                                                                                                                                                                                           |
+| Competency                           | Description                                                                                                                                                                               | Quality Criteria                                                                                                                                                                                                                                 |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Flow Definition Syntax**           | YAML structure, `appId`, `onFlowStart/onFlowComplete` hooks, `commands` sequence, element selectors (`id`, `text`, `containsText`, `accessibilityText`), sub-flow inclusion via `runFlow` | Flows use semantic selectors (preferring `id` over `text`); complex journeys split into sub-flows via `runFlow: {file: login.yaml}`; environment variables parameterize `appId` per build variant; hooks handle test data setup/teardown         |
 | **Conditional Logic & Control Flow** | `when` conditions, `retry` blocks, `assert` statements, `loop` constructs, dynamic element handling, platform-specific branching with `${MAESTRO_PLATFORM}`                               | Tests branch on `when: {visible: element}` with `then/else` blocks; retry wraps flaky network-dependent assertions; loops iterate over list items with index variables; platform branching uses `${MAESTRO_PLATFORM}` in conditional expressions |
@@ -36,22 +27,22 @@ appId: com.company.app
 
 - runFlow:
     when:
-      visible: 'Allow notifications'
+      visible: "Allow notifications"
     file: dismiss-notification-prompt.yaml
 
 - tapOn:
-    id: 'emailField'
+    id: "emailField"
 - inputText: ${EMAIL}
 - tapOn:
-    id: 'passwordField'
+    id: "passwordField"
 - inputText: ${PASSWORD}
 - tapOn:
-    id: 'loginButton'
+    id: "loginButton"
 
 - assertVisible:
-    id: 'homeScreenTitle'
+    id: "homeScreenTitle"
 - assertVisible:
-    text: 'Welcome back'
+    text: "Welcome back"
 - assertNoChanges:
     timeout: 2000
 
@@ -67,15 +58,15 @@ Reusable authentication sub-flow (`login.yaml`):
 appId: ${APP_ID}
 ---
 - tapOn:
-    id: 'emailField'
+    id: "emailField"
 - inputText: ${EMAIL}
 - tapOn:
-    id: 'passwordField'
+    id: "passwordField"
 - inputText: ${PASSWORD}
 - tapOn:
-    id: 'loginButton'
+    id: "loginButton"
 - assertVisible:
-    id: 'homeScreenTitle'
+    id: "homeScreenTitle"
 ```
 
 Parent flow includes it:
@@ -91,9 +82,9 @@ appId: ${APP_ID}
       PASSWORD: ${PASSWORD}
 
 - tapOn:
-    id: 'settingsButton'
+    id: "settingsButton"
 - assertVisible:
-    id: 'settingsScreen'
+    id: "settingsScreen"
 ```
 
 **3. Conditional Logic with Platform Branching**
@@ -105,14 +96,14 @@ appId: ${APP_ID}
 
 # Handle platform-specific permission dialogs
 - when:
-    visible: 'Allow while using the app'
+    visible: "Allow while using the app"
   then:
-    - tapOn: 'Allow while using the app'
+    - tapOn: "Allow while using the app"
   else:
     - when:
-        visible: 'Allow'
+        visible: "Allow"
       then:
-        - tapOn: 'Allow'
+        - tapOn: "Allow"
 
 # Platform-specific navigation patterns
 - runScript: |
@@ -123,7 +114,7 @@ appId: ${APP_ID}
     }
 
 - assertVisible:
-    id: 'previousScreen'
+    id: "previousScreen"
 ```
 
 **4. Data-Driven Test with External CSV**
@@ -152,33 +143,33 @@ appId: ${APP_ID}
 
 # Navigate to checkout with test product
 - tapOn:
-    id: 'productCard'
+    id: "productCard"
 - tapOn:
-    id: 'addToCartButton'
+    id: "addToCartButton"
 - tapOn:
-    id: 'cartButton'
+    id: "cartButton"
 - tapOn:
-    id: 'checkoutButton'
+    id: "checkoutButton"
 
 # Fill payment with data-driven values
 - tapOn:
-    id: 'cardNumberField'
+    id: "cardNumberField"
 - inputText: ${card_number}
 - tapOn:
-    id: 'payButton'
+    id: "payButton"
 
 # Assert expected result
 - when:
     visible:
-      id: 'orderConfirmation'
+      id: "orderConfirmation"
   then:
     - assertVisible:
-        id: 'orderConfirmation'
+        id: "orderConfirmation"
     - assertVisible:
         text: ${expected_result}
   else:
     - assertVisible:
-        id: 'errorBanner'
+        id: "errorBanner"
     - assertVisible:
         text: ${expected_result}
 ```
@@ -210,14 +201,14 @@ appId: ${APP_ID}
     maestro.env.ORDER_REF = `ORD-${timestamp}`
 
 - tapOn:
-    id: 'signUpButton'
+    id: "signUpButton"
 - inputText: ${UNIQUE_EMAIL}
 - inputText: ${UNIQUE_USERNAME}
 - tapOn:
-    id: 'createAccountButton'
+    id: "createAccountButton"
 
 - assertVisible:
-    id: 'welcomeScreen'
+    id: "welcomeScreen"
 - assertVisible:
     text: ${UNIQUE_USERNAME}
 ```
@@ -231,21 +222,21 @@ appId: ${APP_ID}
 
 # Capture baseline screenshots at key checkpoints
 - tapOn:
-    id: 'homeButton'
+    id: "homeButton"
 - assertVisible:
-    id: 'homeScreenTitle'
+    id: "homeScreenTitle"
 - assertNoChanges:
     timeout: 3000
-- takeScreenshot: 'home-screen.png'
+- takeScreenshot: "home-screen.png"
 
 # Navigate and verify visual state
 - tapOn:
-    id: 'productCatalog'
+    id: "productCatalog"
 - assertVisible:
-    id: 'productGrid'
+    id: "productGrid"
 - assertNoChanges:
     timeout: 2000
-- takeScreenshot: 'product-catalog.png'
+- takeScreenshot: "product-catalog.png"
 # Visual regression: compare against baseline
 # In CI: maestro test flow.yaml --format junit
 # Baseline comparison handled by CI pipeline with pixel-diff tool

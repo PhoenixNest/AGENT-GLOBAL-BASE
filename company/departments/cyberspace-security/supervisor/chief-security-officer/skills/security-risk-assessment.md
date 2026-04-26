@@ -1,6 +1,7 @@
 ---
 name: security-risk-assessment
 description: Conduct comprehensive security risk assessments, threat modeling, penetration testing oversight, and compliance validation against OWASP MASVS, PCI-DSS, and regulatory standards
+version: "1.0.0"
 ---
 
 # Security Risk Assessment & Compliance
@@ -8,6 +9,10 @@ description: Conduct comprehensive security risk assessments, threat modeling, p
 ## Purpose
 
 Establish systematic security risk assessment processes, conduct threat modeling, oversee penetration testing, and ensure compliance with mobile security standards and regulatory requirements.
+
+## Why This Matters
+
+Quantifies and prioritizes security risks using STRIDE threat modeling. Without formal assessment, teams optimize for visible threats while missing high-impact, low-probability attack vectors.
 
 ## Core Assessment Framework
 

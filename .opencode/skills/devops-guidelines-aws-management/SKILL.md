@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-aws-management
-description: 'Devops skill: Aws Management'
+description: AWS multi-account cloud governance for mobile backend infrastructure — AWS Organizations setup, Control Tower landing zones, service control policies (SCPs), cross-account IAM role design, centralized CloudTrail logging, and cost management with budget alerting. Owned by Thomas Zhang (DevOps Lead). Use during Stage 5 (Development) for cloud infrastructure provisioning and Stage 8 (Integrity Verification) for compliance conformance. Trigger: aws management, multi-account, control tower, SCP, cross-account IAM, CloudTrail, cloud governance, AWS Organizations, cost management.
+prerequisites:
+  - devops-overview
+
+version: "1.0.0"
 ---
 
 # AWS Management

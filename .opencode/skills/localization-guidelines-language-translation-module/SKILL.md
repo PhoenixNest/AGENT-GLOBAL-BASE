@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-language-translation-module
-description: 'Localization skill: Language Translation Module'
+description: Language Translation Module (LTM) governance for multilingual translation — string extraction validation, TM leverage analysis, linguist post-editing, platform formatting validation (iOS strings, Android XML), linguistic QA gate, and sign-off protocol. Owned by Dr. Amara Osei-Mensah (CTO-L). Use during Stage 9 (i18n Engineering) for all translation requests. Trigger: language translation module, LTM, translation governance, linguistic QA, translation sign-off, multilingual translation.
+prerequisites:
+  - localization-overview
+
+version: "1.0.0"
 ---
 
 # Language Translation Module

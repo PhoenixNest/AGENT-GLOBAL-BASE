@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-encounter-design
+description: Encounter design for casual games — obstacle design, challenge variety, reward placement, and dynamic difficulty adjustment. Owned by Marcus Thompson (Level Designer). Use during Studio Pipeline Stages 2–5 for encounter creation and difficulty tuning. Trigger: encounter design, obstacle design, challenge variety, dynamic difficulty, reward placement, encounter tuning.
+version: "1.0.0"
+---
+
 # Encounter Design
 
 **Skill ID:** encounter-design

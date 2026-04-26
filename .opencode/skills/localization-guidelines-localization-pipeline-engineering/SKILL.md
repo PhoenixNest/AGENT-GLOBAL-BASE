@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-localization-pipeline-engineering
-description: 'Localization skill: Localization Pipeline Engineering'
+description: Localization pipeline design and operation — TMS integration (Phrase/Lokalise), extraction validation, string push/pull, format specifier linting, character limit validation, plural form coverage checks, XML/HTML tag preservation validation, and platform resource file generation for iOS and Android. Owned by the Localization Engineer. Use during Stage 9 (i18n Engineering) for localization pipeline setup and string resource management. Trigger: localization pipeline, TMS integration, string extraction validation, format specifier linting, plural form coverage, resource file generation.
+prerequisites:
+  - localization-overview
+
+version: "1.0.0"
 ---
 
 # Localization Pipeline Engineering

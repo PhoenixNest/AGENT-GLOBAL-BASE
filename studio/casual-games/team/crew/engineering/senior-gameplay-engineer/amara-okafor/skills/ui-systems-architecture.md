@@ -1,3 +1,9 @@
+---
+name: studio-engineering-ui-systems-architecture
+description: Mobile game UI framework architecture — Unity UI Toolkit, data-binding, batched rendering optimization, and unified UI system design. Owned by Amara Okafor (Senior Gameplay Engineer). Use during Studio Pipeline Stages 2–5 for UI system development and Stage 6 (Automated Testing) for UI regression testing. Trigger: UI systems architecture, UI framework, Unity UI Toolkit, data-binding, draw call optimization.
+version: "1.0.0"
+---
+
 # Skills — Amara Okafor
 
 ## UI Systems Architecture

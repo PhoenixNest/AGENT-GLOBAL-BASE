@@ -1,3 +1,9 @@
+---
+name: studio-art-animation-specs
+description: Documentation of animation specifications for engineering handoff — easing curves, duration tokens, 60fps targets, and graceful degradation for low-end devices. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 4–5 for animation spec creation and engineering handoff. Trigger: animation specs, easing curves, duration tokens, animation handoff, 60fps animation, graceful degradation, animation documentation.
+version: "1.0.0"
+---
+
 # Animation Specs
 
 **Skill ID:** animation-specs

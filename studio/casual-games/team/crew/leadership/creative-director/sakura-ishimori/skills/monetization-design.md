@@ -1,6 +1,7 @@
 ---
 name: monetization-design
 description: Player-centric F2P monetization strategy, IAP design, event pass systems, and engagement loop design that serves player motivation rather than exploiting frustration.
+version: "1.0.0"
 ---
 
 # Monetization Design

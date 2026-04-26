@@ -1,12 +1,12 @@
 ---
-document_id: '**'
-gate_status: '** ✅ Composite score 4.05/5.0 (87th percentile). Proceeding to Stage 5.'
-candidate_name: 'Sofia Martinez'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'engineering'
-role: 'gameplay-engineer'
-document_type: 'Interview Scores'
+document_id: "**"
+gate_status: "** ✅ Composite score 4.05/5.0 (87th percentile). Proceeding to Stage 5."
+candidate_name: "Sofia Martinez"
+entity_type: "studio"
+stage: "stage-4"
+division: "engineering"
+role: "gameplay-engineer"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Scores (G16) — Sofia Martinez

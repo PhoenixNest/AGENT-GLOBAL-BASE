@@ -1,6 +1,7 @@
 ---
 name: ab-testing-platform
 description: A/B testing infrastructure design, experiment management, statistical analysis, and feature flag integration for live games.
+version: "1.0.0"
 ---
 
 # A/B Testing Platform

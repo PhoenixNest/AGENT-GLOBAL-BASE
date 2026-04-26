@@ -1,0 +1,39 @@
+{
+  "category": "architecture",
+  "version": "1.0.0",
+  "generated": "2026-04-25",
+  "should_trigger": [
+    "ADR governance",
+    "architecture decision records",
+    "UML engineering",
+    "class diagram",
+    "sequence diagram",
+    "PlantUML",
+    "mobile architecture patterns",
+    "clean architecture",
+    "MVVM",
+    "VIPER",
+    "cross-platform architecture",
+    "KMP architecture",
+    "Flutter architecture",
+    "system design",
+    "distributed architecture",
+    "API gateway design",
+    "technical specification",
+    "implementation spec",
+    "Gantt chart",
+    "technical project management",
+    "technology evaluation",
+    "TCO analysis",
+    "mobile platform strategy",
+    "architecture review"
+  ],
+  "should_not_trigger": [
+    "fix bug in kotlin code",
+    "write swiftui view",
+    "deploy to aws",
+    "run penetration test",
+    "translate UI strings"
+  ],
+  "instructions": "Verify AI platform correctly triggers architecture skills for design/decision/documentation queries and does not trigger for implementation/deployment/testing queries."
+}

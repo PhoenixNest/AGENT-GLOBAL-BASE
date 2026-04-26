@@ -1,6 +1,7 @@
 ---
 name: hr-recruiting-overview
-description: Hr Recruiting skills overview
+description: "Human resources operations including elite candidate vetting, role-family recruitment across engineering/product/design/data/business/translation, engineering onboarding, competency tracking, and technical documentation. Owned by Dr. Evelyn Hartwell (CHRO). Use as the entry point for any HR, recruiting, talent operations, or candidate evaluation task. Trigger: HR, recruiting, hiring, talent, candidate, onboarding, competency, CHRO, human resources."
+version: "1.0.0"
 ---
 
 # HR & Recruiting

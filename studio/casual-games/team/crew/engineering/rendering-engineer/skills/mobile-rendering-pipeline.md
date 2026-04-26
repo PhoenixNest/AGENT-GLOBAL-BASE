@@ -1,3 +1,9 @@
+---
+name: studio-engineering-mobile-rendering-pipeline
+description: Mobile graphics pipeline architecture — forward/deferred rendering, render pass optimization, Metal and Vulkan platform-specific rendering paths. Owned by Lars Johansson (Rendering Engineer). Use during Studio Pipeline Stages 3–5 for rendering pipeline development and Stage 6 (Automated Testing) for rendering validation. Trigger: mobile rendering, graphics pipeline, Metal, Vulkan, URP, render pass optimization, adaptive resolution.
+version: "1.0.0"
+---
+
 # Mobile Rendering Pipeline
 
 **Skill Owner:** Lars Johansson | **Version:** 1.0 | **Date:** 2026-04-20

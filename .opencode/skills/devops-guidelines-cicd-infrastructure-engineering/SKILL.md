@@ -1,6 +1,10 @@
----
+﻿---
 name: devops-guidelines-cicd-infrastructure-engineering
-description: 'Devops skill: Cicd Infrastructure Engineering'
+description: CI/CD infrastructure engineering for mobile pipelines — self-hosted runners, build agent scaling, distributed caching (Redis/S3), pipeline observability, and infrastructure-as-code for GitHub Actions, GitLab CI, and Bitrise. Owned by Thomas Zhang (DevOps Lead). Use during Stage 4 (Implementation Plan) for CI/CD infrastructure design and Stage 5 (Development) for pipeline provisioning. Trigger: CI/CD infrastructure, self-hosted runners, build agents, distributed cache, pipeline observability, GitHub Actions, GitLab CI, Bitrise, infrastructure as code.
+prerequisites:
+  - devops-guidelines-ci-cd-optimization
+
+version: "1.0.0"
 ---
 
 # CI/CD Infrastructure Engineering
@@ -36,7 +40,7 @@ commit → lint → unit-test → build → integration-test → security-scan �
 - `.gitlab-ci.yml` as the single source of truth for pipeline definition
 - Stage-based organization with explicit dependencies between stages
 - Use `needs:` keyword for DAG (Directed Acyclic Graph) execution — jobs run as soon as dependencies are satisfied, not waiting for entire stages
-- Implement pipeline templates (`.gitlab-ci-templates/`) for shared configurations across platform pipelines
+- Implement pipeline templates (`.gitlab-scripts/`) for shared configurations across platform pipelines
 
 **GitLab CI Best Practices:**
 

@@ -1,6 +1,7 @@
 ---
 name: mobile-architecture-patterns
 description: Cross-platform mobile architecture design for iOS and Android — clean architecture layering, shared-core (Kotlin Multiplatform), dependency injection, monorepo modularisation, and logical project structure design.
+version: "1.0.0"
 ---
 
 # Mobile Architecture Patterns
@@ -8,6 +9,10 @@ description: Cross-platform mobile architecture design for iOS and Android — c
 ## Purpose
 
 Design implementable, maintainable mobile application architectures for iOS, Android, and cross-platform (KMP/Flutter) projects. Produce logical project structures, module dependency graphs, and layer separation specifications that development leads can implement directly.
+
+## Why This Matters
+
+Establishes clean architecture, MVVM, VIPER, and TCA patterns for mobile. Without consistent patterns, codebases become untestable and impossible to onboard new engineers to.
 
 ## Architecture Layers (Clean Architecture)
 

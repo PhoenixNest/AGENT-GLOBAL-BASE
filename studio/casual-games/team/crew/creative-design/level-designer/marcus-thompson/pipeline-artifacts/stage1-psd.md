@@ -1,18 +1,18 @@
 ---
-document_id: '**'
-role_title: 'Level Designer (G27)'
-role_family: 'Creative'
-seniority: 'Senior'
-priority: 'P1'
-reports_to: 'Lead Game Designer (Mei Watanabe)'
+document_id: "**"
+role_title: "Level Designer (G27)"
+role_family: "Creative"
+seniority: "Senior"
+priority: "P1"
+reports_to: "Lead Game Designer (Mei Watanabe)"
 compensation_band:
   min: 105000
   max: 140000
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'creative-design'
-role: 'level-designer'
-document_type: 'Position Specification Document'
+entity_type: "studio"
+stage: "stage-1"
+division: "creative-design"
+role: "level-designer"
+document_type: "Position Specification Document"
 ---
 
 # Position Specification Document

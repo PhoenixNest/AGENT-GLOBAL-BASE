@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-playtesting
+description: Playtest facilitation and data-driven level tuning — test design, player observation, data collection, and iterative level improvement. Owned by Marcus Thompson (Level Designer). Use during Studio Pipeline Stages 2–6 for playtest execution and level tuning. Trigger: playtesting, level tuning, player testing, telemetry analysis, completion rate, playtest protocol, data-driven design.
+version: "1.0.0"
+---
+
 # Playtesting
 
 **Skill ID:** playtesting

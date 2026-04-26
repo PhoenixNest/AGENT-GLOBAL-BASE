@@ -1,5 +1,6 @@
 ---
-description: Use for API documentation, SDK guides, and developer portal development.
+description:
+  Use for API documentation, SDK guides, and developer portal development.
   Engage during recruitment for developer documentation and API reference production.
 mode: subagent
 tools:

@@ -1,3 +1,9 @@
+---
+name: studio-production-agile-production
+description: Agile production management for game development — sprint planning, Scrum execution, milestone tracking, risk management, and cross-functional team coordination. Owned by James Mitchell (Producer). Use during Studio Pipeline Stages 4–10 for production management and sprint execution. Trigger: agile production, sprint planning, Scrum, milestone tracking, risk management, Jira, velocity tracking, game production.
+version: "1.0.0"
+---
+
 # Agile Production
 
 **Skill Owner:** James Mitchell (Producer)

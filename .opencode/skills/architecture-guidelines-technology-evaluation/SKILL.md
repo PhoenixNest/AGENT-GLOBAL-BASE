@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-technology-evaluation
-description: 'Architecture skill: Technology Evaluation'
+description: Technology evaluation for mobile platforms — systematic evaluation of emerging mobile technologies, research methodology, competitive analysis, TCO assessment, migration risk matrices, and vendor lock-in evaluation. Owned by Dr. Priya Mehta (CIO). Use during Stage 3 (UML Engineering) for technology evaluation and Stage 1 (Requirements) for technology feasibility. Trigger: technology evaluation, emerging technology, TCO assessment, migration risk, vendor lock-in, technology research.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Technology Evaluation Skill

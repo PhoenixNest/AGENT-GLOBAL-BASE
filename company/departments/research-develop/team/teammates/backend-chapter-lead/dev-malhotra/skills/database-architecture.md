@@ -1,15 +1,8 @@
-# Database Architecture
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Infrastructure
-**Owner:** Backend Chapter Lead (Dev Malhotra)
-
-## Overview
-
-Designs and manages PostgreSQL database architectures at scale, implementing table partitioning strategies, read replica topologies, connection pooling with PgBouncer, and automated migration pipelines. Covers data consistency patterns for distributed systems and the realities of implementing distributed transactions across microservices.
-
-## Competency Dimensions
-
-| Dimension                | Description                                                  | Proficiency Indicators                                                                                                            |
+| Competency               | Description                                                  | Quality Criteria                                                                                                                  |
 | ------------------------ | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
 | PostgreSQL Partitioning  | Range, list, and hash partitioning strategies                | Selects partitioning strategy based on query patterns; designs partition pruning-compatible queries; manages partition lifecycle  |
 | Read Replicas            | Replica topology, replication lag management, read routing   | Configures streaming replication; implements read/write splitting with lag-aware routing; handles replica failover                |
@@ -151,8 +144,8 @@ const replicationLagQuery = `
   labels:
     severity: warning
   annotations:
-    summary: 'Replica {{ $labels.instance }} lagging by {{ $value }}s'
-    description: 'Read queries may return stale data. Consider routing to primary.'
+    summary: "Replica {{ $labels.instance }} lagging by {{ $value }}s"
+    description: "Read queries may return stale data. Consider routing to primary."
 ```
 
 ### PgBouncer Connection Pooling

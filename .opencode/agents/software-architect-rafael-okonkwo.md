@@ -1,5 +1,6 @@
 ---
-description: Use for UML Engineering Package production, mobile architecture patterns,
+description:
+  Use for UML Engineering Package production, mobile architecture patterns,
   and Architecture Decision Records (ADRs). Engage during Stage 3 (UML Engineering
   Package), Stage 6 (Code Review), and Stage 8 (Integrity Verification) for architectural
   conformance review.
@@ -44,11 +45,11 @@ Rafael owns the production of the UML Engineering Package for every project — 
 
 ## Skills Index
 
-| Skill                              | Location                                                   | Description                                                                                                                                                        |
-| ---------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `uml-engineering-package.md`       | `architecture\guidelines\uml-engineering-package.md`       | UML Engineering Package production: class, sequence, and component diagram authorship using PlantUML/Mermaid, architecture documentation standards                 |
-| `mobile-architecture-patterns.md`  | `architecture\guidelines\mobile-architecture-patterns.md`  | Cross-platform mobile architecture: clean architecture, shared-core (KMP), dependency injection, monorepo modularisation, logical project structure design         |
-| `architecture-decision-records.md` | `architecture\guidelines\architecture-decision-records.md` | ADR authorship: context-decision-consequence structure, alternatives analysis, UML-embedded records, traceability from product requirement to architectural choice |
+| Skill                                                   | Location                                                        | Description                                                                                                                                                        |
+| ------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `architecture-guidelines-uml-engineering-package`       | `skills/architecture-guidelines-uml-engineering-package/`       | UML Engineering Package production: class, sequence, and component diagram authorship using PlantUML/Mermaid, architecture documentation standards                 |
+| `architecture-guidelines-mobile-architecture-patterns`  | `skills/architecture-guidelines-mobile-architecture-patterns/`  | Cross-platform mobile architecture: clean architecture, shared-core (KMP), dependency injection, monorepo modularisation, logical project structure design         |
+| `architecture-guidelines-architecture-decision-records` | `skills/architecture-guidelines-architecture-decision-records/` | ADR authorship: context-decision-consequence structure, alternatives analysis, UML-embedded records, traceability from product requirement to architectural choice |
 
 ## Pipeline Stages Owned
 

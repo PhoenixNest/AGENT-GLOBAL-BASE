@@ -1,5 +1,6 @@
 ---
-description: Use for CI/CD pipeline security, infrastructure-as-code (GitOps), and
+description:
+  Use for CI/CD pipeline security, infrastructure-as-code (GitOps), and
   secrets management. Engage during Stage 5 (Development) for CI/CD security and Stage
   6 (Code Review) for dependency scanning reviews.
 mode: subagent
@@ -43,11 +44,11 @@ Yuki is a DevOps Engineer reporting to the DevOps Lead (Thomas Zhang). She contr
 
 ## Skills Index
 
-| Skill                    | Location                                   | Description                                                        |
-| ------------------------ | ------------------------------------------ | ------------------------------------------------------------------ |
-| `cicd-security.md`       | `security\architecture\cicd-security.md`   | GitHub Actions security, Vault, OPA, Trivy, Snyk, signed artifacts |
-| `iac-gitops.md`          | `devops\guidelines\iac-gitops.md`          | Terraform, Terragrunt, Atlantis, GitOps workflow, state management |
-| `kubernetes-at-scale.md` | `devops\guidelines\kubernetes-at-scale.md` | Kubernetes at scale, operator patterns, cluster management         |
+| Skill                                   | Location                                        | Description                                                        |
+| --------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------ |
+| `security-architecture-cicd-security`   | `skills/security-architecture-cicd-security/`   | GitHub Actions security, Vault, OPA, Trivy, Snyk, signed artifacts |
+| `devops-guidelines-iac-gitops`          | `skills/devops-guidelines-iac-gitops/`          | Terraform, Terragrunt, Atlantis, GitOps workflow, state management |
+| `devops-guidelines-kubernetes-at-scale` | `skills/devops-guidelines-kubernetes-at-scale/` | Kubernetes at scale, operator patterns, cluster management         |
 
 ## Pipeline Stages Owned
 

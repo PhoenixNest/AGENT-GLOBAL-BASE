@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-mobile-platform-immersion
-description: 'Architecture skill: Mobile Platform Immersion'
+description: Mobile platform immersion program for new engineer onboarding — structured 30-day learning path covering architecture, pipeline processes, quality standards, and platform-specific knowledge. Owned by Dr. Kenji Nakamura (CTO). Use during recruitment onboarding and ongoing team member development. Trigger: platform immersion, engineer onboarding, mobile onboarding, new hire training, immersion program.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Platform Immersion Program

@@ -1,6 +1,7 @@
 ---
 name: devops-overview
-description: Devops skills overview
+description: DevOps skills overview — CI/CD infrastructure, platform reliability, and developer experience for mobile backends. Covers pipeline architecture, build optimization, SRE practices, cloud infrastructure, and developer analytics. Owned by Thomas Zhang (DevOps Lead). Use as entry point for DevOps skill selection during Stage 3 (UML Engineering) and Stage 4 (Implementation Plan). Trigger: devops overview, CI/CD, cloud infrastructure, SRE, build optimization, observability, secrets management, mobile backend DevOps.
+version: "1.0.0"
 ---
 
 # DevOps

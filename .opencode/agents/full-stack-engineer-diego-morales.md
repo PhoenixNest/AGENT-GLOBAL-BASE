@@ -1,5 +1,6 @@
 ---
-description: Use for enterprise full-stack development with Angular, Java Spring Boot,
+description:
+  Use for enterprise full-stack development with Angular, Java Spring Boot,
   and reporting systems. Engage during Stage 5 (Development) for Angular/Spring Boot
   implementation.
 mode: subagent

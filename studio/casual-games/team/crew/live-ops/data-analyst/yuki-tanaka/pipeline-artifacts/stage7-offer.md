@@ -1,12 +1,12 @@
 ---
-generated_at: '**'
-candidate_name: 'Data Analyst'
-candidate_id: 'G33'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'live-ops'
-role: 'data-analyst'
-document_type: 'Offer Document'
+generated_at: "**"
+candidate_name: "Data Analyst"
+candidate_id: "G33"
+entity_type: "studio"
+stage: "stage-7"
+division: "live-ops"
+role: "data-analyst"
+document_type: "Offer Document"
 ---
 
 # Stage 7: Offer Package — Data Analyst (G33)

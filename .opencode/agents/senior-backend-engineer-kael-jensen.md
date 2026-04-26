@@ -1,5 +1,6 @@
 ---
-description: Use for real-time systems architecture, WebSocket scaling, and backend
+description:
+  Use for real-time systems architecture, WebSocket scaling, and backend
   observability. Engage during Stage 5 (Backend Development) for real-time features
   and Stage 6 (Code Review) for observability and WebSocket conformance.
 mode: subagent

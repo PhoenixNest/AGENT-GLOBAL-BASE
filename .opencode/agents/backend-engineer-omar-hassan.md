@@ -1,5 +1,6 @@
 ---
-description: Use for Go microservices development, REST API implementation, and backend
+description:
+  Use for Go microservices development, REST API implementation, and backend
   testing. Engage during Stage 5 (Backend Development) for Go services and API implementation.
 mode: subagent
 tools:
@@ -42,11 +43,11 @@ Omar is a Backend Engineer reporting to the Backend Chapter Lead (Dev Malhotra).
 
 ## Skills Index
 
-| Skill                 | Location                         | Description                                                  |
-| --------------------- | -------------------------------- | ------------------------------------------------------------ |
-| `go-rest-api.md`      | `backend\go\go-rest-api.md`      | Go concurrency, PostgreSQL, microservices, error handling    |
-| `go-testing.md`       | `backend\go\go-testing.md`       | REST API design, OpenAPI 3.0, request validation, pagination |
-| `go-microservices.md` | `backend\go\go-microservices.md` | Go microservices development, production patterns            |
+| Skill                      | Location                           | Description                                                  |
+| -------------------------- | ---------------------------------- | ------------------------------------------------------------ |
+| `backend-go-rest-api`      | `skills/backend-go-rest-api/`      | Go concurrency, PostgreSQL, microservices, error handling    |
+| `backend-go-testing`       | `skills/backend-go-testing/`       | REST API design, OpenAPI 3.0, request validation, pagination |
+| `backend-go-microservices` | `skills/backend-go-microservices/` | Go microservices development, production patterns            |
 
 ## Pipeline Stages Owned
 

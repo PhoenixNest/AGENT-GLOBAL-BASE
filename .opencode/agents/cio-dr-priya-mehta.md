@@ -1,5 +1,6 @@
 ---
-description: Use for mobile technology strategy, emerging technology evaluation, mobile-native
+description:
+  Use for mobile technology strategy, emerging technology evaluation, mobile-native
   infrastructure architecture, and executive-grade technical documentation. Engage
   during Stage 3 (UML Engineering Package - ADRs/TSD), Stage 6 (Code Review), Stage
   8 (Integrity Verification), and Stage 10 (Release Readiness).
@@ -48,11 +49,11 @@ Dr. Mehta owns the company's technology strategy and architecture for mobile pla
 
 ## Skills Index
 
-| Skill                                  | Location                                                       | Description                                                                                                                                    |
-| -------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `technology-evaluation.md`             | `architecture\guidelines\technology-evaluation.md`             | Systematic evaluation of emerging technologies: research methodology, competitive analysis, risk assessment, and executive-grade documentation |
-| `mobile-architecture-strategy.md`      | `architecture\guidelines\mobile-architecture-strategy.md`      | Mobile-native infrastructure and architecture strategy for iOS and Android platforms                                                           |
-| `technical-selection-documentation.md` | `architecture\guidelines\technical-selection-documentation.md` | High-quality technical selection documents, version analysis reports, and architecture decision records                                        |
+| Skill                                                       | Location                                                            | Description                                                                                                                                    |
+| ----------------------------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `architecture-guidelines-technology-evaluation`             | `skills/architecture-guidelines-technology-evaluation/`             | Systematic evaluation of emerging technologies: research methodology, competitive analysis, risk assessment, and executive-grade documentation |
+| `architecture-guidelines-mobile-architecture-strategy`      | `skills/architecture-guidelines-mobile-architecture-strategy/`      | Mobile-native infrastructure and architecture strategy for iOS and Android platforms                                                           |
+| `architecture-guidelines-technical-selection-documentation` | `skills/architecture-guidelines-technical-selection-documentation/` | High-quality technical selection documents, version analysis reports, and architecture decision records                                        |
 
 ## Pipeline Stages Owned
 

@@ -1,6 +1,10 @@
 ---
 name: testing-qa-guidelines-test-sharding
-description: 'Testing Qa skill: Test Sharding'
+description: Test sharding for mobile CI/CD — parallel test execution across multiple devices/emulators, dynamic shard allocation, flaky test isolation, and test result aggregation for Android (Firebase Test Lab) and iOS (Xcode parallel testing). Owned by Rachel Kim (Test Automation Lead). Use during Stage 5 (Development) for test infrastructure setup and Stage 7 (Testing) for parallel test execution optimization. Trigger: test sharding, parallel test execution, dynamic shard allocation, flaky test isolation, Firebase Test Lab, Xcode parallel testing, test result aggregation.
+prerequisites:
+  - testing-qa-overview
+
+version: "1.0.0"
 ---
 
 # Test Sharding

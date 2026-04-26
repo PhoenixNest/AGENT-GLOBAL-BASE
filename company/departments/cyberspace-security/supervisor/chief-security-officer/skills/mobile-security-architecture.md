@@ -1,6 +1,7 @@
 ---
 name: mobile-security-architecture
 description: Design and implement mobile platform security architecture for iOS and Android applications, covering encryption, secure storage, authentication, and platform-specific security controls
+version: "1.0.0"
 ---
 
 # Mobile Security Architecture
@@ -8,6 +9,10 @@ description: Design and implement mobile platform security architecture for iOS 
 ## Purpose
 
 Design comprehensive security architectures for mobile applications that leverage platform-specific security features while maintaining cross-platform consistency. Balance security rigor with user experience and performance constraints inherent to mobile platforms.
+
+## Why This Matters
+
+Defines the security foundation for iOS and Android platforms. Weak architecture leads to systemic vulnerabilities that cannot be patched post-launch without major refactoring.
 
 ## Core Responsibilities
 

@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Provisioning Record'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'live-ops'
-role: 'ua-specialist'
-document_type: 'Provisioning Record'
+generated_at: "**"
+candidate_name: "Provisioning Record"
+entity_type: "studio"
+stage: "stage-8"
+division: "live-ops"
+role: "ua-specialist"
+document_type: "Provisioning Record"
 ---
 
 # Stage 8: Provisioning Record — UA Specialist (G32)

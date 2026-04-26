@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-adr-governance
-description: 'Architecture skill: Adr Governance'
+description: ADR governance and lifecycle management for mobile architecture — ADR creation, review, supersession protocol, deprecation tracking, and architectural compliance auditing. Owned by Rafael Okonkwo (Software Architect). Use during Stage 3 (UML Engineering) for ADR authorship and Stage 6 (Code Review) for ADR conformance. Trigger: ADR governance, architecture decision records, ADR lifecycle, superseding ADR, ADR deprecation, architectural compliance.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # ADR Governance

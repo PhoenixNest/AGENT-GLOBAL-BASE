@@ -1,6 +1,10 @@
 ---
 name: ios-infrastructure-ios-implementation
-description: 'Ios skill: Ios Implementation'
+description: "iOS implementation standards — Swift language, MVVM + Clean Architecture, SwiftUI-first with UIKit interop, Swift Concurrency, Keychain security, certificate pinning, localization, accessibility, HIG compliance, and App Store submission. Owned by Seo-Yeon Park (iOS Lead). Use during Stage 5 (Development) as the primary iOS coding reference and Stage 6 (Code Review) for implementation conformance. Trigger: ios implementation, mvvm, clean architecture, swiftui, keychain, certificate pinning, app transport security, app store submission, privacy manifest, localization, hig compliance."
+prerequisites:
+  - ios-overview
+
+version: "1.0.0"
 ---
 
 # iOS Implementation

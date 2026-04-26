@@ -1,3 +1,9 @@
+---
+name: studio-audio-chiptune-synthesis
+description: Chiptune and retro-style music synthesis for games — Deflemask, FamiTrack, YM2612/SNR76489 chip emulation, and authentic retro sound design. Owned by Kenji Takahashi (Audio Designer). Use during Studio Pipeline Stages 3–5 for retro audio production. Trigger: chiptune synthesis, retro audio, Deflemask, FamiTrack, chip emulation, NES audio, Genesis audio, retro SFX.
+version: "1.0.0"
+---
+
 # Chiptune Synthesis
 
 **Skill ID:** chiptune-synthesis

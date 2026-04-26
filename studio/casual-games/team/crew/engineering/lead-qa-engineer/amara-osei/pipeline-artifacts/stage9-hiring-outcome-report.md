@@ -1,12 +1,12 @@
 ---
-final_decision: 'HIRED'
-candidate_name: 'A'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'engineering'
-role: 'lead-qa-engineer'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+candidate_name: "A"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "engineering"
+role: "lead-qa-engineer"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Amara Osei (G6)

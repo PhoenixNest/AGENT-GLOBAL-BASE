@@ -1,6 +1,7 @@
 ---
 name: cicd-deployment
 description: CI/CD pipeline design, blue-green deployments, feature flag management, and automated rollback for live game operations.
+version: "1.0.0"
 ---
 
 # CI/CD & Deployment

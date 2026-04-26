@@ -1,12 +1,12 @@
 ---
-generated_at: '**'
-candidate_name: 'Data Analyst'
-candidate_id: 'G33'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'live-ops'
-role: 'data-analyst'
-document_type: 'Background Check'
+generated_at: "**"
+candidate_name: "Data Analyst"
+candidate_id: "G33"
+entity_type: "studio"
+stage: "stage-6"
+division: "live-ops"
+role: "data-analyst"
+document_type: "Background Check"
 ---
 
 # Stage 6: Background Verification Report — Data Analyst (G33)

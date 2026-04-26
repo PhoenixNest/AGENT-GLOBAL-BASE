@@ -1,6 +1,10 @@
 ---
 name: shared-guidelines-test-driven-development
-description: 'Shared skill: Test Driven Development'
+description: "Test-Driven Development as a design and implementation discipline — writing tests before production code, following the Red-Green-Refactor cycle, using test-first thinking to drive clean architecture, with test naming conventions, refactoring safely under test coverage, and bug fix workflows starting with reproducing tests. Owned by All Engineers. Use when practicing TDD, writing tests before implementation, following red-green-refactor, fixing bugs with regression tests, or establishing test naming conventions. Trigger: TDD, test-driven development, red green refactor, write test first, test naming, refactoring under tests, bug fix test, test-first, unit test before code."
+prerequisites:
+  - shared-overview
+
+version: "1.0.0"
 ---
 
 # Test-Driven Development

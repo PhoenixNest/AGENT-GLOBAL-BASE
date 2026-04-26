@@ -1,13 +1,13 @@
 ---
-role_title: 'SDET — Performance'
-seniority: 'Senior'
-priority: 'P1'
-reports_to: 'Amara Osei'
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'engineering'
-role: 'sdet-performance'
-document_type: 'Position Specification Document'
+role_title: "SDET — Performance"
+seniority: "Senior"
+priority: "P1"
+reports_to: "Amara Osei"
+entity_type: "studio"
+stage: "stage-1"
+division: "engineering"
+role: "sdet-performance"
+document_type: "Position Specification Document"
 ---
 
 # Stages 1-9: Complete Pipeline — SDET Performance (G38)

@@ -1,0 +1,4 @@
+# GitHub branch protection rule
+branch_protection:
+  require_signed_commits: true
+  # All commits to main must be GPG or Sigstore signed

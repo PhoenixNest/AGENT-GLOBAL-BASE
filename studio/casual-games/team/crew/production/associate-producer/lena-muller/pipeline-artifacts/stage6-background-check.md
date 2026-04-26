@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Background check CLEAR. Proceeding to Stage 7.'
-candidate_name: 'Lena Muller'
-candidate_id: 'G35'
-entity_type: 'studio'
-stage: 'stage-6'
-division: 'production'
-role: 'associate-producer'
-document_type: 'Background Check'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Background check CLEAR. Proceeding to Stage 7."
+candidate_name: "Lena Muller"
+candidate_id: "G35"
+entity_type: "studio"
+stage: "stage-6"
+division: "production"
+role: "associate-producer"
+document_type: "Background Check"
 ---
 
 # Background Check Report — Lena Muller (G35)

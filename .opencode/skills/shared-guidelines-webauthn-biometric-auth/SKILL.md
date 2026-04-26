@@ -1,6 +1,10 @@
 ---
 name: shared-guidelines-webauthn-biometric-auth
-description: 'Shared skill: Webauthn Biometric Auth'
+description: "WebAuthn standard implementation, biometric authentication integration, and passkey management for mobile and web applications — covering WebAuthn registration and authentication flows, Android BiometricPrompt + Keystore integration, iOS LocalAuthentication framework, passkey cryptography and phishing resistance, and security considerations (cryptographic challenges, rate limiting, accessibility fallbacks). Use during Stage 5 (Development) for secure authentication features and Stage 6 (Code Review) for security conformance. Trigger: WebAuthn, biometric authentication, passkey, Face ID, Touch ID, BiometricPrompt, LocalAuthentication, fingerprint auth, face auth, passkey integration, secure authentication."
+prerequisites:
+  - shared-overview
+
+version: "1.0.0"
 ---
 
 # WebAuthn & Biometric Authentication

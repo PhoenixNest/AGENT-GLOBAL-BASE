@@ -1,6 +1,7 @@
 ---
 name: server-operations
 description: Server infrastructure management, Kubernetes operations, monitoring, and incident response for live game services.
+version: "1.0.0"
 ---
 
 # Server Operations

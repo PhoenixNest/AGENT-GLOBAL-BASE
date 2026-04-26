@@ -39,8 +39,31 @@ Amina is a Technical Writer in the Research & Development department. She produc
 
 ## Skills Index
 
-- `skills/api-technical-writing.md` — OpenAPI 3.0, SDK guides, interactive examples, code snippets
-- `skills/developer-documentation.md` — Docusaurus, versioned documentation, search, multi-language support
+- `company/departments/research-develop/team/teammates/technical-writer/amina-razak/skills/api-technical-writing.md` — OpenAPI 3.0, SDK guides, interactive examples, code snippets
+- `company/departments/research-develop/team/teammates/technical-writer/amina-razak/skills/developer-documentation.md` — Docusaurus, versioned documentation, search, multi-language support
+
+## Pipeline Stages
+
+5, 6, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective              | Key Result                                                                                   | Progress | Status      |
+| ---------------------- | -------------------------------------------------------------------------------------------- | -------- | ----------- |
+| Documentation coverage | All assigned API endpoints documented with OpenAPI specs, code examples, and error reference | 100%     | ✅ On Track |
+| Documentation quality  | Zero P0/P1 documentation defects from code review; developer satisfaction ≥4.3/5             | 0 open   | ✅ On Track |
+| Developer portal       | Portal content freshness ≥95% (all pages reviewed within 90 days); search success rate ≥90%  | 97%      | ✅ On Track |
+| Skill development      | Complete assigned training modules                                                           | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                             | Actual | Trend       |
+| ------------------------- | ---------------------------------- | ------ | ----------- |
+| Documentation coverage    | 100% of assigned endpoints         | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                               | 2%     | ↓ Improving |
+| Content freshness         | ≥95% pages reviewed within 90 days | 97%    | ↑ Improving |
 
 ## Vetting Record
 

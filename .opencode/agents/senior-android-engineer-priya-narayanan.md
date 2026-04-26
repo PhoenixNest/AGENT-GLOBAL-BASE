@@ -1,5 +1,6 @@
 ---
-description: Use for offline-first Android architecture, Android security hardening
+description:
+  Use for offline-first Android architecture, Android security hardening
   (OWASP MASVS), and performance optimization. Engage during Stage 5 (Development)
   for Android offline patterns and security implementation, and Stage 6 (Code Review)
   for Android security conformance.

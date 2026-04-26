@@ -1,6 +1,7 @@
 ---
 name: api-product-strategy
 description: Specialized strategy for API-as-a-Product, covering OpenAPI standards, SDK ergonomics, Developer Experience (DX) KPIs, API pricing models, and the deprecation lifecycle. Use this skill when authoring Section 5 of an API-focused PRD or when defining developer platform roadmaps.
+version: "1.0.0"
 ---
 
 # API Product Strategy

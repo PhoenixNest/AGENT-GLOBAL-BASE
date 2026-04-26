@@ -1,22 +1,14 @@
-# Advanced Accessibility Engineering
+---
+version: "1.0.0"
+---
 
-**Category:** Frontend Engineering / Accessibility
-**Owner:** Senior Frontend Engineer (Elena Kim)
-
-## Overview
-
-This skill enables the implementation and validation of WCAG 2.1 AA/AAA compliance across all frontend surfaces, going beyond automated tooling to address the nuanced realities of assistive technology users. It covers screen reader optimization (VoiceOver, TalkBack, NVDA, JAWS), keyboard navigation architecture, aria-live region management, focus control patterns, and axe-core automation integration. Accessibility is not a checklist — it is a fundamental quality attribute that determines whether our product is usable by the 1.3 billion people worldwide who experience significant disability. Every component, every interaction, every content update must be accessible by design, not as an afterthought.
-
-## Competency Dimensions
-
-| Dimension                        | Description                                                                                    | Proficiency Indicators                                                                                  |
-| -------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **WCAG 2.1 AA/AAA Compliance**   | Deep understanding of all 78 success criteria across A/AA/AAA conformance levels               | Zero AA violations in automated + manual audit; AAA achieved for all Level A/AA criteria where feasible |
-| **Screen Reader Optimization**   | VoiceOver (iOS/macOS), TalkBack (Android), NVDA (Windows), JAWS (Windows Windows) testing      | All interactive elements announced correctly; content read in logical order; no silent UI elements      |
-| **Keyboard Navigation**          | Complete keyboard operability with visible focus indicators, skip links, and logical tab order | 100% of functionality accessible via keyboard; focus trap in modals; no keyboard traps                  |
-| **ARIA & Live Regions**          | Correct ARIA role/state/property usage; aria-live for dynamic content updates                  | Zero ARIA misuse (role/property mismatch); live regions announce appropriately without spam             |
-| **Automated Testing**            | axe-core integration, CI gating, custom rule development                                       | axe-core in CI pipeline; custom rules for domain-specific patterns; zero false negatives                |
-| **Assistive Technology Testing** | Manual testing with real AT devices; user journey validation                                   | Quarterly AT testing report; issues resolved within 1 sprint of discovery                               |
+-------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **WCAG 2.1 AA/AAA Compliance** | Deep understanding of all 78 success criteria across A/AA/AAA conformance levels | Zero AA violations in automated + manual audit; AAA achieved for all Level A/AA criteria where feasible |
+| **Screen Reader Optimization** | VoiceOver (iOS/macOS), TalkBack (Android), NVDA (Windows), JAWS (Windows Windows) testing | All interactive elements announced correctly; content read in logical order; no silent UI elements |
+| **Keyboard Navigation** | Complete keyboard operability with visible focus indicators, skip links, and logical tab order | 100% of functionality accessible via keyboard; focus trap in modals; no keyboard traps |
+| **ARIA & Live Regions** | Correct ARIA role/state/property usage; aria-live for dynamic content updates | Zero ARIA misuse (role/property mismatch); live regions announce appropriately without spam |
+| **Automated Testing** | axe-core integration, CI gating, custom rule development | axe-core in CI pipeline; custom rules for domain-specific patterns; zero false negatives |
+| **Assistive Technology Testing** | Manual testing with real AT devices; user journey validation | Quarterly AT testing report; issues resolved within 1 sprint of discovery |
 
 ## Execution Guidance
 
@@ -145,14 +137,14 @@ function Modal({ isOpen, onClose, children }) {
       modalRef.current?.focus();
       // Trap focus
       const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
+        if (e.key === "Escape") {
           onClose();
           return;
         }
-        if (e.key !== 'Tab') return;
+        if (e.key !== "Tab") return;
 
         const focusable = modalRef.current?.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
         if (!focusable?.length) return;
 
@@ -168,8 +160,8 @@ function Modal({ isOpen, onClose, children }) {
         }
       };
 
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
   }, [isOpen, onClose]);
 
@@ -183,7 +175,13 @@ function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="modal-title" ref={modalRef} tabIndex={-1}>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      ref={modalRef}
+      tabIndex={-1}
+    >
       <h2 id="modal-title">Modal Title</h2>
       {children}
     </div>
@@ -232,9 +230,20 @@ function ToastAnnouncer({ message }: { message: string }) {
 }
 
 // Loading state announcement
-function LoadingAnnouncer({ isLoading, label }: { isLoading: boolean; label: string }) {
+function LoadingAnnouncer({
+  isLoading,
+  label,
+}: {
+  isLoading: boolean;
+  label: string;
+}) {
   return (
-    <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+    <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      className="sr-only"
+    >
       {isLoading ? `${label} is loading` : `${label} has finished loading`}
     </div>
   );
@@ -244,7 +253,12 @@ function LoadingAnnouncer({ isLoading, label }: { isLoading: boolean; label: str
 function ErrorAnnouncer({ error }: { error: string | null }) {
   if (!error) return null;
   return (
-    <div role="alert" aria-live="assertive" aria-atomic="true" className="sr-only">
+    <div
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      className="sr-only"
+    >
       {error}
     </div>
   );
@@ -278,28 +292,29 @@ function ErrorAnnouncer({ error }: { error: string | null }) {
 
 ```js
 // jest.config.js — axe-core integration with Jest
-import { configureAxe, toHaveNoViolations } from 'jest-axe';
+import { configureAxe, toHaveNoViolations } from "jest-axe";
 
 expect.extend(toHaveNoViolations);
 
 const axe = configureAxe({
   rules: {
     // Override rule severity for specific patterns
-    'color-contrast': { enabled: true },
+    "color-contrast": { enabled: true },
     label: { enabled: true },
-    'link-name': { enabled: true },
-    'image-alt': { enabled: true },
+    "link-name": { enabled: true },
+    "image-alt": { enabled: true },
     // Custom rule for domain-specific patterns
-    'custom-focus-visible': {
-      selector: 'button, [role="button"], [role="link"], a, input, select, textarea',
-      tags: ['cat.keyboard'],
-      none: ['custom-focus-visible-check'],
+    "custom-focus-visible": {
+      selector:
+        'button, [role="button"], [role="link"], a, input, select, textarea',
+      tags: ["cat.keyboard"],
+      none: ["custom-focus-visible-check"],
     },
   },
 });
 
 // Test every rendered component
-test('Button component has no accessibility violations', async () => {
+test("Button component has no accessibility violations", async () => {
   const { container } = render(<Button>Click me</Button>);
   const results = await axe(container);
   expect(results).toHaveNoViolations();
@@ -314,12 +329,12 @@ export const parameters = {
   a11y: {
     config: {
       rules: [
-        { id: 'color-contrast', enabled: true },
-        { id: 'label', enabled: true },
+        { id: "color-contrast", enabled: true },
+        { id: "label", enabled: true },
       ],
     },
     options: {
-      checks: { 'color-contrast': { shadowDOM: true } },
+      checks: { "color-contrast": { shadowDOM: true } },
     },
   },
 };

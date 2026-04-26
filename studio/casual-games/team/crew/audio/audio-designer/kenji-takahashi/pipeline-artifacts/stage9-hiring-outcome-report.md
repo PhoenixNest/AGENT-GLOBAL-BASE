@@ -2,15 +2,15 @@
 vetting_total: 16
 composite_score: 4.32
 time_to_fill_days: 5
-final_decision: 'HIRED'
-reports_to: '** Hiroshi Nakamura (Composer/Sound Director, Contract)'
-candidate_name: 'K'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'audio'
-role: 'audio-designer'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+reports_to: "** Hiroshi Nakamura (Composer/Sound Director, Contract)"
+candidate_name: "K"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "audio"
+role: "audio-designer"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Kenji Takahashi (G28)

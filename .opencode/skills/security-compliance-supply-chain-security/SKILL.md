@@ -1,6 +1,10 @@
 ---
 name: security-compliance-supply-chain-security
-description: 'Security skill: Supply Chain Security'
+description: Supply chain security for mobile development — SBOM generation, dependency vulnerability scanning, third-party SDK risk assessment, build provenance verification, and software supply chain attack prevention for mobile app dependencies. Owned by Li Wei Chen (Security Engineer). Use during Stage 3 (UML Engineering) for dependency risk assessment and Stage 6 (Code Review) for supply chain verification. Trigger: supply chain security, SBOM, dependency scanning, SDK risk assessment, build provenance, supply chain attack prevention, mobile dependencies, third-party risk.
+prerequisites:
+  - security-overview
+
+version: "1.0.0"
 ---
 
 # Supply Chain Security
@@ -96,7 +100,7 @@ name: Security — SBOM Generation
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
 
 jobs:
   generate-sbom:
@@ -245,7 +249,7 @@ security cms -D -i embedded.mobileprovision
 name: Security — SLSA L3 Build
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 permissions:
   id-token: write # For keyless signing
@@ -353,7 +357,7 @@ actions:
 name: Security — Action Vetting
 on:
   pull_request:
-    paths: ['.github/workflows/**']
+    paths: [".github/workflows/**"]
 
 jobs:
   check-approved-actions:
@@ -405,7 +409,7 @@ npm audit --json | jq '.advisories[] | select(.module_name | test("^[a-z]{1,2}[0
 name: Security — Dependency Lock Verification
 on:
   pull_request:
-    paths: ['**/build.gradle', '**/Podfile', '**/pubspec.yaml']
+    paths: ["**/build.gradle", "**/Podfile", "**/pubspec.yaml"]
 
 jobs:
   verify-lock:

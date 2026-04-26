@@ -1,15 +1,8 @@
-# Android Testing
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Testing
-**Owner:** Senior Android Engineer (Sofia Rezende)
-
-## Overview
-
-This skill establishes comprehensive Android testing practices covering TDD methodology, unit testing with JUnit 5 and MockK, UI testing with Espresso and Compose Testing, Robolectric for JVM-based Android framework tests, and test utility architecture. It is foundational to Stage 7 (Automated Testing) where the 100% automated test pass rate target is enforced, and Stage 6 (Code Review) where test coverage and quality are evaluated.
-
-## Competency Dimensions
-
-| Dimension           | Description                                                                                     | Proficiency Indicators                                                                                               |
+| Competency          | Description                                                                                     | Quality Criteria                                                                                                     |
 | ------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | TDD Methodology     | Red-Green-Refactor cycle, test-first design, emergent architecture through testing              | Writes failing test before implementation; test suite drives design decisions; refactoring phase preserves all tests |
 | Unit Testing        | JUnit 5, MockK, coroutine testing with TestDispatcher, parameterized tests, assertion libraries | >80% unit test coverage on domain layer; all use cases have unit tests; coroutine tests use controlled dispatchers   |

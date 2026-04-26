@@ -43,8 +43,31 @@ Marcus owns the company's end-to-end product strategy for mobile platforms (Andr
 
 ## Skills Index
 
-- `skills/mobile-product-strategy.md` — End-to-end mobile product strategy: vision setting, roadmap prioritization, commercial/quality balance, and platform-native decision-making for iOS and Android
-- `skills/prd-authorship.md` — High-quality PRD authorship: problem framing, platform constraints, metric instrumentation, technical feasibility pre-assessment, and launch sequencing
+- `company/departments/product-management/supervisor/chief-product-officer/skills/mobile-product-strategy.md` — End-to-end mobile product strategy: vision setting, roadmap prioritization, commercial/quality balance, and platform-native decision-making for iOS and Android
+- `company/departments/product-management/supervisor/chief-product-officer/skills/prd-authorship.md` — High-quality PRD authorship: problem framing, platform constraints, metric instrumentation, technical feasibility pre-assessment, and launch sequencing
+
+## Pipeline Stages
+
+1, 6, 8, 9, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective                 | Key Result                                              | Progress | Status      |
+| ------------------------- | ------------------------------------------------------- | -------- | ----------- |
+| Chapter/platform delivery | All Stage 5 development tasks completed per Gantt chart | 100%     | ✅ On Track |
+| Code quality              | Zero P0/P1 defects from Stage 6 reviews                 | 0 open   | ✅ On Track |
+| Team mentoring            | All teammates have 1:1 reviews completed monthly        | 100%     | ✅ On Track |
+| Technical debt            | 15-20% sprint capacity allocated to debt reduction      | 18%      | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                 | Target     | Actual   | Trend       |
+| ---------------------- | ---------- | -------- | ----------- |
+| PR review turnaround   | < 24 hours | 14 hours | ↑ Improving |
+| Stage 6 sign-off rate  | 100%       | 100%     | → Stable    |
+| Team velocity variance | < 15%      | 12%      | ↓ Improving |
 
 ## Vetting Record
 

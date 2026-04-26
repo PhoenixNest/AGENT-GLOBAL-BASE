@@ -1,3 +1,9 @@
+---
+name: studio-art-particle-systems
+description: Particle system creation for mobile games — Unity Particle System, custom VFX, combat effects, environmental effects, and mobile performance optimization. Owned by Javier Moreno (VFX Artist). Use during Studio Pipeline Stages 3–5 for particle effect production. Trigger: particle systems, VFX, combat effects, environmental particles, Unity Particle System, VFX Graph, mobile VFX.
+version: "1.0.0"
+---
+
 # Particle Systems
 
 **Skill ID:** particle-systems

@@ -1,3 +1,9 @@
+---
+name: studio-art-icon-design-system
+description: Systematic approach to game icon creation — grid systems, detail levels, production pipelines, and quality control for large icon sets (100–500+ icons). Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 3–5 for icon production. Trigger: icon design, icon system, rarity icons, item icons, icon grid, icon pipeline, icon localization.
+version: "1.0.0"
+---
+
 # Icon Design System
 
 **Skill ID:** icon-design-system

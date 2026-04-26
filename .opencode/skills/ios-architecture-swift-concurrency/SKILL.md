@@ -1,6 +1,10 @@
 ---
 name: ios-architecture-swift-concurrency
-description: 'Ios skill: Swift Concurrency'
+description: "Swift concurrency for native iOS apps — async/await, actors, Task management, structured concurrency, Sendable conformance, and data race prevention. Owned by Seo-Yeon Park (iOS Lead). Use during Stage 5 (Development) for all asynchronous iOS code and Stage 6 (Code Review) for concurrency correctness audits. Trigger: swift concurrency, async/await, actors, task management, sendable, data race, structured concurrency, mainactor, taskgroup, thread sanitizer."
+prerequisites:
+  - ios-infrastructure-ios-implementation
+
+version: "1.0.0"
 ---
 
 # Swift Concurrency

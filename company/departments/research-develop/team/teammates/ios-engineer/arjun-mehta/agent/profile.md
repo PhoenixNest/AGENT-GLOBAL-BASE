@@ -39,9 +39,32 @@ Arjun is an iOS Engineer reporting to the iOS Chapter Lead (Seo-Yeon Park). He c
 
 ## Skills Index
 
-- `skills/ios-testing.md` — XCTest, Quick/Nimble, XCUITest, snapshot testing
-- `skills/ios-accessibility.md` — VoiceOver, dynamic type, WCAG 2.1 AA, accessibility testing
-- `skills/swiftui.md` — SwiftUI declarative UI, state management, view composition
+- `company/departments/research-develop/team/teammates/ios-engineer/arjun-mehta/skills/ios-testing.md` — XCTest, Quick/Nimble, XCUITest, snapshot testing
+- `company/departments/research-develop/team/teammates/ios-engineer/arjun-mehta/skills/ios-accessibility.md` — VoiceOver, dynamic type, WCAG 2.1 AA, accessibility testing
+- `company/departments/research-develop/team/teammates/ios-engineer/arjun-mehta/skills/swiftui.md` — SwiftUI declarative UI, state management, view composition
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

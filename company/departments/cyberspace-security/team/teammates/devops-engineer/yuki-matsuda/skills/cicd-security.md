@@ -1,22 +1,14 @@
-# CI/CD Pipeline Security
+---
+version: "1.0.0"
+---
 
-**Category:** DevOps Security — Pipeline Hardening
-**Owner:** DevOps Engineer — Yuki Matsuda
-
-## Overview
-
-Design, implement, and maintain secure CI/CD pipelines that protect the software delivery process from source code commit through production deployment. This skill covers secrets management with HashiCorp Vault, pipeline hardening against supply chain attacks, artifact signing and provenance generation, SBOM integration, supply chain verification, and security gate enforcement. The CI/CD pipeline is the most critical infrastructure component in mobile app development — a compromised pipeline can deliver malicious code to billions of devices. This skill ensures the pipeline itself is a trusted, auditable, and defensible component of the security architecture.
-
-## Competency Dimensions
-
-| Dimension                 | Description                                                              | Proficiency Indicators                                                                                                                                       |
-| ------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Secrets Management        | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access                |
-| Pipeline Hardening        | Protecting CI/CD pipelines from tampering and unauthorized access        | Pipelines run in isolated, ephemeral environments; no persistent runner access; all pipeline changes require code review; zero pipeline compromise incidents |
-| Artifact Signing          | Cryptographic signing of build artifacts within CI/CD                    | All release artifacts signed within pipeline using cosign/Sigstore; signature verification enforced in deployment pipeline; keyless signing with OIDC        |
-| Supply Chain Verification | Verifying integrity of all pipeline inputs and dependencies              | All actions pinned to SHA; dependencies verified against allowlist; SBOM generated and verified at each stage; SLSA provenance generated                     |
-| SBOM Integration          | Embedding SBOM generation into the build pipeline                        | SBOM generated for every build (CycloneDX + SPDX); SBOM scanned for vulnerabilities; SBOM signed and archived                                                |
-| Security Gate Enforcement | Implementing automated security checks that block unsafe deployments     | Gates enforce: SAST pass, DAST pass, dependency scan pass, SBOM generated, artifact signed; zero instances of gate bypass in production                      |
+------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Secrets Management | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access |
+| Pipeline Hardening | Protecting CI/CD pipelines from tampering and unauthorized access | Pipelines run in isolated, ephemeral environments; no persistent runner access; all pipeline changes require code review; zero pipeline compromise incidents |
+| Artifact Signing | Cryptographic signing of build artifacts within CI/CD | All release artifacts signed within pipeline using cosign/Sigstore; signature verification enforced in deployment pipeline; keyless signing with OIDC |
+| Supply Chain Verification | Verifying integrity of all pipeline inputs and dependencies | All actions pinned to SHA; dependencies verified against allowlist; SBOM generated and verified at each stage; SLSA provenance generated |
+| SBOM Integration | Embedding SBOM generation into the build pipeline | SBOM generated for every build (CycloneDX + SPDX); SBOM scanned for vulnerabilities; SBOM signed and archived |
+| Security Gate Enforcement | Implementing automated security checks that block unsafe deployments | Gates enforce: SAST pass, DAST pass, dependency scan pass, SBOM generated, artifact signed; zero instances of gate bypass in production |
 
 ## Execution Guidance
 
@@ -37,7 +29,7 @@ Design, implement, and maintain secure CI/CD pipelines that protect the software
 name: Build & Sign Release
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 # CRITICAL: Minimal permissions
 permissions:
@@ -266,7 +258,7 @@ chmod +x /opt/actions-runner/cleanup.sh
 name: Release — Sign & Verify
 on:
   push:
-    tags: ['v*']
+    tags: ["v*"]
 
 permissions:
   id-token: write

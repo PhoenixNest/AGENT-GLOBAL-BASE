@@ -1,15 +1,8 @@
-# Kotlin Advanced
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android
-**Owner:** Senior Android Engineer (Tariq Al-Hassan)
-
-## Overview
-
-This skill enables production-grade Kotlin development leveraging coroutines, Flow, structured concurrency, and Kotlin Multiplatform (KMP) interoperability. It is critical to Stage 5 (Development) and Stage 7 (Automated Testing) where coroutine correctness, memory management, and shared business logic directly impact application stability, testability, and cross-platform code reuse.
-
-## Competency Dimensions
-
-| Dimension                           | Description                                                                                   | Proficiency Indicators                                                                                                                                  |
+| Competency                          | Description                                                                                   | Quality Criteria                                                                                                                                        |
 | ----------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Coroutines & Structured Concurrency | Deep understanding of coroutine lifecycle, scopes, dispatchers, and cancellation semantics    | Correctly implements `CoroutineScope` hierarchies; zero leaked coroutines in production; proper `supervisorScope` vs `coroutineScope` selection         |
 | Kotlin Flow                         | Cold vs hot flow semantics, state management, backpressure handling, and operator composition | Uses `StateFlow`/`SharedFlow` appropriately; implements backpressure with `buffer`/`conflate`/`collectLatest`; zero dropped emissions in critical paths |

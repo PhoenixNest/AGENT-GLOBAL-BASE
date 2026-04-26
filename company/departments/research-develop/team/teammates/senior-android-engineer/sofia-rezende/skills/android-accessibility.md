@@ -1,15 +1,8 @@
-# Android Accessibility
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Accessibility (a11y)
-**Owner:** Senior Android Engineer (Sofia Rezende)
-
-## Overview
-
-This skill implements WCAG 2.1 AA compliance on Android through TalkBack optimization, dynamic font scaling, accessibility testing, and proper ContentDescription management. It applies to Stage 5 (Development) where all UI must be built accessibly from the start, Stage 6 (Code Review) where accessibility conformance is audited, and Stage 8 (Integrity Verification) where the CDO verifies IDS accessibility specifications are realized in production code.
-
-## Competency Dimensions
-
-| Dimension                       | Description                                                                                           | Proficiency Indicators                                                                                                                                         |
+| Competency                      | Description                                                                                           | Quality Criteria                                                                                                                                               |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WCAG 2.1 AA Compliance          | Understanding of perceivable, operable, understandable, robust (POUR) principles as applied to mobile | Every screen passes automated a11y scan; all interactive elements have meaningful labels; color contrast ratios meet 4.5:1 minimum                             |
 | TalkBack & Screen Reader        | ContentDescription, accessibility traversal order, custom accessibility actions, state announcement   | TalkBack users can complete all core flows without sighted assistance; custom actions for complex gestures; live regions for dynamic content                   |

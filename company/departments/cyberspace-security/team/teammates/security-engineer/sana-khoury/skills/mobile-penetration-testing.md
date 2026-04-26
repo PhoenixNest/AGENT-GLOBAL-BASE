@@ -1,22 +1,14 @@
-# Mobile Penetration Testing
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Security Engineering
-**Owner:** Security Engineer #1 — Sana Khoury (Mobile Penetration Testing Specialist)
-
-## Overview
-
-Comprehensive methodology for conducting offensive security assessments against iOS and Android mobile applications. This skill covers the full testing lifecycle from reconnaissance through exploitation and reporting, using industry-standard tooling (MobSF, Frida, objection, Ghidra, Jadx, Burp Suite) and aligning all findings to the OWASP Mobile Application Security Verification Standard (MASVS). The scope includes both static and dynamic analysis of native, hybrid, and cross-platform mobile applications.
-
-## Competency Dimensions
-
-| Dimension                  | Description                                                     | Proficiency Indicators                                                                                                                                                                                                    |
-| -------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Static Analysis            | Reverse engineering of APK/IPA binaries without execution       | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |
-| Dynamic Analysis           | Runtime instrumentation and behavioral analysis of running apps | Hooks 90%+ of target methods via Frida scripts in <2 hours; bypasses root/jailbreak detection, SSL pinning, and anti-debugging protections; traces cryptographic operations and key extraction at runtime                 |
-| Network Interception       | MITM analysis of mobile app communication channels              | Configures Burp Suite with mobile proxy + CA certificate pinning bypass; intercepts and mutates WebSocket, gRPC, and MQTT traffic; identifies insecure API endpoints and data exposure                                    |
-| Reverse Engineering        | Deep binary analysis for vulnerability discovery                | Maps native code attack surfaces in ARM64/x86_64; identifies buffer overflows, format string vulns, and insecure IPC in shared libraries; reconstructs custom encryption protocols from disassembly                       |
-| Vulnerability Exploitation | Proof-of-concept exploit development                            | Develops working PoCs for identified vulnerabilities (insecure data storage, broken cryptography, intent hijacking, deep link abuse); demonstrates impact without causing data loss                                       |
-| OWASP MASVS Assessment     | Structured verification against MASVS controls                  | Maps every finding to specific MASVS requirement (V1–V8); produces assessment reports that directly feed Stage 6 Code Review and Stage 8 Integrity Verification gate criteria                                             |
+-------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Static Analysis | Reverse engineering of APK/IPA binaries without execution | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |
+| Dynamic Analysis | Runtime instrumentation and behavioral analysis of running apps | Hooks 90%+ of target methods via Frida scripts in <2 hours; bypasses root/jailbreak detection, SSL pinning, and anti-debugging protections; traces cryptographic operations and key extraction at runtime |
+| Network Interception | MITM analysis of mobile app communication channels | Configures Burp Suite with mobile proxy + CA certificate pinning bypass; intercepts and mutates WebSocket, gRPC, and MQTT traffic; identifies insecure API endpoints and data exposure |
+| Reverse Engineering | Deep binary analysis for vulnerability discovery | Maps native code attack surfaces in ARM64/x86_64; identifies buffer overflows, format string vulns, and insecure IPC in shared libraries; reconstructs custom encryption protocols from disassembly |
+| Vulnerability Exploitation | Proof-of-concept exploit development | Develops working PoCs for identified vulnerabilities (insecure data storage, broken cryptography, intent hijacking, deep link abuse); demonstrates impact without causing data loss |
+| OWASP MASVS Assessment | Structured verification against MASVS controls | Maps every finding to specific MASVS requirement (V1–V8); produces assessment reports that directly feed Stage 6 Code Review and Stage 8 Integrity Verification gate criteria |
 
 ## Execution Guidance
 
@@ -110,28 +102,36 @@ _Bypass SSL Pinning:_
 // ssl-unpinning.js — Android OkHttp + NSURLSession bypass
 Java.perform(function () {
   // OkHttp 3.x CertificatePinner check bypass
-  var CertificatePinner = Java.use('okhttp3.CertificatePinner');
-  CertificatePinner.check.overload('java.lang.String', 'java.util.List').implementation =
-    function () {};
+  var CertificatePinner = Java.use("okhttp3.CertificatePinner");
+  CertificatePinner.check.overload(
+    "java.lang.String",
+    "java.util.List",
+  ).implementation = function () {};
 
   // TrustManager bypass — accept all certificates
   var TrustManager = Java.registerClass({
-    name: 'com.example.TrustManager',
-    implements: [Java.use('javax.net.ssl.X509TrustManager')],
+    name: "com.example.TrustManager",
+    implements: [Java.use("javax.net.ssl.X509TrustManager")],
     methods: [
       {
-        name: 'checkClientTrusted',
-        returnType: 'void',
-        argumentTypes: ['javax.security.cert.X509Certificate[]', 'java.lang.String'],
+        name: "checkClientTrusted",
+        returnType: "void",
+        argumentTypes: [
+          "javax.security.cert.X509Certificate[]",
+          "java.lang.String",
+        ],
       },
       {
-        name: 'checkServerTrusted',
-        returnType: 'void',
-        argumentTypes: ['javax.security.cert.X509Certificate[]', 'java.lang.String'],
+        name: "checkServerTrusted",
+        returnType: "void",
+        argumentTypes: [
+          "javax.security.cert.X509Certificate[]",
+          "java.lang.String",
+        ],
       },
       {
-        name: 'getAcceptedIssuers',
-        returnType: 'java.security.cert.X509Certificate[]',
+        name: "getAcceptedIssuers",
+        returnType: "java.security.cert.X509Certificate[]",
         argumentTypes: [],
         implementation: function () {
           return [];
@@ -139,11 +139,11 @@ Java.perform(function () {
       },
     ],
   });
-  var SSLContext = Java.use('javax.net.ssl.SSLContext');
+  var SSLContext = Java.use("javax.net.ssl.SSLContext");
   SSLContext.init.overload(
-    '[Ljavax.net.ssl.KeyManager;',
-    '[Ljavax.net.ssl.TrustManager;',
-    'java.security.SecureRandom'
+    "[Ljavax.net.ssl.KeyManager;",
+    "[Ljavax.net.ssl.TrustManager;",
+    "java.security.SecureRandom",
   ).implementation = function (km, tm, sr) {
     this.init(km, [TrustManager.$new()], sr);
   };
@@ -155,14 +155,16 @@ _Runtime Method Tracing:_
 ```javascript
 // trace-crypto.js — Hook all cryptographic operations
 Java.perform(function () {
-  var Cipher = Java.use('javax.crypto.Cipher');
-  Cipher.doFinal.overload('[B').implementation = function (input) {
-    console.log('[CRYPTO] doFinal called');
-    console.log('[CRYPTO] Input (hex): ' + bytesToHex(input));
-    console.log('[CRYPTO] Algorithm: ' + this.getAlgorithm());
-    console.log('[CRYPTO] Key (hex): ' + bytesToHex(this.getParameters().getEncoded()));
+  var Cipher = Java.use("javax.crypto.Cipher");
+  Cipher.doFinal.overload("[B").implementation = function (input) {
+    console.log("[CRYPTO] doFinal called");
+    console.log("[CRYPTO] Input (hex): " + bytesToHex(input));
+    console.log("[CRYPTO] Algorithm: " + this.getAlgorithm());
+    console.log(
+      "[CRYPTO] Key (hex): " + bytesToHex(this.getParameters().getEncoded()),
+    );
     var result = this.doFinal(input);
-    console.log('[CRYPTO] Output (hex): ' + bytesToHex(result));
+    console.log("[CRYPTO] Output (hex): " + bytesToHex(result));
     return result;
   };
 });

@@ -1,6 +1,7 @@
 ---
 name: gameplay-test-automation
 description: Bot-driven gameplay testing, regression test automation, and CI/CD integration for game development.
+version: "1.0.0"
 ---
 
 # Gameplay Test Automation

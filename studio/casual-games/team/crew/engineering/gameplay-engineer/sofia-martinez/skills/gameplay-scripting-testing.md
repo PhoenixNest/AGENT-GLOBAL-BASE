@@ -1,3 +1,9 @@
+---
+name: studio-engineering-gameplay-scripting-testing
+description: C# gameplay scripting for Unity — feature implementation workflows, debugging techniques, unit testing for gameplay systems, tournament matchmaking. Owned by Sofia Martinez (Gameplay Engineer). Use during Studio Pipeline Stages 2–5 for gameplay feature development and Stage 6 (Automated Testing) for gameplay unit testing. Trigger: gameplay scripting, C# Unity, unit testing, feature implementation, matchmaking, gameplay debugging.
+version: "1.0.0"
+---
+
 # Gameplay Scripting & Testing
 
 **Skill Owner:** Sofia Martinez | **Version:** 1.0 | **Date:** 2026-04-20

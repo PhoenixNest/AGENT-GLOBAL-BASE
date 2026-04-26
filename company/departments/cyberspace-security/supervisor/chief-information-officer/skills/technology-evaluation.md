@@ -1,6 +1,7 @@
 ---
 name: technology-evaluation
 description: Systematic evaluation of emerging technologies for mobile platforms. Produces executive-grade analysis covering business impact, technical merit, implementation risk, competitive positioning, and clear recommendations. Use when evaluating new technologies, frameworks, platforms, or vendor solutions.
+version: "1.0.0"
 ---
 
 # Technology Evaluation Skill
@@ -16,6 +17,10 @@ Evaluate emerging technologies, frameworks, platforms, and vendor solutions to d
 - Competitive intelligence reveals a technology gap
 - Technology vendor proposes a solution
 - Annual or quarterly technology roadmap planning
+
+## Why This Matters
+
+Systematically evaluates emerging technologies against business needs. Without evaluation, teams adopt technologies based on hype rather than measurable value.
 
 ## Evaluation Framework
 

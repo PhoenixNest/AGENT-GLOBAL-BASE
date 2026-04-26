@@ -1,3 +1,9 @@
+---
+name: studio-engineering-mobile-gameplay-optimization
+description: Performance optimization techniques for mobile gameplay systems — CPU/GPU profiling, memory management, GC avoidance, battery optimization, and thermal throttling mitigation. Owned by Kaelen Reeves (Senior Gameplay Engineer). Use during Studio Pipeline Stages 5–6 for gameplay performance optimization and Stage 8 (Soft Launch) for KPI validation. Trigger: mobile gameplay optimization, GC elimination, thermal throttling, frame drops, Unity profiler, memory management.
+version: "1.0.0"
+---
+
 # Mobile Gameplay Optimization
 
 **Skill Owner:** Kaelen Reeves  

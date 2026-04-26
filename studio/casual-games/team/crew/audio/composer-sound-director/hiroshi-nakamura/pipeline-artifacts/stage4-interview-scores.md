@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All assessments completed.'
-candidate_name: 'Hiroshi Nakamura'
-candidate_id: 'G10'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'audio'
-role: 'composer-sound-director'
-document_type: 'Interview Scores'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All assessments completed."
+candidate_name: "Hiroshi Nakamura"
+candidate_id: "G10"
+entity_type: "studio"
+stage: "stage-4"
+division: "audio"
+role: "composer-sound-director"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Scores — Hiroshi Nakamura (G10)

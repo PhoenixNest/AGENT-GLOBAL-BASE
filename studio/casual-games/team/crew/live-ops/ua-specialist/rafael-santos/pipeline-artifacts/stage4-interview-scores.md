@@ -1,10 +1,10 @@
 ---
-candidate_name: 'Scored Assessments'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'live-ops'
-role: 'ua-specialist'
-document_type: 'Interview Scores'
+candidate_name: "Scored Assessments"
+entity_type: "studio"
+stage: "stage-4"
+division: "live-ops"
+role: "ua-specialist"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Simulation & Scored Assessments — UA Specialist (G32)

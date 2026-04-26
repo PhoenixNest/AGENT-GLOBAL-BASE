@@ -1,17 +1,8 @@
-# Competency Tracking
+---
+version: "1.0.0"
+---
 
-**Category:** Talent Operations / Performance Management
-**Owner:** Engineering Onboarding Lead
-
-## Overview
-
-Designs, implements, and operates the competency matrix and tracking system for all 57 engineering FTEs across the Android, iOS, Cross-Platform, Architecture, and Test Lead role families. The system establishes performance baselines at hire, tracks progression through role-family-specific competency dimensions, and produces data-driven insights for promotion readiness, skill gap remediation, and onboarding ROI calculation.
-
-This skill covers matrix design per role family, assessment frameworks (self, peer, supervisor), progress dashboard construction, probationary evaluation workflows, and the analytics pipeline that converts competency data into actionable workforce planning signals for the CHRO and CTO.
-
-## Competency Dimensions
-
-| Dimension               | Description                                                                           | Proficiency Indicators                                                                                 |
+| Competency              | Description                                                                           | Quality Criteria                                                                                       |
 | ----------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Matrix Design           | Build role-family-specific competency frameworks with measurable behavioral anchors   | Can design a 5-7 dimension matrix with 4 proficiency levels per role family; validated by CTO and CHRO |
 | Assessment Frameworks   | Create multi-rater evaluation instruments (self, peer, supervisor, objective metrics) | Assessment inter-rater reliability ≥0.75 (Cronbach's alpha); completion rate ≥95%                      |

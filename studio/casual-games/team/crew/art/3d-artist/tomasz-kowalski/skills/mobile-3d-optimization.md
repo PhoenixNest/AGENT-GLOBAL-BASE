@@ -1,3 +1,9 @@
+---
+name: studio-art-mobile-3d-optimization
+description: Optimization of 3D assets for mobile platforms — polycount budgeting, texture compression, LOD systems, draw call reduction, and memory management. Owned by Tomasz Kowalski (3D Artist). Use during Studio Pipeline Stages 5–6 for 3D performance optimization. Trigger: 3D optimization, polycount budget, LOD system, draw call reduction, texture compression, mobile 3D, GPU instancing.
+version: "1.0.0"
+---
+
 # Mobile 3D Optimization
 
 **Skill ID:** mobile-3d-optimization

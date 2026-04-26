@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-developer-platform-engineering
-description: 'Devops skill: Developer Platform Engineering'
+description: Developer platform engineering for mobile teams — internal developer platform (IDP) design, self-service environments, golden path templates, Backstage catalog integration, and developer experience optimization for Android, iOS, and cross-platform workflows. Owned by Thomas Zhang (DevOps Lead). Use during Stage 4 (Implementation Plan) for platform architecture and Stage 5 (Development) for developer tooling setup. Trigger: developer platform, IDP, self-service environments, golden paths, Backstage, developer experience, mobile tooling, platform engineering.
+prerequisites:
+  - devops-overview
+
+version: "1.0.0"
 ---
 
 # Developer Platform Engineering

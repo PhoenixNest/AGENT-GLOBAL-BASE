@@ -1,5 +1,6 @@
 ---
-description: Use for iOS application development with SwiftUI, Swift Concurrency,
+description:
+  Use for iOS application development with SwiftUI, Swift Concurrency,
   MVVM architecture, Keychain security, CoreData, URLSession, and App Store Connect
   submission. Engage during Stage 5 (Development) and Stage 8 (Integrity Verification)
   for iOS platform implementation.
@@ -44,9 +45,9 @@ Seo-Yeon owns all iOS implementation within the R&D Department — translating t
 
 ## Skills Index
 
-| Skill                   | Location                                   | Description                                                                                                                                       |
-| ----------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ios-implementation.md` | `ios\infrastructure\ios-implementation.md` | iOS application development: SwiftUI, Swift Concurrency, MVVM architecture, Keychain security, CoreData, URLSession, App Store Connect submission |
+| Skill                                   | Location                                        | Description                                                                                                                                       |
+| --------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ios-infrastructure-ios-implementation` | `skills/ios-infrastructure-ios-implementation/` | iOS application development: SwiftUI, Swift Concurrency, MVVM architecture, Keychain security, CoreData, URLSession, App Store Connect submission |
 
 ## Pipeline Stages Owned
 

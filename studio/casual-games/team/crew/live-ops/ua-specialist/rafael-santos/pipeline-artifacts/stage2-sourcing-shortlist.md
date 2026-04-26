@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Sourcing Shortlist'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'live-ops'
-role: 'ua-specialist'
-document_type: 'Sourcing Shortlist'
+generated_at: "**"
+candidate_name: "Sourcing Shortlist"
+entity_type: "studio"
+stage: "stage-2"
+division: "live-ops"
+role: "ua-specialist"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2: Sourcing Shortlist — UA Specialist (G32)

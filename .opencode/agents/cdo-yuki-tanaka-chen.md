@@ -1,5 +1,6 @@
 ---
-description: Use for mobile design leadership, design system creation, interaction
+description:
+  Use for mobile design leadership, design system creation, interaction
   design specifications, design-to-engineering handoff, and user research-driven design
   decisions. Engage during Stage 2 (Web Prototype + IDS), Stage 6 (Code Review), Stage
   8 (Integrity Verification), and Stage 10 (Release Readiness).
@@ -48,12 +49,12 @@ Yuki owns the company's mobile design vision and execution, setting design quali
 
 ## Skills Index
 
-| Skill                                     | Location                                                    | Description                                                                                                                                   |
-| ----------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mobile-design-systems.md`                | `design\guidelines\mobile-design-systems.md`                | Mobile design system creation: platform-specific component libraries, interaction patterns, design tokens, accessibility standards            |
-| `interaction-design-specification-cdo.md` | `design\guidelines\interaction-design-specification-cdo.md` | Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints |
-| `design-to-engineering-handoff.md`        | `design\guidelines\design-to-engineering-handoff.md`        | Design-engineering collaboration: technical design specs, implementation feasibility assessment, handoff documentation                        |
-| `user-research-driven-design.md`          | `design\guidelines\user-research-driven-design.md`          | Research-backed design decisions: usability testing, A/B experiments, qualitative research, data-informed iteration                           |
+| Skill                                                    | Location                                                         | Description                                                                                                                                   |
+| -------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `design-guidelines-mobile-design-systems`                | `skills/design-guidelines-mobile-design-systems/`                | Mobile design system creation: platform-specific component libraries, interaction patterns, design tokens, accessibility standards            |
+| `design-guidelines-interaction-design-specification-cdo` | `skills/design-guidelines-interaction-design-specification-cdo/` | Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints |
+| `design-guidelines-design-to-engineering-handoff`        | `skills/design-guidelines-design-to-engineering-handoff/`        | Design-engineering collaboration: technical design specs, implementation feasibility assessment, handoff documentation                        |
+| `design-guidelines-user-research-driven-design`          | `skills/design-guidelines-user-research-driven-design/`          | Research-backed design decisions: usability testing, A/B experiments, qualitative research, data-informed iteration                           |
 
 ## Pipeline Stages Owned
 

@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-compliance-foundations
-description: 'Devops skill: Compliance Foundations'
+description: Compliance foundations for mobile DevOps — SOC 2 Type II readiness, GDPR data handling in CI/CD, PCI-DSS pipeline requirements, audit trail generation, and compliance-as-code for automated evidence collection. Owned by Thomas Zhang (DevOps Lead). Use during Stage 1 (Requirements) for compliance requirements mapping and Stage 10 (Release Readiness) for compliance sign-off. Trigger: compliance foundations, SOC 2, GDPR pipeline, PCI-DSS, audit trail, compliance as code, automated evidence, regulatory compliance.
+prerequisites:
+  - devops-overview
+
+version: "1.0.0"
 ---
 
 # Compliance Foundations

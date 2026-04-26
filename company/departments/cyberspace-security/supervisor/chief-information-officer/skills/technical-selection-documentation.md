@@ -1,6 +1,7 @@
 ---
 name: technical-selection-documentation
 description: Produce executive-grade technical selection documents, version analysis reports, and architecture decision records. Bridges engineering depth with business clarity. Use when documenting technology decisions, comparing versions, or producing technical recommendations for leadership.
+version: "1.0.0"
 ---
 
 # Technical Selection Documentation Skill
@@ -16,6 +17,10 @@ Produce clear, actionable technical documentation that enables executive decisio
 - Documenting significant architecture decisions
 - Version upgrade analysis (e.g., React Native 0.72 vs 0.74)
 - Vendor selection process
+
+## Why This Matters
+
+Documents technology choices with TCO analysis and migration risk. Undocumented technology decisions lead to vendor lock-in surprises and costly migration projects.
 
 ## Document Types
 

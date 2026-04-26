@@ -39,8 +39,31 @@ Grace is the Engineering Onboarding Lead reporting directly to the CHRO (Dr. Eve
 
 ## Skills Index
 
-- `skills/competency-tracking.md` — Competency frameworks, role-specific learning paths, milestone tracking, manager dashboards
-- `skills/onboarding-program-design.md` — Buddy/mentor matching, program evaluation, satisfaction tracking
+- `company/departments/human-resources/team/teammates/engineering-onboarding-lead/grace-muthoni/skills/competency-tracking.md` — Competency frameworks, role-specific learning paths, milestone tracking, manager dashboards
+- `company/departments/human-resources/team/teammates/engineering-onboarding-lead/grace-muthoni/skills/onboarding-program-design.md` — Buddy/mentor matching, program evaluation, satisfaction tracking
+
+## Pipeline Stages
+
+Recruitment pipeline — Stage 9 (Onboarding)
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

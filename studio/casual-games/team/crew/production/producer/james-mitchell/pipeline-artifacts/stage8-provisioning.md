@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All onboarding items confirmed ready.'
-candidate_name: 'James Mitchell'
-candidate_id: 'G9'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'production'
-role: 'producer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All onboarding items confirmed ready."
+candidate_name: "James Mitchell"
+candidate_id: "G9"
+entity_type: "studio"
+stage: "stage-8"
+division: "production"
+role: "producer"
+document_type: "Provisioning Record"
 ---
 
 # Stage 8: Provisioning — James Mitchell (G9)

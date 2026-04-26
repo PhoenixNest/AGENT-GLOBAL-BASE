@@ -1,3 +1,9 @@
+---
+name: studio-engineering-playfab-anti-cheat
+description: PlayFab SDK integration, Cloud Script development, server-side validation, and anti-cheat systems for live game operations. Owned by Priya Nair (Senior Backend Engineer). Use during Studio Pipeline Stages 5–8 for backend integration and Stage 8 (Soft Launch) for fraud detection validation. Trigger: PlayFab integration, anti-cheat, server validation, economy security, Cloud Script, fraud detection.
+version: "1.0.0"
+---
+
 # PlayFab Integration & Anti-Cheat
 
 **Skill Owner:** Priya Nair | **Version:** 1.0 | **Date:** 2026-04-20

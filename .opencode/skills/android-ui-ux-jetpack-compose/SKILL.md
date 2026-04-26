@@ -1,6 +1,10 @@
 ---
 name: android-ui-ux-jetpack-compose
-description: 'Android skill: Jetpack Compose'
+description: Jetpack Compose declarative UI development — state hoisting and unidirectional data flow, recomposition optimization with @Stable/@Immutable, Material 3 theming with design tokens, animation APIs (animate*AsState, Transition, SharedElement), and reduced motion support. Owned by Jan Kowalski (Android Engineer). Use during Stage 5 (Development) for Android UI implementation and Stage 6 (Code Review) for composable correctness and performance. Trigger: jetpack compose, compose UI, state hoisting, recomposition, material 3, theming, compose animation, shared element transition, declarative UI.
+prerequisites:
+  - android-language-core-kotlin-advanced
+
+version: "1.0.0"
 ---
 
 # Jetpack Compose

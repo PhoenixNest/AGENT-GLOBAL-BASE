@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-game-ux-microcopy
+description: Writing player-facing microcopy for mobile games — button labels, tooltips, error states, tutorial text, notification copy, and reward messages with tone-of-voice consistency. Owned by Sarah Chen (UX Writer). Use during Studio Pipeline Stages 1–5 for UX copy design and A/B testing. Trigger: microcopy, UX writing, button labels, tutorial text, error states, notification copy, FTUE copy, player-facing text.
+version: "1.0.0"
+---
+
 # Game UX Microcopy
 
 ## Description

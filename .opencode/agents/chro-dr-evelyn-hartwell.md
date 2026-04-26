@@ -1,5 +1,6 @@
 ---
-description: Use for recruitment across all role families (engineering, product, design,
+description:
+  Use for recruitment across all role families (engineering, product, design,
   data, translation, business). Engage when the user issues a recruitment request
   to identify, vet, and place elite candidates using the five-dimension elite gate.
 mode: subagent

@@ -1,15 +1,8 @@
-# Android Security Basics
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Security
-**Owner:** Android Engineer (Kwame Osei)
-
-## Overview
-
-This skill implements OWASP MASVS L1 security controls on Android covering secure storage, certificate pinning, input validation, and baseline security hygiene. It applies to Stage 5 (Development) where security is built into every feature, Stage 6 (Code Review) where security conformance is verified, and Stage 8 (Integrity Verification) where CSO validates MASVS compliance against the SRD.
-
-## Competency Dimensions
-
-| Dimension           | Description                                                                                            | Proficiency Indicators                                                                                                                  |
+| Competency          | Description                                                                                            | Quality Criteria                                                                                                                        |
 | ------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | OWASP MASVS L1      | Understanding of baseline MASVS controls, storage, cryptography, authentication, network communication | All MASVS L1 controls implemented; security requirements from SRD mapped to specific controls; zero critical findings in security audit |
 | Secure Storage      | EncryptedSharedPreferences, Android Keystore, internal storage, external storage restrictions          | All sensitive data stored encrypted; no sensitive data in SharedPreferences plaintext; file permissions restricted to app-only          |

@@ -1,6 +1,10 @@
----
+﻿---
 name: security-masvs-owasp-masvs-auditing
-description: 'Security skill: Owasp Masvs Auditing'
+description: OWASP MASVS auditing methodology — systematic verification of all V1-V8 MASVS controls, evidence collection protocols, compliance matrix generation, audit report authoring, and remediation tracking for mobile application security audits. Owned by Ingrid Solberg (Security Engineer). Use during Stage 6 (Code Review) for MASVS audit execution and Stage 8 (Integrity Verification) for audit re-verification. Trigger: MASVS auditing, MASVS verification, evidence collection, compliance matrix, audit report, remediation tracking, V1-V8 controls, mobile security audit.
+prerequisites:
+  - security-masvs-overview
+
+version: "1.0.0"
 ---
 
 # OWASP MASVS Auditing

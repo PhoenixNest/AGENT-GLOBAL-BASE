@@ -1,6 +1,7 @@
 ---
 name: f2p-economy-design
 description: Virtual economy balancing, monetization loop design, currency sink/source modeling, and inflation risk management for free-to-play mobile games.
+version: "1.0.0"
 ---
 
 # F2P Economy Design

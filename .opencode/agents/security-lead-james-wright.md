@@ -1,5 +1,6 @@
 ---
-description: Use for security operations, application security tooling (SAST/DAST/SCA),
+description:
+  Use for security operations, application security tooling (SAST/DAST/SCA),
   MASVS Track A mastery, and mobile scanning tools. Engage during Stage 1 (Requirements),
   Stage 6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness)
   for security conformance.

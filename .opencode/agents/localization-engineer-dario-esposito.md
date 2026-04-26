@@ -1,5 +1,6 @@
 ---
-description: Use for localization pipeline engineering, TMS integration, string extraction
+description:
+  Use for localization pipeline engineering, TMS integration, string extraction
   automation, translated file retrieval, platform resource file generation, and format
   validation linting. Engage during Stage 9 (Internationalization Engineering) for
   building automation pipelines and operating the string validation toolchain.

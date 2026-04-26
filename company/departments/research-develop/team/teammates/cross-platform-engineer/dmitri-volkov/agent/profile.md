@@ -39,9 +39,32 @@ Dmitri is a Cross-Platform Engineer reporting to the Cross-Platform Lead (Mei-Li
 
 ## Skills Index
 
-- `skills/kmp-architecture.md` — KMP shared modules, expect/actual, platform adapters, module boundaries
-- `skills/kmp-shared-modules.md` — ktor-client, coroutines, shared business logic, cross-platform strategy
-- `skills/swift-familiarization.md` — Swift language fundamentals, concurrency, iOS platform awareness
+- `company/departments/research-develop/team/teammates/cross-platform-engineer/dmitri-volkov/skills/kmp-architecture.md` — KMP shared modules, expect/actual, platform adapters, module boundaries
+- `company/departments/research-develop/team/teammates/cross-platform-engineer/dmitri-volkov/skills/kmp-shared-modules.md` — ktor-client, coroutines, shared business logic, cross-platform strategy
+- `company/departments/research-develop/team/teammates/cross-platform-engineer/dmitri-volkov/skills/swift-familiarization.md` — Swift language fundamentals, concurrency, iOS platform awareness
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

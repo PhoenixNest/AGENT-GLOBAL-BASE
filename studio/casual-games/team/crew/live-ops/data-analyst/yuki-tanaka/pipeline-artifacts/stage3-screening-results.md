@@ -1,12 +1,12 @@
 ---
-generated_at: '**'
-candidate_name: 'Data Analyst'
-candidate_id: 'G33'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'live-ops'
-role: 'data-analyst'
-document_type: 'Screening Results'
+generated_at: "**"
+candidate_name: "Data Analyst"
+candidate_id: "G33"
+entity_type: "studio"
+stage: "stage-3"
+division: "live-ops"
+role: "data-analyst"
+document_type: "Screening Results"
 ---
 
 # Stage 3: Automated Screening Results — Data Analyst (G33)

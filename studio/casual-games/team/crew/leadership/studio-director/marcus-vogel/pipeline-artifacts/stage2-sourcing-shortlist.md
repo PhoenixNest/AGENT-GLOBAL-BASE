@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Quality Weights'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'leadership'
-role: 'studio-director'
-document_type: 'Sourcing Shortlist'
+generated_at: "**"
+candidate_name: "Quality Weights"
+entity_type: "studio"
+stage: "stage-2"
+division: "leadership"
+role: "studio-director"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2: Sourcing & Shortlist

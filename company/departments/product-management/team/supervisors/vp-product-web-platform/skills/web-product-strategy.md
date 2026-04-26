@@ -1,6 +1,7 @@
 ---
 name: web-product-strategy
 description: Specialized product strategy for web-based platforms, including architectural choices (PWA, SPA, SSR), accessibility (WCAG 2.1 AA), conversion funnel optimization, and cross-functional design partnerships. Use this skill when authoring Section 5 of a Web-focused PRD or when advising on web platform roadmap decisions.
+version: "1.0.0"
 ---
 
 # Web Product Strategy

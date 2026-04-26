@@ -93,22 +93,33 @@ You are the **lead agent** (orchestrator). The specialist subagents across C-Sui
 
 Use `/company-pipeline` for full 10-stage pipeline reference.
 Use `/company-personnel` for full agent roster.
-Invoke agents using your platform's convention (e.g., @name, /name, or natural language trigger).
+Invoke agents using your platform's convention (e.g., `@name`, `/name`, or natural language trigger).
+
+### Agent Invocation Registry
+
+| Agent | OpenCode                | Gemini                   | Cursor                  | Claude |
+| ----- | ----------------------- | ------------------------ | ----------------------- | ------ |
+| CTO   | dr-kenji-nakamura-cto   | @cto-dr-kenji-nakamura   | cto-dr-kenji-nakamura   | @cto   |
+| CPO   | marcus-tran-yoshida-cpo | @marcus-tran-yoshida-cpo | marcus-tran-yoshida-cpo | @cpo   |
+| CSO   | dr-sarah-chen-cso       | @cso-dr-sarah-chen       | cso-dr-sarah-chen       | @cso   |
+| CDO   | yuki-tanaka-chen-cdo    | @cdo-yuki-tanaka-chen    | cdo-yuki-tanaka-chen    | @cdo   |
+| CIO   | dr-priya-mehta-cio      | @cio-dr-priya-mehta      | cio-dr-priya-mehta      | @cio   |
+| CHRO  | dr-evelyn-hartwell-chro | @chro-dr-evelyn-hartwell | chro-dr-evelyn-hartwell | @chro  |
 
 ## Documentation Strategy — Adapter Pattern
 
 `AGENTS.md` (this file) is the **single canonical source of truth** for multi-agent coordination, pipeline rules, defect severity, and the company's organizational structure.
 
-The platform-specific root files (`CLAUDE.md`, `LINGMA.md`, `QWEN.md`, `GEMINI.md`) are **adapters** — they translate this canonical content into the conventions, trigger syntax, and tooling idioms of their respective AI platforms. They MUST NOT introduce new rules, change defect severity, change pipeline ownership, or contradict the non-negotiable rules above. If any platform-specific file disagrees with `AGENTS.md`, `AGENTS.md` wins; the adapter is fixed within 24 hours.
+The platform-specific root files (`GEMINI.md`) are **adapters** — they translate this canonical content into the conventions, trigger syntax, and tooling idioms of their respective AI platforms. They MUST NOT introduce new rules, change defect severity, change pipeline ownership, or contradict the non-negotiable rules above. If any platform-specific file disagrees with `AGENTS.md`, `AGENTS.md` wins; the adapter is fixed within 24 hours.
 
 **Adapter rules (canonical):**
 
-1. Every adapter file (`CLAUDE.md`, `LINGMA.md`, `QWEN.md`, `GEMINI.md`) carries a header note: _"This file is a platform-specific adapter for AGENTS.md. The canonical rules live there. In case of disagreement, AGENTS.md wins."_
+1. Every adapter file (e.g., `GEMINI.md`) carries a header note: _"This file is a platform-specific adapter for AGENTS.md. The canonical rules live there. In case of disagreement, AGENTS.md wins."_
 2. Adapters MAY add platform-specific guidance (trigger syntax, tool invocation patterns, IDE-integration tips). They MAY NOT redefine pipeline stage ownership, defect severity, P0/P1 escalation rules, or the Progress Sync Protocol.
 3. When `AGENTS.md` changes a non-negotiable rule, the Tech Writer issues a coordinated update across all adapter files within 24 hours. The change record is logged in the adapter's "Document Version History" section with a back-reference to the `AGENTS.md` change.
 4. New AI platforms join the company by adding a new adapter file at the workspace root following the same naming convention (`<PLATFORM>.md`) and the same adapter-only constraint.
 
-**Platform-specific agent directories** (`.claude/agents/`, `.lingma/agents/`, `.qwen/agents/`, `.gemini/agents/`, `.github/agents/`) hold the platform-optimized agent profiles and follow the same adapter discipline: profiles describe the same agents from the same canonical roster (see `company/library/overview/personnel.md`); only invocation syntax and tool definitions vary by platform.
+**Platform-specific agent directories** (`.claude/`, `.cursor/`, `.gemini/`, `.opencode/`) hold the platform-optimized agent profiles and follow the same adapter discipline: profiles describe the same agents from the same canonical roster (see `company/library/overview/personnel.md`); only invocation syntax and tool definitions vary by platform.
 
 ## Core Database Structure
 
@@ -245,7 +256,6 @@ Active from Stage 4, this protocol ensures schedule adherence:
 | **Python** | `python`                                    | Located at `C:\Program Files\Python\313\python.exe`. Use `python`, NOT `python3`. |
 | **Git**    | `git`                                       | Git Bash available at `C:\Program Files\Git\bin\bash.exe`.                        |
 | **Shell**  | `cmd.exe` (primary), PowerShell (secondary) | Native Windows shells are preferred for execution.                                |
-| **Lingma** | Local installation                          | Agents and skills enabled, configured in `.lingma/settings.json`.                 |
 
 ### Critical Environment Rules
 
@@ -256,10 +266,9 @@ Active from Stage 4, this protocol ensures schedule adherence:
 
 Agent profiles are optimized for each AI platform and located in platform-specific directories:
 
-- `.github/agents/` — GitHub Copilot agent definitions (12 lead agents)
-- `.lingma/agents/` — Lingma agent definitions (77 agents + skills)
-- `.claude/agents/` — Claude agent definitions (12 lead agents)
-- `.qwen/agents/` — Qwen agent definitions (77 agents + skills)
+- `.opencode/` — OpenCode agent definitions (77 agents + 213 skills + 5 pipelines)
 - `.gemini/agents/` — Gemini agent definitions (77 agents + skills)
+- `.claude/` — Claude agent definitions (12 lead agents + skills)
+- `.cursor/agents/` — Cursor agent definitions (77 agents + skills)
 
 Each directory contains platform-optimized agent configurations with appropriate tool definitions and trigger syntax.

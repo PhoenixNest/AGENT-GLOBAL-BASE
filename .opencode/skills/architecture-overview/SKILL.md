@@ -1,6 +1,7 @@
 ---
 name: architecture-overview
-description: Architecture skills overview
+description: Architecture skills overview — index of all architecture-related skills including ADR governance, UML engineering, system design, mobile architecture patterns, cross-platform architecture, and technical project management. Use to discover available architecture capabilities and select the right skill for your task. Trigger: architecture overview, architecture skills, architecture capabilities, architectural guidance.
+version: "1.0.0"
 ---
 
 # Architecture

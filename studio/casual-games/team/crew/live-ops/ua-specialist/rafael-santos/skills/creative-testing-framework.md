@@ -1,6 +1,7 @@
 ---
 name: creative-testing-framework
 description: Systematic creative testing methodology for UA campaigns, including test design, kill/scale decisions, and performance tracking.
+version: "1.0.0"
 ---
 
 # Creative Testing Framework

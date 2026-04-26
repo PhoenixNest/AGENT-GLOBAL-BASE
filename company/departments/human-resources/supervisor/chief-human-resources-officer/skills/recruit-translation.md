@@ -1,7 +1,12 @@
 ---
 name: recruit-translation
 description: Recruit translation and localization talent across all seniority levels. Covers Translators, Senior Translators, Localization Engineers, Localization Managers, Head of Localization, and Chief Translation Officer. Invokes vet-candidate gate before any placement.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Recruits elite linguists and localization engineers. Weak translation hires produce inconsistent translations, broken UI layouts, and brand damage in international markets.
 
 # Translation & Localization Recruitment Skill
 

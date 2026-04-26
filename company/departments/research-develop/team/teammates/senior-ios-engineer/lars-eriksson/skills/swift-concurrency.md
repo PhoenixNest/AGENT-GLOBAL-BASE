@@ -1,15 +1,8 @@
-# Swift Concurrency
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — iOS
-**Owner:** Senior iOS Engineer (Lars Eriksson)
-
-## Overview
-
-This skill implements production-grade Swift concurrency covering async/await, actors, Task management, structured concurrency, Sendable conformance, and data race prevention. It is critical to Stage 5 (Development) where all asynchronous iOS code uses modern concurrency primitives, Stage 6 (Code Review) where concurrency correctness is audited, and Stage 7 (Automated Testing) where async tests use controlled execution.
-
-## Competency Dimensions
-
-| Dimension              | Description                                                                                          | Proficiency Indicators                                                                                                                   |
+| Competency             | Description                                                                                          | Quality Criteria                                                                                                                         |
 | ---------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | async/await            | Async function design, throwing async, async sequences, async let parallelism, continuation bridging | Async functions are cancellable; errors propagate correctly; bridging from completion handlers uses checked continuations                |
 | Actors & Isolation     | Actor model, MainActor annotation, isolated parameters, nonisolated access, actor reentrancy         | Shared mutable state protected by actors; UI updates on MainActor; actor reentrancy handled correctly                                    |

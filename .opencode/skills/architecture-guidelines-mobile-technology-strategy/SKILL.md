@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-mobile-technology-strategy
-description: 'Architecture skill: Mobile Technology Strategy'
+description: Mobile technology strategy and evaluation for iOS and Android — emerging technology research, technology selection frameworks, competitive advantage establishment, and platform-specific feasibility analysis. Owned by Dr. Kenji Nakamura (CTO). Use during Stage 3 (UML Engineering) for technology evaluation and Stage 1 (Requirements) for technology feasibility. Trigger: mobile technology strategy, technology evaluation, emerging technology, tech selection framework, mobile competitive analysis.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Mobile Technology Strategy

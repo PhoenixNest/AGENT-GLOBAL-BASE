@@ -1,6 +1,7 @@
 ---
 name: shared-overview
-description: Shared skills overview
+description: "Cross-cutting capabilities and shared practices that apply across multiple functional domains — covering performance optimization, WCAG 2.1 AA mobile accessibility, developer documentation, test-driven development, WebAuthn biometric authentication, multi-tenant data isolation, and Docker container orchestration. Use as the entry point for any cross-cutting engineering practice, shared guideline, or general development methodology task. Trigger: shared, cross-cutting, general practice, development methodology, shared guideline."
+version: "1.0.0"
 ---
 
 # Shared

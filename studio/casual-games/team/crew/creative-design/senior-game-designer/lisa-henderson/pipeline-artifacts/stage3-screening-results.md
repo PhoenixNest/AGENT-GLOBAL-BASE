@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Screening complete. Proceeding to Stage 4.'
-candidate_name: 'Game Designer'
-candidate_id: 'G26'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'creative-design'
-role: 'senior-game-designer'
-document_type: 'Screening Results'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Screening complete. Proceeding to Stage 4."
+candidate_name: "Game Designer"
+candidate_id: "G26"
+entity_type: "studio"
+stage: "stage-3"
+division: "creative-design"
+role: "senior-game-designer"
+document_type: "Screening Results"
 ---
 
 # Screening Results — Senior Game Designer (G26)

@@ -1,15 +1,8 @@
-# Real-Time Architecture
+---
+version: "1.0.0"
+---
 
-**Category:** Backend Architecture
-**Owner:** Senior Backend Engineer (Kael Jensen)
-
-## Overview
-
-Designs and implements real-time communication systems for mobile and web applications, covering WebSocket architecture, Server-Sent Events (SSE), GraphQL subscriptions, message queuing patterns, connection pool management, and horizontal scaling strategies for persistent connections. Makes informed technology selection based on bidirectional requirements, latency constraints, and infrastructure complexity.
-
-## Competency Dimensions
-
-| Dimension                  | Description                                                                       | Proficiency Indicators                                                                                                                                  |
+| Competency                 | Description                                                                       | Quality Criteria                                                                                                                                        |
 | -------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WebSocket Architecture     | Handshake protocol, frame structure, heartbeat/ping-pong, reconnection logic      | Implements RFC 6455-compliant WebSocket server; handles connection lifecycle (open, message, close, error); implements exponential backoff reconnection |
 | SSE vs WebSockets          | Decision criteria based on communication pattern                                  | Selects SSE for server-push-only scenarios; selects WebSockets for bidirectional; understands HTTP/2 multiplexing implications                          |

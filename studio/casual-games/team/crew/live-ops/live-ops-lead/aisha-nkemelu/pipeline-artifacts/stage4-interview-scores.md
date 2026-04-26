@@ -1,11 +1,11 @@
 ---
-candidate_name: 'Ops Lead'
-candidate_id: 'G29'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'live-ops'
-role: 'live-ops-lead'
-document_type: 'Interview Scores'
+candidate_name: "Ops Lead"
+candidate_id: "G29"
+entity_type: "studio"
+stage: "stage-4"
+division: "live-ops"
+role: "live-ops-lead"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Simulation & Scored Assessments — Live Ops Lead (G29)

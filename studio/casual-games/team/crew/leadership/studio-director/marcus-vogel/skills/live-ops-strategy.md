@@ -1,6 +1,7 @@
 ---
 name: live-ops-strategy
 description: Post-launch content planning, economy design, UA strategy, KPI monitoring, and community management for live game operations. Owns the operational framework for Stage 8 (Soft Launch) and Stage 10 (Live Ops).
+version: "1.0.0"
 ---
 
 # Live Ops Strategy

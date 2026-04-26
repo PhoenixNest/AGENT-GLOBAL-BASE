@@ -1,6 +1,10 @@
 ---
 name: ios-ui-ux-swiftui
-description: 'Ios skill: Swiftui'
+description: "SwiftUI declarative UI development for native iOS apps — view composition, state management (@State, @StateObject, @Binding, @Environment), NavigationStack, custom transitions, matchedGeometryEffect, view modifiers, and performance optimization. Owned by Seo-Yeon Park (iOS Lead). Use during Stage 5 (Development) for SwiftUI UI implementation and Stage 6 (Code Review) for SwiftUI conformance. Trigger: swiftui, declarative ui, @state, @stateobject, @binding, @environment, navigationstack, matchedgeometryeffect, view modifier, custom transition, lazyvstack, drawinggroup."
+prerequisites:
+  - ios-architecture-swift-concurrency
+
+version: "1.0.0"
 ---
 
 # SwiftUI

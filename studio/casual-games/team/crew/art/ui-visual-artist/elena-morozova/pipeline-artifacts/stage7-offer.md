@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Offer extended and accepted. Proceeding to Stage 8.'
-candidate_name: 'Elena Morozova'
-candidate_id: 'G21'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'art'
-role: 'ui-visual-artist'
-document_type: 'Offer Document'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Offer extended and accepted. Proceeding to Stage 8."
+candidate_name: "Elena Morozova"
+candidate_id: "G21"
+entity_type: "studio"
+stage: "stage-7"
+division: "art"
+role: "ui-visual-artist"
+document_type: "Offer Document"
 ---
 
 # Offer Document — Elena Morozova (G21)

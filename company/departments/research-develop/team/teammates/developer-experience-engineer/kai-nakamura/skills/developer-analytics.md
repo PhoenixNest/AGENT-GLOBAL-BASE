@@ -1,15 +1,8 @@
-# Developer Analytics
+---
+version: "1.0.0"
+---
 
-**Category:** Developer Experience
-**Owner:** Developer Experience Engineer (Kai Nakamura)
-
-## Overview
-
-Measures and improves engineering productivity through data-driven analytics, covering DORA metrics (Deployment Frequency, Lead Time, Change Failure Rate, MTTR), SPACE framework measurement (Satisfaction, Performance, Activity, Communication, Efficiency), developer survey design, and code review cycle analysis. Uses quantitative and qualitative data to identify bottlenecks and drive productivity improvements.
-
-## Competency Dimensions
-
-| Dimension               | Description                                                                     | Proficiency Indicators                                                                                                                                     |
+| Competency              | Description                                                                     | Quality Criteria                                                                                                                                           |
 | ----------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DORA Metrics            | Deployment Frequency, Lead Time for Changes, Change Failure Rate, MTTR          | Computes all four DORA metrics from CI/CD data; tracks trends over time; correlates DORA metrics with team outcomes; benchmarks against industry standards |
 | SPACE Framework         | Satisfaction, Performance, Activity, Communication, Efficiency dimensions       | Designs balanced metrics across all SPACE dimensions; avoids over-indexing on activity; combines quantitative and qualitative signals                      |

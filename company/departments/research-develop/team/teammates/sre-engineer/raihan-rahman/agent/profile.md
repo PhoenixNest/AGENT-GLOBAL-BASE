@@ -39,9 +39,32 @@ Raihan is an SRE Engineer reporting to the DevOps Lead (Thomas Zhang). He contri
 
 ## Skills Index
 
-- `skills/sre-practices.md` — SLO/SLI, error budgets, incident response, blameless postmortems
-- `skills/cloud-infrastructure.md` — GCP, Terraform, Kubernetes, multi-region architecture, disaster recovery
-- `skills/gcp-multi-region.md` — GCP multi-region architecture, traffic routing, cross-region failover
+- `company/departments/research-develop/team/teammates/sre-engineer/raihan-rahman/skills/sre-practices.md` — SLO/SLI, error budgets, incident response, blameless postmortems
+- `company/departments/research-develop/team/teammates/sre-engineer/raihan-rahman/skills/cloud-infrastructure.md` — GCP, Terraform, Kubernetes, multi-region architecture, disaster recovery
+- `company/departments/research-develop/team/teammates/sre-engineer/raihan-rahman/skills/gcp-multi-region.md` — GCP multi-region architecture, traffic routing, cross-region failover
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

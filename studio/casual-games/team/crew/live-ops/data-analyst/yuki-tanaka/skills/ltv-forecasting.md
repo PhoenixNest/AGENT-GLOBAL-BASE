@@ -1,6 +1,7 @@
 ---
 name: ltv-forecasting
 description: Player lifetime value forecasting using parametric models, ML approaches, and hybrid methods for mobile game monetization prediction.
+version: "1.0.0"
 ---
 
 # LTV Forecasting

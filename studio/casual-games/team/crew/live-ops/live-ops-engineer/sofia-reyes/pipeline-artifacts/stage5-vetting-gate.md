@@ -1,11 +1,11 @@
 ---
 total_score: 17
-result: 'PASS'
-entity_type: 'studio'
-stage: 'stage-5'
-division: 'live-ops'
-role: 'live-ops-engineer'
-document_type: 'Vetting Gate'
+result: "PASS"
+entity_type: "studio"
+stage: "stage-5"
+division: "live-ops"
+role: "live-ops-engineer"
+document_type: "Vetting Gate"
 ---
 
 # Stages 5-9: Vetting through Hiring Outcome — Live Ops Engineer #2 (G31)

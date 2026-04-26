@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ All 50 screened. 14 advancing to Stage 4.'
-candidate_name: 'Screening Results'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'engineering'
-role: 'lead-qa-engineer'
-document_type: 'Screening Results'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ All 50 screened. 14 advancing to Stage 4."
+candidate_name: "Screening Results"
+entity_type: "studio"
+stage: "stage-3"
+division: "engineering"
+role: "lead-qa-engineer"
+document_type: "Screening Results"
 ---
 
 # Automated Screening Results — Lead QA Engineer (G6)

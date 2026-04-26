@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-web-prototype-development
-description: 'Design skill: Web Prototype Development'
+description: Production-grade interactive web prototype development for mobile product requirements — single-file HTML prototypes, gesture simulation, micro-animations, platform-specific component annotation (iOS HIG / Android Material Design 3), and CDO handoff. Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for web prototype creation and PRD validation. Trigger: web prototype, HTML prototype, interactive prototype, single-file prototype, gesture simulation, micro-animations.
+prerequisites:
+  - design-overview
+
+version: "1.0.0"
 ---
 
 # Web Prototype Development

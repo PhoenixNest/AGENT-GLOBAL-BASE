@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Provisioning complete.'
-candidate_name: 'Lisa Henderson'
-candidate_id: 'G26'
-entity_type: 'studio'
-stage: 'stage-8'
-division: 'creative-design'
-role: 'senior-game-designer'
-document_type: 'Provisioning Record'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Provisioning complete."
+candidate_name: "Lisa Henderson"
+candidate_id: "G26"
+entity_type: "studio"
+stage: "stage-8"
+division: "creative-design"
+role: "senior-game-designer"
+document_type: "Provisioning Record"
 ---
 
 # Provisioning Record — Lisa Henderson (G26)

@@ -1,9 +1,9 @@
 ---
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'live-ops'
-role: 'ua-specialist'
-document_type: 'Hiring Outcome Report'
+entity_type: "studio"
+stage: "stage-9"
+division: "live-ops"
+role: "ua-specialist"
+document_type: "Hiring Outcome Report"
 ---
 
 # Stage 9: Hiring Outcome Report — UA Specialist (G32)

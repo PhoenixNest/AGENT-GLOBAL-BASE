@@ -1,6 +1,7 @@
 ---
 name: product-management-overview
-description: Product Management skills overview
+description: "Product strategy and requirements documentation for the mobile product company — covering mobile product strategy, PRD authorship with JTBD framing, and PRD fluency for engineering translation. Owned by Marcus Tran-Yoshida (CPO). Use as the entry point for any product management, requirements definition, or product strategy task. Trigger: product management, CPO, product strategy, requirements, PRD, product roadmap."
+version: "1.0.0"
 ---
 
 # Product Management

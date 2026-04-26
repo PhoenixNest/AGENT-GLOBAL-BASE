@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-system-design
+description: Game systems design for F2P mobile games — core loop architecture, progression systems, feedback systems, and systemic player engagement design. Owned by Lisa Henderson (Senior Game Designer). Use during Studio Pipeline Stages 1–5 for system architecture and progression balancing. Trigger: system design, core loop, progression system, feedback loop, game systems, F2P mechanics.
+version: "1.0.0"
+---
+
 # Systems Design
 
 **Skill ID:** systems-design

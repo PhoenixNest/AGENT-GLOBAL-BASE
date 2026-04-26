@@ -1,6 +1,10 @@
 ---
 name: backend-api-patterns-distributed-backend-architecture
-description: 'Backend skill: Distributed Backend Architecture'
+description: Distributed backend architecture for high-scale systems — microservices design with domain-driven boundaries, service decomposition, inter-service communication patterns, and scalability strategies for 220M+ MAU. Owned by Dev Malhotra (Backend Chapter Lead). Use during Stage 3 (Architecture) for service boundary design and Stage 5 (Development) for distributed system implementation. Trigger: distributed architecture, microservices boundaries, domain-driven design, service decomposition, high scale, maa.
+prerequisites:
+  - backend-api-patterns-distributed-systems
+
+version: "1.0.0"
 ---
 
 # Distributed Backend Architecture

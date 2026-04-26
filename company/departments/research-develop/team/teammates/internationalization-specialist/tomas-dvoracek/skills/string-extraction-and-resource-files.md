@@ -1,6 +1,7 @@
 ---
 name: string-extraction-and-resource-files
 description: Mobile string extraction, platform resource file production, and i18n compliance engineering for iOS and Android. Covers Android strings.xml/plurals/string-array, iOS Localizable.strings/Localizable.stringsdict/InfoPlist.strings, JSON dataset localisation, hardcoded string detection, and the string extraction handoff package for the CTO-L.
+version: "1.0.0"
 ---
 
 # String Extraction and Resource Files
@@ -8,6 +9,10 @@ description: Mobile string extraction, platform resource file production, and i1
 ## Purpose
 
 Scan the integrity-verified codebase (Stage 9 input) to identify every hardcoded string and localizable dataset, extract them into correctly structured platform resource files, and produce a complete handoff package for the Chief Translation Officer. The output must satisfy the zero-hardcoded-strings gate criterion before Stage 9 can close.
+
+## Why This Matters
+
+Prepares codebase for multi-language support. Hardcoded strings block Stage 9 i18n engineering and require costly refactoring under release pressure.
 
 ## Platform Resource File Standards
 

@@ -1,7 +1,12 @@
 ---
 name: recruit-engineering
 description: Recruit engineering talent across all seniority levels. Covers Software Engineers, Staff/Principal Engineers, Engineering Managers, Directors of Engineering, VP Engineering, and CTO. Invokes vet-candidate gate before any placement.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Identifies and vets elite engineering talent across all platforms. Engineering hires below the elite bar create technical debt, slow delivery, and quality regressions.
 
 # Engineering Recruitment Skill
 

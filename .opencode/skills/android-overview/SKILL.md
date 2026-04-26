@@ -1,6 +1,7 @@
 ---
 name: android-overview
-description: Android skills overview
+description: Android platform engineering overview — MVVM + Clean Architecture, Jetpack Compose UI, Hilt DI, Room persistence, Retrofit networking, and Kotlin Coroutines. Index of all Android sub-skills with owners and file references. Owned by Kofi Asante-Mensah (Android Lead). Use as entry point for Android development guidance and to navigate to specific Android sub-skills. Trigger: android overview, android skills, android engineering, android sub-skills, android navigation.
+version: "1.0.0"
 ---
 
 # Android

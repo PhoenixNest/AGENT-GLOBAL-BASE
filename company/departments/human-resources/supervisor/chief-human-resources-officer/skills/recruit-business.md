@@ -1,7 +1,12 @@
 ---
 name: recruit-business
 description: Recruit business talent across all seniority levels. Covers roles in Marketing, Sales, Finance, Legal, Operations, Strategy, HR, and any role that does not map to engineering, product, design, or data families. Invokes vet-candidate gate before any placement.
+version: "1.0.0"
 ---
+
+## Why This Matters
+
+Identifies and vets elite business, GTM, finance, and operations talent. Poor business hires damage company strategy, financial controls, and operational efficiency.
 
 # Business Recruitment Skill
 

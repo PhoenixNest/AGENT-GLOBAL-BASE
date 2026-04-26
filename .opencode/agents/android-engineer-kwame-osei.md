@@ -1,5 +1,6 @@
 ---
-description: Use for Android networking layer, security implementation (certificate
+description:
+  Use for Android networking layer, security implementation (certificate
   pinning, encrypted storage, biometric auth), and payment API integration. Engage
   during Stage 5 (Development) for Android networking and security implementation.
 mode: subagent
@@ -43,10 +44,10 @@ Kwame is an Android Engineer reporting to the Android Chapter Lead (Kofi Asante-
 
 ## Skills Index
 
-| Skill                        | Location                                            | Description                                                      |
-| ---------------------------- | --------------------------------------------------- | ---------------------------------------------------------------- |
-| `android-networking.md`      | `android\data-networking\android-networking.md`     | Retrofit, OkHttp, custom interceptors, API resilience            |
-| `android-security-basics.md` | `android\security-ci-cd\android-security-basics.md` | Certificate pinning, encrypted storage, biometric auth, Keystore |
+| Skill                                    | Location                                         | Description                                                      |
+| ---------------------------------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
+| `android-data-networking-networking`     | `skills/android-data-networking-networking/`     | Retrofit, OkHttp, custom interceptors, API resilience            |
+| `android-security-ci-cd-security-basics` | `skills/android-security-ci-cd-security-basics/` | Certificate pinning, encrypted storage, biometric auth, Keystore |
 
 ## Pipeline Stages Owned
 

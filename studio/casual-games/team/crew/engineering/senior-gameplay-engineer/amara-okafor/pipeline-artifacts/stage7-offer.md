@@ -1,14 +1,14 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Offer accepted. Proceeding to Stage 8 (Provisioning).'
-candidate_name: 'Offer Document'
-candidate_id: 'G12'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Offer Document'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Offer accepted. Proceeding to Stage 8 (Provisioning)."
+candidate_name: "Offer Document"
+candidate_id: "G12"
+entity_type: "studio"
+stage: "stage-7"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Offer Document"
 ---
 
 # Stage 7: Offer Document (G12)

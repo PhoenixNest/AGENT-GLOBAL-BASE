@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-technical-selection-documentation
-description: 'Architecture skill: Technical Selection Documentation'
+description: Technical selection documentation for mobile projects — TCO analysis, migration risk matrices, vendor lock-in assessment, weighted scorecards, and explicit success/failure criteria for technology decisions. Owned by Dr. Priya Mehta (CIO). Use during Stage 3 (UML Engineering) for technology evaluation documentation and Stage 4 (Implementation Plan) for technology decision registry. Trigger: technical selection, TCO analysis, vendor lock-in, migration risk, technology evaluation documentation, weighted scorecard.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Technical Selection Documentation Skill

@@ -1,6 +1,10 @@
 ---
 name: hr-recruiting-guidelines-vet-candidate
-description: 'Hr Recruiting skill: Vet Candidate'
+description: "Elite candidate vetting gate — 20-point scoring system (Impact at Scale, Craft Depth, Leadership Signal, Standards Signal, Red Flag Scan) applied to every recruitment candidate. Must be run before any hire is confirmed. Owned by Dr. Evelyn Hartwell (CHRO). Use during recruitment for candidate evaluation and final hiring decisions. Trigger: vet candidate, candidate scoring, hiring decision, red flag scan, leadership signal, impact at scale, craft depth, standards signal, candidate evaluation, final hire decision."
+prerequisites:
+  - hr-recruiting-overview
+
+version: "1.0.0"
 ---
 
 # Elite Candidate Vetting Gate

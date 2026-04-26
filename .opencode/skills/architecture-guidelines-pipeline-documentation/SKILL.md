@@ -1,6 +1,10 @@
 ---
 name: architecture-guidelines-pipeline-documentation
-description: 'Architecture skill: Pipeline Documentation'
+description: Pipeline documentation authoring for mobile development — Stage 1-10 pipeline specifications, gate criteria documentation, artifact flow diagrams, and defect severity system references. Owned by Dr. Kenji Nakamura (CTO). Use when creating or updating pipeline documentation, monitoring systems, or progress sync protocols. Trigger: pipeline documentation, stage documentation, gate criteria, progress monitoring, development workflow documentation.
+prerequisites:
+  - architecture-overview
+
+version: "1.0.0"
 ---
 
 # Pipeline Documentation

@@ -1,6 +1,7 @@
 ---
 name: production-management
 description: Production planning, schedule management, resource allocation, Agile/Scrum execution, and cross-team dependency management across Stages 4, 5, 6, 7, and 9 of the game development pipeline.
+version: "1.0.0"
 ---
 
 # Production Management

@@ -1,6 +1,7 @@
 ---
 name: design-overview
-description: Design skills overview
+description: Design skills overview — index of all design-related skills including design systems, IDS authoring, web prototype development, mobile design systems, user research, and design-to-engineering handoff. Use to discover available design capabilities and select the right skill for your task. Trigger: design overview, design skills, design capabilities, design guidance.
+version: "1.0.0"
 ---
 
 # Design

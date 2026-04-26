@@ -39,9 +39,32 @@ James owns security operations, application security tooling, and vulnerability 
 
 ## Skills Index
 
-- `skills/security-operations.md` — Security operations: SIEM, SAST/DAST/SCA tooling, PR security review, vulnerability management, supply chain security
-- `skills/masvs-mastery-track-a.md` — OWASP MASVS Track A full mastery certification
-- `skills/mobile-scanning-tools.md` — Mobile security scanning: MobSF, Frida, runtime analysis
+- `company/departments/cyberspace-security/team/teammates/lead-security-engineer/james-wright/skills/security-operations.md` — Security operations: SIEM, SAST/DAST/SCA tooling, PR security review, vulnerability management, supply chain security
+- `company/departments/cyberspace-security/team/teammates/lead-security-engineer/james-wright/skills/masvs-mastery-track-a.md` — OWASP MASVS Track A full mastery certification
+- `company/departments/cyberspace-security/team/teammates/lead-security-engineer/james-wright/skills/mobile-scanning-tools.md` — Mobile security scanning: MobSF, Frida, runtime analysis
+
+## Pipeline Stages
+
+1, 6, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

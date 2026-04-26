@@ -1,18 +1,18 @@
 ---
-document_id: '**'
-role_title: '3D Artist #2 (G24)'
-role_family: 'Art'
-seniority: 'Senior'
-priority: 'P1'
-reports_to: 'Art Director (Renaud Leclercq)'
+document_id: "**"
+role_title: "3D Artist #2 (G24)"
+role_family: "Art"
+seniority: "Senior"
+priority: "P1"
+reports_to: "Art Director (Renaud Leclercq)"
 compensation_band:
   min: 100000
   max: 135000
-entity_type: 'studio'
-stage: 'stage-1'
-division: 'art'
-role: '3d-artist'
-document_type: 'Position Specification Document'
+entity_type: "studio"
+stage: "stage-1"
+division: "art"
+role: "3d-artist"
+document_type: "Position Specification Document"
 ---
 
 # Position Specification Document

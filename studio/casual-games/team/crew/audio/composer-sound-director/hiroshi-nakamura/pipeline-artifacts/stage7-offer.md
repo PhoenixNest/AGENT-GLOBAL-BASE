@@ -1,12 +1,12 @@
 ---
-gate_status: '** ✅ Offer extended (Contract)'
-candidate_name: 'Hiroshi Nakamura'
-candidate_id: 'G10'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'audio'
-role: 'composer-sound-director'
-document_type: 'Offer Document'
+gate_status: "** ✅ Offer extended (Contract)"
+candidate_name: "Hiroshi Nakamura"
+candidate_id: "G10"
+entity_type: "studio"
+stage: "stage-7"
+division: "audio"
+role: "composer-sound-director"
+document_type: "Offer Document"
 ---
 
 # Stages 7-9: Offer, Provisioning, Hiring Outcome — Hiroshi Nakamura (G10)

@@ -1,5 +1,6 @@
 ---
-description: Use for mobile product strategy, roadmap construction, prioritization
+description:
+  Use for mobile product strategy, roadmap construction, prioritization
   decisions, PRD authorship, monetization architecture, retention/engagement frameworks,
   and OKR/metrics governance. Engage during Stage 1 (Requirements + PRD), Stage 6
   (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness).

@@ -1,5 +1,6 @@
 ---
-description: Use for rapid MVP development with React, Node.js, PostgreSQL, and PRD
+description:
+  Use for rapid MVP development with React, Node.js, PostgreSQL, and PRD
   fluency. Engage during Stage 5 (Development) for full-stack MVP delivery and Stage
   4 (Implementation Plan) for PRD-to-spec translation.
 mode: subagent
@@ -43,11 +44,11 @@ Nina is a Full-Stack Engineer reporting to the VP of Web & Backend Engineering (
 
 ## Skills Index
 
-| Skill                     | Location                                       | Description                                                                                     |
-| ------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `full-stack-mvp.md`       | `frontend-web\full-stack\full-stack-mvp.md`    | React + Node.js + PostgreSQL rapid prototyping, Docker, end-to-end delivery                     |
-| `prd-fluency.md`          | `product-management\guidelines\prd-fluency.md` | Requirements translation, technical specification, edge case identification, trade-off analysis |
-| `docker-orchestration.md` | `shared\guidelines\docker-orchestration.md`    | Docker container orchestration, multi-container deployment                                      |
+| Skill                                       | Location                                            | Description                                                                                     |
+| ------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `frontend-web-full-stack-mvp`               | `skills/frontend-web-full-stack-mvp/`               | React + Node.js + PostgreSQL rapid prototyping, Docker, end-to-end delivery                     |
+| `product-management-guidelines-prd-fluency` | `skills/product-management-guidelines-prd-fluency/` | Requirements translation, technical specification, edge case identification, trade-off analysis |
+| `shared-guidelines-docker-orchestration`    | `skills/shared-guidelines-docker-orchestration/`    | Docker container orchestration, multi-container deployment                                      |
 
 ## Pipeline Stages Owned
 

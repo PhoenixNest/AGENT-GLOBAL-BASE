@@ -1,6 +1,7 @@
 ---
 name: software-architecture-design
 description: Software architecture design with UML modeling and system design. Use when the user needs to design software architectures, create UML diagrams (class, sequence, component, deployment), design logical project structures, create architecture decision records (ADRs), or produce architectural documentation. Trigger when user mentions "architecture", "UML", "system design", "project structure", "architecture diagram", or needs to design software systems.
+version: "1.0.0"
 ---
 
 # Software Architecture Design
@@ -8,6 +9,10 @@ description: Software architecture design with UML modeling and system design. U
 ## Purpose
 
 Design scalable, maintainable software architectures for mobile and backend systems. Produce clear architectural documentation including UML diagrams, component designs, and logical project structures that guide engineering teams toward high-quality implementations.
+
+## Why This Matters
+
+Produces UML models and architecture documentation that guide implementation. Without architecture design, engineers implement features in isolation, creating integration defects.
 
 ## When to Use This Skill
 

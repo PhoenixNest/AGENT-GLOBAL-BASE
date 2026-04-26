@@ -45,7 +45,30 @@ Haruki owns all Japanese (JA) translation within the Localization Department, op
 
 ## Skills Index
 
-- `skills/mobile-ui-translation.md` — Mobile UI string translation, quality assurance, and style guide application: character limit compliance, platform writing conventions, register calibration, post-editing MT output
+- `company/departments/localization/team/teammates/japanese-linguist/skills/mobile-ui-translation.md` — Mobile UI string translation, quality assurance, and style guide application: character limit compliance, platform writing conventions, register calibration, post-editing MT output
+
+## Pipeline Stages
+
+9
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

@@ -1,3 +1,9 @@
+---
+name: studio-engineering-cpp-physics-platform
+description: Low-level C++ engine programming — physics system integration (Havok), platform SDK development (Android Vulkan, iOS Metal), collision detection optimization. Owned by Nikolai Petrov (Engine Engineer). Use during Studio Pipeline Stages 3–5 for engine-level development and Stage 6 (Automated Testing) for physics validation. Trigger: C++ physics, Havok integration, Vulkan rendering, Android NDK, collision detection, platform SDK.
+version: "1.0.0"
+---
+
 # C++ Physics & Platform Integration
 
 **Skill Owner:** Nikolai Petrov | **Version:** 1.0 | **Date:** 2026-04-20

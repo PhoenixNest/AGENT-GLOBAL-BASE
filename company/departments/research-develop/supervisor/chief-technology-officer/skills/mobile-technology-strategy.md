@@ -1,6 +1,7 @@
 ---
 name: mobile-technology-strategy
 description: Mobile technology strategy and emerging technology evaluation. Use when the user needs to research emerging mobile technologies, evaluate technology options, create technology selection documentation, assess competitive advantages through technology choices, or establish mobile technology roadmaps. Trigger when user mentions "technology evaluation", "emerging technologies", "technology selection", "mobile strategy", or needs to assess new technologies.
+version: "1.0.0"
 ---
 
 # Mobile Technology Strategy
@@ -8,6 +9,10 @@ description: Mobile technology strategy and emerging technology evaluation. Use 
 ## Purpose
 
 Continuously research, evaluate, and select mobile technologies that establish competitive advantage. Provide systematic frameworks for assessing emerging technologies against business impact, implementation risk, and strategic positioning.
+
+## Why This Matters
+
+Evaluates emerging mobile technologies for competitive advantage. Missing technology strategy causes reactive adoption of trends rather than strategic capability building.
 
 ## When to Use This Skill
 

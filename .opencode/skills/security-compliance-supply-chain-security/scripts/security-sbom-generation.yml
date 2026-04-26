@@ -1,0 +1,47 @@
+# .github/workflows/sbom-generation.yml
+name: Security — SBOM Generation
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Android SBOM
+        run: |
+          ./gradlew :app:bom
+          cp app/build/reports/bom-cyclonedx.json sbom-android-cyclonedx.json
+          cp app/build/reports/bom-cyclonedx.xml sbom-android-cyclonedx.xml
+
+      - name: Generate iOS SBOM
+        run: |
+          brew install cyclonedx/cyclonedx-cli/cyclonedx
+          cyclonedx-cocoapods generate --output sbom-ios-cyclonedx.json
+
+      - name: Sign SBOMs
+        run: |
+          cosign sign-blob --yes \
+            --output-signature sbom-android-cyclonedx.json.sig \
+            --output-certificate sbom-android-cyclonedx.json.pem \
+            sbom-android-cyclonedx.json
+          cosign sign-blob --yes \
+            --output-signature sbom-ios-cyclonedx.json.sig \
+            --output-certificate sbom-ios-cyclonedx.json.pem \
+            sbom-ios-cyclonedx.json
+
+      - name: Upload SBOMs
+        uses: actions/upload-artifact@v4
+        with:
+          name: sboms
+          path: sbom-*
+
+      - name: Vulnerability Scan
+        uses: anchore/scan-action@v3
+        with:
+          sbom: sbom-android-cyclonedx.json
+          fail-build: true
+          severity-cutoff: high

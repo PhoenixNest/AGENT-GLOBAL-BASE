@@ -1,6 +1,10 @@
 ---
 name: design-guidelines-user-research-driven-design
-description: 'Design skill: User Research Driven Design'
+description: Research-backed design decisions for mobile — usability testing, A/B experiments, qualitative research, diary studies, longitudinal cohort analysis, and data-informed design iteration. Owned by Yuki Tanaka-Chen (CDO). Use during Stage 2 (Prototype) for research validation and Stage 10 (Release Readiness) for post-launch design iteration. Trigger: user research, usability testing, A/B testing, qualitative research, data-driven design, design validation.
+prerequisites:
+  - design-overview
+
+version: "1.0.0"
 ---
 
 # User Research-Driven Design

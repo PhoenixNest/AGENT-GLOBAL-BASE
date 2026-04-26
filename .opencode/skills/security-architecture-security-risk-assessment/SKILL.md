@@ -1,6 +1,10 @@
 ---
 name: security-architecture-security-risk-assessment
-description: 'Security skill: Security Risk Assessment'
+description: Security risk assessment for mobile apps — threat modelling (STRIDE), penetration testing oversight, OWASP MASVS evaluation, PCI-DSS, GDPR/CCPA, security architecture reviews, P0–P3 defect classification for security findings. Owned by Dr. Sarah Chen (CSO). Use during Stage 1 (Requirements) for SRD risk assessment and Stage 6 (Code Review) for security defect classification. Trigger: security risk assessment, STRIDE, penetration testing, MASVS evaluation, PCI-DSS, GDPR, CCPA, security architecture review, P0 P1 P2 P3 classification.
+prerequisites:
+  - security-overview
+
+version: "1.0.0"
 ---
 
 # Security Risk Assessment & Compliance

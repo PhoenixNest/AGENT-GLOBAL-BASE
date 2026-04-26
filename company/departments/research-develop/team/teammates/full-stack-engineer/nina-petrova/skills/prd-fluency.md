@@ -1,15 +1,8 @@
-# PRD Fluency
+---
+version: "1.0.0"
+---
 
-**Category:** Product-Engineering Translation
-**Owner:** Full-Stack Engineer (Nina Petrova)
-
-## Overview
-
-Translates Product Requirements Documents into actionable technical tasks, writes technical specifications that bridge product intent and engineering implementation, identifies edge cases through systematic analysis frameworks, and performs trade-off analysis for build-vs-buy and consistency-vs-availability decisions. Ensures engineering work directly maps to product outcomes.
-
-## Competency Dimensions
-
-| Dimension                       | Description                                                                                 | Proficiency Indicators                                                                                                                                    |
+| Competency                      | Description                                                                                 | Quality Criteria                                                                                                                                          |
 | ------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Requirements Translation        | PRD user story to technical task mapping, acceptance criteria derivation, effort estimation | Decomposes every PRD requirement into implementable tasks; writes acceptance criteria that are testable; provides effort estimates with confidence levels |
 | Technical Specification Writing | Architecture diagrams, API contracts, data models, migration plans                          | Authors SPEC documents that cover all implementation aspects; includes sequence diagrams for complex flows; defines error handling for every API          |

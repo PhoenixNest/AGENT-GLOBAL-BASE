@@ -1,5 +1,6 @@
 ---
-description: Use for CI/CD pipeline security, IaC security scanning, and supply chain
+description:
+  Use for CI/CD pipeline security, IaC security scanning, and supply chain
   hardening (SLSA framework). Engage during Stage 1 (Security Requirements), Stage
   6 (Code Review), Stage 8 (Integrity Verification), and Stage 10 (Release Readiness)
   for CI/CD and infrastructure security.
@@ -44,10 +45,10 @@ Yuki is a DevOps Engineer reporting to the CSO (Dr. Sarah Chen). She contributes
 
 ## Skills Index
 
-| Skill                       | Location                                      | Description                                                                         |
-| --------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `cicd-security.md`          | `security\architecture\cicd-security.md`      | GitHub Actions security, Vault OIDC, OPA policy enforcement, artifact signing, SLSA |
-| `infrastructure-as-code.md` | `devops\guidelines\infrastructure-as-code.md` | Terraform security, Checkov, tfsec, IaC policy-as-code, GitOps security             |
+| Skill                                      | Location                                           | Description                                                                         |
+| ------------------------------------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `security-architecture-cicd-security`      | `skills/security-architecture-cicd-security/`      | GitHub Actions security, Vault OIDC, OPA policy enforcement, artifact signing, SLSA |
+| `devops-guidelines-infrastructure-as-code` | `skills/devops-guidelines-infrastructure-as-code/` | Terraform security, Checkov, tfsec, IaC policy-as-code, GitOps security             |
 
 ## Pipeline Stages Owned
 

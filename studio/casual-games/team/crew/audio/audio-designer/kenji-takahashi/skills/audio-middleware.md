@@ -1,3 +1,9 @@
+---
+name: studio-audio-audio-middleware
+description: Audio middleware implementation for games — FMOD and Wwise integration, adaptive music systems, parameter-driven audio, and mobile audio optimization. Owned by Kenji Takahashi (Audio Designer). Use during Studio Pipeline Stages 4–5 for audio middleware setup and integration. Trigger: audio middleware, FMOD, Wwise, adaptive music, parameter-driven audio, audio events, bank optimization, Unity audio integration.
+version: "1.0.0"
+---
+
 # Audio Middleware
 
 **Skill ID:** audio-middleware

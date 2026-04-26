@@ -1,6 +1,10 @@
 ---
 name: shared-guidelines-multi-tenant-isolation
-description: 'Shared skill: Multi Tenant Isolation'
+description: "Multi-tenant data isolation strategies, schema separation patterns, and tenant context management for SaaS applications — covering three isolation models (Silo, Bridge, Pool), application-level tenant enforcement with Row-Level Security, tenant provisioning workflows, and cryptographic data shredding for decommissioning. Use during Stage 5 (Development) and Stage 6 (Code Review) for multi-tenant architecture conformance. Trigger: multi-tenant, tenant isolation, SaaS architecture, tenant context, row-level security, tenant provisioning, data isolation, schema separation, tenant decommissioning."
+prerequisites:
+  - shared-overview
+
+version: "1.0.0"
 ---
 
 # Multi-Tenant Data Isolation
@@ -26,13 +30,15 @@ This skill covers multi-tenant data isolation strategies, schema separation patt
 ```typescript
 async function tenantMiddleware(req, res, next) {
   const tenantId = extractTenantId(req);
-  req.tenantContext = { tenantId, schema: 'public' };
+  req.tenantContext = { tenantId, schema: "public" };
   next();
 }
 
 class TenantRepository {
   async findAll(tenantContext) {
-    return db.query('SELECT * FROM records WHERE tenant_id = $1', [tenantContext.tenantId]);
+    return db.query("SELECT * FROM records WHERE tenant_id = $1", [
+      tenantContext.tenantId,
+    ]);
   }
 }
 ```

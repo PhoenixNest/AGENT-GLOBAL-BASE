@@ -1,12 +1,12 @@
 ---
-generated_at: '**'
-candidate_name: 'Ops Lead'
-candidate_id: 'G29'
-entity_type: 'studio'
-stage: 'stage-3'
-division: 'live-ops'
-role: 'live-ops-lead'
-document_type: 'Screening Results'
+generated_at: "**"
+candidate_name: "Ops Lead"
+candidate_id: "G29"
+entity_type: "studio"
+stage: "stage-3"
+division: "live-ops"
+role: "live-ops-lead"
+document_type: "Screening Results"
 ---
 
 # Stage 3: Automated Screening Results — Live Ops Lead (G29)

@@ -1,6 +1,7 @@
 ---
 name: cross-platform-overview
-description: Cross Platform skills overview
+description: Cross-platform skills overview — index of all KMP and Flutter-related skills including architecture, implementation, shared modules, and i18n. Use to discover available cross-platform capabilities and select the right skill for your task. Trigger: cross-platform overview, KMP overview, Flutter overview, cross-platform capabilities.
+version: "1.0.0"
 ---
 
 # Cross-Platform

@@ -1,15 +1,8 @@
-# SRE Practices
+---
+version: "1.0.0"
+---
 
-**Category:** Site Reliability Engineering
-**Owner:** SRE Engineer (Raihan Rahman)
-
-## Overview
-
-Implements Site Reliability Engineering practices including SLO/SLI definition and measurement, error budget policies, incident response lifecycle management, blameless postmortem facilitation, and on-call rotation design. Bridges the gap between development velocity and production reliability through data-driven reliability targets and systematic incident management.
-
-## Competency Dimensions
-
-| Dimension             | Description                                                                                | Proficiency Indicators                                                                                                                   |
+| Competency            | Description                                                                                | Quality Criteria                                                                                                                         |
 | --------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | SLO/SLI Definition    | Service level objectives, service level indicators, error budgets, SLI collection          | Defines measurable SLIs aligned with user experience; sets SLOs based on user expectations; calculates error budgets and burn rates      |
 | Error Budget Policies | Budget consumption tracking, burn rate alerts, policy enforcement, feature freeze triggers | Implements multi-window burn rate alerting; triggers feature freeze when budget exhausted; defines recovery procedures                   |

@@ -39,10 +39,33 @@ Omar serves as Security Engineer #2 within the Cyberspace Security Department, r
 
 ## Skills Index
 
-- `skills/sast-dast-pipeline.md` — SAST/DAST pipeline engineering: Semgrep, OWASP ZAP, Snyk, CI/CD integration
-- `skills/web-application-security.md` — Web app security: OWASP Top 10, API security, WAF engineering, secure code review
-- `skills/masvs-certification.md` — OWASP MASVS certification
-- `skills/mobile-penetration-testing.md` — Mobile pentesting: MobSF, Frida, Objection, iOS/Android supervised pentests
+- `company/departments/cyberspace-security/team/teammates/security-engineer/omar-farouq/skills/sast-dast-pipeline.md` — SAST/DAST pipeline engineering: Semgrep, OWASP ZAP, Snyk, CI/CD integration
+- `company/departments/cyberspace-security/team/teammates/security-engineer/omar-farouq/skills/web-application-security.md` — Web app security: OWASP Top 10, API security, WAF engineering, secure code review
+- `company/departments/cyberspace-security/team/teammates/security-engineer/omar-farouq/skills/masvs-certification.md` — OWASP MASVS certification
+- `company/departments/cyberspace-security/team/teammates/security-engineer/omar-farouq/skills/mobile-penetration-testing.md` — Mobile pentesting: MobSF, Frida, Objection, iOS/Android supervised pentests
+
+## Pipeline Stages
+
+1, 6, 8, 10
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

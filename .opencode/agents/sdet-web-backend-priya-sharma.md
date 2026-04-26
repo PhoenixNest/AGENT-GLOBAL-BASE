@@ -1,5 +1,6 @@
 ---
-description: Use for API testing, contract testing, and performance/load testing.
+description:
+  Use for API testing, contract testing, and performance/load testing.
   Engage during Stage 5 (Development) for test infrastructure setup and Stage 7 (Automated
   Testing) for API test suite execution, contract verification, and performance regression
   analysis.

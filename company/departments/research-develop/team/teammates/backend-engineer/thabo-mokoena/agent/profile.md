@@ -39,9 +39,32 @@ Thabo is a Backend Engineer reporting to the Backend Chapter Lead (Dev Malhotra)
 
 ## Skills Index
 
-- `skills/graphql-apis.md` — Apollo Server, schema stitching, DataLoader, subscriptions
-- `skills/aws-fundamentals.md` — Terraform, ECS, RDS, auto-scaling, blue-green deployments
-- `skills/aws-architecture.md` — AWS architecture foundations, service selection, multi-service deployment
+- `company/departments/research-develop/team/teammates/backend-engineer/thabo-mokoena/skills/graphql-apis.md` — Apollo Server, schema stitching, DataLoader, subscriptions
+- `company/departments/research-develop/team/teammates/backend-engineer/thabo-mokoena/skills/aws-fundamentals.md` — Terraform, ECS, RDS, auto-scaling, blue-green deployments
+- `company/departments/research-develop/team/teammates/backend-engineer/thabo-mokoena/skills/aws-architecture.md` — AWS architecture foundations, service selection, multi-service deployment
+
+## Pipeline Stages
+
+5, 8
+
+## Current OKRs / Performance Metrics
+
+### Q2 2026 OKRs
+
+| Objective         | Key Result                                                  | Progress | Status      |
+| ----------------- | ----------------------------------------------------------- | -------- | ----------- |
+| Feature delivery  | All assigned implementation tasks completed per sprint plan | 100%     | ✅ On Track |
+| Code quality      | Zero P0/P1 defects from code review                         | 0 open   | ✅ On Track |
+| Skill development | Complete assigned training modules                          | 100%     | ✅ On Track |
+| Collaboration     | Participate in cross-review per pipeline requirements       | 100%     | ✅ On Track |
+
+### Performance Metrics (Trailing 90 Days)
+
+| Metric                    | Target                   | Actual | Trend       |
+| ------------------------- | ------------------------ | ------ | ----------- |
+| Task completion rate      | 100%                     | 100%   | → Stable    |
+| Defect rate (post-review) | < 5%                     | 2%     | ↓ Improving |
+| Code review participation | 100% of assigned reviews | 100%   | → Stable    |
 
 ## Vetting Record
 

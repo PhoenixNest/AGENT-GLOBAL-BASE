@@ -1,6 +1,7 @@
 ---
 name: data-pipeline-engineering
 description: Real-time and batch data pipeline architecture for game analytics, using Kafka, Flink, ClickHouse, and cloud storage.
+version: "1.0.0"
 ---
 
 # Data Pipeline Engineering

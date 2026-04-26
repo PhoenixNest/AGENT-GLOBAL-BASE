@@ -1,11 +1,11 @@
 ---
-candidate_name: 'Data Analyst'
-candidate_id: 'G33'
-entity_type: 'studio'
-stage: 'stage-4'
-division: 'live-ops'
-role: 'data-analyst'
-document_type: 'Interview Scores'
+candidate_name: "Data Analyst"
+candidate_id: "G33"
+entity_type: "studio"
+stage: "stage-4"
+division: "live-ops"
+role: "data-analyst"
+document_type: "Interview Scores"
 ---
 
 # Stage 4: Interview Simulation & Scored Assessments — Data Analyst (G33)

@@ -1,6 +1,10 @@
 ---
 name: testing-qa-mobile-device-farm-management
-description: 'Testing Qa skill: Device Farm Management'
+description: Device farm management for mobile testing — Firebase Test Lab, AWS Device Farm, BrowserStack, Sauce Labs configuration, device matrix selection, real device vs emulator strategy, and device farm cost optimization. Owned by Rachel Kim (Test Automation Lead). Use during Stage 4 (Implementation Plan) for device farm strategy and Stage 7 (Testing) for device farm test execution. Trigger: device farm management, Firebase Test Lab, AWS Device Farm, BrowserStack, Sauce Labs, device matrix, real device testing, emulator strategy.
+prerequisites:
+  - testing-qa-overview
+
+version: "1.0.0"
 ---
 
 # Device Farm Management — Cloud Testing Infrastructure
@@ -197,34 +201,34 @@ Robo tests crawl the app automatically, discovering crashes, rendering issues, a
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
-  host: 'hub-cloud.browserstack.com',
+  host: "hub-cloud.browserstack.com",
   port: 443,
 
   capabilities: [
     {
-      'bstack:options': {
-        projectName: 'CompanyApp-Mobile',
-        buildName: 'Regression-Suite',
-        sessionName: 'Android-Checkout-Flow',
+      "bstack:options": {
+        projectName: "CompanyApp-Mobile",
+        buildName: "Regression-Suite",
+        sessionName: "Android-Checkout-Flow",
         debug: true,
         networkLogs: true,
         appiumLogs: true,
         video: true,
         seleniumLogs: true,
-        consoleLogs: 'verbose',
+        consoleLogs: "verbose",
       },
-      platformName: 'Android',
-      'appium:deviceName': 'Google Pixel 7',
-      'appium:platformVersion': '13.0',
-      'appium:automationName': 'uiautomator2',
-      'appium:app': process.env.BROWSERSTACK_APP_ID,
+      platformName: "Android",
+      "appium:deviceName": "Google Pixel 7",
+      "appium:platformVersion": "13.0",
+      "appium:automationName": "uiautomator2",
+      "appium:app": process.env.BROWSERSTACK_APP_ID,
     },
   ],
 
   maxInstances: 5, // Parallel sessions
   services: [
     [
-      'browserstack',
+      "browserstack",
       {
         browserstackLocal: false,
       },
@@ -233,11 +237,11 @@ exports.config = {
 
   reporters: [
     [
-      'junit',
+      "junit",
       {
-        outputDir: './test-results/browserstack',
+        outputDir: "./test-results/browserstack",
         outputFileFormat: function (opts) {
-          return `results-${opts.capabilities['bstack:options'].buildName}.xml`;
+          return `results-${opts.capabilities["bstack:options"].buildName}.xml`;
         },
       },
     ],

@@ -1,6 +1,7 @@
 ---
 name: frontend-web-overview
-description: Frontend Web skills overview
+description: Frontend web development overview — React, Vue, and Angular ecosystems with WCAG 2.1 AA compliance, XSS prevention, and performance optimization. Owned by Amira Voss (Frontend Chapter Lead). Use as entry point for all frontend-related tasks across Stage 2 (Prototype), Stage 5 (Development), Stage 6 (Code Review), and Stage 7 (Testing). Trigger: frontend overview, frontend skills, web development, react, vue, angular, frontend architecture.
+version: "1.0.0"
 ---
 
 # Frontend Web

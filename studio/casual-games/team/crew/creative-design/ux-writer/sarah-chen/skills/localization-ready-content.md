@@ -1,3 +1,9 @@
+---
+name: studio-creative-design-localization-ready-content
+description: Structuring game content for efficient multi-language deployment — string key taxonomy design, context annotation standards, text expansion budgeting, TMS integration, and localization handoff workflows. Owned by Sarah Chen (UX Writer). Use during Studio Pipeline Stages 1–5 for content architecture and i18n preparation. Trigger: localization, string key taxonomy, text expansion, TMS, translation handoff, XLIFF, CLDR, multi-language content.
+version: "1.0.0"
+---
+
 # Localization-Ready Content Architecture
 
 ## Description

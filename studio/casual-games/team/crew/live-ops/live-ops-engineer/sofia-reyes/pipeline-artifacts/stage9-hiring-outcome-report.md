@@ -1,11 +1,11 @@
 ---
 vetting_total: 17
 composite_score: 4.44
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'live-ops'
-role: 'live-ops-engineer'
-document_type: 'Hiring Outcome Report'
+entity_type: "studio"
+stage: "stage-9"
+division: "live-ops"
+role: "live-ops-engineer"
+document_type: "Hiring Outcome Report"
 ---
 
 # Stage 9: Hiring Outcome Report — Live Ops Engineer #2 (G31)

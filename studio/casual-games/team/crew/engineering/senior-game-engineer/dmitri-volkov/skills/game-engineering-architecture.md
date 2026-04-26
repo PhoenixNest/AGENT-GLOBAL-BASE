@@ -1,3 +1,9 @@
+---
+name: studio-engineering-game-engineering-architecture
+description: Game system architecture and cross-platform design — offline-first sync, memory optimization, networking models, engine selection (Unity/Unreal) for casual games. Owned by Dmitri Volkov (Senior Game Engineer). Use during Studio Pipeline Stages 1–4 for architecture decisions and Stage 5 (Full Production) for system implementation. Trigger: game architecture, system design, offline-first sync, networking, engine selection, cross-platform.
+version: "1.0.0"
+---
+
 # Game Engineering Architecture
 
 **Skill Owner:** Dmitri Volkov (Senior Game Engineer)

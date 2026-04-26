@@ -1,11 +1,11 @@
 ---
-generated_at: '**'
-candidate_name: 'Offer Package'
-entity_type: 'studio'
-stage: 'stage-7'
-division: 'live-ops'
-role: 'ua-specialist'
-document_type: 'Offer Document'
+generated_at: "**"
+candidate_name: "Offer Package"
+entity_type: "studio"
+stage: "stage-7"
+division: "live-ops"
+role: "ua-specialist"
+document_type: "Offer Document"
 ---
 
 # Stage 7: Offer Package — UA Specialist (G32)

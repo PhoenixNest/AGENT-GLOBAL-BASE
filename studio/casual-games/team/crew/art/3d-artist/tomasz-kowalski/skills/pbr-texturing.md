@@ -1,3 +1,9 @@
+---
+name: studio-art-pbr-texturing
+description: Physically-Based Rendering texturing for mobile games — material authoring, texture map creation, mobile-optimized PBR workflows, and ASTC compression. Owned by Tomasz Kowalski (3D Artist). Use during Studio Pipeline Stages 3–5 for PBR texture production. Trigger: PBR texturing, Substance Painter, material authoring, texture maps, ORM packing, mobile PBR, stylized PBR.
+version: "1.0.0"
+---
+
 # PBR Texturing
 
 **Skill ID:** pbr-texturing

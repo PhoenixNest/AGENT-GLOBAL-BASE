@@ -1,6 +1,10 @@
 ---
 name: product-management-guidelines-prd-fluency
-description: 'Product Management skill: Prd Fluency'
+description: "Translates Product Requirements Documents into actionable technical tasks, writes technical specifications bridging product intent and engineering implementation, identifies edge cases through systematic analysis frameworks, and performs trade-off analysis for build-vs-buy and consistency-vs-availability decisions. Ensures engineering work directly maps to product outcomes. Owned by Full-Stack Engineer (Nina Petrova). Use when converting PRDs to technical tasks, writing SPEC documents, identifying edge cases, or evaluating build-vs-buy trade-offs. Trigger: PRD translation, technical specification, SPEC document, edge case identification, trade-off analysis, build vs buy, acceptance criteria, requirements mapping, technical task breakdown."
+prerequisites:
+  - product-management-guidelines-prd-authorship
+
+version: "1.0.0"
 ---
 
 # PRD Fluency

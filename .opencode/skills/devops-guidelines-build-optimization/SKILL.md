@@ -1,6 +1,10 @@
 ---
 name: devops-guidelines-build-optimization
-description: 'Devops skill: Build Optimization'
+description: Build optimization for mobile CI/CD — Gradle configuration cache, incremental compilation, build cache sharing, Xcode build parallelization, ProGuard/R8 optimization, and artifact size reduction for Android APK/AAB and iOS IPA. Owned by Thomas Zhang (DevOps Lead). Use during Stage 5 (Development) for build performance tuning and Stage 10 (Release Readiness) for app size compliance. Trigger: build optimization, Gradle cache, incremental compilation, build speed, Xcode parallelization, ProGuard, R8, artifact size, APK size, IPA size.
+prerequisites:
+  - devops-guidelines-ci-cd-optimization
+
+version: "1.0.0"
 ---
 
 # Build Optimization

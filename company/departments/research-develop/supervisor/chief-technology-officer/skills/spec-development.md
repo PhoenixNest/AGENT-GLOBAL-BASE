@@ -1,6 +1,7 @@
 ---
 name: spec-development
 description: Comprehensive technical specification (SPEC) development for software projects. Use when the user needs to create technical specifications, interpret product requirements into technical documentation, break down business requirements into implementation plans, create phased project plans, or author detailed technical documentation for development teams. Trigger when user mentions "SPEC", "technical specification", "requirements breakdown", "implementation plan", or needs to translate product requirements into technical documentation.
+version: "1.0.0"
 ---
 
 # SPEC Development
@@ -8,6 +9,10 @@ description: Comprehensive technical specification (SPEC) development for softwa
 ## Purpose
 
 Transform product requirements and business needs into comprehensive technical specifications (SPECs) that guide engineering teams through implementation. A well-crafted SPEC bridges product vision and technical execution, providing clarity on what to build, how to build it, and how to measure success.
+
+## Why This Matters
+
+Creates comprehensive technical specifications from requirements. Missing specs cause implementation gaps, scope creep, and Stage 6 code review failures.
 
 ## When to Use This Skill
 

@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 50 ranked. Proceeding to Stage 3.'
-candidate_name: 'Lena Kovac'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'art'
-role: 'technical-artist'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 50 ranked. Proceeding to Stage 3."
+candidate_name: "Lena Kovac"
+entity_type: "studio"
+stage: "stage-2"
+division: "art"
+role: "technical-artist"
+document_type: "Sourcing Shortlist"
 ---
 
 # Stage 2: Sourcing Shortlist — Technical Artist (G8) — Lena Kovac

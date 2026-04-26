@@ -1,15 +1,8 @@
-# PostgreSQL Basics
+---
+version: "1.0.0"
+---
 
-**Category:** Database Engineering (PostgreSQL)
-**Owner:** Backend Engineer (Ingrid Nilsen)
-
-## Overview
-
-Covers fundamental and intermediate PostgreSQL skills for application developers, including SQL query construction with JOINs, subqueries, and CTEs, index selection (B-tree and GIN), query plan analysis with EXPLAIN ANALYZE, transaction isolation level selection, and schema migration management with Alembic. Focuses on writing efficient, correct queries that scale.
-
-## Competency Dimensions
-
-| Dimension             | Description                                                                              | Proficiency Indicators                                                                                                                                     |
+| Competency            | Description                                                                              | Quality Criteria                                                                                                                                           |
 | --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SQL Fundamentals      | JOINs (INNER, LEFT, RIGHT, FULL, CROSS), subqueries, CTEs, window functions              | Writes complex queries with CTEs instead of nested subqueries; uses window functions for ranking/aggregation; understands JOIN order impact on performance |
 | Indexing              | B-tree, GIN, GiST, partial indexes, covering indexes, composite index column order       | Selects appropriate index type per query pattern; designs composite indexes with correct column order; uses EXPLAIN to verify index usage                  |

@@ -1,15 +1,8 @@
-# Full-Stack MVP Development
+---
+version: "1.0.0"
+---
 
-**Category:** Full-Stack Engineering
-**Owner:** Full-Stack Engineer (Nina Petrova)
-
-## Overview
-
-Delivers minimum viable products rapidly using React + Node.js + PostgreSQL stack with Docker Compose for local development, feature flag strategies for controlled rollouts, MVP scoping frameworks for requirement prioritization, and end-to-end delivery pipelines from prototype to production. Balances speed with production-readiness.
-
-## Competency Dimensions
-
-| Dimension               | Description                                                                           | Proficiency Indicators                                                                                                        |
+| Competency              | Description                                                                           | Quality Criteria                                                                                                              |
 | ----------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Rapid Prototyping       | React + Node.js + PostgreSQL stack, scaffold generation, boilerplate patterns         | Sets up full-stack project in < 1 hour; implements CRUD operations end-to-end; deploys to staging environment                 |
 | Docker Compose          | Multi-service orchestration, volume management, network configuration, health checks  | Writes docker-compose.yml for local development with app, database, and cache services; configures hot-reload for development |
@@ -56,7 +49,7 @@ my-mvp/
 ### Docker Compose for Local Development
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   client:
@@ -64,7 +57,7 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - ./client:/app
       - /app/node_modules
@@ -80,7 +73,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.dev
     ports:
-      - '4000:4000'
+      - "4000:4000"
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -96,7 +89,7 @@ services:
         condition: service_healthy
     command: npm run dev
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:4000/healthz']
+      test: ["CMD", "curl", "-f", "http://localhost:4000/healthz"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -108,12 +101,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -121,9 +114,9 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - '6379:6379'
+      - "6379:6379"
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 3s
       retries: 5

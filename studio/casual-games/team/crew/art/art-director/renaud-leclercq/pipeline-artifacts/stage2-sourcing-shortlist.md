@@ -1,13 +1,13 @@
 ---
-document_id: '**'
-generated_at: '**'
-gate_status: '** ✅ Top 50 candidates ranked and scored. Complete sourced profiles available. Proceeding to Stage 3.'
-candidate_name: 'Sourcing Shortlist'
-entity_type: 'studio'
-stage: 'stage-2'
-division: 'art'
-role: 'art-director'
-document_type: 'Sourcing Shortlist'
+document_id: "**"
+generated_at: "**"
+gate_status: "** ✅ Top 50 candidates ranked and scored. Complete sourced profiles available. Proceeding to Stage 3."
+candidate_name: "Sourcing Shortlist"
+entity_type: "studio"
+stage: "stage-2"
+division: "art"
+role: "art-director"
+document_type: "Sourcing Shortlist"
 ---
 
 # Candidate Sourcing Shortlist

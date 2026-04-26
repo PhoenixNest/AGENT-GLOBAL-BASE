@@ -1,6 +1,10 @@
 ---
 name: testing-qa-api-contract-automated-test-suite
-description: 'Testing Qa skill: Automated Test Suite'
+description: Automated test suite design and execution for iOS and Android — unit, integration, and E2E test layers, test pyramid standards, JUnit 5/XCTest/Maestro, regression testing gates, and 100% pass rate target. Owned by Priscilla Oduya (Test Lead). Use during Stage 7 (Testing) for test suite implementation and Stage 8 (Integrity Verification) for regression validation. Trigger: automated test suite, unit tests, integration tests, E2E tests, test pyramid, regression testing, JUnit 5, XCTest, Maestro, 100% pass rate.
+prerequisites:
+  - testing-qa-overview
+
+version: "1.0.0"
 ---
 
 # Automated Test Suite

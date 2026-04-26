@@ -1,15 +1,8 @@
-# Android Networking
+---
+version: "1.0.0"
+---
 
-**Category:** Mobile Engineering — Android Networking
-**Owner:** Android Engineer (Kwame Osei)
-
-## Overview
-
-This skill implements production-grade Android networking covering Retrofit client architecture, OkHttp interceptor chains, GraphQL client integration, error handling strategies, and retry logic with exponential backoff. It applies to Stage 5 (Development) where all network communication is implemented, Stage 6 (Code Review) where network reliability and security are audited, and Stage 7 (Automated Testing) where network-dependent tests use mock servers.
-
-## Competency Dimensions
-
-| Dimension             | Description                                                                                              | Proficiency Indicators                                                                                                                             |
+| Competency            | Description                                                                                              | Quality Criteria                                                                                                                                   |
 | --------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Retrofit Architecture | Service interface design, call adapters, response wrapping, dynamic base URLs, multipart uploads         | Interfaces are cohesive and versioned; response types are domain-specific; multipart uploads handle large files with progress callbacks            |
 | OkHttp Interceptors   | Request/response interceptors, network interceptors, authentication flow, logging, header management     | Interceptor chain is ordered correctly; auth interceptor handles token refresh atomically; logging interceptor redacts sensitive data              |

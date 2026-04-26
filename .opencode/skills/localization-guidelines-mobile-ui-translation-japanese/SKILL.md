@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-mobile-ui-translation-japanese
-description: 'Localization skill: Mobile Ui Translation Japanese'
+description: Japanese (JA) mobile UI string translation and linguistic QA — hiragana/katakana/kanji handling, CJK character limit compliance, platform writing conventions (iOS HIG / Android Material Design 3), register calibration, MT post-editing, plural form coverage, and delivery to CTO-L for Translation Verification Report. Owned by the Japanese Linguist. Use during Stage 9 (i18n Engineering) for Japanese UI translation. Trigger: Japanese translation, JA translation, Japanese UI strings, CJK localization, Japanese writing conventions.
+prerequisites:
+  - localization-guidelines-mobile-ui-translation
+
+version: "1.0.0"
 ---
 
 # Mobile UI Translation

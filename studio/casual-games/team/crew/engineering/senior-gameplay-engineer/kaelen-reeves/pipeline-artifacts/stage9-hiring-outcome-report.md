@@ -1,12 +1,12 @@
 ---
-final_decision: 'HIRED'
-candidate_name: 'K'
-document_id: '**'
-entity_type: 'studio'
-stage: 'stage-9'
-division: 'engineering'
-role: 'senior-gameplay-engineer'
-document_type: 'Hiring Outcome Report'
+final_decision: "HIRED"
+candidate_name: "K"
+document_id: "**"
+entity_type: "studio"
+stage: "stage-9"
+division: "engineering"
+role: "senior-gameplay-engineer"
+document_type: "Hiring Outcome Report"
 ---
 
 # Hiring Outcome Report — Kaelen Reeves (G11)

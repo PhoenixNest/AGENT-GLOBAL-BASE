@@ -1,6 +1,7 @@
 ---
 name: agile-production
 description: Agile production coordination for game development, including sprint planning, task tracking, meeting facilitation, and Jira workflow management.
+version: "1.0.0"
 ---
 
 # Agile Production

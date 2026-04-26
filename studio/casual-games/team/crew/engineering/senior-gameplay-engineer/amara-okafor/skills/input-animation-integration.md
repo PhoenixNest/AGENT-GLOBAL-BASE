@@ -1,3 +1,9 @@
+---
+name: studio-engineering-input-animation-integration
+description: Multi-platform input handling and animation system integration — touch/keyboard/gamepad input, Spine 2D, Unity Animator, blend trees for mobile games. Owned by Amara Okafor (Senior Gameplay Engineer). Use during Studio Pipeline Stages 2–5 for input and animation system implementation. Trigger: input systems, animation integration, Spine 2D, Unity Input System, multi-platform input, touch simulation.
+version: "1.0.0"
+---
+
 # Input & Animation Integration
 
 **Skill Owner:** Amara Okafor | **Version:** 1.0 | **Date:** 2026-04-20

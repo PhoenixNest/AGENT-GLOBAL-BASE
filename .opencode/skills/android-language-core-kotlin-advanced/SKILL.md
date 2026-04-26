@@ -1,6 +1,10 @@
----
+﻿---
 name: android-language-core-kotlin-advanced
-description: 'Android skill: Kotlin Advanced'
+description: Advanced Kotlin patterns for Android — coroutines and structured concurrency, Kotlin Flow (StateFlow/SharedFlow), Kotlin Multiplatform expect/actual, memory management, sealed hierarchies, and type-safe DSLs. Owned by Tariq Al-Hassan (Senior Android Engineer). Use during Stage 5 (Development) for coroutine-based features and KMP shared modules, Stage 7 (Automated Testing) for coroutine testing. Trigger: kotlin coroutines, structured concurrency, StateFlow, SharedFlow, KMP, kotlin multiplatform, expect actual, memory management, sealed interface, kotlin DSL.
+prerequisites:
+  - android-language-core-implementation
+
+version: "1.0.0"
 ---
 
 # Kotlin Advanced

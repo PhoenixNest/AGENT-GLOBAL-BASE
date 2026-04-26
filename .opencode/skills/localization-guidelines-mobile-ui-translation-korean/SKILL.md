@@ -1,6 +1,10 @@
 ---
 name: localization-guidelines-mobile-ui-translation-korean
-description: 'Localization skill: Mobile Ui Translation Korean'
+description: Korean (KO) mobile UI string translation and linguistic QA — Hangul character handling, CJK character limit compliance, platform writing conventions (iOS HIG / Android Material Design 3), register calibration, MT post-editing, plural form coverage, and delivery to CTO-L for Translation Verification Report. Owned by the Korean Linguist. Use during Stage 9 (i18n Engineering) for Korean UI translation. Trigger: Korean translation, KO translation, Korean UI strings, Hangul localization, Korean writing conventions.
+prerequisites:
+  - localization-guidelines-mobile-ui-translation
+
+version: "1.0.0"
 ---
 
 # Mobile UI Translation

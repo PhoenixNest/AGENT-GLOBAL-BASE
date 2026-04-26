@@ -1,6 +1,7 @@
 ---
 name: studio-leadership
 description: Owns overall studio vision, team leadership, and pipeline governance across all 11 game development stages. Responsible for Stage 0 (Art Direction), Stage 1 (Concept), Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 8 (Soft Launch).
+version: "1.0.0"
 ---
 
 # Studio Leadership
