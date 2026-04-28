@@ -1,0 +1,5 @@
+* text=auto
+*.md text=crlf
+*.json text=crlf
+*.py text=crlf
+*.html text=crlf
