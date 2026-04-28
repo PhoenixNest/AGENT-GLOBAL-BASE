@@ -1,0 +1,448 @@
+# RAG System Deployment Configuration Template
+# Use this template to deploy a production-ready RAG system
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rag-system-config
+  namespace: rag-production
+data:
+  # ======================================================================
+  # SYSTEM OVERVIEW
+  # ======================================================================
+
+  # System name and version
+  system_name: "enterprise-rag-knowledge-base"
+  system_version: "1.0.0"
+
+  # Environment metadata
+  environment: "production"
+  deployment_region: "us-east-1" # Change as needed
+
+  # ======================================================================
+  # DATA SOURCE CONFIGURATION
+  # ======================================================================
+
+  data_sources:
+    markdown_files:
+      enabled: true
+      source_paths:
+        - "./core-component-00/harness-engineering"
+        - "./core-component-00/prompt-engineering"
+      chunking_strategy:
+        type: "heading-based" # heading-based | fixed-tokens | semantic
+        chunk_size_tokens: 512
+        overlap_tokens: 128
+
+    pdf_documents:
+      enabled: false
+      source_paths:
+        - "./documentation/*.pdf"
+      parser: "pymupdf" # pymupdf | pdfplumber
+
+    git_repository:
+      enabled: true
+      repositories:
+        - repo_path: "./core-component-00"
+          commit_range: ["HEAD~5", "HEAD"] # Last 5 commits
+          exclude_patterns:
+            - ".git/**"
+            - "*.pyc"
+            - "__pycache__/**"
+            - "node_modules/**"
+            - ".env*"
+
+    confluence:
+      enabled: false
+      api_url: "${CONFLUENCE_API_URL}"
+      api_token: "${CONFLUENCE_API_TOKEN}"
+
+    database_schemas:
+      enabled: true
+      connections:
+        - name: "technical_docs_db"
+          connection_string: "${DB_CONNECTION_STRING}"
+          extract_only_schema: true
+
+  # ======================================================================
+  # EMBEDDING SERVICE CONFIGURATION
+  # ======================================================================
+
+  embedding_service:
+    model:
+      name: "sentence-transformers/all-MiniLM-L6-v2"
+      # Alternatives:
+      #   - "BAAI/bge-small-en-v1.5" (smaller, faster)
+      #   - "BAAI/bge-large-en-v1.5" (better quality)
+      #   - "sentence-transformers/paraphrase-MiniLM-L6-v2" (semantic search)
+
+    deployment:
+      type: "docker" # docker | bare-metal
+      image: "sentence-transformers/all-MiniLM-L6-v2:latest"
+
+      resources:
+        cpu_cores: 2
+        memory_gb: 4
+        gpu_enabled: false
+
+    batching:
+      enabled: true
+      batch_size: 32
+      max_batch_tokens: 8192
+
+  # ======================================================================
+  # VECTOR DATABASE CONFIGURATION
+  # ======================================================================
+
+  vector_database:
+    type: "qdrant" # qdrant | weaviate | pgvector | pinecone
+    host: "${VECTOR_DB_HOST}"
+    port: 6333
+
+    qdrant_specific:
+      collection_name: "rag-knowledge-base"
+
+      index_config:
+        vector_size: 384
+        distance_metric: "Cosine"
+        hnsw_config:
+          ef_construction: 128
+          m: 16
+
+      memory_mappings:
+        enable_mmap: false
+
+    # Alternative: Weaviate configuration
+    weaviate_specific:
+      class_name: "RagDocument"
+      vector_index_config:
+        vectorizer: "default" # default | hnsw
+        distance: "COSINE"
+      bm25_config:
+        enabled: true
+
+  # ======================================================================
+  # RERANKING SERVICE CONFIGURATION
+  # ======================================================================
+
+  reranking_service:
+    enabled: true
+
+    model:
+      name: "BAAI/bge-reranker-large"
+      # Alternatives:
+      #   - "cross-encoder/ms-marco-MiniLM-L-6-v2" (smaller)
+      #   - "BAAI/bge-reranker-base"
+
+    deployment:
+      type: "docker"
+      image: "reranking-service:${VERSION}"
+
+      resources:
+        cpu_cores: 1
+        memory_gb: 4
+        gpu_enabled: true
+
+    configuration:
+      top_k_candidates: 20 # Retrieve more for re-ranking
+      rerank_top_k: 5 # Return top N after re-ranking
+
+  # ======================================================================
+  # HYBRID SEARCH CONFIGURATION
+  # ======================================================================
+
+  hybrid_search:
+    enabled: true
+
+    parameters:
+      lambda_vector: 0.7 # Weight for vector similarity
+      lambda_keyword: 0.3 # Weight for BM25 keyword match
+      min_score_threshold: 0.4
+
+  # ======================================================================
+  # QUERY PROCESSING CONFIGURATION
+  # ======================================================================
+
+  query_processing:
+    rewriting:
+      enabled: false # Enable for open-domain QA
+      max_rewrites: 3
+      diversity_threshold: 0.5
+
+    expansion:
+      synonyms_enabled: true
+      entity_linking: false
+
+  context_compression:
+    enabled: true
+    max_tokens: 4096
+    strategy: "hybrid" # hybrid | summary | truncate
+
+  # ======================================================================
+  # LLM INFEERENCE CONFIGURATION
+  # ======================================================================
+
+  llm_service:
+    provider: "ollama" # ollama | vllm | text-generation-webui
+
+    model:
+      name: "qwen2.5:7b" # Change based on requirements
+      # Alternatives:
+      #   - "mistral:latest" (balanced performance)
+      #   - "llama3.1:8b" (good general capability)
+      #   - "claude-3-haiku" (via API for cloud deployment)
+
+    deployment:
+      type: "docker"
+      image: "ollama:${VERSION}"
+
+      resources:
+        cpu_cores: 4
+        memory_gb: 8
+        gpu_enabled: true
+
+    configuration:
+      temperature: 0.7
+      top_p: 0.9
+      max_tokens: 2048
+      presence_penalty: 0.1
+
+  # ======================================================================
+  # CACHE CONFIGURATION
+  # ======================================================================
+
+  caching:
+    enabled: true
+
+    redis:
+      host: "${REDIS_HOST}"
+      port: 6379
+
+    query_cache:
+      ttl_minutes: 10
+      max_memory_mb: 4096
+      eviction_policy: "lru"
+
+    result_cache:
+      enabled: true
+      ttl_minutes: 30
+
+  # ======================================================================
+  # SESSION MANAGEMENT CONFIGURATION
+  # ======================================================================
+
+  session_management:
+    enabled: true
+
+    redis_store:
+      host: "${REDIS_HOST}"
+      port: 6379
+
+    configuration:
+      max_history_messages: 6
+      context_window_tokens: 4096
+      auto_clear_timeout_minutes: 24
+
+  # ======================================================================
+  # SECURITY CONFIGURATION
+  # ======================================================================
+
+  security:
+    access_control:
+      enabled: true
+      mode: "pre-filter" # pre-filter | post-filter | hybrid
+
+      redis_acl_store:
+        host: "${REDIS_HOST}"
+        port: 6379
+
+      permission_levels:
+        - department
+        - team
+        - individual
+
+    pii_handling:
+      enabled: true
+      mode: "mask-with-tag" # mask | hash | remove | flag
+      redaction_format: "[[PII:{TYPE}]]"
+
+      sensitive_fields:
+        - ssn
+        - credit_card
+        - phone
+        - email
+        - address
+
+    audit_logging:
+      enabled: true
+      storage_type: "s3-worm"
+      bucket_name: "${AUDIT_LOG_BUCKET}"
+      retention_days: 365
+      encrypt: true
+
+    rate_limiting:
+      enabled: true
+      tokens_per_second: 10.0
+      burst_capacity: 100
+
+  # ======================================================================
+  # EVALUATION CONFIGURATION
+  # ======================================================================
+
+  evaluation:
+    enabled: true
+
+    golden_dataset:
+      path: "./evaluation/golden_questions.jsonl"
+
+    metrics_to_track:
+      - "exact_match@k"
+      - "f1_score@k"
+      - "bertscore"
+      - "faithfulness"
+      - "hallucination_rate"
+      - "context_utilization"
+
+    evaluation_schedule:
+      cron_expression: "0 2 * * *" # Daily at 2 AM
+
+    alerting:
+      email_enabled: false
+      email_address: "${ALERT_EMAIL}"
+      threshold_em_drop: 0.10
+      threshold_latency_warn_ms: 800
+
+  # ======================================================================
+  # MONITORING AND OBSERVABILITY
+  # ======================================================================
+
+  monitoring:
+    prometheus:
+      enabled: true
+      port: 9090
+
+    grafana:
+      enabled: true
+      dashboards:
+        - "rag-system-dashboard.json"
+
+    logging:
+      level: "INFO" # DEBUG | INFO | WARNING | ERROR
+      format: "json" # json | pretty
+
+    tracing:
+      enabled: false
+      jaeger_endpoint: "${JAEGER_ENDPOINT}"
+
+  # ======================================================================
+  # DEPLOYMENT SPECIFICATIONS
+  # ======================================================================
+
+  deployment:
+    replicas: 2 # Number of RAG orchestrator instances
+
+    resources_per_replica:
+      cpu_cores: 4
+      memory_gb: 8
+      gpu_count: 1
+      gpu_memory_gb: 16
+
+    scaling:
+      min_replicas: 2
+      max_replicas: 10
+      scale_target_cpu_percentage: 70
+      scale_up_threshold_seconds: 30
+      scale_down_threshold_seconds: 300
+
+    health_checks:
+      liveness_probe:
+        path: "/health/live"
+        initial_delay_seconds: 15
+        period_seconds: 20
+        timeout_seconds: 5
+      readiness_probe:
+        path: "/health/ready"
+        initial_delay_seconds: 30
+        period_seconds: 10
+
+  # ======================================================================
+  # PERSISTENCE CONFIGURATION
+  # ======================================================================
+
+  persistence:
+    vector_database_volume:
+      size_gb: 100
+      storage_class: "standard-io1"
+
+    cache_volume:
+      size_gb: 50
+      storage_class: "ssd"
+
+    log_volume:
+      size_gb: 100
+      retention_days: 30
+
+  # ======================================================================
+  # ENVIRONMENT VARIABLES (populate these)
+  # ======================================================================
+
+  environment_variables:
+    - name: "REDIS_HOST"
+      value: "${REDIS_CLUSTER_HOST}"
+
+    - name: "VECTOR_DB_HOST"
+      value: "${VECTOR_DB_SERVICE_HOST}"
+
+    - name: "LLM_MODEL_NAME"
+      value: "${LLM_MODEL_NAME:-qwen2.5:7b}"
+
+    - name: "EMBEDDING_MODEL_NAME"
+      value: "${EMBEDDING_MODEL_NAME:-all-MiniLM-L6-v2}"
+
+    - name: "RERANKER_MODEL_NAME"
+      value: "${RERANKER_MODEL_NAME:-bge-reranker-large}"
+
+  # ======================================================================
+  # DEPLOYMENT TARGETS
+  # ======================================================================
+
+  targets:
+    production_environment: true
+    namespace: "rag-production"
+    cluster_name: "${K8S_CLUSTER_NAME}"
+
+    ingress:
+      enabled: true
+      host: "rag.${DOMAIN}"
+      tls_enabled: true
+
+    service_mesh:
+      istio_enabled: false # true for Istio sidecars
+
+---
+# DEPLOYMENT COMMANDS
+# ====================
+#
+# After populating configuration, deploy with:
+#
+# kubectl apply -f deployment-config.yaml
+#
+# Or use Helm:
+# helm install rag ./charts/rag-system \
+#   --values deployment-config.yaml \
+#   --namespace rag-production \
+#   --create-namespace
+
+# ======================================================================
+# MONITORING COMMANDS
+# ======================================================================
+#
+# Check system health:
+# curl http://localhost:8080/health
+#
+# View metrics:
+# curl http://prometheus:9090/metrics
+#
+# Access Grafana dashboard:
+# http://grafana:3000/d/rag-system-dashboard

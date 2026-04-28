@@ -1,2 +1,7 @@
 # Ignore local settings file
 .claude/settings.local.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
