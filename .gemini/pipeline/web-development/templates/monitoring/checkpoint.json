@@ -6,14 +6,34 @@
   "progress_pct": 0,
   "web_strategy": "[SSR | CSR | PWA | Hybrid]",
   "track_breakdown": {
-    "W-FE": { "status": "N/A", "progress_pct": 0, "owner": "Amira Voss", "engineers": 0 },
-    "W-BE": { "status": "N/A", "progress_pct": 0, "owner": "Dev Malhotra", "engineers": 0 },
-    "W-FS": { "status": "N/A", "progress_pct": 0, "owner": "Elena Vasquez", "engineers": 0 }
+    "W-FE": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Amira Voss",
+      "engineers": 0
+    },
+    "W-BE": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Dev Malhotra",
+      "engineers": 0
+    },
+    "W-FS": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Elena Vasquez",
+      "engineers": 0
+    }
   },
   "milestone_history": [],
   "performance_metrics": {
     "bundle_size_kb": 0,
-    "lighthouse_scores": { "performance": 0, "accessibility": 0, "best_practices": 0, "seo": 0 },
+    "lighthouse_scores": {
+      "performance": 0,
+      "accessibility": 0,
+      "best_practices": 0,
+      "seo": 0
+    },
     "seo_readiness": "not-started",
     "cdn_configured": false,
     "preview_deployed": false

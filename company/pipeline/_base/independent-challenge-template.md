@@ -12,7 +12,6 @@
 ## 1. Purpose
 
 > **The problem this template solves.** Multi-condition gate reports — "all 24 conditions satisfied," "all 12 release-checklist rows green," "all 8 P0 items closed" — carry a structural vulnerability when the conditions are authored, the evidence is assembled, and the sign-off is requested by the same DRI cluster. There is no external check that the conditions were the _right_ conditions, no adversarial scan for what the listed conditions did not cover, and no "what's missing" pass.
->
 > This template is the **operating instrument** that breaks that closure. It defines a single, repeatable challenge protocol that every multi-condition gate report must pass before its corresponding step transitions from `🔵 Implemented` to `🟢 Verified`.
 
 The pattern is borrowed from the Bezos red-team review and adapted to this company's pipeline lifecycle. It is **not** a re-audit of the work; it is an adversarial scan for what the original DRIs missed.

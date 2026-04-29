@@ -48,4 +48,42 @@ Rachel owns the mobile and API test automation framework within the R&D Departme
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Stage 7 (Automated Testing), Stage 8 (Integrity Verification)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 7 — Automated Testing
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase (post-review)        |    ✅     | Zone B | Stage 6 output              |
+| Defect Report                 |    ✅     | Zone B | Stage 6 artifact            |
+| Schema 6→7 transition summary |    ✅     | Zone B | Stage 6 JSON output         |
+| Testing skill guidelines      |    ✅     | Zone B | skills/testing-qa/          |
+| Gate criteria for Stage 7     |    ✅     | Zone C | pipeline.md § Stage 7       |
+| Output schema 7→8             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 8 — Integrity Verification
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase (post-testing)       |    ✅     | Zone B | Stage 7 output              |
+| Stage 6 baseline tag          |    ✅     | Zone B | Stage 6 codebase tag        |
+| PRD (feature list)            |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| IDS (design specs)            |    ✅     | Zone B | Stage 2 artifact            |
+| SRD (security requirements)   |    ✅     | Zone B | Stage 1 artifact            |
+| Schema 7→8 transition summary |    ✅     | Zone B | Stage 7 JSON output         |
+| Gate criteria for Stage 8     |    ✅     | Zone C | pipeline.md § Stage 8       |
+| Output schema 8→9             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

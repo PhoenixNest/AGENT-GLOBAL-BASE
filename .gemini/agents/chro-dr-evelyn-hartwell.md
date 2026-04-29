@@ -48,6 +48,8 @@ When the user issues a recruitment request (e.g., "Recruit a CTO", "I need a sen
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** Recruitment Pipeline
+
 None — recruitment-only role (pre-pipeline).
 
 ## Skills Index

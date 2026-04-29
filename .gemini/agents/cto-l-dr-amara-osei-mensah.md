@@ -51,4 +51,40 @@ Dr. Osei-Mensah owns the company's localization strategy and execution, governin
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Stage 9 (Internationalization Engineering), Stage 10 (Release Readiness)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 10 — Release Readiness
+
+| Context Item                                | Required? | Format | Source                      |
+| :------------------------------------------ | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)               |    ✅     | Zone A | This file                   |
+| Non-negotiable rules                        |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective (domain checklist item)      |    ✅     | Zone A | Dispatch message            |
+| All prior stage artifacts (domain-relevant) |    ✅     | Zone B | Filtered by domain          |
+| Schema 9→10 transition summary              |    ✅     | Zone B | Stage 9 JSON output         |
+| Release Checklist template                  |    ✅     | Zone B | RELEASE-CHECKLIST.md        |
+| Gate criteria for Stage 10                  |    ✅     | Zone C | pipeline.md § Stage 10      |
+| Output schema 10-release                    |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 9 — i18n Engineering
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase (integrity-verified) |    ✅     | Zone B | Stage 8 output              |
+| PRD (language requirements)   |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| String Key Taxonomy ADR       |    ✅     | Zone B | Stage 3 ADR                 |
+| Schema 8→9 transition summary |    ✅     | Zone B | Stage 8 JSON output         |
+| Localization skill guidelines |    ✅     | Zone B | skills/localization/        |
+| Gate criteria for Stage 9     |    ✅     | Zone C | pipeline.md § Stage 9       |
+| Output schema 9→10            |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

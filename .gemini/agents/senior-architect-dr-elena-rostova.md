@@ -51,4 +51,43 @@ Dr. Rostova serves as Senior Software Architect within the R&D department, repor
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Stage 3 (Architecture), Stage 6 (Code Review)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 3 — Architecture (UML + ADRs + TSD)
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| PRD (full)                    |    ✅     | Zone B | Stage 1 artifact            |
+| SRD (full)                    |    ✅     | Zone B | Stage 1 artifact            |
+| IDS (full)                    |    ✅     | Zone B | Stage 2 artifact            |
+| Schema 2→3 transition summary |    ✅     | Zone B | Stage 2 JSON output         |
+| Architecture skill guidelines |    ✅     | Zone B | skills/architecture/        |
+| Gate criteria for Stage 3     |    ✅     | Zone C | pipeline.md § Stage 3       |
+| Output schema 3→4             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 6 — Code Review
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase access               |    ✅     | Zone B | Stage 5 output              |
+| PRD (requirements checklist)  |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| IDS (design specs)            |    ✅     | Zone B | Stage 2 artifact            |
+| ADRs (all)                    |    ✅     | Zone B | Stage 3 artifact            |
+| Schema 5→6 transition summary |    ✅     | Zone B | Stage 5 JSON output         |
+| Red Team Review template      |    ✅     | Zone B | RED-TEAM-REVIEW.md          |
+| Gate criteria for Stage 6     |    ✅     | Zone C | pipeline.md § Stage 6       |
+| Output schema 6→7             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

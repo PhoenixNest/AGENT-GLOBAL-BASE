@@ -244,9 +244,7 @@ Upon completion of each coding task, the progress log is updated. Once all codin
 ## Stage 6 — Development Deliverables → Architecture & Cross-Functional Conformance Review
 
 > **Naming convention:** Stage 6 is **"Architecture & Cross-Functional Conformance Review,"** not "Code Review." Per-PR code review is continuous (CI-enforced, two-reviewer minimum, `CODEOWNERS`). Stage 6 verifies _aggregate_ conformance, not lines of code.
->
 > **Sign-off model:** Stage 6 uses the **DRI-async** model — the named DRI signs off; the cross-functional panel reviews exceptions asynchronously within 24h. Full-panel convene is reserved for explicit escalation triggers (P0/P1 unresolved, scope > X% change, security exception).
->
 > **Relevant Personnel:** CPO/VP, CDO, CTO, CIO, CSO, R&D Department, User
 > **Artifacts In:** Development codebase, PRD, SRD, IDS, UML Package, ADRs, TSD
 > **Artifacts Out:** Defect Report (if any) + Conformance Sign-off
@@ -327,7 +325,6 @@ Bugs discovered during automated testing are classified using the P0–P3 system
 ## Stage 8 — Automated Testing → Integrity Verification
 
 > **Sign-off model:** Stage 8 uses the **DRI-async** model — DRI signs off; cross-functional panel reviews exceptions asynchronously within 24h. Full-panel convene is reserved for explicit escalation triggers.
->
 > **Relevant Personnel:** CPO/VP, CDO, CTO, CIO, CSO, Brand Design Department, R&D Department, User
 > **Artifacts In:** Post-testing codebase, all prior archived deliverables
 > **Artifacts Out:** Integrity Verification Sign-off
@@ -358,7 +355,6 @@ The review verifies (universal):
 ## Stage 9.5 — Internal Dogfood (NEW — Step 15) — UNIVERSAL
 
 > **Stage scope:** Mandatory employee Beta channel between Stage 8 and Stage 9. Bug telemetry mandatory; minimum 5 business days. See [`dogfood-telemetry-template.md`](./dogfood-telemetry-template.md) for the canonical telemetry-report shape.
->
 > **Relevant Personnel:** VP Quality (DRI), CTO, CPO, CDO, CSO
 > **Artifacts In:** Integrity-verified codebase
 > **Artifacts Out:** Dogfood Telemetry Report
@@ -377,7 +373,6 @@ The review verifies (universal):
 ## Stage 9 — Integrity Verification → Translation Production
 
 > **Naming convention:** Stage 9 is **"Translation Production,"** not "Internationalization Engineering." i18n is a continuous concern from Stage 2 onward (see `{{DELTA: cross-cutting i18n requirements per product}}`); Stage 9's scope is translation accuracy by linguists.
->
 > **Relevant Personnel:** CTO-L (Chief Translation Officer) + Translation Team, CPO/VP, CDO, CTO, R&D
 > **Artifacts In:** Integrity-verified + dogfood-validated codebase, PRD (language requirements section)
 > **Artifacts Out:** Translated codebase + Translation Verification Report
@@ -403,7 +398,6 @@ The CTO-L and Translation Team take ownership of all extracted strings and datas
 ## Stage 10 — Translation Production → Release Readiness Check
 
 > **Sign-off model:** Stage 10 uses the **DRI-async** model — DRI signs off; full panel reviews exceptions asynchronously. Full-panel convene is reserved for explicit escalation triggers.
->
 > **Relevant Personnel:** CPO/VP, CDO, CTO, CIO, CSO, CTO-L, VP Platform, VP Quality, User
 > **Artifacts In:** All archived deliverables from all prior stages
 > **Artifacts Out:** Release Readiness Report + Release Decision
@@ -443,7 +437,6 @@ A final holistic gate ensuring the product meets all release standards before sh
 ## Stage 11 — Live Operations (NEW — Step 6) — UNIVERSAL FRAME
 
 > **Stage scope:** Stage 11 is **continuous** — it begins at release and never closes for the lifetime of the product. The full operating model lives at [`incident-response.md`](./incident-response.md).
->
 > **Relevant Personnel:** VP Platform (DRI), CSO, CTO, CPO/VP, Test Lead, On-Call Rotation
 > **Artifacts In:** Released product
 > **Artifacts Out:** Quarterly Business Review (QBR) reports, postmortem reports, error budget reports

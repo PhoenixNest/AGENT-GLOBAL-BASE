@@ -31,7 +31,9 @@ templates/
 │   ├── SIS.md                                         ← Security Implementation Specification
 │   └── CONTRACT-VERIFICATION-REPORT.md                ← KMP/Flutter Contract Verification
 ├── stage-6-code-review/
-│   └── DEFECT-REPORT.md                               ← Defect Report
+│   ├── DEFECT-REPORT.md                               ← Defect Report
+│   ├── RED-TEAM-REVIEW.md                             ← Red Team Adversarial Review Protocol
+│   └── STAGE-TRANSITION-SUMMARY.md                    ← Stage 6 Transition Summary
 ├── stage-7-testing/
 │   ├── TEST-RESULTS-REPORT.md                         ← Test Results Report
 │   ├── PERFORMANCE-BENCHMARK-REPORT.md                ← Performance Benchmark Results
@@ -46,37 +48,53 @@ templates/
 └── monitoring/
     ├── PROGRESS.md                                    ← Pipeline Progress Dashboard (Layer 1)
     ├── SESSION-LOG.md                                 ← Session Audit Trail (Layer 2)
-    └── CHECKPOINT.json                                ← Machine-Readable Milestone (Layer 3)
+    ├── CHECKPOINT.json                                ← Machine-Readable Milestone (Layer 3)
+    ├── STAGE-TRANSITION-SUMMARY.md                    ← Cross-Stage Context Handoff (ASE Phase 1)
+    ├── STAGE-TRANSITION-SCHEMAS.md                    ← JSON Schema Contracts (ASE Phase 2)
+    ├── INTER-AGENT-COMMUNICATION-PROTOCOL.md          ← IACP Message Formats (ASE Phase 2)
+    ├── MVC-CONTEXT-PROFILE.md                         ← MVC Profile Template (ASE Phase 2)
+    ├── KNOWLEDGE-TRANSFER-PROTOCOL.md                 ← 3-Tier Learning Loop (ASE Phase 3)
+    ├── RAG-INTEGRATION-BLUEPRINT.md                   ← Semantic Retrieval Architecture (ASE Phase 3)
+    ├── ADR-ASE-001.md                                 ← ASE Adoption Decision Record (ASE Phase 3)
+    └── SCHEMA-VALIDATION-SPEC.md                      ← Automated Gate Enforcement (ASE Phase 3)
 ```
 
 ---
 
 ## Quick Reference by Stage
 
-| Stage                   | Templates                                                                       | Count  |
-| ----------------------- | ------------------------------------------------------------------------------- | ------ |
-| 1 — Requirements        | `PRD.md`, `SRD.md`                                                              | 2      |
-| 2 — Design              | `IDS.md`                                                                        | 1      |
-| 3 — Architecture        | 6× ADR templates, `TSD.md`                                                      | 7      |
-| 4 — Implementation Plan | `IMPLEMENTATION-PLAN.md`, `RTM.md`, `TEST-ARCHITECTURE-DOCUMENT.md`             | 3      |
-| 5 — Development         | `DEVELOPMENT-LOG.md`, `SIS.md`, `CONTRACT-VERIFICATION-REPORT.md`               | 3      |
-| 6 — Code Review         | `DEFECT-REPORT.md`                                                              | 1      |
-| 7 — Testing             | `TEST-RESULTS-REPORT.md`, `PERFORMANCE-BENCHMARK-REPORT.md`, `DEVICE-MATRIX.md` | 3      |
-| 8 — Integrity           | `INTEGRITY-SIGNOFF.md`                                                          | 1      |
-| 9 — i18n                | `STRING-EXTRACTION-HANDOFF.md`, `TRANSLATION-VERIFICATION-REPORT.md`            | 2      |
-| 10 — Release            | `RELEASE-CHECKLIST.md`                                                          | 1      |
-| Monitoring (all stages) | `progress.md`, `session-log.md`, `checkpoint.json`                              | 3      |
-| **Total**               |                                                                                 | **27** |
+| Stage                   | Templates                                                                                                                                                                                                                                                              | Count  |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 1 — Requirements        | `PRD.md`, `SRD.md`                                                                                                                                                                                                                                                     | 2      |
+| 2 — Design              | `IDS.md`                                                                                                                                                                                                                                                               | 1      |
+| 3 — Architecture        | 6× ADR templates, `TSD.md`                                                                                                                                                                                                                                             | 7      |
+| 4 — Implementation Plan | `IMPLEMENTATION-PLAN.md`, `RTM.md`, `TEST-ARCHITECTURE-DOCUMENT.md`                                                                                                                                                                                                    | 3      |
+| 5 — Development         | `DEVELOPMENT-LOG.md`, `SIS.md`, `CONTRACT-VERIFICATION-REPORT.md`                                                                                                                                                                                                      | 3      |
+| 6 — Code Review         | `DEFECT-REPORT.md`, `RED-TEAM-REVIEW.md`, `STAGE-TRANSITION-SUMMARY.md`                                                                                                                                                                                                | 3      |
+| 7 — Testing             | `TEST-RESULTS-REPORT.md`, `PERFORMANCE-BENCHMARK-REPORT.md`, `DEVICE-MATRIX.md`                                                                                                                                                                                        | 3      |
+| 8 — Integrity           | `INTEGRITY-SIGNOFF.md`                                                                                                                                                                                                                                                 | 1      |
+| 9 — i18n                | `STRING-EXTRACTION-HANDOFF.md`, `TRANSLATION-VERIFICATION-REPORT.md`                                                                                                                                                                                                   | 2      |
+| 10 — Release            | `RELEASE-CHECKLIST.md`                                                                                                                                                                                                                                                 | 1      |
+| Monitoring (all stages) | `progress.md`, `session-log.md`, `checkpoint.json`, `stage-transition-summary.md`, `stage-transition-schemas.md`, `iacp.md`, `mvc-context-profile.md`, `knowledge-transfer-protocol.md`, `rag-integration-blueprint.md`, `adr-ase-001.md`, `schema-validation-spec.md` | 11     |
+| **Total**               |                                                                                                                                                                                                                                                                        | **38** |
 
 ---
 
 ## Monitoring Templates
 
-| Template          | Layer   | Format   | When to Use                                                     |
-| ----------------- | ------- | -------- | --------------------------------------------------------------- |
-| `progress.md`     | Layer 1 | Markdown | Created at project start (Stage 4+); updated at every milestone |
-| `session-log.md`  | Layer 2 | Markdown | One file per work session; created at session start             |
-| `checkpoint.json` | Layer 3 | JSON     | One file per stage gate; updated at each internal milestone     |
+| Template                                | Layer      | Format   | When to Use                                                     |
+| --------------------------------------- | ---------- | -------- | --------------------------------------------------------------- |
+| `progress.md`                           | Layer 1    | Markdown | Created at project start (Stage 4+); updated at every milestone |
+| `session-log.md`                        | Layer 2    | Markdown | One file per work session; created at session start             |
+| `checkpoint.json`                       | Layer 3    | JSON     | One file per stage gate; updated at each internal milestone     |
+| `stage-transition-summary.md`           | ASE — L2   | Markdown | Mandatory at every stage gate; prevents info loss               |
+| `stage-transition-schemas.md`           | ASE — L2   | JSON     | Schema contracts for all 10 stage transitions                   |
+| `inter-agent-communication-protocol.md` | ASE — L2/3 | Markdown | Message formats, routing rules, escalation paths                |
+| `mvc-context-profile.md`                | ASE — L2   | Markdown | Template for agent MVC profiles; append to agent `.md` files    |
+| `knowledge-transfer-protocol.md`        | ASE — L3   | Markdown | 3-tier learning loop: session → project → institutional         |
+| `rag-integration-blueprint.md`          | ASE — L4   | Markdown | Semantic retrieval architecture; 3-phase evolution roadmap      |
+| `adr-ase-001.md`                        | ASE — Gov  | Markdown | Formal ADR codifying ASE as permanent methodology               |
+| `schema-validation-spec.md`             | ASE — L3   | Markdown | Automated gate validation rules and error escalation            |
 
 **Full specification:** [`monitoring.md`](../monitoring.md) — Progress Monitoring & Recovery System.
 

@@ -49,4 +49,42 @@ Fatima is a Cross-Platform Engineer reporting to the Cross-Platform Lead (Mei-Li
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** Mobile Development, Full-Stack Pipelines
+
 Stage 5 (Development — Cross-Platform Flutter), Stage 9 (i18n Engineering — Cross-Platform)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 5 — Development
+
+| Context Item                       | Required? | Format | Source                      |
+| :--------------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)      |    ✅     | Zone A | This file                   |
+| Non-negotiable rules               |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                     |    ✅     | Zone A | Dispatch message            |
+| Implementation Plan                |    ✅     | Zone B | Stage 4 artifact            |
+| ADRs (relevant to assigned module) |    ✅     | Zone B | Stage 3 artifact (filtered) |
+| IDS (relevant screens)             |    ✅     | Zone B | Stage 2 artifact (filtered) |
+| Schema 4→5 transition summary      |    ✅     | Zone B | Stage 4 JSON output         |
+| Platform skill guidelines          |    ✅     | Zone B | skills/<platform>/          |
+| Gate criteria for Stage 5          |    ✅     | Zone C | pipeline.md § Stage 5       |
+| Output schema 5→6                  |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 9 — i18n Engineering
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase (integrity-verified) |    ✅     | Zone B | Stage 8 output              |
+| PRD (language requirements)   |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| String Key Taxonomy ADR       |    ✅     | Zone B | Stage 3 ADR                 |
+| Schema 8→9 transition summary |    ✅     | Zone B | Stage 8 JSON output         |
+| Localization skill guidelines |    ✅     | Zone B | skills/localization/        |
+| Gate criteria for Stage 9     |    ✅     | Zone C | pipeline.md § Stage 9       |
+| Output schema 9→10            |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

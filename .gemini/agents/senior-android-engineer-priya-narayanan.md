@@ -49,4 +49,59 @@ Priya is a Senior Android Engineer reporting to the Android Chapter Lead (Kofi A
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** Mobile Development Pipeline
+
 Stage 5 (Development — Android platform), Stage 6 (Code Review — Android), Stage 8 (Integrity Verification — Android)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 5 — Development
+
+| Context Item                       | Required? | Format | Source                      |
+| :--------------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)      |    ✅     | Zone A | This file                   |
+| Non-negotiable rules               |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                     |    ✅     | Zone A | Dispatch message            |
+| Implementation Plan                |    ✅     | Zone B | Stage 4 artifact            |
+| ADRs (relevant to assigned module) |    ✅     | Zone B | Stage 3 artifact (filtered) |
+| IDS (relevant screens)             |    ✅     | Zone B | Stage 2 artifact (filtered) |
+| Schema 4→5 transition summary      |    ✅     | Zone B | Stage 4 JSON output         |
+| Platform skill guidelines          |    ✅     | Zone B | skills/<platform>/          |
+| Gate criteria for Stage 5          |    ✅     | Zone C | pipeline.md § Stage 5       |
+| Output schema 5→6                  |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 6 — Code Review
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase access               |    ✅     | Zone B | Stage 5 output              |
+| PRD (requirements checklist)  |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| IDS (design specs)            |    ✅     | Zone B | Stage 2 artifact            |
+| ADRs (all)                    |    ✅     | Zone B | Stage 3 artifact            |
+| Schema 5→6 transition summary |    ✅     | Zone B | Stage 5 JSON output         |
+| Red Team Review template      |    ✅     | Zone B | RED-TEAM-REVIEW.md          |
+| Gate criteria for Stage 6     |    ✅     | Zone C | pipeline.md § Stage 6       |
+| Output schema 6→7             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 8 — Integrity Verification
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase (post-testing)       |    ✅     | Zone B | Stage 7 output              |
+| Stage 6 baseline tag          |    ✅     | Zone B | Stage 6 codebase tag        |
+| PRD (feature list)            |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| IDS (design specs)            |    ✅     | Zone B | Stage 2 artifact            |
+| SRD (security requirements)   |    ✅     | Zone B | Stage 1 artifact            |
+| Schema 7→8 transition summary |    ✅     | Zone B | Stage 7 JSON output         |
+| Gate criteria for Stage 8     |    ✅     | Zone C | pipeline.md § Stage 8       |
+| Output schema 8→9             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

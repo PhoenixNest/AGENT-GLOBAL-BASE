@@ -247,8 +247,30 @@ Before Stage 6 entry, the Internationalization Specialist audits the codebase:
 
 ---
 
+## Agent Systems Engineering (ASE) — Governance Layer
+
+In addition to the three-layer monitoring system above, all pipelines operate under the **ASE Framework** — a 4-layer governance methodology for multi-agent coordination. The ASE templates are co-located with the monitoring templates:
+
+| ASE Template                            | Layer               | Purpose                                 |
+| --------------------------------------- | ------------------- | --------------------------------------- |
+| `STAGE-TRANSITION-SUMMARY.md`           | Context Engineering | Cross-stage context handoff             |
+| `STAGE-TRANSITION-SCHEMAS.md`           | Harness Engineering | JSON schema contracts (`V-WEB-` prefix) |
+| `SCHEMA-VALIDATION-SPEC.md`             | Harness Engineering | Automated validation rules              |
+| `INTER-AGENT-COMMUNICATION-PROTOCOL.md` | Context + Harness   | Agent message formats and routing       |
+| `MVC-CONTEXT-PROFILE.md`                | Context Engineering | Agent context window management         |
+| `KNOWLEDGE-TRANSFER-PROTOCOL.md`        | RAG / Memory        | 3-tier learning loop                    |
+| `RAG-INTEGRATION-BLUEPRINT.md`          | RAG / Memory        | Semantic retrieval architecture         |
+| `ADR-ASE-001.md`                        | Governance          | ASE adoption decision record            |
+
+> **Template location:** `company/pipeline/web-development/templates/monitoring/` and `templates/stage-6-code-review/`
+> **Full ASE specification:** See `company/library/overview/pipeline.md` § Agent Systems Engineering (ASE) Framework.
+
+---
+
 ## Related Documents
 
 - **Pipeline Definition:** `company/pipeline/web-development/pipeline.md`
 - **Progress Sync Protocol:** See "Progress Sync Protocol" section in pipeline.md
 - **Project Directory Structure:** Refer to project root documentation
+- **ASE Framework Templates:** `templates/monitoring/` (8 ASE templates + 3 base monitoring templates)
+- **ASE Governance ADR:** `templates/monitoring/ADR-ASE-001.md`

@@ -135,7 +135,7 @@ Resolution:
 on:
   push:
     paths:
-      - 'api-spec/openapi.yaml'
+      - "api-spec/openapi.yaml"
 
 jobs:
   generate-clients:

@@ -6,10 +6,30 @@
   "progress_pct": 0,
   "platform_combination": "[web + iOS + Android | web + Android | iOS + API]",
   "track_breakdown": {
-    "FS-WFE": { "status": "N/A", "progress_pct": 0, "owner": "Amira Voss", "engineers": 0 },
-    "FS-WBE": { "status": "N/A", "progress_pct": 0, "owner": "Dev Malhotra", "engineers": 0 },
-    "FS-MOB": { "status": "N/A", "progress_pct": 0, "owner": "Marcus Andersson", "engineers": 0 },
-    "FS-INT": { "status": "N/A", "progress_pct": 0, "owner": "Elena Vasquez", "engineers": 0 }
+    "FS-WFE": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Amira Voss",
+      "engineers": 0
+    },
+    "FS-WBE": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Dev Malhotra",
+      "engineers": 0
+    },
+    "FS-MOB": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Marcus Andersson",
+      "engineers": 0
+    },
+    "FS-INT": {
+      "status": "N/A",
+      "progress_pct": 0,
+      "owner": "Elena Vasquez",
+      "engineers": 0
+    }
   },
   "milestone_history": [],
   "performance_metrics": {
@@ -23,8 +43,14 @@
   "variance_tracking": {},
   "security_state": {
     "web": { "xss_prevention": "not-started", "csp_headers": "not-started" },
-    "mobile": { "masvs_compliance": "not-started", "certificate_pinning": "not-started" },
-    "backend": { "rate_limiting": "not-started", "authz_enforcement": "not-started" },
+    "mobile": {
+      "masvs_compliance": "not-started",
+      "certificate_pinning": "not-started"
+    },
+    "backend": {
+      "rate_limiting": "not-started",
+      "authz_enforcement": "not-started"
+    },
     "cross_platform_auth_parity": "not-started"
   },
   "design_fidelity_checkpoint": {

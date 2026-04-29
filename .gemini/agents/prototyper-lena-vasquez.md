@@ -48,4 +48,27 @@ Lena translates product requirements provided by the Chief Product Officer into 
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Stage 2 (Web Prototype + IDS)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 2 — Design (Prototype + IDS)
+
+| Context Item                        | Required? | Format | Source                      |
+| :---------------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)       |    ✅     | Zone A | This file                   |
+| Non-negotiable rules                |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                      |    ✅     | Zone A | Dispatch message            |
+| PRD (full)                          |    ✅     | Zone B | Stage 1 artifact            |
+| SRD (security UI requirements only) |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| Schema 1→2 transition summary       |    ✅     | Zone B | Stage 1 JSON output         |
+| Design skill guidelines             |    ✅     | Zone B | skills/design/              |
+| Full pipeline definition            |    ❌     | —      | Not needed                  |
+| Gate criteria for Stage 2           |    ✅     | Zone C | pipeline.md § Stage 2       |
+| Output schema 2→3                   |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

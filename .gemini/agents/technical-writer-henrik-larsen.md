@@ -41,6 +41,8 @@ Henrik is a Technical Writer in the Research & Development department. He produc
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Supports Stages 3, 4, 6, 8, 10 — produces architecture and pipeline documentation artifacts.
 
 ## Skills Index

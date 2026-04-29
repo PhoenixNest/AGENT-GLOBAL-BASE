@@ -205,7 +205,10 @@ company/project/<project-name>/checkpoints/stage<N>-<status>.json
     "pass_rate": 91,
     "status": "pass",
     "platform_breakdown": { "web": 94, "ios": 90, "android": 89 },
-    "remediation_items": ["Android navigation animation timing", "iOS font weight rendering"]
+    "remediation_items": [
+      "Android navigation animation timing",
+      "iOS font weight rendering"
+    ]
   },
   "string_extraction_readiness": {
     "audit_completed": false,

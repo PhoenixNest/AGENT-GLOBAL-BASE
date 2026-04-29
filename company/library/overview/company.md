@@ -50,6 +50,37 @@ For the full personnel roster, see [`personnel.md`](personnel.md).
 
 ---
 
+## Agent Systems Engineering (ASE) Framework
+
+The company operates under the **Agent Systems Engineering (ASE)** methodology — a 4-layer governance framework for multi-agent coordination. It is mandatory across all development pipelines and ratified via ADR-ASE-001.
+
+|        Layer        | Purpose                              | Examples                                |
+| :-----------------: | :----------------------------------- | :-------------------------------------- |
+| Prompt Engineering  | Standardised agent instructions      | 79 agent profiles, 199 skill guidelines |
+| Context Engineering | Structured handoffs, context windows | MVC profiles, stage transition schemas  |
+| Harness Engineering | Automated gate enforcement           | Schema validation, red team review      |
+|    RAG / Memory     | Institutional knowledge retention    | KTP, RAG blueprint, embedding stores    |
+
+> **Full specification:** See [`pipeline.md`](pipeline.md) § Agent Systems Engineering (ASE) Framework.
+
+---
+
+## Development Pipelines
+
+The company operates **4 development pipelines** and **1 recruitment pipeline**, each following a 10-stage state machine:
+
+| Pipeline           | Scope                                 | Template Location                      |
+| :----------------- | :------------------------------------ | :------------------------------------- |
+| Mobile Development | iOS, Android, KMP, Flutter            | `.gemini/pipeline/mobile-development/` |
+| Web Development    | PWA, SPA, SSR                         | `.gemini/pipeline/web-development/`    |
+| Backend API        | REST, GraphQL, gRPC                   | `.gemini/pipeline/backend-api/`        |
+| Full-Stack         | Coordinated web + mobile + backend    | `.gemini/pipeline/full-stack/`         |
+| Recruitment        | 10-stage hiring pipeline (CHRO-owned) | `.gemini/pipeline/recruitment/`        |
+
+> **Full specification:** [`pipeline.md`](pipeline.md)
+
+---
+
 ## Directory Structure
 
 ```
@@ -61,4 +92,5 @@ company/
 
 - **Agent profiles:** `departments/<dept>/supervisor/<role>/agent/profile.md` or `departments/<dept>/team/<tier>/<role>/agent/profile.md`
 - **Skill files:** `departments/<dept>/.../skills/<skill-name>.md`
-- **Full pipeline:** `pipeline/mobile-development/pipeline.md`
+- **Pipeline definitions:** `pipeline/<pipeline-name>/pipeline.md`
+- **ASE templates:** `.gemini/pipeline/<pipeline-name>/templates/monitoring/`

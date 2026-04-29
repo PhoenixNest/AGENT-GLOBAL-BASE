@@ -49,4 +49,41 @@ Tobias serves as Mobile SDET within the Research & Development Department, repor
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** Mobile Development Pipeline
+
 Stage 5 (Development — test automation infrastructure), Stage 7 (Automated Testing — mobile test suite execution)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 5 — Development
+
+| Context Item                       | Required? | Format | Source                      |
+| :--------------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)      |    ✅     | Zone A | This file                   |
+| Non-negotiable rules               |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                     |    ✅     | Zone A | Dispatch message            |
+| Implementation Plan                |    ✅     | Zone B | Stage 4 artifact            |
+| ADRs (relevant to assigned module) |    ✅     | Zone B | Stage 3 artifact (filtered) |
+| IDS (relevant screens)             |    ✅     | Zone B | Stage 2 artifact (filtered) |
+| Schema 4→5 transition summary      |    ✅     | Zone B | Stage 4 JSON output         |
+| Platform skill guidelines          |    ✅     | Zone B | skills/<platform>/          |
+| Gate criteria for Stage 5          |    ✅     | Zone C | pipeline.md § Stage 5       |
+| Output schema 5→6                  |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 7 — Automated Testing
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase (post-review)        |    ✅     | Zone B | Stage 6 output              |
+| Defect Report                 |    ✅     | Zone B | Stage 6 artifact            |
+| Schema 6→7 transition summary |    ✅     | Zone B | Stage 6 JSON output         |
+| Testing skill guidelines      |    ✅     | Zone B | skills/testing-qa/          |
+| Gate criteria for Stage 7     |    ✅     | Zone C | pipeline.md § Stage 7       |
+| Output schema 7→8             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

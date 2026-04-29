@@ -41,6 +41,8 @@ Grace is the Engineering Onboarding Lead in the Human Resources department, repo
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** Recruitment Pipeline
+
 None — recruitment and onboarding role (supports all departments, outside pipeline stages).
 
 ## Skills Index

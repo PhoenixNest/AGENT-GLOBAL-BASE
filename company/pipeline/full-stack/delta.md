@@ -10,7 +10,6 @@
 | **Cross-Refs** | Base: [`../_base/pipeline.md`](../_base/pipeline.md) · Template: [`../_base/delta-template.md`](../_base/delta-template.md)                                                        |
 
 > **Reading order.** This delta is consumed _alongside_ [`../_base/pipeline.md`](../_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for full-stack-cross-platform-specific content — which is _orchestration on top of_ the per-platform deltas (mobile / web / backend), not a replacement for them. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
->
 > **Meta-pipeline note.** Full-stack is unique among deltas: it is a **meta-pipeline** that orchestrates coordinated delivery across [`../mobile-development/delta.md`](../mobile-development/delta.md), [`../web-development/delta.md`](../web-development/delta.md), and [`../backend-api/delta.md`](../backend-api/delta.md). It does **not** replace those per-platform deltas — it sits above them and adds cross-platform orchestration concerns (release coordination, parity verification, shared data models, unified auth, design-token pipeline). When a project chooses `full-stack`, it activates this delta **plus** the relevant per-platform deltas in tandem. The base + full-stack delta + per-platform deltas together produce the derived view.
 
 ---

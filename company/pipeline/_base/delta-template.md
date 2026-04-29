@@ -1,7 +1,6 @@
 # Pipeline Delta Template
 
 > Every product pipeline (`mobile-development`, `web-development`, `backend-api`, `full-stack`) must produce a `delta.md` file conforming to this template. The delta file fills the `{{DELTA: …}}` placeholders defined in [`pipeline.md`](./pipeline.md) and adds product-specific content that does not belong in the universal base.
->
 > **Recruitment is NOT required to produce a delta.** Recruitment is shape-incompatible with the product pipelines (9-stage automated vs. 10-stage gated) and remains a single self-contained file.
 
 ---

@@ -48,4 +48,40 @@ Sana serves as Security Engineer #1 within the Cyberspace Security Department, r
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Stage 1 (Requirements — security requirements reviews), Stage 6 (Code Review — mobile security code reviews)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 1 — Requirements (PRD + SRD)
+
+| Context Item                   | Required? | Format | Source                      |
+| :----------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)  |    ✅     | Zone A | This file                   |
+| Non-negotiable rules           |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                 |    ✅     | Zone A | Dispatch message            |
+| User brief / product vision    |    ✅     | Zone B | User input                  |
+| Market research (if available) |    ❌     | —      | Not required                |
+| Gate criteria for Stage 1      |    ✅     | Zone C | pipeline.md § Stage 1       |
+| Output schema 1→2              |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 6 — Code Review
+
+| Context Item                  | Required? | Format | Source                      |
+| :---------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile) |    ✅     | Zone A | This file                   |
+| Non-negotiable rules          |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                |    ✅     | Zone A | Dispatch message            |
+| Codebase access               |    ✅     | Zone B | Stage 5 output              |
+| PRD (requirements checklist)  |    ✅     | Zone B | Stage 1 artifact (filtered) |
+| IDS (design specs)            |    ✅     | Zone B | Stage 2 artifact            |
+| ADRs (all)                    |    ✅     | Zone B | Stage 3 artifact            |
+| Schema 5→6 transition summary |    ✅     | Zone B | Stage 5 JSON output         |
+| Red Team Review template      |    ✅     | Zone B | RED-TEAM-REVIEW.md          |
+| Gate criteria for Stage 6     |    ✅     | Zone C | pipeline.md § Stage 6       |
+| Output schema 6→7             |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

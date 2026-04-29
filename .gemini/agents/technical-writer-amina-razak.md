@@ -41,6 +41,8 @@ Amina is a Technical Writer in the Research & Development department. She produc
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Supports Stages 5, 6, 10 — produces API documentation, developer guides, and engineering standards.
 
 ## Skills Index

@@ -107,6 +107,35 @@ Active from Stage 4 onward.
 
 **Full system:** [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
 
+### Agent Systems Engineering (ASE) Framework
+
+The ASE framework is the company's **mandatory multi-agent governance layer** for all development pipelines. Ratified via [ADR-ASE-001](../../pipeline/mobile-development/templates/monitoring/ADR-ASE-001.md), it consists of four layers:
+
+| Layer | Name                | Purpose                           | Key Artifacts                                          |
+| :---: | :------------------ | :-------------------------------- | :----------------------------------------------------- |
+|   1   | Prompt Engineering  | Standardised instruction patterns | Agent profiles, skill files                            |
+|   2   | Context Engineering | Structured handoffs, MVC profiles | Stage Transition Schemas, MVC Context Profiles, IACP   |
+|   3   | Harness Engineering | Automated gate enforcement        | Schema Validation Spec, Red Team Review                |
+|   4   | RAG / Memory        | Institutional knowledge retention | Knowledge Transfer Protocol, RAG Integration Blueprint |
+
+#### Cross-Pipeline ASE Coverage
+
+All 4 development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved **100% ASE template parity**:
+
+| Template                    | Mobile |     Web     |   Backend   | Full-Stack |
+| :-------------------------- | :----: | :---------: | :---------: | :--------: |
+| Stage Transition Schemas    |   ✅   | ✅ `V-WEB-` | ✅ `V-API-` | ✅ `V-FS-` |
+| Schema Validation Spec      |   ✅   | ✅ `V-WEB-` | ✅ `V-API-` | ✅ `V-FS-` |
+| Inter-Agent Comm Protocol   |   ✅   |     ✅      |     ✅      |     ✅     |
+| MVC Context Profile         |   ✅   |     ✅      |     ✅      |     ✅     |
+| Stage Transition Summary    |   ✅   |     ✅      |     ✅      |     ✅     |
+| Knowledge Transfer Protocol |   ✅   |     ✅      |     ✅      |     ✅     |
+| RAG Integration Blueprint   |   ✅   |     ✅      |     ✅      |     ✅     |
+| ADR-ASE-001                 |   ✅   |     ✅      |     ✅      |     ✅     |
+| Red Team Review (Stage 6)   |   ✅   |     ✅      |     ✅      |     ✅     |
+
+> **Template locations:** `.gemini/pipeline/<pipeline>/templates/monitoring/` and `.gemini/pipeline/<pipeline>/templates/stage-6-code-review/`
+
 ### Platform Strategy Matrix
 
 Stage 5 development executes per the **Platform Strategy Matrix**, driven by the Platform Strategy ADR at Stage 3. Five mutually exclusive scenarios determine track activation: Android-only, iOS-only, both native, KMP cross-platform, or Flutter cross-platform. Each scenario activates different track configurations (FULL / LIGHT / PRIMARY / Dormant) with distinct team sizes, CI/CD scopes, and testing mandates.

@@ -49,4 +49,37 @@ Ingrid serves as Compliance Analyst within the Cyberspace Security Department, r
 
 ## Pipeline Stages Owned
 
+**Applicable Pipeline(s):** All Pipelines (Mobile, Web, Backend API, Full-Stack)
+
 Stage 1 (Requirements — compliance requirements reviews), Stage 10 (Release Readiness — compliance sign-off)
+
+## MVC Context Profile
+
+> What context this agent needs, organized by pipeline stage.
+> Orchestrator: include ONLY the items marked ✅ when dispatching to this agent.
+> Reference: [MVC-CONTEXT-PROFILE.md](../pipeline/mobile-development/templates/monitoring/MVC-CONTEXT-PROFILE.md)
+
+### Stage 1 — Requirements (PRD + SRD)
+
+| Context Item                   | Required? | Format | Source                      |
+| :----------------------------- | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)  |    ✅     | Zone A | This file                   |
+| Non-negotiable rules           |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective                 |    ✅     | Zone A | Dispatch message            |
+| User brief / product vision    |    ✅     | Zone B | User input                  |
+| Market research (if available) |    ❌     | —      | Not required                |
+| Gate criteria for Stage 1      |    ✅     | Zone C | pipeline.md § Stage 1       |
+| Output schema 1→2              |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |
+
+### Stage 10 — Release Readiness
+
+| Context Item                                | Required? | Format | Source                      |
+| :------------------------------------------ | :-------: | :----- | :-------------------------- |
+| Agent identity (this profile)               |    ✅     | Zone A | This file                   |
+| Non-negotiable rules                        |    ✅     | Zone A | AGENTS.md § Rules           |
+| Task objective (domain checklist item)      |    ✅     | Zone A | Dispatch message            |
+| All prior stage artifacts (domain-relevant) |    ✅     | Zone B | Filtered by domain          |
+| Schema 9→10 transition summary              |    ✅     | Zone B | Stage 9 JSON output         |
+| Release Checklist template                  |    ✅     | Zone B | RELEASE-CHECKLIST.md        |
+| Gate criteria for Stage 10                  |    ✅     | Zone C | pipeline.md § Stage 10      |
+| Output schema 10-release                    |    ✅     | Zone C | STAGE-TRANSITION-SCHEMAS.md |

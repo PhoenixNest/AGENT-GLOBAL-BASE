@@ -92,15 +92,15 @@ Full-stack cross-platform products require consistent visual design across web, 
 ```javascript
 // config/web.js
 module.exports = {
-  source: ['tokens/**/*.json'],
+  source: ["tokens/**/*.json"],
   platforms: {
     css: {
-      transformGroup: 'css',
-      buildPath: 'clients/web/src/tokens/',
+      transformGroup: "css",
+      buildPath: "clients/web/src/tokens/",
       files: [
         {
-          destination: 'design-tokens.css',
-          format: 'css/variables',
+          destination: "design-tokens.css",
+          format: "css/variables",
         },
       ],
     },
@@ -138,15 +138,15 @@ module.exports = {
 ```javascript
 // config/ios.js
 module.exports = {
-  source: ['tokens/**/*.json'],
+  source: ["tokens/**/*.json"],
   platforms: {
     ios: {
-      transformGroup: 'ios',
-      buildPath: 'clients/ios/Sources/DesignTokens/',
+      transformGroup: "ios",
+      buildPath: "clients/ios/Sources/DesignTokens/",
       files: [
         {
-          destination: 'DesignTokens.swift',
-          format: 'ios-swift/class.swift',
+          destination: "DesignTokens.swift",
+          format: "ios-swift/class.swift",
         },
       ],
     },
@@ -194,24 +194,24 @@ public struct AnimationToken {
 ```javascript
 // config/android.js
 module.exports = {
-  source: ['tokens/**/*.json'],
+  source: ["tokens/**/*.json"],
   platforms: {
     android: {
-      transformGroup: 'android',
-      buildPath: 'clients/android/app/src/main/res/',
+      transformGroup: "android",
+      buildPath: "clients/android/app/src/main/res/",
       files: [
         {
-          destination: 'values/colors.xml',
-          format: 'android/resources',
+          destination: "values/colors.xml",
+          format: "android/resources",
           filter: {
-            attributes: { category: 'color' },
+            attributes: { category: "color" },
           },
         },
         {
-          destination: 'values/dimens.xml',
-          format: 'android/resources',
+          destination: "values/dimens.xml",
+          format: "android/resources",
           filter: {
-            attributes: { category: 'dimension' },
+            attributes: { category: "dimension" },
           },
         },
       ],
@@ -262,9 +262,9 @@ name: Design Token Drift Detection
 on:
   push:
     paths:
-      - 'tokens/**/*.json'
+      - "tokens/**/*.json"
   schedule:
-    - cron: '0 9 * * 1' # Weekly check on Mondays
+    - cron: "0 9 * * 1" # Weekly check on Mondays
 
 jobs:
   detect-drift:

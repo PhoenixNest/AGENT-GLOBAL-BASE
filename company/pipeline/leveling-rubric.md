@@ -45,7 +45,6 @@ This rubric supplies that definition. It carries the L1–L5 universal frame (§
 ## 4. Per-Role-Family Expansion
 
 > Each role family below specifies, **per tier**, the family-specific depth, scope of impact, leadership behaviors, and promotion criteria. The universal frame in §2 supplies the cross-family defaults (vetting floor, buddy requirement, decision scope); §4 narrows those defaults to what the family actually values. Cells are concise by design — the rubric is meant to be read in one sitting and applied at the per-promotion packet level (per §3 cadence).
->
 > **Authoring discipline.** Each family's table was authored by the relevant Department Head and calibrated by the CHRO. Where a family has only one named agent at a tier today (e.g., L5 Localization = CTO-L), the row reflects the bar that future hires must clear — not a description of the incumbent. Promotion Criteria language is intentionally observable, not aspirational ("ships X" rather than "demonstrates Y mindset").
 
 ### 4.1 Engineering (Android / iOS / Cross-Platform / Backend / Frontend / Full-Stack / DevOps / SDET / Security / SRE)
