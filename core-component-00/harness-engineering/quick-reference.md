@@ -7,9 +7,9 @@
 | **Data extraction**         | Error Boundary + Schema Validation | `implementations/error_boundary.py`     | Accuracy >95%, Cacheable (T=0.0-0.2) |
 | **Summarization**           | Context Budget Monitor             | `implementations/context_monitor.py`    | Latency <10s, Token use 40-60%       |
 | **Tool-augmented agent**    | Tool Boundaries + Error Boundary   | `implementations/tool_registry.py`      | Success rate >95%, Timeout <30s      |
-| **Long-form creative**      | Degradation Fallback               | `examples/fallback_templates.md`        | Quality gate pass >80%               |
-| **Batch document analysis** | Caching + Context Pruning          | `testing/edge_cases.md` (batch section) | Throughput >10 docs/min              |
-| **Multi-step reasoning**    | Chain-of-Thought + Error Boundary  | `prompts/reasoning_sandwich.md`         | Accuracy +20% over zero-shot         |
+| **Long-form creative**      | Degradation Fallback               | `examples/fallback-templates.md`        | Quality gate pass >80%               |
+| **Batch document analysis** | Caching + Context Pruning          | `testing/edge-cases.md` (batch section) | Throughput >10 docs/min              |
+| **Multi-step reasoning**    | Chain-of-Thought + Error Boundary  | `patterns/prompt-templates.md`          | Accuracy +20% over zero-shot         |
 
 ---
 
@@ -138,6 +138,57 @@ Tier 3: Static template response with placeholder data
 - Tier 1: Model composes personalized email
 - Tier 2: Model uses template with placeholders
 - Tier 3: Return static "Unable to send email" message
+
+---
+
+## Error Handling Matrix
+
+| Error Type       | Recovery Action                | Retry Count | Backoff Strategy        |
+| ---------------- | ------------------------------ | ----------- | ----------------------- |
+| Timeout          | Retry same request             | 3           | Linear: 2s, 4s, 8s      |
+| Rate limit (429) | Retry with exponential backoff | 5           | Exponential + jitter    |
+| Format error     | Regenerate with schema hint    | 2           | Immediate               |
+| Tool not found   | Return fallback response       | 1           | None                    |
+| Invalid output   | Resubmit with better prompt    | 2           | Immediate               |
+| Context exceeded | Summarize history              | 1           | None (prevention-based) |
+
+---
+
+## Context Budget Thresholds
+
+| Current Usage | Action                       | Message to Model                  |
+| ------------- | ---------------------------- | --------------------------------- |
+| < 60%         | Proceed normally             | —                                 |
+| 60–80%        | Warn in logs                 | "Continuing with current context" |
+| > 80%         | Prune old conversation turns | "Summarizing previous discussion" |
+| > 95%         | Emergency prune              | Critical summary only             |
+
+---
+
+## Anti-Patterns to Avoid
+
+| ❌ Don't                        | ✅ Do Instead                           |
+| ------------------------------- | --------------------------------------- |
+| Assume model will be consistent | Validate output against schema          |
+| Let context grow unbounded      | Monitor and prune at 70–80%             |
+| Catch-all exception handlers    | Specific handlers for each error type   |
+| Infinite retry loops            | Maximum retry count with backoff        |
+| No fallback responses           | Tiered degradation paths                |
+| Logging full model internals    | Log sanitized inputs/outputs only       |
+| Caching tool-dependent results  | Cache only deterministic operations     |
+| Unbounded thinking loops        | Add turn counter and hard exit criteria |
+
+---
+
+## Quick Reference Commands
+
+| Task                     | Command / Approach                          |
+| ------------------------ | ------------------------------------------- |
+| Check token budget       | `usage = estimate_token_count(messages)`    |
+| Prune context            | `prune_conversation(conversation[:target])` |
+| Validate JSON output     | `validate_json(output, schema)`             |
+| Retry with backoff       | `retry_with_backoff(func, max_retries=5)`   |
+| Cache deterministic call | `cache.get_or_compute(key, compute_fn)`     |
 
 ---
 

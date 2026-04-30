@@ -242,4 +242,4 @@ Some anti-patterns amplify each other:
 
 **Version:** 1.0
 **Last Updated:** 2026-04-29
-**See also:** [Orchestration Patterns](./orchestration-patterns.md) · [Quick Reference](../quick_reference.md) · [CONCEPTS.md](../CONCEPTS.md)
+**See also:** [Orchestration Patterns](./orchestration-patterns.md) · [Quick Reference](../quick-reference.md) · [CONCEPTS.md](../CONCEPTS.md)

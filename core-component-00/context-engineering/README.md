@@ -22,7 +22,7 @@ It answers three questions that no other discipline covers:
 | ---------------------------------------- | -------------------------------------------------------- | ----------------------- |
 | `README.md`                              | This file — overview and navigation                      | All                     |
 | `CONCEPTS.md`                            | The Six Pillars of Context Engineering                   | Architects, Leads       |
-| `quick_reference.md`                     | Decision matrices, assembly cheat sheet, memory selector | All engineers           |
+| `quick-reference.md`                     | Decision matrices, assembly cheat sheet, memory selector | All engineers           |
 | `fundamentals/context-window-anatomy.md` | What belongs in each slot and why                        | Engineers               |
 | `fundamentals/memory-types.md`           | Episodic, semantic, procedural, working memory           | Engineers, Architects   |
 | `patterns/assembly-patterns.md`          | Dynamic context assembly patterns                        | Implementers            |
@@ -32,7 +32,7 @@ It answers three questions that no other discipline covers:
 | `implementations/context_compressor.py`  | Advanced context compression                             | Implementers            |
 | `testing/test_context_assembler.py`      | Executable pytest suite                                  | QA, CI/CD               |
 | `testing/test_memory_store.py`           | Executable pytest suite                                  | QA, CI/CD               |
-| `testing/edge_cases.md`                  | Context poisoning, overflow, stale memory scenarios      | QA Engineers            |
+| `testing/edge-cases.md`                  | Context poisoning, overflow, stale memory scenarios      | QA Engineers            |
 | `workspace/strategy.md`                  | Context engineering strategy for this workspace          | Leads                   |
 | `workspace/integration-guide.md`         | Integration with harness-engineering and RAG             | All engineers           |
 
@@ -96,11 +96,13 @@ Context engineering sits at the centre of the stack. It consumes output from RAG
 
 Before any deployment:
 
-- System slot contains only static, validated instructions (no user-injected content)
-- Retrieved content is ACL-filtered before assembly
-- History is compressed and PII-scrubbed before inclusion
-- Tool outputs are schema-validated before entering context
-- Total assembled context is within 90% of model's context limit
+| Check                                                                               | Security Risk Mitigated                              |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| System slot contains only static, validated instructions (no user-injected content) | Prompt injection — user gains system-level authority |
+| Retrieved content is ACL-filtered before assembly                                   | Unauthorised documents reaching the model's context  |
+| History is compressed and PII-scrubbed before inclusion                             | Privacy leakage in shared or logged contexts         |
+| Tool outputs are schema-validated before entering context                           | Model reasoning from corrupted or malicious data     |
+| Total assembled context is within 90% of model's context limit                      | Silent context overflow and unpredictable truncation |
 
 ---
 
@@ -110,7 +112,7 @@ Before any deployment:
 | -------------------------------------- | ------- | ------------ |
 | README.md                              | 1.0     | 2026-04-28   |
 | CONCEPTS.md                            | 1.0     | 2026-04-28   |
-| quick_reference.md                     | 1.0     | 2026-04-28   |
+| quick-reference.md                     | 1.0     | 2026-04-28   |
 | fundamentals/context-window-anatomy.md | 1.0     | 2026-04-28   |
 | fundamentals/memory-types.md           | 1.0     | 2026-04-28   |
 | patterns/assembly-patterns.md          | 1.0     | 2026-04-28   |

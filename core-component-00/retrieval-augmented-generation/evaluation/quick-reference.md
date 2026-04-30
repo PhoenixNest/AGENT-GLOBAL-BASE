@@ -34,7 +34,7 @@ This quick reference provides immediate access to key evaluation metrics, benchm
   "query": "What is RAG?",
   "relevant_docs": [
     "architecture/overview.md:45",
-    "components/reference_table.md:78"
+    "components/reference-table.md:78"
   ],
   "relevant_spans": [
     {
@@ -54,7 +54,7 @@ This quick reference provides immediate access to key evaluation metrics, benchm
   "query": "What are the recommended chunk sizes for RAG systems?",
   "relevant_docs": [
     "architecture/overview.md:45",
-    "components/reference_table.md:78"
+    "components/reference-table.md:78"
   ],
   "gold_answer": "Recommended chunk sizes are 500-800 tokens with 100-200 token overlap for general text, and 250-500 tokens for code.",
   "answer_type": "procedure",
@@ -409,8 +409,8 @@ if __name__ == "__main__":
 
 | Document              | Location                             | Purpose                    |
 | --------------------- | ------------------------------------ | -------------------------- |
-| Metrics Reference     | `evaluation/reference_table.md`      | Full metric specifications |
-| Edge Cases Guide      | `evaluation/edge_cases.md`           | Handling failure modes     |
+| Metrics Reference     | `evaluation/reference-table.md`      | Full metric specifications |
+| Edge Cases Guide      | `evaluation/edge-cases.md`           | Handling failure modes     |
 | Architecture Overview | `architecture/overview.md`           | System design patterns     |
 | Security Guidelines   | `security/guide.md`                  | Compliance and security    |
 | Deployment Templates  | `templates/deployment-template.yaml` | Production setup templates |

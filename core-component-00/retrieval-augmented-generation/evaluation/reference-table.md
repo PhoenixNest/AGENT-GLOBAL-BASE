@@ -52,7 +52,7 @@ This reference table provides comprehensive specifications for evaluating RAG sy
 
 ```jsonl
 {"id": "rag-basics-001", "query": "What is RAG?", "relevant_docs": ["architecture/overview.md:45"], "gold_answer": "RAG (Retrieval Augmented Generation) combines information retrieval with generative models by retrieving relevant context from a knowledge base and providing it as input to an LLM before generation.", "answer_type": "factoid", "difficulty": 0.65, "category": "basics"}
-{"id": "architecture-001", "query": "How does the embedding service work?", "relevant_docs": ["components/reference_table.md:78"], "gold_answer": "The embedding service converts text into dense vector representations using models like all-MiniLM-L6-v2, with typical latency of ~40ms per batch on GPU.", "answer_type": "procedure", "difficulty": 0.75, "category": "architecture"}
+{"id": "architecture-001", "query": "How does the embedding service work?", "relevant_docs": ["components/reference-table.md:78"], "gold_answer": "The embedding service converts text into dense vector representations using models like all-MiniLM-L6-v2, with typical latency of ~40ms per batch on GPU.", "answer_type": "procedure", "difficulty": 0.75, "category": "architecture"}
 ```
 
 ---
@@ -166,5 +166,5 @@ This reference table provides comprehensive specifications for evaluating RAG sy
 - [Architecture Overview](../architecture/overview.md) - System design patterns
 - [Security Guide](../security/guide.md) - Compliance and security controls
 - [Integration Patterns](../integrations/overview.md) - Data source connectors
-- [Components Reference](../components/reference_table.md) - Component specifications
+- [Components Reference](../components/reference-table.md) - Component specifications
 - [Deployment Templates](../templates/deployment-template.yaml) - Production configs

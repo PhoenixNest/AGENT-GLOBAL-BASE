@@ -1,6 +1,6 @@
-# Prompt Patterns for Harness Engineering
+# Prompt Templates for Harness Engineering
 
-This folder contains example prompts that follow Harness Engineering patterns. These are production-ready templates you can adapt for your use cases.
+Production-ready prompt templates that implement each harness pattern. Adapt these for your own use cases.
 
 ---
 
@@ -365,7 +365,7 @@ Return output as valid JSON matching this schema:
 
 | Task Type                      | Recommended Pattern    | File Location                      |
 | ------------------------------ | ---------------------- | ---------------------------------- |
-| Complex multi-step reasoning   | Sandwich               | `prompts/reasoning_sandwich.md`    |
+| Complex multi-step reasoning   | Sandwich               | `patterns/prompt-templates.md`     |
 | Fallback/degradation needs     | Error Boundary Wrapper | Add to existing prompts            |
 | Long-running conversations     | Context Budget-Aware   | See context management guide       |
 | Tool-augmented tasks           | Tool-Bounded           | `implementations/tool_registry.py` |
@@ -375,12 +375,14 @@ Return output as valid JSON matching this schema:
 
 ## Best Practices for All Prompts
 
-1. **Use delimiters:** Always separate sections with clear markers (`<section>`, `---`, or markdown headers)
-2. **Be specific about format:** Never say "return in a structured format" — specify exactly what's needed
-3. **Provide examples:** Include 1-2 examples of expected output when possible
-4. **Manage context budget:** Summarize old turns before hitting 80% usage
-5. **Validate outputs:** Always validate responses against schema before processing
-6. **Add error recovery hints:** Provide fallback approaches in the prompt itself
+| Practice                                                                   | Why                                                                           |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **Use delimiters** — separate sections with `<section>`, `---`, or headers | Prevents instruction blending; makes the prompt machine-parseable             |
+| **Be specific about format** — never say "return in a structured format"   | Vague format requests produce inconsistent outputs; specify schema explicitly |
+| **Provide examples** — include 1–2 expected output examples where possible | Few-shot examples materially improve consistency across varied inputs         |
+| **Manage context budget** — summarise old turns before hitting 80% usage   | Prevents context overflow and attention dilution in long sessions             |
+| **Validate outputs** — validate responses against schema before processing | Catches malformed outputs before they propagate to downstream consumers       |
+| **Add error recovery hints** — include fallback approaches in the prompt   | Gives the model a graceful degradation path instead of producing an error     |
 
 ---
 

@@ -8,9 +8,11 @@
 
 ### When to Use
 
-- Tasks with natural sequential dependencies
-- Workflows where each stage's output is the next stage's input
-- Quality-gated processes where defects must be caught early
+| Condition                                                     | Why this pattern fits                                            |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Tasks with natural sequential dependencies                    | Each stage cannot begin until the previous one completes         |
+| Workflows where each stage's output is the next stage's input | Linear data flow maps directly to linear agent execution         |
+| Quality-gated processes where defects must be caught early    | Gates prevent defects from propagating to later, costlier stages |
 
 ### Structure
 
@@ -47,9 +49,11 @@ async def pipeline(stages: list[Agent], task: Task) -> Result:
 
 ### Context Flow
 
-- Each stage receives the **previous stage's output** via Scoped handoff
-- Sacred context (decisions) propagates forward through the chain
-- Hierarchical summarisation prevents context growth across stages
+| Element         | Behaviour                                                              |
+| --------------- | ---------------------------------------------------------------------- |
+| Per-stage input | Each stage receives the previous stage's output via **Scoped handoff** |
+| Sacred context  | Decisions propagate forward verbatim through the chain                 |
+| Context size    | Hierarchical summarisation prevents accumulation across stages         |
 
 ---
 
@@ -57,9 +61,11 @@ async def pipeline(stages: list[Agent], task: Task) -> Result:
 
 ### When to Use
 
-- Independent subtasks that can run concurrently
-- Multi-dimensional analysis (security + performance + architecture)
-- Tasks where wall-clock time matters more than compute cost
+| Condition                                                          | Why this pattern fits                                              |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| Independent subtasks that can run concurrently                     | No inter-agent dependencies allow full parallelism                 |
+| Multi-dimensional analysis (security + performance + architecture) | Each dimension is assessed by a specialist without blocking others |
+| Wall-clock time matters more than compute cost                     | Parallel execution compresses latency at the cost of compute       |
 
 ### Structure
 
@@ -102,9 +108,11 @@ async def fork_join(agents: list[Agent], task: Task) -> Result:
 
 ### Context Flow
 
-- Each agent receives a **Scoped or Minimal handoff** with only its subtask
-- No inter-agent communication during execution
-- Synthesis agent receives all results for integration
+| Element                   | Behaviour                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| Per-agent input           | Each agent receives a **Scoped or Minimal handoff** containing only its subtask |
+| Inter-agent communication | None during parallel execution                                                  |
+| Synthesis                 | Synthesis agent receives all results and produces the combined output           |
 
 ---
 
@@ -112,9 +120,11 @@ async def fork_join(agents: list[Agent], task: Task) -> Result:
 
 ### When to Use
 
-- Diverse input types requiring different specialist agents
-- Customer support (billing vs. technical vs. account)
-- Task classification before execution
+| Condition                                                 | Why this pattern fits                                                       |
+| --------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Diverse input types requiring different specialist agents | Routing ensures each input reaches the agent best equipped to handle it     |
+| Customer support (billing vs. technical vs. account)      | Avoids burdening a single agent with multi-domain expertise requirements    |
+| Task classification before execution                      | Classification cost is low relative to the quality gain from specialisation |
 
 ### Structure
 
@@ -154,9 +164,11 @@ async def router(input: str, specialists: dict[str, Agent]) -> Result:
 
 ### Context Flow
 
-- Router receives full user input
-- Specialist receives **Minimal or Scoped handoff** based on task complexity
-- No context shared between different requests
+| Element               | Behaviour                                              |
+| --------------------- | ------------------------------------------------------ |
+| Router input          | Full user input — needed to classify correctly         |
+| Specialist input      | **Minimal or Scoped handoff** based on task complexity |
+| Cross-request context | None — each request is independent                     |
 
 ---
 
@@ -164,9 +176,11 @@ async def router(input: str, specialists: dict[str, Agent]) -> Result:
 
 ### When to Use
 
-- Complex tasks requiring coordination and quality control
-- Organisational structures with clear chains of command
-- Tasks where a supervisor needs to synthesise and quality-check worker output
+| Condition                                                             | Why this pattern fits                                                    |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Complex tasks requiring coordination and quality control              | Supervisor maintains oversight and catches errors before they propagate  |
+| Organisational structures with clear chains of command                | Mirrors the authority structure the humans expect                        |
+| Tasks where a supervisor synthesises and quality-checks worker output | Synthesis quality is higher when done by an agent with full task context |
 
 ### Structure
 
@@ -216,9 +230,11 @@ async def supervisor_worker(
 
 ### Context Flow
 
-- Supervisor receives full task context
-- Workers receive **Scoped handoff** with only their subtask + relevant decisions
-- Results flow back to supervisor for synthesis
+| Element          | Behaviour                                                                |
+| ---------------- | ------------------------------------------------------------------------ |
+| Supervisor input | Full task context                                                        |
+| Worker input     | **Scoped handoff** with only the worker's subtask + relevant decisions   |
+| Result flow      | Bottom-up: workers report to supervisor for synthesis and quality review |
 
 ---
 
@@ -226,9 +242,11 @@ async def supervisor_worker(
 
 ### When to Use
 
-- High-stakes decisions where correctness matters more than speed
-- Security reviews, architectural decisions, compliance checks
-- Situations where blind spots must be surfaced
+| Condition                                                       | Why this pattern fits                                                        |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| High-stakes decisions where correctness matters more than speed | Adversarial review surfaces blind spots that a single agent would miss       |
+| Security reviews, architectural decisions, compliance checks    | The cost of a missed flaw exceeds the cost of additional debate rounds       |
+| Situations where blind spots must be surfaced                   | Two agents with opposed roles are structurally incentivised to find problems |
 
 ### Structure
 
@@ -280,9 +298,11 @@ async def debate(
 
 ### Context Flow
 
-- Both agents receive the proposal via **Scoped handoff**
-- Each round's output becomes the next round's input
-- Resolution agent (or human) receives both sides' final positions
+| Element             | Behaviour                                                                   |
+| ------------------- | --------------------------------------------------------------------------- |
+| Initial input       | Both agents receive the proposal via **Scoped handoff**                     |
+| Round-by-round flow | Each round's output becomes the next round's input                          |
+| Resolution          | Resolution agent (or human escalation) receives both sides' final positions |
 
 ---
 

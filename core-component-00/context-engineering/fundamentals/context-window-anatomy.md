@@ -33,10 +33,12 @@ A model's context window is not a single text blob. It has four distinct functio
 
 ### Best practices
 
-- Keep the system slot **static across turns** — do not rebuild it each time
-- Place the most critical constraint **last** in the system slot (recency bias in attention)
-- Use structured delimiters (`<role>`, `<rules>`, `<format>`) to prevent instruction blending
-- Pin model version in production — system slot interpretation varies by model version
+| Practice                                                    | Why                                                                            |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Keep the system slot **static across turns**                | Prevents unnecessary token usage and instruction drift                         |
+| Place the most critical constraint **last** in the slot     | Leverages recency bias — content near the end receives higher attention weight |
+| Use structured delimiters (`<role>`, `<rules>`, `<format>`) | Prevents instruction blending between sections                                 |
+| Pin model version in production                             | System slot interpretation varies by model version                             |
 
 ---
 
@@ -65,10 +67,12 @@ A model's context window is not a single text blob. It has four distinct functio
 
 ### Best practices
 
-- Always label retrieved content with source and timestamp: `[Source: docs/auth.md, 2026-03-12]`
-- Use relevance scoring to select the top-K most relevant chunks — do not dump all results
-- Apply ACL filtering **before** assembly — never include documents the user is not authorised to see
-- Place the most relevant chunk **last** in the retrieved slot (recency bias)
+| Practice                                                                      | Why                                                            |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Label content with source and timestamp: `[Source: docs/auth.md, 2026-03-12]` | Makes retrieval provenance auditable and debuggable            |
+| Use relevance scoring to select top-K chunks                                  | Prevents attention dilution from dumping all results           |
+| Apply ACL filtering **before** assembly                                       | Ensures unauthorised documents never reach the context window  |
+| Place the most relevant chunk **last** in the slot                            | Leverages recency bias for maximum attention on the best match |
 
 ---
 
@@ -97,10 +101,12 @@ A model's context window is not a single text blob. It has four distinct functio
 
 ### Best practices
 
-- Apply **hierarchical compression** as sessions grow: old turns → paragraph summary → single sentence
-- Preserve the **last 3–5 turns verbatim** for immediate coherence
-- Store **decisions and commitments** separately in episodic memory and re-inject verbatim on every turn
-- Scrub PII from history before logging and before injection into any shared context
+| Practice                                                                              | Why                                                         |
+| ------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Apply **hierarchical compression** as sessions grow: old turns → paragraph → sentence | Keeps history manageable without losing decision continuity |
+| Preserve the **last 3–5 turns verbatim**                                              | Ensures immediate conversational coherence                  |
+| Store **decisions and commitments** in episodic memory; re-inject verbatim every turn | Sacred context must survive compression                     |
+| Scrub PII from history before logging or injecting into shared contexts               | Prevents privacy leakage across agent boundaries            |
 
 ---
 
@@ -129,10 +135,12 @@ A model's context window is not a single text blob. It has four distinct functio
 
 ### Best practices
 
-- Always **schema-validate** tool output before injection
-- **Schema-reduce** verbose responses: extract key fields, drop prose descriptions
-- Place tool outputs **immediately before the model's response turn** — maximum recency effect
-- For high-stakes tool outputs (financial data, medical data), inject a verification prompt alongside the data
+| Practice                                                                             | Why                                                                            |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Always **schema-validate** tool output before injection                              | Prevents the model from reasoning on corrupted or malicious data               |
+| **Schema-reduce** verbose responses: extract key fields, drop prose                  | Reduces token cost; avoids attention dilution from long API prose              |
+| Place tool outputs **immediately before the model's response**                       | Maximises recency effect — the model attends most strongly to the last content |
+| For high-stakes outputs (financial, medical): inject a verification prompt alongside | Adds an explicit reasoning check before the model acts on the data             |
 
 ---
 

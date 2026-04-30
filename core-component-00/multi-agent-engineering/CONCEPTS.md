@@ -66,14 +66,14 @@ Traditional multi-agent coding has a critical bottleneck: **filesystem contentio
 
 ### How It Works
 
-| Step                   | Git Command                                                  | What It Does                                     |
-| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------ |
-| 1. Create worktree     | `git worktree add ../agent-<name> -b agent/<name>/task-<id>` | Isolated working directory on a dedicated branch |
-| 2. Agent works         | _(edits files in its worktree)_                              | Exclusive filesystem access; no contention       |
+| Step                   | Git Command                                                  | What It Does                                        |
+| ---------------------- | ------------------------------------------------------------ | --------------------------------------------------- |
+| 1. Create worktree     | `git worktree add ../agent-<name> -b agent/<name>/task-<id>` | Isolated working directory on a dedicated branch    |
+| 2. Agent works         | _(edits files in its worktree)_                              | Exclusive filesystem access; no contention          |
 | 3. Agent commits       | see commit format below                                      | Version-controlled with attribution and audit trail |
-| 4. Integration         | `git checkout main && git merge agent/<name>/task-<id>`      | Orchestrator merges into main branch             |
-| 5. Conflict resolution | `git merge --abort` or manual resolution                     | Integration Agent resolves conflicts             |
-| 6. Cleanup             | `git worktree remove ../agent-<name>`                        | Worktree removed; branch optionally deleted      |
+| 4. Integration         | `git checkout main && git merge agent/<name>/task-<id>`      | Orchestrator merges into main branch                |
+| 5. Conflict resolution | `git merge --abort` or manual resolution                     | Integration Agent resolves conflicts                |
+| 6. Cleanup             | `git worktree remove ../agent-<name>`                        | Worktree removed; branch optionally deleted         |
 
 **Required commit message format** — agents MUST use the multi-line HEREDOC with a hyphenated body:
 
@@ -170,14 +170,20 @@ The system learns from each execution:
 
 ## 6. Maturity Model
 
-| Level | Name                  | What You Implement                                                          | Prerequisite                          |
-| ----- | --------------------- | --------------------------------------------------------------------------- | ------------------------------------- |
-| **0** | Single Agent          | One LLM, one prompt, no orchestration                                       | —                                     |
-| **1** | Prompt Specialisation | Multiple prompts per task type; router selects the right one                | Prompt Engineering                    |
-| **2** | Subagent Delegation   | Orchestrator + 2–5 specialists with Handoff Protocol                        | Context Engineering                   |
-| **3** | Agent Swarm           | 5–20+ agents in hierarchical/hybrid topology with fork-join                 | Harness Engineering                   |
-| **4** | Git-Backed Swarm      | Agent Swarm with Git Worktree Orchestration; full isolation and audit trail | Git infrastructure + all four pillars |
-| **5** | Self-Improving Swarm  | Level 4 + episodic memory feedback loops; swarm optimises its own routing   | RAG + analytics pipeline              |
+> The full formal maturity model with level assessment guide is maintained by the
+> ASE governance module:
+> [`core-component-00/agent-systems-engineering/governance/maturity-model.md`](../agent-systems-engineering/governance/maturity-model.md)
+
+Summary:
+
+| Level | Name                  | Prerequisite                          |
+| ----- | --------------------- | ------------------------------------- |
+| **0** | Single Agent          | —                                     |
+| **1** | Prompt Specialisation | Prompt Engineering                    |
+| **2** | Subagent Delegation   | Context Engineering                   |
+| **3** | Agent Swarm           | Harness Engineering + RAG             |
+| **4** | Git-Backed Swarm      | Git infrastructure + all five pillars |
+| **5** | Self-Improving Swarm  | RAG + analytics pipeline              |
 
 ---
 
@@ -194,7 +200,7 @@ The system learns from each execution:
 
 ## 8. References
 
-- [Agent Systems Engineering — Convergence of Four Disciplines](../agent-systems-engineering.md)
+- [Agent Systems Engineering — Convergence of Four Disciplines](../agent-systems-engineering/CONCEPTS.md)
 - [Swarm Topologies](./fundamentals/swarm-topologies.md)
 - [Git Worktree Orchestration](./fundamentals/git-worktree-orchestration.md)
 - [Orchestration Patterns](./patterns/orchestration-patterns.md)

@@ -1,26 +1,30 @@
-# Game Studios
+# Creative Studios
 
-Independent game studios operating under the organization. Each studio has its own workflow, team, and reference materials, but reports to the parent company's Chief Officers.
+Independent creative studios operating under the organization. Each studio has its own crew, workflow, pipeline, and reference library — but reports to the parent company's Chief Officers.
 
-## Studios
+Studios are not limited to game development. Future additions may include art studios, interactive media studios, or other creative disciplines.
 
-| Studio                          | Focus             | Engine        | Status   |
-| ------------------------------- | ----------------- | ------------- | -------- |
-| [Casual Games](./casual-games/) | Casual mini-games | Unity 6.3 LTS | Planning |
+## Active Studios
 
-## Adding a New Studio
+| Studio                          | Discipline        | Status          |
+| ------------------------------- | ----------------- | --------------- |
+| [Casual Games](./casual-games/) | Casual mini-games | Stage 0 — Ready |
 
-To establish a new studio, create a folder at `studio/<studio-name>/` with the following structure:
+## Directory Convention
+
+Each studio lives at `studio/<studio-name>/` and follows this standard structure:
 
 ```
 studio/<studio-name>/
-├── README.md                    # Studio overview and navigation
-├── library/                     # Reference documentation
-│   ├── overview/                # Studio charter, strategic brief
-│   ├── topics/                  # Cross-cutting strategies
-│   └── reference/               # External resources and link collections
-├── pipeline/                    # Studio-specific development workflow
-├── projects/                    # Individual game projects
-└── team/                        # Personnel and crew profiles
-    └── crew/                    # Agent profiles, skills, pipeline artifacts
+├── README.md          ← Studio overview and navigation
+├── library/           ← Reference documentation
+│   ├── overview/      ← Studio charter, strategic brief, C-suite assessments
+│   ├── topics/        ← Cross-cutting strategies (assets, security, etc.)
+│   └── reference/     ← External resources and link collections
+├── pipeline/          ← Studio-specific development workflow
+├── projects/          ← Individual project folders (kebab-case slugs)
+└── team/
+    └── crew/          ← Agent profiles, skills, pipeline artifacts
 ```
+
+Studio names use **kebab-case**. Pipeline stages, crew structure, and tooling are defined per-studio and may differ between studios.

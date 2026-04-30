@@ -47,7 +47,7 @@ prompt-engineering/
 | Module                                                     | Relationship                                                                                                                                                                                              |
 | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`context-engineering/`](../context-engineering/README.md) | Provides the container (context window slots) into which prompt engineering patterns are placed. Prompt engineering answers _how to write_ an instruction; context engineering answers _where to put it_. |
-| [`harness-engineering/`](../harness-engineering/README.md) | Contains operational prompt templates wired to harness patterns (see `harness-engineering/prompts/reasoning_sandwich.md`).                                                                                |
+| [`harness-engineering/`](../harness-engineering/README.md) | Contains operational prompt templates wired to harness patterns (see `harness-engineering/patterns/prompt-templates.md`).                                                                                 |
 
 ---
 

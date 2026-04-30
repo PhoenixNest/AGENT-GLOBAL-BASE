@@ -53,10 +53,12 @@ flowchart TB
 
 ### Context Flow
 
-- Orchestrator uses **Scoped handoff** to each supervisor
-- Supervisors use **Scoped handoff** to workers (further filtered)
-- Workers use **Minimal handoff** for tool calls
-- Results flow bottom-up through the same chain
+| Transition                | Handoff Tier              | Notes                                                   |
+| ------------------------- | ------------------------- | ------------------------------------------------------- |
+| Orchestrator → Supervisor | Scoped                    | Each supervisor receives only its domain's context      |
+| Supervisor → Worker       | Scoped (further filtered) | Workers receive only their specific subtask             |
+| Worker → Tool calls       | Minimal                   | Only the immediate tool request                         |
+| Results flow              | Bottom-up                 | Workers → Supervisor → Orchestrator via report handoffs |
 
 ### Strengths and Weaknesses
 
@@ -105,9 +107,11 @@ flowchart TB
 
 ### Context Flow
 
-- Router uses **Minimal or Scoped handoff** to each worker
-- All workers execute in parallel
-- Synthesis agent receives all results and produces combined output
+| Transition                | Handoff Tier      | Notes                                                       |
+| ------------------------- | ----------------- | ----------------------------------------------------------- |
+| Router → Worker           | Minimal or Scoped | Each worker receives only its independent subtask           |
+| Worker execution          | Parallel          | No cross-worker communication                               |
+| Workers → Synthesis agent | All results       | Synthesis agent combines outputs into the final deliverable |
 
 ---
 
@@ -144,9 +148,11 @@ flowchart TB
 
 ### Context Flow
 
-- Agents read from and write to a shared artifact store
-- No central orchestrator — agents self-coordinate
-- Requires strong convergence criteria to terminate
+| Element            | Behaviour                                                                        |
+| ------------------ | -------------------------------------------------------------------------------- |
+| Shared state       | Agents read from and write to a shared artifact store                            |
+| Coordination model | No central orchestrator — agents self-coordinate via the shared store            |
+| Termination        | Requires explicit convergence criteria; without them the loop does not terminate |
 
 ---
 
@@ -175,9 +181,11 @@ flowchart LR
 
 ### Context Flow
 
-- Each stage agent receives the output of the previous stage via **Scoped handoff**
-- Gate criteria must be satisfied before advancing
-- Hierarchical summarisation prevents context growth across stages
+| Transition              | Handoff Tier               | Notes                                                |
+| ----------------------- | -------------------------- | ---------------------------------------------------- |
+| Stage N → Stage N+1     | Scoped                     | Each stage receives the previous stage's output only |
+| Gate enforcement        | Blocking                   | Gate criteria must pass before the next stage begins |
+| Context size management | Hierarchical summarisation | Prevents token accumulation across a long pipeline   |
 
 ---
 
@@ -208,9 +216,11 @@ flowchart TB
 
 ### Context Flow
 
-- Orchestrator maintains a task graph with topology annotations
-- Each subtask inherits the appropriate context flow from its topology
-- Results are synthesised at join points
+| Element           | Behaviour                                                               |
+| ----------------- | ----------------------------------------------------------------------- |
+| Orchestrator      | Maintains a task graph with topology annotations per subtask            |
+| Subtask context   | Each subtask inherits the context flow pattern of its assigned topology |
+| Result collection | Synthesised at join points between topology segments                    |
 
 ---
 
@@ -251,4 +261,4 @@ flowchart TD
 
 **Version:** 1.0
 **Last Updated:** 2026-04-29
-**See also:** [CONCEPTS.md](../CONCEPTS.md) · [Orchestration Patterns](../patterns/orchestration-patterns.md) · [Quick Reference](../quick_reference.md)
+**See also:** [CONCEPTS.md](../CONCEPTS.md) · [Orchestration Patterns](../patterns/orchestration-patterns.md) · [Quick Reference](../quick-reference.md)

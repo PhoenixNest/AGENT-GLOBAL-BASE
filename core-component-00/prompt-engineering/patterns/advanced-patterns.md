@@ -2,6 +2,23 @@
 
 ## Pattern Catalog
 
+| ID    | Pattern                         | Purpose                                                               | Best For                                                    |
+| ----- | ------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------- |
+| P-001 | **Socratic Prompt**             | Guide thinking through probing questions rather than direct answers   | Learning, interview prep, architectural thinking            |
+| P-002 | **Devil's Advocate**            | Stress-test ideas by having the model argue against them              | Decision validation, risk assessment                        |
+| P-003 | **Multi-Perspective Analyzer**  | Examine a topic from multiple stakeholder viewpoints                  | Product decisions, policy analysis, team dynamics           |
+| P-004 | **Incremental Refinement Loop** | Iteratively improve output through structured feedback cycles         | Writing, code, design documents                             |
+| P-005 | **Constraint Solver**           | Find solutions that satisfy multiple hard constraints                 | Scheduling, resource allocation, system design              |
+| P-006 | **Knowledge Synthesizer**       | Combine information from multiple sources into coherent understanding | Literature review, competitive analysis                     |
+| P-007 | **Scenario Simulator**          | Explore "what if" scenarios with structured reasoning                 | Risk planning, strategy, incident response prep             |
+| P-008 | **Abstraction Ladder**          | Move between concrete details and abstract principles                 | Learning transfer, innovation, cross-domain problem solving |
+| P-009 | **Pre-Mortem**                  | Identify failure modes before they happen                             | Project planning, product launches, deployments             |
+| P-010 | **Teaching Test**               | Verify understanding by having the model teach the concept            | Learning verification, documentation                        |
+| P-011 | **Format Transformer**          | Convert between representations while preserving meaning              | Data migration, documentation conversion                    |
+| P-012 | **Priority Matrix**             | Systematically prioritise a list of items                             | Backlog prioritisation, feature planning                    |
+
+---
+
 ### P-001: The Socratic Prompt
 
 **Purpose:** Guide the model to help you think through a problem rather than giving direct answers.

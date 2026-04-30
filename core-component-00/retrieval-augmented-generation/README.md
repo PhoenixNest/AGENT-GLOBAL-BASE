@@ -23,8 +23,8 @@ This repository contains best practices, templates, and implementation guides fo
 | Concept                    | Location                                                           |
 | -------------------------- | ------------------------------------------------------------------ |
 | Core Architecture Patterns | `[architecture/overview.md](./architecture/overview.md)`           |
-| Component Specifications   | `[components/reference_table.md](./components/reference_table.md)` |
-| Edge Cases & Handling      | `[evaluation/edge_cases.md](./evaluation/edge_cases.md)`           |
+| Component Specifications   | `[components/reference-table.md](./components/reference-table.md)` |
+| Edge Cases & Handling      | `[evaluation/edge-cases.md](./evaluation/edge-cases.md)`           |
 | Security Best Practices    | `[security/guide.md](./security/guide.md)`                         |
 
 ## Installation Quickstart
@@ -95,8 +95,8 @@ graph TB
 
 | Feature                   | Description                                                        | Reference                                                                                  |
 | ------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| **Hybrid Search**         | Combines vector similarity with keyword matching for best accuracy | `[components/reference_table.md](./components/reference_table.md)` — Hybrid Search section |
-| **Multi-Stage Reranking** | Applies coarse-to-fine filtering for optimal retrieval quality     | `[components/reference_table.md](./components/reference_table.md)` — Reranking section     |
+| **Hybrid Search**         | Combines vector similarity with keyword matching for best accuracy | `[components/reference-table.md](./components/reference-table.md)` — Hybrid Search section |
+| **Multi-Stage Reranking** | Applies coarse-to-fine filtering for optimal retrieval quality     | `[components/reference-table.md](./components/reference-table.md)` — Reranking section     |
 | **Context Compression**   | Summarizes and compresses retrieved context within token limits    | `[architecture/overview.md](./architecture/overview.md)` — Generation Layer                |
 | **Query Rewriting**       | Expands queries with synonyms, questions, and clarifying questions | `[components/quick-reference.md](./components/quick-reference.md)`                         |
 | **Access Control**        | Per-document permission enforcement at retrieval time              | `[security/guide.md](./security/guide.md)` — Access Control section                        |
@@ -117,12 +117,14 @@ graph TB
 
 Before deploying to production:
 
-- Implement per-document access controls
-- Enable PII masking for sensitive fields
-- Configure audit logging for all retrieval operations
-- Set up data loss prevention (DLP) rules
-- Define retention and deletion policies
-- Establish incident response procedures
+| Check                                                | Security Risk Mitigated                                                             |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Implement per-document access controls               | Unauthorised users retrieving documents outside their permission scope              |
+| Enable PII masking for sensitive fields              | Personal data injected into the model's context and potentially surfaced in outputs |
+| Configure audit logging for all retrieval operations | Inability to trace which documents were retrieved for a given query in an incident  |
+| Set up data loss prevention (DLP) rules              | Sensitive content exfiltration through retrieval responses                          |
+| Define retention and deletion policies               | Stale or legally expired documents remaining in the knowledge base                  |
+| Establish incident response procedures               | Uncontrolled propagation of a retrieval failure or data breach                      |
 
 ## Monitoring & Observability
 
@@ -142,7 +144,7 @@ Before deploying to production:
 | architecture/overview.md | 1.1     | 2026-04-28   |
 | architecture/diagrams.md | 1.0     | 2026-04-24   |
 | security/guide.md        | 1.0     | 2026-04-24   |
-| evaluation/edge_cases.md | 1.0     | 2026-04-24   |
+| evaluation/edge-cases.md | 1.0     | 2026-04-24   |
 | requirements.txt         | 1.1     | 2026-04-28   |
 
 ## Related Modules

@@ -22,10 +22,12 @@ LLMs have no native persistent memory. Everything the model "knows" during a ses
 
 #### What working memory holds
 
-- The current task description and its immediate sub-goals
-- The current step in a multi-step plan
-- Tool call results relevant to the current reasoning step
-- The model's in-progress intermediate reasoning (chain-of-thought)
+| Content                                               | Purpose                                                     |
+| ----------------------------------------------------- | ----------------------------------------------------------- |
+| Current task description and immediate sub-goals      | Anchors the model's focus for this turn                     |
+| Current step in a multi-step plan                     | Prevents the model from losing track of progress            |
+| Tool call results relevant to the current step        | Ground truth for the current reasoning operation            |
+| In-progress intermediate reasoning (chain-of-thought) | Allows the model to build incrementally toward a conclusion |
 
 #### Implementation
 
@@ -57,11 +59,13 @@ context_fragment = wm.to_context_string()
 
 #### What episodic memory holds
 
-- User decisions made during this session
-- Commitments the agent has made
-- Tasks completed and their outcomes
-- Errors encountered and how they were resolved
-- Clarifications the user provided
+| Content                                       | When It Matters                                               |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| User decisions made during this session       | Prevents the model from re-opening closed decisions           |
+| Commitments the agent has made                | Sacred — must survive compression and be re-injected verbatim |
+| Tasks completed and their outcomes            | Enables progress tracking across a long session               |
+| Errors encountered and how they were resolved | Prevents repeating the same failure mode                      |
+| Clarifications the user provided              | Prevents the model from re-asking questions already answered  |
 
 #### Why it matters
 
@@ -100,11 +104,13 @@ sacred = em.get_sacred_context()  # Returns all decisions + commitments verbatim
 
 #### What semantic memory holds
 
-- User preferences and working styles
-- Domain knowledge specific to this user or organisation
-- Frequently used configurations, templates, preferences
-- Project-specific terminology and conventions
-- Agent-learned facts from prior sessions
+| Content                                                | Notes                                                                |
+| ------------------------------------------------------ | -------------------------------------------------------------------- |
+| User preferences and working styles                    | Personalises agent behaviour across sessions                         |
+| Domain knowledge specific to this organisation         | Supplements the model's parametric knowledge with org-specific facts |
+| Frequently used configurations, templates, preferences | Reduces repetitive clarification across tasks                        |
+| Project-specific terminology and conventions           | Ensures consistent vocabulary and style                              |
+| Agent-learned facts from prior sessions                | Carries persistent conclusions forward; requires TTL management      |
 
 #### Freshness management
 
@@ -138,11 +144,13 @@ facts = sm.query("Which database should I use for this project?", top_k=3)
 
 #### What procedural memory holds
 
-- Agent skills (how to perform a specific domain task)
-- Workflow templates (how to execute a pipeline stage)
-- Coding conventions (how this team structures code)
-- Communication style rules (how formal to be with this user)
-- Tool usage patterns (which tool to call for which task type)
+| Content                                                      | How It Is Loaded                                                      |
+| ------------------------------------------------------------ | --------------------------------------------------------------------- |
+| Agent skills (how to perform a specific domain task)         | Loaded at session start or triggered mid-session via skill activation |
+| Workflow templates (how to execute a pipeline stage)         | Injected via system prompt when the pipeline stage is entered         |
+| Coding conventions (how this team structures code)           | Part of the permanent system slot for engineering agents              |
+| Communication style rules (how formal to be with this user)  | Set at session start from the agent profile                           |
+| Tool usage patterns (which tool to call for which task type) | Encoded in the system prompt or in skill files                        |
 
 #### How procedural memory differs from the others
 

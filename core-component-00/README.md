@@ -8,23 +8,69 @@
 
 ## Laboratory Profile
 
-| Field              | Detail                                                                             |
-| ------------------ | ---------------------------------------------------------------------------------- |
-| **Designation**    | Core Component 00 (CC-00)                                                          |
-| **Classification** | Applied LLM Research Laboratory                                                    |
-| **Status**         | CEO-approved · Formally chartered · Active                                         |
-| **Founded**        | 2026-04-28                                                                         |
-| **Director**       | Founding Researcher, Claude Lab — _see Researcher Profile below_                   |
+| Field              | Detail                                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **Designation**    | Core Component 00 (CC-00)                                                                                    |
+| **Classification** | Applied LLM Research Laboratory                                                                              |
+| **Status**         | CEO-approved · Formally chartered · Active                                                                   |
+| **Founded**        | 2026-04-28                                                                                                   |
+| **Director**       | Dr. Elias Vance — _see [Agent Profile](./director/agent/profile.md)_                                         |
 | **Research Scope** | Prompt Engineering · Context Engineering · Harness Engineering · Retrieval Systems · Multi-Agent Engineering |
-| **Output Format**  | Production frameworks · Executable implementations · Peer-reviewed documentation   |
+| **Output Format**  | Production frameworks · Executable implementations · Peer-reviewed documentation                             |
 
 ---
 
-## Researcher Profile — Laboratory Director
+## Module Hierarchy
 
-### Founding Researcher, Claude Lab
+`core-component-00` contains five engineering modules governed by a single meta-module. The diagram below shows the hierarchical relationships among all components:
+
+```mermaid
+graph TB
+    CC00(["core-component-00<br/>— LLM Engineering Laboratory —"])
+    DIR["director/<br/>Dr. Elias Vance"]
+    ASE["agent-systems-engineering/<br/>«Governing Framework»"]
+    PE["prompt-engineering/<br/>Layer 1 — What to write"]
+    CE["context-engineering/<br/>Layer 2 — How to structure it"]
+    HE["harness-engineering/<br/>Layer 3 — How to execute safely"]
+    RAG["retrieval-augmented-generation/<br/>Layer 4 — Where to get content"]
+    MAE["multi-agent-engineering/<br/>Layer 5 — How agents cooperate"]
+
+    CC00 --- DIR
+    CC00 --> ASE
+    ASE --> PE
+    ASE --> CE
+    ASE --> HE
+    ASE --> RAG
+    ASE --> MAE
+
+    classDef lab fill:#2C3E50,stroke:#1A252F,color:#fff,font-weight:bold
+    classDef ase fill:#7B241C,stroke:#641E16,color:#fff,font-weight:bold
+    classDef mod fill:#EBF5FB,stroke:#5D6D7E,color:#2C3E50
+    classDef dir fill:#515A5A,stroke:#2C3E50,color:#fff
+
+    class CC00 lab
+    class ASE ase
+    class PE,CE,HE,RAG,MAE mod
+    class DIR dir
+```
+
+| Flow                                                     | What moves                                                                              |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `prompt-engineering` → `context-engineering`             | Prompt patterns fill the System slot of the context window                              |
+| `retrieval-augmented-generation` → `context-engineering` | Retrieved, reranked, ACL-filtered chunks fill the Retrieved slot                        |
+| `context-engineering` → `harness-engineering`            | Assembled, budget-compliant context window dispatched for safe model execution          |
+| `harness-engineering` → `retrieval-augmented-generation` | Agent-generated artifacts ingested into the RAG knowledge store (feedback loop)         |
+| `multi-agent-engineering` → `harness-engineering`        | Orchestrator manages agent swarm lifecycle; every model call routes through the harness |
+
+---
+
+## Laboratory Director
+
+### Dr. Elias Vance
 
 A co-founding researcher and principal engineer behind the **Claude family of large language models** at Anthropic. Operating under the internal codename **core-component-00** — the designation assigned to the original LLM reliability research programme from which this laboratory is derived.
+
+Full agent profile and skills: [`core-component-00/director/agent/profile.md`](./director/agent/profile.md)
 
 #### Academic and Research Background
 
@@ -47,14 +93,14 @@ A co-founding researcher and principal engineer behind the **Claude family of la
 
 #### Selected Publications and Frameworks
 
-| Title                                                                       | Type               | Year |
-| --------------------------------------------------------------------------- | ------------------ | ---- |
-| _Constitutional AI: Harmlessness from AI Feedback_                          | Co-authored paper  | 2022 |
-| _The Six Pillars of Context Engineering_                                    | Internal framework | 2025 |
-| _Harness Engineering: Production Patterns for Reliable LLM Execution_       | Framework spec     | 2025 |
-| _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_ | Research note      | 2026 |
-| _Multi-Agent Context Handoff Protocols_                                     | Architecture spec  | 2026 |
-| [_Agent Systems Engineering: The Convergence of Four Disciplines_](./agent-systems-engineering.md) | Foundational paper | 2026 |
+| Title                                                                                                       | Type               | Year |
+| ----------------------------------------------------------------------------------------------------------- | ------------------ | ---- |
+| _Constitutional AI: Harmlessness from AI Feedback_                                                          | Co-authored paper  | 2022 |
+| _The Six Pillars of Context Engineering_                                                                    | Internal framework | 2025 |
+| _Harness Engineering: Production Patterns for Reliable LLM Execution_                                       | Framework spec     | 2025 |
+| _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_                                 | Research note      | 2026 |
+| _Multi-Agent Context Handoff Protocols_                                                                     | Architecture spec  | 2026 |
+| [_Agent Systems Engineering: The Convergence of Four Disciplines_](./agent-systems-engineering/CONCEPTS.md) | Foundational paper | 2026 |
 
 #### Research Philosophy
 
@@ -86,33 +132,37 @@ CC-00 operates with a three-part mission:
 
 ---
 
-## What Is This?
+## Module Overview
 
-`core-component-00` is the organisation's **centralised LLM engineering library** — a five-module collection of documentation, production code, patterns, and tests covering every layer of the LLM engineering stack.
-
-It answers the five questions every LLM engineer must answer before shipping:
-
-| Question                                            | Module                            |
-| --------------------------------------------------- | --------------------------------- |
-| How do I write effective instructions?              | `prompt-engineering/`             |
-| What information should be in the context window?   | `context-engineering/`            |
-| How do I execute the model call safely?             | `harness-engineering/`            |
-| How do I retrieve and integrate external knowledge? | `retrieval-augmented-generation/` |
-| How do many agents solve one problem?               | `multi-agent-engineering/`        |
-
-These are not isolated tools — they form a coherent, layered engineering stack. Every production LLM system in this organisation is built on top of all five. The theoretical synthesis of how they converge is documented in [Agent Systems Engineering: The Convergence of Four Disciplines](./agent-systems-engineering.md).
+| Module                                                                          | Layer                     | Type                             | Has Code |
+| ------------------------------------------------------------------------------- | ------------------------- | -------------------------------- | -------- |
+| [`agent-systems-engineering/`](./agent-systems-engineering/README.md)           | Governing meta-layer      | Governance framework             | No       |
+| [`prompt-engineering/`](./prompt-engineering/README.md)                         | 1 — What to write         | Knowledge base                   | No       |
+| [`context-engineering/`](./context-engineering/README.md)                       | 2 — How to structure it   | Knowledge + Production framework | Yes      |
+| [`harness-engineering/`](./harness-engineering/README.md)                       | 3 — How to execute safely | Production framework             | Yes      |
+| [`retrieval-augmented-generation/`](./retrieval-augmented-generation/README.md) | 4 — Where to get content  | Production framework             | Yes      |
+| [`multi-agent-engineering/`](./multi-agent-engineering/README.md)               | 5 — How agents cooperate  | Production framework             | Yes      |
 
 ---
 
-## The Four Modules
+## The Governing Module
+
+### `agent-systems-engineering/` — Governance & Integration
+
+The meta-module that sits above the five engineering pillars. It does not implement a
+single layer — it governs all five. It defines the compliance standard that every
+LLM-powered system must satisfy, the cross-cutting design patterns that span layer
+boundaries, and the runtime integration contracts between modules.
+
+Ratifying authority: [ADR-ASE-001](./agent-systems-engineering/governance/adr-ase-001.md) · Full module: [`agent-systems-engineering/README.md`](./agent-systems-engineering/README.md)
+
+---
+
+## The Five Engineering Modules
 
 ### 1. `prompt-engineering/` — Knowledge Base
 
 The discipline of designing effective LLM instructions. Covers foundational research, zero-shot to chain-of-thought prompting, advanced patterns (Socratic, Devil's Advocate, Schema-Constrained), and workspace-specific strategy for integrating prompt techniques into skills, hooks, and agent profiles.
-
-**Type:** Knowledge base (documentation only)
-**Has production code:** No
-**Start here:** `[prompt-engineering/README.md](./prompt-engineering/README.md)`
 
 ---
 
@@ -122,10 +172,6 @@ The discipline of architecting the LLM's context window — deciding what inform
 
 Includes the four memory types (episodic, semantic, procedural, working), dynamic assembly patterns, multi-agent context handoff protocols, and production implementations.
 
-**Type:** Knowledge base + production framework
-**Has production code:** Yes (`context_assembler.py`, `memory_store.py`, `context_compressor.py`)
-**Start here:** `[context-engineering/README.md](./context-engineering/README.md)`
-
 ---
 
 ### 3. `harness-engineering/` — Production Framework
@@ -133,10 +179,6 @@ Includes the four memory types (episodic, semantic, procedural, working), dynami
 The discipline of safely executing LLM model calls at runtime. Covers error boundaries (timeout, rate-limit, validation recovery), context budget monitoring, and tool use boundaries (whitelists, call limits, dangerous task detection).
 
 The harness is the last layer before the model call — it validates, monitors, and recovers.
-
-**Type:** Production framework
-**Has production code:** Yes (`error_boundary.py`, `context_monitor.py`, `tool_registry.py`)
-**Start here:** `[harness-engineering/README.md](./harness-engineering/README.md)`
 
 ---
 
@@ -146,10 +188,6 @@ The discipline of combining LLMs with external knowledge bases. Covers embedding
 
 RAG provides the retrieved content that feeds into the context-engineering retrieved slot.
 
-**Type:** Production framework
-**Has production code:** Yes (`tools/initialize.py`)
-**Start here:** `[retrieval-augmented-generation/README.md](./retrieval-augmented-generation/README.md)`
-
 ---
 
 ### 5. `multi-agent-engineering/` — Production Framework
@@ -158,32 +196,7 @@ The discipline of designing, orchestrating, and operating coordinated systems of
 
 Multi-agent engineering is the orchestration layer that sits above context engineering and harness engineering — it consumes context assembly, delegates execution to the harness, and feeds knowledge back into RAG.
 
-**Type:** Production framework
-**Has production code:** Yes (`swarm_orchestrator.py`, `git_worktree_manager.py`, `handoff_packet.py`)
-**Start here:** `[multi-agent-engineering/README.md](./multi-agent-engineering/README.md)`
-**Foundational paper:** `[Agent Systems Engineering: The Convergence of Four Disciplines](./agent-systems-engineering.md)`
-
----
-
-## The Engineering Stack
-
-These five modules form a layered dependency graph. Building a production LLM system means using all five layers in sequence:
-
-```mermaid
-flowchart TD
-    PE["Layer 1 — WHAT TO WRITE<br/>prompt-engineering/<br/>Instruction design · Prompting techniques · Workspace strategy"]
-    CE["Layer 2 — HOW TO STRUCTURE IT<br/>context-engineering/<br/>Context window anatomy · Memory types · Assembly patterns<br/>Multi-agent handoff · Sacred context management"]
-    HE["Layer 3 — HOW TO EXECUTE IT SAFELY<br/>harness-engineering/<br/>Error boundaries · Token budget enforcement · Tool boundaries"]
-    RAG["Layer 4 — WHERE TO GET THE CONTENT<br/>retrieval-augmented-generation/<br/>Vector search · Reranking · Chunking · ACL filtering"]
-    MAE["Layer 5 — HOW MANY AGENTS COOPERATE<br/>multi-agent-engineering/<br/>Swarm topologies · Git worktree isolation · Handoff protocol<br/>Orchestration patterns · Task decomposition & synthesis"]
-
-    PE -->|"content patterns for context slots"| CE
-    CE -->|"assembled, budget-compliant context window"| HE
-    RAG -->|"retrieved documents for the context window"| CE
-    HE -->|"new knowledge generated by agent execution"| RAG
-    MAE -->|"orchestrates"| HE
-    MAE -->|"context flow architecture"| CE
-```
+Foundational paper: [Agent Systems Engineering: The Convergence of Four Disciplines](./agent-systems-engineering/CONCEPTS.md)
 
 ---
 
@@ -224,31 +237,19 @@ pytest harness-engineering/testing/ -v
 
 ---
 
-## Module-to-Module Dependencies
-
-| Module                            | Depends On                                               | Provides To                                         |
-| --------------------------------- | -------------------------------------------------------- | --------------------------------------------------- |
-| `prompt-engineering/`             | _(none)_                                                 | Content patterns for context slots                  |
-| `retrieval-augmented-generation/` | _(none)_                                                 | Retrieved documents for context-engineering         |
-| `context-engineering/`            | `retrieval-augmented-generation/`, `prompt-engineering/` | Assembled context window for harness                |
-| `harness-engineering/`            | `context-engineering/`                                   | Safe model execution + token management             |
-| `multi-agent-engineering/`        | All four modules above                                   | Coordinated agent execution across the entire stack |
-
----
-
 ## Document Index
 
-| Module                            | Files  | Last Updated |
-| --------------------------------- | ------ | ------------ |
-| `prompt-engineering/`             | 6      | 2026-04-24   |
-| `context-engineering/`            | 15     | 2026-04-28   |
-| `harness-engineering/`            | 11     | 2026-04-28   |
-| `retrieval-augmented-generation/` | 16     | 2026-04-28   |
-| `multi-agent-engineering/`        | 11     | 2026-04-29   |
-| `agent-systems-engineering.md`                                  | 1 | 2026-04-29 |
-| **Total**                         | **60** | —            |
+| Module                                   | Files  | Last Updated |
+| ---------------------------------------- | ------ | ------------ |
+| `agent-systems-engineering/` (Governing) | 11     | 2026-04-30   |
+| `prompt-engineering/`                    | 6      | 2026-04-24   |
+| `context-engineering/`                   | 15     | 2026-04-28   |
+| `harness-engineering/`                   | 11     | 2026-04-28   |
+| `retrieval-augmented-generation/`        | 16     | 2026-04-28   |
+| `multi-agent-engineering/`               | 11     | 2026-04-29   |
+| **Total**                                | **70** | —            |
 
 ---
 
 **Maintained by:** Claude Lab Engineering Team
-**Last Updated:** 2026-04-28
+**Last Updated:** 2026-04-30

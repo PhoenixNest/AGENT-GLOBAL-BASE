@@ -6,16 +6,15 @@
 
 ## 📚 Documentation Structure
 
-| File/Folder          | Purpose                                                          | Target Audience         |
-| -------------------- | ---------------------------------------------------------------- | ----------------------- |
-| `README.md`          | Quick start guide for Harness Engineering                        | All developers          |
-| `CONCEPTS.md`        | Core theoretical foundations                                     | Architects, Researchers |
-| `quick_reference.md` | Rapid lookup tables and decision matrices                        | Senior Developers       |
-| `reference_table.md` | Comprehensive tabular references                                 | Quality Engineers       |
-| `patterns/`          | Reusable implementation patterns (JSON schemas, Python wrappers) | Implementers            |
-| `prompts/`           | Example prompts following Harness patterns                       | Prompt Engineers        |
-| `testing/`           | Test strategies and edge case coverage guidelines                | QA Engineers            |
-| `examples/`          | Working code examples for common scenarios                       | All developers          |
+| File/Folder          | Purpose                                               | Target Audience                |
+| -------------------- | ----------------------------------------------------- | ------------------------------ |
+| `README.md`          | Quick start guide for Harness Engineering             | All developers                 |
+| `CONCEPTS.md`        | Core theoretical foundations                          | Architects, Researchers        |
+| `quick-reference.md` | Rapid lookup tables and decision matrices             | Senior Developers              |
+| `reference-table.md` | Comprehensive tabular references                      | Quality Engineers              |
+| `patterns/`          | Reusable implementation patterns and prompt templates | Implementers, Prompt Engineers |
+| `testing/`           | Test strategies and edge case coverage guidelines     | QA Engineers                   |
+| `examples/`          | Working code examples for common scenarios            | All developers                 |
 
 ---
 
@@ -37,7 +36,7 @@ Use Harness Engineering when building **production-grade LLM applications**:
 | -------------------------- | ---------------------------------------- | ------------------------------------ |
 | **Error Boundary**         | All tool calls, model responses          | `implementations/error_boundary.py`  |
 | **Context Budget Monitor** | Long-running conversations (>10 turns)   | `implementations/context_monitor.py` |
-| **Degradation Fallback**   | Multi-tier systems (Tier 1→2→3 fallback) | `examples/fallback_templates.md`     |
+| **Degradation Fallback**   | Multi-tier systems (Tier 1→2→3 fallback) | `examples/fallback-templates.md`     |
 | **Tool Boundaries**        | Any agent that uses external tools       | `implementations/tool_registry.py`   |
 
 ### Step 3: Key Metrics to Track
@@ -58,7 +57,7 @@ Use Harness Engineering when building **production-grade LLM applications**:
 
 - Start here: [`README.md`](./README.md) — This file
 - Read next: [`CONCEPTS.md`](./CONCEPTS.md) — Core concepts
-- Keep handy: [`quick_reference.md`](./quick_reference.md) — Lookup tables
+- Keep handy: [`quick-reference.md`](./quick-reference.md) — Lookup tables
 
 ### For Implementation
 
@@ -68,8 +67,8 @@ Use Harness Engineering when building **production-grade LLM applications**:
 
 ### For Quality Engineers
 
-- Deep reference: [`reference_table.md`](./reference_table.md)
-- Edge cases: `testing/edge_cases.md`
+- Deep reference: [`reference-table.md`](./reference-table.md)
+- Edge cases: `testing/edge-cases.md`
 
 ---
 
@@ -126,9 +125,9 @@ TOOL_TIMEOUT_SECONDS = 30                                # Timeout
 | Data extraction task       | Error Boundary + Schema Validation | `implementations/error_boundary.py`     |
 | Summarization              | Context Budget Monitor             | `implementations/context_monitor.py`    |
 | Tool-augmented agent       | Tool Boundaries + Error Boundary   | `implementations/tool_registry.py`      |
-| Long-form creative writing | Degradation Fallback               | `examples/fallback_templates.md`        |
-| Batch document analysis    | Caching + Context Pruning          | `testing/edge_cases.md` (batch section) |
-| Multi-step reasoning task  | Chain-of-Thought + Error Boundary  | `prompts/reasoning_sandwich.md`         |
+| Long-form creative writing | Degradation Fallback               | `examples/fallback-templates.md`        |
+| Batch document analysis    | Caching + Context Pruning          | `testing/edge-cases.md` (batch section) |
+| Multi-step reasoning task  | Chain-of-Thought + Error Boundary  | `patterns/prompt-templates.md`          |
 
 ---
 
@@ -143,7 +142,7 @@ TOOL_TIMEOUT_SECONDS = 30                                # Timeout
 | Analysis/reasoning  | 0.5         | 60%            | No         |
 | Creative generation | 0.7         | Variable       | No         |
 
-See [`quick_reference.md`](./quick_reference.md) for full tables.
+See [`quick-reference.md`](./quick-reference.md) for full tables.
 
 ---
 
@@ -166,22 +165,21 @@ Before deploying any harness-engineered application:
 harness-engineering/
 ├── README.md                           ← You are here
 ├── CONCEPTS.md                         ← Core theoretical foundations
-├── quick_reference.md                  ← Rapid lookup tables
+├── quick-reference.md                  ← Rapid lookup tables and decision matrices
 ├── implementations/                    ← Runnable implementation code
 │   ├── error_boundary.py               ← Error boundary wrappers
 │   ├── context_monitor.py              ← Token budget monitoring
 │   └── tool_registry.py                ← Tool whitelist + timeouts
-├── patterns/                           ← Pattern quick references
-│   └── quick_reference.md              ← Pattern lookup tables
-├── prompts/                            ← Example Harness-prompts
-│   └── reasoning_sandwich.md           ← Prompt sandwich examples
+├── patterns/                           ← Harness patterns and prompt templates
+│   └── prompt-templates.md             ← Prompt templates for each harness pattern
 ├── testing/                            ← Test strategies & edge cases
 │   ├── test_context_monitor.py         ← Executable pytest suite
 │   ├── test_error_boundary.py          ← Executable pytest suite
-│   ├── edge_cases.md                   ← Edge case coverage guide
-│   └── reference_table.md              ← Testing reference
+│   ├── edge-cases.md                   ← Edge case coverage guide
+│   └── reference-table.md              ← Testing reference
 └── examples/                           ← Working code examples
-    └── fallback_templates.md           ← Fallback template guide
+    ├── fallback-templates.md           ← Fallback template guide
+    └── weather_app_flow.md             ← End-to-end harness walkthrough
 ```
 
 ---
@@ -190,7 +188,7 @@ harness-engineering/
 
 1. **Read [`CONCEPTS.md`](./CONCEPTS.md)** to understand core Harness concepts
 2. **Review [`patterns/`](./patterns/)/** for implementation code
-3. **Use [`quick_reference.md`](./quick_reference.md)\*** during development
+3. **Use [`quick-reference.md`](./quick-reference.md)\*** during development
 4. **Follow the security checklist** before any deployment
 
 ---
@@ -211,7 +209,7 @@ harness-engineering/
 | ------------------ | ------- | ------------ |
 | README.md          | 1.1     | 2026-04-28   |
 | CONCEPTS.md        | 1.1     | 2026-04-28   |
-| quick_reference.md | 1.1     | 2026-04-28   |
+| quick-reference.md | 1.1     | 2026-04-28   |
 | error_boundary.py  | 1.1     | 2026-04-28   |
 | context_monitor.py | 1.1     | 2026-04-28   |
 | tool_registry.py   | 1.1     | 2026-04-28   |

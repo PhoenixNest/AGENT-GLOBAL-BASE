@@ -18,22 +18,22 @@ It answers three questions that no other discipline covers:
 
 ## Documentation Structure
 
-| File / Folder                                                  | Purpose                                                                                            | Target Audience         |
-| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------- |
-| `README.md`                                                    | This file — overview and navigation                                                                | All                     |
-| `CONCEPTS.md`                                                  | Agent Swarm theory, Git Worktree Orchestration, four-pillar convergence                            | Architects, Leads       |
-| `quick_reference.md`                                           | Decision matrices, topology selector, handoff cheat sheet                                          | All engineers           |
-| [`../agent-systems-engineering.md`](../agent-systems-engineering.md) | Foundational paper — how Prompt, Context, Harness, and RAG converge into Agent Systems Engineering | Researchers, Architects |
-| `fundamentals/swarm-topologies.md`                             | The five swarm topology patterns (Hierarchical, Flat, Mesh, Pipeline, Hybrid)                      | Engineers               |
-| `fundamentals/git-worktree-orchestration.md`                   | Using `git worktree` as infrastructure for multi-agent parallel development                        | Engineers, DevOps       |
-| `patterns/orchestration-patterns.md`                           | The five core orchestration patterns (Pipeline, Fork-Join, Router, Supervisor-Worker, Debate)      | Implementers            |
-| `patterns/anti-patterns.md`                                    | Seven anti-patterns to avoid in multi-agent systems                                                | All engineers           |
-| `implementations/swarm_orchestrator.py`                        | Production swarm orchestrator with topology selection and lifecycle management                     | Implementers            |
-| `implementations/git_worktree_manager.py`                      | Git worktree lifecycle management for agent isolation                                              | Implementers            |
-| `implementations/handoff_packet.py`                            | Structured handoff packet for inter-agent context transfer                                         | Implementers            |
-| `testing/test_swarm_orchestrator.py`                           | Executable pytest suite for swarm orchestrator                                                     | QA, CI/CD               |
-| `testing/test_git_worktree_manager.py`                         | Executable pytest suite for git worktree manager                                                   | QA, CI/CD               |
-| `testing/edge_cases.md`                                        | Edge case scenarios: merge conflicts, agent failures, context overflow                             | QA Engineers            |
+| File / Folder                                                                          | Purpose                                                                                            | Target Audience         |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------- |
+| `README.md`                                                                            | This file — overview and navigation                                                                | All                     |
+| `CONCEPTS.md`                                                                          | Agent Swarm theory, Git Worktree Orchestration, four-pillar convergence                            | Architects, Leads       |
+| `quick-reference.md`                                                                   | Decision matrices, topology selector, handoff cheat sheet                                          | All engineers           |
+| [`../agent-systems-engineering/CONCEPTS.md`](../agent-systems-engineering/CONCEPTS.md) | Foundational paper — how Prompt, Context, Harness, and RAG converge into Agent Systems Engineering | Researchers, Architects |
+| `fundamentals/swarm-topologies.md`                                                     | The five swarm topology patterns (Hierarchical, Flat, Mesh, Pipeline, Hybrid)                      | Engineers               |
+| `fundamentals/git-worktree-orchestration.md`                                           | Using `git worktree` as infrastructure for multi-agent parallel development                        | Engineers, DevOps       |
+| `patterns/orchestration-patterns.md`                                                   | The five core orchestration patterns (Pipeline, Fork-Join, Router, Supervisor-Worker, Debate)      | Implementers            |
+| `patterns/anti-patterns.md`                                                            | Seven anti-patterns to avoid in multi-agent systems                                                | All engineers           |
+| `implementations/swarm_orchestrator.py`                                                | Production swarm orchestrator with topology selection and lifecycle management                     | Implementers            |
+| `implementations/git_worktree_manager.py`                                              | Git worktree lifecycle management for agent isolation                                              | Implementers            |
+| `implementations/handoff_packet.py`                                                    | Structured handoff packet for inter-agent context transfer                                         | Implementers            |
+| `testing/test_swarm_orchestrator.py`                                                   | Executable pytest suite for swarm orchestrator                                                     | QA, CI/CD               |
+| `testing/test_git_worktree_manager.py`                                                 | Executable pytest suite for git worktree manager                                                   | QA, CI/CD               |
+| `testing/edge-cases.md`                                                                | Edge case scenarios: merge conflicts, agent failures, context overflow                             | QA Engineers            |
 
 ---
 
@@ -105,30 +105,32 @@ Multi-Agent Engineering is the **orchestration layer** that sits above context e
 
 Before deploying any multi-agent system:
 
-- [ ] Each agent has an explicitly defined expertise boundary — no "God Agent"
-- [ ] Handoff packets to untrusted/third-party agents use Minimal tier only
-- [ ] Sacred context (decisions, commitments) is never forwarded to external agents
-- [ ] All inter-agent communication uses schema-validated return formats
-- [ ] Anti-pattern detection is active (trim-to-pass, context dumping, agent sprawl)
-- [ ] Git worktree branches follow the naming convention (`agent/<name>/task-<id>`)
-- [ ] Merge conflicts are resolved by a dedicated Integration Agent, not silently ignored
+| Security Requirement                                                                | Risk Mitigated                                                          |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Each agent has an explicitly defined expertise boundary — no "God Agent"            | Context window overflow and quality degradation from over-broad agents  |
+| Handoff packets to untrusted / third-party agents use Minimal tier only             | Sensitive context leaking to agents outside the trust boundary          |
+| Sacred context (decisions, commitments) is never forwarded to external agents       | Confidential session data exposed beyond the originating swarm          |
+| All inter-agent communication uses schema-validated return formats                  | Malformed outputs causing downstream agents to reason incorrectly       |
+| Anti-pattern detection is active (trim-to-pass, context dumping, agent sprawl)      | Silent quality degradation and coordination failures                    |
+| Git worktree branches follow the naming convention (`agent/<name>/task-<id>`)       | Filesystem collisions and loss of audit trail in parallel coding agents |
+| Merge conflicts are resolved by a dedicated Integration Agent, not silently ignored | Silently overwritten work and lost changes in multi-agent codebases     |
 
 ---
 
 ## Document Status
 
-| Document                                                        | Version | Last Updated |
-| --------------------------------------------------------------- | ------- | ------------ |
-| README.md                                                       | 1.0     | 2026-04-29   |
-| CONCEPTS.md                                                     | 1.0     | 2026-04-29   |
-| quick_reference.md                                              | 1.0     | 2026-04-29   |
-| ../agent-systems-engineering.md                                 | 1.0     | 2026-04-28   |
-| fundamentals/swarm-topologies.md                                | 1.0     | 2026-04-29   |
-| fundamentals/git-worktree-orchestration.md                      | 1.0     | 2026-04-29   |
-| patterns/orchestration-patterns.md                              | 1.0     | 2026-04-29   |
-| patterns/anti-patterns.md                                       | 1.0     | 2026-04-29   |
-| implementations/swarm_orchestrator.py                           | 1.0     | 2026-04-29   |
-| implementations/git_worktree_manager.py                         | 1.0     | 2026-04-29   |
-| implementations/handoff_packet.py                               | 1.0     | 2026-04-29   |
+| Document                                   | Version | Last Updated |
+| ------------------------------------------ | ------- | ------------ |
+| README.md                                  | 1.0     | 2026-04-29   |
+| CONCEPTS.md                                | 1.0     | 2026-04-29   |
+| quick-reference.md                         | 1.0     | 2026-04-29   |
+| ../agent-systems-engineering/CONCEPTS.md   | 1.0     | 2026-04-30   |
+| fundamentals/swarm-topologies.md           | 1.0     | 2026-04-29   |
+| fundamentals/git-worktree-orchestration.md | 1.0     | 2026-04-29   |
+| patterns/orchestration-patterns.md         | 1.0     | 2026-04-29   |
+| patterns/anti-patterns.md                  | 1.0     | 2026-04-29   |
+| implementations/swarm_orchestrator.py      | 1.0     | 2026-04-29   |
+| implementations/git_worktree_manager.py    | 1.0     | 2026-04-29   |
+| implementations/handoff_packet.py          | 1.0     | 2026-04-29   |
 
 **Maintained by:** Claude Lab Engineering Team

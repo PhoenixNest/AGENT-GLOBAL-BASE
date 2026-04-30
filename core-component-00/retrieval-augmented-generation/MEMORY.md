@@ -11,8 +11,8 @@ This directory contains enterprise-level documentation for implementing Retrieva
 | Category         | Documents                                                                                                                                                 | Purpose                                           |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
 | **Architecture** | [overview.md](./architecture/overview.md), [diagrams.md](./architecture/diagrams.md)                                                                      | System design patterns and architecture diagrams  |
-| **Components**   | [reference_table.md](./components/reference_table.md), [quick-reference.md](./components/quick-reference.md)                                              | Component specifications and integration patterns |
-| **Evaluation**   | [reference_table.md](./evaluation/reference_table.md), [edge_cases.md](./evaluation/edge_cases.md), [quick-reference.md](./evaluation/quick-reference.md) | Metrics, benchmarks, and testing frameworks       |
+| **Components**   | [reference-table.md](./components/reference-table.md), [quick-reference.md](./components/quick-reference.md)                                              | Component specifications and integration patterns |
+| **Evaluation**   | [reference-table.md](./evaluation/reference-table.md), [edge-cases.md](./evaluation/edge-cases.md), [quick-reference.md](./evaluation/quick-reference.md) | Metrics, benchmarks, and testing frameworks       |
 | **Integrations** | [overview.md](./integrations/overview.md), [reference.md](./integrations/reference.md)                                                                    | Data source connectors and ingestion patterns     |
 | **Security**     | [guide.md](./security/guide.md), [reference.md](./security/reference.md)                                                                                  | Security controls, compliance, and audit logging  |
 | **Templates**    | [deployment-template.yaml](./templates/deployment-template.yaml), [quick-reference.md](./templates/quick-reference.md)                                    | Production deployment configurations              |
@@ -25,10 +25,10 @@ This directory contains enterprise-level documentation for implementing Retrieva
 - [`README.md`](./README.md) - Project overview and quickstart guide
 - [`architecture/overview.md`](./architecture/overview.md) - High-level system architecture
 - [`architecture/diagrams.md`](./architecture/diagrams.md) - Visual architecture diagrams (Mermaid)
-- [`components/reference_table.md`](./components/reference_table.md) - Component specifications matrix
+- [`components/reference-table.md`](./components/reference-table.md) - Component specifications matrix
 - [`components/quick-reference.md`](./components/quick-reference.md) - Component quick reference guide
-- [`evaluation/reference_table.md`](./evaluation/reference_table.md) - Evaluation metrics and benchmarks
-- [`evaluation/edge_cases.md`](./evaluation/edge_cases.md) - Edge case handling strategies
+- [`evaluation/reference-table.md`](./evaluation/reference-table.md) - Evaluation metrics and benchmarks
+- [`evaluation/edge-cases.md`](./evaluation/edge-cases.md) - Edge case handling strategies
 - [`evaluation/quick-reference.md`](./evaluation/quick-reference.md) - Evaluation quick reference
 - [`integrations/overview.md`](./integrations/overview.md) - Data source integration guide
 - [`integrations/reference.md`](./integrations/reference.md) - Integration specifications
@@ -47,7 +47,7 @@ This directory contains enterprise-level documentation for implementing Retrieva
 | Need                      | Document                   | Link                                                                       |
 | ------------------------- | -------------------------- | -------------------------------------------------------------------------- |
 | **Architecture patterns** | Architecture overview      | [architecture/overview.md](./architecture/overview.md)                     |
-| **Component specs**       | Components reference table | [components/reference_table.md](./components/reference_table.md)           |
+| **Component specs**       | Components reference table | [components/reference-table.md](./components/reference-table.md)           |
 | **Evaluation metrics**    | Evaluation guide           | [evaluation/quick-reference.md](./evaluation/quick-reference.md)           |
 | **Security checklist**    | Security guide             | [security/guide.md](./security/guide.md)                                   |
 | **Deployment setup**      | Templates                  | [templates/deployment-template.yaml](./templates/deployment-template.yaml) |
@@ -63,8 +63,8 @@ All files created and formatted with Prettier per `.prettierrc.json` configurati
 
 - Root: README.md, MEMORY.md, requirements.txt, .prettierrc.json (4)
 - Architecture: overview.md, diagrams.md (2)
-- Components: reference_table.md, quick-reference.md (2)
-- Evaluation: reference_table.md, edge_cases.md, quick-reference.md (3)
+- Components: reference-table.md, quick-reference.md (2)
+- Evaluation: reference-table.md, edge-cases.md, quick-reference.md (3)
 - Integrations: overview.md, reference.md (2)
 - Security: guide.md, reference.md (2)
 - Templates: deployment-template.yaml, quick-reference.md (2)
@@ -76,7 +76,7 @@ All files created and formatted with Prettier per `.prettierrc.json` configurati
 
 1. **Read the README**: [`README.md`](./README.md) for project overview
 2. **Understand architecture**: [`architecture/overview.md`](./architecture/overview.md) and [`architecture/diagrams.md`](./architecture/diagrams.md)
-3. **Check components**: [`components/reference_table.md`](./components/reference_table.md)
+3. **Check components**: [`components/reference-table.md`](./components/reference-table.md)
 4. **Review security**: [`security/guide.md`](./security/guide.md)
 5. **Configure deployment**: [`templates/deployment-template.yaml`](./templates/deployment-template.yaml)
 6. **Run evaluation**: [`evaluation/quick-reference.md`](./evaluation/quick-reference.md)

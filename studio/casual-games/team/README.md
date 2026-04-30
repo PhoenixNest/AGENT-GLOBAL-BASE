@@ -1,6 +1,6 @@
 # Studio — Team
 
-Personnel, recruitment, and organizational structure for the game studio.
+Personnel, recruitment, and organizational structure for the Casual Games Studio.
 
 | Directory        | Purpose                                                                                   |
 | ---------------- | ----------------------------------------------------------------------------------------- |
