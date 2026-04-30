@@ -53,7 +53,6 @@ Compliance documentation addressing regulatory, legal, and platform policy requi
 
 | Document                                           | Location                                                               |
 | -------------------------------------------------- | ---------------------------------------------------------------------- |
-| CIO Technology Audit                               | `../../../team/recruitment-plan/audit-reports/cio-technology-audit.md` |
 | COPPA & Platform Compliance Reference              | `library/reference/coppa-platform-compliance.md`                       |
 | Game Security & Anti-Cheat (SDK Vetting Checklist) | `library/reference/game-security-anti-cheat.md`                        |
 | Strategic Brief (Risk Register)                    | `library/overview/casual-games-studio.md`                              |

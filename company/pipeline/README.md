@@ -49,12 +49,4 @@ Each pipeline follows a consistent 10-stage state machine:
 
 ---
 
-## Historical Records
-
-| Pipeline           | Optimization History                                                                   |
-| ------------------ | -------------------------------------------------------------------------------------- |
-| Mobile Development | [`mobile-development/optimization-history/`](mobile-development/optimization-history/) |
-
----
-
-_Last updated: April 13, 2026_
+_Last updated: April 30, 2026_

@@ -21,6 +21,6 @@ studio/<studio-name>/
 │   └── reference/               # External resources and link collections
 ├── pipeline/                    # Studio-specific development workflow
 ├── projects/                    # Individual game projects
-└── team/                        # Personnel and recruitment
-    └── recruitment-plan/        # Hiring plan, roster, competency matrices
+└── team/                        # Personnel and crew profiles
+    └── crew/                    # Agent profiles, skills, pipeline artifacts
 ```

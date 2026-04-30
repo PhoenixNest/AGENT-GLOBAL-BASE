@@ -12,19 +12,18 @@ casual-games/
 │   └── reference/              # External resources and link collections (Unity, architecture, testing, etc.)
 ├── pipeline/                   # Game studio development workflow
 │   └── casual-games-pipeline.md  # 11-stage pipeline (Stage 0–10)
-├── team/                       # Personnel and recruitment
-│   └── recruitment-plan/       # Personnel roster, compensation, recruitment sequence
+├── team/                       # Personnel and crew profiles
+│   └── crew/                   # All 38 FTEs + 1 Contract — profiles, skills, pipeline artifacts
 └── projects/                   # Individual game projects
 ```
 
 ## Key Documents
 
-| Document             | Location                                    | Description                                                                                         |
-| -------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| **Strategic Brief**  | `library/overview/casual-games-studio.md`   | C-suite assessment — product, technical, design, security, and organizational perspectives          |
-| **Asset Strategy**   | `library/topics/game-asset-strategy.md`     | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence      |
-| **Pipeline**         | `pipeline/casual-games-pipeline.md`         | Complete game studio workflow — 11 stages from art direction through live ops                       |
-| **Recruitment Plan** | `team/recruitment-plan/recruitment-plan.md` | Master recruitment plan: 38 FTEs + 1 Contract, org structure, compensation, cost curve, contingency |
+| Document            | Location                                  | Description                                                                                    |
+| ------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Strategic Brief** | `library/overview/casual-games-studio.md` | C-suite assessment — product, technical, design, security, and organizational perspectives     |
+| **Asset Strategy**  | `library/topics/game-asset-strategy.md`   | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence |
+| **Pipeline**        | `pipeline/casual-games-pipeline.md`       | Complete game studio workflow — 11 stages from art direction through live ops                  |
 
 ## Pipeline Quick Reference
 

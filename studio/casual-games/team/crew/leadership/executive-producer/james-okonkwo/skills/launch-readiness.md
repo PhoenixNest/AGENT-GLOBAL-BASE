@@ -147,6 +147,5 @@ The decision to proceed to global launch requires:
 
 ## References
 
-- `studio/casual-games/team/recruitment-plan/recruitment-plan.md` — Master recruitment plan
 - `company/pipeline/mobile-development/pipeline.md` — Stage 7 (Soft Launch Prep), Stage 8 (Soft Launch), Stage 9 (Global Launch Readiness)
 - `company/library/topics/testing.md` — Testing standards for launch validation

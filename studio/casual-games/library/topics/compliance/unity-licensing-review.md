@@ -366,7 +366,6 @@ The decision to stay on Unity is **conditional** on successful negotiation of a 
 
 ### References
 
-- CIO Technology Audit, Item 5 (Unity Licensing Risk) — `studio/casual-games/team/recruitment-plan/audit-reports/cio-technology-audit.md`
 - Strategic Brief, Section 2.4 (Technology Risk Register, R4)
 - COPPA & Platform Compliance reference — `studio/casual-games/library/reference/coppa-platform-compliance.md`
 - Unity Licensing Legal Memorandum (forthcoming — Week 2 deliverable)

@@ -68,6 +68,5 @@ The Creative Director authors the following GDD sections:
 
 ## References
 
-- `studio/casual-games/team/recruitment-plan/recruitment-plan.md` — Master recruitment plan
 - `company/pipeline/mobile-development/pipeline.md` — Parent company pipeline (Stage 2 Design, Stage 3 Architecture)
 - `company/library/topics/localization.md` — Localization requirements that affect creative content structure

@@ -137,4 +137,3 @@ This skill governs the following pipeline stages:
 | Backend Api        | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/backend-api/pipeline.md`        |
 | Full Stack         | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/full-stack/pipeline.md`         |
 
-Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

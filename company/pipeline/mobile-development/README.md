@@ -9,7 +9,6 @@ The authoritative 10-stage development workflow for mobile product delivery. Sup
 - **Main spec:** [`pipeline.md`](pipeline.md)
 - **Monitoring:** [`monitoring.md`](monitoring.md)
 - **Templates:** [`templates/`](templates/)
-- **Optimization history:** [`optimization-history/`](optimization-history/)
 
 ---
 
@@ -55,10 +54,4 @@ Platform strategy is determined at **Stage 3** via the Platform Strategy ADR.
 
 ---
 
-## Optimization History
-
-The mobile pipeline underwent a comprehensive optimization review on April 8, 2026, with unanimous conditional approval from the 8-officer C-Suite panel (59 conditions, all resolved). See [`optimization-history/mobile-pipeline-optimization-april-2026.md`](optimization-history/mobile-pipeline-optimization-april-2026.md).
-
----
-
-_Last updated: April 13, 2026_
+_Last updated: April 30, 2026_

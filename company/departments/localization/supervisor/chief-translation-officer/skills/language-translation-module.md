@@ -123,4 +123,3 @@ This skill governs the following pipeline stages:
 | Mobile Development | Stage 9 (i18n Engineering) | `company/pipeline/mobile-development/pipeline.md` |
 | Web Development    | Stage 9 (i18n Engineering) | `company/pipeline/web-development/pipeline.md`    |
 
-Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

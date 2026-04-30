@@ -49,6 +49,5 @@ The Studio Director is the single point of accountability for the game. This ski
 
 ## References
 
-- `studio/casual-games/team/recruitment-plan/recruitment-plan.md` — Master recruitment plan with division structure
 - `company/pipeline/mobile-development/pipeline.md` — Parent company 10-stage pipeline (inherited security/compliance requirements)
 - `company/library/overview/company.md` — Company structure and C-suite mapping

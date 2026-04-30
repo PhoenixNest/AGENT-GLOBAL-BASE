@@ -183,4 +183,3 @@ This skill governs the following pipeline stages:
 | Mobile Development | Stage 5 (Development) | `company/pipeline/mobile-development/pipeline.md` |
 | Full Stack         | Stage 5 (Development) | `company/pipeline/full-stack/pipeline.md`         |
 
-Full cross-reference map: `company/optimization-history/2026-04-23-skill-agent-audit/skill-pipeline-crossref.md`

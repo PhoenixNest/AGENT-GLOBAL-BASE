@@ -110,6 +110,5 @@ The event pass is the highest-performing monetization mechanic in casual games w
 
 ## References
 
-- `studio/casual-games/team/recruitment-plan/recruitment-plan.md` — Master recruitment plan
 - `company/pipeline/mobile-development/pipeline.md` — Pipeline stages that include monetization design (Stage 1, 5, 8, 10)
 - `company/library/topics/testing.md` — Testing standards for monetization feature validation

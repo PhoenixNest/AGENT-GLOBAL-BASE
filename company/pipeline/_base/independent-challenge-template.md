@@ -86,7 +86,6 @@ Every challenge round produces a single Markdown report at:
 ```text
 company/pipeline/<product>/independent-challenge-stage-<X>-<date>.md   (for stage-gate challenges)
 studio/<studio>/independent-challenge-<topic>-<date>.md                (for studio-scoped challenges)
-company/optimization-history/<plan-id>/independent-challenge-<topic>.md (for plan-step challenges)
 ```
 
 The report MUST contain:
