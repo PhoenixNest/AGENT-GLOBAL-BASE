@@ -179,39 +179,42 @@ company/departments/<dept>/team/teammates/<role>/agent/profile.md
 
 Each `profile.md` carries YAML frontmatter with `role`, `tier`, and `seniority`. Skill files live in `skills/<skill-name>.md` adjacent to the agent directory.
 
-### 4.4 Company — 10-Stage Development Pipeline
+### 4.4 Company — 13-Stage Development Pipeline
 
-| #   | Stage                                     | Key Producers     | User Approval? |
-| --- | ----------------------------------------- | ----------------- | -------------- |
-| 1   | Requirements → PRD + SRD                  | CPO / VP, CSO     | ✅             |
-| 2   | PRD → Web Prototype + IDS                 | CDO               | ✅             |
-| 3   | Prototype → UML Engineering Package       | CTO, CIO          | ✅             |
-| 4   | UML → Implementation Plan + Gantt         | CTO               | ✅             |
-| 5   | Plan → Software Development               | CTO               | ❌             |
-| 6   | Development → Code Review                 | CTO + full panel  | ✅             |
-| 7   | Code Review → Automated Testing           | CTO + Test Lead   | ✅             |
-| 8   | Testing → Integrity Verification          | CTO + all C-suite | ❌             |
-| 9   | Integrity Verification → i18n Engineering | CTO-L + R&D       | ❌             |
-| 10  | i18n → Release Readiness Check            | CTO + User        | ✅             |
+| #   | Stage                                            | Key Producers     | User Approval? |
+| --- | ------------------------------------------------ | ----------------- | -------------- |
+| 0   | Problem Validation                               | CPO / VP          | ❌             |
+| 1   | Requirements → PRD + SRD                         | CPO / VP, CSO     | ✅             |
+| 2   | PRD → Web Prototype + IDS                        | CDO               | ✅             |
+| 3   | Prototype → UML Engineering Package              | CTO, CIO          | ✅             |
+| 4   | UML → Implementation Plan + Gantt                | CTO               | ✅             |
+| 5   | Plan → Software Development                      | CTO               | ❌             |
+| 6   | Development → Arch. & Conformance Review         | CTO + full panel  | ✅             |
+| 7   | Arch. Review → Automated Testing                 | CTO + Test Lead   | ✅             |
+| 8   | Testing → Integrity Verification                 | CTO + all C-suite | ❌             |
+| 9   | Integrity Verification → Translation Production  | CTO-L + R&D       | ❌             |
+| 9.5 | Internal Dogfood                                 | VP Quality        | ❌             |
+| 10  | Translation Production → Release Readiness Check | CTO + User        | ✅             |
+| 11  | Live Operations (continuous)                     | VP Platform       | ⚠️ QBR         |
 
 **Non-negotiable pipeline rules:**
 
-| Rule                         | Applies At                                       | Detail                                                                                                                                                                            |
-| ---------------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Technology Decision Lock** | Stage 3 (_Prototype → UML Engineering Package_)  | ADRs and TSD are immutable after user approval. Any deviation requires a new ADR and a full Stage 3 re-entry — never an edit at Stage 4 (_UML → Implementation Plan + Gantt_).    |
-| **Trim-to-Pass Forbidden**   | Stage 8 (_Testing → Integrity Verification_)     | Removing or disabling features, security controls, or encryption to pass this review is a P0 defect. It is never valid remediation.                                               |
-| **Defect Severity (P0–P3)**  | All stages                                       | P0 = crash / data loss / security breach (blocks release). P1 = core feature broken (blocks release). P2/P3 = user decides. P0/P1 classification is non-overridable by any agent. |
-| **Stage 6 Remediation Loop** | Stage 6 (_Development → Code Review_)            | After any remediation, the full review panel process repeats from the beginning — it does not resume at defect verification only.                                                 |
-| **PRD + SRD Pairing**        | From Stage 1 (_Requirements → PRD + SRD_) onward | These two documents travel as a unit through all subsequent stages.                                                                                                               |
+| Rule                         | Applies At                                           | Detail                                                                                                                                                                            |
+| ---------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Technology Decision Lock** | Stage 3 (_Prototype → UML Engineering Package_)      | ADRs and TSD are immutable after user approval. Any deviation requires a new ADR and a full Stage 3 re-entry — never an edit at Stage 4 (_UML → Implementation Plan + Gantt_).    |
+| **Trim-to-Pass Forbidden**   | Stage 8 (_Testing → Integrity Verification_)         | Removing or disabling features, security controls, or encryption to pass this review is a P0 defect. It is never valid remediation.                                               |
+| **Defect Severity (P0–P3)**  | All stages                                           | P0 = crash / data loss / security breach (blocks release). P1 = core feature broken (blocks release). P2/P3 = user decides. P0/P1 classification is non-overridable by any agent. |
+| **Stage 6 Remediation Loop** | Stage 6 (_Development → Arch. & Conformance Review_) | After any remediation, the full review panel process repeats from the beginning — it does not resume at defect verification only.                                                 |
+| **PRD + SRD Pairing**        | From Stage 1 (_Requirements → PRD + SRD_) onward     | These two documents travel as a unit through all subsequent stages.                                                                                                               |
 
 ### 4.5 Pipeline Variants
 
 | Pipeline    | Pattern                              | Stages | Location                               |
 | ----------- | ------------------------------------ | ------ | -------------------------------------- |
-| Mobile      | Base + delta (`_base/` + delta.md)   | 10     | `company/pipeline/mobile-development/` |
-| Web         | Base + delta (`_base/` + delta.md)   | 10     | `company/pipeline/web-development/`    |
-| Backend API | Base + delta (`_base/` + delta.md)   | 10     | `company/pipeline/backend-api/`        |
-| Full-Stack  | Base + delta (`_base/` + delta.md)   | 10     | `company/pipeline/full-stack/`         |
+| Mobile      | Base + delta (`_base/` + delta.md)   | 13     | `company/pipeline/mobile-development/` |
+| Web         | Base + delta (`_base/` + delta.md)   | 13     | `company/pipeline/web-development/`    |
+| Backend API | Base + delta (`_base/` + delta.md)   | 13     | `company/pipeline/backend-api/`        |
+| Full-Stack  | Base + delta (`_base/` + delta.md)   | 13     | `company/pipeline/full-stack/`         |
 | Recruitment | Standalone — does not use base+delta | 9      | `company/pipeline/recruitment/`        |
 
 ### 4.6 Recruitment Conventions
@@ -250,7 +253,7 @@ studio/
 | ------------------- | ---------------------------------------------------------------------- |
 | **Engine**          | Unity 6.3 LTS                                                          |
 | **Status**          | All 39 crew hired · Stage 0-ready · No projects initiated              |
-| **Pipeline**        | 11 stages (Stage 0–10) — distinct from the company's 10-stage pipeline |
+| **Pipeline**        | 11 stages (Stage 0–10) — distinct from the company's 13-stage pipeline |
 | **Library**         | `studio/casual-games/library/`                                         |
 | **Strategic Brief** | `studio/casual-games/library/overview/casual-games-studio.md`          |
 
@@ -519,8 +522,8 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | 3   | **Stay within role scope**                                  | When operating as a named organizational agent, produce output within their documented authority and skills. Do not act on behalf of an agent you have not activated via §2.                                                                                                                                                                                                                                                                                                           |
 | 4   | **Respect stage gates**                                     | In any pipeline, do not produce the next stage's artifacts before the current stage has received user approval (where ✅ is marked in the pipeline table). Present the deliverable, request sign-off, and wait.                                                                                                                                                                                                                                                                        |
 | 5   | **Company pipelines: technology decisions lock at Stage 3** | In the company development pipelines (Mobile / Web / Backend API / Full-Stack), Stage 3 — _Prototype → UML Engineering Package_ — produces the Architecture Decision Records (ADRs) and Technology Selection Document (TSD). Both are locked on user approval. Any request to change the technology stack during Stage 4 (_Implementation Plan_) or Stage 5 (_Software Development_) is invalid; it requires a new ADR and a full Stage 3 re-entry, not an edit to existing documents. |
-| 6   | **Company pipelines: P0/P1 defects are non-negotiable**     | In the company pipeline, defects are classified P0–P3 (see §4.4 for definitions). Never reclassify a crash, security breach, or core feature failure as P2 in order to advance past Stage 6 (_Code Review_) or Stage 8 (_Integrity Verification_). P0/P1 classification is final and cannot be overridden by any agent.                                                                                                                                                                |
-| 7   | **Company pipelines: Trim-to-Pass is a P0 defect**          | In the company pipeline, removing features, weakening security controls, or disabling functionality to pass Stage 6 (_Code Review_) or Stage 8 (_Integrity Verification_) is itself a P0 blocking defect — not a valid remediation strategy.                                                                                                                                                                                                                                           |
+| 6   | **Company pipelines: P0/P1 defects are non-negotiable**     | In the company pipeline, defects are classified P0–P3 (see §4.4 for definitions). Never reclassify a crash, security breach, or core feature failure as P2 in order to advance past Stage 6 (_Arch. & Conformance Review_) or Stage 8 (_Integrity Verification_). P0/P1 classification is final and cannot be overridden by any agent.                                                                                                                                                 |
+| 7   | **Company pipelines: Trim-to-Pass is a P0 defect**          | In the company pipeline, removing features, weakening security controls, or disabling functionality to pass Stage 6 (_Arch. & Conformance Review_) or Stage 8 (_Integrity Verification_) is itself a P0 blocking defect — not a valid remediation strategy.                                                                                                                                                                                                                            |
 | 8   | **Optimization history is append-only**                     | `company/optimization-history/` — create new entries; never edit or delete past entries.                                                                                                                                                                                                                                                                                                                                                                                               |
 | 9   | **Use CC-00 patterns for LLM engineering**                  | New agent systems, RAG pipelines, harness implementations, and context solutions must be grounded in CC-00. Do not invent ad-hoc patterns.                                                                                                                                                                                                                                                                                                                                             |
 | 10  | **Skill files are executable contracts**                    | When a skill file specifies a format, checklist, or template, follow it exactly. Skills define "correct" — they are not suggestions.                                                                                                                                                                                                                                                                                                                                                   |
@@ -575,7 +578,7 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | The company as a whole                     | `company/library/README.md`                               |
 | Org chart, departments, tier system        | `company/library/overview/company.md`                     |
 | All personnel and pipeline stage ownership | `company/library/overview/personnel.md`                   |
-| The 10-stage development pipeline          | `company/library/overview/pipeline.md`                    |
+| The 13-stage development pipeline          | `company/library/overview/pipeline.md`                    |
 | A specific department                      | `company/library/departments/<dept>.md`                   |
 | Architecture + ADR conventions             | `company/library/topics/architecture.md`                  |
 | Security + OWASP MASVS standards           | `company/library/topics/security.md`                      |
@@ -604,12 +607,12 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 | Name                  | Role               | Company Pipeline Stages (§4.4)   |
 | --------------------- | ------------------ | -------------------------------- |
-| Marcus Tran-Yoshida   | CPO                | 1 (PRD), 6, 8, 9, 10             |
+| Marcus Tran-Yoshida   | CPO                | 0, 1 (PRD), 6, 8, 9, 10          |
 | Yuki Tanaka-Chen      | CDO                | 2, 6, 8, 10                      |
 | Dr. Kenji Nakamura    | CTO                | 3, 4, 5, 6, 7, 8, 10             |
 | Dr. Priya Mehta       | CIO                | 3 (ADRs/TSD), 6, 8, 10           |
 | Dr. Sarah Chen        | CSO                | 1 (SRD), 6, 8, 10                |
-| Dr. Amara Osei-Mensah | CTO-L              | 9, 10                            |
+| Dr. Amara Osei-Mensah | CTO-L              | 9 (Translation Production), 10   |
 | Dr. Evelyn Hartwell   | CHRO               | Recruitment pipeline             |
 | Julia Thorne          | VP Web             | 1 (Web/Full-Stack PRD), 6, 8, 10 |
 | Alex Rivera           | VP API             | 1 (API/Full-Stack PRD), 6, 8, 10 |
