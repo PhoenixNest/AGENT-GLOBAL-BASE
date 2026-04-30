@@ -1,6 +1,6 @@
 ---
 name: studio-art-mobile-ui-optimization
-description: Optimization of UI art assets for mobile platforms — texture atlasing, 9-slice scaling, asset compression, memory budgeting, and draw call reduction. Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 3–5 for UI asset optimization. Trigger: UI optimization, texture atlasing, 9-slice, asset compression, memory budgeting, draw call reduction, mobile UI.
+description: Optimization of UI art assets for mobile platforms — texture atlasing, 9-slice scaling, asset compression, memory budgeting, and draw call reduction. Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 0, 1, and 2–5 for UI asset optimization. Trigger: UI optimization, texture atlasing, 9-slice, asset compression, memory budgeting, draw call reduction, mobile UI.
 version: "1.0.0"
 ---
 

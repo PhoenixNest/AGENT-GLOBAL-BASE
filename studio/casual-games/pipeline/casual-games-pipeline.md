@@ -23,7 +23,7 @@ This document defines the **complete game studio workflow** from concept through
 | **Soft launch is a formal stage**  | Not a marketing tactic — a product validation stage with explicit entry/exit criteria                                           |
 | **Live ops is continuous**         | Post-launch content updates follow their own operating rhythm, not the pre-launch pipeline                                      |
 | **Security is non-waivable**       | Six minimum security gates apply regardless of organizational independence (CSO mandate)                                        |
-| **Automated testing is mandatory** | 100% test pass rate required before soft launch — unit, integration, performance, and regression tests (CTO + Test Lead)        |
+| **Automated testing is mandatory** | 100% test pass rate required before soft launch — unit, integration, performance, and regression tests (CTO + Lead QA Engineer) |
 
 ---
 
@@ -92,7 +92,7 @@ This document defines the **complete game studio workflow** from concept through
                                 ↓
 ┌──────────────────────────────────────────────────────────────────────┐
 │ STAGE 6: Automated Testing                                           │
-│ Owners: CTO + Test Lead                                              │
+│ Owners: CTO + Lead QA Engineer                                              │
 │ Output: Test suite (Edit Mode + Play Mode + E2E),                    │
 │         test results report, performance benchmarks,                  │
 │         regression test pass, visual regression (static UI)          │
@@ -272,7 +272,7 @@ This document defines the **complete game studio workflow** from concept through
 
 | Element                               | Detail                                                                                                                                                            |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Owners**                            | CTO + Test Lead                                                                                                                                                   |
+| **Owners**                            | CTO + Lead QA Engineer                                                                                                                                            |
 | **Artifacts In**                      | Stage 5 outputs: feature-complete game build, all art/assets integrated, analytics instrumented                                                                   |
 | **Artifacts Out**                     |                                                                                                                                                                   |
 | └ Test Suite                          | Edit Mode tests (unit logic), Play Mode tests (integration/gameplay), E2E tests (Maestro — primary user flows)                                                    |
@@ -495,10 +495,10 @@ For PROGRESS.md compatibility and executive reporting, game studio stages map to
 
 ## 9. Document Version History
 
-| Version | Date          | Author                        | Changes                                                             |
-| ------- | ------------- | ----------------------------- | ------------------------------------------------------------------- |
-| v1      | April 9, 2026 | CTO + CPO + CDO + CSO         | Initial game studio workflow — consolidated four-officer assessment |
-| v1.2    | April 9, 2026 | CTO + Test Lead (CEO mandate) | Inserted Stage 6 (Automated Testing); renumbered Stages 6–9 → 7–10  |
+| Version | Date          | Author                               | Changes                                                             |
+| ------- | ------------- | ------------------------------------ | ------------------------------------------------------------------- |
+| v1      | April 9, 2026 | CTO + CPO + CDO + CSO                | Initial game studio workflow — consolidated four-officer assessment |
+| v1.2    | April 9, 2026 | CTO + Lead QA Engineer (CEO mandate) | Inserted Stage 6 (Automated Testing); renumbered Stages 6–9 → 7–10  |
 
 ---
 

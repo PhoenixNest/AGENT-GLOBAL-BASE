@@ -41,6 +41,7 @@ Rachel owns the mobile and API test automation framework within the R&D Departme
 
 - `company/departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/mobile-test-automation.md` — Mobile test framework architecture: Espresso, XCTest, Maestro, shared test DSL, flaky test detection, parallel test execution
 - `company/departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/defect-triage-protocol.md` — Defect triage: P0–P3 classification, quality scorecard methodology, triage certification
+- `company/departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/api-contract-testing.md` — Pact consumer-driven contracts, Pact Broker CI integration, provider verification gates, and mobile client API contract governance
 
 ## Pipeline Stages
 

@@ -1,6 +1,6 @@
 ---
 name: studio-art-game-ui-art
-description: Complete ownership of static game UI visual assets — icons, illustrations, button states, typography, store screenshots, and promotional art with mobile-first optimization. Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 2–5 for UI art production. Trigger: game UI art, UI assets, button states, typography, store screenshots, promotional art, UI design system.
+description: Complete ownership of static game UI visual assets — icons, illustrations, button states, typography, store screenshots, and promotional art with mobile-first optimization. Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 0, 1, and 2–5 for UI art production. Trigger: game UI art, UI assets, button states, typography, store screenshots, promotional art, UI design system.
 version: "1.0.0"
 ---
 
@@ -23,6 +23,21 @@ Complete ownership of static game UI visual assets — icons, illustrations, but
 | Illustrator     | Advanced     | Vector icon work, typography, logo design      |
 | Unity UI (UGUI) | Intermediate | Understanding how assets integrate into engine |
 | TexturePacker   | Intermediate | Sprite atlas optimization for mobile delivery  |
+
+## Stage 0–1 — UI Style Guide Contribution
+
+Elena's involvement begins at Stage 0 (Art Direction), well before any production UI assets are created. Her role at this stage feeds directly into the Art Style Guide owned by Renaud Leclercq (Art Director).
+
+**Stage 0 — Art Direction:**
+
+- **UI reference moodboards:** Elena assembles curated moodboards presenting 3–5 distinct UI visual directions — covering color temperature, visual weight, border/frame treatment, and button personality. These are reference materials, not final designs.
+- **Color system candidates:** Elena proposes 2–3 candidate color systems (primary palette, accent colors, state colors for interactive elements) with contrast ratios validated against WCAG AA. The Art Director selects or synthesizes one direction.
+- **Icon style exploration:** Elena creates 10–15 icon sketches across 2–3 style approaches (flat, outlined, illustrated) to define the icon vocabulary that will guide the full icon set. The chosen style is locked into the Art Style Guide.
+
+**Stage 1 — Concept:**
+
+- **UI mood reference sheets:** Elena produces a consolidated one-page reference sheet per major screen type (main menu, gameplay HUD, shop, reward screen) showing the approved style applied to rough wireframes. These are not polished — they communicate the visual intention to the team.
+- **Initial color palette proposal:** Elena formalizes the color system candidate chosen at Stage 0 into a documented palette with hex values, usage rules (primary / secondary / state / feedback), and dark-mode variants if applicable.
 
 ## Scenarios & Trade-offs
 

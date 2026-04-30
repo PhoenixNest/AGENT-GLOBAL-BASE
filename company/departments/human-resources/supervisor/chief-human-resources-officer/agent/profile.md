@@ -165,12 +165,13 @@ Recruitment pipeline only (Stages 1–9 of Automated Recruitment Pipeline)
 
 ## Skills Index
 
-| Skill                           | Purpose                                            |
-| ------------------------------- | -------------------------------------------------- |
-| `skills/vet-candidate.md`       | Shared elite gate — apply to every candidate       |
-| `skills/recruit-engineering.md` | Engineering role family recruitment                |
-| `skills/recruit-product.md`     | Product role family recruitment                    |
-| `skills/recruit-design.md`      | Design role family recruitment                     |
-| `skills/recruit-data.md`        | Data & ML role family recruitment                  |
-| `skills/recruit-business.md`    | Business / GTM / Finance / Legal / Ops recruitment |
-| `skills/recruit-translation.md` | Translation & Localization role family recruitment |
+| Skill                                       | Purpose                                                                                                                           |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `skills/vet-candidate.md`                   | Shared elite gate — apply to every candidate                                                                                      |
+| `skills/recruit-engineering.md`             | Engineering role family recruitment                                                                                               |
+| `skills/recruit-product.md`                 | Product role family recruitment                                                                                                   |
+| `skills/recruit-design.md`                  | Design role family recruitment                                                                                                    |
+| `skills/recruit-data.md`                    | Data & ML role family recruitment                                                                                                 |
+| `skills/recruit-business.md`                | Business / GTM / Finance / Legal / Ops recruitment                                                                                |
+| `skills/recruit-translation.md`             | Translation & Localization role family recruitment                                                                                |
+| `skills/placement-and-profile-authoring.md` | Tier confirmation, profile.md authoring from template, Skills Index assembly, vetting record paste, and first skill stub creation |

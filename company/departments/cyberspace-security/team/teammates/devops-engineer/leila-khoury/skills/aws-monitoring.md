@@ -1,14 +1,17 @@
 ---
+name: aws-monitoring
+description: "Design and operate AWS security monitoring — CloudWatch, GuardDuty, Security Hub, VPC Flow Logs, and CloudTrail — to achieve MTTD below 5 minutes for critical threats and maintain continuous compliance posture across all accounts."
 version: "1.0.0"
 ---
 
------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CloudWatch Security Monitoring | Configuring CloudWatch for security event detection and alerting | Creates custom metrics and alarms for security-relevant events; achieves MTTD <5 minutes for critical threats; integrates with SNS/PagerDuty for alerting |
-| GuardDuty Management | Configuring and tuning Amazon GuardDuty threat detection | GuardDuty enabled across all accounts and regions; finding false positive rate <10%; automated response to critical findings via EventBridge |
-| Security Hub Orchestration | Managing AWS Security Hub for centralized security posture management | Security Hub enabled with all available standards (CIS, PCI DSS, AWS Foundational); findings aggregated and prioritized; compliance score ≥95% |
-| VPC Flow Log Analysis | Configuring and analyzing VPC Flow Logs for network security monitoring | Flow logs enabled on all VPCs; analysis detects unauthorized network access, data exfiltration patterns, and lateral movement; retention ≥365 days |
-| CloudTrail & Audit Logging | Ensuring comprehensive API audit logging | CloudTrail enabled in all regions with log file validation; management and data events logged; logs shipped to SIEM; integrity verified |
-| Incident Response Integration | Connecting monitoring alerts to incident response workflows | Automated alerting with runbook attachment; mean time to respond (MTTR) <15 minutes for critical alerts; post-incident documentation |
+| Competency                     | Description                                                             | Quality Criteria                                                                                                                                          |
+| ------------------------------ | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CloudWatch Security Monitoring | Configuring CloudWatch for security event detection and alerting        | Creates custom metrics and alarms for security-relevant events; achieves MTTD <5 minutes for critical threats; integrates with SNS/PagerDuty for alerting |
+| GuardDuty Management           | Configuring and tuning Amazon GuardDuty threat detection                | GuardDuty enabled across all accounts and regions; finding false positive rate <10%; automated response to critical findings via EventBridge              |
+| Security Hub Orchestration     | Managing AWS Security Hub for centralized security posture management   | Security Hub enabled with all available standards (CIS, PCI DSS, AWS Foundational); findings aggregated and prioritized; compliance score ≥95%            |
+| VPC Flow Log Analysis          | Configuring and analyzing VPC Flow Logs for network security monitoring | Flow logs enabled on all VPCs; analysis detects unauthorized network access, data exfiltration patterns, and lateral movement; retention ≥365 days        |
+| CloudTrail & Audit Logging     | Ensuring comprehensive API audit logging                                | CloudTrail enabled in all regions with log file validation; management and data events logged; logs shipped to SIEM; integrity verified                   |
+| Incident Response Integration  | Connecting monitoring alerts to incident response workflows             | Automated alerting with runbook attachment; mean time to respond (MTTR) <15 minutes for critical alerts; post-incident documentation                      |
 
 ## Trigger
 

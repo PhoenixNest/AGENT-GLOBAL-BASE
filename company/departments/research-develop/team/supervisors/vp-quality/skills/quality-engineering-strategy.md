@@ -1,6 +1,6 @@
 ---
 name: quality-engineering-strategy
-description: Quality engineering strategy at enterprise scale: test pyramid design, quality scorecard with release gate authority, SDET team structure, product risk calibration, flaky test management, and 100% automated test pass rate enforcement across 57 engineers and 5 divisions.
+description: Quality engineering strategy at enterprise scale: test pyramid design, quality scorecard with release gate authority, SDET team structure, product risk calibration, flaky test management, and 100% automated test pass rate enforcement. Defines Stage 7 (Automated Testing) ownership — Test Plan and Test Results Report — and Stage 8 (Integrity Verification) sign-off responsibilities.
 version: "1.0.0"
 ---
 
@@ -146,6 +146,38 @@ The VP of Quality must calibrate defect severity against **user impact**, not ju
 
 **Critical distinction:** A P1 from a user's perspective (can't complete checkout) may be a P3 from a code perspective (CSS issue). Calibrate to **user impact**, not code complexity.
 
+## Pipeline Stage Responsibilities
+
+### Stage 7 — Automated Testing (Owned by VP Quality + CTO)
+
+Aisha Patel owns all Stage 7 execution. Her responsibilities:
+
+- Author the **Test Plan** for the release: scope, coverage targets, automation strategy, test environments
+- Execute the full automated test suite (unit, integration, UI, accessibility, localization)
+- Produce the **Test Results Report** summarizing coverage %, pass/fail breakdown, and any deferred defects with rationale
+- Classify all Stage 7 defect findings as P0–P3 (see P0/P1 classification is non-overridable)
+- Get CTO sign-off on the Test Results Report before Stage 8 begins
+
+**Aisha's Stage 7 sign-off checklist:**
+
+- [ ] Unit coverage ≥ 80% (mobile), ≥ 75% (shared code)
+- [ ] Integration test suite 100% pass
+- [ ] UI automation suite ≥ 90% pass (failures documented with tracking tickets)
+- [ ] axe-core WCAG 2.1 AA scan: zero critical/serious violations (see `axe-core-wcag-testing.md`)
+- [ ] Localization test suite pass (see `localization-testing-strategy.md`)
+- [ ] Zero open P0/P1 defects at Stage 7 close
+
+### Stage 8 — Integrity Verification (Panel member)
+
+At Stage 8, Aisha sits on the full C-suite Integrity Verification panel. Her sign-off covers the **test quality dimension**:
+
+- Confirms all Stage 7 test coverage thresholds were met and are documented
+- Confirms no test was disabled, skipped, or scope-reduced without documented rationale
+- Confirms all P0/P1 defects found at Stage 7 have verified remediation — not just closed tickets, but regression test evidence
+- Raises any "Trim-to-Pass" concerns directly to the CTO if any feature or test coverage was reduced to pass Stage 7
+
+Aisha's Stage 8 sign-off is delivered as a written memo to the CTO within 24 hours of the Integrity Verification panel meeting.
+
 ## Quality Standards
 
 - No release may pass with open P0 or P1 defects
@@ -155,3 +187,5 @@ The VP of Quality must calibrate defect severity against **user impact**, not ju
 - Flaky test rate target: <2% of total suite
 - No test may be disabled without written justification and tracking ticket
 - Test coverage must not decrease between releases (coverage gate enforced in CI)
+- Stage 7 Test Results Report delivered to CTO within 48 hours of test suite completion
+- Stage 8 sign-off memo delivered to CTO within 24 hours of the Integrity Verification panel

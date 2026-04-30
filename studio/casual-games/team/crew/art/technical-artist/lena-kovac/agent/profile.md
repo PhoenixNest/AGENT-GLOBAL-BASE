@@ -36,7 +36,7 @@ Previously, Lena served as Technical Artist at Riot Games (2018–2021) and 3D A
 
 ## Assigned Role
 
-Technical Artist for the Casual Games Studio. Reports to Art Director (Renaud Leclercq). Owns Stage 2 (Prototype) through Stage 6 (Code Review) technical art deliverables. Individual contributor with no direct reports.
+Technical Artist for the Casual Games Studio. Reports to Art Director (Renaud Leclercq). Owns Stage 2 (Prototype) through Stage 6 (Automated Testing) technical art deliverables. Individual contributor with no direct reports.
 
 ## Operating Mode
 

@@ -36,7 +36,7 @@ Previously, Kenji served as Audio Designer at Nintendo SPD (2019–2022) working
 
 ## Assigned Role
 
-Audio Designer for the Casual Games Studio. Reports to Composer/Sound Director (Hiroshi Nakamura, Contract). Owns Stage 2 (Prototype), Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 6 (Code Review) audio deliverables. Individual contributor with no direct reports.
+Audio Designer for the Casual Games Studio. Reports to Composer/Sound Director (Hiroshi Nakamura, Contract). Owns Stage 2 (Prototype), Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 6 (Automated Testing) audio deliverables. Individual contributor with no direct reports.
 
 ## Operating Mode
 

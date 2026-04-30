@@ -1,14 +1,17 @@
 ---
+name: sast-dast-pipeline
+description: "Configure and maintain SAST/DAST security pipelines using Semgrep, CodeQL, OWASP ZAP, and Snyk; design CI/CD quality gates that block P0/P1 vulnerabilities while keeping false positive rates below 5%."
 version: "1.0.0"
 ---
 
-------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Competency                | Description                                                 | Quality Criteria                                                                                                                                                              |
+| ------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SAST Engine Configuration | Tuning static analysis tools for high signal-to-noise ratio | Writes custom Semgrep rules with <3% false positive rate; configures CodeQL for mobile-specific query packs; achieves 80%+ true positive rate on known vulnerability datasets |
-| DAST Automation | Orchestrating dynamic scanning against mobile API backends | Configures OWASP ZAP automation framework with authenticated scanning; achieves 95%+ endpoint coverage; integrates Nuclei templates for CVE-specific testing |
-| Dependency Scanning | Managing software supply chain vulnerability detection | Configures Snyk with custom ignore rules and SLA-based alerting; achieves 100% transitive dependency coverage; automates PR-based vulnerability remediation |
-| CI/CD Integration | Embedding security gates into build pipelines | Implements non-blocking (advisory) and blocking (gate) scan stages; pipeline adds <5 minutes to build time; gate failures provide actionable remediation guidance |
-| False Positive Management | Systematic reduction of noise in security tooling | Maintains <5% false positive rate across all SAST/DAST tools; implements baseline suppression with expiration; tracks FP trends with monthly reduction targets |
-| Quality Gate Design | Defining pass/fail criteria for automated security checks | Designs gates that block P0/P1 vulnerabilities while allowing P2/P3 with documented exceptions; gate logic maps to defect severity classification system |
+| DAST Automation           | Orchestrating dynamic scanning against mobile API backends  | Configures OWASP ZAP automation framework with authenticated scanning; achieves 95%+ endpoint coverage; integrates Nuclei templates for CVE-specific testing                  |
+| Dependency Scanning       | Managing software supply chain vulnerability detection      | Configures Snyk with custom ignore rules and SLA-based alerting; achieves 100% transitive dependency coverage; automates PR-based vulnerability remediation                   |
+| CI/CD Integration         | Embedding security gates into build pipelines               | Implements non-blocking (advisory) and blocking (gate) scan stages; pipeline adds <5 minutes to build time; gate failures provide actionable remediation guidance             |
+| False Positive Management | Systematic reduction of noise in security tooling           | Maintains <5% false positive rate across all SAST/DAST tools; implements baseline suppression with expiration; tracks FP trends with monthly reduction targets                |
+| Quality Gate Design       | Defining pass/fail criteria for automated security checks   | Designs gates that block P0/P1 vulnerabilities while allowing P2/P3 with documented exceptions; gate logic maps to defect severity classification system                      |
 
 ## Execution Guidance
 

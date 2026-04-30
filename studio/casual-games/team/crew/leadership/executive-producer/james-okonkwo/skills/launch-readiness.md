@@ -145,7 +145,76 @@ The decision to proceed to global launch requires:
 3. Studio Director recommendation to proceed
 4. User (CEO) final approval
 
+## Failed Soft Launch Remediation
+
+Not every soft launch proceeds to global. When soft launch KPIs miss targets across 2 or more test regions after 21 days, James Okonkwo convenes a **Soft Launch Post-Mortem** and initiates the remediation process.
+
+### Decision Framework: Proceed, Pivot, or Kill
+
+| KPI Performance                                         | Recommendation          | Next Step                                                     |
+| ------------------------------------------------------- | ----------------------- | ------------------------------------------------------------- |
+| All retention and monetization targets met              | **Proceed to global**   | Stage 9 launch prep                                           |
+| Retention targets met, monetization 20–30% below target | **Tuning pivot**        | 4–6 week monetization rebalancing sprint; re-evaluate         |
+| D7 retention below 20% (target 15% already low)         | **Core gameplay pivot** | Evaluate core loop changes; potentially re-enter Stage 2      |
+| D1 retention below 25% (hard kill threshold)            | **Kill decision**       | Present to Studio Director + User; may kill or major redesign |
+| Game crashes >2% session rate                           | **Engineering halt**    | Fix P0 crashes before any other action; re-evaluate after fix |
+
+### Pivot Scope Classification
+
+**Scope 1 — Tuning Pivot (2–4 weeks):** Economy parameters, difficulty tuning, onboarding flow copy, offer pricing. No new features or mechanics required. James manages this as a hotfix sprint within the current Stage 8.
+
+**Scope 2 — Feature Pivot (6–12 weeks):** Core feature is broken or missing (e.g. lack of progression milestone rewards, absent social features). Requires re-entering Stage 5 (Full Production) with a scoped sprint. James presents the pivot plan to the Studio Director and User before execution begins.
+
+**Scope 3 — Core Loop Pivot (3–6 months):** The core gameplay mechanic does not resonate. This is rare and expensive; it typically requires re-entering Stage 2 (Prototype). James presents the case to the Studio Director for a kill-or-pivot decision with the User.
+
+### Pivot Execution Plan Template
+
+When a Scope 1 or Scope 2 pivot is approved, James produces a **Pivot Execution Plan**:
+
+```markdown
+# Soft Launch Pivot Execution Plan — [Game Name]
+
+**Decision date:** YYYY-MM-DD
+**Pivot scope:** Scope [1/2/3]
+**Pivot lead:** James Okonkwo (Executive Producer)
+**Approved by:** [Studio Director] on [date], [User] on [date]
+
+## Diagnosis Summary
+
+[2–3 sentences: what failed, root cause, evidence from soft launch data]
+
+## Pivot Hypothesis
+
+"We believe [specific change] will improve [metric] from [current] to [target] within [timeframe]
+because [evidence-based rationale]."
+
+## Scope of Changes
+
+| Change                           | Owner  | Estimate | Done By |
+| -------------------------------- | ------ | -------- | ------- |
+| [Specific tuning/feature change] | [Role] | [X days] | [Date]  |
+
+## Success Criteria for Re-evaluation
+
+- D7 retention ≥ 15% in at least 2 test regions after 14-day re-measurement
+- D30 ARPU ≥ $0.50 in at least 1 test region
+
+## Kill Criteria
+
+If success criteria are not met within [date], James recommends kill decision to Studio Director.
+```
+
+### Kill Decision Process
+
+A kill decision requires:
+
+1. James presents the data to the Studio Director (Marcus Vogel)
+2. Marcus Vogel presents to the User with a kill/continue recommendation
+3. **User has final authority.** No kill proceeds without explicit user approval.
+4. If kill is approved: team is redeployed to next project; post-mortem is documented in `studio/casual-games/projects/<game-name>/post-mortem.md` within 2 weeks
+
 ## References
 
+- `studio/casual-games/pipeline/casual-games-pipeline.md` — Studio 11-stage pipeline
 - `company/pipeline/mobile-development/pipeline.md` — Stage 7 (Soft Launch Prep), Stage 8 (Soft Launch), Stage 9 (Global Launch Readiness)
 - `company/library/topics/testing.md` — Testing standards for launch validation

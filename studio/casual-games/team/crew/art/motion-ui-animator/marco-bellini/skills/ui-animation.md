@@ -1,6 +1,6 @@
 ---
 name: studio-art-ui-animation
-description: Animation of game UI elements — button presses, screen transitions, reward celebrations, loading animations, and micro-interactions with mobile performance constraints. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 3–5 for UI animation production. Trigger: UI animation, screen transitions, reward celebration, micro-interactions, DOTween, Spine 2D, easing curves.
+description: Animation of game UI elements — button presses, screen transitions, reward celebrations, loading animations, and micro-interactions with mobile performance constraints. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 2, 3, 5, and Stage 6 (Automated Testing) for UI animation production. Trigger: UI animation, screen transitions, reward celebration, micro-interactions, DOTween, Spine 2D, easing curves.
 version: "1.0.0"
 ---
 
@@ -37,6 +37,14 @@ Animation of game UI elements — button presses, screen transitions, reward cel
 - **Approach:** Layered animation — screen shake, particle burst, number counter, sound sync, haptic feedback
 - **Trade-off:** Excitement vs. repetition — celebrations must feel rewarding on first and 100th viewing
 - **Quality Bar:** First-time celebration is 3+ seconds with full effects; repeat celebrations compress to 1.5 seconds with option to skip
+
+## Stage 2 — Prototype Animation
+
+At Stage 2 (Prototype), Marco's role is to establish the motion language for the game's UI before full production begins. Work at this stage is intentionally rough and time-boxed.
+
+- **Placeholder motion:** Marco builds quick placeholder animations for all major UI interactions (button press, screen transition, reward reveal) using DOTween or simple Unity Animator clips. These are not final — they exist to prove the interaction flow and feel is correct before engineering invests in wiring.
+- **Timing standards:** The most important output of Stage 2 animation work is a timing reference sheet — the agreed fast/medium/slow duration tokens and the 2–3 primary easing curves the game will use. Locking these at Stage 2 prevents costly rework in Stage 5.
+- **Motion review with Creative Director:** Marco presents the placeholder animation set to Sakura Ishimori (Creative Director) at the Stage 2 milestone gate. Feedback at this stage shapes the animation personality before it is baked into the full spec at Stage 5.
 
 ## Quality Standards
 

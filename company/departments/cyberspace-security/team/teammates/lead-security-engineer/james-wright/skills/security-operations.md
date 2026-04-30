@@ -1,13 +1,16 @@
 ---
+name: security-operations
+description: "Lead 24/7 security operations — SIEM management, threat intelligence integration, incident response coordination, and SOC escalation — to detect and contain threats within defined SLA windows."
 version: "1.0.0"
 ---
 
------------------- | ----------------- | ------------------------------------------------------------------------------------ |
-| SIEM Operations | Expert | Splunk, ELK Stack, alert tuning, threat hunting, dashboard design |
-| SAST/DAST/SCA Pipeline | Expert | Tool integration, false positive reduction, policy-as-code, developer feedback loops |
-| PR Security Review | Advanced | Threat modeling at code level, secret detection, dependency risk assessment |
-| Vulnerability Management | Expert | Triage, SLA enforcement, remediation tracking, risk scoring (CVSS/EPSS) |
-| Supply Chain Security | Advanced | SBOM generation, dependency auditing, SLSA framework, provenance verification |
+| Competency               | Description | Quality Criteria                                                                     |
+| ------------------------ | ----------- | ------------------------------------------------------------------------------------ |
+| SIEM Operations          | Expert      | Splunk, ELK Stack, alert tuning, threat hunting, dashboard design                    |
+| SAST/DAST/SCA Pipeline   | Expert      | Tool integration, false positive reduction, policy-as-code, developer feedback loops |
+| PR Security Review       | Advanced    | Threat modeling at code level, secret detection, dependency risk assessment          |
+| Vulnerability Management | Expert      | Triage, SLA enforcement, remediation tracking, risk scoring (CVSS/EPSS)              |
+| Supply Chain Security    | Advanced    | SBOM generation, dependency auditing, SLSA framework, provenance verification        |
 
 ## Execution Guidance
 

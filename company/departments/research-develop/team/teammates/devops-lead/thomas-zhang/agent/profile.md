@@ -45,7 +45,7 @@ Thomas owns the CI/CD pipeline architecture, cloud infrastructure operations, an
 
 ## Pipeline Stages
 
-5, 8
+5, 8, 9
 
 ## Current OKRs / Performance Metrics
 

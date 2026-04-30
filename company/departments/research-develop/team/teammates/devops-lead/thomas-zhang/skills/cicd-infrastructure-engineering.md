@@ -1,15 +1,18 @@
 ---
+name: cicd-infrastructure-engineering
+description: CI/CD and infrastructure engineering for multi-platform mobile builds — GitLab CI pipeline architecture, ArgoCD GitOps deployments, build pipeline optimization (caching, parallelism, incremental builds), multi-platform build orchestration (Android/iOS/KMP/Flutter), pipeline security hardening (secrets management, signed artifacts, supply chain scanning), i18n pipeline automation (string extraction, TMS integration, translation validation), and Infrastructure as Code with Terraform and Kubernetes. Use when designing, optimizing, or auditing CI/CD pipelines or deployment infrastructure, especially for cross-platform mobile projects or Stage 9 localization pipeline work.
 version: "1.0.0"
 ---
 
---------------------- | ----------------- | --------------------------------------------------------------------------------- |
-| CI/CD Architecture | Expert | GitLab CI, ArgoCD, pipeline-as-code, multi-stage workflows, artifact management |
-| Build Pipeline Optimization | Expert | Parallel execution, caching strategies, incremental builds, build time reduction |
-| Multi-Platform Builds | Expert | Android (Gradle), iOS (Xcode), KMP (Kotlin Multiplatform), Flutter — parallelized |
-| Pipeline Security | Advanced | Secret management, signed artifacts, supply chain security, runner isolation |
-| i18n Pipeline Engineering | Expert | String extraction automation, TMS integration, translation validation, l10n QA |
-| Infrastructure as Code | Advanced | Terraform, Ansible, Kubernetes manifests for CI/CD infrastructure |
-| GitOps Workflows | Advanced | Declarative infrastructure, automated deployments, drift detection |
+| Competency                  | Proficiency | Description                                                                       |
+| --------------------------- | ----------- | --------------------------------------------------------------------------------- |
+| CI/CD Architecture          | Expert      | GitLab CI, ArgoCD, pipeline-as-code, multi-stage workflows, artifact management   |
+| Build Pipeline Optimization | Expert      | Parallel execution, caching strategies, incremental builds, build time reduction  |
+| Multi-Platform Builds       | Expert      | Android (Gradle), iOS (Xcode), KMP (Kotlin Multiplatform), Flutter — parallelized |
+| Pipeline Security           | Advanced    | Secret management, signed artifacts, supply chain security, runner isolation      |
+| i18n Pipeline Engineering   | Expert      | String extraction automation, TMS integration, translation validation, l10n QA    |
+| Infrastructure as Code      | Advanced    | Terraform, Ansible, Kubernetes manifests for CI/CD infrastructure                 |
+| GitOps Workflows            | Advanced    | Declarative infrastructure, automated deployments, drift detection                |
 
 ## Execution Guidance
 

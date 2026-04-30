@@ -149,7 +149,7 @@ Recommend adopting Amplitude over Mixpanel for mobile analytics. Amplitude provi
 
 ## Templates
 
-Store reusable templates in `company/departments/research-develop/supervisor/chief-information-officer/templates/`:
+Store reusable templates in `company/departments/cyberspace-security/supervisor/chief-information-officer/templates/`:
 
 - `technology-selection-template.md`
 - `version-analysis-template.md`

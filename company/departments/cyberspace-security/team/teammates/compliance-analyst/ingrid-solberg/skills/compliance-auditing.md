@@ -1,14 +1,17 @@
 ---
+name: compliance-auditing
+description: "Conduct end-to-end compliance audits across SOC 2 Type II, PCI DSS v4.0, GDPR, and ISO 27001 frameworks; manage audit planning, evidence collection, and external auditor relationships to achieve zero qualified opinions."
 version: "1.0.0"
 ---
 
-------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SOC 2 Type II | Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) | Designs and maintains SOC 2 control framework; coordinates annual Type II audit with zero qualified opinions; manages 12-month observation period evidence collection |
-| PCI DSS v4.0 | Payment Card Industry Data Security Standard — latest version | Maps all payment-processing controls to PCI DSS v4.0 requirements; coordinates annual ROC (Report on Compliance) with QSA; manages SAQ completion for applicable scope |
-| GDPR | General Data Protection Regulation — EU data protection | Maintains Records of Processing Activities (RoPA); coordinates DPO activities; manages data subject request (DSR) fulfillment; ensures cross-border data transfer compliance |
-| ISO 27001 | Information Security Management System (ISMS) | Develops Statement of Applicability (SoA); manages internal audit program; coordinates Stage 1 + Stage 2 certification audits; maintains ISMS documentation |
-| Audit Planning | End-to-end audit lifecycle management | Produces comprehensive audit plans with scope, timeline, resource requirements, and deliverables; achieves zero audit scope creep incidents |
-| Evidence Collection | Systematic gathering and organization of compliance evidence | Automates 70%+ of evidence collection; maintains evidence repository with chain of custody; achieves 100% evidence completeness at audit time |
+| Competency          | Description                                                                                     | Quality Criteria                                                                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SOC 2 Type II       | Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) | Designs and maintains SOC 2 control framework; coordinates annual Type II audit with zero qualified opinions; manages 12-month observation period evidence collection        |
+| PCI DSS v4.0        | Payment Card Industry Data Security Standard — latest version                                   | Maps all payment-processing controls to PCI DSS v4.0 requirements; coordinates annual ROC (Report on Compliance) with QSA; manages SAQ completion for applicable scope       |
+| GDPR                | General Data Protection Regulation — EU data protection                                         | Maintains Records of Processing Activities (RoPA); coordinates DPO activities; manages data subject request (DSR) fulfillment; ensures cross-border data transfer compliance |
+| ISO 27001           | Information Security Management System (ISMS)                                                   | Develops Statement of Applicability (SoA); manages internal audit program; coordinates Stage 1 + Stage 2 certification audits; maintains ISMS documentation                  |
+| Audit Planning      | End-to-end audit lifecycle management                                                           | Produces comprehensive audit plans with scope, timeline, resource requirements, and deliverables; achieves zero audit scope creep incidents                                  |
+| Evidence Collection | Systematic gathering and organization of compliance evidence                                    | Automates 70%+ of evidence collection; maintains evidence repository with chain of custody; achieves 100% evidence completeness at audit time                                |
 
 ## Execution Guidance
 

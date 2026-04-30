@@ -42,10 +42,11 @@ Dev owns the backend engineering chapter within the Web & Backend division, repo
 - `company/departments/research-develop/team/teammates/backend-chapter-lead/dev-malhotra/skills/distributed-systems.md` — Distributed systems: microservices, event-driven architecture, service mesh, distributed tracing
 - `company/departments/research-develop/team/teammates/backend-chapter-lead/dev-malhotra/skills/api-gateway-design.md` — API gateway design, rate limiting, circuit breakers, high-throughput systems
 - `company/departments/research-develop/team/teammates/backend-chapter-lead/dev-malhotra/skills/database-architecture.md` — Database architecture: relational, document stores, sharding, replication
+- `company/departments/research-develop/team/teammates/backend-chapter-lead/dev-malhotra/skills/backend-chapter-leadership.md` — Chapter leadership: mentorship framework (mid→senior→staff), chapter rituals, SLO culture, onboarding, and Stage 6 backend panel responsibilities
 
 ## Pipeline Stages
 
-5, 8
+5, 6, 8
 
 ## Current OKRs / Performance Metrics
 

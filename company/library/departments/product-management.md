@@ -25,12 +25,16 @@ To prevent structural bottlenecks while maintaining rigorous quality, the depart
 
 ## Division Skills
 
-| Skill File                                                                                                                                | Purpose                                                                              | Owner  |
-| :---------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------- | :----- |
-| [`prd-authorship.md`](../../departments/product-management/supervisor/chief-product-officer/skills/prd-authorship.md)                     | **Company Standard:** PRD structure, acceptance criteria, and platform requirements. | CPO    |
-| [`mobile-product-strategy.md`](../../departments/product-management/supervisor/chief-product-officer/skills/mobile-product-strategy.md)   | Mobile prioritisation, HIG/Material constraints, and app-store mechanics.            | CPO    |
-| [`web-product-strategy.md`](../../departments/product-management/team/supervisors/vp-product-web-platform/skills/web-product-strategy.md) | Web conversion funnels, accessibility (WCAG 2.1 AA), and PWA/SPA/SSR strategy.       | VP Web |
-| [`api-product-strategy.md`](../../departments/product-management/team/supervisors/vp-product-api-platform/skills/api-product-strategy.md) | OpenAPI standards, DX metrics, monetization, and API lifecycle management.           | VP API |
+| Skill File                                                                                                                                                | Purpose                                                                                                                            | Owner  |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :----- |
+| [`prd-authorship.md`](../../departments/product-management/supervisor/chief-product-officer/skills/prd-authorship.md)                                     | **Company Standard:** PRD structure, acceptance criteria, and platform requirements.                                               | CPO    |
+| [`mobile-product-strategy.md`](../../departments/product-management/supervisor/chief-product-officer/skills/mobile-product-strategy.md)                   | Mobile prioritisation, HIG/Material constraints, and app-store mechanics.                                                          | CPO    |
+| [`product-stage-gates.md`](../../departments/product-management/supervisor/chief-product-officer/skills/product-stage-gates.md)                           | CPO participation at Stages 6, 8, 9, and 10: product fidelity review, integrity sign-off, i18n confirmation, release co-signature. | CPO    |
+| [`web-product-strategy.md`](../../departments/product-management/team/supervisors/vp-product-web-platform/skills/web-product-strategy.md)                 | Web conversion funnels, accessibility (WCAG 2.1 AA), and PWA/SPA/SSR strategy.                                                     | VP Web |
+| [`web-accessibility-governance.md`](../../departments/product-management/team/supervisors/vp-product-web-platform/skills/web-accessibility-governance.md) | WCAG 2.1 AA governance across the full web product lifecycle — from PRD through Stage 6 code review.                               | VP Web |
+| [`api-product-strategy.md`](../../departments/product-management/team/supervisors/vp-product-api-platform/skills/api-product-strategy.md)                 | OpenAPI standards, DX metrics, monetization, and API lifecycle management.                                                         | VP API |
+| [`api-governance.md`](../../departments/product-management/team/supervisors/vp-product-api-platform/skills/api-governance.md)                             | API lifecycle management: versioning policy, backward-compatibility standards, breaking-change classification.                     | VP API |
+| [`developer-portal-and-devrel.md`](../../departments/product-management/team/supervisors/vp-product-api-platform/skills/developer-portal-and-devrel.md)   | Developer portal product strategy, information architecture, recipe-based documentation, and developer NPS.                        | VP API |
 
 ---
 

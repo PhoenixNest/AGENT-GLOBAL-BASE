@@ -1,4 +1,6 @@
 ---
+name: distributed-systems
+description: Distributed systems engineering for microservice architectures — DDD-based service decomposition, choreography and orchestration saga patterns, circuit breaker configuration, idempotency key design, and OpenTelemetry distributed tracing. Use when designing inter-service communication strategies, fault tolerance boundaries, or observability infrastructure for a distributed backend.
 version: "1.0.0"
 ---
 

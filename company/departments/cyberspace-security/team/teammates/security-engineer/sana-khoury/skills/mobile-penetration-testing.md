@@ -1,14 +1,17 @@
 ---
+name: mobile-penetration-testing
+description: "Conduct comprehensive mobile penetration tests — static binary analysis, Frida-based dynamic instrumentation, MITM network interception, and reverse engineering — to discover exploitable vulnerabilities in Android and iOS applications."
 version: "1.0.0"
 ---
 
--------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Static Analysis | Reverse engineering of APK/IPA binaries without execution | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |
-| Dynamic Analysis | Runtime instrumentation and behavioral analysis of running apps | Hooks 90%+ of target methods via Frida scripts in <2 hours; bypasses root/jailbreak detection, SSL pinning, and anti-debugging protections; traces cryptographic operations and key extraction at runtime |
-| Network Interception | MITM analysis of mobile app communication channels | Configures Burp Suite with mobile proxy + CA certificate pinning bypass; intercepts and mutates WebSocket, gRPC, and MQTT traffic; identifies insecure API endpoints and data exposure |
-| Reverse Engineering | Deep binary analysis for vulnerability discovery | Maps native code attack surfaces in ARM64/x86_64; identifies buffer overflows, format string vulns, and insecure IPC in shared libraries; reconstructs custom encryption protocols from disassembly |
-| Vulnerability Exploitation | Proof-of-concept exploit development | Develops working PoCs for identified vulnerabilities (insecure data storage, broken cryptography, intent hijacking, deep link abuse); demonstrates impact without causing data loss |
-| OWASP MASVS Assessment | Structured verification against MASVS controls | Maps every finding to specific MASVS requirement (V1–V8); produces assessment reports that directly feed Stage 6 Code Review and Stage 8 Integrity Verification gate criteria |
+| Competency                 | Description                                                     | Quality Criteria                                                                                                                                                                                                          |
+| -------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Static Analysis            | Reverse engineering of APK/IPA binaries without execution       | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |
+| Dynamic Analysis           | Runtime instrumentation and behavioral analysis of running apps | Hooks 90%+ of target methods via Frida scripts in <2 hours; bypasses root/jailbreak detection, SSL pinning, and anti-debugging protections; traces cryptographic operations and key extraction at runtime                 |
+| Network Interception       | MITM analysis of mobile app communication channels              | Configures Burp Suite with mobile proxy + CA certificate pinning bypass; intercepts and mutates WebSocket, gRPC, and MQTT traffic; identifies insecure API endpoints and data exposure                                    |
+| Reverse Engineering        | Deep binary analysis for vulnerability discovery                | Maps native code attack surfaces in ARM64/x86_64; identifies buffer overflows, format string vulns, and insecure IPC in shared libraries; reconstructs custom encryption protocols from disassembly                       |
+| Vulnerability Exploitation | Proof-of-concept exploit development                            | Develops working PoCs for identified vulnerabilities (insecure data storage, broken cryptography, intent hijacking, deep link abuse); demonstrates impact without causing data loss                                       |
+| OWASP MASVS Assessment     | Structured verification against MASVS controls                  | Maps every finding to specific MASVS requirement (V1–V8); produces assessment reports that directly feed Stage 6 Code Review and Stage 8 Integrity Verification gate criteria                                             |
 
 ## Execution Guidance
 

@@ -1,4 +1,6 @@
 ---
+name: api-gateway-design
+description: API gateway architecture and edge layer engineering — BFF and aggregator patterns, multi-tier rate limiting, mTLS termination, load balancing algorithms, active health checks, and gateway-level circuit breakers. Use when designing or reviewing the API gateway layer for a service mesh, backend-for-frontend architecture, or edge security boundary.
 version: "1.0.0"
 ---
 

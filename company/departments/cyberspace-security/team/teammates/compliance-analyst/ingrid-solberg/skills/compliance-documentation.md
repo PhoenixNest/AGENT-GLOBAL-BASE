@@ -1,14 +1,17 @@
 ---
+name: compliance-documentation
+description: "Produce audit-grade compliance documentation — risk assessments, control descriptions, evidence packages, and remediation plans — that satisfy SOC 2, ISO 27001, PCI DSS, and GDPR auditors on first submission."
 version: "1.0.0"
 ---
 
------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Risk Assessment Documentation | Producing comprehensive, auditable risk assessments | Develops risk assessments that satisfy SOC 2, ISO 27001, and PCI DSS requirements; achieves zero documentation-related audit findings; maintains risk register with quarterly updates |
-| Control Descriptions | Writing clear, precise, auditable control documentation | Every control description includes: purpose, implementation details, responsible party, evidence source, testing procedure; controls mapped to all applicable framework requirements |
-| Evidence Collection Automation | Designing automated evidence pipelines for compliance | 70%+ of evidence collected automatically; evidence linked to controls via unique identifiers; evidence repository structured for auditor self-service |
-| Remediation Plans | Developing actionable, trackable remediation documentation | Every remediation plan includes: root cause, corrective action, preventive action, owner, timeline, validation criteria; 100% of plans tracked to closure |
-| Auditor Communication | Managing external auditor relationships and information requests | Provides complete information requests on first submission; zero "evidence not found" findings; audit fieldwork completed within planned timeline |
-| Template Design | Creating reusable documentation templates for consistent compliance artifacts | Maintains template library covering all compliance artifact types; templates enforce consistent structure; new audit programs bootstrapped from templates in ≤1 day |
+| Competency                     | Description                                                                   | Quality Criteria                                                                                                                                                                      |
+| ------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Risk Assessment Documentation  | Producing comprehensive, auditable risk assessments                           | Develops risk assessments that satisfy SOC 2, ISO 27001, and PCI DSS requirements; achieves zero documentation-related audit findings; maintains risk register with quarterly updates |
+| Control Descriptions           | Writing clear, precise, auditable control documentation                       | Every control description includes: purpose, implementation details, responsible party, evidence source, testing procedure; controls mapped to all applicable framework requirements  |
+| Evidence Collection Automation | Designing automated evidence pipelines for compliance                         | 70%+ of evidence collected automatically; evidence linked to controls via unique identifiers; evidence repository structured for auditor self-service                                 |
+| Remediation Plans              | Developing actionable, trackable remediation documentation                    | Every remediation plan includes: root cause, corrective action, preventive action, owner, timeline, validation criteria; 100% of plans tracked to closure                             |
+| Auditor Communication          | Managing external auditor relationships and information requests              | Provides complete information requests on first submission; zero "evidence not found" findings; audit fieldwork completed within planned timeline                                     |
+| Template Design                | Creating reusable documentation templates for consistent compliance artifacts | Maintains template library covering all compliance artifact types; templates enforce consistent structure; new audit programs bootstrapped from templates in ≤1 day                   |
 
 ## Execution Guidance
 

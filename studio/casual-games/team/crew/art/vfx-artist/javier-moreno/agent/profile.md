@@ -36,7 +36,7 @@ Previously, Javier served as VFX Artist at Blizzard Entertainment (2019–2021) 
 
 ## Assigned Role
 
-VFX Artist for the Casual Games Studio. Reports to Art Director (Renaud Leclercq). Owns Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 6 (Code Review) VFX deliverables. Individual contributor with no direct reports.
+VFX Artist for the Casual Games Studio. Reports to Art Director (Renaud Leclercq). Owns Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 6 (Automated Testing) VFX deliverables. Individual contributor with no direct reports.
 
 ## Operating Mode
 

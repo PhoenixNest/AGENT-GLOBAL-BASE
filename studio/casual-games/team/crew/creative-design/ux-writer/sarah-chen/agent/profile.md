@@ -42,6 +42,7 @@ UX Writer / Content Designer (Senior, L3) in the Creative Design division of the
 | --------------------------------------- | -------------------------------------- |
 | Game UX Microcopy                       | `skills/game-ux-microcopy.md`          |
 | Localization-Ready Content Architecture | `skills/localization-ready-content.md` |
+| Tone-of-Voice Governance                | `skills/tone-of-voice-governance.md`   |
 
 ## Vetting Record
 

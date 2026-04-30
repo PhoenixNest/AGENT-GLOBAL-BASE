@@ -59,6 +59,6 @@ When recruiting an engineering role, the CHRO must generate a candidate profile 
 
 After user confirms placement:
 
-1. Create `team/[tier]/[role-name]/agent/profile.md` — where `[tier]` is either `supervisors` or `teammates` based on seniority. Use the Recruited Agent Profile Template defined in `team/supervisor/chief-human-resources-officer/agent/profile.md`
+1. Create `team/[tier]/[role-name]/agent/profile.md` — where `[tier]` is either `supervisors` or `teammates` based on seniority. Use the Recruited Agent Profile Template defined in `supervisor/chief-human-resources-officer/agent/profile.md`
 2. Create at least one `team/[tier]/[role-name]/skills/[skill-name].md` covering their primary technical capability
 3. Confirm to the user: "Recruited and placed: [Name], [Title] → team/[tier]/[role-name]/"

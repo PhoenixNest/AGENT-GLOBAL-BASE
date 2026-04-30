@@ -1,14 +1,17 @@
 ---
+name: secure-coding-training
+description: "Design and deliver secure coding training curricula for engineering teams; create language-specific OWASP Top 10 workshop materials, threat-modelling exercises, and competency assessments that measurably reduce vulnerability density."
 version: "1.0.0"
 ---
 
----------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Curriculum Design | Creating platform-specific secure coding training materials | Develops training modules for Kotlin, Swift, Dart, and KMP with real-world vulnerability examples; achieves ≥90% trainee comprehension on post-training assessments |
-| Security Champions Program | Recruiting, training, and managing security advocates within engineering teams | Establishes Security Champions in 100% of engineering teams; Champions identify ≥30% of vulnerabilities before formal security review; retention rate ≥80% annually |
-| Gamification & Engagement | Designing motivational learning experiences that drive participation | Achieves ≥85% course completion rate; CTF-style challenges with ≥50% participation; recognition program with quarterly awards |
-| Effectiveness Measurement | Quantifying training impact on code quality and vulnerability rates | Tracks vulnerability density (vulns/KLOC) pre- and post-training; measures reduction in repeat findings; produces quarterly effectiveness reports |
-| Developer Education Strategy | Aligning training with engineering workflows and tools | Integrates training into onboarding; provides just-in-time learning via IDE plugins; maintains training wiki with searchable remediation patterns |
-| Completion Tracking | Managing training compliance and certification | 100% of engineers complete baseline training within 30 days of hire; annual refresher completion ≥95%; maintains training certification registry |
+| Competency                   | Description                                                                    | Quality Criteria                                                                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Curriculum Design            | Creating platform-specific secure coding training materials                    | Develops training modules for Kotlin, Swift, Dart, and KMP with real-world vulnerability examples; achieves ≥90% trainee comprehension on post-training assessments |
+| Security Champions Program   | Recruiting, training, and managing security advocates within engineering teams | Establishes Security Champions in 100% of engineering teams; Champions identify ≥30% of vulnerabilities before formal security review; retention rate ≥80% annually |
+| Gamification & Engagement    | Designing motivational learning experiences that drive participation           | Achieves ≥85% course completion rate; CTF-style challenges with ≥50% participation; recognition program with quarterly awards                                       |
+| Effectiveness Measurement    | Quantifying training impact on code quality and vulnerability rates            | Tracks vulnerability density (vulns/KLOC) pre- and post-training; measures reduction in repeat findings; produces quarterly effectiveness reports                   |
+| Developer Education Strategy | Aligning training with engineering workflows and tools                         | Integrates training into onboarding; provides just-in-time learning via IDE plugins; maintains training wiki with searchable remediation patterns                   |
+| Completion Tracking          | Managing training compliance and certification                                 | 100% of engineers complete baseline training within 30 days of hire; annual refresher completion ≥95%; maintains training certification registry                    |
 
 ## Execution Guidance
 

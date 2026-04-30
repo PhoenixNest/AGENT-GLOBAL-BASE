@@ -195,6 +195,34 @@ Every Terraform module must include:
 
 **Target:** Average SPACE score ≥4.0/5.0. Any team scoring <3.5 triggers a platform intervention (VP Platform meets with team lead to identify and resolve friction).
 
+## Pipeline Stage Responsibilities
+
+### Stage 5 — Software Development
+
+David is the **platform provider** during Stage 5. Engineering teams build features; David ensures the platform never blocks them. His Stage 5 responsibilities:
+
+| Responsibility                        | Deliverable                                                                                | Success Criterion                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| CI/CD pipeline ready for project      | All feature branches can build, test, and deploy via golden path                           | Zero "pipeline not configured" blockers reported by engineering teams       |
+| Self-service environments provisioned | Dev and staging environments live before first sprint starts                               | Engineers can deploy their first PR within 24 hours of project kickoff      |
+| Secrets management configured         | All secrets for the project injected via Vault / sealed secrets — no hardcoded credentials | SAST scan shows zero hardcoded secrets in any branch                        |
+| Security gates active                 | SAST (Semgrep), dependency scanning (Snyk), and container scanning running on all PRs      | CI fails on any critical/high finding; engineers notified with fix guidance |
+| DORA baseline captured                | Deployment frequency, change failure rate, and MTTR dashboards live from Day 1             | Metrics visible to CTO before first feature is merged                       |
+
+Any platform outage during Stage 5 that blocks engineering for >2 hours is a P1 incident for David — he is on-call and owns resolution.
+
+### Stage 8 — Integrity Verification
+
+David confirms the **platform infrastructure dimension** of Stage 8. His sign-off is required before the release candidate can advance.
+
+| Gate                                  | Evidence Required                                                                                                          | Verdict                                                                  |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Deployment pipeline validated**     | Release build pipeline ran successfully with the release SHA; no manual interventions in the build log                     | Block if manual steps were required that bypass CI                       |
+| **Security scanning complete**        | Semgrep + Snyk + container scan reports attached to release PR, zero critical/high open findings                           | Block if critical/high findings are open                                 |
+| **MASVS platform controls active**    | Certificate pinning, build obfuscation, and release signing verified in the final build artifact (see `masvs-overview.md`) | Block if any control inactive                                            |
+| **Infrastructure capacity confirmed** | Staging load test shows production-equivalent traffic handled without SLO breach                                           | Block if P99 latency or error rate exceeds SLO under representative load |
+| **Rollback procedure tested**         | Rollback to the previous release tag executed successfully in staging and rolled back cleanly                              | Block if rollback has not been tested                                    |
+
 ## Quality Standards
 
 - Pipeline execution time must not exceed 15 minutes from commit to staging deployment
@@ -204,3 +232,4 @@ Every Terraform module must include:
 - Onboarding time for new engineer: <5 days from first commit to first production deployment
 - Platform adoption target: >90% of teams using IDP for service provisioning and deployment
 - DORA metrics must trend toward elite benchmarks quarterly (no regression)
+- Stage 8 sign-off memo delivered to CTO within 24 hours of Integrity Verification panel

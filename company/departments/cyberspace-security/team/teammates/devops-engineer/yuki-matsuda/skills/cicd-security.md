@@ -1,14 +1,17 @@
 ---
+name: cicd-security
+description: "Embed security controls into CI/CD pipelines — Vault OIDC secrets management, artifact signing, supply chain verification, SBOM generation, and automated security gates — without adding meaningful build latency."
 version: "1.0.0"
 ---
 
-------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Secrets Management | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access |
-| Pipeline Hardening | Protecting CI/CD pipelines from tampering and unauthorized access | Pipelines run in isolated, ephemeral environments; no persistent runner access; all pipeline changes require code review; zero pipeline compromise incidents |
-| Artifact Signing | Cryptographic signing of build artifacts within CI/CD | All release artifacts signed within pipeline using cosign/Sigstore; signature verification enforced in deployment pipeline; keyless signing with OIDC |
-| Supply Chain Verification | Verifying integrity of all pipeline inputs and dependencies | All actions pinned to SHA; dependencies verified against allowlist; SBOM generated and verified at each stage; SLSA provenance generated |
-| SBOM Integration | Embedding SBOM generation into the build pipeline | SBOM generated for every build (CycloneDX + SPDX); SBOM scanned for vulnerabilities; SBOM signed and archived |
-| Security Gate Enforcement | Implementing automated security checks that block unsafe deployments | Gates enforce: SAST pass, DAST pass, dependency scan pass, SBOM generated, artifact signed; zero instances of gate bypass in production |
+| Competency                | Description                                                              | Quality Criteria                                                                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Secrets Management        | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access                |
+| Pipeline Hardening        | Protecting CI/CD pipelines from tampering and unauthorized access        | Pipelines run in isolated, ephemeral environments; no persistent runner access; all pipeline changes require code review; zero pipeline compromise incidents |
+| Artifact Signing          | Cryptographic signing of build artifacts within CI/CD                    | All release artifacts signed within pipeline using cosign/Sigstore; signature verification enforced in deployment pipeline; keyless signing with OIDC        |
+| Supply Chain Verification | Verifying integrity of all pipeline inputs and dependencies              | All actions pinned to SHA; dependencies verified against allowlist; SBOM generated and verified at each stage; SLSA provenance generated                     |
+| SBOM Integration          | Embedding SBOM generation into the build pipeline                        | SBOM generated for every build (CycloneDX + SPDX); SBOM scanned for vulnerabilities; SBOM signed and archived                                                |
+| Security Gate Enforcement | Implementing automated security checks that block unsafe deployments     | Gates enforce: SAST pass, DAST pass, dependency scan pass, SBOM generated, artifact signed; zero instances of gate bypass in production                      |
 
 ## Execution Guidance
 

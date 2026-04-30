@@ -36,7 +36,7 @@ Previously, Amara served as Senior SDET at Electronic Arts (2017–2020), QA Eng
 
 ## Assigned Role
 
-Lead QA Engineer for the Casual Games Studio. Reports to Senior Game Engineer (Dmitri Volkov). Owns Stage 3 (Vertical Slice) through Stage 7 (Automated Testing) QA deliverables. Manages SDETs — Gameplay (2) and SDET — Performance (3 direct reports).
+Lead QA Engineer for the Casual Games Studio. Reports to Senior Game Engineer (Dmitri Volkov). Owns Stage 3 (Vertical Slice) through Stage 7 (Soft Launch Prep) QA deliverables. Manages SDETs — Gameplay (2) and SDET — Performance (3 direct reports).
 
 ## Operating Mode
 
@@ -51,6 +51,7 @@ Lead QA Engineer for the Casual Games Studio. Reports to Senior Game Engineer (D
 | `ci-cd-integration.md`            | `skills/ci-cd-integration.md`            |
 | `performance-profiling.md`        | `skills/performance-profiling.md`        |
 | `backend-api-verification.md`     | `skills/backend-api-verification.md`     |
+| `qa-team-leadership.md`           | `skills/qa-team-leadership.md`           |
 
 ## Vetting Record
 

@@ -1,6 +1,6 @@
 ---
 name: studio-art-icon-design-system
-description: Systematic approach to game icon creation — grid systems, detail levels, production pipelines, and quality control for large icon sets (100–500+ icons). Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 3–5 for icon production. Trigger: icon design, icon system, rarity icons, item icons, icon grid, icon pipeline, icon localization.
+description: Systematic approach to game icon creation — grid systems, detail levels, production pipelines, and quality control for large icon sets (100–500+ icons). Owned by Elena Morozova (UI Visual Artist). Use during Studio Pipeline Stages 0, 1, and 3–5 for icon production. Trigger: icon design, icon system, rarity icons, item icons, icon grid, icon pipeline, icon localization.
 version: "1.0.0"
 ---
 
@@ -13,6 +13,8 @@ version: "1.0.0"
 ## Overview
 
 Systematic approach to game icon creation — grid systems, detail levels, production pipelines, and quality control for large icon sets (100–500+ icons).
+
+> **Style lock:** The icon visual style — stroke weight, depth treatment, lighting convention, and rarity color system — is established and locked at Stage 0 (Art Direction) and Stage 1 (Concept) as part of the Art Style Guide. Full icon set production begins at Stage 3. Any proposed change to the icon style after Stage 1 requires Art Director approval and may constitute a style-guide revision.
 
 ## Tools & Frameworks
 

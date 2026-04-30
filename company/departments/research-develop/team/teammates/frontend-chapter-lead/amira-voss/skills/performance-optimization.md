@@ -1,4 +1,6 @@
 ---
+name: performance-optimization
+description: Frontend performance engineering — Core Web Vitals (LCP, INP, CLS) optimization, bundle architecture with route-level code splitting, Lighthouse CI integration with regression gating, critical rendering path optimization, resource and image optimization, and Real User Monitoring with performance budgets. Use when optimizing web application performance, setting up performance CI gates, or investigating Core Web Vitals regressions.
 version: "1.0.0"
 ---
 

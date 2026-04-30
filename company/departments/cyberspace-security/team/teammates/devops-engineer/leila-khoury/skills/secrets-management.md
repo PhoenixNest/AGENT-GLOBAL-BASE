@@ -1,15 +1,18 @@
 ---
+name: secrets-management
+description: "Architect and operate HashiCorp Vault-based secrets management with dynamic credential rotation, fine-grained access policies, Kubernetes integration, and zero static credentials in production environments."
 version: "1.0.0"
 ---
 
------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| HashiCorp Vault Architecture | Designing and operating Vault clusters for production workloads | Deploys Vault in HA mode with auto-unseal; achieves 99.99% uptime; implements disaster recovery replication; manages Raft storage backend |
-| Dynamic Credentials | Configuring Vault to generate short-lived, on-demand credentials | Dynamic credentials for 100% of database and cloud service access; credentials expire within 1 hour; zero static credentials in production |
-| Secret Rotation | Automated rotation of all managed secrets | 100% of secrets rotated on defined schedule (≤90 days for static, ≤1 hour for dynamic); rotation failures alert within 5 minutes |
-| Access Policies | Fine-grained ACL and RBAC policies for secret access | Every secret access governed by least-privilege policy; policies version-controlled; access reviewed quarterly |
-| Audit Logging | Comprehensive, tamper-proof audit trail for all Vault operations | 100% of Vault operations logged (auth, access, policy changes); logs shipped to SIEM; log integrity verified |
-| Kubernetes Secrets Management | Integrating Vault with Kubernetes for pod-level secret injection | Vault Agent Injector deployed; secrets injected as environment variables or volumes; no Kubernetes Secrets for sensitive data |
-| CI/CD Integration | Securely providing secrets to CI/CD pipelines | CI/CD pipelines authenticate via OIDC (no static tokens); secrets scoped to specific workflows; secret access logged and monitored |
+| Competency                    | Description                                                      | Quality Criteria                                                                                                                           |
+| ----------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| HashiCorp Vault Architecture  | Designing and operating Vault clusters for production workloads  | Deploys Vault in HA mode with auto-unseal; achieves 99.99% uptime; implements disaster recovery replication; manages Raft storage backend  |
+| Dynamic Credentials           | Configuring Vault to generate short-lived, on-demand credentials | Dynamic credentials for 100% of database and cloud service access; credentials expire within 1 hour; zero static credentials in production |
+| Secret Rotation               | Automated rotation of all managed secrets                        | 100% of secrets rotated on defined schedule (≤90 days for static, ≤1 hour for dynamic); rotation failures alert within 5 minutes           |
+| Access Policies               | Fine-grained ACL and RBAC policies for secret access             | Every secret access governed by least-privilege policy; policies version-controlled; access reviewed quarterly                             |
+| Audit Logging                 | Comprehensive, tamper-proof audit trail for all Vault operations | 100% of Vault operations logged (auth, access, policy changes); logs shipped to SIEM; log integrity verified                               |
+| Kubernetes Secrets Management | Integrating Vault with Kubernetes for pod-level secret injection | Vault Agent Injector deployed; secrets injected as environment variables or volumes; no Kubernetes Secrets for sensitive data              |
+| CI/CD Integration             | Securely providing secrets to CI/CD pipelines                    | CI/CD pipelines authenticate via OIDC (no static tokens); secrets scoped to specific workflows; secret access logged and monitored         |
 
 ## Pipeline Integration
 

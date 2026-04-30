@@ -213,18 +213,18 @@ User (CEO)
 
 Our standard 10-stage pipeline requires the following game-specific adaptations:
 
-| Stage    | Standard Process       | Game Studio Adaptation                                                                   |
-| -------- | ---------------------- | ---------------------------------------------------------------------------------------- |
-| Stage 1  | PRD + SRD              | Add **Game Design Document (GDD)** as paired artifact                                    |
-| Stage 2  | HTML Prototype + IDS   | **Unity playable prototype** + Game IDS                                                  |
-| Stage 3  | UML + ADRs + TSD       | Add GDD → technical mapping; UML for game state machines                                 |
-| Stage 4  | Implementation Plan    | Add milestone delivery: vertical slice → alpha → beta → soft launch → global             |
-| Stage 5  | Platform code          | **Unity project** + content/asset pipeline as parallel workstream                        |
-| Stage 6  | Code Review            | Add **gameplay review** (playtest for game feel, balance, fun factor)                    |
-| Stage 7  | Automated Testing      | Add **device matrix testing** (20+ Android devices), performance benchmarks, playtesting |
-| Stage 8  | Integrity Verification | Add **live ops readiness check** (remote config, analytics, monetization, cloud save)    |
-| Stage 9  | i18n Engineering       | Add text expansion for game UI; cultural adaptation for game content                     |
-| Stage 10 | Release Readiness      | Add platform game requirements: age rating (ESRB/PEGI/GRAC), loot box compliance         |
+| Stage    | Standard Process       | Game Studio Adaptation                                                                                                                                                     |
+| -------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage 1  | PRD + SRD              | Add **Game Design Document (GDD)** as paired artifact                                                                                                                      |
+| Stage 2  | HTML Prototype + IDS   | **Unity playable prototype** + Game IDS                                                                                                                                    |
+| Stage 3  | UML + ADRs + TSD       | Add GDD → technical mapping; UML for game state machines                                                                                                                   |
+| Stage 4  | Implementation Plan    | Add milestone delivery: vertical slice → alpha → beta → soft launch → global                                                                                               |
+| Stage 5  | Platform code          | **Unity project** + content/asset pipeline as parallel workstream                                                                                                          |
+| Stage 6  | Automated Testing      | Gameplay-integrated automated testing: unit tests, integration tests, device matrix (20+ Android devices), performance benchmarks, and gameplay regression via playtesting |
+| Stage 7  | Soft Launch Prep       | Soft launch readiness: backend sign-off, store asset review, UA campaign setup, regional test market selection, and live ops infrastructure validation                     |
+| Stage 8  | Integrity Verification | Add **live ops readiness check** (remote config, analytics, monetization, cloud save)                                                                                      |
+| Stage 9  | i18n Engineering       | Add text expansion for game UI; cultural adaptation for game content                                                                                                       |
+| Stage 10 | Release Readiness      | Add platform game requirements: age rating (ESRB/PEGI/GRAC), loot box compliance                                                                                           |
 
 ---
 
@@ -267,6 +267,7 @@ _Note: Personnel costs (8–12 hires at 15–25% premium) are additional and not
 | v1      | April 9, 2026  | C-Suite Panel         | Initial charter — consolidated CPO, CTO, CDO, CIO, CHRO assessments                                                                                                                                                                                                                                                                                                                                                                    |
 | v1.1    | April 9, 2026  | CTO correction        | Updated Unity version: "2023 LTS" → "Unity 6.3 LTS" (Unity changed versioning scheme)                                                                                                                                                                                                                                                                                                                                                  |
 | v1.2    | April 21, 2026 | Studio Director + CPO | **§2.1 retention kill thresholds calibrated by genre.** Replaced the genre-blind D1 ≥ 40% / D7 ≥ 15% / D30 ≥ 8% with a 3-row genre-calibrated table — Hybrid-casual ≥ 35/12/5 (this studio's default), Mid-core puzzle ≥ 40/18/8, Pure-casual ≥ 30/10/4. Added a genre-lookup audit rule preventing post-hoc reclassification to dodge a stricter row. Non-retention criteria (LTV:CAC, ARPDAU, paywall conversion, rating) unchanged. |
+| v1.3    | April 30, 2026 | Content Audit         | **§6 Pipeline Adaptation table aligned to studio's own 11-stage pipeline terminology.** Stage 6 "Standard Process" label corrected from "Code Review" to "Automated Testing"; Stage 7 from "Automated Testing" to "Soft Launch Prep". Game Studio Adaptation descriptions updated accordingly.                                                                                                                                         |
 
 ---
 

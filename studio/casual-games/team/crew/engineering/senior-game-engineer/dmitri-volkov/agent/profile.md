@@ -36,7 +36,7 @@ Previously, Dmitri served as Senior Game Engineer at Niantic (2017–2020), Game
 
 ## Assigned Role
 
-Senior Game Engineer for the Casual Games Studio. Reports to Studio Director (Dr. Marcus Vogel). Owns Stage 2 (Prototype) through Stage 6 (Code Review) engineering deliverables. Manages Sr. Gameplay Eng. Lead, Sr. Engine Eng., Sr. Backend Eng., Rendering Eng., and Lead QA Eng. (5 direct reports).
+Senior Game Engineer for the Casual Games Studio. Reports to Studio Director (Dr. Marcus Vogel). Owns Stage 2 (Prototype) through Stage 6 (Automated Testing) engineering deliverables. Manages Sr. Gameplay Eng. Lead, Sr. Engine Eng., Sr. Backend Eng., Rendering Eng., and Lead QA Eng. (5 direct reports).
 
 ## Operating Mode
 

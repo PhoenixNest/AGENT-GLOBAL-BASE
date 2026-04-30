@@ -202,6 +202,32 @@ Every service MUST emit:
 
 **Burn rate** = how fast you're consuming your error budget. At 14.4x burn rate, you exhaust your monthly error budget in 2 hours — that warrants an immediate page.
 
+## Pipeline Stage Responsibilities
+
+### Stage 5 — Software Development
+
+Elena is the **backend execution lead** during Stage 5. She is accountable for all web and backend implementation conforming to the Stage 3 UML Engineering Package and the CTO's SPEC.
+
+| Responsibility                 | Deliverable                                                                                                                                                               |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Architecture conformance       | All new services and modifications match the Stage 3 component and sequence diagrams; any deviation requires a new ADR via the `adr-governance.md` process before merging |
+| API contract enforcement       | All API changes follow the versioning and breaking-change policy; consumer-driven contract tests pass before any service is promoted to staging                           |
+| Observability from Day 1       | Every new service has OpenTelemetry tracing, structured logging, and Grafana SLO dashboard configured before the first feature PR is merged                               |
+| Weekly backend progress report | Status report to CTO every Monday covering: services complete, services in-flight, blockers, SLO baseline for each deployed service                                       |
+| IDS feasibility delivery       | Feasibility Review memo delivered to CDO within 3 business days of receiving the IDS (see `ids-fluency.md`); all clarifications resolved before Stage 5 begins            |
+
+### Stage 8 — Integrity Verification
+
+Elena confirms the **backend architecture integrity dimension** of Stage 8. Her written sign-off is required before the release candidate advances to Stage 9.
+
+| Gate                          | Evidence Required                                                                                                          | Verdict                                                  |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **Architecture fidelity**     | Diff between final deployed topology and Stage 3 UML reviewed; every divergence has an approved ADR                        | Block if any unpapered divergence found                  |
+| **SLO compliance**            | All backend services' P99 latency, error rate, and availability SLOs met in staging under load test                        | Block if any SLO missed under production-equivalent load |
+| **API contract coverage**     | Contract tests for all inter-service boundaries pass on the release SHA                                                    | Block if any contract test failing                       |
+| **Chaos engineering session** | At least one chaos engineering session (pod kill, latency injection) run against the release candidate; recovery confirmed | Block if session not completed                           |
+| **No Trim-to-Pass**           | Confirm no backend service, API endpoint, or observability requirement was removed to pass earlier stages                  | P0 if any discovered — escalate to CTO immediately       |
+
 ## Quality Standards
 
 - All services must have `/health` and `/ready` endpoints
@@ -211,3 +237,4 @@ Every service MUST emit:
 - No service may be deployed without OpenTelemetry instrumentation and Grafana dashboards
 - All services must participate in chaos engineering quarterly (kill a pod, verify zero user impact)
 - SLO dashboards must be visible to ALL engineers, not just the service owners
+- Stage 8 sign-off memo delivered to CTO within 24 hours of Integrity Verification panel

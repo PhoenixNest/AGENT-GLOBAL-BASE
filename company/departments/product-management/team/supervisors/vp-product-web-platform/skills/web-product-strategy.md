@@ -72,3 +72,73 @@ When authoring Section 5 for a Web PRD, document:
 - **Responsive Strategy:** (e.g., Mobile-first, desktop-first).
 - **SEO Requirements:** (Meta tags, structured data, canonical URLs).
 - **Analytics:** Specific web events (e.g., scroll depth, outbound link clicks).
+
+---
+
+## 6. Experimentation and Growth Operating Model
+
+Julia's Core Strength #3 is growth engineering and experimentation. This section defines the operating model she uses to run A/B tests and conversion experiments on web products.
+
+### Hypothesis Hierarchy
+
+Not all experiments are equal. Prioritize using the **ICE score** (Impact × Confidence × Ease):
+
+| Test Idea                 | Impact (1–10) | Confidence (1–10) | Ease (1–10) | ICE Score | Priority          |
+| ------------------------- | ------------- | ----------------- | ----------- | --------- | ----------------- |
+| CTA button above the fold | 8             | 7                 | 9           | 504       | Run immediately   |
+| Pricing page layout       | 9             | 5                 | 6           | 270       | Queue after above |
+| Checkout field reduction  | 8             | 6                 | 5           | 240       | Queue             |
+| Homepage hero image       | 4             | 4                 | 9           | 144       | Backlog           |
+
+**Run the top ICE-scored test first, but confirm statistical power before launching any experiment.**
+
+### Statistical Power Requirements
+
+Experiments that lack statistical power produce false conclusions. Julia requires all A/B tests to meet these parameters before launch:
+
+| Parameter                           | Requirement                                       |
+| ----------------------------------- | ------------------------------------------------- |
+| Minimum detectable effect (MDE)     | ≥5% relative improvement for conversion metrics   |
+| Statistical significance threshold  | p < 0.05 (two-tailed)                             |
+| Minimum sample size                 | Calculated via power analysis (target 80% power)  |
+| Minimum duration                    | 2 business weeks (avoids day-of-week bias)        |
+| Maximum simultaneous tests per page | 1 (avoid interaction effects between experiments) |
+
+**Sample size calculator:**
+
+```python
+from scipy import stats
+import numpy as np
+
+def min_sample_per_variant(baseline_rate, mde_relative, alpha=0.05, power=0.80):
+    """
+    baseline_rate: current conversion rate (e.g. 0.03 for 3%)
+    mde_relative: minimum relative change to detect (e.g. 0.05 for 5% lift)
+    """
+    p1 = baseline_rate
+    p2 = baseline_rate * (1 + mde_relative)
+    effect_size = (p2 - p1) / np.sqrt((p1 * (1-p1) + p2 * (1-p2)) / 2)
+    n = stats.norm.ppf(1 - alpha/2) + stats.norm.ppf(power)
+    n = (n / effect_size) ** 2
+    return int(np.ceil(n))
+
+# Example: 3% baseline conversion, 5% MDE
+print(min_sample_per_variant(0.03, 0.05))  # → ~18,000 per variant
+```
+
+### Experimentation Governance
+
+Julia owns the experiment backlog and runs a weekly **Experiment Review** with the engineering lead:
+
+| Agenda Item                                                        | Duration |
+| ------------------------------------------------------------------ | -------- |
+| Results review for running tests (did we hit significance?)        | 15 min   |
+| New test proposals — ICE scoring alignment                         | 10 min   |
+| Conflicts check (no two tests on same user journey simultaneously) | 5 min    |
+
+**Guard rails:**
+
+- No experiment runs for more than 6 weeks without a decision (stop or ship)
+- Every experiment has a designated **decision owner** (Julia for product tests, Engineering Lead for performance tests)
+- Results are documented in Confluence regardless of outcome — failed experiments are equally valuable as learnings
+- Experiment results are never filtered post-hoc to find "interesting" segments — declare the primary metric before launch

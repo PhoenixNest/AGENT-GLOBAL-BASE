@@ -35,7 +35,7 @@ Previously, Nikolai worked as a Junior C++ Developer at a Moscow software compan
 
 ## Assigned Role
 
-Engine Engineer for the Casual Games Studio. Reports to Viktor Stahl (Senior Engine Engineer). Owns Stages 3, 5, 6 — physics implementation, audio system integration, platform SDK work.
+Engine Engineer for the Casual Games Studio. Reports to Viktor Stahl (Senior Engine Engineer). Owns Stages 3, 5, 6 — physics implementation, platform SDK work, and low-level engine feature implementation as assigned by Senior Engine Engineer.
 
 ## Operating Mode
 

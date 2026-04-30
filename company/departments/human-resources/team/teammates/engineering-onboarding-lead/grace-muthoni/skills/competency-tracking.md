@@ -1,4 +1,6 @@
 ---
+name: competency-tracking
+description: "Engineer competency frameworks, multi-rater assessment instruments, and progress dashboards for R&D teams; design structured 90-day probationary evaluations with explicit pass/fail criteria that surface readiness signals and drive targeted development plans."
 version: "1.0.0"
 ---
 

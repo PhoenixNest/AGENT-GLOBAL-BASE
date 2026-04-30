@@ -44,12 +44,13 @@ Lead Game Designer for the Casual Games Studio. Reports to Creative Director (Sa
 
 ## Skills Index
 
-| Skill                   | Location                       |
-| ----------------------- | ------------------------------ |
-| `game-design-vision.md` | `skills/game-design-vision.md` |
-| `economy-design.md`     | `skills/economy-design.md`     |
-| `systems-design.md`     | `skills/systems-design.md`     |
-| `player-retention.md`   | `skills/player-retention.md`   |
+| Skill                       | Location                           |
+| --------------------------- | ---------------------------------- |
+| `game-design-vision.md`     | `skills/game-design-vision.md`     |
+| `economy-design.md`         | `skills/economy-design.md`         |
+| `systems-design.md`         | `skills/systems-design.md`         |
+| `player-retention.md`       | `skills/player-retention.md`       |
+| `design-team-leadership.md` | `skills/design-team-leadership.md` |
 
 ## Vetting Record
 

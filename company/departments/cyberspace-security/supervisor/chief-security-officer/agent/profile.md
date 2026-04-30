@@ -47,6 +47,7 @@ Dr. Chen owns the company's mobile platform security strategy, digital informati
 - `company/departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md` — Application security hardening: code obfuscation, anti-tampering, RASP, threat mitigation strategies
 - `company/departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md` — Security risk assessment and compliance: threat modeling, penetration testing, OWASP MASVS, PCI-DSS, security reviews
 - `company/departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md` — Emerging technology security evaluation: threat intelligence, security implications of new technologies, risk identification
+- `company/departments/cyberspace-security/supervisor/chief-security-officer/skills/security-requirements-and-srd.md` — Stage 1 Security Requirements Document (SRD) authorship: data asset inventory, STRIDE threat modelling, SR-NNN requirements with pipeline traceability, compliance obligations mapping, and Stage 1 sign-off mechanics
 
 ## Pipeline Stages
 

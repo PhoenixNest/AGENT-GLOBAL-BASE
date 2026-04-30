@@ -14,9 +14,11 @@ Responsible for all translation and internationalization pipeline operations. Th
 
 **CTO-L Skills:**
 
-| Skill File                                                                                                                                    | Purpose                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [`language-translation-module.md`](../../departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md) | Governs all translation work: TMS intake, quality standards, translation verification, report issuance |
+| Skill File                                                                                                                                                            | Purpose                                                                                                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`language-translation-module.md`](../../departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md)                         | Governs all translation work: TMS intake, quality standards, translation verification, report issuance                                                               |
+| [`localization-engineering-and-cicd-gates.md`](../../departments/localization/supervisor/chief-translation-officer/skills/localization-engineering-and-cicd-gates.md) | Stage 9 engineering pipeline: string freeze enforcement, hardcoded-string CI gate, TMS integration, XLIFF/ARB automation, Translation Verification Report production |
+| [`linguist-operations-and-vendor-roster.md`](../../departments/localization/supervisor/chief-translation-officer/skills/linguist-operations-and-vendor-roster.md)     | Linguist operations and vendor governance: LSP tier structure, Translator Brief protocol, linguistic QA severity classification, language expansion process          |
 
 ---
 

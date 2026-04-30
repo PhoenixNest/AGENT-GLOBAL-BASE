@@ -48,6 +48,7 @@ Yuki owns the company's mobile design vision and execution, setting design quali
 - `company/departments/brand-design/supervisor/chief-design-officer/skills/interaction-design-specification.md` — Technical interaction design documentation: component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints
 - `company/departments/brand-design/supervisor/chief-design-officer/skills/design-to-engineering-handoff.md` — Design-engineering collaboration: technical design specs, implementation feasibility assessment, handoff documentation that eliminates ambiguity
 - `company/departments/brand-design/supervisor/chief-design-officer/skills/user-research-driven-design.md` — Research-backed design decisions: usability testing, A/B experiments, qualitative research, data-informed iteration
+- `company/departments/brand-design/supervisor/chief-design-officer/skills/design-leadership-and-quality-gates.md` — Design leadership and pipeline sign-off: weekly critique cadence, teammate deliverable review, Stage 6 design fidelity review, Stage 8 design integrity sign-off, and App Store / Play Store submission asset governance
 
 ## Pipeline Stages
 

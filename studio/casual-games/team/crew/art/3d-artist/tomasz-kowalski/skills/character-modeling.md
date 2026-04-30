@@ -1,6 +1,6 @@
 ---
 name: studio-art-character-modeling
-description: 3D character modeling for mobile games — anatomy, topology, stylized and realistic styles, rigging preparation, and mobile polycount budgets. Owned by Tomasz Kowalski (3D Artist). Use during Studio Pipeline Stages 3–5 for character model production. Trigger: character modeling, 3D characters, topology, retopology, ZBrush sculpting, mobile polycount, stylized characters, rigging prep.
+description: 3D character modeling for mobile games — anatomy, topology, stylized and realistic styles, rigging preparation, and mobile polycount budgets. Owned by Tomasz Kowalski (3D Artist). Use during Studio Pipeline Stages 0, 2, 3, and 5 for character model production. Trigger: character modeling, 3D characters, topology, retopology, ZBrush sculpting, mobile polycount, stylized characters, rigging prep.
 version: "1.0.0"
 ---
 
@@ -23,6 +23,14 @@ version: "1.0.0"
 | Substance Painter  | Expert       | PBR texturing, material authoring       |
 | Marvelous Designer | Advanced     | Cloth simulation for character clothing |
 | Unity              | Intermediate | In-engine model verification            |
+
+## Stage 0 — Character Direction Contribution
+
+Tomasz's contribution at Stage 0 (Art Direction) establishes the character design language that feeds the Art Style Guide. Renaud Leclercq (Art Director) owns the final Style Guide; Tomasz is the primary contributor to its character design dimension.
+
+- **Character silhouette explorations:** Tomasz produces 10–15 silhouette thumbnails — a mix of hero, support, and NPC character archetypes — to explore the range of body proportions, shape language, and personality the game's roster can express. Silhouettes are presented in greyscale only; color is not introduced until the Art Director selects a proportion and shape direction.
+- **Character proportion and style reference:** Tomasz assembles a proportion reference sheet comparing head-to-body ratio options (2:1 chibi through 6:1 near-realistic) and maps each against the game's tonal brief. He also curates a style reference board drawing from comparable casual games, illustration, and animation to anchor the team's vocabulary.
+- **Style Guide character section:** Once the Art Director selects a direction, Tomasz produces the character section of the Art Style Guide: a model sheet showing front/side/back views of a representative hero character at the approved proportion; a palette swatch set for skin tones, clothing, and accessory categories; and a list of "character design rules" (e.g., maximum accessory complexity, silhouette clarity requirement, polygon budget class). All subsequent character production at Stages 2, 3, and 5 references this section.
 
 ## Scenarios & Trade-offs
 

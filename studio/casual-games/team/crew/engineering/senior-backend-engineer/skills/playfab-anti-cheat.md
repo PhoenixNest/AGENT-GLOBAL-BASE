@@ -39,6 +39,39 @@ PlayFab SDK integration, Cloud Script development, server-side validation, and a
 - Cloud Script execution time: ≤ 5s per invocation
 - Server validation coverage: 100% of economy-affecting operations
 
+## Stage 7 — Soft Launch Backend Ownership
+
+At Stage 7 (Soft Launch Prep), Priya Nair is the **senior backend sign-off authority** for soft launch readiness. Her responsibilities at this stage include:
+
+### Sign-off and Co-sign
+
+- Priya reviews and **co-signs Aisha Bello's Backend Soft Launch Sign-off document** before the studio advances to Stage 8. The document does not clear Stage 7 with only Aisha's signature — Priya's co-sign is mandatory.
+- The co-sign certifies that all backend infrastructure, Cloud Script functions, and PlayFab configuration are production-ready for the soft launch region and player volume.
+
+### Anti-Cheat Validation
+
+Before Stage 7 sign-off, Priya validates that:
+
+| Validation Item                       | Verification Method                                                     |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| Server-side validation rules are live | Confirm Cloud Script functions are deployed and active in PlayFab       |
+| Known exploit patterns are blocked    | Run a targeted exploit replay test against the production PlayFab env   |
+| Economy transaction audit log active  | Confirm PlayStream event logging is capturing all economy operations    |
+| Fraud detection rate baseline set     | Establish the pre-launch fraud rate baseline for post-launch comparison |
+
+## Stage 10 — Live Ops Leadership
+
+In Stage 10 (Live Ops, continuous), Priya Nair operates as the **on-call escalation owner** for all backend incidents and the steward of backend health over the game's live lifecycle.
+
+### Operational Responsibilities
+
+| Cadence   | Activity                                                                                                                                                                                              |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| On-call   | Receives escalation from Aisha Bello for any P0/P1 backend incidents during live ops                                                                                                                  |
+| Monthly   | **Economy health review** — analyses transaction volumes, error rates, and currency sink/source balance; flags anomalies to Studio Director and CPO                                                   |
+| Quarterly | **Anti-cheat rule effectiveness evaluation** — reviews fraud detection rate, false positive rate, and active exploit patterns; adjusts Cloud Script validation rules as needed                        |
+| As needed | **Directs Aisha on operational changes** — when rule updates, Cloud Script patches, or PlayFab configuration changes are needed, Priya specifies the change and Aisha implements under Priya's review |
+
 ## References
 
 OWASP Mobile Top 10; PlayFab security documentation; GDC 2023 "Anti-Cheat in Mobile Games"

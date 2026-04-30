@@ -39,6 +39,34 @@ Design of vendor-agnostic backend abstraction layers using interface-based archi
 - P99 latency: ≤ 200ms for all backend operations
 - Uptime: ≥ 99.99%
 
+## Supervision of Aisha Bello
+
+Priya Nair is the direct supervisor of Aisha Bello (Backend Engineer). The following model governs their working relationship across all studio pipeline stages.
+
+### Division of Responsibility
+
+| Area                          | Priya Nair                                                                             | Aisha Bello                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Interface and contract design | Designs all abstraction layer interfaces (IAuthService, IDataService, IEconomyService) | Implements the interfaces and writes concrete adapter code |
+| Cloud Script authorship       | Reviews all Cloud Script functions before merge                                        | Authors and maintains Cloud Script functions in Azure      |
+| Architecture decisions        | Final decision authority on backend architecture                                       | Executes within the design Priya establishes               |
+
+### Working Cadence
+
+- **Weekly 30-minute sync:** Priya and Aisha hold a weekly review covering all open Cloud Script functions — their status, any runtime errors from PlayFab logs, and upcoming implementation needs.
+- **PR review:** Priya reviews every Cloud Script PR Aisha raises before it merges to the main branch. Aisha does not merge backend code without Priya's explicit approval.
+
+### Stage-Specific Supervision
+
+| Stage                          | Priya's Supervisory Action                                                                                              |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| **Stage 7 — Soft Launch Prep** | Priya signs off on Aisha's Backend Soft Launch Sign-off document before the studio can advance to Stage 8 (Soft Launch) |
+| **Stage 10 — Live Ops**        | Priya is the escalation path for all of Aisha's live ops incidents; Aisha pages Priya for any P0/P1 backend event       |
+
+### Growth and Escalation
+
+If Aisha's work falls behind, or if a technical complexity is beyond her current level, Priya is the first escalation point — she does not push issues to Dmitri Volkov unless Priya cannot resolve them within the engineering division's capacity.
+
 ## References
 
 "Clean Architecture" (Martin); GDC 2023 "Backend Architecture for Live Games"; PlayFab reference architecture docs

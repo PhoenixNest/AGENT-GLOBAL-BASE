@@ -1,4 +1,6 @@
 ---
+name: design-systems
+description: Production design system engineering — three-tier token architecture (primitive → semantic → component) with Style Dictionary transforms, composable component library design, IDS traceability matrices, semantic versioning with breaking-change governance, cross-platform consistency across iOS/Android/Web, and Storybook-based documentation with visual regression gating. Use when building, maintaining, or auditing a shared design system or component library, especially when bridging CDO/IDS specifications to engineering implementation.
 version: "1.0.0"
 ---
 

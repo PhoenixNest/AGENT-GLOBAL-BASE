@@ -1,6 +1,6 @@
 ---
 name: studio-art-animation-specs
-description: Documentation of animation specifications for engineering handoff — easing curves, duration tokens, 60fps targets, and graceful degradation for low-end devices. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 4–5 for animation spec creation and engineering handoff. Trigger: animation specs, easing curves, duration tokens, animation handoff, 60fps animation, graceful degradation, animation documentation.
+description: Documentation of animation specifications for engineering handoff — easing curves, duration tokens, 60fps targets, and graceful degradation for low-end devices. Owned by Marco Bellini (Motion/UI Animator). Use during Studio Pipeline Stages 2, 3, 5, and Stage 6 (Automated Testing) for animation spec creation and engineering handoff. Trigger: animation specs, easing curves, duration tokens, animation handoff, 60fps animation, graceful degradation, animation documentation.
 version: "1.0.0"
 ---
 
@@ -21,6 +21,14 @@ Documentation of animation specifications for engineering handoff — easing cur
 | Google Sheets  | Expert       | Animation spec documentation              |
 | Figma          | Advanced     | Visual reference for animation behavior   |
 | Unity Profiler | Intermediate | Verifying animation performance in-engine |
+
+## Stage 2 — Spec Drafting
+
+Animation spec work begins at Stage 2 (Prototype) as skeletal specs — lightweight documents that capture the agreed timing model before production begins.
+
+- **Skeletal spec at Stage 2:** Marco produces a one-page spec seed covering the core timing tokens (fast/medium/slow durations), the 2–3 primary easing curves, and the performance budget targets. This is not a complete spec — it is an anchor document that locks the animation language early so engineering and design can build against it.
+- **Evolution to full spec by Stage 5:** As the game moves through Stage 3 (Vertical Slice) and into Stage 5 (Full Production), each animation is given its own full spec row: start state, end state, keyframe list, easing curve, CPU/GPU budget, low-end fallback, and accessibility note. The Stage 2 skeleton becomes the shared reference these individual specs defer to.
+- **Living document:** The spec is updated in lock-step with Marco's animation production. Engineering is notified of any spec changes that affect already-implemented animations.
 
 ## Spec Format
 

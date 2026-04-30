@@ -23,12 +23,13 @@ Responsible for technology evaluation, architecture strategy, security requireme
 
 **CSO Skills:**
 
-| Skill File                                                                                                                                              | Purpose                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | Mobile security architecture design for iOS and Android platforms                                 |
-| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | Encryption, secure storage, iOS Keychain / Android Keystore, OWASP MASVS compliance               |
-| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | Privacy obligations, data handling constraints, authentication requirements, GDPR/CCPA compliance |
-| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | Threat landscape analysis and proactive security requirement definition                           |
+| Skill File                                                                                                                                              | Purpose                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | Mobile security architecture design for iOS and Android platforms                                                                                     |
+| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | Encryption, secure storage, iOS Keychain / Android Keystore, OWASP MASVS compliance                                                                   |
+| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | Privacy obligations, data handling constraints, authentication requirements, GDPR/CCPA compliance                                                     |
+| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | Threat landscape analysis and proactive security requirement definition                                                                               |
+| [`security-requirements-and-srd.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-requirements-and-srd.md)   | Stage 1 SRD authorship: data asset inventory, STRIDE threat modelling, SR-NNN requirements with pipeline traceability, compliance obligations mapping |
 
 ---
 

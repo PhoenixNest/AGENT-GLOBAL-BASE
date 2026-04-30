@@ -39,6 +39,35 @@ Memory management (custom allocators, GC tuning, fragmentation reduction) and ph
 - Profiler overhead: ≤ 3% frame time
 - Physics determinism: bit-exact across platforms
 
+## Mentorship of Nikolai Petrov
+
+Viktor Stahl is the direct supervisor of Nikolai Petrov (Engine Engineer, Mid-Level L1). The following structure governs their working relationship and Nikolai's development toward seniority.
+
+### Task Assignment Model
+
+Viktor assigns Nikolai to **scoped physics subsystem tasks** — implementation work with clearly bounded interfaces and well-defined success criteria. Viktor does not assign Nikolai to open-ended architecture tasks until Nikolai has demonstrated readiness. Current scope: Havok integration maintenance, collision detection optimisation tasks, platform SDK work on Android Vulkan paths.
+
+### Working Cadence
+
+- **Weekly 1:1 (60 minutes):** Viktor reviews Nikolai's code in progress, identifies any correctness or performance issues, and adjusts the task scope if needed.
+- **Code review:** Viktor reviews all of Nikolai's code before it enters the main branch. Nikolai does not merge engine-level code without Viktor's explicit approval.
+
+### Escalation
+
+If Nikolai's tasks are delayed **more than 50% beyond their original estimate**, Viktor escalates to Dmitri Volkov (Senior Game Engineer). Viktor does not absorb scope slippage silently — early escalation is the expected protocol.
+
+### Growth Trajectory
+
+Viktor's explicit goal is to ramp Nikolai from Mid-Level (L1) to Senior over **18 months** by progressively increasing the autonomy and complexity of his assignments:
+
+| Phase       | Timeframe    | Task Type                                                                    |
+| ----------- | ------------ | ---------------------------------------------------------------------------- |
+| Foundation  | Months 1–6   | Scoped implementation tasks with detailed specs; daily feedback loops        |
+| Expansion   | Months 7–12  | Subsystem ownership with Viktor's design; Nikolai designs the implementation |
+| Senior prep | Months 13–18 | Nikolai proposes design for small subsystem; Viktor reviews and approves     |
+
+Progress against this trajectory is assessed quarterly by Viktor and reported to Dmitri Volkov.
+
 ## References
 
 GDC 2023 "Physics Profiling at Epic"; "Real-Time Collision Detection" (Ericson); Havok documentation

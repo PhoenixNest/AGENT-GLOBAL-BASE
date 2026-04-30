@@ -44,6 +44,8 @@ Dr. Osei-Mensah owns the company's localization strategy and execution, governin
 ## Skills Index
 
 - `company/departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md` — Governing standard for all multilingual translation requests: string extraction validation, translation workflow, linguistic QA gates, platform formatting validation, and sign-off protocol
+- `company/departments/localization/supervisor/chief-translation-officer/skills/localization-engineering-and-cicd-gates.md` — Localization engineering pipeline for Stage 9: string freeze enforcement, hardcoded-string CI gate, TMS integration (XLIFF/ARB export-import), MT quality thresholds, and Translation Verification Report (TVR) production
+- `company/departments/localization/supervisor/chief-translation-officer/skills/linguist-operations-and-vendor-roster.md` — Linguist operations and vendor governance: LSP tier structure, Translator Brief protocol, linguistic QA severity classification, LQA acceptance thresholds, and language expansion process
 
 ## Pipeline Stages
 

@@ -1,6 +1,6 @@
 ---
 name: creative-vision
-description: Owns creative vision, art direction oversight, design quality, and Stage 0/1/2/3 creative deliverables. Defines visual pillars, co-authors GDD creative sections, directs prototype creative design, and ensures vertical slice quality bar.
+description: Owns creative vision, art direction oversight, design quality, and Stage 0/1/2/3 creative deliverables. Defines visual pillars, co-authors GDD creative sections, directs prototype creative design, ensures vertical slice quality bar. Includes audio creative oversight (brief, direction, final approval) and UX writing creative alignment (voice drift prevention, copy for major narrative moments).
 version: "1.0.0"
 ---
 
@@ -66,7 +66,44 @@ The Creative Director authors the following GDD sections:
 | Monthly playtests        | All studio         | 90 min   | Play current build, vote on top 3 issues                 |
 | Quarterly vision reviews | Leadership         | 120 min  | Reaffirm or adjust visual pillars and creative direction |
 
+## Audio Creative Oversight
+
+Sakura's creative authority extends to audio. Audio is a creative dimension — a mismatched audio direction undermines every visual and design decision. Hiroshi Nakamura (Composer / Sound Director) is the technical and execution authority for audio; Sakura is the **creative authority**.
+
+### Scope of Audio Creative Oversight
+
+| Audio Area             | Sakura's Role                                                                              | Hiroshi's Role                                               |
+| ---------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Music direction**    | Defines the emotional target for the game's soundtrack (genre, tempo, mood per game state) | Composes, arranges, and produces the music to Sakura's brief |
+| **SFX palette**        | Sets the tonal register for sound effects (realistic, stylized, cartoon, premium)          | Designs and implements SFX that fulfill the tonal direction  |
+| **VO direction**       | Defines character voice archetypes and delivery tone for any voiced content                | Casts, directs, and records VO                               |
+| **Audio quality gate** | Final creative approval on all audio before it ships in any player-facing build            | Technical QA of audio files (loudness, format, loop points)  |
+
+### Audio Alignment Process
+
+1. At Stage 0 (Art Direction), Sakura writes a **Audio Direction Brief** alongside the Style Guide — 1 page defining the game's audio identity. Hiroshi builds his audio roadmap from this.
+2. At Stage 2 (Prototype), Sakura reviews the first audio implementations against the brief. Any mismatch is flagged and revised before the Stage 2 playable review.
+3. During Stage 5 (Full Production), Sakura reviews final audio implementations in the monthly playtest. Major audio decisions (new instruments, major SFX redesigns) require Sakura's approval before implementation.
+
+## UX Writing Creative Alignment
+
+Sarah Chen (UX Writer) owns voice standards and copy governance. Sakura is the **brand voice authority** — she defines the game's personality at the highest level; Sarah operationalizes it. This relationship prevents voice drift between the game's creative identity and its player-facing copy.
+
+### How the Relationship Works
+
+| Decision                                                                     | Owner                                             | Collaborator                                                        |
+| ---------------------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------- |
+| Game's tone-of-voice pillars                                                 | Sakura (defines in GDD Creative Vision Statement) | Sarah (operationalizes in Style Guide)                              |
+| New copy pattern for an uncharted screen type                                | Sarah (proposes, referencing GDD)                 | Sakura (approves or redirects if it conflicts with creative vision) |
+| Copy for major narrative moments (event intros, boss defeats, story reveals) | Sakura (writes or approves)                       | Sarah (reviews for UX clarity and localization-readiness)           |
+| Routine UI copy (buttons, tooltips, error states)                            | Sarah (owns entirely)                             | Sakura (spot-checks quarterly)                                      |
+
+### Voice Drift Prevention
+
+Sakura reviews Sarah's `tone-of-voice-governance.md` Style Guide at the start of every new project and whenever a major game update changes the creative identity. If the creative vision evolves (e.g., the game becomes more serious in tone for a narrative expansion), Sakura updates the GDD Creative Vision Statement and notifies Sarah within 48 hours to trigger a Style Guide revision.
+
 ## References
 
+- `studio/casual-games/pipeline/casual-games-pipeline.md` — Studio 11-stage pipeline
 - `company/pipeline/mobile-development/pipeline.md` — Parent company pipeline (Stage 2 Design, Stage 3 Architecture)
 - `company/library/topics/localization.md` — Localization requirements that affect creative content structure

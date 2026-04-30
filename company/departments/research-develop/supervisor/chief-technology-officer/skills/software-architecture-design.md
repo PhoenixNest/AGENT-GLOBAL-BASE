@@ -1,6 +1,6 @@
 ---
 name: software-architecture-design
-description: Software architecture design with UML modeling and system design. Use when the user needs to design software architectures, create UML diagrams (class, sequence, component, deployment), design logical project structures, create architecture decision records (ADRs), or produce architectural documentation. Trigger when user mentions "architecture", "UML", "system design", "project structure", "architecture diagram", or needs to design software systems.
+description: Software architecture design with UML modeling, ADR authorship, and Stage 3 Technology Decision Lock governance. Includes mandatory Stage 3 artifact checklist (UML diagrams, ADRs, TSD, CIO sign-off), lock enforcement rules (divergence = P1), and ADR conflict resolution protocol. Use when producing the Stage 3 UML Engineering Package, authoring ADRs, or designing system architecture.
 version: "1.0.0"
 ---
 
@@ -378,3 +378,66 @@ When designing architecture, produce:
 5. **ADRs** for significant decisions
 
 The documentation should enable engineering teams to implement the architecture with confidence and consistency.
+
+## Stage 3 — Technology Decision Lock and Governance
+
+This section defines the governance process for the Stage 3 UML Engineering Package — the most critical output the CTO produces, because it locks all technology decisions for the remainder of the pipeline.
+
+### Mandatory Stage 3 Artifact Checklist
+
+Before Dr. Nakamura requests user approval at Stage 3, ALL of the following must exist:
+
+| Artifact                             | Contents                                                                            | Status Required |
+| ------------------------------------ | ----------------------------------------------------------------------------------- | --------------- |
+| UML Class Diagram                    | Domain model with all entities, relationships, and key attributes                   | Complete        |
+| UML Sequence Diagram                 | At least one per critical user flow (auth, core feature, payment if applicable)     | Complete        |
+| UML Component Diagram                | Service/module boundaries and interfaces                                            | Complete        |
+| UML Deployment Diagram               | Production infrastructure topology (cloud, regions, CDN, DB)                        | Complete        |
+| Architecture Decision Records (ADRs) | One ADR per technology decision with meaningful trade-offs (see format below)       | All `Accepted`  |
+| Technology Selection Document (TSD)  | Full list of approved technologies; no unapproved technology may be used in Stage 5 | Complete        |
+| CIO sign-off                         | Dr. Priya Mehta has reviewed and approved all security-affecting ADRs and the TSD   | Received        |
+
+### Technology Decision Lock
+
+On user approval at Stage 3, **all ADRs and the TSD are locked**. This is a pipeline rule, not a preference:
+
+> Any request to change the technology stack after Stage 3 user approval is INVALID. It requires:
+>
+> 1. A new ADR documenting the reason, alternatives considered, and consequences
+> 2. A full Stage 3 re-entry — the existing Stage 3 package cannot be retroactively edited
+> 3. User approval of the new ADR before Stage 5 work begins
+>
+> This applies even if the change seems minor. A library upgrade that changes API behavior, a cloud provider switch, or a new authentication mechanism all require a new ADR.
+
+**Divergence = P1 governance defect.** If Stage 6 (Code Review) finds a technology in the implementation that is not in the approved TSD, the CTO classifies it as P1 and the implementation must be changed or a retroactive ADR approved before Stage 6 can close.
+
+### ADR Conflict Resolution
+
+When two stakeholders disagree on a technology decision at Stage 3 (e.g., CTO prefers PostgreSQL, CIO prefers a managed cloud database):
+
+1. Dr. Nakamura facilitates a **1-hour ADR Review Session** with the disagreeing parties
+2. Each party articulates their trade-offs in the ADR draft — no verbal-only debates
+3. If consensus is not reached within 48 hours, Dr. Nakamura makes the call, documents the dissent in the ADR `Context` section, and the decision is final pending user review
+4. User approval of the ADR at Stage 3 closes the decision permanently
+
+### Stage 3 UML Package Navigation
+
+For large systems with many UML diagrams, the CTO produces an **Architecture Navigation Guide** — a 1-page index:
+
+```markdown
+# Architecture Navigation Guide — [Project Name]
+
+## Reading Order
+
+1. Start here: `component-diagram.puml` — overall system structure
+2. Auth flow: `sequence-auth.puml` — login, token refresh, session expiry
+3. Core feature: `sequence-[feature].puml` — [feature] happy path
+4. Data model: `class-domain.puml` — entity relationships
+5. Infrastructure: `deployment.puml` — production topology
+
+## Technology Decisions
+
+- All ADRs: `architecture/decisions/`
+- Approved technologies: `architecture/TSD.md`
+- Open architectural questions: `architecture/open-questions.md`
+```

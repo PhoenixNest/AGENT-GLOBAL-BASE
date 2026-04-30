@@ -44,7 +44,8 @@ Alex owns the end-to-end product strategy for the company's API and Developer Pl
 ## Skills Index
 
 - `company/departments/product-management/team/supervisors/vp-product-api-platform/skills/api-product-strategy.md` — API-as-Product vision, monetization modeling, and developer experience (DX) standards. (To be authored during onboarding)
-- `company/departments/product-management/team/supervisors/vp-product-api-platform/skills/api-governance.md` — Lifecycle management, versioning policy, and backward-compatibility discipline. (To be authored during onboarding)
+- `company/departments/product-management/team/supervisors/vp-product-api-platform/skills/api-governance.md` — Lifecycle management, versioning policy, and backward-compatibility discipline
+- `company/departments/product-management/team/supervisors/vp-product-api-platform/skills/developer-portal-and-devrel.md` — Developer portal product strategy and developer relations: portal information architecture, recipe-based documentation, sample apps, developer NPS measurement, and community feedback loops
 
 ## Pipeline Stages
 

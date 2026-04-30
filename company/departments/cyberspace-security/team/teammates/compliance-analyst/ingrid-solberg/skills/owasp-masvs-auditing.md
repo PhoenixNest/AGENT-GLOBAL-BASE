@@ -1,13 +1,16 @@
 ---
+name: owasp-masvs-auditing
+description: "Audit mobile applications against the full OWASP MASVS framework (V1-V8); produce gap analyses, verification workpapers, and remediation roadmaps that withstand banking regulator and compliance auditor scrutiny."
 version: "1.0.0"
 ---
 
--------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MASVS Audit Methodology | Structured approach to MASVS compliance auditing | Designs audit programs covering all V1–V8 categories; produces audit workpapers that satisfy banking regulator review; achieves zero audit findings on MASVS assessment methodology |
+| Competency                       | Description                                                      | Quality Criteria                                                                                                                                                                                                                        |
+| -------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MASVS Audit Methodology          | Structured approach to MASVS compliance auditing                 | Designs audit programs covering all V1–V8 categories; produces audit workpapers that satisfy banking regulator review; achieves zero audit findings on MASVS assessment methodology                                                     |
 | Mobile Banking Security Auditing | Domain-specific knowledge of financial app security requirements | Maps MASVS controls to banking-specific regulations (FFIEC, PSD2, RBI guidelines); identifies banking-specific attack vectors (transaction manipulation, account takeover); understands regulatory expectations for mobile banking apps |
-| Verification Procedures | Detailed test procedures for each MASVS requirement | Creates reproducible verification procedures that any auditor can execute; produces evidence packages that withstand regulatory scrutiny; maintains procedure library updated with MASVS version changes |
-| Gap Analysis | Systematic identification and documentation of compliance gaps | Produces gap analysis reports with prioritized remediation roadmaps; maps gaps to specific MASVS requirements and regulatory obligations; tracks gap closure with evidence |
-| Remediation Guidance | Actionable guidance for addressing compliance gaps | Provides remediation guidance that is technically accurate, feasible, and aligned with MASVS intent; validates remediation effectiveness through re-testing; documents remediation evidence for auditors |
+| Verification Procedures          | Detailed test procedures for each MASVS requirement              | Creates reproducible verification procedures that any auditor can execute; produces evidence packages that withstand regulatory scrutiny; maintains procedure library updated with MASVS version changes                                |
+| Gap Analysis                     | Systematic identification and documentation of compliance gaps   | Produces gap analysis reports with prioritized remediation roadmaps; maps gaps to specific MASVS requirements and regulatory obligations; tracks gap closure with evidence                                                              |
+| Remediation Guidance             | Actionable guidance for addressing compliance gaps               | Provides remediation guidance that is technically accurate, feasible, and aligned with MASVS intent; validates remediation effectiveness through re-testing; documents remediation evidence for auditors                                |
 
 ## Execution Guidance
 

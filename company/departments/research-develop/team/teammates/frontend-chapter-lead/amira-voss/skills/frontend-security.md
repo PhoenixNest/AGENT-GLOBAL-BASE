@@ -1,4 +1,6 @@
 ---
+name: frontend-security
+description: Frontend security engineering — Content Security Policy design and nonce generation, XSS prevention with DOMPurify sanitization pipelines, OAuth 2.0 PKCE authentication flows, secure token storage strategy (HTTP-Only cookies vs. memory), Subresource Integrity for third-party scripts, and automated security linting. Use when implementing or auditing frontend security controls, authentication flows, or any feature that handles user-supplied HTML, authentication tokens, or third-party script loading.
 version: "1.0.0"
 ---
 

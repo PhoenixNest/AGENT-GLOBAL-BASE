@@ -1,6 +1,6 @@
 ---
 name: studio-art-shader-vfx
-description: Shader-based visual effects for mobile games — custom HLSL shaders, screen-space effects, distortion, dissolve, and performance-aware shader design. Owned by Javier Moreno (VFX Artist). Use during Studio Pipeline Stages 3–5 for VFX creation and shader optimization. Trigger: shader VFX, HLSL, screen-space effects, distortion, dissolve effect, mobile shader, shader optimization.
+description: Shader-based visual effects for mobile games — custom HLSL shaders, screen-space effects, distortion, dissolve, and performance-aware shader design. Owned by Javier Moreno (VFX Artist). Use during Studio Pipeline Stage 3 (Vertical Slice), Stage 5, and Stage 6 (Automated Testing) for VFX creation and shader optimization. Trigger: shader VFX, HLSL, screen-space effects, distortion, dissolve effect, mobile shader, shader optimization.
 version: "1.0.0"
 ---
 

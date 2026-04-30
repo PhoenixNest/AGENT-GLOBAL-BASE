@@ -100,13 +100,14 @@ The company's security compliance baseline is the **OWASP Mobile Application Sec
 
 ## Relevant Skills
 
-| Skill File                                                                                                                                              | Owner | Purpose                                             |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --------------------------------------------------- |
-| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | CSO   | Mobile security architecture design                 |
-| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | CSO   | Encryption, secure storage, OWASP MASVS compliance  |
-| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | CSO   | SRD authorship, privacy and compliance requirements |
-| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | CSO   | Threat landscape analysis                           |
-| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md)                | CIO   | Security-aware technology evaluation                |
+| Skill File                                                                                                                                              | Owner | Purpose                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------- |
+| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | CSO   | Mobile security architecture design                                                                     |
+| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | CSO   | Encryption, secure storage, OWASP MASVS compliance                                                      |
+| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | CSO   | SRD authorship, privacy and compliance requirements                                                     |
+| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | CSO   | Threat landscape analysis                                                                               |
+| [`security-requirements-and-srd.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-requirements-and-srd.md)   | CSO   | Stage 1 SRD authorship: threat modelling, SR-NNN requirements, compliance obligations, Stage 1 sign-off |
+| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md)                | CIO   | Security-aware technology evaluation                                                                    |
 
 ---
 

@@ -39,6 +39,43 @@ Low-level C++ game engine development including memory management, custom alloca
 - Lock-free structure correctness: verified by TSan + formal proof
 - Cache hit rate: ≥ 95% for hot data
 
+## Unity 6 LTS Integration Context
+
+Viktor's C++ background does not disappear in a Unity studio — it manifests through Unity's native interop layer. This section defines how his low-level C++ expertise applies specifically to the Casual Games Studio's Unity 6.3 LTS environment.
+
+### Native Plugin Development
+
+Viktor authors and maintains C++ native plugins that Unity's managed C# layer calls via P/Invoke. Studio use cases:
+
+| Plugin Purpose                  | Platform | Detail                                                                                                                                             |
+| ------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| iOS Metal performance path      | iOS      | Custom Metal command buffer management for render-critical operations, bypassing Unity's abstraction overhead                                      |
+| Android Vulkan performance path | Android  | Vulkan pipeline state caching and explicit synchronization, reducing driver overhead                                                               |
+| Custom memory allocators        | Both     | Pool allocators exposed to Unity via native plugin interface; used for frequently instantiated game objects (projectiles, particles, collectibles) |
+
+### Burst Compiler Review
+
+Unity's Burst compiler translates a subset of C# (HPC#) into optimized native code. Viktor reviews Burst-compiled jobs for:
+
+- Correct use of `NativeArray`, `NativeList`, and other Burst-compatible data structures
+- Absence of managed allocations inside Burst jobs (which cause Burst to fall back to slower code paths)
+- Vectorization-friendly data layouts (SoA vs AoS)
+- Correctness under Unity's job system threading model
+
+Viktor's review is the final gate before Burst-compiled systems enter the main branch.
+
+### IL2CPP Build Pipeline Management
+
+Viktor owns the IL2CPP build pipeline for iOS and Android release builds:
+
+- Configuring IL2CPP code generation settings (Full Generic Sharing, incremental build)
+- Diagnosing IL2CPP-specific runtime issues (e.g., managed-to-native marshalling overhead, stripped code causing `MissingMethodException`)
+- Working with the Unity linker configuration (`link.xml`) to prevent necessary code from being stripped
+
+### The Bridge Role
+
+Viktor is the go-to engineer when Unity's managed C# abstractions hit performance ceilings. When a gameplay engineer identifies a performance bottleneck that cannot be solved within C#, they escalate to Viktor. Viktor evaluates whether a native plugin, Burst job, or IL2CPP configuration change is the appropriate solution.
+
 ## References
 
 "Game Engine Architecture" (Gregory); "C++ Concurrency in Action" (Williams); GDC 2023 "Memory Management in UE5"

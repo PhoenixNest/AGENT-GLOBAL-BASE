@@ -1,14 +1,17 @@
 ---
+name: infrastructure-as-code
+description: "Architect, implement, and harden Terraform-based infrastructure as code; enforce module design standards, security controls, and compliance policy gates in CI/CD pipelines across multi-account AWS environments."
 version: "1.0.0"
 ---
 
------------------------ | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Terraform Module Architecture | Designing reusable, composable, secure Terraform modules | Creates modules with input validation, output documentation, version pinning, and security defaults; modules used across 3+ projects without modification |
-| State Management | Secure handling of Terraform state files containing sensitive data | State stored in encrypted remote backend with access controls; state file never committed to repository; state locking prevents concurrent modifications |
-| Drift Detection | Identifying and remediating configuration drift between IaC and live infrastructure | Automated drift detection runs daily; drift alerts within 1 hour; 100% of drift incidents investigated and remediated within 24 hours |
-| Policy-as-Code (OPA/Sentinel) | Enforcing infrastructure security policies through automated checks | Writes Sentinel/OPA policies that prevent 100% of common misconfigurations (open S3, unencrypted RDS, public-facing databases); policies tested against known-bad configurations |
-| GitOps Workflows | Managing infrastructure changes through Git-based approval workflows | All infrastructure changes via PR; requires 2+ approvals; automated plan preview in PR comments; zero manual infrastructure changes |
-| IaC Security Scanning | Automated security analysis of Terraform configurations | Integrates tfsec/checkov into CI pipeline; blocks deployment of non-compliant infrastructure; maintains custom rules for company-specific security requirements |
+| Competency                    | Description                                                                         | Quality Criteria                                                                                                                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Terraform Module Architecture | Designing reusable, composable, secure Terraform modules                            | Creates modules with input validation, output documentation, version pinning, and security defaults; modules used across 3+ projects without modification                        |
+| State Management              | Secure handling of Terraform state files containing sensitive data                  | State stored in encrypted remote backend with access controls; state file never committed to repository; state locking prevents concurrent modifications                         |
+| Drift Detection               | Identifying and remediating configuration drift between IaC and live infrastructure | Automated drift detection runs daily; drift alerts within 1 hour; 100% of drift incidents investigated and remediated within 24 hours                                            |
+| Policy-as-Code (OPA/Sentinel) | Enforcing infrastructure security policies through automated checks                 | Writes Sentinel/OPA policies that prevent 100% of common misconfigurations (open S3, unencrypted RDS, public-facing databases); policies tested against known-bad configurations |
+| GitOps Workflows              | Managing infrastructure changes through Git-based approval workflows                | All infrastructure changes via PR; requires 2+ approvals; automated plan preview in PR comments; zero manual infrastructure changes                                              |
+| IaC Security Scanning         | Automated security analysis of Terraform configurations                             | Integrates tfsec/checkov into CI pipeline; blocks deployment of non-compliant infrastructure; maintains custom rules for company-specific security requirements                  |
 
 ## Infrastructure Change Request
 

@@ -46,6 +46,25 @@ Game sound design — sound effect creation, Foley recording, UI audio, combat a
 - Sounds tested on device speakers and headphones
 - Audio mixing levels balanced (SFX > music > ambience for mobile)
 
+## Cross-Team Collaboration
+
+Sound design does not happen in isolation. Kenji's key collaboration points:
+
+| Team                                               | When             | What                                                                                                        |
+| -------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Hiroshi Nakamura (Sound Director)**              | All stages       | Kenji reviews all SFX batches with Hiroshi before delivery; Hiroshi approves audio direction alignment      |
+| **VFX Artist (Javier Moreno)**                     | Stage 3, Stage 5 | VFX–audio sync: each VFX effect has a paired SFX; Kenji and Javier align timing and impact feel together    |
+| **Motion/UI Animator (Marco Bellini)**             | Stage 3, Stage 5 | UI audio sync: all UI transitions and button sounds timed to Marco's animation keyframes                    |
+| **Engineering (Sofia / Ryu / Gameplay Engineers)** | Stage 5          | Kenji provides audio event specs (event name, trigger point, parameters); engineers implement in FMOD/Wwise |
+| **Lead QA (Amara Osei)**                           | Stage 6          | Kenji reviews QA audio bug reports; approves SFX-related fixes before Stage 6 close                         |
+
+**VFX–Audio sync process:**
+
+1. Javier marks VFX key impact frames in the animation timeline
+2. Kenji receives the timeline and designs SFX to hit within ±1 frame of impact
+3. Joint review session: Javier and Kenji play back the combined VFX + audio at 60fps on device
+4. Hiroshi signs off on the combined audiovisual impression
+
 ## Industry References
 
 - FMOD mobile game audio best practices

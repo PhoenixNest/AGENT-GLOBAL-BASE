@@ -1,4 +1,6 @@
 ---
+name: database-architecture
+description: Production PostgreSQL database architecture — table partitioning strategies (range, list, hash), read replica topology with lag-aware routing, PgBouncer connection pooling, zero-downtime schema migrations (expand/contract), distributed transaction patterns, and saga-based compensation. Use when designing or reviewing the database layer for a backend service, including sharding, replication, and migration planning.
 version: "1.0.0"
 ---
 

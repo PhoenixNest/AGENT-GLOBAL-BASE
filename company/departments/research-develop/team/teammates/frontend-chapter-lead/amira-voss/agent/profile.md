@@ -48,7 +48,7 @@ Amira owns the frontend engineering chapter within the Web & Backend division, r
 
 ## Pipeline Stages
 
-5, 8
+5, 6, 8
 
 ## Current OKRs / Performance Metrics
 

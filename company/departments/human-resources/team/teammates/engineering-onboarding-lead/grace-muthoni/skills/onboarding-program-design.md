@@ -1,4 +1,6 @@
 ---
+name: onboarding-program-design
+description: "Architect multi-stage engineering onboarding programs for 50+ FTE cohorts; automate development environment provisioning, design buddy-pair systems, and deliver measurable ramp-to-productivity outcomes within 90 days."
 version: "1.0.0"
 ---
 

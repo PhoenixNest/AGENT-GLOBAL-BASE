@@ -14,12 +14,13 @@ Responsible for translating product requirements into high-fidelity mobile UI/UX
 
 **CDO Skills:**
 
-| Skill File                                                                                                                                         | Purpose                                                                                             |
-| -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [`mobile-design-systems.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/mobile-design-systems.md)                       | Platform-specific component libraries, design tokens, interaction patterns, accessibility standards |
-| [`interaction-design-specification.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/interaction-design-specification.md) | Component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints   |
-| [`design-to-engineering-handoff.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/design-to-engineering-handoff.md)       | Technical design specifications and handoff documentation for the R&D Department                    |
-| [`user-research-driven-design.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/user-research-driven-design.md)           | Usability testing, A/B experiments, qualitative research, data-informed design iteration            |
+| Skill File                                                                                                                                               | Purpose                                                                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`mobile-design-systems.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/mobile-design-systems.md)                             | Platform-specific component libraries, design tokens, interaction patterns, accessibility standards                                                                          |
+| [`interaction-design-specification.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/interaction-design-specification.md)       | Component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints                                                                            |
+| [`design-to-engineering-handoff.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/design-to-engineering-handoff.md)             | Technical design specifications and handoff documentation for the R&D Department                                                                                             |
+| [`user-research-driven-design.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/user-research-driven-design.md)                 | Usability testing, A/B experiments, qualitative research, data-informed design iteration                                                                                     |
+| [`design-leadership-and-quality-gates.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/design-leadership-and-quality-gates.md) | Design leadership: critique cadence, teammate deliverable review, Stage 6 design fidelity review, Stage 8 design integrity sign-off, App Store / Play Store asset governance |
 
 ---
 

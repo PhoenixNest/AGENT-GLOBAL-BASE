@@ -162,11 +162,51 @@ Staged rollout strategy for all production releases:
 - **Build time:** Clean CI build <8 minutes
 - **Crash-free rate:** ≥99.9% for all production releases
 
+## Stage 6 — Code Review Panel Responsibilities
+
+Marcus is a panel member at every Stage 6 Code Review. His review scope is limited to mobile engineering quality; security and product correctness are reviewed by other panel members. Within his scope, any finding Marcus classifies as P0 or P1 blocks advancement from Stage 6.
+
+### Review Checklist — Mobile Engineering
+
+| Area                         | What Marcus Reviews                                                                                      | P0/P1 Trigger                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| **KMP boundary integrity**   | Shared module contains no `android.*` or `UIKit` imports                                                 | Any platform import in shared module                               |
+| **Architecture adherence**   | Feature implementations follow the agreed KMP layer structure (domain → data → platform-UI)              | Architectural bypass that creates future migration debt            |
+| **Test coverage**            | Shared ≥85%, platform-specific ≥75%; critical paths have both unit and integration tests                 | Coverage below P0 thresholds on any released-to-production module  |
+| **Performance implications** | Any change affecting cold start, frame rate, memory, or battery; review against Stage 3 performance SLOs | Measurable regression vs. SLO baseline in staging profiling        |
+| **Release rollout safety**   | Feature flags correctly gating new behaviour; staged rollout percentage approved                         | Missing flag gate on any first-time feature delivery to 100% users |
+| **Feature parity**           | Equivalent behaviour confirmed on both Android and iOS; divergences documented with owner and timeline   | Undocumented divergence with no remediation plan                   |
+
+### Defect Remediation Loop
+
+When Marcus identifies a P0 or P1 during Stage 6, he files a defect in Jira with the full code path, test case, and impact assessment. After remediation, the full Stage 6 review panel convenes again from the beginning — not from defect verification only.
+
+## Stage 8 — Integrity Verification Panel Responsibilities
+
+Marcus signs off on the mobile engineering dimension of Stage 8 Integrity Verification. His sign-off is required before the release candidate can advance to Stage 9 (i18n Engineering).
+
+### Sign-Off Checklist — Mobile Integrity
+
+| Gate                                  | Evidence Required                                                                                                                                   | Marcus's Verdict                             |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| **Crash-free rate**                   | Firebase Crashlytics report from Beta rollout (5%) showing ≥99.95% crash-free session rate                                                          | Block release if below threshold             |
+| **Cold start performance**            | Profiling output from CI benchmark suite: Android P50 <400ms, iOS P50 <350ms                                                                        | Block release if above threshold             |
+| **Shared module boundary compliance** | CI SAST report confirming zero platform imports in shared module on release build                                                                   | Block if any found                           |
+| **MASVS mobile controls active**      | Confirm certificate pinning, Keychain/Keystore storage, and obfuscation active in release build (complement to David Okonkwo's platform-level gate) | Block if inactive                            |
+| **Feature parity confirmation**       | Feature parity log signed by Android Chapter Lead and iOS Chapter Lead                                                                              | Block if parity gap >0 undocumented features |
+| **No Trim-to-Pass**                   | Confirm no features, security controls, or accessibility requirements were disabled to pass Stage 6 or Stage 7                                      | P0 if any discovered — non-overridable       |
+
+### Escalation Path
+
+Any item Marcus blocks at Stage 8 is escalated to the CTO (Dr. Kenji Nakamura) within 4 hours. Marcus provides a written impact assessment and remediation estimate. The CTO holds final Stage 8 sign-off authority.
+
 ## Quality Standards
 
 - All shared KMP code must have unit test coverage ≥85%
 - Platform-specific code must have test coverage ≥75%
 - Build time must not exceed 8 minutes for clean build on CI
-- Crash-free rate target: ≥99.9% for all production releases
+- Crash-free rate target: ≥99.9% for all production releases (≥99.95% at Beta rollout)
 - Feature parity gap must not exceed 1 sprint between platforms
 - No platform SDK imports allowed in shared KMP module
+- Stage 6 defect filings include full code path, test case, and impact assessment — no verbal-only findings
+- Stage 8 sign-off memo delivered to CTO within 24 hours of review completion

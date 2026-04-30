@@ -36,7 +36,7 @@ Previously, Marco served as Animator at King (2020–2022) where he worked on Ca
 
 ## Assigned Role
 
-Motion/UI Animator for the Casual Games Studio. Reports to Art Director (Renaud Leclercq). Owns Stage 2 (Prototype), Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 6 (Code Review) animation deliverables. Individual contributor with no direct reports.
+Motion/UI Animator for the Casual Games Studio. Reports to Art Director (Renaud Leclercq). Owns Stage 2 (Prototype), Stage 3 (Vertical Slice), Stage 5 (Full Production), and Stage 6 (Automated Testing) animation deliverables. Individual contributor with no direct reports.
 
 ## Operating Mode
 

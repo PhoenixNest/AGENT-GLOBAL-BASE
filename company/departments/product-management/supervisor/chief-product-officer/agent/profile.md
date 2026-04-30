@@ -45,6 +45,7 @@ Marcus owns the company's end-to-end product strategy for mobile platforms (Andr
 
 - `company/departments/product-management/supervisor/chief-product-officer/skills/mobile-product-strategy.md` — End-to-end mobile product strategy: vision setting, roadmap prioritization, commercial/quality balance, and platform-native decision-making for iOS and Android
 - `company/departments/product-management/supervisor/chief-product-officer/skills/prd-authorship.md` — High-quality PRD authorship: problem framing, platform constraints, metric instrumentation, technical feasibility pre-assessment, and launch sequencing
+- `company/departments/product-management/supervisor/chief-product-officer/skills/product-stage-gates.md` — CPO participation in pipeline Stages 6, 8, 9, and 10: product fidelity review at code review, integrity verification product sign-off, i18n product confirmation, and release readiness co-signature
 
 ## Pipeline Stages
 

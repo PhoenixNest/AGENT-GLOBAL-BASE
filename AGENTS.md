@@ -604,7 +604,7 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 | Name                  | Role               | Company Pipeline Stages (§4.4)   |
 | --------------------- | ------------------ | -------------------------------- |
-| Marcus Tran-Yoshida   | CPO                | 1 (PRD), 6, 8, 10                |
+| Marcus Tran-Yoshida   | CPO                | 1 (PRD), 6, 8, 9, 10             |
 | Yuki Tanaka-Chen      | CDO                | 2, 6, 8, 10                      |
 | Dr. Kenji Nakamura    | CTO                | 3, 4, 5, 6, 7, 8, 10             |
 | Dr. Priya Mehta       | CIO                | 3 (ADRs/TSD), 6, 8, 10           |

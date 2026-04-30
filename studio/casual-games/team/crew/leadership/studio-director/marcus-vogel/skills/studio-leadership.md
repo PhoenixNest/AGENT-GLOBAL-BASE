@@ -47,7 +47,34 @@ The Studio Director is the single point of accountability for the game. This ski
 - Escalation point for cross-disciplinary conflicts that Creative Director and Executive Producer cannot resolve
 - Recommends go/no-go decisions at Stage 3 (Vertical Slice) and Stage 8 (Soft Launch) to User + CTO panel
 
+## Studio Pipeline Ownership — All 11 Stages
+
+The Studio Director holds overall pipeline governance across all 11 stages. The table below defines Marcus Vogel's ownership posture at each stage: stages he is directly responsible for are marked **own**, stages he delegates to a lead with oversight are marked **oversee**, and stages requiring his formal approval are marked **gate**.
+
+| Stage  | Name                        | Vogel's Posture | Primary Operator                                      | Vogel's Specific Action                                                                                                                               |
+| ------ | --------------------------- | --------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **0**  | Art Direction + Style Guide | Oversee         | Creative Director (Sakura Ishimori)                   | Reviews and approves the final Style Guide before Stage 1 begins                                                                                      |
+| **1**  | Concept (GDD + PRD + SRD)   | Own             | Lead Game Designer (Mei Watanabe) + Creative Director | Co-authors GDD with Creative Director; presents to user for Stage 1 User Approval                                                                     |
+| **2**  | Prototype (Playable + GDS)  | Oversee         | Lead Game Designer + Executive Producer               | Reviews playable prototype against GDD intent; presents to user for Stage 2 User Approval                                                             |
+| **3**  | Vertical Slice              | Gate            | Executive Producer (James Okonkwo) + Engineering Lead | Chairs the Vertical Slice review; provides go/no-go recommendation to user; signs Stage 3 User Approval request                                       |
+| **4**  | Production Planning         | Own             | Executive Producer                                    | Reviews and approves the production plan, Gantt, and staffing before Stage 4 User Approval; ensures Progress Sync Protocol files are initialized      |
+| **5**  | Full Production             | Oversee         | Executive Producer                                    | Monthly production review with Executive Producer; escalation point for cross-disciplinary conflicts; monitors Progress Sync Protocol                 |
+| **6**  | Automated Testing           | Oversee         | Lead QA Engineer (Amara Osei)                         | Reviews test results summary; approves quality gate advancement; presents to user for Stage 6 User Approval                                           |
+| **7**  | Soft Launch Prep            | Own             | Executive Producer + Live Ops Lead                    | Reviews soft launch readiness checklist; presents to user for Stage 7 User Approval                                                                   |
+| **8**  | Soft Launch                 | Gate            | Live Ops Lead (Aisha Nkemelu)                         | Reviews soft launch KPI dashboard at 7-day and 14-day marks; makes go/no-go global recommendation to user; presents to user for Stage 8 User Approval |
+| **9**  | Global Launch Readiness     | Own             | Executive Producer + Live Ops Lead                    | Final global readiness review; coordinates with parent company CTO-L and CDO for launch assets; presents to user for Stage 9 User Approval            |
+| **10** | Live Ops (continuous)       | Oversee         | Live Ops Lead                                         | Chairs quarterly QBR; approves major economy or content changes; escalation path for Stage 10 P0 incidents                                            |
+
+### Non-Negotiable Stage Gates
+
+Marcus never delegates the user-facing approval presentation. At every stage marked with User Approval in the pipeline, Marcus Vogel presents the deliverable and explicitly requests sign-off. This is not delegatable.
+
+### Escalation Path
+
+Any conflict between two division leads that cannot be resolved within 24 hours escalates to Marcus Vogel. Any P0 defect found at any stage is reported to Marcus within 4 hours.
+
 ## References
 
+- `studio/casual-games/pipeline/casual-games-pipeline.md` — Studio 11-stage pipeline (authoritative source)
 - `company/pipeline/mobile-development/pipeline.md` — Parent company 10-stage pipeline (inherited security/compliance requirements)
 - `company/library/overview/company.md` — Company structure and C-suite mapping

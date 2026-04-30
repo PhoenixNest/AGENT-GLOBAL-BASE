@@ -45,6 +45,14 @@ Performance optimization of VFX for mobile platforms — particle count manageme
 - All VFX tested on minimum spec device (Snapdragon 460 / A10 Fusion)
 - Quality tier documentation for engineering implementation
 
+## VFX–Audio Sync Handoff
+
+Impact VFX and their paired SFX must be synchronized at the frame level — a mismatch of even 50ms between a visual hit and its sound destroys the sense of impact. Javier coordinates this with Kenji Takahashi (Audio Designer) through a structured handoff process.
+
+- **Key impact frame marking:** For every VFX effect that has a perceptible impact moment (hit sparks, explosions, ability releases, reward pops), Javier marks the exact impact frame in the Unity Particle System or VFX Graph timeline and notes it in the VFX asset's metadata comment. Kenji uses this frame number to set the FMOD event trigger offset, ensuring the SFX peak aligns with the visual peak.
+- **Joint review sessions:** Before each stage milestone (Stage 3 and Stage 5), Javier and Kenji run a joint audio-visual review session — playing every combat and feedback VFX with its paired SFX in-engine, on a physical device. The session produces a sync discrepancy list: each entry notes the effect name, the measured offset in milliseconds, and the responsible fix owner (animation offset in FMOD or VFX timeline shift).
+- **Handoff format:** Javier maintains a shared spreadsheet row per impact VFX: `Effect Name | Impact Frame | Duration (ms) | Paired FMOD Event | Sync Status`. Kenji updates the Sync Status column after each fix cycle.
+
 ## Industry References
 
 - Unity's mobile VFX optimization guide

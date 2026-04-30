@@ -25,21 +25,21 @@ The company's development workflow is a ten-stage state machine governing the fu
 
 ## Stage Owner Index
 
-| Agent                                            | Pipeline Stages                                                               |
-| ------------------------------------------------ | ----------------------------------------------------------------------------- |
-| CPO — Marcus Tran-Yoshida                        | 1 (Steward/PRD), 6 (reviewer), 8 (reviewer), 10 (sign-off: product)           |
-| VP Web — Julia Thorne                            | 1 (PRD: Web/Full-Stack), 6 (advisor), 8 (reviewer), 10 (co-sign: Web)         |
-| VP API — Alex Rivera                             | 1 (PRD: API/Full-Stack), 6 (advisor), 8 (reviewer), 10 (co-sign: API)         |
-| CSO — Dr. Sarah Chen                             | 1 (SRD), 6 (security reviewer), 8 (reviewer), 10 (sign-off: security)         |
-| CDO — Yuki Tanaka-Chen                           | 2 (prototype + IDS), 6 (design reviewer), 8 (reviewer), 10 (sign-off: design) |
-| CTO — Dr. Kenji Nakamura                         | 3 (UML), 4, 5, 6 (convenes panel), 7, 8 (convenes panel), 10 (convenes panel) |
-| CIO — Dr. Priya Mehta                            | 3 (ADRs + TSD), 6 (reviewer), 8 (reviewer), 10 (sign-off: architecture)       |
-| CTO-L — Dr. Amara Osei-Mensah                    | 9 (translation), 10 (sign-off: localisation)                                  |
-| Software Architect — Rafael Okonkwo              | 3 (UML support), 6 (reviewer)                                                 |
-| Test Lead — Priscilla Oduya                      | 7 (automated testing), 8 (reviewer)                                           |
-| Platform Leads (Android, iOS, Cross-Platform)    | 5 (development), 6 (Tier 1 technical reviewer), 8 (reviewer)                  |
-| Internationalization Specialist — Tomas Dvoracek | 9 (string extraction)                                                         |
-| Linguist Team                                    | 9 (translation)                                                               |
+| Agent                                            | Pipeline Stages                                                                                  |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| CPO — Marcus Tran-Yoshida                        | 1 (Steward/PRD), 6 (reviewer), 8 (reviewer), 9 (structural completeness), 10 (sign-off: product) |
+| VP Web — Julia Thorne                            | 1 (PRD: Web/Full-Stack), 6 (advisor), 8 (reviewer), 10 (co-sign: Web)                            |
+| VP API — Alex Rivera                             | 1 (PRD: API/Full-Stack), 6 (advisor), 8 (reviewer), 10 (co-sign: API)                            |
+| CSO — Dr. Sarah Chen                             | 1 (SRD), 6 (security reviewer), 8 (reviewer), 10 (sign-off: security)                            |
+| CDO — Yuki Tanaka-Chen                           | 2 (prototype + IDS), 6 (design reviewer), 8 (reviewer), 10 (sign-off: design)                    |
+| CTO — Dr. Kenji Nakamura                         | 3 (UML), 4, 5, 6 (convenes panel), 7, 8 (convenes panel), 10 (convenes panel)                    |
+| CIO — Dr. Priya Mehta                            | 3 (ADRs + TSD), 6 (reviewer), 8 (reviewer), 10 (sign-off: architecture)                          |
+| CTO-L — Dr. Amara Osei-Mensah                    | 9 (translation), 10 (sign-off: localisation)                                                     |
+| Software Architect — Rafael Okonkwo              | 3 (UML support), 6 (reviewer)                                                                    |
+| Test Lead — Priscilla Oduya                      | 7 (automated testing), 8 (reviewer)                                                              |
+| Platform Leads (Android, iOS, Cross-Platform)    | 5 (development), 6 (Tier 1 technical reviewer), 8 (reviewer)                                     |
+| Internationalization Specialist — Tomas Dvoracek | 9 (string extraction)                                                                            |
+| Linguist Team                                    | 9 (translation)                                                                                  |
 
 ### Product Leadership Model: Template Steward + Distributed Production
 

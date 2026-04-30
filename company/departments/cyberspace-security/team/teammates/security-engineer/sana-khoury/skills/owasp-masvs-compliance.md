@@ -1,14 +1,17 @@
 ---
+name: owasp-masvs-compliance
+description: "Verify and certify mobile application compliance against the full OWASP MASVS (V1-V8) at L1 and L2 levels; produce audit-ready assessment reports and integrate automated compliance checks into CI/CD pipelines."
 version: "1.0.0"
 ---
 
-------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MASVS Framework Mastery | Complete understanding of all 8 verification categories and 2 assessment levels | Accurately maps any mobile security finding to specific MASVS requirement; distinguishes L1 vs L2 requirements; understands MASVS-R (resilience) requirements |
-| Verification Procedure Design | Ability to design test procedures for each MASVS requirement | Creates reproducible test cases for every MASVS control; produces assessment matrices that auditors can independently verify |
-| Compliance Assessment Execution | Conducting systematic MASVS assessments against live applications | Completes full MASVS assessment in ≤5 business days; identifies compliance gaps with zero false negatives on L1 controls |
-| Gap Analysis & Remediation | Translating compliance gaps into actionable remediation plans | Produces prioritized remediation roadmaps with effort estimates; tracks remediation to closure with evidence |
-| Audit Reporting | Producing MASVS compliance reports for internal and external stakeholders | Generates reports that satisfy SOC 2, PCI-DSS, and ISO 27001 auditors; maintains audit trail for all assessments |
-| Continuous Compliance | Integrating MASVS checks into CI/CD pipelines | Automates 60%+ of L1 control verification through SAST/DAST rules; maintains compliance dashboard with real-time status |
+| Competency                      | Description                                                                     | Quality Criteria                                                                                                                                              |
+| ------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MASVS Framework Mastery         | Complete understanding of all 8 verification categories and 2 assessment levels | Accurately maps any mobile security finding to specific MASVS requirement; distinguishes L1 vs L2 requirements; understands MASVS-R (resilience) requirements |
+| Verification Procedure Design   | Ability to design test procedures for each MASVS requirement                    | Creates reproducible test cases for every MASVS control; produces assessment matrices that auditors can independently verify                                  |
+| Compliance Assessment Execution | Conducting systematic MASVS assessments against live applications               | Completes full MASVS assessment in ≤5 business days; identifies compliance gaps with zero false negatives on L1 controls                                      |
+| Gap Analysis & Remediation      | Translating compliance gaps into actionable remediation plans                   | Produces prioritized remediation roadmaps with effort estimates; tracks remediation to closure with evidence                                                  |
+| Audit Reporting                 | Producing MASVS compliance reports for internal and external stakeholders       | Generates reports that satisfy SOC 2, PCI-DSS, and ISO 27001 auditors; maintains audit trail for all assessments                                              |
+| Continuous Compliance           | Integrating MASVS checks into CI/CD pipelines                                   | Automates 60%+ of L1 control verification through SAST/DAST rules; maintains compliance dashboard with real-time status                                       |
 
 ## Execution Guidance
 

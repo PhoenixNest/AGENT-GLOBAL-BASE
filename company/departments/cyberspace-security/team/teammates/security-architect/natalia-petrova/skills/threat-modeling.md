@@ -1,14 +1,17 @@
 ---
+name: threat-modeling
+description: "Produce STRIDE-based threat models for mobile applications and backend APIs; identify attack surfaces, data flow vulnerabilities, and trust boundary violations that inform Stage 3 architectural security decisions."
 version: "1.0.0"
 ---
 
------------------ | ----------------- | ---------------------------------------------------------------------------------------------- |
-| STRIDE Methodology | Expert | Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege analysis |
-| PASTA Framework | Expert | 7-stage risk-centric threat modeling aligned with business objectives |
-| Attack Trees | Advanced | Multi-path attack scenario modeling, probability-weighted threat analysis |
-| Zero-Trust Architecture | Advanced | Identity-centric security, microsegmentation, continuous verification |
-| Security Code Review | Advanced | Identifying vulnerability patterns in code, secure coding standards enforcement |
-| Threat Documentation | Expert | DFD-based threat models, risk registers, mitigation tracking |
+| Competency              | Description | Quality Criteria                                                                               |
+| ----------------------- | ----------- | ---------------------------------------------------------------------------------------------- |
+| STRIDE Methodology      | Expert      | Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege analysis |
+| PASTA Framework         | Expert      | 7-stage risk-centric threat modeling aligned with business objectives                          |
+| Attack Trees            | Advanced    | Multi-path attack scenario modeling, probability-weighted threat analysis                      |
+| Zero-Trust Architecture | Advanced    | Identity-centric security, microsegmentation, continuous verification                          |
+| Security Code Review    | Advanced    | Identifying vulnerability patterns in code, secure coding standards enforcement                |
+| Threat Documentation    | Expert      | DFD-based threat models, risk registers, mitigation tracking                                   |
 
 ## Execution Guidance
 

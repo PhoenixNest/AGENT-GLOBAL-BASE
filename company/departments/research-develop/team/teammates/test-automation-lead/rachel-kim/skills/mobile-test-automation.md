@@ -1,15 +1,18 @@
 ---
+name: mobile-test-automation
+description: Mobile test automation framework architecture for iOS and Android — multi-layer test pyramid (unit/integration/E2E/regression), shared test DSL design, Espresso + XCTest + Maestro orchestration, flaky test detection with auto-quarantine, parallel test execution via sharding, physical and cloud device farm management (Firebase Test Lab, AWS Device Farm), and unified test result aggregation with trend analysis. Use when designing or managing mobile test automation infrastructure, setting up CI test gates, or diagnosing flaky test issues across Android and iOS platforms.
 version: "1.0.0"
 ---
 
---------------------- | ----------------- | -------------------------------------------------------------------------------------- |
-| Test Framework Architecture | Expert | Multi-layer test strategy (unit, integration, E2E, regression), shared test DSL design |
-| Espresso + XCTest + Maestro | Expert | Platform-native UI testing, cross-platform test orchestration, shared test scenarios |
-| Flaky Test Detection | Advanced | Statistical analysis, auto-quarantine, root cause analysis, stabilization strategies |
-| Parallel Test Execution | Expert | Test sharding, distributed execution, resource contention management |
-| Device Farm Management | Advanced | Physical + emulator/simulator management, device scheduling, environment provisioning |
-| Test Result Aggregation | Expert | Unified reporting, trend analysis, defect correlation, dashboard design |
-| CI/CD Test Pipeline | Expert | Gate enforcement, parallel orchestration, artifact publishing, failure triage |
+| Competency                  | Proficiency | Description                                                                            |
+| --------------------------- | ----------- | -------------------------------------------------------------------------------------- |
+| Test Framework Architecture | Expert      | Multi-layer test strategy (unit, integration, E2E, regression), shared test DSL design |
+| Espresso + XCTest + Maestro | Expert      | Platform-native UI testing, cross-platform test orchestration, shared test scenarios   |
+| Flaky Test Detection        | Advanced    | Statistical analysis, auto-quarantine, root cause analysis, stabilization strategies   |
+| Parallel Test Execution     | Expert      | Test sharding, distributed execution, resource contention management                   |
+| Device Farm Management      | Advanced    | Physical + emulator/simulator management, device scheduling, environment provisioning  |
+| Test Result Aggregation     | Expert      | Unified reporting, trend analysis, defect correlation, dashboard design                |
+| CI/CD Test Pipeline         | Expert      | Gate enforcement, parallel orchestration, artifact publishing, failure triage          |
 
 ## Execution Guidance
 
