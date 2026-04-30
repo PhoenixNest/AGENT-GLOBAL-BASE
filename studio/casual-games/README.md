@@ -11,7 +11,10 @@ casual-games/
 │   ├── topics/                 # Cross-cutting strategies (assets, security, etc.)
 │   └── reference/              # External resources and link collections (Unity, architecture, testing, etc.)
 ├── pipeline/                   # Game studio development workflow
-│   └── casual-games-pipeline.md  # 11-stage pipeline (Stage 0–10)
+│   ├── casual-games-pipeline.md  # 11-stage pipeline (Stage 0–10)
+│   └── templates/              # Stage and monitoring templates
+│       ├── monitoring/         # progress.md · session-log.md · checkpoint.json · STAGE-TRANSITION-SUMMARY.md · KILL-GATE-REPORT.md
+│       └── stage-10-live-ops/  # QBR-REPORT.md
 ├── team/                       # Personnel and crew profiles
 │   └── crew/                   # All 38 FTEs + 1 Contract — profiles, skills, pipeline artifacts
 └── projects/                   # Individual game projects
@@ -19,11 +22,13 @@ casual-games/
 
 ## Key Documents
 
-| Document            | Location                                  | Description                                                                                    |
-| ------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Strategic Brief** | `library/overview/casual-games-studio.md` | C-suite assessment — product, technical, design, security, and organizational perspectives     |
-| **Asset Strategy**  | `library/topics/game-asset-strategy.md`   | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence |
-| **Pipeline**        | `pipeline/casual-games-pipeline.md`       | Complete game studio workflow — 11 stages from art direction through live ops                  |
+| Document            | Location                                  | Description                                                                                              |
+| ------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Strategic Brief** | `library/overview/casual-games-studio.md` | C-suite assessment — product, technical, design, security, and organizational perspectives               |
+| **Asset Strategy**  | `library/topics/game-asset-strategy.md`   | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence           |
+| **Pipeline**        | `pipeline/casual-games-pipeline.md`       | Complete game studio workflow — 11 stages from art direction through live ops                            |
+| **Monitoring**      | `pipeline/templates/monitoring/`          | `progress.md`, `session-log.md`, `checkpoint.json`, `STAGE-TRANSITION-SUMMARY.md`, `KILL-GATE-REPORT.md` |
+| **Live Ops**        | `pipeline/templates/stage-10-live-ops/`   | `QBR-REPORT.md` — quarterly business review with sunset/maintenance/full-investment routing              |
 
 ## Pipeline Quick Reference
 

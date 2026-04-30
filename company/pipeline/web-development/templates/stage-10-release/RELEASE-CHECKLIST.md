@@ -22,15 +22,20 @@
 
 ## 2. Release Readiness Items
 
-| #   | Domain           | Criteria                                               | Sign-off Authority | Status          | Notes     |
-| --- | ---------------- | ------------------------------------------------------ | ------------------ | --------------- | --------- |
-| 1   | **Product**      | All PRD requirements implemented                       | CPO + VP Web       | ☐ Pass / ☐ Fail | See below |
-| 2   | **Design**       | All CDO/IDS specifications accurately realised         | CDO                | ☐ Pass / ☐ Fail | See below |
-| 3   | **Architecture** | All UML/ADR/TSD standards upheld                       | CTO + CIO          | ☐ Pass / ☐ Fail | See below |
-| 4   | **Security**     | SRD enforced, web security controls effective          | CSO                | ☐ Pass / ☐ Fail | See below |
-| 5   | **Testing**      | 100% automated test pass rate achieved                 | CTO                | ☐ Pass / ☐ Fail | See below |
-| 6   | **Localisation** | All target languages complete                          | CTO-L              | ☐ Pass / ☐ Fail | See below |
-| 7   | **Deployment**   | Vercel/AWS deployment verified, CDN live, DNS pointing | CTO + CPO          | ☐ Pass / ☐ Fail | See below |
+| #   | Domain                 | Criteria                                                                   | Sign-off Authority | Status          | Notes     |
+| --- | ---------------------- | -------------------------------------------------------------------------- | ------------------ | --------------- | --------- |
+| 1   | **Product**            | All PRD requirements implemented                                           | CPO + VP Web       | ☐ Pass / ☐ Fail | See below |
+| 2   | **Design**             | All CDO/IDS specifications accurately realised                             | CDO                | ☐ Pass / ☐ Fail | See below |
+| 3   | **Architecture**       | All UML/ADR/TSD standards upheld                                           | CTO + CIO          | ☐ Pass / ☐ Fail | See below |
+| 4   | **Security**           | SRD enforced, web security controls effective                              | CSO                | ☐ Pass / ☐ Fail | See below |
+| 5   | **Testing**            | 100% automated test pass rate achieved                                     | CTO                | ☐ Pass / ☐ Fail | See below |
+| 6   | **Localisation**       | All target languages complete                                              | CTO-L              | ☐ Pass / ☐ Fail | See below |
+| 7   | **Deployment**         | Vercel/AWS deployment verified, CDN live, DNS pointing                     | CTO + CPO          | ☐ Pass / ☐ Fail | See below |
+| 8   | **Performance**        | All PRD performance thresholds verified — LCP, CLS, TTFB, TTI, bundle size | CTO + VP Platform  | ☐ Pass / ☐ Fail | See §3.8  |
+| 9   | **Accessibility**      | WCAG 2.1 AA verified — zero unresolved Level-AA failures                   | CDO                | ☐ Pass / ☐ Fail | See §3.9  |
+| 10  | **Privacy**            | Data minimisation, no PII in logs, cookie consent, GDPR/CCPA satisfied     | CSO                | ☐ Pass / ☐ Fail | See §3.10 |
+| 11  | **Dogfood**            | Stage 9.5 internal beta complete — no open Sev1 (P0) telemetry findings    | VP Quality         | ☐ Pass / ☐ Fail | See §3.11 |
+| 12  | **Live Ops Readiness** | Sev ladder, on-call rotation, error budget, and rollback authority defined | VP Platform + CSO  | ☐ Pass / ☐ Fail | See §3.12 |
 
 ---
 
@@ -114,19 +119,79 @@
 | Error tracking alerts configured                      | ☐ Yes / ☐ No |       |
 | Rollback plan tested                                  | ☐ Yes / ☐ No |       |
 
+### 3.8 Performance (CTO + VP Platform)
+
+| Metric                           | Threshold     | Actual | Pass/Fail |
+| -------------------------------- | ------------- | ------ | --------- |
+| LCP (Largest Contentful Paint)   | < 2.5s        |        | ☐ / ☐     |
+| INP (Interaction to Next Paint)  | < 200ms       |        | ☐ / ☐     |
+| CLS (Cumulative Layout Shift)    | < 0.1         |        | ☐ / ☐     |
+| TTFB (Time to First Byte)        | < 800ms       |        | ☐ / ☐     |
+| Total bundle size (initial load) | < 200 KB gzip |        | ☐ / ☐     |
+| Lighthouse Performance score     | ≥ 90          |        | ☐ / ☐     |
+
+### 3.9 Accessibility (CDO)
+
+| Check                                                    | Status       |
+| -------------------------------------------------------- | ------------ |
+| WCAG 2.1 AA automated audit passed (axe-core ≥ 95%)      | ☐ Yes / ☐ No |
+| Keyboard navigation tested on all critical flows         | ☐ Yes / ☐ No |
+| VoiceOver (Safari) — all critical flows exercise-tested  | ☐ Yes / ☐ No |
+| NVDA (Firefox) — all critical flows exercise-tested      | ☐ Yes / ☐ No |
+| Focus management correct on modals and dropdowns         | ☐ Yes / ☐ No |
+| Colour contrast ≥ 4.5:1 (normal text) / 3:1 (large text) | ☐ Yes / ☐ No |
+| Skip-to-content link present and functional              | ☐ Yes / ☐ No |
+
+### 3.10 Privacy (CSO)
+
+| Check                                                       | Status       |
+| ----------------------------------------------------------- | ------------ |
+| No PII written to logs or analytics                         | ☐ Yes / ☐ No |
+| GDPR cookie consent banner correct and IABTCF-compliant     | ☐ Yes / ☐ No |
+| CCPA opt-out mechanism implemented (California)             | ☐ Yes / ☐ No |
+| Privacy policy URL current and linked from footer           | ☐ Yes / ☐ No |
+| Third-party script governance enforced (SRI hashes applied) | ☐ Yes / ☐ No |
+| Data minimisation verified — no superfluous collection      | ☐ Yes / ☐ No |
+| GDPR data deletion workflow tested                          | ☐ Yes / ☐ No |
+
+### 3.11 Dogfood (VP Quality)
+
+| Check                                                    | Status       |
+| -------------------------------------------------------- | ------------ |
+| Stage 9.5 internal beta ran for minimum 5 business days  | ☐ Yes / ☐ No |
+| Dogfood Telemetry Report produced and reviewed           | ☐ Yes / ☐ No |
+| Zero open Sev1 (P0) defects from dogfood telemetry       | ☐ Yes / ☐ No |
+| All Sev2 (P1) dogfood findings resolved or user-deferred | ☐ Yes / ☐ No |
+| Dogfood feedback incorporated into final build           | ☐ Yes / ☐ No |
+
+### 3.12 Live Ops Readiness (VP Platform + CSO)
+
+| Check                                                       | Status       |
+| ----------------------------------------------------------- | ------------ |
+| Incident severity ladder (Sev1–Sev4) defined and documented | ☐ Yes / ☐ No |
+| On-call rotation staffed, paged, and tested                 | ☐ Yes / ☐ No |
+| Quarterly error budget defined and tracked                  | ☐ Yes / ☐ No |
+| Blameless postmortem template and cadence defined           | ☐ Yes / ☐ No |
+| Rollback authority chain named in incident-response.md      | ☐ Yes / ☐ No |
+| CDN failover procedure tested                               | ☐ Yes / ☐ No |
+| WAF rule update cadence defined                             | ☐ Yes / ☐ No |
+| QBR cadence defined and first QBR scheduled                 | ☐ Yes / ☐ No |
+
 ---
 
 ## 4. Release Decision
 
-| Role     | Decision                                 | Signature    | Date           |
-| -------- | ---------------------------------------- | ------------ | -------------- |
-| CTO      | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
-| CPO      | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
-| VP Web   | ☐ Approve / ☐ Conditional / ☐ Reject     | Julia Thorne | YYYY-MM-DD     |
-| CDO      | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
-| CSO      | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
-| CTO-L    | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
-| **User** | **☐ Approve / ☐ Conditional / ☐ Reject** |              | **YYYY-MM-DD** |
+| Role        | Decision                                 | Signature    | Date           |
+| ----------- | ---------------------------------------- | ------------ | -------------- |
+| CTO         | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
+| CPO         | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
+| VP Web      | ☐ Approve / ☐ Conditional / ☐ Reject     | Julia Thorne | YYYY-MM-DD     |
+| CDO         | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
+| CSO         | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
+| CTO-L       | ☐ Approve / ☐ Conditional / ☐ Reject     |              | YYYY-MM-DD     |
+| VP Platform | ☐ Approve / ☐ Conditional / ☐ Reject     | [Name]       | YYYY-MM-DD     |
+| VP Quality  | ☐ Approve / ☐ Conditional / ☐ Reject     | [Name]       | YYYY-MM-DD     |
+| **User**    | **☐ Approve / ☐ Conditional / ☐ Reject** |              | **YYYY-MM-DD** |
 
 ---
 

@@ -1,6 +1,6 @@
 # Development Pipeline Overview
 
-The company's development workflow is a ten-stage state machine governing the full lifecycle of a mobile product — from raw requirements through to release. Each stage has a designated responsible producer, explicit reviewers, defined artifacts in and out, and gate criteria that must be satisfied before advancing.
+The company's development workflow is a thirteen-stage state machine (Stages 0–11, with Stage 9.5 between Stage 9 and Stage 10) governing the full lifecycle of a mobile product — from problem validation through to live operations. Each stage has a designated responsible producer, explicit reviewers, defined artifacts in and out, and gate criteria that must be satisfied before advancing.
 
 > **Full definition:** [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md)
 
@@ -8,18 +8,21 @@ The company's development workflow is a ten-stage state machine governing the fu
 
 ## Stage Summary
 
-| #   | Stage                                      | Artifacts In                                                         | Key Output                                                                              | Responsible Producer(s)                       | User Approval? |
-| --- | ------------------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------- | -------------- |
-| 1   | Requirements → PRD + SRD                   | User's raw product requirements + target platform(s)                 | Product Requirements Document, Security Requirements Document                           | CPO or relevant VP (PRD), CSO (SRD)           | ✅ Yes         |
-| 2   | PRD → Web Prototype + IDS                  | Final PRD, SRD                                                       | Web prototype (single HTML file), Interaction Design Specification                      | CDO                                           | ✅ Yes         |
-| 3   | Prototype → UML Engineering Package        | Final PRD, SRD, Web Prototype, IDS                                   | UML diagrams, Architecture Decision Records (ADRs), Technology Selection Document (TSD) | CTO (UML), CIO (ADRs + TSD)                   | ✅ Yes         |
-| 4   | UML → Coding Implementation Plan           | All archived deliverables (PRD, SRD, Prototype, IDS, UML, ADRs, TSD) | Implementation Plan, Gantt Chart                                                        | CTO                                           | ✅ Yes         |
-| 5   | Plan → Software Development                | Coding Implementation Plan, Gantt Chart, all prior deliverables      | Development codebase                                                                    | CTO                                           | ❌ No          |
-| 6   | Development → Code Review                  | Development codebase, PRD, SRD, IDS, UML Package, ADRs, TSD          | Defect Report, Code Review Sign-off                                                     | CTO (panel: CPO, VPs, CDO, CTO, CIO, CSO)     | ✅ Yes         |
-| 7   | Code Review → Automated Testing            | Code Review sign-off codebase                                        | Automated Test Suite, Test Results Report                                               | CTO + Test Lead                               | ✅ Yes         |
-| 8   | Testing → Integrity Verification           | Post-testing codebase, all prior deliverables                        | Integrity Verification Sign-off                                                         | CTO (panel: all C-suite + VPs + Design + R&D) | ❌ No          |
-| 9   | Integrity Verification → i18n Engineering  | Integrity-verified codebase, PRD (language requirements)             | Localised codebase, Translation Verification Report                                     | CTO-L + R&D                                   | ❌ No          |
-| 10  | i18n Engineering → Release Readiness Check | All archived deliverables from all prior stages                      | Release Readiness Report, Release Decision                                              | CTO (panel) + User                            | ✅ Yes         |
+| #   | Stage                                            | Artifacts In                                                         | Key Output                                                                              | Responsible Producer(s)                       | User Approval? |
+| --- | ------------------------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------- | -------------- |
+| 0   | Problem Validation                               | Creative brief, market research                                      | Problem Validation Memo                                                                 | CPO or relevant VP                            | ❌ No          |
+| 1   | Requirements → PRD + SRD                         | User's raw product requirements + target platform(s)                 | Product Requirements Document, Security Requirements Document                           | CPO or relevant VP (PRD), CSO (SRD)           | ✅ Yes         |
+| 2   | PRD → Web Prototype + IDS                        | Final PRD, SRD                                                       | Web prototype (single HTML file), Interaction Design Specification                      | CDO                                           | ✅ Yes         |
+| 3   | Prototype → UML Engineering Package              | Final PRD, SRD, Web Prototype, IDS                                   | UML diagrams, Architecture Decision Records (ADRs), Technology Selection Document (TSD) | CTO (UML), CIO (ADRs + TSD)                   | ✅ Yes         |
+| 4   | UML → Coding Implementation Plan                 | All archived deliverables (PRD, SRD, Prototype, IDS, UML, ADRs, TSD) | Implementation Plan, Gantt Chart                                                        | CTO                                           | ✅ Yes         |
+| 5   | Plan → Software Development                      | Coding Implementation Plan, Gantt Chart, all prior deliverables      | Development codebase                                                                    | CTO                                           | ❌ No          |
+| 6   | Development → Arch. & Conformance Review         | Development codebase, PRD, SRD, IDS, UML Package, ADRs, TSD          | Defect Report, Architecture Conformance Review Sign-off                                 | CTO (panel: CPO, VPs, CDO, CTO, CIO, CSO)     | ✅ Yes         |
+| 7   | Arch. Review → Automated Testing                 | Code Review sign-off codebase                                        | Automated Test Suite, Test Results Report                                               | CTO + Test Lead                               | ✅ Yes         |
+| 8   | Testing → Integrity Verification                 | Post-testing codebase, all prior deliverables                        | Integrity Verification Sign-off                                                         | CTO (panel: all C-suite + VPs + Design + R&D) | ❌ No          |
+| 9   | Integrity Verification → Translation Production  | Integrity-verified codebase, PRD (language requirements)             | Localised codebase, Translation Verification Report                                     | CTO-L + R&D                                   | ❌ No          |
+| 9.5 | Internal Dogfood                                 | Translation-complete build                                           | Dogfood Telemetry Report                                                                | VP Quality                                    | ❌ No          |
+| 10  | Translation Production → Release Readiness Check | All archived deliverables from all prior stages                      | Release Readiness Report (12-item), Release Decision                                    | CTO (panel) + User                            | ✅ Yes         |
+| 11  | Live Operations (continuous)                     | Released product, analytics, user feedback                           | Live Ops Calendar, QBR Report                                                           | VP Platform                                   | ⚠️ QBR         |
 
 ---
 
@@ -142,7 +145,7 @@ Stage 5 development executes per the **Platform Strategy Matrix**, driven by the
 
 > **Full specification:** [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md) — Platform Strategy Matrix, Track Activation Protocol, and Per-Scenario CI/CD Blueprint (Stage 5 section).
 
-### Stage 6 Code Review Criteria
+### Stage 6 Architecture & Conformance Review Criteria
 
 The review panel evaluates against four criteria:
 
@@ -155,7 +158,7 @@ The review panel evaluates against four criteria:
 
 Automated testing includes **regression testing on all affected functionalities** after any defect remediation. Regression must pass fully with no failures before advancing to Stage 8.
 
-### Stage 9 Responsibility Split
+### Stage 9 Translation Production Responsibility Split
 
 - **CPO, CDO, CTO** conduct a **structural completeness review**: all hardcoded strings extracted, resource files correctly structured, no untranslated UI components. Structure only — not translation accuracy.
 - **CTO-L** owns **translation accuracy** exclusively: correctness of translated content, platform-specific formatting, linguistic quality across all target languages.
@@ -172,15 +175,20 @@ If the review panel identifies defects, the CTO assigns R&D personnel to remedia
 
 ## Release Checklist (Stage 10)
 
-| #   | Domain                                              | Sign-off Authority |
-| --- | --------------------------------------------------- | ------------------ |
-| 1   | Product — all PRD requirements implemented          | CPO + relevant VP  |
-| 2   | Design — all CDO/IDS specifications realised        | CDO                |
-| 3   | Architecture — all UML/ADR/TSD standards upheld     | CTO + CIO          |
-| 4   | Security — SRD enforced, OWASP MASVS compliant      | CSO                |
-| 5   | Testing — 100% automated test pass rate             | CTO                |
-| 6   | Localisation — all target languages complete        | CTO-L              |
-| 7   | Platform — App Store / Google Play requirements met | CTO + CPO          |
+| #   | Domain                                                             | Sign-off Authority |
+| --- | ------------------------------------------------------------------ | ------------------ |
+| 1   | Product — all PRD requirements implemented                         | CPO + relevant VP  |
+| 2   | Design — all CDO/IDS specifications realised                       | CDO                |
+| 3   | Architecture — all UML/ADR/TSD standards upheld                    | CTO + CIO          |
+| 4   | Security — SRD enforced, OWASP MASVS compliant                     | CSO                |
+| 5   | Testing — 100% automated test pass rate                            | CTO                |
+| 6   | Localisation — all target languages complete                       | CTO-L              |
+| 7   | Platform — App Store / Google Play requirements met                | CTO + CPO          |
+| 8   | Performance — all PRD performance thresholds verified              | CTO + VP Platform  |
+| 9   | Accessibility — WCAG 2.1 AA verified, no Level-AA failures         | CDO                |
+| 10  | Privacy — data minimisation, no PII in logs, consent flows correct | CSO                |
+| 11  | Dogfood — Stage 9.5 internal beta complete, no open Sev1 findings  | VP Quality         |
+| 12  | Live Ops Readiness — Sev ladder, on-call, error budget defined     | VP Platform + CSO  |
 
 See [`topics/testing.md`](../topics/testing.md), [`topics/security.md`](../topics/security.md), and [`topics/localization.md`](../topics/localization.md) for cross-cutting detail on these domains.
 

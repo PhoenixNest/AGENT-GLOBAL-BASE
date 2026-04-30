@@ -8,38 +8,43 @@
 
 ---
 
-## 7-Item Release Checklist
+## 12-Item Release Checklist
 
-| #   | Domain           | Criteria                                              | Sign-off Authority | Status          | Notes     |
-| --- | ---------------- | ----------------------------------------------------- | ------------------ | --------------- | --------- |
-| 1   | **Product**      | All PRD requirements implemented and verified         | CPO + VPs          | ☐ Pass / ☐ Fail |           |
-|     |                  | **Sub-checklist:**                                    |                    |                 |           |
-|     |                  | • Analytics events firing correctly                   | CPO                | ☐ Pass / ☐ Fail |           |
-|     |                  | • IAP products configured in both stores              | CPO                | ☐ Pass / ☐ Fail |           |
-|     |                  | • Subscription tiers match PRD pricing                | CPO                | ☐ Pass / ☐ Fail |           |
-|     |                  | • A/B test variants configured                        | CPO                | ☐ Pass / ☐ Fail |           |
-| 2   | **Design**       | All CDO/IDS specifications accurately realised:       | CDO                | ☐ Pass / ☐ Fail |           |
-|     |                  | • IDS Conformance Matrix overall ≥ 95%                |                    |                 |           |
-|     |                  | • Zero "Not Implemented" IDS items                    |                    |                 |           |
-|     |                  | • Zero "Major Deviation" items unresolved             |                    |                 |           |
-|     |                  | • All WCAG 2.1 AA requirements met                    |                    |                 |           |
-|     |                  | • Platform-native conventions respected (HIG/MD3)     |                    |                 |           |
-|     |                  | • Design tokens correctly applied across all screens  |                    |                 |           |
-| 3   | **Architecture** | All UML/ADR/TSD standards upheld                      | CTO + CIO          | ☐ Pass / ☐ Fail |           |
-| 4   | **Security**     | All SRD requirements enforced; OWASP MASVS compliant  | CSO                | ☐ Pass / ☐ Fail |           |
-| 5   | **Testing**      | 100% automated test pass rate achieved                | CTO                | ☐ Pass / ☐ Fail |           |
-| 6   | **Localisation** | All target languages complete and verified            | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | **Sub-checklist:**                                    |                    |                 |           |
-|     |                  | • Zero hardcoded strings in codebase                  | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • All resource files generated and validated          | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • key-index.csv parity confirmed across platforms     | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • Translation Verification Report issued              | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • BLEU ≥ 0.80 for all tier-1 languages                | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • Accessibility labels verified in all languages      | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • Commercial copy (paywall, IAP) localized            | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • Locale variants (ZH-CN/ZH-TW, FR-FR/FR-CA) distinct | CTO-L              | ☐ Pass / ☐ Fail |           |
-|     |                  | • Structural completeness signed off by CPO/CDO/CTO   | CPO/CDO/CTO        | ☐ Pass / ☐ Fail |           |
-| 7   | **Platform**     | All platforms deployed/submitted                      | CTO + CPO          | ☐ Pass / ☐ Fail | See below |
+| #   | Domain                 | Criteria                                                                                                 | Sign-off Authority | Status          | Notes     |
+| --- | ---------------------- | -------------------------------------------------------------------------------------------------------- | ------------------ | --------------- | --------- |
+| 1   | **Product**            | All PRD requirements implemented and verified                                                            | CPO + VPs          | ☐ Pass / ☐ Fail |           |
+|     |                        | **Sub-checklist:**                                                                                       |                    |                 |           |
+|     |                        | • Analytics events firing correctly                                                                      | CPO                | ☐ Pass / ☐ Fail |           |
+|     |                        | • IAP products configured in both stores                                                                 | CPO                | ☐ Pass / ☐ Fail |           |
+|     |                        | • Subscription tiers match PRD pricing                                                                   | CPO                | ☐ Pass / ☐ Fail |           |
+|     |                        | • A/B test variants configured                                                                           | CPO                | ☐ Pass / ☐ Fail |           |
+| 2   | **Design**             | All CDO/IDS specifications accurately realised:                                                          | CDO                | ☐ Pass / ☐ Fail |           |
+|     |                        | • IDS Conformance Matrix overall ≥ 95%                                                                   |                    |                 |           |
+|     |                        | • Zero "Not Implemented" IDS items                                                                       |                    |                 |           |
+|     |                        | • Zero "Major Deviation" items unresolved                                                                |                    |                 |           |
+|     |                        | • All WCAG 2.1 AA requirements met                                                                       |                    |                 |           |
+|     |                        | • Platform-native conventions respected (HIG/MD3)                                                        |                    |                 |           |
+|     |                        | • Design tokens correctly applied across all screens                                                     |                    |                 |           |
+| 3   | **Architecture**       | All UML/ADR/TSD standards upheld                                                                         | CTO + CIO          | ☐ Pass / ☐ Fail |           |
+| 4   | **Security**           | All SRD requirements enforced; OWASP MASVS compliant                                                     | CSO                | ☐ Pass / ☐ Fail |           |
+| 5   | **Testing**            | 100% automated test pass rate achieved                                                                   | CTO                | ☐ Pass / ☐ Fail |           |
+| 6   | **Localisation**       | All target languages complete and verified                                                               | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | **Sub-checklist:**                                                                                       |                    |                 |           |
+|     |                        | • Zero hardcoded strings in codebase                                                                     | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • All resource files generated and validated                                                             | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • key-index.csv parity confirmed across platforms                                                        | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • Translation Verification Report issued                                                                 | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • BLEU ≥ 0.80 for all tier-1 languages                                                                   | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • Accessibility labels verified in all languages                                                         | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • Commercial copy (paywall, IAP) localized                                                               | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • Locale variants (ZH-CN/ZH-TW, FR-FR/FR-CA) distinct                                                    | CTO-L              | ☐ Pass / ☐ Fail |           |
+|     |                        | • Structural completeness signed off by CPO/CDO/CTO                                                      | CPO/CDO/CTO        | ☐ Pass / ☐ Fail |           |
+| 7   | **Platform**           | All platforms deployed/submitted                                                                         | CTO + CPO          | ☐ Pass / ☐ Fail | See below |
+| 8   | **Performance**        | All per-platform PRD performance SLAs verified — web Core Web Vitals, mobile cold start/fps, backend P99 | CTO + VP Platform  | ☐ Pass / ☐ Fail |           |
+| 9   | **Accessibility**      | WCAG 2.1 AA verified on all platforms — zero Level-AA failures; platform-specific a11y targets met       | CDO                | ☐ Pass / ☐ Fail |           |
+| 10  | **Privacy**            | Data minimisation, no PII in any platform logs, consent flows correct on all surfaces, GDPR/CCPA met     | CSO                | ☐ Pass / ☐ Fail |           |
+| 11  | **Dogfood**            | Stage 9.5 internal beta complete across all platforms — no open Sev1 (P0) telemetry findings             | VP Quality         | ☐ Pass / ☐ Fail |           |
+| 12  | **Live Ops Readiness** | Cross-platform Sev ladder, on-call, error budgets, and incident coordination plan defined                | VP Platform + CSO  | ☐ Pass / ☐ Fail |           |
 
 ### Platform Submission Detail (Item 7)
 
@@ -127,18 +132,77 @@
 
 ---
 
+### Item 8 — Per-Platform Performance (CTO + VP Platform)
+
+| Platform | Metric                   | Threshold | Actual | Pass/Fail |
+| -------- | ------------------------ | --------- | ------ | --------- |
+| Web      | LCP                      | < 2.5s    |        | ☐ / ☐     |
+| Web      | INP                      | < 200ms   |        | ☐ / ☐     |
+| Web      | CLS                      | < 0.1     |        | ☐ / ☐     |
+| Mobile   | Cold start               | < 2s      |        | ☐ / ☐     |
+| Mobile   | Frame rate (scroll)      | ≥ 60fps   |        | ☐ / ☐     |
+| Mobile   | Memory baseline          | < 150MB   |        | ☐ / ☐     |
+| Backend  | API P99 response latency | < [X] ms  |        | ☐ / ☐     |
+| Backend  | Error rate (5xx)         | < 0.1%    |        | ☐ / ☐     |
+
+### Item 9 — Accessibility (CDO)
+
+| Platform | Check                                                 | Status       |
+| -------- | ----------------------------------------------------- | ------------ |
+| Web      | WCAG 2.1 AA axe-core audit ≥ 95%                      | ☐ Yes / ☐ No |
+| Web      | Keyboard navigation + VoiceOver/NVDA tested           | ☐ Yes / ☐ No |
+| iOS      | VoiceOver + Dynamic Type tested on all critical flows | ☐ Yes / ☐ No |
+| Android  | TalkBack + font scaling tested on all critical flows  | ☐ Yes / ☐ No |
+| All      | Colour contrast ≥ 4.5:1 (normal) / 3:1 (large)        | ☐ Yes / ☐ No |
+
+### Item 10 — Privacy (CSO)
+
+| Check                                                  | Status       |
+| ------------------------------------------------------ | ------------ |
+| No PII in application logs across all platforms        | ☐ Yes / ☐ No |
+| GDPR consent flows verified on web and in-app (EU)     | ☐ Yes / ☐ No |
+| CCPA opt-out implemented on all platforms (California) | ☐ Yes / ☐ No |
+| App Store and Play Store privacy disclosures accurate  | ☐ Yes / ☐ No |
+| Data minimisation confirmed across all surfaces        | ☐ Yes / ☐ No |
+| Cross-platform PII synchronisation audited             | ☐ Yes / ☐ No |
+
+### Item 11 — Dogfood (VP Quality)
+
+| Check                                                          | Status       |
+| -------------------------------------------------------------- | ------------ |
+| Stage 9.5 internal beta ran ≥ 5 business days on all platforms | ☐ Yes / ☐ No |
+| Dogfood Telemetry Report produced and reviewed                 | ☐ Yes / ☐ No |
+| Zero open Sev1 (P0) defects from dogfood telemetry             | ☐ Yes / ☐ No |
+| All cross-platform parity issues found in dogfood resolved     | ☐ Yes / ☐ No |
+
+### Item 12 — Live Ops Readiness (VP Platform + CSO)
+
+| Check                                                          | Status       |
+| -------------------------------------------------------------- | ------------ |
+| Cross-platform incident severity ladder defined                | ☐ Yes / ☐ No |
+| On-call rotation staffed and tested (all platforms)            | ☐ Yes / ☐ No |
+| Per-platform error budgets defined and tracked                 | ☐ Yes / ☐ No |
+| Cross-platform incident coordination plan documented           | ☐ Yes / ☐ No |
+| Store-rejection escalation playbook (iOS + Android) documented | ☐ Yes / ☐ No |
+| Rollback authority chain named in incident-response.md         | ☐ Yes / ☐ No |
+| QBR cadence defined and first QBR scheduled                    | ☐ Yes / ☐ No |
+
+---
+
 ## Panel Sign-Off
 
-| Role   | Name                  | Sign-off     | Date |
-| ------ | --------------------- | ------------ | ---- |
-| CPO    | Marcus Tran-Yoshida   | ☐ Yes / ☐ No |      |
-| VP Web | Julia Thorne          | ☐ Yes / ☐ No |      |
-| VP API | Alex Rivera           | ☐ Yes / ☐ No |      |
-| CDO    | Yuki Tanaka-Chen      | ☐ Yes / ☐ No |      |
-| CTO    | Dr. Kenji Nakamura    | ☐ Yes / ☐ No |      |
-| CIO    | Dr. Priya Mehta       | ☐ Yes / ☐ No |      |
-| CSO    | Dr. Sarah Chen        | ☐ Yes / ☐ No |      |
-| CTO-L  | Dr. Amara Osei-Mensah | ☐ Yes / ☐ No |      |
+| Role        | Name                  | Sign-off     | Date |
+| ----------- | --------------------- | ------------ | ---- |
+| CPO         | Marcus Tran-Yoshida   | ☐ Yes / ☐ No |      |
+| VP Web      | Julia Thorne          | ☐ Yes / ☐ No |      |
+| VP API      | Alex Rivera           | ☐ Yes / ☐ No |      |
+| CDO         | Yuki Tanaka-Chen      | ☐ Yes / ☐ No |      |
+| CTO         | Dr. Kenji Nakamura    | ☐ Yes / ☐ No |      |
+| CIO         | Dr. Priya Mehta       | ☐ Yes / ☐ No |      |
+| CSO         | Dr. Sarah Chen        | ☐ Yes / ☐ No |      |
+| VP Platform | [Name]                | ☐ Yes / ☐ No |      |
+| VP Quality  | [Name]                | ☐ Yes / ☐ No |      |
+| CTO-L       | Dr. Amara Osei-Mensah | ☐ Yes / ☐ No |      |
 
 ---
 
@@ -150,6 +214,6 @@
 
 ---
 
-**All seven checklist items signed off.**
+**All twelve checklist items signed off.**
 **Release Readiness Report submitted to user on YYYY-MM-DD.**
 **User issued final release decision on YYYY-MM-DD.**

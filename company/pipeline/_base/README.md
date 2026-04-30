@@ -1,17 +1,17 @@
 # Pipeline Base + Deltas — Pattern Guide
 
-| Field          | Value                                                                                                                                                                                                                                                                                                                                                                                          |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Status**     | Authoritative                                                                                                                                                                                                                                                                                                                                                                                  |
-| **Owner**      | Software Architect Rafael Okonkwo (under CTO Nakamura)                                                                                                                                                                                                                                                                                                                                         |
-| **Effective**  | 2026-04-21                                                                                                                                                                                                                                                                                                                                                                                     |
-| **Cross-Refs** | [`pipeline.md`](./pipeline.md), [`delta-template.md`](./delta-template.md), [`independent-challenge-template.md`](./independent-challenge-template.md), [`adr-template.md`](./adr-template.md), [`incident-response.md`](./incident-response.md), [`experimentation-spec-template.md`](./experimentation-spec-template.md), [`dogfood-telemetry-template.md`](./dogfood-telemetry-template.md) |
+| Field          | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Status**     | Authoritative                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Owner**      | Software Architect Rafael Okonkwo (under CTO Nakamura)                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Effective**  | 2026-04-21                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **Cross-Refs** | [`pipeline.md`](./pipeline.md), [`delta-template.md`](./delta-template.md), [`problem-validation-memo-template.md`](./problem-validation-memo-template.md), [`independent-challenge-template.md`](./independent-challenge-template.md), [`adr-template.md`](./adr-template.md), [`incident-response.md`](./incident-response.md), [`experimentation-spec-template.md`](./experimentation-spec-template.md), [`dogfood-telemetry-template.md`](./dogfood-telemetry-template.md) |
 
 ---
 
 ## 1. Why Base + Deltas
 
-The four product pipeline shapes (mobile, web, backend, full-stack) share the same 10-stage skeleton, the same defect taxonomy (P0–P3), the same Progress Sync Protocol, and the same gate-criteria templates. Only the platform-specific blocks differ — the Platform Strategy Matrix, the per-stage technology mandates, and the platform compliance gates.
+The four product pipeline shapes (mobile, web, backend, full-stack) share the same 13-stage skeleton (Stages 0–11, with Stage 9.5), the same defect taxonomy (P0–P3), the same Progress Sync Protocol, and the same gate-criteria templates. Only the platform-specific blocks differ — the Platform Strategy Matrix, the per-stage technology mandates, and the platform compliance gates.
 
 Maintaining four parallel pipeline files duplicates >90% of content and creates a structural drift hazard: every pipeline-level change requires editing four files, and changes that should have applied uniformly often land in only some of the four (i18n placement, stage 0 insertion, gate authority changes are the historical examples).
 
@@ -20,23 +20,24 @@ The fix is the standard "shared base + thin overlays per product type" pattern:
 ```text
 company/pipeline/
 ├── _base/
-│   ├── README.md                          ← this file
-│   ├── pipeline.md                        ← canonical 10-stage skeleton (the SHARED truth)
-│   ├── delta-template.md                  ← the shape every product pipeline must conform to
-│   ├── adr-template.md                    ← canonical ADR shape (versionable, supersedable)
-│   ├── independent-challenge-template.md  ← red-team review protocol for multi-condition gate reports
-│   ├── incident-response.md               ← Sev ladder + on-call + blameless postmortem (Stage 11 universal)
-│   ├── experimentation-spec-template.md   ← A/B test design template paired with Stage 1 PRDs
-│   └── dogfood-telemetry-template.md      ← Stage 9.5 internal beta telemetry report shape
+│   ├── README.md                                  ← this file
+│   ├── pipeline.md                                ← canonical 13-stage skeleton (the SHARED truth)
+│   ├── delta-template.md                          ← the shape every product pipeline must conform to
+│   ├── adr-template.md                            ← canonical ADR shape (versionable, supersedable)
+│   ├── problem-validation-memo-template.md        ← Stage 0 Problem Validation Memo template
+│   ├── independent-challenge-template.md          ← red-team review protocol for multi-condition gate reports
+│   ├── incident-response.md                       ← Sev ladder + on-call + blameless postmortem (Stage 11 universal)
+│   ├── experimentation-spec-template.md           ← A/B test design template paired with Stage 1 PRDs
+│   └── dogfood-telemetry-template.md              ← Stage 9.5 internal beta telemetry report shape
 ├── mobile-development/
-│   └── delta.md                           ← pipeline-type-specific overlay (mobile)
+│   └── delta.md                                   ← pipeline-type-specific overlay (mobile)
 ├── web-development/
-│   └── delta.md                           ← pipeline-type-specific overlay (web)
+│   └── delta.md                                   ← pipeline-type-specific overlay (web)
 ├── backend-api/
-│   └── delta.md                           ← pipeline-type-specific overlay (backend)
+│   └── delta.md                                   ← pipeline-type-specific overlay (backend)
 ├── full-stack/
-│   └── delta.md                           ← pipeline-type-specific overlay (full-stack)
-└── recruitment/                           ← UNCHANGED — recruitment is shape-incompatible (9-stage automated)
+│   └── delta.md                                   ← pipeline-type-specific overlay (full-stack)
+└── recruitment/                                   ← UNCHANGED — recruitment is shape-incompatible (9-stage automated)
 ```
 
 > **Recruitment is explicitly out of scope** for the base + delta pattern. Recruitment "differs in shape" from the four product pipelines (9 stages, automated cadence, candidate-centric flow). It remains a single self-contained pipeline file.
@@ -45,15 +46,16 @@ company/pipeline/
 
 ## 2. How the Pattern Works
 
-| File                                | Purpose                                                                                                                                                                                                                        |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `pipeline.md`                       | The canonical 10-stage (plus Stage 0 and Stage 11) skeleton. Stages, severity model, Progress Sync Protocol, gate criteria. Uses `{{DELTA: ...}}` placeholder tokens for product-specific blocks.                              |
-| `delta-template.md`                 | The required shape of every product pipeline's `delta.md`. Lists the placeholders each product must fill. A `delta.md` MUST address every placeholder; it MAY add product-specific concerns under "Additional Considerations." |
-| `adr-template.md`                   | Canonical ADR shape used at every stage that produces an architectural decision. ADRs are versionable and supersedable — a superseding ADR carries a `Supersedes` field referencing the prior ADR ID.                          |
-| `independent-challenge-template.md` | The protocol for red-team challenges to multi-condition gate reports. Five attack vectors, 48-hour time-box, designated independent challenger persona.                                                                        |
-| `incident-response.md`              | Universal Stage 11 incident-response model: Sev0–Sev3 ladder, on-call rotation rules, blameless postmortem template, rollback authority chain.                                                                                 |
-| `experimentation-spec-template.md`  | The A/B test design template paired with Stage 1 PRDs whenever a PRD-defined metric requires experimental validation.                                                                                                          |
-| `dogfood-telemetry-template.md`     | The Stage 9.5 internal beta telemetry report shape (crash rates, ANR rates, opt-out rates, qualitative bug telemetry).                                                                                                         |
+| File                                  | Purpose                                                                                                                                                                                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pipeline.md`                         | The canonical 13-stage (Stages 0–11, with Stage 9.5) skeleton. Stages, severity model, Progress Sync Protocol, gate criteria. Uses `{{DELTA: ...}}` placeholder tokens for product-specific blocks.                            |
+| `delta-template.md`                   | The required shape of every product pipeline's `delta.md`. Lists the placeholders each product must fill. A `delta.md` MUST address every placeholder; it MAY add product-specific concerns under "Additional Considerations." |
+| `adr-template.md`                     | Canonical ADR shape used at every stage that produces an architectural decision. ADRs are versionable and supersedable — a superseding ADR carries a `Supersedes` field referencing the prior ADR ID.                          |
+| `problem-validation-memo-template.md` | Stage 0 artifact template. Structures customer-discovery evidence (n ≥ 5), quantitative demand signals, opportunity sizing, explicit kill criteria, and CPO sign-off. Mandatory before Stage 1 begins.                         |
+| `independent-challenge-template.md`   | The protocol for red-team challenges to multi-condition gate reports. Five attack vectors, 48-hour time-box, designated independent challenger persona.                                                                        |
+| `incident-response.md`                | Universal Stage 11 incident-response model: Sev0–Sev3 ladder, on-call rotation rules, blameless postmortem template, rollback authority chain.                                                                                 |
+| `experimentation-spec-template.md`    | The A/B test design template paired with Stage 1 PRDs whenever a PRD-defined metric requires experimental validation.                                                                                                          |
+| `dogfood-telemetry-template.md`       | The Stage 9.5 internal beta telemetry report shape (crash rates, ANR rates, opt-out rates, qualitative bug telemetry).                                                                                                         |
 
 ### 2.1 Resolution rules
 

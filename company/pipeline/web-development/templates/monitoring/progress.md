@@ -12,18 +12,21 @@
 
 ## Stage Status
 
-| Stage | Name                   | Status     | Entry Date | Exit Date | Artifacts Produced | User Approval? |
-| ----- | ---------------------- | ---------- | ---------- | --------- | ------------------ | -------------- |
-| 1     | Requirements           | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
-| 2     | Design                 | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
-| 3     | Architecture           | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
-| 4     | Implementation Plan    | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
-| 5     | Development            | ⚪ Pending | —          | —         | —                  | ❌ No          |
-| 6     | Code Review            | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
-| 7     | Automated Testing      | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
-| 8     | Integrity Verification | ⚪ Pending | —          | —         | —                  | ❌ No          |
-| 9     | i18n Engineering       | ⚪ Pending | —          | —         | —                  | ❌ No          |
-| 10    | Release Readiness      | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| Stage | Name                       | Status     | Entry Date | Exit Date | Artifacts Produced | User Approval? |
+| ----- | -------------------------- | ---------- | ---------- | --------- | ------------------ | -------------- |
+| 0     | Problem Validation         | ⚪ Pending | —          | —         | —                  | ❌ No          |
+| 1     | Requirements               | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 2     | Design                     | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 3     | Architecture               | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 4     | Implementation Plan        | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 5     | Development                | ⚪ Pending | —          | —         | —                  | ❌ No          |
+| 6     | Arch. & Conformance Review | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 7     | Automated Testing          | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 8     | Integrity Verification     | ⚪ Pending | —          | —         | —                  | ❌ No          |
+| 9     | Translation Production     | ⚪ Pending | —          | —         | —                  | ❌ No          |
+| 9.5   | Internal Dogfood           | ⚪ Pending | —          | —         | —                  | ❌ No          |
+| 10    | Release Readiness          | ⚪ Pending | —          | —         | —                  | ✅ Yes         |
+| 11    | Live Operations            | —          | —          | —         | —                  | ⚠️ QBR         |
 
 ## Current Stage Details (Stage <N>)
 

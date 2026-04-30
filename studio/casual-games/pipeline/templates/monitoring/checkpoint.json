@@ -1,0 +1,171 @@
+{
+  "pipeline_type": "casual-games-studio",
+  "game_title": "[Game Title]",
+  "game_genre": "[hyper-casual | casual | mid-core]",
+  "platform": "[iOS | Android | both]",
+  "stage": 0,
+  "stage_name": "[Stage Name]",
+  "status": "not-started",
+  "progress_pct": 0,
+  "kill_gate_status": "no-gate",
+  "session_id": "session-YYYYMMDD-HHMMSS",
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "kill_gate_history": {
+    "gate_1": {
+      "stage": 1,
+      "status": "pending",
+      "result": null,
+      "date": null,
+      "metrics": {
+        "market_whitespace": null,
+        "differentiation_score": null
+      }
+    },
+    "gate_2": {
+      "stage": 2,
+      "status": "pending",
+      "result": null,
+      "date": null,
+      "metrics": {
+        "d1_pct": null,
+        "session_duration_min": null
+      }
+    },
+    "gate_3": {
+      "stage": 3,
+      "status": "pending",
+      "result": null,
+      "date": null,
+      "metrics": {
+        "d1_pct": null,
+        "d7_pct": null,
+        "playtest_score": null
+      }
+    },
+    "gate_4": {
+      "stage": 4,
+      "status": "pending",
+      "result": null,
+      "date": null,
+      "metrics": {
+        "ltv_cac_ratio": null,
+        "budget_feasible": null
+      }
+    },
+    "gate_5": {
+      "stage": 8,
+      "status": "pending",
+      "result": null,
+      "date": null,
+      "metrics": {
+        "d1_pct": null,
+        "d7_pct": null,
+        "d30_pct": null,
+        "ltv_cac_ratio": null,
+        "arpdau": null
+      }
+    }
+  },
+  "playtest_metrics": {
+    "d1_retention_pct": null,
+    "d7_retention_pct": null,
+    "d30_retention_pct": null,
+    "session_duration_avg_min": null,
+    "enjoyment_score": null,
+    "ltv_cac_ratio": null,
+    "arpdau": null
+  },
+  "full_production_checkpoints": {
+    "game_feel_50pct": {
+      "status": "not-started",
+      "gds_conformance_pct": null,
+      "date": null
+    },
+    "tier2_playtest_50pct": {
+      "status": "not-started",
+      "cohort_size": null,
+      "date": null
+    },
+    "visual_coherence_75pct": {
+      "status": "not-started",
+      "style_guide_compliance_pct": null,
+      "date": null
+    },
+    "tier3_playtest_90pct": {
+      "status": "not-started",
+      "cohort_size": null,
+      "date": null
+    }
+  },
+  "soft_launch_markets": {
+    "tier_1": {
+      "markets": ["Canada", "Australia"],
+      "budget_usd": 50000,
+      "status": "not-started",
+      "d1_pct": null,
+      "d7_pct": null,
+      "ltv_cac": null
+    },
+    "tier_2": {
+      "markets": ["Philippines", "Brazil"],
+      "budget_usd": 50000,
+      "status": "not-started",
+      "d1_pct": null,
+      "d7_pct": null,
+      "ltv_cac": null
+    },
+    "tier_3": {
+      "markets": ["Nordics", "DACH"],
+      "budget_usd": null,
+      "status": "not-started",
+      "d1_pct": null,
+      "d30_pct": null,
+      "ltv_cac": null
+    }
+  },
+  "security_gates": {
+    "asset_sbom_scan": {
+      "status": "not-started",
+      "stage": "2-5",
+      "findings": 0
+    },
+    "masvs_baseline": {
+      "status": "not-started",
+      "stage": 7,
+      "findings": 0
+    },
+    "pen_test": {
+      "status": "not-started",
+      "stage": 7,
+      "p0_findings": 0,
+      "p1_findings": 0
+    },
+    "coppa_gdpr_k_compliance": {
+      "status": "not-started",
+      "stage": 9,
+      "verified": false
+    },
+    "cso_release_signoff": {
+      "status": "not-started",
+      "stage": 9,
+      "signed": false
+    }
+  },
+  "artifacts": [],
+  "gate_criteria": {},
+  "resume_point": {
+    "next_task": "[Description of next task]",
+    "file_to_open": "relative/path/to/file",
+    "section": "[Section name]",
+    "context": "[Additional context for resumption]"
+  },
+  "metrics": {
+    "stage_progress_pct": 0,
+    "total_time_spent_min": 0,
+    "tasks_completed": 0,
+    "tasks_remaining": 0,
+    "total_capital_deployed_usd": 0,
+    "iterations_since_last_gate": 0
+  },
+  "milestone_history": []
+}
