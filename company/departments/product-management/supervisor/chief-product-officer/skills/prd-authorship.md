@@ -4,6 +4,8 @@ description: High-quality Product Requirement Document (PRD) authorship for mobi
 version: "1.0.0"
 ---
 
+# Prd Authorship
+
 ## Why This Matters
 
 Translates ambiguous requirements into actionable, testable specifications. Poor PRDs cause 40% of engineering rework; high-quality PRDs reduce ambiguity-driven defects by 65%.
@@ -323,4 +325,3 @@ This skill governs the following pipeline stages:
 | Web Development    | Stage 1 (Requirements) | `company/pipeline/web-development/pipeline.md`    |
 | Backend Api        | Stage 1 (Requirements) | `company/pipeline/backend-api/pipeline.md`        |
 | Full Stack         | Stage 1 (Requirements) | `company/pipeline/full-stack/pipeline.md`         |
-

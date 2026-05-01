@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Data Layer
+
 | Competency             | Description                                                                                              | Quality Criteria                                                                                                                                       |
 | ---------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Repository Pattern     | Single data access abstraction, cache-then-network strategy, error propagation, data source coordination | ViewModel depends only on repository interface; repository coordinates multiple data sources transparently; error types are domain-specific            |

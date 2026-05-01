@@ -1,4 +1,4 @@
-# Harness Engineering Documentation Hub
+﻿# Harness Engineering Documentation Hub
 
 > **Harness Engineering** is the discipline of building robust, scalable, and maintainable Claude API applications using systematic design patterns, error handling, and architectural decisions.
 
@@ -195,11 +195,11 @@ harness-engineering/
 
 ## Related Modules
 
-| Module                                                                           | Relationship                                                                                                                 |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [`context-engineering/`](../context-engineering/README.md)                       | Assembles the context window that Harness Engineering executes. Wire `ContextAssembler.build()` → `SafeModelCall.execute()`. |
-| [`retrieval-augmented-generation/`](../retrieval-augmented-generation/README.md) | Provides retrieved documents that feed into the context window via context-engineering.                                      |
-| [`prompt-engineering/`](../prompt-engineering/README.md)                         | Provides patterns for writing content within each context slot.                                                              |
+| Module                                                                                          | Relationship                                                                                                                 |
+| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [`context-engineering/`](core-component-00/context-engineering/README.md)                       | Assembles the context window that Harness Engineering executes. Wire `ContextAssembler.build()` → `SafeModelCall.execute()`. |
+| [`retrieval-augmented-generation/`](core-component-00/retrieval-augmented-generation/README.md) | Provides retrieved documents that feed into the context window via context-engineering.                                      |
+| [`prompt-engineering/`](core-component-00/prompt-engineering/README.md)                         | Provides patterns for writing content within each context slot.                                                              |
 
 ---
 

@@ -1,15 +1,15 @@
-# Web Development Pipeline — Delta Overlay
+﻿# Web Development Pipeline — Delta Overlay
 
-| Field          | Value                                                                                                                       |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Pipeline**   | `web-development`                                                                                                           |
-| **Owner**      | VP Web (Julia Thorne) + VP Web & Backend (Elena Vasquez) (joint)                                                            |
-| **Surfaces**   | Browser web (Chromium / Firefox / WebKit) — selectable per-project via the 4-scenario Web Strategy Matrix below             |
-| **Effective**  | 2026-04-21                                                                                                                  |
-| **Supersedes** | `web-development/pipeline.md` (legacy 452-line file; back-compat redirect retained until 2026-07-21).                       |
-| **Cross-Refs** | Base: [`../_base/pipeline.md`](../_base/pipeline.md) · Template: [`../_base/delta-template.md`](../_base/delta-template.md) |
+| Field          | Value                                                                                                                                                                               |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pipeline**   | `web-development`                                                                                                                                                                   |
+| **Owner**      | VP Web (Julia Thorne) + VP Web & Backend (Elena Vasquez) (joint)                                                                                                                    |
+| **Surfaces**   | Browser web (Chromium / Firefox / WebKit) — selectable per-project via the 4-scenario Web Strategy Matrix below                                                                     |
+| **Effective**  | 2026-04-21                                                                                                                                                                          |
+| **Supersedes** | `web-development/pipeline.md` (legacy 452-line file; back-compat redirect retained until 2026-07-21).                                                                               |
+| **Cross-Refs** | Base: [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md) · Template: [`company/pipeline/_base/delta-template.md`](company/pipeline/_base/delta-template.md) |
 
-> **Reading order.** This delta is consumed _alongside_ [`../_base/pipeline.md`](../_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for web-specific content. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
+> **Reading order.** This delta is consumed _alongside_ [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for web-specific content. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
 
 ---
 
@@ -142,7 +142,7 @@ The Web Strategy ADR must include:
 13. **SEO strategy** — Meta tags, sitemap, structured data, SSR rendering for crawlers.
 14. **Browser support matrix** — Which browsers and versions are supported.
 
-**Ownership:** CTO authors. Frontend Lead + Backend Lead provide input. CIO reviews for technology conformance. CSO reviews for security conformance. CDO reviews for design quality impact. The ADR is versionable + supersedable per [`../_base/adr-template.md`](../_base/adr-template.md); supersession requires a documented rollback plan and triggers an Implementation-Plan re-baseline (Stage 4 re-entry minimum).
+**Ownership:** CTO authors. Frontend Lead + Backend Lead provide input. CIO reviews for technology conformance. CSO reviews for security conformance. CDO reviews for design quality impact. The ADR is versionable + supersedable per [`company/pipeline/_base/adr-template.md`](company/pipeline/_base/adr-template.md); supersession requires a documented rollback plan and triggers an Implementation-Plan re-baseline (Stage 4 re-entry minimum).
 
 ### 4.2 Web-Specific Security ADR Topics
 
@@ -279,6 +279,6 @@ i18n is a continuous concern from Stage 2 onward. Web-specific application:
 
 ## 13. Document Version History
 
-| Version | Date           | Author                               | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ------- | -------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1     | April 21, 2026 | Software Architect + VP Web + VP W&B | Initial overlay. Web-specific content (4-scenario Web Strategy Matrix, Track W-FE / W-BE / W-FS activation, per-scenario CI/CD blueprint, Web Strategy ADR 14-field requirement, web-specific Stage 1/2/3/4/5/6/7/8/10/11 sections, cross-cutting i18n table) extracted from the legacy `web-development/pipeline.md` (452 lines). Pairs with [`../_base/pipeline.md`](../_base/pipeline.md) to produce a derived view equivalent to the legacy file. |
+| Version | Date           | Author                               | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------- | -------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1     | April 21, 2026 | Software Architect + VP Web + VP W&B | Initial overlay. Web-specific content (4-scenario Web Strategy Matrix, Track W-FE / W-BE / W-FS activation, per-scenario CI/CD blueprint, Web Strategy ADR 14-field requirement, web-specific Stage 1/2/3/4/5/6/7/8/10/11 sections, cross-cutting i18n table) extracted from the legacy `web-development/pipeline.md` (452 lines). Pairs with [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md) to produce a derived view equivalent to the legacy file. |

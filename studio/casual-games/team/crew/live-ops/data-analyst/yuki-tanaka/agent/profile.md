@@ -11,6 +11,8 @@ requisition: G33
 vetting-score: 18/20
 composite-score: 4.620
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Yuki Tanaka — Data Analyst

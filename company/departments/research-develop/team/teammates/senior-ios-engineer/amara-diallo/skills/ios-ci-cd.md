@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# IOS CI CD
+
 | Competency              | Description                                                                                                       | Quality Criteria                                                                                                  |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | Xcode Cloud             | CI workflow definition, build configurations, environment variables, artifact management, parallel test execution | Workflows defined in ci_scripts; build completes <15 minutes; test results published; artifacts archived          |

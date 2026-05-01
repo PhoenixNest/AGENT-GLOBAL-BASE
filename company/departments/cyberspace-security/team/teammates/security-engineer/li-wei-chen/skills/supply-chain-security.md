@@ -4,6 +4,8 @@ description: "Implement software supply chain security — SBOM generation in Cy
 version: "1.0.0"
 ---
 
+# Supply Chain Security
+
 | Competency                      | Description                                                                      | Quality Criteria                                                                                                                                                                 |
 | ------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SBOM Generation & Management    | Creating and maintaining machine-readable inventories of all software components | Generates CycloneDX and SPDX SBOMs for every build; achieves 100% dependency coverage (direct + transitive); integrates SBOM generation into CI/CD with zero build-time overhead |

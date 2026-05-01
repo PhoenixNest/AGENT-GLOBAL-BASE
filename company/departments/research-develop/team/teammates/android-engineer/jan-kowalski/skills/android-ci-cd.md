@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android CI
+
 | Competency                | Description                                                                                                       | Quality Criteria                                                                                               |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Gradle Optimization       | Configuration cache, build cache, parallel execution, module dependency graph, build profiling                    | Clean build <3 minutes on CI; incremental build <30 seconds; zero dynamic version resolution in release builds |

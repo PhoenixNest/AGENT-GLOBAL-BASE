@@ -1,4 +1,4 @@
-# Schema Validation Specification — Automated Gate Enforcement
+﻿# Schema Validation Specification — Automated Gate Enforcement
 
 > **Addresses Gap:** Automated enforcement of JSON schema contracts
 
@@ -42,7 +42,8 @@ This specification defines how **Stage Transition Schemas** are validated automa
 | `8→9`  | `V-802`  | `integrity_checks.prd_features_intact` must be `true`                  | **Blocker** |
 | `9→10` | `V-901`  | `i18n_summary.hardcoded_strings_remaining` must be `0`                 | **Blocker** |
 | `9→10` | `V-902`  | All BLEU scores must be ≥ 0.80                                         | **Warning** |
-| `10`   | `V-1001` | All 7 `checklist` items must have `passed: true`                       | **Blocker** |
+| `10`   | `V-1001` | All 12 `checklist` domain items must have `passed: true`               | **Blocker** |
+| All    | `V-1003` | `harness_compliance_verified` must be `true`                           | **Blocker** |
 | `10`   | `V-1002` | `user_decision` must be `"release"` for release                        | **Blocker** |
 
 ---
@@ -51,7 +52,7 @@ This specification defines how **Stage Transition Schemas** are validated automa
 
 ```
 Stage N owner produces:
-  1. STAGE-TRANSITION-SUMMARY.md (human-readable)
+  1. stage-transition-summary.md (human-readable)
   2. schema-N-to-N+1.json (machine-readable)
       ↓
 Orchestrator validates schema:

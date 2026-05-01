@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# IOS Performance
+
 | Competency                   | Description                                                                                               | Quality Criteria                                                                                                                          |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Instruments Profiling        | Time Profiler, Allocations, Leaks, VM Tracker, Energy Log, System Trace                                   | Identifies performance bottlenecks within 2 profiling sessions; interprets call tree correctly; uses signposts for custom instrumentation |

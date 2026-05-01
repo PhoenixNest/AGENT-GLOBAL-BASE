@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Kotlin Advanced
+
 | Competency                          | Description                                                                                   | Quality Criteria                                                                                                                                        |
 | ----------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Coroutines & Structured Concurrency | Deep understanding of coroutine lifecycle, scopes, dispatchers, and cancellation semantics    | Correctly implements `CoroutineScope` hierarchies; zero leaked coroutines in production; proper `supervisorScope` vs `coroutineScope` selection         |

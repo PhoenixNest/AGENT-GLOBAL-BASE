@@ -10,14 +10,13 @@
 
 ## Problem
 
-In a multi-agent system — especially one where the same agent persona operates across
-multiple AI platforms (Claude, Cursor, Gemini CLI, etc.) — agent identity is defined
-independently in each platform's configuration file. Over time these definitions drift:
-a constraint added in one platform is forgotten in another; a role boundary is clarified
-in one file but remains vague in the rest.
+In a multi-agent system, agent identity is often defined across many files — platform
+configuration, pipeline definitions, profile documents, and skill files. Over time these
+definitions drift: a constraint added in one file is forgotten in another; a role boundary
+is clarified in one document but remains vague elsewhere.
 
-**Identity drift** produces agents that behave inconsistently depending on which platform
-invokes them, making the system unpredictable and impossible to reason about as a whole.
+**Identity drift** produces agents that behave inconsistently across invocations, making
+the system unpredictable and impossible to reason about as a whole.
 
 ---
 
@@ -29,16 +28,14 @@ specification for every agent's identity. All platform-specific configurations a
 requires, but they never contradict or extend it independently.
 
 ```
-canonical/
-└── AGENTS.md           ← Authoritative agent definitions — single source of truth
-    adapters/
-    ├── claude.md       ← Platform-specific translation (Claude Code / API)
-    ├── cursor.md       ← Platform-specific translation (Cursor IDE)
-    └── gemini.md       ← Platform-specific translation (Gemini CLI)
+AGENTS.md                          ← Canonical source of truth (workspace root)
+company/
+├── departments/**/agent/profile.md ← Per-agent canonical identity documents
+└── pipeline/*/pipeline.md          ← Pipeline stage authority definitions
 ```
 
-**Rule:** If an adapter definition conflicts with the canonical source, the canonical
-source wins and the adapter is corrected — not the other way around.
+**Rule:** If any document conflicts with a higher-authority canonical source, the
+lower-authority document is corrected — never the other way around.
 
 ---
 
@@ -66,8 +63,8 @@ The canonical source of truth for this organisation is:
 > `AGENTS.md` — root of the workspace
 
 Every agent activated in any pipeline must be consistent with the definitions in
-`AGENTS.md`. Platform-specific configuration files (e.g., `.cursor/rules/`, skill
-files, system prompts) are adapters.
+`AGENTS.md`. Tool configuration files, skill files, and system prompts are adapters —
+they translate the canonical definition into the format each context requires.
 
 **Authority hierarchy for resolving conflicts:**
 `AGENTS.md` > `pipeline.md` > `agent/profile.md` > `library/overview/*.md` > `library/departments/*.md`
@@ -79,9 +76,9 @@ files, system prompts) are adapters.
 1. **Write the canonical definition first.** Before configuring any platform, write the
    agent's role, constraints, escalation criteria, and output format in `AGENTS.md`.
 
-2. **Create platform adapters by translation.** For each platform that will invoke this
-   agent, create a platform-specific file that translates the canonical definition into
-   the platform's required format. Add nothing new.
+2. **Create adapters by translation.** For each context that will invoke this agent
+   (tool configuration, pipeline stage, skill file), ensure it translates the canonical
+   definition without adding or removing constraints.
 
 3. **Audit adapters against the canonical source.** When the canonical definition changes,
    review all adapters and update them. A changed constraint in `AGENTS.md` that is not

@@ -1,15 +1,15 @@
-# Backend API Pipeline — Delta Overlay
+﻿# Backend API Pipeline — Delta Overlay
 
-| Field          | Value                                                                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Pipeline**   | `backend-api`                                                                                                                         |
-| **Owner**      | VP API (Alex Rivera) + VP Web & Backend (Elena Vasquez) (joint)                                                                       |
-| **Surfaces**   | API services (REST / GraphQL / gRPC / WebSocket / event-driven) — selectable per-project via the 5-scenario API Strategy Matrix below |
-| **Effective**  | 2026-04-21                                                                                                                            |
-| **Supersedes** | `backend-api/pipeline.md` (legacy 434-line file; back-compat redirect retained until 2026-07-21).                                     |
-| **Cross-Refs** | Base: [`../_base/pipeline.md`](../_base/pipeline.md) · Template: [`../_base/delta-template.md`](../_base/delta-template.md)           |
+| Field          | Value                                                                                                                                                                               |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pipeline**   | `backend-api`                                                                                                                                                                       |
+| **Owner**      | VP API (Alex Rivera) + VP Web & Backend (Elena Vasquez) (joint)                                                                                                                     |
+| **Surfaces**   | API services (REST / GraphQL / gRPC / WebSocket / event-driven) — selectable per-project via the 5-scenario API Strategy Matrix below                                               |
+| **Effective**  | 2026-04-21                                                                                                                                                                          |
+| **Supersedes** | `backend-api/pipeline.md` (legacy 434-line file; back-compat redirect retained until 2026-07-21).                                                                                   |
+| **Cross-Refs** | Base: [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md) · Template: [`company/pipeline/_base/delta-template.md`](company/pipeline/_base/delta-template.md) |
 
-> **Reading order.** This delta is consumed _alongside_ [`../_base/pipeline.md`](../_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for backend-API-specific content. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
+> **Reading order.** This delta is consumed _alongside_ [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for backend-API-specific content. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
 
 ---
 
@@ -121,7 +121,7 @@ The API Strategy ADR must include:
 13. **API versioning strategy** — URL path vs. header vs. content negotiation; deprecation timeline; backward-compatibility policy.
 14. **Developer experience** — OpenAPI / Swagger docs, SDK generation, sandbox environment, status page.
 
-**Ownership:** CTO authors. Backend Lead + Data Lead provide input. CIO reviews for technology conformance. CSO reviews for security conformance. The ADR is versionable + supersedable per [`../_base/adr-template.md`](../_base/adr-template.md); supersession requires a documented rollback plan and triggers an Implementation-Plan re-baseline (Stage 4 re-entry minimum).
+**Ownership:** CTO authors. Backend Lead + Data Lead provide input. CIO reviews for technology conformance. CSO reviews for security conformance. The ADR is versionable + supersedable per [`company/pipeline/_base/adr-template.md`](company/pipeline/_base/adr-template.md); supersession requires a documented rollback plan and triggers an Implementation-Plan re-baseline (Stage 4 re-entry minimum).
 
 ### 4.2 Backend-Specific Additional ADRs (beyond the universal canon)
 
@@ -262,6 +262,6 @@ i18n is a continuous concern from Stage 2 onward. Backend-API-specific applicati
 
 ## 13. Document Version History
 
-| Version | Date           | Author                               | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ------- | -------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0.1     | April 21, 2026 | Software Architect + VP API + VP W&B | Initial overlay. Backend-API-specific content (5-scenario API Strategy Matrix, Track B-API / B-DATA / B-RT activation, per-scenario CI/CD blueprint, API Strategy ADR 14-field requirement, backend-specific Stage 1/2/3/4/5/6/7/8/10/11 sections, cross-cutting i18n table for error catalogs + developer portal) extracted from the legacy `backend-api/pipeline.md` (434 lines). Pairs with [`../_base/pipeline.md`](../_base/pipeline.md) to produce a derived view equivalent to the legacy file. |
+| Version | Date           | Author                               | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------- | -------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1     | April 21, 2026 | Software Architect + VP API + VP W&B | Initial overlay. Backend-API-specific content (5-scenario API Strategy Matrix, Track B-API / B-DATA / B-RT activation, per-scenario CI/CD blueprint, API Strategy ADR 14-field requirement, backend-specific Stage 1/2/3/4/5/6/7/8/10/11 sections, cross-cutting i18n table for error catalogs + developer portal) extracted from the legacy `backend-api/pipeline.md` (434 lines). Pairs with [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md) to produce a derived view equivalent to the legacy file. |

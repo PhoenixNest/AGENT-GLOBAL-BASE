@@ -77,18 +77,20 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 | **State-aware prompting**   | Add conditional logic: "If Stage 5 is KMP cross-platform, activate Track C prompts; if native, activate Track A+B prompts" | Reduces irrelevant context, improves focus    |
 | **Self-consistency checks** | Add verification prompts at each gate: "Verify all gate criteria are met before proceeding"                                | Catches incomplete stage transitions          |
 
-**Recommended structure:**
+**Recommended structure** (using canonical workspace paths):
 
 ```
-.opencode/pipeline/mobile-development/
-├── _shared/
-│   ├── defect-severity.md       # P0-P3 definitions (shared across all pipelines)
-│   ├── progress-sync.md         # Progress Sync Protocol (shared)
-│   └── monitoring.md            # Three-layer monitoring (shared)
-├── stage-01-requirements.md     # Stage 1 specific logic
-├── stage-02-prototype.md        # Stage 2 specific logic
-├── ...
-└── stage-10-release.md          # Stage 10 specific logic
+company/pipeline/mobile-development/
+├── _base/                           # Shared across all pipelines
+│   ├── pipeline.md                  # P0-P3 definitions, Progress Sync Protocol, gate criteria
+│   └── agent-behavioral-constraints.md
+├── templates/
+│   ├── monitoring/                  # Stage-gate schemas, validation specs, hooks
+│   ├── stage-1-requirements/        # Stage 1 specific templates
+│   ├── stage-2-prototype/
+│   ├── ...
+│   └── stage-10-release/
+└── pipeline.md                      # Full pipeline definition (consumed by AI tool)
 ```
 
 #### C. Platform Adapters
@@ -97,11 +99,11 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 
 **Prompt Engineering Opportunities:**
 
-| Technique                          | Application                                                                                           | Expected Impact                      |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **Adapter pattern enforcement**    | Create additional adapter files as needed following the same structure as GEMINI.md                   | Consistent behavior across platforms |
-| **Platform-specific tool prompts** | Each adapter includes tool invocation patterns specific to that platform                              | Reduces tool misuse by 40-50%        |
-| **IDE integration prompts**        | Add platform-specific context (e.g., Claude's `.claude/` conventions, Cursor's inline agent patterns) | Better developer experience          |
+| Technique                          | Application                                                                               | Expected Impact                      |
+| ---------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------ |
+| **Adapter pattern enforcement**    | Create additional adapter files as needed following the same structure as GEMINI.md       | Consistent behavior across platforms |
+| **Platform-specific tool prompts** | Each adapter includes tool invocation patterns specific to that platform                  | Reduces tool misuse by 40-50%        |
+| **IDE integration prompts**        | Add platform-specific context (e.g., platform adapter conventions, inline agent patterns) | Better developer experience          |
 
 ---
 
@@ -122,10 +124,9 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 
 **Priority actions:**
 
-1. **Sync `.claude/` profiles** — Ensure 12 lead agents have up-to-date profiles matching OpenCode
-2. **Sync `.cursor/agents/`** — Verify 77 agent profiles match OpenCode source
-3. **Sync `.gemini/agents/`** — Verify 77 agent profiles match OpenCode source
-4. **Add YAML frontmatter to `.cursor/agents/`** — Currently missing, needed for tool specifications
+1. **Audit agent profiles** — Verify all 80 agent profiles in `company/departments/**/agent/profile.md` are complete and consistent
+2. **Ensure skill completeness** — Confirm every agent profile references valid skill files under `company/departments/**/skills/`
+3. **Validate YAML frontmatter** — All profiles must carry `role`, `tier`, `seniority`, `department`, `agent_id`, and `hire_date` fields
 
 #### B. Skill Files (213+ Files)
 
@@ -145,7 +146,14 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 ```markdown
 ---
 name: android-architecture
-trigger: ["android architecture", "clean architecture", "MVVM", "MVI", "layered architecture"]
+trigger:
+  [
+    "android architecture",
+    "clean architecture",
+    "MVVM",
+    "MVI",
+    "layered architecture",
+  ]
 owner: Tariq Al-Hassan (Senior Android Engineer)
 pipeline_stages: [5, 6]
 ---

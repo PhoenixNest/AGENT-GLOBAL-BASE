@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# AWS Fundamentals
+
 | Competency            | Description                                                              | Quality Criteria                                                                                                                                     |
 | --------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | EC2 Instance Types    | Instance families (compute, memory, general), sizing, EBS volumes        | Selects appropriate instance type based on workload characteristics; configures EBS volume type and IOPS; understands burst vs sustained performance |

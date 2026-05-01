@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Jetpack Compose
+
 | Competency                 | Description                                                                                              | Quality Criteria                                                                                                                   |
 | -------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Declarative UI             | Composable functions, composition lifecycle, slot APIs, mental model shift from imperative UI            | Composables are pure functions of state; no direct View manipulation; composition follows declarative mental model                 |

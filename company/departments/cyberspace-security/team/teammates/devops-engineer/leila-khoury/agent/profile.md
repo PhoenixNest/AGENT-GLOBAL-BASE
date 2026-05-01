@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Senior IC
 recruited-by: chief-human-resources-officer
+department: Cyberspace Security
+agent_id: leila-khoury-devops-engineer
+hire_date: 2026-04-21
 ---
 
 # Leila Khoury

@@ -11,6 +11,8 @@ requisition: G35
 vetting-score: 16/20
 composite-score: 4.370
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Lena Müller — Associate Producer

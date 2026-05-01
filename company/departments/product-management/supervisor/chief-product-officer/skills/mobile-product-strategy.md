@@ -4,6 +4,8 @@ description: End-to-end mobile product strategy for iOS and Android. Use this sk
 version: "1.0.0"
 ---
 
+# Mobile Product Strategy
+
 ## Why This Matters
 
 Aligns product vision with platform capabilities and market opportunities. Without platform-native strategy, products ship with generic experiences that fail to leverage iOS/Android differentiators.

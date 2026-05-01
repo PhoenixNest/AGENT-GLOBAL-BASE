@@ -1,4 +1,4 @@
-# Four-Layer Composition — Runtime Integration Model
+﻿# Four-Layer Composition — Runtime Integration Model
 
 > **Governing authority:** ADR-ASE-001 · Core Component 00 Laboratory
 > **Version:** 1.0 · **Last Updated:** 2026-04-30
@@ -241,10 +241,10 @@ Each integration contract should be tested independently:
 
 ## References
 
-- [Foundational Paper](../CONCEPTS.md) — Convergence thesis
-- [Compliance Standard](../governance/compliance-standard.md) — Per-layer requirements
-- [Context Assembler](../../context-engineering/implementations/context_assembler.py)
-- [Harness Error Boundary](../../harness-engineering/implementations/error_boundary.py)
-- [Token Budget Monitor](../../harness-engineering/implementations/context_monitor.py)
-- [Handoff Packet](../../multi-agent-engineering/implementations/handoff_packet.py)
-- [RAG Architecture](../../retrieval-augmented-generation/architecture/overview.md)
+- [Foundational Paper](core-component-00/agent-systems-engineering/CONCEPTS.md) — Convergence thesis
+- [Compliance Standard](core-component-00/agent-systems-engineering/governance/compliance-standard.md) — Per-layer requirements
+- [Context Assembler](core-component-00/context-engineering/implementations/context_assembler.py)
+- [Harness Error Boundary](core-component-00/harness-engineering/implementations/error_boundary.py)
+- [Token Budget Monitor](core-component-00/harness-engineering/implementations/context_monitor.py)
+- [Handoff Packet](core-component-00/multi-agent-engineering/implementations/handoff_packet.py)
+- [RAG Architecture](core-component-00/retrieval-augmented-generation/architecture/overview.md)

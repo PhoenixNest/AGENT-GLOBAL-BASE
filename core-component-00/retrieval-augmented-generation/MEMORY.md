@@ -1,4 +1,4 @@
-# RAG System Documentation Index
+﻿# RAG System Documentation Index
 
 ## Overview
 
@@ -85,5 +85,5 @@ All files created and formatted with Prettier per `.prettierrc.json` configurati
 
 ## Parent Project References
 
-- [Harness Engineering Documentation](../../harness-engineering/README.md) - Core engineering patterns
-- [Prompt Engineering Guide](../../prompt-engineering/README.md) - Prompt design patterns
+- [Harness Engineering Documentation](harness-engineering/README.md) - Core engineering patterns
+- [Prompt Engineering Guide](prompt-engineering/README.md) - Prompt design patterns

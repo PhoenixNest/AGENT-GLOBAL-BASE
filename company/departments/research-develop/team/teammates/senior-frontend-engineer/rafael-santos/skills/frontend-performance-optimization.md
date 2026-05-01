@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Frontend Performance Optimization
+
 -------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | **React Rendering Model** | Deep understanding of reconciliation, commit phase, render phase, and bailout conditions | Can explain why a component re-renders; can predict render count from state update patterns |
 | **Memoization Strategies** | React.memo, useMemo, useCallback — when to use, when to avoid, measuring actual benefit | Memoization applied only where profiling confirms benefit; zero premature optimization |

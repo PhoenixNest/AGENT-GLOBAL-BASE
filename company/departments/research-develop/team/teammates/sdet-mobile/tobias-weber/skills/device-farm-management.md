@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Device Farm Management
+
 | Competency                            | Description                                                                                                                                                            | Quality Criteria                                                                                                                                                                                                                                                                                           |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **AWS Device Farm**                   | Project configuration, device pool creation, test scheduling, Appium/Espresso/XCTest integration, result analysis, artifact download, pricing optimization             | Device pools configured by OS version, manufacturer, form factor; test runs scheduled via CLI (`aws devicefarm schedule-run`); artifacts (screenshots, logs, videos) downloaded programmatically; reserved device minutes purchased for cost optimization; results parsed from Device Farm's JSON report   |

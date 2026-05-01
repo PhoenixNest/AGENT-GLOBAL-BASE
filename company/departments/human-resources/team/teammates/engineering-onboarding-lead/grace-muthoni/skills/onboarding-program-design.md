@@ -4,6 +4,8 @@ description: "Architect multi-stage engineering onboarding programs for 50+ FTE 
 version: "1.0.0"
 ---
 
+# Onboarding Program Design
+
 | Competency                    | Description                                                                             | Quality Criteria                                                                                      |
 | ----------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Program Architecture          | Design multi-stage onboarding curricula scaled to 50+ FTE across multiple role families | Can design a 4-stage program with explicit gate criteria, deliverables, and success metrics per stage |

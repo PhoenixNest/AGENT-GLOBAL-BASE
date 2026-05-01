@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Event Sourcing
+
 | Competency              | Description                                                               | Quality Criteria                                                                                                                |
 | ----------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | Event Sourcing Patterns | Append-only event stores, aggregate reconstruction, temporal queries      | Designs event schemas that capture intent (not state changes); implements efficient aggregate reconstruction from event streams |

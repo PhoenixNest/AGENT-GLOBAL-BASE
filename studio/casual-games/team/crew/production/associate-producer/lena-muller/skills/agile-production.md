@@ -93,7 +93,7 @@ Common situations and how Lena handles them:
 
 ### Situation: Milestone at Risk (>20% overrun signal)
 
-Per AGENTS.md §8.4, any task or sprint exceeding its estimate by >20% triggers notification to the Studio Director and user.
+Any task or sprint exceeding its estimate by >20% triggers notification to the Studio Director and user per the studio pipeline Progress Sync Protocol.
 
 1. Lena detects the signal (velocity drop, accumulated blockers, or explicit team feedback) at the sprint review
 2. Within 24 hours, Lena prepares a **1-page milestone risk brief** for the Executive Producer (James Okonkwo):

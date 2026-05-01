@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Architecture
+
 | Competency                   | Description                                                                                    | Quality Criteria                                                                                                                           |
 | ---------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | MVVM Pattern                 | ViewModel-View separation, LiveData/StateFlow state emission, unidirectional data flow         | ViewModel contains zero Android framework references; state emission is always explicit and testable; View observes state reactively       |

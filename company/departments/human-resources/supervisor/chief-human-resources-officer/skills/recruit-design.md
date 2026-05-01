@@ -4,6 +4,8 @@ description: Recruit design talent across all seniority levels. Covers UX Design
 version: "1.0.0"
 ---
 
+# Recruit Design
+
 ## Why This Matters
 
 Recruits elite UX/UI designers and design leaders. Weak design hires produce inconsistent UIs, accessibility violations, and user experience degradation.

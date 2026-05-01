@@ -1,4 +1,4 @@
----
+﻿---
 version: "1.0.0"
 ---
 
@@ -22,8 +22,8 @@ version: "1.0.0"
 
 **See Also:**
 
-- [Resource model](../models/resource.md)
-- [Pagination guide](../../guides/pagination.md)
+- [Resource model](company/departments/research-develop/team/teammates/technical-writer/amina-razak/skills/models/resource.md)
+- [Pagination guide](company/departments/research-develop/team/teammates/technical-writer/amina-razak/guides/pagination.md)
 
 ### Developer Portal Content Management
 

@@ -1,4 +1,4 @@
-# Schema Validation Specification — Automated Gate Enforcement (Backend API Pipeline)
+﻿# Schema Validation Specification — Automated Gate Enforcement (Backend API Pipeline)
 
 ---
 
@@ -43,14 +43,15 @@ This specification defines how **Stage Transition Schemas** are validated automa
 | `8→9`  | `V-API-802`  | `integrity_checks.prd_features_intact` must be `true`                  | **Blocker** |
 | `9→10` | `V-API-901`  | `i18n_summary.hardcoded_strings_remaining` must be `0`                 | **Blocker** |
 | `9→10` | `V-API-902`  | All BLEU scores must be ≥ 0.80                                         | **Warning** |
-| `10`   | `V-API-1001` | All checklist items must have `passed: true`                           | **Blocker** |
+| `10`   | `V-API-1001` | All 12 `checklist` domain items must have `passed: true`               | **Blocker** |
 | `10`   | `V-API-1002` | `user_decision` must be `"release"` for release                        | **Blocker** |
+| All    | `V-API-1003` | `harness_compliance_verified` must be `true`                           | **Blocker** |
 
 ---
 
 ## 3–7. Process, Output, Constraint Accumulation, Integration, Escalation
 
-These sections follow the **same structure** as the Web pipeline specification. Rule ID prefixes use `V-API-` throughout. See `web-development/templates/monitoring/SCHEMA-VALIDATION-SPEC.md` for the canonical process and escalation definitions.
+These sections follow the **same structure** as the Web pipeline specification. Rule ID prefixes use `V-API-` throughout. See `web-development/templates/monitoring/schema-validation-spec.md` for the canonical process and escalation definitions.
 
 | Pipeline Stage | Validation Trigger                  | Schema Validated         |
 | :------------: | :---------------------------------- | :----------------------- |

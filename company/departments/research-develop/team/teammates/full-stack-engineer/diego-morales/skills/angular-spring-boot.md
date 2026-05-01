@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Angular Spring Boot
+
 ------------------------ | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Angular Component Architecture | Standalone components, signals, input/output, lifecycle, change detection | Uses standalone components (no NgModules); leverages signals for reactive state; implements OnPush change detection; designs component hierarchy with clear responsibilities |
 | Spring Boot REST Controllers | Request mapping, path variables, request bodies, validation, exception handling | Designs RESTful controllers with proper HTTP semantics; uses Bean Validation; implements global exception handling with @ControllerAdvice |

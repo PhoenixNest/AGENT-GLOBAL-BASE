@@ -1,4 +1,4 @@
-# Inter-Agent Communication Protocol (IACP) — Web Pipeline
+﻿# Inter-Agent Communication Protocol (IACP) — Web Pipeline
 
 ---
 
@@ -81,11 +81,13 @@ CEO (User)
 
 These sections are **identical** across all pipelines. See the canonical definitions in:
 
-- `mobile-development/templates/monitoring/INTER-AGENT-COMMUNICATION-PROTOCOL.md` §5–§8
+- `mobile-development/templates/monitoring/inter-agent-communication-protocol.md` §5–§8
+
+This includes §8 **Parallel Agent Workflow (Git Worktree)** — the mandatory isolation pattern for concurrent Stage 5 development across web, mobile, and backend tracks. Reference: `core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py` and `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
 
 Pipeline-specific references:
 
-- [Stage Transition Schemas](STAGE-TRANSITION-SCHEMAS.md)
-- [Stage Transition Summary Template](STAGE-TRANSITION-SUMMARY.md)
-- [Red Team Review Protocol](../stage-6-code-review/RED-TEAM-REVIEW.md)
-- `AGENTS.md` § Non-Negotiable Rules, Defect Severity, Quick Roster
+- [Stage Transition Schemas](stage-transition-schemas.md)
+- [Stage Transition Summary Template](stage-transition-summary.md)
+- [Red Team Review Protocol](company/pipeline/web-development/templates/stage-6-code-review/RED-TEAM-REVIEW.md)
+- [Git Worktree Orchestration](core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md)

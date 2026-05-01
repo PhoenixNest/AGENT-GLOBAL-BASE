@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# KMP Architecture
+
 | Competency                  | Description                                                                                                | Quality Criteria                                                                                                                          |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Clean Architecture with KMP | Layer separation across platform boundaries, dependency inversion, shared domain, platform adapters        | Domain layer in commonMain with zero platform dependencies; platform adapters implement domain interfaces; dependency graph flows inward  |

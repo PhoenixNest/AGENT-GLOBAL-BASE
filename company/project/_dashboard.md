@@ -21,7 +21,7 @@ This dashboard answers three CEO-grade questions in one place:
 | What is the company's burn-down on P0/P1 defects?    | §4          |
 | What is the cycle time for shipping work today?      | §5          |
 
-It is **not** a substitute for per-project `progress.md` (Layer 1 of the AGENTS.md monitoring system) — the authoritative pipeline-state file for an individual PRD.
+It is **not** a substitute for per-project `progress.md` (Layer 1 of the pipeline monitoring system) — the authoritative pipeline-state file for an individual PRD.
 
 This dashboard **aggregates** that upstream source. If the dashboard disagrees with an upstream source, the upstream source wins; the dashboard is fixed within 24 hours.
 
@@ -65,7 +65,7 @@ This dashboard **aggregates** that upstream source. If the dashboard disagrees w
 | :--------- | :------ | :------ | :----------------- | :-- | :----------------------------------------------------- |
 | _(none)_   | 0       | 0       | —                  | —   | No active projects. Empty by design until §3 has rows. |
 
-**Burn-down rule (when the table has rows):** P0 defects open more than **5 business days** trigger automatic CTO + relevant VP escalation. P1 defects open more than **10 business days** trigger CTO notification. Neither rule is overridable; both inherit from AGENTS.md "Non-Negotiable Rules."
+**Burn-down rule (when the table has rows):** P0 defects open more than **5 business days** trigger automatic CTO + relevant VP escalation. P1 defects open more than **10 business days** trigger CTO notification. Neither rule is overridable; both are non-negotiable pipeline constraints.
 
 ---
 

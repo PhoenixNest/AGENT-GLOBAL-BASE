@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Advanced A11y
+
 -------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **WCAG 2.1 AA/AAA Compliance** | Deep understanding of all 78 success criteria across A/AA/AAA conformance levels | Zero AA violations in automated + manual audit; AAA achieved for all Level A/AA criteria where feasible |
 | **Screen Reader Optimization** | VoiceOver (iOS/macOS), TalkBack (Android), NVDA (Windows), JAWS (Windows Windows) testing | All interactive elements announced correctly; content read in logical order; no silent UI elements |

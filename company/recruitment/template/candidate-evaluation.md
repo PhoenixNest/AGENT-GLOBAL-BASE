@@ -1,19 +1,19 @@
-# Candidate Evaluation — [Candidate Name]
+﻿# Candidate Evaluation — [Candidate Name]
 
 <!-- One copy of this file per candidate. File inside the cycle sub-folder.
      Filename: <seq>-<lastname-firstname>.md  e.g. 01-smith-jane.md -->
 
-| Field                 | Value                                                                                |
-| --------------------- | ------------------------------------------------------------------------------------ |
-| **Candidate**         | [Full name]                                                                          |
-| **Role**              | [Role title]                                                                         |
-| **Level**             | L[N]                                                                                 |
-| **Tier Floor**        | [N]/20 minimum to pass                                                               |
-| **Vetting Authority** | [Primary officer responsible for final decision]                                     |
-| **Pipeline**          | [`company/pipeline/recruitment/pipeline.md`](../../pipeline/recruitment/pipeline.md) |
-| **Date Opened**       | [YYYY-MM-DD]                                                                         |
-| **Date Closed**       | —                                                                                    |
-| **Decision**          | Pending                                                                              |
+| Field                 | Value                                                                                  |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| **Candidate**         | [Full name]                                                                            |
+| **Role**              | [Role title]                                                                           |
+| **Level**             | L[N]                                                                                   |
+| **Tier Floor**        | [N]/20 minimum to pass                                                                 |
+| **Vetting Authority** | [Primary officer responsible for final decision]                                       |
+| **Pipeline**          | [`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md) |
+| **Date Opened**       | [YYYY-MM-DD]                                                                           |
+| **Date Closed**       | —                                                                                      |
+| **Decision**          | Pending                                                                                |
 
 ---
 

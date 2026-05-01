@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Test Infra
+
 | Competency                    | Description                                                                              | Quality Criteria                                                                                                                                                   |
 | ----------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Test Runner Architecture      | Test discovery, parallelization, reporting, plugin architecture, custom reporters        | Designs test runners that discover and execute tests efficiently; implements parallel execution with proper isolation; creates custom reporters for CI integration |

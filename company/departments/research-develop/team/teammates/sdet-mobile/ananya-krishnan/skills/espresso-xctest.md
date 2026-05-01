@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Espresso Xctest
+
 | Competency                         | Description                                                                                                                                                                                | Quality Criteria                                                                                                                                                                                                                                                      |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Espresso Test Architecture**     | Composing tests with ViewMatchers, ViewActions, and ViewAssertions; structuring test classes by feature module; managing test dependencies and build variants                              | Tests use fluent matcher compositions (`allOf()`, `anyOf()`, `not()`); custom matchers extend `TypeSafeMatcher<View>`; test classes follow `FeatureNameEspressoTest` naming; build variants include debug manifests with `android:usesCleartextTraffic` for mock APIs |

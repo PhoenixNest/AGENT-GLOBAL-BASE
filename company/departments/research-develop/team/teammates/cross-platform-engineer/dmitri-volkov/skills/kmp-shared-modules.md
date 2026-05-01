@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# KMP Shared Modules
+
 | Competency                   | Description                                                                                           | Quality Criteria                                                                                                                           |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Shared Module Architecture   | Module structure, source set organization, dependency management, Gradle multiplatform plugin         | Clean source set hierarchy (commonMain, androidMain, iosMain); shared module compiles for all targets; dependencies correctly scoped       |

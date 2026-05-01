@@ -1,8 +1,8 @@
-# Development Pipeline Overview
+﻿# Development Pipeline Overview
 
 The company's development workflow is a thirteen-stage state machine (Stages 0–11, with Stage 9.5 between Stage 9 and Stage 10) governing the full lifecycle of a mobile product — from problem validation through to live operations. Each stage has a designated responsible producer, explicit reviewers, defined artifacts in and out, and gate criteria that must be satisfied before advancing.
 
-> **Full definition:** [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md)
+> **Full definition:** [`pipeline/mobile-development/pipeline.md`](company/pipeline/mobile-development/pipeline.md)
 
 ---
 
@@ -108,11 +108,11 @@ Active from Stage 4 onward.
 - Any task exceeding its estimated duration by **>20%** triggers an automatic CTO → CPO schedule risk notification.
 - The CTO produces weekly progress summaries for C-suite visibility.
 
-**Full system:** [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
+**Full system:** [`pipeline/mobile-development/monitoring.md`](company/pipeline/mobile-development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
 
 ### Agent Systems Engineering (ASE) Framework
 
-The ASE framework is the company's **mandatory multi-agent governance layer** for all development pipelines. Ratified via [ADR-ASE-001](../../pipeline/mobile-development/templates/monitoring/ADR-ASE-001.md), it consists of four layers:
+The ASE framework is the company's **mandatory multi-agent governance layer** for all development pipelines. Ratified via [ADR-ASE-001](company/pipeline/mobile-development/templates/monitoring/adr-ase-001.md), it consists of four layers:
 
 | Layer | Name                | Purpose                           | Key Artifacts                                          |
 | :---: | :------------------ | :-------------------------------- | :----------------------------------------------------- |
@@ -137,13 +137,13 @@ All 4 development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved
 | ADR-ASE-001                 |   ✅   |     ✅      |     ✅      |     ✅     |
 | Red Team Review (Stage 6)   |   ✅   |     ✅      |     ✅      |     ✅     |
 
-> **Template locations:** `.gemini/pipeline/<pipeline>/templates/monitoring/` and `.gemini/pipeline/<pipeline>/templates/stage-6-code-review/`
+> **Template locations:** `company/pipeline/<pipeline>/templates/monitoring/` and `company/pipeline/<pipeline>/templates/stage-6-code-review/`
 
 ### Platform Strategy Matrix
 
 Stage 5 development executes per the **Platform Strategy Matrix**, driven by the Platform Strategy ADR at Stage 3. Five mutually exclusive scenarios determine track activation: Android-only, iOS-only, both native, KMP cross-platform, or Flutter cross-platform. Each scenario activates different track configurations (FULL / LIGHT / PRIMARY / Dormant) with distinct team sizes, CI/CD scopes, and testing mandates.
 
-> **Full specification:** [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md) — Platform Strategy Matrix, Track Activation Protocol, and Per-Scenario CI/CD Blueprint (Stage 5 section).
+> **Full specification:** [`pipeline/mobile-development/pipeline.md`](company/pipeline/mobile-development/pipeline.md) — Platform Strategy Matrix, Track Activation Protocol, and Per-Scenario CI/CD Blueprint (Stage 5 section).
 
 ### Stage 6 Architecture & Conformance Review Criteria
 
@@ -190,6 +190,6 @@ If the review panel identifies defects, the CTO assigns R&D personnel to remedia
 | 11  | Dogfood — Stage 9.5 internal beta complete, no open Sev1 findings  | VP Quality         |
 | 12  | Live Ops Readiness — Sev ladder, on-call, error budget defined     | VP Platform + CSO  |
 
-See [`topics/testing.md`](../topics/testing.md), [`topics/security.md`](../topics/security.md), and [`topics/localization.md`](../topics/localization.md) for cross-cutting detail on these domains.
+See [`topics/testing.md`](company/library/topics/testing.md), [`topics/security.md`](company/library/topics/security.md), and [`topics/localization.md`](company/library/topics/localization.md) for cross-cutting detail on these domains.
 
 ---

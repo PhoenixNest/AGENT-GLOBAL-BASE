@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# API Testing
+
 | Competency                   | Description                                                                          | Quality Criteria                                                                                                                                   |
 | ---------------------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Contract Testing             | OpenAPI/Swagger validation, schema conformance, backward compatibility checks        | Implements automated contract tests that run on every PR; detects breaking changes before merge; validates request/response against OpenAPI schema |

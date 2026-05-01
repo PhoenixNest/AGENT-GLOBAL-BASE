@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisors
 seniority: Staff SE
 recruited-by: chief-human-resources-officer
+department: Research & Development
+agent_id: test-lead
+hire_date: 2026-04-14
 ---
 
 # Priscilla Oduya

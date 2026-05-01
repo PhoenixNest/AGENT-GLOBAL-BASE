@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# swiftui
+
 | Competency               | Description                                                                                                     | Quality Criteria                                                                                                                          |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Declarative UI           | View protocol, body composition, view identity, view lifecycle, environment propagation                         | Views are pure functions of state; composition over inheritance; environment used for dependency injection                                |

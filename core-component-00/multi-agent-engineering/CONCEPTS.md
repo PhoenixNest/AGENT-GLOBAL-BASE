@@ -1,4 +1,4 @@
-# Multi-Agent Engineering: Core Concepts and Foundations
+﻿# Multi-Agent Engineering: Core Concepts and Foundations
 
 ## 1. What Is Multi-Agent Engineering?
 
@@ -172,7 +172,7 @@ The system learns from each execution:
 
 > The full formal maturity model with level assessment guide is maintained by the
 > ASE governance module:
-> [`core-component-00/agent-systems-engineering/governance/maturity-model.md`](../agent-systems-engineering/governance/maturity-model.md)
+> [`core-component-00/agent-systems-engineering/governance/maturity-model.md`](core-component-00/agent-systems-engineering/governance/maturity-model.md)
 
 Summary:
 
@@ -200,14 +200,14 @@ Summary:
 
 ## 8. References
 
-- [Agent Systems Engineering — Convergence of Four Disciplines](../agent-systems-engineering/CONCEPTS.md)
+- [Agent Systems Engineering — Convergence of Four Disciplines](core-component-00/agent-systems-engineering/CONCEPTS.md)
 - [Swarm Topologies](./fundamentals/swarm-topologies.md)
 - [Git Worktree Orchestration](./fundamentals/git-worktree-orchestration.md)
 - [Orchestration Patterns](./patterns/orchestration-patterns.md)
 - [Anti-Patterns](./patterns/anti-patterns.md)
-- [Context Handoff Protocol](../context-engineering/patterns/multi-agent-handoff.md)
-- [Context Assembler](../context-engineering/implementations/context_assembler.py)
-- [Error Boundary](../harness-engineering/implementations/error_boundary.py)
+- [Context Handoff Protocol](core-component-00/context-engineering/patterns/multi-agent-handoff.md)
+- [Context Assembler](core-component-00/context-engineering/implementations/context_assembler.py)
+- [Error Boundary](core-component-00/harness-engineering/implementations/error_boundary.py)
 
 ---
 

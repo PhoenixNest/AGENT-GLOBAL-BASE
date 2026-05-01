@@ -1,6 +1,6 @@
-# Recruitment
+﻿# Recruitment
 
-Canonical home for all company-wide recruitment governance — active plans, completed hiring history, and reusable templates. The **how** a single candidate moves through vetting is defined in [`company/pipeline/recruitment/pipeline.md`](../pipeline/recruitment/pipeline.md); this folder is the **what** — what was planned, what was hired, and the starting point for the next cycle.
+Canonical home for all company-wide recruitment governance — active plans, completed hiring history, and reusable templates. The **how** a single candidate moves through vetting is defined in [`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md); this folder is the **what** — what was planned, what was hired, and the starting point for the next cycle.
 
 ---
 
@@ -46,31 +46,31 @@ company/recruitment/
 
 **Templates:** [`template/recruitment-plan.md`](./template/recruitment-plan.md) · [`template/candidate-evaluation.md`](./template/candidate-evaluation.md) · [`template/phase-summary.md`](./template/phase-summary.md)
 
-| Step | Action                                                                                                                                                                                                                            |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Confirm the business need with the relevant VP and CHRO. Define the role scope, level (L1–L5 per the leveling rubric at [`company/pipeline/recruitment/pipeline.md`](../pipeline/recruitment/pipeline.md)), and target headcount. |
-| 2    | Copy [`template/recruitment-plan.md`](./template/recruitment-plan.md) and fill in all sections. Name the file `<department>-<fy>-<quarter>.md` (flat) or create a sub-folder of the same name for multi-artifact cycles.          |
-| 3    | Add a row to §3 Active Hiring Cycles above. Set status to `Draft` or `Approved`.                                                                                                                                                  |
-| 4    | As candidates enter the pipeline, create one [`template/candidate-evaluation.md`](./template/candidate-evaluation.md) copy per candidate. File inside the cycle's sub-folder.                                                     |
-| 5    | At the close of each phase, file a [`template/phase-summary.md`](./template/phase-summary.md) capturing who was hired, vetting scores, conditions resolved, and lessons learned.                                                  |
-| 6    | When the full cycle is complete and all agent profiles are published, remove the cycle folder and its §3 row.                                                                                                                     |
+| Step | Action                                                                                                                                                                                                                                 |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Confirm the business need with the relevant VP and CHRO. Define the role scope, level (L1–L5 per the leveling rubric at [`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md)), and target headcount. |
+| 2    | Copy [`template/recruitment-plan.md`](./template/recruitment-plan.md) and fill in all sections. Name the file `<department>-<fy>-<quarter>.md` (flat) or create a sub-folder of the same name for multi-artifact cycles.               |
+| 3    | Add a row to §3 Active Hiring Cycles above. Set status to `Draft` or `Approved`.                                                                                                                                                       |
+| 4    | As candidates enter the pipeline, create one [`template/candidate-evaluation.md`](./template/candidate-evaluation.md) copy per candidate. File inside the cycle's sub-folder.                                                          |
+| 5    | At the close of each phase, file a [`template/phase-summary.md`](./template/phase-summary.md) capturing who was hired, vetting scores, conditions resolved, and lessons learned.                                                       |
+| 6    | When the full cycle is complete and all agent profiles are published, remove the cycle folder and its §3 row.                                                                                                                          |
 
 ---
 
 ## 5. Relationship to the Recruitment Pipeline
 
-The 9-stage vetting pipeline is defined in [`company/pipeline/recruitment/pipeline.md`](../pipeline/recruitment/pipeline.md). That document governs **how a single candidate is evaluated** — stages, scoring, vetting authorities, and tier floors. Templates in this folder reference pipeline stages by number; if the pipeline changes, the templates remain valid.
+The 9-stage vetting pipeline is defined in [`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md). That document governs **how a single candidate is evaluated** — stages, scoring, vetting authorities, and tier floors. Templates in this folder reference pipeline stages by number; if the pipeline changes, the templates remain valid.
 
 ---
 
 ## 6. Cross-References
 
-| Topic                    | Location                                                                                                                                                    |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 9-stage vetting pipeline | [`company/pipeline/recruitment/pipeline.md`](../pipeline/recruitment/pipeline.md)                                                                           |
-| Leveling rubric          | [`company/pipeline/recruitment/pipeline.md`](../pipeline/recruitment/pipeline.md)                                                                           |
-| Department roster        | [`company/library/overview/personnel.md`](../library/overview/personnel.md)                                                                                 |
-| CHRO profile             | [`company/departments/human-resources/supervisor/chief-human-resources-officer/`](../departments/human-resources/supervisor/chief-human-resources-officer/) |
+| Topic                    | Location                                                                                                                                                         |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 9-stage vetting pipeline | [`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md)                                                                           |
+| Leveling rubric          | [`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md)                                                                           |
+| Department roster        | [`company/library/overview/personnel.md`](company/library/overview/personnel.md)                                                                                 |
+| CHRO profile             | [`company/departments/human-resources/supervisor/chief-human-resources-officer/`](company/departments/human-resources/supervisor/chief-human-resources-officer/) |
 
 ---
 

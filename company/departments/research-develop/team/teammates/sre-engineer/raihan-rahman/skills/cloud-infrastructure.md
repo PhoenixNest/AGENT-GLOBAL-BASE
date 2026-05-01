@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Cloud Infrastructure
+
 | Competency             | Description                                                                    | Quality Criteria                                                                                                                                |
 | ---------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | GCP Architecture       | GKE, Cloud SQL, Cloud Load Balancing, Cloud Storage, VPC networking            | Designs secure multi-tier GCP architecture; configures VPC with private subnets; sets up Cloud NAT for egress; manages IAM with least privilege |

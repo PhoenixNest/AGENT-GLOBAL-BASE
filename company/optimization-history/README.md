@@ -1,4 +1,4 @@
-# Optimization History
+﻿# Optimization History
 
 This folder is the **canonical archive of operating-model optimization plans** for the company and its studios. Every plan records a structured review of pipelines, departments, personnel, and governance, plus an explicit set of recommendations with owners, due dates, and CEO audit/sign-off blocks.
 
@@ -49,13 +49,13 @@ company/optimization-history/
 
 ### 2.3 Cross-Reference Rules
 
-| Direction                                                                 | Form                                                            | Example                                                                                        |
-| :------------------------------------------------------------------------ | :-------------------------------------------------------------- | :--------------------------------------------------------------------------------------------- |
-| From outside the folder → into the plan                                   | Full path: `optimization-history/<folder>/optimization-plan.md` | `[OPT-YYYY-MM-DD-NNN](../../optimization-history/YYYY-MM-DD-<slug>/optimization-plan.md)`      |
-| From outside the folder → into the tracker                                | Full path: `optimization-history/<folder>/execution-tracker.md` | Same shape as above.                                                                           |
-| From one file in the folder → to its sibling                              | Sibling: `./<sibling>.md`                                       | From `optimization-plan.md` to its tracker: `[execution-tracker](./execution-tracker.md)`      |
-| From one file in the folder → to the index README                         | One up: `../README.md`                                          | Tracker §7 cross-ref: `[Optimization-history index](../README.md)`                             |
-| From one file in the folder → to anywhere outside `optimization-history/` | One extra level: drop one more `../`                            | A file inside the folder reaches `AGENTS.md` via `../../../AGENTS.md` (not `../../AGENTS.md`). |
+| Direction                                                                 | Form                                                            | Example                                                                                       |
+| :------------------------------------------------------------------------ | :-------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
+| From outside the folder → into the plan                                   | Full path: `optimization-history/<folder>/optimization-plan.md` | `[OPT-YYYY-MM-DD-NNN](../../optimization-history/YYYY-MM-DD-<slug>/optimization-plan.md)`     |
+| From outside the folder → into the tracker                                | Full path: `optimization-history/<folder>/execution-tracker.md` | Same shape as above.                                                                          |
+| From one file in the folder → to its sibling                              | Sibling: `./<sibling>.md`                                       | From `optimization-plan.md` to its tracker: `[execution-tracker](./execution-tracker.md)`     |
+| From one file in the folder → to the index README                         | One up: `../README.md`                                          | Tracker §7 cross-ref: `[Optimization-history index](../README.md)`                            |
+| From one file in the folder → to anywhere outside `optimization-history/` | One extra level: drop one more `../`                            | A file inside the folder reaches `company/library/` via `../../library/` (not `../library/`). |
 
 ### 2.4 Versioning + Audit-Log Discipline
 
@@ -78,8 +78,9 @@ Every plan starts as a folder for three reasons:
 
 ## 3. Plan Index
 
-| Plan ID | Date | Title | Scope | Status | Audit Decision | File |
-| ------- | ---- | ----- | ----- | ------ | -------------- | ---- |
+| Plan ID            | Date       | Title                          | Scope                                         | Status    | Audit Decision | File                                                                                |
+| ------------------ | ---------- | ------------------------------ | --------------------------------------------- | --------- | -------------- | ----------------------------------------------------------------------------------- |
+| OPT-2026-05-01-001 | 2026-05-01 | ASE Compliance Gap Remediation | All 4 company pipelines + Casual Games Studio | ✅ Closed | Closed         | [`optimization-plan.md`](./2026-05-01-ase-maturity-assessment/optimization-plan.md) |
 
 > Add new rows above this line as new optimization plans are filed.
 
@@ -95,9 +96,9 @@ Every plan starts as a folder for three reasons:
 | **In Progress**    | 0     | One or more findings actively being remediated                                                          |
 | **Implemented**    | 0     | All approved findings have remediation work completed; pending verification                             |
 | **Verified**       | 0     | All approved findings verified by independent review (e.g., red-team / devil's advocate per FIND-P1-08) |
-| **Closed**         | 0     | All approved findings verified, success metrics measured, plan retrospective complete                   |
+| **Closed**         | 1     | All approved findings verified, success metrics measured, plan retrospective complete                   |
 | **Superseded**     | 0     | Replaced by a newer plan; retained for historical traceability                                          |
-| **Total Plans**    | **0** |                                                                                                         |
+| **Total Plans**    | **1** |                                                                                                         |
 
 ---
 
@@ -165,21 +166,23 @@ Every plan starts as a folder for three reasons:
 
 ## 7. Cross-References
 
-| Topic                         | Location                                                                                                                                 |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Root governance               | [`../../AGENTS.md`](../../AGENTS.md)                                                                                                     |
-| Pipeline definitions          | [`../pipeline/`](../pipeline/)                                                                                                           |
-| Department roster             | [`../library/overview/personnel.md`](../library/overview/personnel.md)                                                                   |
-| Pipeline overview             | [`../library/overview/pipeline.md`](../library/overview/pipeline.md)                                                                     |
-| Studio (Casual Games) charter | [`../../studio/casual-games/library/overview/casual-games-studio.md`](../../studio/casual-games/library/overview/casual-games-studio.md) |
+| Topic                         | Location                                                                                                                     |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Root governance               | Workspace root — auto-provided to all agents                                                                                 |
+| Pipeline definitions          | [`company/pipeline/`](company/pipeline/)                                                                                     |
+| Department roster             | [`company/library/overview/personnel.md`](company/library/overview/personnel.md)                                             |
+| Pipeline overview             | [`company/library/overview/pipeline.md`](company/library/overview/pipeline.md)                                               |
+| Studio (Casual Games) charter | [`studio/casual-games/library/overview/casual-games-studio.md`](studio/casual-games/library/overview/casual-games-studio.md) |
 
 ---
 
 ## 8. Document Version History
 
-| Version | Date           | Author | Changes                                                                                                                         |
-| ------- | -------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| 1.0     | April 30, 2026 | —      | Template retained as process reference. Historical plan data cleared. Folder-only convention adopted; flat-file option removed. |
+| Version | Date           | Author     | Changes                                                                                                                         |
+| ------- | -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | April 30, 2026 | —          | Template retained as process reference. Historical plan data cleared. Folder-only convention adopted; flat-file option removed. |
+| 1.1     | May 1, 2026    | CTO Office | §3 Plan Index: OPT-2026-05-01-001 registered. §4 Status Summary: Awaiting Audit count 0 → 1; Total Plans 0 → 1.                 |
+| 1.2     | May 1, 2026    | CTO Office | §3 Plan Index: OPT-2026-05-01-001 status updated to Closed. §4: Awaiting Audit 1 → 0; Closed 0 → 1.                             |
 
 ---
 

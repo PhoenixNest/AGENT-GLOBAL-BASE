@@ -182,4 +182,3 @@ This skill governs the following pipeline stages:
 | ------------------ | --------------------- | ------------------------------------------------- |
 | Mobile Development | Stage 5 (Development) | `company/pipeline/mobile-development/pipeline.md` |
 | Full Stack         | Stage 5 (Development) | `company/pipeline/full-stack/pipeline.md`         |
-

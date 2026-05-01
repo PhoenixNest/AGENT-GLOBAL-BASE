@@ -1,8 +1,8 @@
-# Backend API Pipeline — Overview
+﻿# Backend API Pipeline — Overview
 
 **Pipeline:** Backend API Services (P2)
-**Full Definition:** [`pipeline.md`](../../pipeline/backend-api/pipeline.md)
-**Monitoring:** [`monitoring.md`](../../pipeline/backend-api/monitoring.md)
+**Full Definition:** [`pipeline.md`](company/library/pipeline/backend-api/pipeline.md)
+**Monitoring:** [`monitoring.md`](company/library/pipeline/backend-api/monitoring.md)
 
 ---
 
@@ -88,4 +88,4 @@ Three-layer architecture with backend-specific fields:
 
 ---
 
-_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](../../pipeline/backend-api/pipeline.md)._
+_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](company/library/pipeline/backend-api/pipeline.md)._

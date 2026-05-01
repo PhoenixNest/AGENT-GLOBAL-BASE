@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Vue Dotnet
+
 | Competency                | Description                                                                             | Quality Criteria                                                                                                                                 |
 | ------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Vue 3 Composition API     | ref, reactive, computed, watch, watchEffect, composables                                | Uses Composition API exclusively (no Options API); designs reusable composables; understands reactivity system internals                         |

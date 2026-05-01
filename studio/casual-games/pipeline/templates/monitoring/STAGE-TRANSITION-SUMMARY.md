@@ -88,12 +88,36 @@
 
 ## Context Handoff Checklist
 
+> **CC-00 Compliance:** Layer 2 — Context Engineering (Required)
+> Reference: `core-component-00/context-engineering/patterns/multi-agent-handoff.md`
+
+### Handoff Tier Selection
+
+Select the appropriate CC-00 handoff tier for the receiving agent:
+
+| Scenario                                                             | Tier                    | Context Volume                                                                  |
+| :------------------------------------------------------------------- | :---------------------- | :------------------------------------------------------------------------------ |
+| Sequential stage handoff (same pipeline, next stage owner)           | **Scoped**              | 20–40% of prior context — key decisions, gate results, active constraints only  |
+| New specialist crew member joining mid-stage                         | **Minimal**             | <10% — role brief, task objective, relevant kill gate criteria only (sanitised) |
+| Studio Director reviewing all divisions / producing kill gate report | **Full**                | Up to 100% — complete stage history, all artifact summaries                     |
+| Handoff to parent company (CSO, CTO, CPO)                            | **Minimal + sanitised** | <10% — studio-relevant facts only; no internal deliberation included            |
+
+**Selected tier for this transition:** [ ] Full / [ ] Scoped / [ ] Minimal
+
+### Completion Checklist
+
 - [ ] All gate criteria for Stage [N] satisfied (or kill decision documented)
-- [ ] All P0/P1 defects resolved
-- [ ] Summary accurately reflects all key decisions
-- [ ] All artifacts versioned and stored correctly
-- [ ] Kill gate metrics recorded in checkpoint.json
-- [ ] No raw artifacts required by next stage — summary is self-contained
+- [ ] All P0/P1 defects resolved before advancing
+- [ ] Summary accurately reflects all key decisions (no omissions)
+- [ ] All artifacts versioned and stored correctly under project folder
+- [ ] Kill gate metrics recorded in `checkpoint.json`
+- [ ] `progress.md` updated to reflect Stage [N+1] as current stage
+- [ ] `session-log.md` entry completed for this stage's final session
+- [ ] Handoff tier selected and context assembled accordingly (MVC filter applied)
+- [ ] `constraints_forward` list populated in stage transition schema JSON
+- [ ] Receiving crew member's MVC Profile consulted (only ✅ items included)
+- [ ] This summary is self-contained for the selected handoff tier
+- [ ] Token budget within 85% of model context window (if not, apply `context_compressor.py`)
 
 ---
 

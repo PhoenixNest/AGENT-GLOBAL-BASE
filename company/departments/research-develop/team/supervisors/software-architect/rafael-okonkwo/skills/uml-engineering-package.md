@@ -139,4 +139,3 @@ This skill governs the following pipeline stages:
 | Web Development    | Stage 3 (UML Engineering) | `company/pipeline/web-development/pipeline.md`    |
 | Backend Api        | Stage 3 (UML Engineering) | `company/pipeline/backend-api/pipeline.md`        |
 | Full Stack         | Stage 3 (UML Engineering) | `company/pipeline/full-stack/pipeline.md`         |
-

@@ -1,4 +1,4 @@
-# Localization Department
+﻿# Localization Department
 
 Responsible for all translation and internationalization pipeline operations. The department is activated mid-way through Stage 9, after the R&D Department delivers the string extraction handoff package. It governs all translation work through the Language Translation Module and issues the Translation Verification Report upon completion.
 
@@ -8,17 +8,17 @@ Responsible for all translation and internationalization pipeline operations. Th
 
 ## Supervisor
 
-| Name                  | Role                              | Seniority | Profile                                                                                              |
-| --------------------- | --------------------------------- | --------- | ---------------------------------------------------------------------------------------------------- |
-| Dr. Amara Osei-Mensah | Chief Translation Officer (CTO-L) | C-suite   | [`profile.md`](../../departments/localization/supervisor/chief-translation-officer/agent/profile.md) |
+| Name                  | Role                              | Seniority | Profile                                                                                                |
+| --------------------- | --------------------------------- | --------- | ------------------------------------------------------------------------------------------------------ |
+| Dr. Amara Osei-Mensah | Chief Translation Officer (CTO-L) | C-suite   | [`profile.md`](company/departments/localization/supervisor/chief-translation-officer/agent/profile.md) |
 
 **CTO-L Skills:**
 
-| Skill File                                                                                                                                                            | Purpose                                                                                                                                                              |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`language-translation-module.md`](../../departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md)                         | Governs all translation work: TMS intake, quality standards, translation verification, report issuance                                                               |
-| [`localization-engineering-and-cicd-gates.md`](../../departments/localization/supervisor/chief-translation-officer/skills/localization-engineering-and-cicd-gates.md) | Stage 9 engineering pipeline: string freeze enforcement, hardcoded-string CI gate, TMS integration, XLIFF/ARB automation, Translation Verification Report production |
-| [`linguist-operations-and-vendor-roster.md`](../../departments/localization/supervisor/chief-translation-officer/skills/linguist-operations-and-vendor-roster.md)     | Linguist operations and vendor governance: LSP tier structure, Translator Brief protocol, linguistic QA severity classification, language expansion process          |
+| Skill File                                                                                                                                                              | Purpose                                                                                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`language-translation-module.md`](company/departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md)                         | Governs all translation work: TMS intake, quality standards, translation verification, report issuance                                                               |
+| [`localization-engineering-and-cicd-gates.md`](company/departments/localization/supervisor/chief-translation-officer/skills/localization-engineering-and-cicd-gates.md) | Stage 9 engineering pipeline: string freeze enforcement, hardcoded-string CI gate, TMS integration, XLIFF/ARB automation, Translation Verification Report production |
+| [`linguist-operations-and-vendor-roster.md`](company/departments/localization/supervisor/chief-translation-officer/skills/linguist-operations-and-vendor-roster.md)     | Linguist operations and vendor governance: LSP tier structure, Translator Brief protocol, linguistic QA severity classification, language expansion process          |
 
 ---
 
@@ -26,25 +26,25 @@ Responsible for all translation and internationalization pipeline operations. Th
 
 ### Linguists
 
-| Name                    | Role              | Language Pairs | Profile                                                                                          |
-| ----------------------- | ----------------- | -------------- | ------------------------------------------------------------------------------------------------ |
-| Amelia Hartington       | English Linguist  | EN-US / EN-GB  | [`profile.md`](../../departments/localization/team/teammates/english-linguist/agent/profile.md)  |
-| Wei-Chen Liu            | Chinese Linguist  | ZH-CN / ZH-TW  | [`profile.md`](../../departments/localization/team/teammates/chinese-linguist/agent/profile.md)  |
-| Haruki Yoshimoto        | Japanese Linguist | JA             | [`profile.md`](../../departments/localization/team/teammates/japanese-linguist/agent/profile.md) |
-| Ji-Hyun Bae             | Korean Linguist   | KO             | [`profile.md`](../../departments/localization/team/teammates/korean-linguist/agent/profile.md)   |
-| Isabelle Moreau-Leclerc | French Linguist   | FR-FR / FR-CA  | [`profile.md`](../../departments/localization/team/teammates/french-linguist/agent/profile.md)   |
+| Name                    | Role              | Language Pairs | Profile                                                                                            |
+| ----------------------- | ----------------- | -------------- | -------------------------------------------------------------------------------------------------- |
+| Amelia Hartington       | English Linguist  | EN-US / EN-GB  | [`profile.md`](company/departments/localization/team/teammates/english-linguist/agent/profile.md)  |
+| Wei-Chen Liu            | Chinese Linguist  | ZH-CN / ZH-TW  | [`profile.md`](company/departments/localization/team/teammates/chinese-linguist/agent/profile.md)  |
+| Haruki Yoshimoto        | Japanese Linguist | JA             | [`profile.md`](company/departments/localization/team/teammates/japanese-linguist/agent/profile.md) |
+| Ji-Hyun Bae             | Korean Linguist   | KO             | [`profile.md`](company/departments/localization/team/teammates/korean-linguist/agent/profile.md)   |
+| Isabelle Moreau-Leclerc | French Linguist   | FR-FR / FR-CA  | [`profile.md`](company/departments/localization/team/teammates/french-linguist/agent/profile.md)   |
 
-All linguists share the same skill: [`mobile-ui-translation.md`](../../departments/localization/team/teammates/english-linguist/skills/mobile-ui-translation.md) — mobile UI string translation within the TMS.
+All linguists share the same skill: [`mobile-ui-translation.md`](company/departments/localization/team/teammates/english-linguist/skills/mobile-ui-translation.md) — mobile UI string translation within the TMS.
 
 ### Localization Engineer
 
-| Name           | Role                  | Profile                                                                                              |
-| -------------- | --------------------- | ---------------------------------------------------------------------------------------------------- |
-| Dario Esposito | Localization Engineer | [`profile.md`](../../departments/localization/team/teammates/localization-engineer/agent/profile.md) |
+| Name           | Role                  | Profile                                                                                                |
+| -------------- | --------------------- | ------------------------------------------------------------------------------------------------------ |
+| Dario Esposito | Localization Engineer | [`profile.md`](company/departments/localization/team/teammates/localization-engineer/agent/profile.md) |
 
-| Skill File                                                                                                                                                | Purpose                                                     |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| [`localization-pipeline-engineering.md`](../../departments/localization/team/teammates/localization-engineer/skills/localization-pipeline-engineering.md) | TMS pipeline: string intake, push, pull, validation linting |
+| Skill File                                                                                                                                                  | Purpose                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| [`localization-pipeline-engineering.md`](company/departments/localization/team/teammates/localization-engineer/skills/localization-pipeline-engineering.md) | TMS pipeline: string intake, push, pull, validation linting |
 
 ---
 
@@ -74,4 +74,4 @@ All linguists share the same skill: [`mobile-ui-translation.md`](../../departmen
 - **Localised codebase** — All hardcoded strings replaced with resource file references; all resource files populated for every target language.
 - **Translation Verification Report** — CTO-L certification of translation accuracy across all target languages.
 
-For cross-cutting localization guidance, see [`topics/localization.md`](../topics/localization.md).
+For cross-cutting localization guidance, see [`topics/localization.md`](company/library/topics/localization.md).

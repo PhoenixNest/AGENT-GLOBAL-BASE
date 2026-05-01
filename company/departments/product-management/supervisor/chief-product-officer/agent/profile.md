@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisor
 seniority: C-suite
 recruited-by: chief-human-resources-officer
+department: Product Management
+agent_id: chief-product-officer
+hire_date: 2026-04-07
 ---
 
 # Marcus Tran-Yoshida

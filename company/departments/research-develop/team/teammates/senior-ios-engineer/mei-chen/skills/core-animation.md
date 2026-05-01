@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Core Animation
+
 | Competency               | Description                                                                                          | Quality Criteria                                                                                                                       |
 | ------------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | CALayer Architecture     | Layer tree vs presentation tree vs render tree, implicit vs explicit animations, layer properties    | Understands three-tree model; uses explicit animations for production; manipulates layer properties directly for performance           |

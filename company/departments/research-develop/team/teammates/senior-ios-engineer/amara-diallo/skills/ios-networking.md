@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# IOS Networking
+
 | Competency               | Description                                                                                     | Quality Criteria                                                                                                                                    |
 | ------------------------ | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | URLSession Architecture  | Session configuration, delegate pattern, background sessions, upload/download tasks, WebSocket  | Session configuration matches use case (default/ephemeral/background); delegates handle auth challenges; background sessions survive app suspension |

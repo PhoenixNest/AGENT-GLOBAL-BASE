@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisor
 seniority: C-suite
 recruited-by: chief-human-resources-officer
+department: Cyberspace Security
+agent_id: chief-security-officer
+hire_date: 2026-04-07
 ---
 
 # Dr. Sarah Chen

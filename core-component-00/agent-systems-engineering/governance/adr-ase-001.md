@@ -1,4 +1,4 @@
-# ADR-ASE-001 — Ratify Agent Systems Engineering as the Mandatory Governing Framework
+﻿# ADR-ASE-001 — Ratify Agent Systems Engineering as the Mandatory Governing Framework
 
 | Field              | Value                                              |
 | ------------------ | -------------------------------------------------- |
@@ -40,7 +40,7 @@ convergence of four foundational engineering disciplines — Prompt, Context, Ha
 RAG Engineering — into a unified architecture discipline that governs how they compose.
 
 The theoretical basis is documented in:
-[_Agent Systems Engineering: The Convergence of Four Disciplines_](../CONCEPTS.md)
+[_Agent Systems Engineering: The Convergence of Four Disciplines_](core-component-00/agent-systems-engineering/CONCEPTS.md)
 
 ---
 

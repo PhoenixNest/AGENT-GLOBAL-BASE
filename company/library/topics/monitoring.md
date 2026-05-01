@@ -1,4 +1,4 @@
-# Progress Monitoring
+﻿# Progress Monitoring
 
 Cross-cutting reference for progress tracking, session management, interruption recovery, and the Progress Sync Protocol. This system ensures comprehensive oversight of pipeline progress and enables seamless recovery after any interruption.
 
@@ -6,10 +6,10 @@ Cross-cutting reference for progress tracking, session management, interruption 
 
 ## Owners
 
-| Role                           | Name               | Department | Profile                                                                                                 |
-| ------------------------------ | ------------------ | ---------- | ------------------------------------------------------------------------------------------------------- |
-| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D        | [`profile.md`](../../departments/research-develop/supervisor/chief-technology-officer/agent/profile.md) |
-| Session Lead                   | Varies by Stage    | Varies     | —                                                                                                       |
+| Role                           | Name               | Department | Profile                                                                                                   |
+| ------------------------------ | ------------------ | ---------- | --------------------------------------------------------------------------------------------------------- |
+| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D        | [`profile.md`](company/departments/research-develop/supervisor/chief-technology-officer/agent/profile.md) |
+| Session Lead                   | Varies by Stage    | Varies     | —                                                                                                         |
 
 ---
 
@@ -22,7 +22,7 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 - **Machine-readable checkpoints** — Automated recovery support
 - **Interruption recovery** — Resume from exact point, no restart needed
 
-**Full specification:** [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md)
+**Full specification:** [`pipeline/mobile-development/monitoring.md`](company/pipeline/mobile-development/monitoring.md)
 
 ---
 
@@ -380,13 +380,13 @@ Non-compliance must be documented in session logs with justification:
 
 ## Related Documents
 
-| Document                        | Location                                                                                                                     |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **Full System Specification**   | [`pipeline/mobile-development/monitoring.md`](../../pipeline/mobile-development/monitoring.md)                               |
-| **Pipeline Definition**         | [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md)                                   |
-| **Progress Sync Protocol**      | [`pipeline/mobile-development/pipeline.md`](../../pipeline/mobile-development/pipeline.md) — Search "Progress Sync Protocol" |
-| **Testing (Defect Severity)**   | [`topics/testing.md`](testing.md)                                                                                            |
-| **Project Directory Structure** | Refer to project root documentation                                                                                          |
+| Document                        | Location                                                                                                                       |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Full System Specification**   | [`pipeline/mobile-development/monitoring.md`](company/pipeline/mobile-development/monitoring.md)                               |
+| **Pipeline Definition**         | [`pipeline/mobile-development/pipeline.md`](company/pipeline/mobile-development/pipeline.md)                                   |
+| **Progress Sync Protocol**      | [`pipeline/mobile-development/pipeline.md`](company/pipeline/mobile-development/pipeline.md) — Search "Progress Sync Protocol" |
+| **Testing (Defect Severity)**   | [`topics/testing.md`](testing.md)                                                                                              |
+| **Project Directory Structure** | Refer to project root documentation                                                                                            |
 
 ---
 

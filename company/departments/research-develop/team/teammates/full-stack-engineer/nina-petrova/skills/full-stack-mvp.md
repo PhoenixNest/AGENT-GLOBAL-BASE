@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Deploy MVP
+
 | Competency              | Description                                                                           | Quality Criteria                                                                                                              |
 | ----------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Rapid Prototyping       | React + Node.js + PostgreSQL stack, scaffold generation, boilerplate patterns         | Sets up full-stack project in < 1 hour; implements CRUD operations end-to-end; deploys to staging environment                 |

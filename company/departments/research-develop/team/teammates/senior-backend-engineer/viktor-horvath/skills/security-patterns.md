@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Security Patterns
+
 | Competency                      | Description                                                                                                                                                                                                            | Quality Criteria                                                                                                                         |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | OWASP Top 10 (2021)             | Broken Access Control, Cryptographic Failures, Injection, Insecure Design, Security Misconfiguration, Vulnerable Components, Authentication Failures, Data Integrity Failures, Logging Failures, SSRF                  | Implements controls for all 10 categories; conducts threat modeling using STRIDE; can demonstrate each vulnerability and its mitigation  |

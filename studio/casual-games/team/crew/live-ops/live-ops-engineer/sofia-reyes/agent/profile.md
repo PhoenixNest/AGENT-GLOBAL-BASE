@@ -11,6 +11,8 @@ requisition: G31
 vetting-score: 17/20
 composite-score: 4.440
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Sofia Reyes — Live Ops Engineer #2

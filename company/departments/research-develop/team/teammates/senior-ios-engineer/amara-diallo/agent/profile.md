@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Senior IC
 recruited-by: chief-human-resources-officer
+department: Research & Development
+agent_id: amara-diallo-senior-ios-engineer
+hire_date: 2026-04-21
 ---
 
 # Amara Diallo

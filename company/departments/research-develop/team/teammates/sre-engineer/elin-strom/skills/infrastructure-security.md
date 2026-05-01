@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Infrastructure Security
+
 | Competency                 | Description                                                                                                         | Quality Criteria                                                                        |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | Falco Runtime Security     | Rule creation, syscall monitoring, container runtime visibility, alert integration, response automation             | Detects runtime anomalies within seconds; custom rules for application-specific threats |

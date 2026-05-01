@@ -4,6 +4,8 @@ description: "Engineer competency frameworks, multi-rater assessment instruments
 version: "1.0.0"
 ---
 
+# Competency Tracking
+
 | Competency              | Description                                                                           | Quality Criteria                                                                                       |
 | ----------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Matrix Design           | Build role-family-specific competency frameworks with measurable behavioral anchors   | Can design a 5-7 dimension matrix with 4 proficiency levels per role family; validated by CTO and CHRO |

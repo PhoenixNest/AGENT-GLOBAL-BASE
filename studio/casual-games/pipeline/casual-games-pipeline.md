@@ -9,6 +9,8 @@
 
 ## 1. Overview
 
+> **Behavioural Constraints:** All agents operating in this pipeline must comply with the forbidden behaviours and required declarations defined in [`templates/AGENT-BEHAVIORAL-CONSTRAINTS.md`](templates/AGENT-BEHAVIORAL-CONSTRAINTS.md).
+
 The game studio operates **independently** from the parent company's 10-stage mobile app pipeline. While the parent pipeline was designed for utility-driven applications with feature-gated development, games operate under fundamentally different economics: **hit-driven, iterative, live-service, and experientially validated**.
 
 This document defines the **complete game studio workflow** from concept through live ops, incorporating input from the CTO, CPO, CDO, and CSO.

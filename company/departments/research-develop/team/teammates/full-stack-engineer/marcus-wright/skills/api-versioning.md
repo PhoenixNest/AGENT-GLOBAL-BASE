@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# API Versioning
+
 | Competency                  | Description                                                                                        | Quality Criteria                                                                                                                                 |
 | --------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Versioning Strategies       | URL path (/v1/, /v2/), custom header (X-API-Version), media type (application/vnd.company.v2+json) | Selects versioning strategy based on consumer needs; implements multiple versioning approaches simultaneously; documents version lifecycle       |

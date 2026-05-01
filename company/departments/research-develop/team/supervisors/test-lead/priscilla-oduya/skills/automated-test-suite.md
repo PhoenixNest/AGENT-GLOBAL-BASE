@@ -136,4 +136,3 @@ This skill governs the following pipeline stages:
 | Web Development    | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/web-development/pipeline.md`    |
 | Backend Api        | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/backend-api/pipeline.md`        |
 | Full Stack         | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/full-stack/pipeline.md`         |
-

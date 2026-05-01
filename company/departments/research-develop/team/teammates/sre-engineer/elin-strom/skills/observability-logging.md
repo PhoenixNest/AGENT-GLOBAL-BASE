@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Observability Logging
+
 | Competency          | Description                                                                                                              | Quality Criteria                                                                                          |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
 | ELK Stack           | Elasticsearch cluster management, Logstash pipeline configuration, Kibana dashboard creation, index lifecycle management | Manages multi-node ELK clusters processing 100GB+/day; dashboards provide actionable operational insights |

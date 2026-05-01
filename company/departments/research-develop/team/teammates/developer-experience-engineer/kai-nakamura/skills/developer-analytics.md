@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Developer Analytics
+
 | Competency              | Description                                                                     | Quality Criteria                                                                                                                                           |
 | ----------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DORA Metrics            | Deployment Frequency, Lead Time for Changes, Change Failure Rate, MTTR          | Computes all four DORA metrics from CI/CD data; tracks trends over time; correlates DORA metrics with team outcomes; benchmarks against industry standards |

@@ -1,4 +1,4 @@
-# Harness Engineering: Core Concepts and Foundations
+﻿# Harness Engineering: Core Concepts and Foundations
 
 ## 1. What is Harness Engineering?
 
@@ -342,10 +342,10 @@ Before deploying a harness-engineered application:
 
 ## 9. References
 
-- [Prompt Engineering Reference](../../prompt-engineering/fundamentals/research.md)
-- [Context Engineering — Context Window Anatomy](../../context-engineering/fundamentals/context-window-anatomy.md)
-- [Context Engineering — Assembly Patterns](../../context-engineering/patterns/assembly-patterns.md)
-- [Context Engineering — Integration Guide](../../context-engineering/workspace/integration-guide.md)
+- [Prompt Engineering Reference](prompt-engineering/fundamentals/research.md)
+- [Context Engineering — Context Window Anatomy](context-engineering/fundamentals/context-window-anatomy.md)
+- [Context Engineering — Assembly Patterns](context-engineering/patterns/assembly-patterns.md)
+- [Context Engineering — Integration Guide](context-engineering/workspace/integration-guide.md)
 - [Claude API Documentation](https://docs.anthropic.com)
 - [LLM Application Patterns](https://github.com/anthropics/clockwork-copilot)
 

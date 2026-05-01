@@ -1,4 +1,4 @@
-# ADR-ASE-001: Adoption of Agent Systems Engineering as Permanent Methodology
+﻿# ADR-ASE-001: Adoption of Agent Systems Engineering as Permanent Methodology
 
 > **Author:** CTO Dr. Kenji Nakamura
 > **Co-Authors:** CPO Marcus Tran-Yoshida, CSO Dr. Sarah Chen
@@ -40,19 +40,19 @@ ASE is defined by four architectural layers:
 
 ## Deliverables Codified by This ADR
 
-| Phase |  #  | Deliverable                         | File                                                         |
-| :---: | :-: | :---------------------------------- | :----------------------------------------------------------- |
-|   1   |  ①  | Context Engineering Guideline       | `skills/shared/guidelines/context-engineering.md`            |
-|   1   |  ②  | Red Team Review Protocol            | `templates/stage-6-code-review/RED-TEAM-REVIEW.md`           |
-|   1   |  ③  | Stage Transition Summary            | `templates/monitoring/STAGE-TRANSITION-SUMMARY.md`           |
-|   2   |  ④  | Stage Transition Schemas            | `templates/monitoring/STAGE-TRANSITION-SCHEMAS.md`           |
-|   2   |  ⑤  | Inter-Agent Communication Protocol  | `templates/monitoring/INTER-AGENT-COMMUNICATION-PROTOCOL.md` |
-|   2   |  ⑥  | MVC Context Profile Template        | `templates/monitoring/MVC-CONTEXT-PROFILE.md`                |
-|   3   |  ⑦  | Knowledge Transfer Protocol         | `templates/monitoring/KNOWLEDGE-TRANSFER-PROTOCOL.md`        |
-|   3   |  ⑧  | RAG Integration Blueprint           | `templates/monitoring/RAG-INTEGRATION-BLUEPRINT.md`          |
-|   3   |  ⑨  | ASE Adoption ADR (this document)    | `templates/monitoring/ADR-ASE-001.md`                        |
-|   3   |  ⑩  | Schema Validation Specification     | `templates/monitoring/SCHEMA-VALIDATION-SPEC.md`             |
-|   3   |  ⑪  | MVC Profile Propagation (79 agents) | `.gemini/agents/*.md` — appended MVC sections                |
+| Phase |  #  | Deliverable                         | File                                                              |
+| :---: | :-: | :---------------------------------- | :---------------------------------------------------------------- |
+|   1   |  ①  | Context Engineering Guideline       | `skills/shared/guidelines/context-engineering.md`                 |
+|   1   |  ②  | Red Team Review Protocol            | `templates/stage-6-code-review/RED-TEAM-REVIEW.md`                |
+|   1   |  ③  | Stage Transition Summary            | `templates/monitoring/stage-transition-summary.md`                |
+|   2   |  ④  | Stage Transition Schemas            | `templates/monitoring/stage-transition-schemas.md`                |
+|   2   |  ⑤  | Inter-Agent Communication Protocol  | `templates/monitoring/inter-agent-communication-protocol.md`      |
+|   2   |  ⑥  | MVC Context Profile Template        | `templates/monitoring/mvc-context-profile.md`                     |
+|   3   |  ⑦  | Knowledge Transfer Protocol         | `templates/monitoring/knowledge-transfer-protocol.md`             |
+|   3   |  ⑧  | RAG Integration Blueprint           | `templates/monitoring/rag-integration-blueprint.md`               |
+|   3   |  ⑨  | ASE Adoption ADR (this document)    | `templates/monitoring/adr-ase-001.md`                             |
+|   3   |  ⑩  | Schema Validation Specification     | `templates/monitoring/schema-validation-spec.md`                  |
+|   3   |  ⑪  | MVC Profile Propagation (80 agents) | `company/departments/**/agent/profile.md` — appended MVC sections |
 
 ---
 

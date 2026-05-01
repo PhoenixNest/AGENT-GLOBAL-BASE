@@ -1,4 +1,4 @@
-# Orchestration Patterns
+﻿# Orchestration Patterns
 
 > The five core patterns for coordinating agent execution in a multi-agent system.
 
@@ -321,4 +321,4 @@ Production systems combine patterns:
 
 **Version:** 1.0
 **Last Updated:** 2026-04-29
-**See also:** [Swarm Topologies](../fundamentals/swarm-topologies.md) · [Anti-Patterns](./anti-patterns.md) · [Swarm Orchestrator](../implementations/swarm_orchestrator.py)
+**See also:** [Swarm Topologies](core-component-00/multi-agent-engineering/fundamentals/swarm-topologies.md) · [Anti-Patterns](./anti-patterns.md) · [Swarm Orchestrator](core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py)

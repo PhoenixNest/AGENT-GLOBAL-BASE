@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Swift Concurrency
+
 | Competency             | Description                                                                                          | Quality Criteria                                                                                                                         |
 | ---------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | async/await            | Async function design, throwing async, async sequences, async let parallelism, continuation bridging | Async functions are cancellable; errors propagate correctly; bridging from completion handlers uses checked continuations                |

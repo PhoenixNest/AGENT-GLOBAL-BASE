@@ -4,6 +4,8 @@ description: Recruit engineering talent across all seniority levels. Covers Soft
 version: "1.0.0"
 ---
 
+# Recruit Engineering
+
 ## Why This Matters
 
 Identifies and vets elite engineering talent across all platforms. Engineering hires below the elite bar create technical debt, slow delivery, and quality regressions.

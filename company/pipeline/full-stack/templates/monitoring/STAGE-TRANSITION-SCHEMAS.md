@@ -1,4 +1,4 @@
-# Stage Transition Schemas — JSON Contract Definitions (Full-Stack Pipeline)
+﻿# Stage Transition Schemas — JSON Contract Definitions (Full-Stack Pipeline)
 
 ---
 
@@ -19,6 +19,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CPO + CSO", "role": "Requirements Authors" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "PRD §X | SRD §Y" }],
   "artifacts": {
     "prd": { "version": "v1", "path": "string", "req_count": 0 },
@@ -51,6 +52,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO + CIO", "role": "Architecture Authors" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "ADR-NNN | TSD" }],
   "artifacts": {
     "uml_package": { "version": "v1", "path": "string", "diagram_count": 0 },
@@ -107,6 +109,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Implementation Planner" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "implementation_plan": {
       "version": "v1",
@@ -164,6 +167,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Development Overseer" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "codebases": {
       "mobile": {
@@ -209,6 +213,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Review Panel Convener" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "defect_reports": {
       "mobile": { "path": "string" },
@@ -250,7 +255,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
 
 ## Schema 7→8, 8→9, 9→10, 10 Release
 
-Schemas 7→8 through 10 follow the **same structure** as the Web pipeline with the addition of multi-codebase integrity tracking in 8→9. See `web-development/templates/monitoring/STAGE-TRANSITION-SCHEMAS.md` for canonical definitions; adapt the `$schema` prefix to `fullstack/`.
+Schemas 7→8 through 10 follow the **same structure** as the Web pipeline with the addition of multi-codebase integrity tracking in 8→9. See `web-development/templates/monitoring/stage-transition-schemas.md` for canonical definitions; adapt the `$schema` prefix to `fullstack/`.
 
 ---
 

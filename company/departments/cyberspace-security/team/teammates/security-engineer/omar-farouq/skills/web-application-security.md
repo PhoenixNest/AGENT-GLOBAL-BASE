@@ -4,6 +4,8 @@ description: "Assess web applications and APIs against OWASP Top 10 (2021) and O
 version: "1.0.0"
 ---
 
+# Web Application Security
+
 | Competency                      | Description                                                  | Quality Criteria                                                                                                                                                                       |
 | ------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | OWASP Top 10 (2021) Mastery     | Deep understanding of all 10 web application risk categories | Identifies every OWASP Top 10 category in code review; produces remediation guidance that eliminates entire classes of vulnerabilities; tracks OWASP 2021 changes from 2017 edition    |

@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Accessibility
+
 | Competency                      | Description                                                                                           | Quality Criteria                                                                                                                                               |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WCAG 2.1 AA Compliance          | Understanding of perceivable, operable, understandable, robust (POUR) principles as applied to mobile | Every screen passes automated a11y scan; all interactive elements have meaningful labels; color contrast ratios meet 4.5:1 minimum                             |

@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Mid IC
 recruited-by: chief-human-resources-officer
+department: Research & Development
+agent_id: sora-kim-full-stack-engineer
+hire_date: 2026-04-21
 ---
 
 # Sora Kim

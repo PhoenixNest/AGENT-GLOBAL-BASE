@@ -1,4 +1,4 @@
-# Enterprise Retrieval Augmented Generation (RAG) System
+﻿# Enterprise Retrieval Augmented Generation (RAG) System
 
 > A comprehensive, production-ready RAG architecture for enterprise documentation and knowledge management systems.
 
@@ -149,10 +149,10 @@ Before deploying to production:
 
 ## Related Modules
 
-| Module                                                     | Relationship                                                                                                                                            |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`context-engineering/`](../context-engineering/README.md) | Consumes RAG-retrieved documents via `ContextAssembler.add_retrieved()`. Context slot budgets and priority ordering are defined in context-engineering. |
-| [`harness-engineering/`](../harness-engineering/README.md) | Executes the assembled context window safely. Token budget enforcement for retrieved content is handled at the harness layer.                           |
+| Module                                                                    | Relationship                                                                                                                                            |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`context-engineering/`](core-component-00/context-engineering/README.md) | Consumes RAG-retrieved documents via `ContextAssembler.add_retrieved()`. Context slot budgets and priority ordering are defined in context-engineering. |
+| [`harness-engineering/`](core-component-00/harness-engineering/README.md) | Executes the assembled context window safely. Token budget enforcement for retrieved content is handled at the harness layer.                           |
 
 ---
 

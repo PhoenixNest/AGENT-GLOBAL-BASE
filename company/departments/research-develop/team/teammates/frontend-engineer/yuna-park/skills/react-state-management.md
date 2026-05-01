@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# React State Management
+
 | Competency                 | Description                                                                              | Quality Criteria                                                                                              |
 | -------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | **State Tool Selection**   | Right tool for the right job — Context API vs Zustand vs Redux vs server state libraries | Zero over-engineering (no Redux for 3 boolean flags); zero under-engineering (no prop drilling 8 levels deep) |

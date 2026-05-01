@@ -1,4 +1,4 @@
-# RAG Integration Blueprint — Semantic Retrieval Architecture
+﻿# RAG Integration Blueprint — Semantic Retrieval Architecture
 
 > **Addresses Gap:** #6 (No vector/semantic search over project artifacts)
 
@@ -77,10 +77,10 @@ This blueprint defines the architecture for **semantic retrieval** over the comp
 
 | Corpus Partition          | Source                                           |  File Count   | Update Frequency          |
 | :------------------------ | :----------------------------------------------- | :-----------: | :------------------------ |
-| **Agent Profiles**        | `.gemini/agents/*.md`                            |      79       | Rare (profile updates)    |
-| **Skill Guidelines**      | `.gemini/skills/**/*.md`                         |      201      | Moderate (new guidelines) |
-| **Pipeline Definitions**  | `.gemini/pipeline/*/pipeline.md`                 |       5       | Rare (ADR-level changes)  |
-| **Pipeline Templates**    | `.gemini/pipeline/*/templates/**/*.md`           |      34       | Moderate (new templates)  |
+| **Agent Profiles**        | `company/departments/**/agent/profile.md`        |      80       | Rare (profile updates)    |
+| **Skill Guidelines**      | `company/departments/**/skills/*.md`             |     ~250      | Moderate (new guidelines) |
+| **Pipeline Definitions**  | `company/pipeline/*/pipeline.md`                 |       5       | Rare (ADR-level changes)  |
+| **Pipeline Templates**    | `company/pipeline/*/templates/**/*.md`           |      34       | Moderate (new templates)  |
 | **Company Library**       | `company/library/**/*.md`                        |      ~30      | Low                       |
 | **Tier 1 Artifacts**      | `company/project/*/stages/**`                    |   Variable    | High (per project)        |
 | **Tier 2 Retrospectives** | `company/project/*/retrospective.md`             | 1 per project | Once (at Stage 10)        |
@@ -209,8 +209,8 @@ When starting a new project, the orchestrator executes:
 
 | Component                               | RAG Integration                                           |
 | :-------------------------------------- | :-------------------------------------------------------- |
-| `MVC-CONTEXT-PROFILE.md`                | Defines what to retrieve for each agent/stage combination |
-| `KNOWLEDGE-TRANSFER-PROTOCOL.md`        | Defines the 3-tier knowledge hierarchy that RAG indexes   |
-| `STAGE-TRANSITION-SCHEMAS.md`           | Structured lookup targets for stage artifact retrieval    |
-| `INTER-AGENT-COMMUNICATION-PROTOCOL.md` | `CONTEXT_REQUEST` message format for reactive retrieval   |
+| `mvc-context-profile.md`                | Defines what to retrieve for each agent/stage combination |
+| `knowledge-transfer-protocol.md`        | Defines the 3-tier knowledge hierarchy that RAG indexes   |
+| `stage-transition-schemas.md`           | Structured lookup targets for stage artifact retrieval    |
+| `inter-agent-communication-protocol.md` | `CONTEXT_REQUEST` message format for reactive retrieval   |
 | `context-engineering.md`                | Zone A/B/C placement rules for retrieved content          |

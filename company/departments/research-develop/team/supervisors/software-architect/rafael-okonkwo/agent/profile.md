@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisors
 seniority: Principal SE
 recruited-by: chief-human-resources-officer
+department: Research & Development
+agent_id: software-architect
+hire_date: 2026-04-14
 ---
 
 # Rafael Okonkwo

@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Python Fastapi
+
 | Competency               | Description                                                                | Quality Criteria                                                                                                                                  |
 | ------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Dependency Injection     | FastAPI Depends(), sub-dependencies, lifespan scope, override patterns     | Designs dependency graph with proper scoping; uses lifespan for startup/shutdown; overrides dependencies in tests                                 |

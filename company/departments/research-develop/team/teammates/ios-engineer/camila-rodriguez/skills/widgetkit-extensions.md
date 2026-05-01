@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Widgetkit Extensions
+
 | Competency      | Description                                                                                               | Quality Criteria                                                                                                                                        |
 | --------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WidgetKit       | Widget configuration, timeline providers, placeholder views, deep links, widget families, reloads         | Widgets display accurate data via timeline; placeholder matches loaded state; deep links navigate to correct app screen; supports all widget families   |

@@ -11,6 +11,8 @@ requisition: G37
 vetting-score: 18/20
 composite-score: 4.480
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Lin Zhang — SDET Gameplay #2

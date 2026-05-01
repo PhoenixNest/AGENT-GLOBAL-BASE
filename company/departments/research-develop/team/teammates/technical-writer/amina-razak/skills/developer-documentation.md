@@ -5,6 +5,8 @@ description: >
 version: "1.0.0"
 ---
 
+# Developer Documentation
+
 Developer documentation skill for Amina Razak — Technical Writer (R&D department).
 Produces developer portal architecture, getting started guides, integration tutorials, troubleshooting documentation, changelog management, and DX content.
 

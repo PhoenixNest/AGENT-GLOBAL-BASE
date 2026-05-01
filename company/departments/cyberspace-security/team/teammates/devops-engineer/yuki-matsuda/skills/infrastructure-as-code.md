@@ -4,6 +4,8 @@ description: "Architect, implement, and harden Terraform-based infrastructure as
 version: "1.0.0"
 ---
 
+# Infrastructure As Code
+
 | Competency                    | Description                                                                         | Quality Criteria                                                                                                                                                                 |
 | ----------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Terraform Module Architecture | Designing reusable, composable, secure Terraform modules                            | Creates modules with input validation, output documentation, version pinning, and security defaults; modules used across 3+ projects without modification                        |

@@ -73,9 +73,9 @@ P0 and P1 findings block merge. Dmitri makes the final call on borderline P1/P2 
 
 ## Measurable Quality Standards
 
-| Standard                 | Target               | Measurement Method                      |
-| ------------------------ | -------------------- | --------------------------------------- |
-| Review turnaround        | ≤24 hours            | GitHub PR open → first review timestamp |
-| P0/P1 escape rate        | 0 post-Stage 5 (before Stage 6 automated testing gate)       | Stage 6 defect log                      |
-| Production bug reduction | ≥30% vs. baseline    | Post-launch defect count comparison     |
-| PR size (lines changed)  | ≤400 lines preferred | GitHub PR diff stats                    |
+| Standard                 | Target                                                 | Measurement Method                      |
+| ------------------------ | ------------------------------------------------------ | --------------------------------------- |
+| Review turnaround        | ≤24 hours                                              | GitHub PR open → first review timestamp |
+| P0/P1 escape rate        | 0 post-Stage 5 (before Stage 6 automated testing gate) | Stage 6 defect log                      |
+| Production bug reduction | ≥30% vs. baseline                                      | Post-launch defect count comparison     |
+| PR size (lines changed)  | ≤400 lines preferred                                   | GitHub PR diff stats                    |

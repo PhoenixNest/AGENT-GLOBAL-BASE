@@ -11,6 +11,8 @@ requisition: G34
 vetting-score: 18/20
 composite-score: 4.500
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Kwame Asante — Economy Designer

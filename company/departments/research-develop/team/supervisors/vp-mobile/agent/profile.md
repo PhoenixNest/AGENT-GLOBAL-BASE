@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisors
 seniority: VP Engineering
 recruited-by: chief-human-resources-officer
+department: Research & Development
+agent_id: marcus-andersson-vp-mobile
+hire_date: 2026-04-14
 ---
 
 # Marcus Andersson

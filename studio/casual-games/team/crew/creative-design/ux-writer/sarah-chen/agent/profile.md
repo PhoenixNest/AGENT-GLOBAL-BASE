@@ -4,6 +4,10 @@ role: teammate
 tier: teammates
 seniority: Senior
 recruited-by: chro-dr-evelyn-hartwell
+department: Crew Division
+studio: Casual Games
+vetting-score: N/A
+vetting-result: PASS
 ---
 
 # Sarah Chen — UX Writer / Content Designer

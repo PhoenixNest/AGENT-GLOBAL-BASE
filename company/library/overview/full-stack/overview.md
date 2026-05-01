@@ -1,8 +1,8 @@
-# Full-Stack Cross-Platform Pipeline — Overview
+﻿# Full-Stack Cross-Platform Pipeline — Overview
 
 **Pipeline:** Full-Stack Cross-Platform (P3)
-**Full Definition:** [`pipeline.md`](../../pipeline/full-stack/pipeline.md)
-**Monitoring:** [`monitoring.md`](../../pipeline/full-stack/monitoring.md)
+**Full Definition:** [`pipeline.md`](company/library/pipeline/full-stack/pipeline.md)
+**Monitoring:** [`monitoring.md`](company/library/pipeline/full-stack/monitoring.md)
 
 ---
 
@@ -101,4 +101,4 @@ Three-layer architecture with full-stack-specific fields:
 
 ---
 
-_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](../../pipeline/full-stack/pipeline.md)._
+_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](company/library/pipeline/full-stack/pipeline.md)._

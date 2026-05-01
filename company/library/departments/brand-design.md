@@ -1,4 +1,4 @@
-# Brand Design Department
+﻿# Brand Design Department
 
 Responsible for translating product requirements into high-fidelity mobile UI/UX designs and production-grade interactive prototypes. The department owns Stage 2 of the development pipeline and participates as a reviewer in Stages 6, 8, and 10.
 
@@ -8,34 +8,34 @@ Responsible for translating product requirements into high-fidelity mobile UI/UX
 
 ## Supervisor
 
-| Name             | Role                       | Seniority | Profile                                                                                         |
-| ---------------- | -------------------------- | --------- | ----------------------------------------------------------------------------------------------- |
-| Yuki Tanaka-Chen | Chief Design Officer (CDO) | C-suite   | [`profile.md`](../../departments/brand-design/supervisor/chief-design-officer/agent/profile.md) |
+| Name             | Role                       | Seniority | Profile                                                                                           |
+| ---------------- | -------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
+| Yuki Tanaka-Chen | Chief Design Officer (CDO) | C-suite   | [`profile.md`](company/departments/brand-design/supervisor/chief-design-officer/agent/profile.md) |
 
 **CDO Skills:**
 
-| Skill File                                                                                                                                               | Purpose                                                                                                                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`mobile-design-systems.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/mobile-design-systems.md)                             | Platform-specific component libraries, design tokens, interaction patterns, accessibility standards                                                                          |
-| [`interaction-design-specification.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/interaction-design-specification.md)       | Component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints                                                                            |
-| [`design-to-engineering-handoff.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/design-to-engineering-handoff.md)             | Technical design specifications and handoff documentation for the R&D Department                                                                                             |
-| [`user-research-driven-design.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/user-research-driven-design.md)                 | Usability testing, A/B experiments, qualitative research, data-informed design iteration                                                                                     |
-| [`design-leadership-and-quality-gates.md`](../../departments/brand-design/supervisor/chief-design-officer/skills/design-leadership-and-quality-gates.md) | Design leadership: critique cadence, teammate deliverable review, Stage 6 design fidelity review, Stage 8 design integrity sign-off, App Store / Play Store asset governance |
+| Skill File                                                                                                                                                 | Purpose                                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`mobile-design-systems.md`](company/departments/brand-design/supervisor/chief-design-officer/skills/mobile-design-systems.md)                             | Platform-specific component libraries, design tokens, interaction patterns, accessibility standards                                                                          |
+| [`interaction-design-specification.md`](company/departments/brand-design/supervisor/chief-design-officer/skills/interaction-design-specification.md)       | Component specs, state diagrams, gesture vocabularies, edge case matrices, responsive breakpoints                                                                            |
+| [`design-to-engineering-handoff.md`](company/departments/brand-design/supervisor/chief-design-officer/skills/design-to-engineering-handoff.md)             | Technical design specifications and handoff documentation for the R&D Department                                                                                             |
+| [`user-research-driven-design.md`](company/departments/brand-design/supervisor/chief-design-officer/skills/user-research-driven-design.md)                 | Usability testing, A/B experiments, qualitative research, data-informed design iteration                                                                                     |
+| [`design-leadership-and-quality-gates.md`](company/departments/brand-design/supervisor/chief-design-officer/skills/design-leadership-and-quality-gates.md) | Design leadership: critique cadence, teammate deliverable review, Stage 6 design fidelity review, Stage 8 design integrity sign-off, App Store / Play Store asset governance |
 
 ---
 
 ## Team
 
-| Name         | Role                     | Seniority | Profile                                                                                                              |
-| ------------ | ------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------- |
-| Lena Vasquez | Product UI/UX Prototyper | Senior IC | [`profile.md`](../../departments/brand-design/team/teammates/product-ui-ux-prototyper/lena-vasquez/agent/profile.md) |
+| Name         | Role                     | Seniority | Profile                                                                                                                |
+| ------------ | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Lena Vasquez | Product UI/UX Prototyper | Senior IC | [`profile.md`](company/departments/brand-design/team/teammates/product-ui-ux-prototyper/lena-vasquez/agent/profile.md) |
 
 **Prototyper Skills:**
 
-| Skill File                                                                                                                                                              | Purpose                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| [`web-prototype-development.md`](../../departments/brand-design/team/teammates/product-ui-ux-prototyper/lena-vasquez/skills/web-prototype-development.md)               | Production-grade single-file HTML prototypes with gesture simulation and micro-animations                 |
-| [`interaction-design-specification.md`](../../departments/brand-design/team/teammates/product-ui-ux-prototyper/lena-vasquez/skills/interaction-design-specification.md) | IDS authorship: component trees, gesture vocabularies, state diagrams, iOS HIG + Material Design patterns |
+| Skill File                                                                                                                                                                | Purpose                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [`web-prototype-development.md`](company/departments/brand-design/team/teammates/product-ui-ux-prototyper/lena-vasquez/skills/web-prototype-development.md)               | Production-grade single-file HTML prototypes with gesture simulation and micro-animations                 |
+| [`interaction-design-specification.md`](company/departments/brand-design/team/teammates/product-ui-ux-prototyper/lena-vasquez/skills/interaction-design-specification.md) | IDS authorship: component trees, gesture vocabularies, state diagrams, iOS HIG + Material Design patterns |
 
 ---
 
@@ -59,4 +59,4 @@ Responsible for translating product requirements into high-fidelity mobile UI/UX
 
 ## Reference Links
 
-See [`reference/design/links.md`](../reference/design/links.md) for design systems, platform guidelines, accessibility resources, and design tooling.
+See [`reference/design/links.md`](company/library/reference/design/links.md) for design systems, platform guidelines, accessibility resources, and design tooling.

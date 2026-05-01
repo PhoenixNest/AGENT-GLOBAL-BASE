@@ -4,6 +4,8 @@ description: "Verify and certify mobile application compliance against the full 
 version: "1.0.0"
 ---
 
+# OWASP MASVS Compliance
+
 | Competency                      | Description                                                                     | Quality Criteria                                                                                                                                              |
 | ------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | MASVS Framework Mastery         | Complete understanding of all 8 verification categories and 2 assessment levels | Accurately maps any mobile security finding to specific MASVS requirement; distinguishes L1 vs L2 requirements; understands MASVS-R (resilience) requirements |

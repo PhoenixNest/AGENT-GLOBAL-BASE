@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# API Testing
+
 | Competency                           | Description                                                                                                                                                                                                                     | Quality Criteria                                                                                                                                                                                                                                                                                                   |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **REST API Testing Methodology**     | HTTP method validation (GET, POST, PUT, PATCH, DELETE), status code verification, response schema validation, pagination/cursor testing, filter/sort/query parameter validation, content negotiation                            | Tests verify both status codes AND response body schemas; pagination tested with boundary conditions (empty result, single item, max page size); query parameters validated for SQL injection resistance; content-type negotiation tested (`Accept: application/json` vs `application/xml`)                        |

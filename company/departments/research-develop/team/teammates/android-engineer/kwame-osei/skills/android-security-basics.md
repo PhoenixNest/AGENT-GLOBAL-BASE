@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Security Basics
+
 | Competency          | Description                                                                                            | Quality Criteria                                                                                                                        |
 | ------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | OWASP MASVS L1      | Understanding of baseline MASVS controls, storage, cryptography, authentication, network communication | All MASVS L1 controls implemented; security requirements from SRD mapped to specific controls; zero critical findings in security audit |

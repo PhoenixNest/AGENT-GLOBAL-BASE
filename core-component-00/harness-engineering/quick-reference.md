@@ -1,4 +1,4 @@
-# Harness Engineering Quick Reference
+﻿# Harness Engineering Quick Reference
 
 ## Core Patterns Decision Matrix
 
@@ -255,7 +255,7 @@ Tier 3: Static template response with placeholder data
 
 - [CONCEPTS.md](./CONCEPTS.md) — Core theoretical foundations
 - [README.md](./README.md) — Overview and quick start guide
-- [Prompt Engineering Research](../../prompt-engineering/fundamentals/research.md) — Taxonomy of techniques
+- [Prompt Engineering Research](prompt-engineering/fundamentals/research.md) — Taxonomy of techniques
 
 **Version:** 2.0  
 **Last Updated:** 2026-04-25  

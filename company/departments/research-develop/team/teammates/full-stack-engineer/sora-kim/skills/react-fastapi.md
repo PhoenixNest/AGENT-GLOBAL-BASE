@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# React Fastapi
+
 | Competency                | Description                                                                                   | Quality Criteria                                                                                                                               |
 | ------------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | React Query               | Query caching, mutations, optimistic updates, query invalidation, infinite queries            | Configures React Query with appropriate stale times; implements optimistic updates with rollback; uses query invalidation for data consistency |

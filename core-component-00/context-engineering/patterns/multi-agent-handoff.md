@@ -1,4 +1,4 @@
-# Multi-Agent Context Handoff Patterns
+﻿# Multi-Agent Context Handoff Patterns
 
 ## The Problem
 
@@ -154,4 +154,4 @@ context = assembler.build(task_type="orchestration")
 
 **Version:** 1.0
 **Last Updated:** 2026-04-28
-**See also:** [Assembly Patterns](./assembly-patterns.md) · [context_assembler.py](../implementations/context_assembler.py) · [Memory Types](../fundamentals/memory-types.md)
+**See also:** [Assembly Patterns](./assembly-patterns.md) · [context_assembler.py](core-component-00/context-engineering/implementations/context_assembler.py) · [Memory Types](core-component-00/context-engineering/fundamentals/memory-types.md)

@@ -1,4 +1,4 @@
-# Security
+﻿# Security
 
 Cross-cutting reference for all mobile security concerns: security requirements, platform security standards, OWASP MASVS compliance, and security review processes. The CSO owns security requirements and compliance; the CIO oversees architectural security decisions. Both participate across multiple pipeline stages.
 
@@ -6,10 +6,10 @@ Cross-cutting reference for all mobile security concerns: security requirements,
 
 ## Owners
 
-| Role                            | Name            | Department          | Profile                                                                                                     |
-| ------------------------------- | --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Chief Security Officer (CSO)    | Dr. Sarah Chen  | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/agent/profile.md)    |
-| Chief Information Officer (CIO) | Dr. Priya Mehta | Cyberspace Security | [`profile.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/agent/profile.md) |
+| Role                            | Name            | Department          | Profile                                                                                                       |
+| ------------------------------- | --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Chief Security Officer (CSO)    | Dr. Sarah Chen  | Cyberspace Security | [`profile.md`](company/departments/cyberspace-security/supervisor/chief-security-officer/agent/profile.md)    |
+| Chief Information Officer (CIO) | Dr. Priya Mehta | Cyberspace Security | [`profile.md`](company/departments/cyberspace-security/supervisor/chief-information-officer/agent/profile.md) |
 
 ---
 
@@ -100,17 +100,17 @@ The company's security compliance baseline is the **OWASP Mobile Application Sec
 
 ## Relevant Skills
 
-| Skill File                                                                                                                                              | Owner | Purpose                                                                                                 |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------- |
-| [`mobile-security-architecture.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | CSO   | Mobile security architecture design                                                                     |
-| [`application-security-hardening.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | CSO   | Encryption, secure storage, OWASP MASVS compliance                                                      |
-| [`security-risk-assessment.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | CSO   | SRD authorship, privacy and compliance requirements                                                     |
-| [`emerging-threat-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | CSO   | Threat landscape analysis                                                                               |
-| [`security-requirements-and-srd.md`](../../departments/cyberspace-security/supervisor/chief-security-officer/skills/security-requirements-and-srd.md)   | CSO   | Stage 1 SRD authorship: threat modelling, SR-NNN requirements, compliance obligations, Stage 1 sign-off |
-| [`technology-evaluation.md`](../../departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md)                | CIO   | Security-aware technology evaluation                                                                    |
+| Skill File                                                                                                                                                | Owner | Purpose                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------- |
+| [`mobile-security-architecture.md`](company/departments/cyberspace-security/supervisor/chief-security-officer/skills/mobile-security-architecture.md)     | CSO   | Mobile security architecture design                                                                     |
+| [`application-security-hardening.md`](company/departments/cyberspace-security/supervisor/chief-security-officer/skills/application-security-hardening.md) | CSO   | Encryption, secure storage, OWASP MASVS compliance                                                      |
+| [`security-risk-assessment.md`](company/departments/cyberspace-security/supervisor/chief-security-officer/skills/security-risk-assessment.md)             | CSO   | SRD authorship, privacy and compliance requirements                                                     |
+| [`emerging-threat-evaluation.md`](company/departments/cyberspace-security/supervisor/chief-security-officer/skills/emerging-threat-evaluation.md)         | CSO   | Threat landscape analysis                                                                               |
+| [`security-requirements-and-srd.md`](company/departments/cyberspace-security/supervisor/chief-security-officer/skills/security-requirements-and-srd.md)   | CSO   | Stage 1 SRD authorship: threat modelling, SR-NNN requirements, compliance obligations, Stage 1 sign-off |
+| [`technology-evaluation.md`](company/departments/cyberspace-security/supervisor/chief-information-officer/skills/technology-evaluation.md)                | CIO   | Security-aware technology evaluation                                                                    |
 
 ---
 
 ## Reference Links
 
-See [`reference/development/links.md`](../reference/development/links.md) — Security section — for OWASP MAS documentation and platform security developer guides.
+See [`reference/development/links.md`](company/library/reference/development/links.md) — Security section — for OWASP MAS documentation and platform security developer guides.

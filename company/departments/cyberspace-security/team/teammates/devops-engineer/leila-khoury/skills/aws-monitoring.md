@@ -4,6 +4,8 @@ description: "Design and operate AWS security monitoring — CloudWatch, GuardDu
 version: "1.0.0"
 ---
 
+# AWS Monitoring
+
 | Competency                     | Description                                                             | Quality Criteria                                                                                                                                          |
 | ------------------------------ | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CloudWatch Security Monitoring | Configuring CloudWatch for security event detection and alerting        | Creates custom metrics and alarms for security-relevant events; achieves MTTD <5 minutes for critical threats; integrates with SNS/PagerDuty for alerting |

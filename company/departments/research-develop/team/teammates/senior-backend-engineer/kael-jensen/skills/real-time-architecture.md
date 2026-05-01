@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Real Time Architecture
+
 | Competency                 | Description                                                                       | Quality Criteria                                                                                                                                        |
 | -------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WebSocket Architecture     | Handshake protocol, frame structure, heartbeat/ping-pong, reconnection logic      | Implements RFC 6455-compliant WebSocket server; handles connection lifecycle (open, message, close, error); implements exponential backoff reconnection |

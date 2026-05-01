@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# React Testing
+
 --------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | **React Testing Library Mastery** | Querying, user-event simulation, and debugging RTL patterns | Uses `getByRole` as primary query; never uses `getByTestId` without justification; writes tests that mirror user behavior |
 | **Async Component Testing** | Testing loading states, race conditions, error boundaries, and Suspense | Correctly awaits `findBy*` queries; handles `waitFor` timeouts; tests Suspense fallbacks |

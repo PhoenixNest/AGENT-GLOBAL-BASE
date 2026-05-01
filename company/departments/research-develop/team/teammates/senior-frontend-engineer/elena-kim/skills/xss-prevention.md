@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Xss Prevention
+
 | Competency                             | Description                                                                                            | Quality Criteria                                                                                     |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
 | **DOMPurify Extension**                | Custom hook development, configuration hardening, extension API usage for domain-specific sanitization | Custom sanitization rules for rich text, markdown, and data URI content; zero bypass vulnerabilities |

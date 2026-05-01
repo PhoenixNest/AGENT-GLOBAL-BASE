@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# SRE Practices
+
 | Competency            | Description                                                                                | Quality Criteria                                                                                                                         |
 | --------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | SLO/SLI Definition    | Service level objectives, service level indicators, error budgets, SLI collection          | Defines measurable SLIs aligned with user experience; sets SLOs based on user expectations; calculates error budgets and burn rates      |

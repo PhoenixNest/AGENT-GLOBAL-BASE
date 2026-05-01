@@ -4,6 +4,8 @@ description: Recruit translation and localization talent across all seniority le
 version: "1.0.0"
 ---
 
+# Recruit Translation
+
 ## Why This Matters
 
 Recruits elite linguists and localization engineers. Weak translation hires produce inconsistent translations, broken UI layouts, and brand damage in international markets.

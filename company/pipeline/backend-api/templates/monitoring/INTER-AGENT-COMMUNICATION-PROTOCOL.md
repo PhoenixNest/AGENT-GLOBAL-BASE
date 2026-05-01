@@ -1,4 +1,4 @@
-# Inter-Agent Communication Protocol (IACP) — Backend API Pipeline
+﻿# Inter-Agent Communication Protocol (IACP) — Backend API Pipeline
 
 ---
 
@@ -74,8 +74,10 @@ CEO (User)
 
 See Mobile Development IACP §5–§8 for canonical definitions.
 
+This includes §8 **Parallel Agent Workflow (Git Worktree)** — the mandatory isolation pattern when API development runs concurrently with mobile or web track agents. Reference: `core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py` and `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
+
 Pipeline-specific references:
 
-- [Stage Transition Schemas](STAGE-TRANSITION-SCHEMAS.md)
-- [Red Team Review Protocol](../stage-6-code-review/RED-TEAM-REVIEW.md)
-- `AGENTS.md` § Non-Negotiable Rules, Defect Severity, Quick Roster
+- [Stage Transition Schemas](stage-transition-schemas.md)
+- [Red Team Review Protocol](company/pipeline/backend-api/templates/stage-6-code-review/RED-TEAM-REVIEW.md)
+- [Git Worktree Orchestration](core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md)

@@ -1,4 +1,4 @@
-# RAG Evaluation Framework - Reference Table
+﻿# RAG Evaluation Framework - Reference Table
 
 ## Complete Specification of Metrics, Tools, and Testing Patterns
 
@@ -163,8 +163,8 @@ This reference table provides comprehensive specifications for evaluating RAG sy
 
 ## Quick Links to Documentation
 
-- [Architecture Overview](../architecture/overview.md) - System design patterns
-- [Security Guide](../security/guide.md) - Compliance and security controls
-- [Integration Patterns](../integrations/overview.md) - Data source connectors
-- [Components Reference](../components/reference-table.md) - Component specifications
-- [Deployment Templates](../templates/deployment-template.yaml) - Production configs
+- [Architecture Overview](core-component-00/retrieval-augmented-generation/architecture/overview.md) - System design patterns
+- [Security Guide](core-component-00/retrieval-augmented-generation/security/guide.md) - Compliance and security controls
+- [Integration Patterns](core-component-00/retrieval-augmented-generation/integrations/overview.md) - Data source connectors
+- [Components Reference](core-component-00/retrieval-augmented-generation/components/reference-table.md) - Component specifications
+- [Deployment Templates](core-component-00/retrieval-augmented-generation/templates/deployment-template.yaml) - Production configs

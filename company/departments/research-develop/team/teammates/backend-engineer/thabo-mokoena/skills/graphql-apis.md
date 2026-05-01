@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Graphql Apis
+
 | Competency                     | Description                                                            | Quality Criteria                                                                                                                                             |
 | ------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Schema Design                  | Object types, interfaces, unions, enums, input types, directives       | Designs schema following GraphQL best practices; uses interfaces for polymorphic types; selects unions vs interfaces correctly; implements custom directives |

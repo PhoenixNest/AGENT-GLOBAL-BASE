@@ -1,4 +1,4 @@
-# Stage Transition Schemas — JSON Contract Definitions (Web Pipeline)
+﻿# Stage Transition Schemas — JSON Contract Definitions (Web Pipeline)
 
 ---
 
@@ -21,6 +21,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "VP Web + CSO", "role": "Requirements Authors" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "PRD §X | SRD §Y" }],
   "artifacts": {
     "prd": { "version": "v1", "path": "string", "req_count": 0 },
@@ -47,6 +48,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CDO", "role": "Design Lead" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "IDS §X" }],
   "artifacts": {
     "prototype": { "version": "v1", "path": "string", "format": "HTML" },
@@ -79,6 +81,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO + CIO", "role": "Architecture Authors" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "ADR-NNN | TSD" }],
   "artifacts": {
     "uml_package": { "version": "v1", "path": "string", "diagram_count": 0 },
@@ -121,6 +124,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Implementation Planner" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "implementation_plan": {
       "version": "v1",
@@ -179,6 +183,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Development Overseer" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "codebase": {
       "path": "string",
@@ -221,6 +226,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Review Panel Convener" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "defect_report": { "path": "string", "version": "v1" },
     "red_team_report": { "path": "string", "version": "v1" },
@@ -263,6 +269,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Test Overseer" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "test_results": { "path": "string", "version": "v1" },
     "performance_benchmarks": { "path": "string" },
@@ -292,7 +299,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "constraints_forward": [
     {
       "constraint": "No functionality may be removed to achieve test pass",
-      "source": "AGENTS.md Non-Negotiable Rules"
+      "source": "agent-behavioral-constraints.md"
     }
   ]
 }
@@ -309,6 +316,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Integrity Panel Convener" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "integrity_signoff": { "path": "string" },
     "codebase_tag": "stage-8-verified"
@@ -348,6 +356,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO-L", "role": "Chief Translation Officer" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "localized_codebase": { "path": "string", "tag": "stage-9-localized" },
     "translation_verification": { "path": "string" },
@@ -380,6 +389,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Release Panel Convener" },
   "release_decision": "approved | rejected | deferred",
+  "harness_compliance_verified": true,
   "checklist": [
     {
       "domain": "Product",

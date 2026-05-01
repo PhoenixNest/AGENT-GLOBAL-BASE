@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Pact Contract Testing
+
 | Competency                         | Description                                                                                                                                                                              | Quality Criteria                                                                                                                                                                                                                                                                             |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Pact Contract Testing Workflow** | Consumer test authoring, pact file generation, pact publication to broker, provider verification, contract change detection, can-i-deploy checks                                         | Consumer tests use `@Pact` annotation or `PactDslWithProvider` builder; pact files generated in JSON format; published to Pact Broker with version tags; provider verification runs against published pacts; `can-i-deploy` checks before release                                            |

@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisor
 seniority: VP
 recruited-by: chief-human-resources-officer
+department: Product Management
+agent_id: vp-product-api-platform
+hire_date: 2026-04-14
 ---
 
 # Alex Rivera

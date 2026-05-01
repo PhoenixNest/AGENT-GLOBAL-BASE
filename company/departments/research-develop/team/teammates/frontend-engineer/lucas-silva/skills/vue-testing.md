@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Vue Testing
+
 | Competency                     | Description                                                                     | Quality Criteria                                                                 |
 | ------------------------------ | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | **Vitest Configuration**       | Test runner setup, globals, coverage, mocking, environment configuration        | Zero-config Vitest for Vue; coverage thresholds enforced; MSW integration        |

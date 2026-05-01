@@ -1,4 +1,4 @@
-# Stage Transition Schemas — JSON Contract Definitions (Backend API Pipeline)
+﻿# Stage Transition Schemas — JSON Contract Definitions (Backend API Pipeline)
 
 ---
 
@@ -19,6 +19,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "VP API + CSO", "role": "Requirements Authors" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "PRD §X | SRD §Y" }],
   "artifacts": {
     "prd": { "version": "v1", "path": "string", "req_count": 0 },
@@ -45,6 +46,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CDO", "role": "Design Lead" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "IDS §X" }],
   "artifacts": {
     "prototype": {
@@ -80,6 +82,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO + CIO", "role": "Architecture Authors" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "key_decisions": [{ "decision": "string", "source": "ADR-NNN | TSD" }],
   "artifacts": {
     "uml_package": { "version": "v1", "path": "string", "diagram_count": 0 },
@@ -122,6 +125,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Implementation Planner" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "implementation_plan": {
       "version": "v1",
@@ -180,6 +184,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Development Overseer" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "codebase": {
       "path": "string",
@@ -217,6 +222,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Review Panel Convener" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "defect_report": { "path": "string", "version": "v1" },
     "red_team_report": { "path": "string", "version": "v1" },
@@ -259,6 +265,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "completed_date": "YYYY-MM-DD",
   "produced_by": { "agent": "CTO", "role": "Test Overseer" },
   "gate_result": "pass | pass_with_conditions | fail",
+  "harness_compliance_verified": true,
   "artifacts": {
     "test_results": { "path": "string", "version": "v1" },
     "load_test_results": { "path": "string" },
@@ -289,7 +296,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "constraints_forward": [
     {
       "constraint": "No functionality may be removed to achieve test pass",
-      "source": "AGENTS.md Non-Negotiable Rules"
+      "source": "agent-behavioral-constraints.md"
     }
   ]
 }
@@ -297,7 +304,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
 
 ## Schema 8→9, 9→10, 10 Release
 
-These schemas are **structurally identical** to the Web pipeline schemas (no API-specific changes needed for i18n and release stages). See `web-development/templates/monitoring/STAGE-TRANSITION-SCHEMAS.md` for the canonical 8→9, 9→10, and 10-release schemas; adapt the `$schema` prefix to `api/`.
+These schemas are **structurally identical** to the Web pipeline schemas (no API-specific changes needed for i18n and release stages). See `web-development/templates/monitoring/stage-transition-schemas.md` for the canonical 8→9, 9→10, and 10-release schemas; adapt the `$schema` prefix to `api/`.
 
 ---
 

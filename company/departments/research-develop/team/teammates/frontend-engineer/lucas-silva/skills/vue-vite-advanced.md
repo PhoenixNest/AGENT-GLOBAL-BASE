@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Vue Vite Advanced
+
 | Competency                       | Description                                                                    | Quality Criteria                                                                        |
 | -------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
 | **Composition API Architecture** | Composables, reactive state patterns, provide/inject, lifecycle management     | Zero Options API in new code; composables are pure, testable, and type-safe             |

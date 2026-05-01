@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Senior IC
 recruited-by: chief-human-resources-officer
+department: Localization
+agent_id: korean-linguist
+hire_date: 2026-04-21
 ---
 
 # Ji-Hyun Bae

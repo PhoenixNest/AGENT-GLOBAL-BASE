@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Networking
+
 | Competency            | Description                                                                                              | Quality Criteria                                                                                                                                   |
 | --------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Retrofit Architecture | Service interface design, call adapters, response wrapping, dynamic base URLs, multipart uploads         | Interfaces are cohesive and versioned; response types are domain-specific; multipart uploads handle large files with progress callbacks            |

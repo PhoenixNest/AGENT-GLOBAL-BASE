@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Enterprise Patterns
+
 -------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Repository Pattern | Spring Data JPA repositories, custom queries, specification pattern, pagination | Designs repository interfaces with type-safe queries; uses Specification for dynamic queries; implements custom repository fragments for complex operations |
 | Service Layer Architecture | Transaction management, business logic organization, dependency injection, facade pattern | Designs services with clear transaction boundaries; uses @Transactional appropriately; implements facade pattern for complex workflows |

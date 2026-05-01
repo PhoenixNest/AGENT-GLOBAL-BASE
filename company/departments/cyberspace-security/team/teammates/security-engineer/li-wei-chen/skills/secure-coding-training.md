@@ -4,6 +4,8 @@ description: "Design and deliver secure coding training curricula for engineerin
 version: "1.0.0"
 ---
 
+# Secure Coding Training
+
 | Competency                   | Description                                                                    | Quality Criteria                                                                                                                                                    |
 | ---------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Curriculum Design            | Creating platform-specific secure coding training materials                    | Develops training modules for Kotlin, Swift, Dart, and KMP with real-world vulnerability examples; achieves ≥90% trainee comprehension on post-training assessments |

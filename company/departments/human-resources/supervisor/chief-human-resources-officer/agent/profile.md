@@ -5,6 +5,9 @@ tier: supervisor
 # Note: the CHRO lives under company/departments/human-resources/supervisor/ (singular) by convention.
 # Recruited agents are placed under departments/xxx/supervisors/ or departments/xxx/teammates/ (plural) — see Seniority → Tier Mapping.
 seniority: C-suite
+department: Human Resources
+agent_id: chief-human-resources-officer
+hire_date: 2026-04-07
 ---
 
 # Chief Human Resources Officer

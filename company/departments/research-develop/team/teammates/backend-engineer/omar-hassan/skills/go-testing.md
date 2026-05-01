@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Go Testing
+
 | Competency           | Description                                                   | Quality Criteria                                                                                                                          |
 | -------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Table-Driven Tests   | Subtests with t.Run(), test case structs, descriptive naming  | Writes tests with descriptive subtest names; uses meaningful test case names for failure output; handles error expectations per test case |

@@ -2,7 +2,9 @@
 
 ## Executive Summary
 
-This document provides a concrete, actionable plan for integrating prompt engineering into the existing workspace workflow across **skills, hooks, rules, agent profiles, and OpenCode configuration**. The goal: enhance AI accuracy without adding friction to daily work.
+This document provides a concrete, actionable plan for integrating prompt engineering into the existing workspace workflow across **skills, hooks, rules, agent profiles, and AI tool configuration**. The goal: enhance AI accuracy without adding friction to daily work.
+
+> **Note:** This document describes concepts and canonical workspace paths. Examples use **Claude Code** as the reference tool. If you use a different AI tool, adapt the configuration steps to its own hook and instruction mechanisms — canonical workspace content always lives under `company/`, `studio/`, and `core-component-00/`.
 
 ---
 
@@ -11,27 +13,26 @@ This document provides a concrete, actionable plan for integrating prompt engine
 ### Current State
 
 ```
-opencode.json (entry point)
+Claude Code entry point (AGENTS.md — loaded automatically from workspace root)
 ├── instructions:
 │   ├── AGENTS.md (canonical rules)
-│   └── 5 pipeline definitions (stage logic)
-├── skills: 213 files (auto-allowed)
-├── agents: 77 profiles
-└── permission: edit=ask, bash=ask, skill=allow
+│   └── 5 pipeline definitions (company/pipeline/*/pipeline.md)
+├── skills: ~250 files (company/departments/**/skills/)
+├── agents: 80 profiles (company/departments/**/agent/profile.md)
+└── permissions: configured per tool
 ```
 
 ### Target State
 
 ```
-opencode.json (entry point)
+<tool-config> (AI tool entry point)
 ├── instructions:
 │   ├── AGENTS.md (canonical rules + prompt standards)
-│   ├── .prompt-engineering/standards.md (prompt quality rules)
-│   └── 5 pipeline definitions (stage logic + prompt templates)
-├── skills: 213 files (enhanced with few-shot examples + quality checklists)
-├── agents: 77 profiles (enhanced with stage-aware context + skill routing)
-├── hooks: pre-stage validation + post-stage quality gates
-└── permission: edit=ask, bash=ask, skill=allow
+│   └── 5 pipeline definitions (company/pipeline/*/pipeline.md)
+├── skills: ~250 files (enhanced with few-shot examples + quality checklists)
+├── agents: 80 profiles (enhanced with stage-aware context + skill routing)
+├── hooks: pre-stage validation + post-stage quality gates (tool-specific config)
+└── permissions: configured per tool
 ```
 
 ---
@@ -191,7 +192,7 @@ Hooks are the **automation** layer. They run at pipeline stage boundaries to val
 
 **Why:** Prevents stage execution with missing context — the #1 cause of poor AI output.
 
-**How:** Create `.opencode/hooks/pre-stage-{N}.md` for each stage:
+**How:** Create a `pre-stage-{N}.md` hook file and attach it as a system prompt instruction in Claude Code. The canonical hook templates live in `company/pipeline/<pipeline>/templates/monitoring/`. Example hook structure:
 
 ```markdown
 # Pre-Stage 1 Hook: Requirements Validation
@@ -218,7 +219,7 @@ If any item is missing, ask the user before proceeding.
 
 **Why:** Catches incomplete or incorrect artifacts before they propagate to the next stage.
 
-**How:** Create `.opencode/hooks/post-stage-{N}.md` for each stage:
+**How:** Create a `post-stage-{N}.md` hook file in your AI tool's configuration directory (same location as pre-stage hooks above). Example structure:
 
 ```markdown
 # Post-Stage 3 Hook: UML Engineering Package Validation
@@ -244,8 +245,10 @@ If any item is missing, do NOT advance to Stage 4. Notify the user.
 
 ### 3.3 Hook Directory Structure
 
+Store hook files in the canonical pipeline templates directory and attach them to Claude Code as needed. The logical structure is:
+
 ```
-.opencode/hooks/
+company/pipeline/<pipeline>/templates/monitoring/hooks/
 ├── pre-stage-1-requirements.md
 ├── post-stage-1-requirements.md
 ├── pre-stage-2-prototype.md
@@ -267,6 +270,8 @@ If any item is missing, do NOT advance to Stage 4. Notify the user.
 ├── pre-stage-10-release.md
 └── post-stage-10-release.md
 ```
+
+> **Claude Code — hook configuration:** Attach hook files via `AGENTS.md` (add them to the instructions list) or pass them as a system prompt using `--append-system-prompt`. Hook files themselves live in `company/pipeline/<pipeline>/templates/monitoring/` and can be referenced by path.
 
 ### 3.4 Hook Implementation Options
 
@@ -430,56 +435,56 @@ When producing artifacts, follow these formats:
 
 ---
 
-## 6. Integration Point 5: OpenCode Configuration
+## 6. Integration Point 5: AI Tool Configuration
 
-The `opencode.json` is the **entry point**. It controls what the agent loads on startup.
+Every AI tool has an **entry point** — a configuration file or instruction set that controls what the agent loads on startup. The canonical workspace content never changes; only the tool-specific configuration pointing to it changes.
 
 ### 6.1 Add Prompt Engineering Instructions
 
-**What:** Add a prompt engineering standards file to the instructions array.
+**What:** Point your AI tool's config at the canonical pipeline definitions and prompt engineering references.
 
-**Why:** Ensures prompt quality standards are loaded on every session.
+**Why:** Ensures prompt quality standards are loaded on every session regardless of which tool is used.
 
-**How:** Update `opencode.json`:
+**How:** Configure your tool to load from canonical workspace paths:
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "instructions": [
-    "AGENTS.md",
-    ".opencode/pipeline/mobile-development/pipeline.md",
-    ".opencode/pipeline/web-development/pipeline.md",
-    ".opencode/pipeline/backend-api/pipeline.md",
-    ".opencode/pipeline/full-stack/pipeline.md",
-    ".opencode/pipeline/recruitment/pipeline.md",
-    "core-component-00/prompt-engineering/research.md",
-    "core-component-00/prompt-engineering/quick-reference.md"
-  ],
-  "permission": {
-    "edit": "ask",
-    "bash": "ask",
-    "skill": {
-      "*": "allow"
-    }
-  }
-}
+| What to load                 | Canonical workspace path                                  |
+| ---------------------------- | --------------------------------------------------------- |
+| Master rules                 | `AGENTS.md`                                               |
+| Mobile pipeline              | `company/pipeline/mobile-development/pipeline.md`         |
+| Web pipeline                 | `company/pipeline/web-development/pipeline.md`            |
+| Backend API pipeline         | `company/pipeline/backend-api/pipeline.md`                |
+| Full-Stack pipeline          | `company/pipeline/full-stack/pipeline.md`                 |
+| Recruitment pipeline         | `company/pipeline/recruitment/pipeline.md`                |
+| Prompt engineering reference | `core-component-00/prompt-engineering/quick-reference.md` |
+
+**Example — Claude Code:**
+
+Claude Code automatically reads `AGENTS.md` from the workspace root. To load additional pipeline files, reference them inside `AGENTS.md` or pass them at invocation time:
+
+```bash
+# Load AGENTS.md (automatic) + a specific pipeline for the active project
+claude --append-system-prompt "$(cat company/pipeline/mobile-development/pipeline.md)"
 ```
 
-### 6.2 Add Hook Configuration (If Supported)
+Or add them as persistent entries in `AGENTS.md` under an `## Additional Instructions` section:
 
-**What:** Configure hooks to run automatically at stage boundaries.
+```markdown
+## Additional Instructions
+
+- See `company/pipeline/mobile-development/pipeline.md` for the mobile pipeline stage definitions.
+- See `core-component-00/prompt-engineering/quick-reference.md` for prompt quality standards.
+```
+
+### 6.2 Add Hook Configuration
+
+**What:** Configure hooks to run automatically at stage boundaries — if your tool supports it.
 
 **Why:** Automates quality gates without manual intervention.
 
-**How:** If OpenCode supports hook configuration:
+**How (Claude Code):** Pass hook files as system prompt attachments at stage boundaries, or reference them inside `AGENTS.md`:
 
-```json
-{
-  "hooks": {
-    "pre-stage": ".opencode/hooks/pre-stage-{stage}.md",
-    "post-stage": ".opencode/hooks/post-stage-{stage}.md"
-  }
-}
+```bash
+claude --append-system-prompt "$(cat company/pipeline/<pipeline>/templates/monitoring/pre-stage-{N}.md)"
 ```
 
 ---
@@ -514,12 +519,12 @@ The `opencode.json` is the **entry point**. It controls what the agent loads on 
 
 ### Phase 4: Full Rollout (Week 4)
 
-| Task                                               | Effort     | Impact | Priority |
-| -------------------------------------------------- | ---------- | ------ | -------- |
-| Add few-shot examples to remaining 183 skills      | 8-10 hours | Medium | P2       |
-| Add trigger keywords to remaining 183 skills       | 4-6 hours  | Medium | P2       |
-| Update opencode.json with prompt engineering files | 15 minutes | Low    | P3       |
-| Document integration in workspace-strategy.md      | 1 hour     | Low    | P3       |
+| Task                                                          | Effort     | Impact | Priority |
+| ------------------------------------------------------------- | ---------- | ------ | -------- |
+| Add few-shot examples to remaining 183 skills                 | 8-10 hours | Medium | P2       |
+| Add trigger keywords to remaining 183 skills                  | 4-6 hours  | Medium | P2       |
+| Update AI tool config with canonical prompt engineering paths | 15 minutes | Low    | P3       |
+| Document integration in workspace-strategy.md                 | 1 hour     | Low    | P3       |
 
 ---
 
@@ -599,8 +604,8 @@ User: Reviews, approves (minimal iteration needed)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    OpenCode Configuration                │
-│              (opencode.json — entry point)               │
+│            Claude Code Configuration Layer               │
+│        (AGENTS.md — loaded automatically from root)      │
 ├─────────────────────────────────────────────────────────┤
 │  Instructions Layer (loaded every session)               │
 │  ├── AGENTS.md (canonical rules + prompt standards)     │

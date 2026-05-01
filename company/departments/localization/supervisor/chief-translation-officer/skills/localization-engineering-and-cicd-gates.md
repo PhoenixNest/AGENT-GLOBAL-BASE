@@ -187,7 +187,7 @@ The TVR is the Stage 9 gate artifact. Dr. Osei-Mensah issues the TVR only after:
 
 **[APPROVED / BLOCKED — reason]**
 
-Dr. Amara Osei-Mensah's signature: ****\_\_\_****
+Dr. Amara Osei-Mensah's signature: \***\*\_\_\_\*\***
 ```
 
 ## Quality Standards

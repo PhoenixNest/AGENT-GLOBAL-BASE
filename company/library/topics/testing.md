@@ -1,4 +1,4 @@
-# Testing
+﻿# Testing
 
 Cross-cutting reference for all testing concerns: automated test suite design, defect severity classification, regression testing, and the integrity verification process. Testing spans Stages 7 and 8, with the defect severity system (P0–P3) also applying in Stage 6.
 
@@ -6,12 +6,12 @@ Cross-cutting reference for all testing concerns: automated test suite design, d
 
 ## Owners
 
-| Role                           | Name               | Department | Profile                                                                                                            |
-| ------------------------------ | ------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D        | [`profile.md`](../../departments/research-develop/supervisor/chief-technology-officer/agent/profile.md)            |
-| Test Lead                      | Priscilla Oduya    | R&D        | [`profile.md`](../../departments/research-develop/team/supervisors/test-lead/priscilla-oduya/agent/profile.md)     |
-| VP of Quality Engineering      | Aisha Patel        | R&D        | [`profile.md`](../../departments/research-develop/team/supervisors/vp-quality/agent/profile.md)                    |
-| Test Automation Lead           | Rachel Kim         | R&D        | [`profile.md`](../../departments/research-develop/team/teammates/test-automation-lead/rachel-kim/agent/profile.md) |
+| Role                           | Name               | Department | Profile                                                                                                                |
+| ------------------------------ | ------------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Chief Technology Officer (CTO) | Dr. Kenji Nakamura | R&D        | [`profile.md`](company/departments/research-develop/supervisor/chief-technology-officer/agent/profile.md)              |
+| Test Lead                      | Priscilla Oduya    | R&D        | [`profile.md`](company/departments/research-develop/team/supervisors/test-lead/priscilla-oduya/agent/profile.md)       |
+| VP of Quality Engineering      | Aisha Patel        | R&D        | [`profile.md`](company/departments/research-develop/team/supervisors/vp-quality/agent/profile.md)                      |
+| Test Automation Lead           | Rachel Kim         | R&D        | [`profile.md`](company/departments/research-develop/team/supervisors/test-automation-lead/rachel-kim/agent/profile.md) |
 
 ---
 
@@ -91,19 +91,19 @@ The post-testing codebase is reviewed against the **full artifact set** (PRD, ID
 
 ## Relevant Skills
 
-| Skill File                                                                                                                                                        | Owner                | Purpose                                                                                    |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------ |
-| [`automated-test-suite.md`](../../departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/automated-test-suite.md)                         | Test Lead            | Automated test suite design and execution                                                  |
-| [`defect-triage-and-classification.md`](../../departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/defect-triage-and-classification.md) | Test Lead            | P0–P3 defect classification and triage (supervisor-level)                                  |
-| [`quality-engineering-strategy.md`](../../departments/research-develop/team/supervisors/vp-quality/skills/quality-engineering-strategy.md)                        | VP Quality           | Stage 7 ownership — Test Plan + Test Results Report; Stage 8 sign-off                      |
-| [`axe-core-wcag-testing.md`](../../departments/research-develop/team/supervisors/vp-quality/skills/axe-core-wcag-testing.md)                                      | VP Quality           | Automated WCAG 2.1 AA accessibility testing: CI integration, release-blocking criteria     |
-| [`localization-testing-strategy.md`](../../departments/research-develop/team/supervisors/vp-quality/skills/localization-testing-strategy.md)                      | VP Quality           | Localization testing: pseudo-localization, TMS string verification, i18n layout regression |
-| [`mobile-test-automation.md`](../../departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/mobile-test-automation.md)                 | Test Automation Lead | Mobile test automation frameworks and CI integration                                       |
-| [`defect-triage-protocol.md`](../../departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/defect-triage-protocol.md)                 | Test Automation Lead | Automated defect triage: bug vs flaky test vs environment classification                   |
-| [`api-contract-testing.md`](../../departments/research-develop/team/teammates/test-automation-lead/rachel-kim/skills/api-contract-testing.md)                     | Test Automation Lead | Consumer-driven contract testing with Pact; Pact Broker CI integration                     |
+| Skill File                                                                                                                                                          | Owner                | Purpose                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------ |
+| [`automated-test-suite.md`](company/departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/automated-test-suite.md)                         | Test Lead            | Automated test suite design and execution                                                  |
+| [`defect-triage-and-classification.md`](company/departments/research-develop/team/supervisors/test-lead/priscilla-oduya/skills/defect-triage-and-classification.md) | Test Lead            | P0–P3 defect classification and triage (supervisor-level)                                  |
+| [`quality-engineering-strategy.md`](company/departments/research-develop/team/supervisors/vp-quality/skills/quality-engineering-strategy.md)                        | VP Quality           | Stage 7 ownership — Test Plan + Test Results Report; Stage 8 sign-off                      |
+| [`axe-core-wcag-testing.md`](company/departments/research-develop/team/supervisors/vp-quality/skills/axe-core-wcag-testing.md)                                      | VP Quality           | Automated WCAG 2.1 AA accessibility testing: CI integration, release-blocking criteria     |
+| [`localization-testing-strategy.md`](company/departments/research-develop/team/supervisors/vp-quality/skills/localization-testing-strategy.md)                      | VP Quality           | Localization testing: pseudo-localization, TMS string verification, i18n layout regression |
+| [`mobile-test-automation.md`](company/departments/research-develop/team/supervisors/test-automation-lead/rachel-kim/skills/mobile-test-automation.md)               | Test Automation Lead | Mobile test automation frameworks and CI integration                                       |
+| [`defect-triage-protocol.md`](company/departments/research-develop/team/supervisors/test-automation-lead/rachel-kim/skills/defect-triage-protocol.md)               | Test Automation Lead | Automated defect triage: bug vs flaky test vs environment classification                   |
+| [`api-contract-testing.md`](company/departments/research-develop/team/supervisors/test-automation-lead/rachel-kim/skills/api-contract-testing.md)                   | Test Automation Lead | Consumer-driven contract testing with Pact; Pact Broker CI integration                     |
 
 ---
 
 ## Reference Links
 
-See [`reference/development/links.md`](../reference/development/links.md) for platform-specific testing documentation (Android testing, iOS XCTest, Flutter test tooling).
+See [`reference/development/links.md`](company/library/reference/development/links.md) for platform-specific testing documentation (Android testing, iOS XCTest, Flutter test tooling).

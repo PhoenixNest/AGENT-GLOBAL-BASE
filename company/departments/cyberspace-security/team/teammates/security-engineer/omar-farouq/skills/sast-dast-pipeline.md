@@ -4,6 +4,8 @@ description: "Configure and maintain SAST/DAST security pipelines using Semgrep,
 version: "1.0.0"
 ---
 
+# Sast Dast Pipeline
+
 | Competency                | Description                                                 | Quality Criteria                                                                                                                                                              |
 | ------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SAST Engine Configuration | Tuning static analysis tools for high signal-to-noise ratio | Writes custom Semgrep rules with <3% false positive rate; configures CodeQL for mobile-specific query packs; achieves 80%+ true positive rate on known vulnerability datasets |

@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# IOS Accessibility
+
 | Competency                | Description                                                                                                | Quality Criteria                                                                                                              |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | VoiceOver                 | Accessibility labels, hints, traits, notifications, custom actions, rotor items                            | All UI elements have meaningful labels; custom actions for complex interactions; VoiceOver navigation is logical and complete |

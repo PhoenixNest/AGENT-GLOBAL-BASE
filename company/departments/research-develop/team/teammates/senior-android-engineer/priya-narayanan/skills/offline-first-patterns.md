@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Offline First Patterns
+
 ------------------ | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Room Database Design | Entity relationships, type converters, indices, migrations, FTS full-text search | Normalized schema with appropriate denormalization for read patterns; migration paths tested for every schema change; query performance <50ms for P95 |
 | WorkManager Scheduling | One-time vs periodic work, constraints, chaining, input/output data | Work executes reliably across device reboots; constraints (network type, charging) correctly applied; work chaining handles partial failures |

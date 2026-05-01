@@ -1,4 +1,4 @@
-# Context Window Anatomy
+﻿# Context Window Anatomy
 
 ## The Four Slots
 
@@ -182,4 +182,4 @@ This means: **never put your most important content in the middle of a long cont
 
 **Version:** 1.0
 **Last Updated:** 2026-04-28
-**See also:** [Memory Types](./memory-types.md) · [Assembly Patterns](../patterns/assembly-patterns.md) · [CONCEPTS.md](../CONCEPTS.md)
+**See also:** [Memory Types](./memory-types.md) · [Assembly Patterns](core-component-00/context-engineering/patterns/assembly-patterns.md) · [CONCEPTS.md](core-component-00/context-engineering/CONCEPTS.md)

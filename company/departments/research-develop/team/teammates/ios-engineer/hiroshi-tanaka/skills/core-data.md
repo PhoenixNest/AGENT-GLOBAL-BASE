@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Core Data
+
 | Competency                 | Description                                                                                             | Quality Criteria                                                                                                                            |
 | -------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | Managed Object Context     | MOC hierarchy, parent-child contexts, thread confinement, save propagation, undo manager                | Context hierarchy matches use case (view context → background context); thread confinement strictly enforced; save propagation understood   |

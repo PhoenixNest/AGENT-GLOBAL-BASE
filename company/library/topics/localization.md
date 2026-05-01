@@ -1,4 +1,4 @@
-# Localization
+﻿# Localization
 
 Cross-cutting reference for all internationalization (i18n) and localization (L10n) concerns: string extraction, resource file engineering, TMS pipeline operations, and translation management. This topic spans the R&D and Localization departments and is the focus of Stage 9.
 
@@ -6,11 +6,11 @@ Cross-cutting reference for all internationalization (i18n) and localization (L1
 
 ## Owners
 
-| Role                              | Name                  | Department   | Profile                                                                                                            |
-| --------------------------------- | --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------ |
-| Chief Translation Officer (CTO-L) | Dr. Amara Osei-Mensah | Localization | [`profile.md`](../../departments/localization/supervisor/chief-translation-officer/agent/profile.md)               |
-| Internationalization Specialist   | Tomas Dvoracek        | R&D          | [`profile.md`](../../departments/research-develop/team/teammates/internationalization-specialist/agent/profile.md) |
-| Localization Engineer             | Dario Esposito        | Localization | [`profile.md`](../../departments/localization/team/teammates/localization-engineer/agent/profile.md)               |
+| Role                              | Name                  | Department   | Profile                                                                                                              |
+| --------------------------------- | --------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------- |
+| Chief Translation Officer (CTO-L) | Dr. Amara Osei-Mensah | Localization | [`profile.md`](company/departments/localization/supervisor/chief-translation-officer/agent/profile.md)               |
+| Internationalization Specialist   | Tomas Dvoracek        | R&D          | [`profile.md`](company/departments/research-develop/team/teammates/internationalization-specialist/agent/profile.md) |
+| Localization Engineer             | Dario Esposito        | Localization | [`profile.md`](company/departments/localization/team/teammates/localization-engineer/agent/profile.md)               |
 
 ---
 
@@ -53,13 +53,13 @@ CPO, CDO, and CTO conduct a joint structural completeness review:
 
 ## Target Languages
 
-| Language | Code(s)       | Linguist                | Profile                                                                                          |
-| -------- | ------------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
-| English  | EN-US / EN-GB | Amelia Hartington       | [`profile.md`](../../departments/localization/team/teammates/english-linguist/agent/profile.md)  |
-| Chinese  | ZH-CN / ZH-TW | Wei-Chen Liu            | [`profile.md`](../../departments/localization/team/teammates/chinese-linguist/agent/profile.md)  |
-| Japanese | JA            | Haruki Yoshimoto        | [`profile.md`](../../departments/localization/team/teammates/japanese-linguist/agent/profile.md) |
-| Korean   | KO            | Ji-Hyun Bae             | [`profile.md`](../../departments/localization/team/teammates/korean-linguist/agent/profile.md)   |
-| French   | FR-FR / FR-CA | Isabelle Moreau-Leclerc | [`profile.md`](../../departments/localization/team/teammates/french-linguist/agent/profile.md)   |
+| Language | Code(s)       | Linguist                | Profile                                                                                            |
+| -------- | ------------- | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| English  | EN-US / EN-GB | Amelia Hartington       | [`profile.md`](company/departments/localization/team/teammates/english-linguist/agent/profile.md)  |
+| Chinese  | ZH-CN / ZH-TW | Wei-Chen Liu            | [`profile.md`](company/departments/localization/team/teammates/chinese-linguist/agent/profile.md)  |
+| Japanese | JA            | Haruki Yoshimoto        | [`profile.md`](company/departments/localization/team/teammates/japanese-linguist/agent/profile.md) |
+| Korean   | KO            | Ji-Hyun Bae             | [`profile.md`](company/departments/localization/team/teammates/korean-linguist/agent/profile.md)   |
+| French   | FR-FR / FR-CA | Isabelle Moreau-Leclerc | [`profile.md`](company/departments/localization/team/teammates/french-linguist/agent/profile.md)   |
 
 > Target languages are determined by user specification at project start (PRD Stage 1).
 
@@ -75,12 +75,12 @@ CPO, CDO, and CTO conduct a joint structural completeness review:
 
 ## Relevant Skills
 
-| Skill File                                                                                                                                                                    | Owner                           | Purpose                                                     |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------- |
-| [`string-extraction-and-resource-files.md`](../../departments/research-develop/team/teammates/internationalization-specialist/skills/string-extraction-and-resource-files.md) | Internationalization Specialist | String scanning, extraction, and resource file production   |
-| [`localization-pipeline-engineering.md`](../../departments/localization/team/teammates/localization-engineer/skills/localization-pipeline-engineering.md)                     | Localization Engineer           | TMS pipeline: string intake, push, pull, validation linting |
-| [`language-translation-module.md`](../../departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md)                                 | CTO-L                           | Governs all translation work and report issuance            |
-| [`mobile-ui-translation.md`](../../departments/localization/team/teammates/english-linguist/skills/mobile-ui-translation.md)                                                  | All linguists                   | Mobile UI string translation within the TMS                 |
+| Skill File                                                                                                                                                                      | Owner                           | Purpose                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------- |
+| [`string-extraction-and-resource-files.md`](company/departments/research-develop/team/teammates/internationalization-specialist/skills/string-extraction-and-resource-files.md) | Internationalization Specialist | String scanning, extraction, and resource file production   |
+| [`localization-pipeline-engineering.md`](company/departments/localization/team/teammates/localization-engineer/skills/localization-pipeline-engineering.md)                     | Localization Engineer           | TMS pipeline: string intake, push, pull, validation linting |
+| [`language-translation-module.md`](company/departments/localization/supervisor/chief-translation-officer/skills/language-translation-module.md)                                 | CTO-L                           | Governs all translation work and report issuance            |
+| [`mobile-ui-translation.md`](company/departments/localization/team/teammates/english-linguist/skills/mobile-ui-translation.md)                                                  | All linguists                   | Mobile UI string translation within the TMS                 |
 
 ---
 

@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Appium Detox
+
 | Competency                           | Description                                                                                                                                                                                                          | Quality Criteria                                                                                                                                                                                                                                                                                             |
 | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Appium 2.0 Architecture**          | Server/driver/plugin separation, `appium` CLI, driver installation (`uiautomator2`, `xcuitest`), plugin ecosystem (`device-farm`, `relaxed-caps`, `images`), session capabilities, W3C WebDriver protocol compliance | Drivers installed via `appium driver install`; plugins configured in `appium server --use-plugins`; desired capabilities follow W3C `alwaysMatch/firstMatch` format; session management handles concurrent connections; server logs analyzed for driver-level errors                                         |

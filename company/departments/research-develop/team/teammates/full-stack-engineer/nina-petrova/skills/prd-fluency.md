@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Prd Fluency
+
 | Competency                      | Description                                                                                 | Quality Criteria                                                                                                                                          |
 | ------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Requirements Translation        | PRD user story to technical task mapping, acceptance criteria derivation, effort estimation | Decomposes every PRD requirement into implementable tasks; writes acceptance criteria that are testable; provides effort estimates with confidence levels |

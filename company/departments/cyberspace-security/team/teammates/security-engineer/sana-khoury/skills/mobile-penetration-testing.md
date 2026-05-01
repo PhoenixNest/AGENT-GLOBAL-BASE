@@ -4,6 +4,8 @@ description: "Conduct comprehensive mobile penetration tests — static binary a
 version: "1.0.0"
 ---
 
+# Mobile Penetration Testing
+
 | Competency                 | Description                                                     | Quality Criteria                                                                                                                                                                                                          |
 | -------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Static Analysis            | Reverse engineering of APK/IPA binaries without execution       | Decompiles DEX to readable Java via Jadx with 95%+ recovery rate; reconstructs ProGuard-obfuscated control flow in Ghidra; identifies hardcoded secrets in native libraries (`.so`, `.dylib`) using `strings` + `objdump` |

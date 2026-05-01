@@ -5,6 +5,8 @@ description: >
 version: "1.0.0"
 ---
 
+# API Technical Writing
+
 API technical writing skill for Amina Razak — Technical Writer (R&D department).
 Produces API documentation, SDK guides, developer portal content, and engineering standards documentation.
 

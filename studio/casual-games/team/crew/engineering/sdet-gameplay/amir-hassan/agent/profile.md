@@ -11,6 +11,8 @@ requisition: G36
 vetting-score: 17/20
 composite-score: 4.410
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Amir Hassan — SDET Gameplay #1

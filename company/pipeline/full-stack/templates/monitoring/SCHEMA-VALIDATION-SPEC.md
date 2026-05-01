@@ -1,4 +1,4 @@
-# Schema Validation Specification — Automated Gate Enforcement (Full-Stack Pipeline)
+﻿# Schema Validation Specification — Automated Gate Enforcement (Full-Stack Pipeline)
 
 ---
 
@@ -45,14 +45,15 @@ This specification defines how **Stage Transition Schemas** are validated automa
 | `8→9`  | `V-FS-802`  | `integrity_checks.prd_features_intact` must be `true`                  | **Blocker** |
 | `9→10` | `V-FS-901`  | `i18n_summary.hardcoded_strings_remaining` must be `0`                 | **Blocker** |
 | `9→10` | `V-FS-902`  | All BLEU scores must be ≥ 0.80                                         | **Warning** |
-| `10`   | `V-FS-1001` | All checklist items must have `passed: true`                           | **Blocker** |
+| `10`   | `V-FS-1001` | All 12 `checklist` domain items must have `passed: true`               | **Blocker** |
 | `10`   | `V-FS-1002` | `user_decision` must be `"release"` for release                        | **Blocker** |
+| All    | `V-FS-1003` | `harness_compliance_verified` must be `true`                           | **Blocker** |
 
 ---
 
 ## 3–7. Process, Output, Integration, Escalation
 
-Follow the **same structure** as the Web pipeline specification. Rule ID prefixes use `V-FS-` throughout. See `web-development/templates/monitoring/SCHEMA-VALIDATION-SPEC.md` for canonical definitions.
+Follow the **same structure** as the Web pipeline specification. Rule ID prefixes use `V-FS-` throughout. See `web-development/templates/monitoring/schema-validation-spec.md` for canonical definitions.
 
 ### Full-Stack Specific: Cross-Track Validation
 

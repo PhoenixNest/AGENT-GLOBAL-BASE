@@ -11,6 +11,8 @@ requisition: G30
 vetting-score: 17/20
 composite-score: 4.510
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # David Okafor — Live Ops Engineer #1

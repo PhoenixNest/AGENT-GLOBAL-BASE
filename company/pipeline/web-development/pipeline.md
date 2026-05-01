@@ -1,10 +1,12 @@
-# Web Application Pipeline
+﻿# Web Application Pipeline
 
 ## Overview
 
-The company's web application development workflow is a ten-stage state machine. At each stage you are required to log the current execution phase and update the workflow's progress. Each stage follows a consistent schema: **Relevant Personnel**, **Artifacts In**, **Artifacts Out**, a designated **Responsible Producer**, explicit **Reviewers**, **Gate Criteria** that must be satisfied before the stage closes, and **Defect Handling** where applicable.
+The company's web application development workflow is a thirteen-stage state machine (Stages 0–11, with Stage 9.5 between Stage 9 and Stage 10). At each stage you are required to log the current execution phase and update the workflow's progress. Each stage follows a consistent schema: **Relevant Personnel**, **Artifacts In**, **Artifacts Out**, a designated **Responsible Producer**, explicit **Reviewers**, **Gate Criteria** that must be satisfied before the stage closes, and **Defect Handling** where applicable.
 
 Each workflow must be assigned to a designated responsible party. Each assigned individual is regarded as a "Subagent"; as the primary "Agent," you must collaborate with these Subagents — leveraging their respective skill sets — to successfully complete every task within the workflow.
+
+> **Behavioural Constraints:** All agents operating in this pipeline must comply with the forbidden behaviours and required declarations defined in [`company/pipeline/_base/agent-behavioral-constraints.md`](company/_base/agent-behavioral-constraints.md).
 
 ---
 

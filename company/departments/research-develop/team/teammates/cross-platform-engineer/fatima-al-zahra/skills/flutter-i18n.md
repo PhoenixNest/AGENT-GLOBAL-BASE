@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Flutter I18n
+
 | Competency       | Description                                                                                            | Quality Criteria                                                                                                                                     |
 | ---------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Flutter intl     | flutter_localizations setup, Intl.message, Intl.plural, Intl.select, date/number formatting            | All user-facing strings use Intl or AppLocalizations; date/number formatting respects locale; no hardcoded strings in widgets                        |

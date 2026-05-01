@@ -4,6 +4,9 @@ role: supervisor
 tier: supervisor
 seniority: C-suite
 recruited-by: chief-human-resources-officer
+department: Brand Design
+agent_id: chief-design-officer
+hire_date: 2026-04-07
 ---
 
 # Yuki Tanaka-Chen

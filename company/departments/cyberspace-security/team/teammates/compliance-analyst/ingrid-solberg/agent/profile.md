@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Mid / Junior IC
 recruited-by: chief-human-resources-officer
+department: Cyberspace Security
+agent_id: ingrid-solberg-compliance-analyst
+hire_date: 2026-04-21
 ---
 
 # Ingrid Solberg

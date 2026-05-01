@@ -122,4 +122,3 @@ This skill governs the following pipeline stages:
 | ------------------ | -------------------------- | ------------------------------------------------- |
 | Mobile Development | Stage 9 (i18n Engineering) | `company/pipeline/mobile-development/pipeline.md` |
 | Web Development    | Stage 9 (i18n Engineering) | `company/pipeline/web-development/pipeline.md`    |
-

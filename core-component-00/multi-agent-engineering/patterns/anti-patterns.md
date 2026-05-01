@@ -1,4 +1,4 @@
-# Multi-Agent Anti-Patterns
+﻿# Multi-Agent Anti-Patterns
 
 > Seven failure modes that degrade multi-agent system quality, with detection heuristics and remediation strategies.
 
@@ -242,4 +242,4 @@ Some anti-patterns amplify each other:
 
 **Version:** 1.0
 **Last Updated:** 2026-04-29
-**See also:** [Orchestration Patterns](./orchestration-patterns.md) · [Quick Reference](../quick-reference.md) · [CONCEPTS.md](../CONCEPTS.md)
+**See also:** [Orchestration Patterns](./orchestration-patterns.md) · [Quick Reference](core-component-00/multi-agent-engineering/quick-reference.md) · [CONCEPTS.md](core-component-00/multi-agent-engineering/CONCEPTS.md)

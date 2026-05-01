@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# React Testing Advanced
+
 | Competency                            | Description                                                                             | Quality Criteria                                                                                    |
 | ------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **React Testing Library Mastery**     | User-centric queries, event simulation, async testing, accessibility assertions         | Zero implementation-detail tests (no testing state variables, refs, or internal methods)            |

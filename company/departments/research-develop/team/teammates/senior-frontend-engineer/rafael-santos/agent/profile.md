@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Senior IC
 recruited-by: chief-human-resources-officer
+department: Research & Development
+agent_id: rafael-santos-senior-frontend-engineer
+hire_date: 2026-04-21
 ---
 
 # Rafael Santos

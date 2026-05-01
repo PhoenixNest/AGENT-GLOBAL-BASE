@@ -1,4 +1,4 @@
-# Context Engineering Strategy — This Workspace
+﻿# Context Engineering Strategy — This Workspace
 
 ## What This Workspace Is, Through a Context Engineering Lens
 
@@ -43,7 +43,7 @@ This reduces noise in subagent system slots and improves instruction-following a
 
 ## Layer 2: Tactical — Procedural Memory as Skill Files
 
-The 213+ skill files in `.cursor/skills/` are the workspace's **procedural memory store**. Each skill file encodes "how to do X" for a specific domain.
+The ~250 skill files in `company/departments/**/skills/` are the workspace's **procedural memory store**. Each skill file encodes "how to do X" for a specific domain.
 
 **Current state:** Skills are loaded wholesale at session start (all 213+).
 **Context engineering optimisation:** Load only skills relevant to the current task.
@@ -122,4 +122,4 @@ These must be promoted to **semantic memory** at the moment they are made and re
 
 **Version:** 1.0
 **Last Updated:** 2026-04-28
-**See also:** [Integration Guide](./integration-guide.md) · [CONCEPTS.md](../CONCEPTS.md) · [Assembly Patterns](../patterns/assembly-patterns.md)
+**See also:** [Integration Guide](./integration-guide.md) · [CONCEPTS.md](core-component-00/context-engineering/CONCEPTS.md) · [Assembly Patterns](core-component-00/context-engineering/patterns/assembly-patterns.md)

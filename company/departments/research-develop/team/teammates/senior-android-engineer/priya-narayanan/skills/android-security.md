@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Security
+
 ----------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | OWASP MASVS Compliance | Understanding of MASVS V1-V8 control families, L1 vs L2 certification levels, and verification procedures | Maps every security requirement from SRD to specific MASVS control IDs; achieves L1 baseline for all production releases; documents verification evidence |
 | Android Keystore & Cryptography | Key generation, hardware-backed storage, key attestation, encryption/decryption lifecycle | Uses Android Keystore for all cryptographic keys; implements key rotation; handles key invalidation gracefully (BIOMETRIC_ERROR, device lock screen change) |

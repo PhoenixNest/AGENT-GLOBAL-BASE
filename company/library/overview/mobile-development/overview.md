@@ -1,8 +1,8 @@
-# Mobile Development Pipeline — Overview
+﻿# Mobile Development Pipeline — Overview
 
 **Pipeline:** Mobile Development (P0 — Original)
-**Full Definition:** [`pipeline.md`](../../pipeline/mobile-development/pipeline.md)
-**Monitoring:** [`monitoring.md`](../../pipeline/mobile-development/monitoring.md)
+**Full Definition:** [`pipeline.md`](company/library/pipeline/mobile-development/pipeline.md)
+**Monitoring:** [`monitoring.md`](company/library/pipeline/mobile-development/monitoring.md)
 
 ---
 
@@ -79,4 +79,4 @@ Three-layer architecture with mobile-specific fields:
 
 ---
 
-_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](../../pipeline/mobile-development/pipeline.md)._
+_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](company/library/pipeline/mobile-development/pipeline.md)._

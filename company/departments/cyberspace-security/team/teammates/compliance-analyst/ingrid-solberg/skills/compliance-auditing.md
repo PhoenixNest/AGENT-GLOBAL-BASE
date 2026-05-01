@@ -4,6 +4,8 @@ description: "Conduct end-to-end compliance audits across SOC 2 Type II, PCI DSS
 version: "1.0.0"
 ---
 
+# Compliance Auditing
+
 | Competency          | Description                                                                                     | Quality Criteria                                                                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SOC 2 Type II       | Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) | Designs and maintains SOC 2 control framework; coordinates annual Type II audit with zero qualified opinions; manages 12-month observation period evidence collection        |

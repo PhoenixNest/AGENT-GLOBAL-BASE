@@ -1,4 +1,4 @@
-# Multi-Agent Engineering
+﻿# Multi-Agent Engineering
 
 > The discipline of designing, orchestrating, and operating **coordinated agent systems** — where multiple specialist agents collaborate through structured decomposition, parallel execution, contextual handoff, and synthesized integration to solve problems that exceed any single agent's capability.
 
@@ -18,22 +18,22 @@ It answers three questions that no other discipline covers:
 
 ## Documentation Structure
 
-| File / Folder                                                                          | Purpose                                                                                            | Target Audience         |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------- |
-| `README.md`                                                                            | This file — overview and navigation                                                                | All                     |
-| `CONCEPTS.md`                                                                          | Agent Swarm theory, Git Worktree Orchestration, four-pillar convergence                            | Architects, Leads       |
-| `quick-reference.md`                                                                   | Decision matrices, topology selector, handoff cheat sheet                                          | All engineers           |
-| [`../agent-systems-engineering/CONCEPTS.md`](../agent-systems-engineering/CONCEPTS.md) | Foundational paper — how Prompt, Context, Harness, and RAG converge into Agent Systems Engineering | Researchers, Architects |
-| `fundamentals/swarm-topologies.md`                                                     | The five swarm topology patterns (Hierarchical, Flat, Mesh, Pipeline, Hybrid)                      | Engineers               |
-| `fundamentals/git-worktree-orchestration.md`                                           | Using `git worktree` as infrastructure for multi-agent parallel development                        | Engineers, DevOps       |
-| `patterns/orchestration-patterns.md`                                                   | The five core orchestration patterns (Pipeline, Fork-Join, Router, Supervisor-Worker, Debate)      | Implementers            |
-| `patterns/anti-patterns.md`                                                            | Seven anti-patterns to avoid in multi-agent systems                                                | All engineers           |
-| `implementations/swarm_orchestrator.py`                                                | Production swarm orchestrator with topology selection and lifecycle management                     | Implementers            |
-| `implementations/git_worktree_manager.py`                                              | Git worktree lifecycle management for agent isolation                                              | Implementers            |
-| `implementations/handoff_packet.py`                                                    | Structured handoff packet for inter-agent context transfer                                         | Implementers            |
-| `testing/test_swarm_orchestrator.py`                                                   | Executable pytest suite for swarm orchestrator                                                     | QA, CI/CD               |
-| `testing/test_git_worktree_manager.py`                                                 | Executable pytest suite for git worktree manager                                                   | QA, CI/CD               |
-| `testing/edge-cases.md`                                                                | Edge case scenarios: merge conflicts, agent failures, context overflow                             | QA Engineers            |
+| File / Folder                                                                                                        | Purpose                                                                                            | Target Audience         |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------- |
+| `README.md`                                                                                                          | This file — overview and navigation                                                                | All                     |
+| `CONCEPTS.md`                                                                                                        | Agent Swarm theory, Git Worktree Orchestration, four-pillar convergence                            | Architects, Leads       |
+| `quick-reference.md`                                                                                                 | Decision matrices, topology selector, handoff cheat sheet                                          | All engineers           |
+| [`core-component-00/agent-systems-engineering/CONCEPTS.md`](core-component-00/agent-systems-engineering/CONCEPTS.md) | Foundational paper — how Prompt, Context, Harness, and RAG converge into Agent Systems Engineering | Researchers, Architects |
+| `fundamentals/swarm-topologies.md`                                                                                   | The five swarm topology patterns (Hierarchical, Flat, Mesh, Pipeline, Hybrid)                      | Engineers               |
+| `fundamentals/git-worktree-orchestration.md`                                                                         | Using `git worktree` as infrastructure for multi-agent parallel development                        | Engineers, DevOps       |
+| `patterns/orchestration-patterns.md`                                                                                 | The five core orchestration patterns (Pipeline, Fork-Join, Router, Supervisor-Worker, Debate)      | Implementers            |
+| `patterns/anti-patterns.md`                                                                                          | Seven anti-patterns to avoid in multi-agent systems                                                | All engineers           |
+| `implementations/swarm_orchestrator.py`                                                                              | Production swarm orchestrator with topology selection and lifecycle management                     | Implementers            |
+| `implementations/git_worktree_manager.py`                                                                            | Git worktree lifecycle management for agent isolation                                              | Implementers            |
+| `implementations/handoff_packet.py`                                                                                  | Structured handoff packet for inter-agent context transfer                                         | Implementers            |
+| `testing/test_swarm_orchestrator.py`                                                                                 | Executable pytest suite for swarm orchestrator                                                     | QA, CI/CD               |
+| `testing/test_git_worktree_manager.py`                                                                               | Executable pytest suite for git worktree manager                                                   | QA, CI/CD               |
+| `testing/edge-cases.md`                                                                                              | Edge case scenarios: merge conflicts, agent failures, context overflow                             | QA Engineers            |
 
 ---
 

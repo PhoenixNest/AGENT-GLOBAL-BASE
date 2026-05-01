@@ -1,8 +1,8 @@
-# Web Application Pipeline — Overview
+﻿# Web Application Pipeline — Overview
 
 **Pipeline:** Web Application (P1)
-**Full Definition:** [`pipeline.md`](../../pipeline/web-development/pipeline.md)
-**Monitoring:** [`monitoring.md`](../../pipeline/web-development/monitoring.md)
+**Full Definition:** [`pipeline.md`](company/library/pipeline/web-development/pipeline.md)
+**Monitoring:** [`monitoring.md`](company/library/pipeline/web-development/monitoring.md)
 
 ---
 
@@ -89,4 +89,4 @@ Three-layer architecture with web-specific fields:
 
 ---
 
-_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](../../pipeline/web-development/pipeline.md)._
+_For complete stage definitions, gate criteria, and artifact lists, see the [full pipeline definition](company/library/pipeline/web-development/pipeline.md)._

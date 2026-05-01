@@ -1,4 +1,4 @@
-# Knowledge Transfer Protocol — Cross-Project Learning System
+﻿# Knowledge Transfer Protocol — Cross-Project Learning System
 
 > **Addresses Gap:** #7 (No cross-project knowledge transfer)
 
@@ -243,8 +243,8 @@ Quarterly review: prune stale entries, update confidence levels
 
 | Component                               | Integration                                                 |
 | :-------------------------------------- | :---------------------------------------------------------- |
-| `STAGE-TRANSITION-SCHEMAS.md`           | Tier 1 artifacts stored per schema version                  |
-| `INTER-AGENT-COMMUNICATION-PROTOCOL.md` | Retrospective observations follow Escalation Message format |
-| `MVC-CONTEXT-PROFILE.md`                | Tier 2/3 retrieval is a Zone B context item                 |
+| `stage-transition-schemas.md`           | Tier 1 artifacts stored per schema version                  |
+| `inter-agent-communication-protocol.md` | Retrospective observations follow Escalation Message format |
+| `mvc-context-profile.md`                | Tier 2/3 retrieval is a Zone B context item                 |
 | `context-engineering.md`                | Knowledge retrieval follows MVC filtering rules             |
 | `pipeline.md` § Stage 10                | Retrospective is mandatory before project closure           |

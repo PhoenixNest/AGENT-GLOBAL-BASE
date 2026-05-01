@@ -4,6 +4,8 @@ description: "Architect and operate HashiCorp Vault-based secrets management wit
 version: "1.0.0"
 ---
 
+# Secrets Management
+
 | Competency                    | Description                                                      | Quality Criteria                                                                                                                           |
 | ----------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | HashiCorp Vault Architecture  | Designing and operating Vault clusters for production workloads  | Deploys Vault in HA mode with auto-unseal; achieves 99.99% uptime; implements disaster recovery replication; manages Raft storage backend  |

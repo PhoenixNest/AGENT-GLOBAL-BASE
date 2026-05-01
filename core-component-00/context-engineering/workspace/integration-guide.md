@@ -1,4 +1,4 @@
-# Context Engineering Integration Guide
+﻿# Context Engineering Integration Guide
 
 ## How to Wire Context Engineering with Harness Engineering and RAG
 
@@ -189,4 +189,4 @@ Response to user
 
 **Version:** 1.0
 **Last Updated:** 2026-04-28
-**See also:** [Workspace Strategy](./strategy.md) · [context_assembler.py](../implementations/context_assembler.py) · [Harness Engineering README](../../harness-engineering/README.md) · [RAG README](../../retrieval-augmented-generation/README.md)
+**See also:** [Workspace Strategy](./strategy.md) · [context_assembler.py](core-component-00/context-engineering/implementations/context_assembler.py) · [Harness Engineering README](core-component-00/harness-engineering/README.md) · [RAG README](core-component-00/retrieval-augmented-generation/README.md)

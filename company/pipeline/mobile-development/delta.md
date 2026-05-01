@@ -1,15 +1,15 @@
-# Mobile Development Pipeline — Delta Overlay
+﻿# Mobile Development Pipeline — Delta Overlay
 
-| Field          | Value                                                                                                                       |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Pipeline**   | `mobile-development`                                                                                                        |
-| **Owner**      | VP Mobile (Marcus Andersson)                                                                                                |
-| **Surfaces**   | Android (Google Play) + iOS (App Store) — selectable per-project via the 5-scenario Strategy Matrix below                   |
-| **Effective**  | 2026-04-21                                                                                                                  |
-| **Supersedes** | `mobile-development/pipeline.md` (legacy 453-line file; back-compat redirect retained until 2026-07-21).                    |
-| **Cross-Refs** | Base: [`../_base/pipeline.md`](../_base/pipeline.md) · Template: [`../_base/delta-template.md`](../_base/delta-template.md) |
+| Field          | Value                                                                                                                                                                               |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pipeline**   | `mobile-development`                                                                                                                                                                |
+| **Owner**      | VP Mobile (Marcus Andersson)                                                                                                                                                        |
+| **Surfaces**   | Android (Google Play) + iOS (App Store) — selectable per-project via the 5-scenario Strategy Matrix below                                                                           |
+| **Effective**  | 2026-04-21                                                                                                                                                                          |
+| **Supersedes** | `mobile-development/pipeline.md` (legacy 453-line file; back-compat redirect retained until 2026-07-21).                                                                            |
+| **Cross-Refs** | Base: [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md) · Template: [`company/pipeline/_base/delta-template.md`](company/pipeline/_base/delta-template.md) |
 
-> **Reading order.** This delta is consumed _alongside_ [`../_base/pipeline.md`](../_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for mobile-specific content. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
+> **Reading order.** This delta is consumed _alongside_ [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md), not instead of it. The base defines the universal 12-stage state machine, defect severity, Progress Sync Protocol, gate criteria, and the Release Readiness Checklist. This delta fills the `{{DELTA: …}}` placeholders the base reserves for mobile-specific content. Anything in the base applies; anything contradicted by this delta IS A BUG — escalate to the Software Architect.
 
 ---
 
@@ -136,7 +136,7 @@ The Platform Strategy ADR must include:
 12. **Reassignment plan** — If tracks are dormant or light, where do freed engineers go?
 13. **Contract versioning (KMP/Flutter only)** — Shared module API contract versioning scheme and notification mechanism.
 
-**Ownership:** CTO authors the ADR. All three platform leads provide input. CIO reviews for technology conformance. CSO reviews for security conformance. The ADR is versionable + supersedable per [`../_base/adr-template.md`](../_base/adr-template.md); supersession requires a documented rollback plan and triggers an Implementation-Plan re-baseline (Stage 4 re-entry minimum).
+**Ownership:** CTO authors the ADR. All three platform leads provide input. CIO reviews for technology conformance. CSO reviews for security conformance. The ADR is versionable + supersedable per [`company/pipeline/_base/adr-template.md`](company/pipeline/_base/adr-template.md); supersession requires a documented rollback plan and triggers an Implementation-Plan re-baseline (Stage 4 re-entry minimum).
 
 ### 4.2 Mobile-Specific Security ADR Topics
 
@@ -261,6 +261,6 @@ i18n is a continuous concern from Stage 2 onward. Mobile-specific application:
 
 ## 13. Document Version History
 
-| Version | Date           | Author                         | Changes                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ------- | -------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1     | April 21, 2026 | Software Architect + VP Mobile | Initial overlay. Mobile-specific content (5-scenario Strategy Matrix, Track A/B/C activation, KMP/Flutter semantics, per-scenario CI/CD blueprint, Mobile-specific Stage-1/2/3/4/5/6/7/8/10/11 sections, cross-cutting i18n table) extracted from the legacy `mobile-development/pipeline.md` (453 lines). Pairs with [`../_base/pipeline.md`](../_base/pipeline.md) to produce a derived view equivalent to the legacy file. |
+| Version | Date           | Author                         | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------- | -------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1     | April 21, 2026 | Software Architect + VP Mobile | Initial overlay. Mobile-specific content (5-scenario Strategy Matrix, Track A/B/C activation, KMP/Flutter semantics, per-scenario CI/CD blueprint, Mobile-specific Stage-1/2/3/4/5/6/7/8/10/11 sections, cross-cutting i18n table) extracted from the legacy `mobile-development/pipeline.md` (453 lines). Pairs with [`company/pipeline/_base/pipeline.md`](company/pipeline/_base/pipeline.md) to produce a derived view equivalent to the legacy file. |

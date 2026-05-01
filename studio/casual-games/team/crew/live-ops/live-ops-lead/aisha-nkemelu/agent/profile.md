@@ -11,6 +11,8 @@ requisition: G29
 vetting-score: 18/20
 composite-score: 4.585
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Aisha Nkemelu — Live Ops Lead

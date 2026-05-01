@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Test Suite
+
 | Competency              | Description                                                                                                           | Quality Criteria                                                                                                                              |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | Test Fixtures           | Deterministic test data generation, factory pattern, builders, JSON fixtures, database seeding                        | Test data is reproducible across runs; fixtures cover edge cases (empty lists, null fields, boundary values); factory methods compose cleanly |

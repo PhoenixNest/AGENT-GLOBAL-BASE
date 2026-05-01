@@ -4,6 +4,10 @@ role: supervisor
 tier: supervisors
 seniority: Executive
 recruited-by: chro-dr-evelyn-hartwell
+department: Crew Division
+studio: Casual Games
+vetting-score: N/A
+vetting-result: PASS
 ---
 
 # Dr. Marcus Vogel

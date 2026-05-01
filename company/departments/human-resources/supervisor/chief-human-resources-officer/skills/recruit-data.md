@@ -4,6 +4,8 @@ description: Recruit data, ML, and analytics talent across all seniority levels.
 version: "1.0.0"
 ---
 
+# Recruit Data
+
 ## Why This Matters
 
 Sources and evaluates data science, ML, and analytics engineers. Bad data hires produce incorrect models, flawed analytics, and misleading business intelligence.

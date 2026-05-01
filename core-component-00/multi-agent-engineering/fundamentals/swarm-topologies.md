@@ -1,4 +1,4 @@
-# Swarm Topologies
+﻿# Swarm Topologies
 
 > The five canonical patterns for organising multiple agents into a coordinated system.
 
@@ -261,4 +261,4 @@ flowchart TD
 
 **Version:** 1.0
 **Last Updated:** 2026-04-29
-**See also:** [CONCEPTS.md](../CONCEPTS.md) · [Orchestration Patterns](../patterns/orchestration-patterns.md) · [Quick Reference](../quick-reference.md)
+**See also:** [CONCEPTS.md](core-component-00/multi-agent-engineering/CONCEPTS.md) · [Orchestration Patterns](core-component-00/multi-agent-engineering/patterns/orchestration-patterns.md) · [Quick Reference](core-component-00/multi-agent-engineering/quick-reference.md)

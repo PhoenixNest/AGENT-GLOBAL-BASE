@@ -4,6 +4,8 @@ description: Recruit business talent across all seniority levels. Covers roles i
 version: "1.0.0"
 ---
 
+# Recruit Business
+
 ## Why This Matters
 
 Identifies and vets elite business, GTM, finance, and operations talent. Poor business hires damage company strategy, financial controls, and operational efficiency.

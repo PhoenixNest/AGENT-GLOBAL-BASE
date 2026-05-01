@@ -11,6 +11,8 @@ requisition: G38
 vetting-score: 18/20
 composite-score: 4.520
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Priya Subramanian — SDET Performance

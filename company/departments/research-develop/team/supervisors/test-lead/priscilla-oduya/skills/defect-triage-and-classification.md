@@ -129,4 +129,3 @@ This skill governs defect classification in the following pipeline stages:
 | Web Development           | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/web-development/pipeline.md`    |
 | Backend API               | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/backend-api/pipeline.md`        |
 | Full-Stack Cross-Platform | Stage 6 (Code Review), Stage 7 (Automated Testing), Stage 8 (Integrity Verification) | `company/pipeline/full-stack/pipeline.md`         |
-

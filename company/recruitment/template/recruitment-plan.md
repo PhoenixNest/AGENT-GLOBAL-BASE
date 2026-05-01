@@ -1,4 +1,4 @@
-# [Department] Recruitment Plan — [FY + Quarter]
+﻿# [Department] Recruitment Plan — [FY + Quarter]
 
 <!-- Replace the title above, e.g. "Engineering Recruitment Plan — FY2026 Q3" -->
 
@@ -76,7 +76,7 @@
 ## Vetting Standards
 
 All candidates pass through the 9-stage pipeline defined in
-[`company/pipeline/recruitment/pipeline.md`](../../pipeline/recruitment/pipeline.md).
+[`company/pipeline/recruitment/pipeline.md`](company/pipeline/recruitment/pipeline.md).
 Role-specific criteria are documented in the **Competency Matrix** companion artifact.
 
 | Tier | Level          | Minimum Vetting Score | Secondary Reviewer |

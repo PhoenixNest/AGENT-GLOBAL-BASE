@@ -1,4 +1,4 @@
-# Git Worktree Orchestration
+﻿# Git Worktree Orchestration
 
 > Using `git worktree` as infrastructure for multi-agent parallel development — giving each agent an isolated filesystem, a dedicated branch, and Git-native merge, rollback, and audit capabilities.
 
@@ -238,4 +238,4 @@ manager.remove_worktree(worktree)
 
 **Version:** 1.0
 **Last Updated:** 2026-04-29
-**See also:** [Swarm Topologies](./swarm-topologies.md) · [Swarm Orchestrator](../implementations/swarm_orchestrator.py) · [Git Worktree Manager](../implementations/git_worktree_manager.py)
+**See also:** [Swarm Topologies](./swarm-topologies.md) · [Swarm Orchestrator](core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py) · [Git Worktree Manager](core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py)

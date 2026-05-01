@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Flutter Architecture
+
 | Competency               | Description                                                                                                   | Quality Criteria                                                                                                       |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | Widget Tree Architecture | Widget/Element/RenderObject tree, const constructors, key management, widget lifecycle                        | Widget tree is optimized with const; keys used correctly for list items; build methods are pure and fast               |

@@ -4,6 +4,9 @@ role: teammate
 tier: teammates
 seniority: Senior Manager / Lead
 recruited-by: chief-human-resources-officer
+department: Human Resources
+agent_id: grace-muthoni-onboarding-lead
+hire_date: 2026-04-21
 ---
 
 # Grace Muthoni

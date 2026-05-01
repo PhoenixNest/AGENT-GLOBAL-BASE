@@ -1,8 +1,8 @@
-# Context Assembly Patterns
+﻿# Context Assembly Patterns
 
 ## Overview
 
-Context assembly is the process of building the context window from its constituent parts at runtime. These patterns define _how_ to assemble — not what to put in each slot (see [Context Window Anatomy](../fundamentals/context-window-anatomy.md)) but how to make the runtime decision of what to include, in what order, and at what volume.
+Context assembly is the process of building the context window from its constituent parts at runtime. These patterns define _how_ to assemble — not what to put in each slot (see [Context Window Anatomy](core-component-00/context-engineering/fundamentals/context-window-anatomy.md)) but how to make the runtime decision of what to include, in what order, and at what volume.
 
 ---
 
@@ -196,4 +196,4 @@ Merged + deduped + reranked → auth_middleware.py, auth_design.md, middleware_p
 
 **Version:** 1.0
 **Last Updated:** 2026-04-28
-**See also:** [Multi-Agent Handoff](./multi-agent-handoff.md) · [context_assembler.py](../implementations/context_assembler.py) · [Context Window Anatomy](../fundamentals/context-window-anatomy.md)
+**See also:** [Multi-Agent Handoff](./multi-agent-handoff.md) · [context_assembler.py](core-component-00/context-engineering/implementations/context_assembler.py) · [Context Window Anatomy](core-component-00/context-engineering/fundamentals/context-window-anatomy.md)

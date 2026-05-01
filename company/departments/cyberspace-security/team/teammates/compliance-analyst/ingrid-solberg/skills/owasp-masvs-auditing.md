@@ -4,6 +4,8 @@ description: "Audit mobile applications against the full OWASP MASVS framework (
 version: "1.0.0"
 ---
 
+# OWASP MASVS Auditing
+
 | Competency                       | Description                                                      | Quality Criteria                                                                                                                                                                                                                        |
 | -------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | MASVS Audit Methodology          | Structured approach to MASVS compliance auditing                 | Designs audit programs covering all V1–V8 categories; produces audit workpapers that satisfy banking regulator review; achieves zero audit findings on MASVS assessment methodology                                                     |

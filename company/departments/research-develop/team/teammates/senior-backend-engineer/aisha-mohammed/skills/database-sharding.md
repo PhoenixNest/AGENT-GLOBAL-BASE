@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Database Sharding
+
 | Competency                  | Description                                                             | Quality Criteria                                                                                                                                   |
 | --------------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Horizontal Partitioning     | Sharding vs partitioning distinction, shard topology, data distribution | Designs shard architecture that scales linearly; can explain why sharding is a last resort after vertical scaling, read replicas, and partitioning |

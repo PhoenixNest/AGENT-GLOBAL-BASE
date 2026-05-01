@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Tca Architecture
+
 | Competency       | Description                                                                                                          | Quality Criteria                                                                                                                             |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | Reducer Design   | Pure state transformation, action enumeration, Effect return, reducer composition with `Reduce` and `@Reducer` macro | Reducers are pure functions (same input → same output); all side effects wrapped in Effects; complex features composed from smaller reducers |

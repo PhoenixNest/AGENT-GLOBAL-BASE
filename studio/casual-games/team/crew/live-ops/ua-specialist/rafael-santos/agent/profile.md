@@ -11,6 +11,8 @@ requisition: G32
 vetting-score: 17/20
 composite-score: 4.470
 status: active
+studio: Casual Games
+vetting-result: PASS
 ---
 
 # Rafael Santos — UA Specialist

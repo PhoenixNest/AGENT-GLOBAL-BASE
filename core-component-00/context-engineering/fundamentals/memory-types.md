@@ -1,4 +1,4 @@
-# Memory Types in Context Engineering
+﻿# Memory Types in Context Engineering
 
 ## Overview
 
@@ -198,4 +198,4 @@ In this workspace, the 213+ skill files and 77 agent profiles are the procedural
 
 **Version:** 1.0
 **Last Updated:** 2026-04-28
-**See also:** [Context Window Anatomy](./context-window-anatomy.md) · [Assembly Patterns](../patterns/assembly-patterns.md) · [memory_store.py](../implementations/memory_store.py)
+**See also:** [Context Window Anatomy](./context-window-anatomy.md) · [Assembly Patterns](core-component-00/context-engineering/patterns/assembly-patterns.md) · [memory_store.py](core-component-00/context-engineering/implementations/memory_store.py)

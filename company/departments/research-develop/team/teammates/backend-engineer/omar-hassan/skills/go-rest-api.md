@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Go Rest API
+
 | Competency          | Description                                                                      | Quality Criteria                                                                                                                                                             |
 | ------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | HTTP Handlers       | Handler functions, ServeMux routing, method dispatch, request/response lifecycle | Writes handlers following `func(w http.ResponseWriter, r *http.Request)` signature; uses `http.ServeMux` (Go 1.22+) for routing; separates handler logic from business logic |

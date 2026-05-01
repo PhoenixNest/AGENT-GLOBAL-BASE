@@ -1,4 +1,4 @@
-# Inter-Agent Communication Protocol (IACP) — Full-Stack Pipeline
+﻿# Inter-Agent Communication Protocol (IACP) — Full-Stack Pipeline
 
 ---
 
@@ -120,8 +120,10 @@ When two tracks produce conflicting requirements:
 
 See Mobile Development IACP §5–§8 for canonical definitions.
 
+§8 **Parallel Agent Workflow (Git Worktree)** is especially critical for full-stack: Stage 5 routinely runs mobile, web, and backend agents simultaneously. Each track **must** operate in its own git worktree with its own branch. The Integration Agent (Software Architect or CTO delegate) owns all merges. Reference: `core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py` and `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
+
 Pipeline-specific references:
 
-- [Stage Transition Schemas](STAGE-TRANSITION-SCHEMAS.md)
-- [Red Team Review Protocol](../stage-6-code-review/RED-TEAM-REVIEW.md)
-- `AGENTS.md` § Non-Negotiable Rules, Defect Severity, Quick Roster
+- [Stage Transition Schemas](stage-transition-schemas.md)
+- [Red Team Review Protocol](company/pipeline/full-stack/templates/stage-6-code-review/RED-TEAM-REVIEW.md)
+- [Git Worktree Orchestration](core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md)

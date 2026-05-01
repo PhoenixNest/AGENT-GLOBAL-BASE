@@ -1,4 +1,4 @@
-# Context Engineering: Core Concepts and Foundations
+﻿# Context Engineering: Core Concepts and Foundations
 
 ## 1. What Is Context Engineering?
 
@@ -214,9 +214,9 @@ Context degrades over time in predictable ways. Context Engineering includes act
 - [Memory Types](./fundamentals/memory-types.md)
 - [Assembly Patterns](./patterns/assembly-patterns.md)
 - [Multi-Agent Handoff](./patterns/multi-agent-handoff.md)
-- [Harness Engineering — Token Budget Management](../harness-engineering/implementations/context_monitor.py)
-- [RAG Architecture Overview](../retrieval-augmented-generation/architecture/overview.md)
-- [Prompt Engineering Fundamentals](../prompt-engineering/fundamentals/research.md)
+- [Harness Engineering — Token Budget Management](core-component-00/harness-engineering/implementations/context_monitor.py)
+- [RAG Architecture Overview](core-component-00/retrieval-augmented-generation/architecture/overview.md)
+- [Prompt Engineering Fundamentals](core-component-00/prompt-engineering/fundamentals/research.md)
 
 ---
 

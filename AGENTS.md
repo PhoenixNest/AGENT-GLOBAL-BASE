@@ -177,7 +177,7 @@ company/departments/<dept>/team/supervisors/<role>/agent/profile.md
 company/departments/<dept>/team/teammates/<role>/agent/profile.md
 ```
 
-Each `profile.md` carries YAML frontmatter with `role`, `tier`, and `seniority`. Skill files live in `skills/<skill-name>.md` adjacent to the agent directory.
+Each `profile.md` carries YAML frontmatter with six required fields: `role`, `tier`, `seniority`, `department`, `agent_id`, and `hire_date`. Skill files live in `skills/<skill-name>.md` adjacent to the agent directory.
 
 ### 4.4 Company — 13-Stage Development Pipeline
 

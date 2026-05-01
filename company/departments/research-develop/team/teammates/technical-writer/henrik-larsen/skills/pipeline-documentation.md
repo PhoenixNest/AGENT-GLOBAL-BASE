@@ -5,6 +5,8 @@ description: >
 version: "1.0.0"
 ---
 
+# Pipeline Documentation
+
 Pipeline documentation skill for Henrik Larsen — Technical Writer (R&D department).
 Produces pipeline procedure documentation, gate criteria specifications, operational runbooks, SOPs, and process flow diagrams.
 

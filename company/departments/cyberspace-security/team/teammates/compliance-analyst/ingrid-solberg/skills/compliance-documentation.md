@@ -4,6 +4,8 @@ description: "Produce audit-grade compliance documentation — risk assessments,
 version: "1.0.0"
 ---
 
+# Compliance Documentation
+
 | Competency                     | Description                                                                   | Quality Criteria                                                                                                                                                                      |
 | ------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Risk Assessment Documentation  | Producing comprehensive, auditable risk assessments                           | Develops risk assessments that satisfy SOC 2, ISO 27001, and PCI DSS requirements; achieves zero documentation-related audit findings; maintains risk register with quarterly updates |

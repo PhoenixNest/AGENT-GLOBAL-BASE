@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Android Testing
+
 | Competency          | Description                                                                                     | Quality Criteria                                                                                                     |
 | ------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | TDD Methodology     | Red-Green-Refactor cycle, test-first design, emergent architecture through testing              | Writes failing test before implementation; test suite drives design decisions; refactoring phase preserves all tests |

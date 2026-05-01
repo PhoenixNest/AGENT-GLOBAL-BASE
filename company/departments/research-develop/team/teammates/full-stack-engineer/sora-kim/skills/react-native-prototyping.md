@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# React Native Prototyping
+
 | Competency                 | Description                                                                                      | Quality Criteria                                                                                                                          |
 | -------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Component Architecture     | Functional components, hooks, context, custom hooks, component composition                       | Designs reusable component library; implements custom hooks for shared logic; uses composition over inheritance                           |

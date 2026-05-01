@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# CI Pipeline
+
 | Competency                  | Description                                                                                    | Quality Criteria                                                                                                                           |
 | --------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Gradle Configuration Cache  | Cache serialization, task input/output declaration, configuration phase optimization           | Achieves 100% configuration cache compatibility; identifies and fixes cache-incompatible tasks; reduces configuration phase to < 2 seconds |

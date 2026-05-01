@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Maestro E2E Tests
+
 | Competency                           | Description                                                                                                                                                                               | Quality Criteria                                                                                                                                                                                                                                 |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Flow Definition Syntax**           | YAML structure, `appId`, `onFlowStart/onFlowComplete` hooks, `commands` sequence, element selectors (`id`, `text`, `containsText`, `accessibilityText`), sub-flow inclusion via `runFlow` | Flows use semantic selectors (preferring `id` over `text`); complex journeys split into sub-flows via `runFlow: {file: login.yaml}`; environment variables parameterize `appId` per build variant; hooks handle test data setup/teardown         |

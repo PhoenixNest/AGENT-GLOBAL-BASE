@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Postgresql Basics
+
 | Competency            | Description                                                                              | Quality Criteria                                                                                                                                           |
 | --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SQL Fundamentals      | JOINs (INNER, LEFT, RIGHT, FULL, CROSS), subqueries, CTEs, window functions              | Writes complex queries with CTEs instead of nested subqueries; uses window functions for ranking/aggregation; understands JOIN order impact on performance |

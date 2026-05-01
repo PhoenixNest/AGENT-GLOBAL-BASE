@@ -102,7 +102,7 @@ Lena owns the production documentation trail — the record that proves decision
 | Risk register                          | Lena (updates) + EP (owns)     | Confluence — Risk Register           | Weekly or on new risk identification |
 | Milestone status (progress.md)         | Lena (writes) + EP (signs off) | Project folder — `progress.md`       | After every sprint review            |
 
-The `progress.md`, `session-log.md`, and `checkpoint.json` files required by the company pipeline (AGENTS.md §8.4) are Lena's direct responsibility to keep current. The EP reviews and approves, but the daily operational maintenance is Lena's.
+The `progress.md`, `session-log.md`, and `checkpoint.json` files required by the studio pipeline Progress Sync Protocol are Lena's direct responsibility to keep current. The EP reviews and approves, but the daily operational maintenance is Lena's.
 
 ## Quality Standards
 

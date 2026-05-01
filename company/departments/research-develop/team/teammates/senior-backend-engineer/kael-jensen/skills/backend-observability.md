@@ -2,6 +2,8 @@
 version: "1.0.0"
 ---
 
+# Backend Observability
+
 | Competency               | Description                                                                              | Quality Criteria                                                                                             |
 | ------------------------ | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | **Instrumentation**      | Embedding observability primitives into application code without performance degradation | Automatic instrumentation coverage >80%; custom spans for all critical paths; <2% overhead on p99 latency    |

@@ -1,4 +1,4 @@
-# Inter-Agent Communication Protocol (IACP)
+﻿# Inter-Agent Communication Protocol (IACP)
 
 > **Addresses Gap:** #5 (Schema-Driven Communication)
 
@@ -167,22 +167,46 @@ CEO (User)
 
 ## 7. Integration with Existing Infrastructure
 
-| Existing Component            | IACP Integration                                                 |
-| :---------------------------- | :--------------------------------------------------------------- |
-| `AGENTS.md` § Quick Roster    | Defines the routing hierarchy (Section 4.1)                      |
-| `pipeline.md` per stage       | Defines which agents participate (Section 4.3)                   |
-| `DEFECT-REPORT.md`            | Tier 1 Review Memo format (Section 3.4)                          |
-| `RED-TEAM-REVIEW.md`          | Red Team report follows Escalation format for P0/P1              |
-| `STAGE-TRANSITION-SCHEMAS.md` | JSON schemas referenced in all transition messages               |
-| `STAGE-TRANSITION-SUMMARY.md` | Human-readable companion to JSON schema output                   |
-| Progress Sync Protocol        | IACP Section 5 variance detection aligns with existing >20% rule |
+| Existing Component                      | IACP Integration                                                 |
+| :-------------------------------------- | :--------------------------------------------------------------- |
+| `company/library/overview/personnel.md` | Defines the routing hierarchy (Section 4.1)                      |
+| `pipeline.md` per stage                 | Defines which agents participate (Section 4.3)                   |
+| `DEFECT-REPORT.md`                      | Tier 1 Review Memo format (Section 3.4)                          |
+| `RED-TEAM-REVIEW.md`                    | Red Team report follows Escalation format for P0/P1              |
+| `stage-transition-schemas.md`           | JSON schemas referenced in all transition messages               |
+| `stage-transition-summary.md`           | Human-readable companion to JSON schema output                   |
+| Progress Sync Protocol                  | IACP Section 5 variance detection aligns with existing >20% rule |
 
 ---
 
-## 8. References
+## 8. Parallel Agent Workflow (Git Worktree)
 
-- [Context Engineering Guideline](../../skills/shared/guidelines/context-engineering.md)
-- [Stage Transition Schemas](STAGE-TRANSITION-SCHEMAS.md)
-- [Stage Transition Summary Template](STAGE-TRANSITION-SUMMARY.md)
-- [Red Team Review Protocol](../stage-6-code-review/RED-TEAM-REVIEW.md)
-- `AGENTS.md` § Non-Negotiable Rules, Defect Severity, Quick Roster
+> **ASE Layer:** 5 — Multi-Agent Engineering (Required for parallel coding tasks)
+> **Reference:** `core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py`, `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+
+When multiple agents work concurrently on the same project (e.g. Stage 5 — Full Production, where multiple platform tracks execute in parallel), the **git worktree isolation pattern** is mandatory:
+
+| Phase         | Action                                                                | Responsible Agent                      |
+| :------------ | :-------------------------------------------------------------------- | :------------------------------------- |
+| **Provision** | CTO/Orchestrator creates one worktree per parallel worker agent       | CTO (Orchestrator)                     |
+| **Execute**   | Each agent works in its isolated worktree; commits only on its branch | Worker agent                           |
+| **Integrate** | Integration Agent merges branches; resolves conflicts                 | Software Architect / Integration Agent |
+| **Review**    | CTO inspects combined diff before merge to `master`                   | CTO                                    |
+| **Clean up**  | Remove worktrees; prune stale entries                                 | Integration Agent                      |
+
+**Branch naming:** `agent/<role>/<task>` (e.g. `agent/backend/auth-api`, `agent/mobile/dark-mode`)
+
+**Commit format:** `agent/<name>: <verb-phrase>` with a hyphen-bulleted body listing discrete changes. Single-line commits with no body are a P2 audit-trail defect.
+
+> **No worker agent may merge its own branch to `master`.** The Integration Agent (Software Architect or designated CTO delegate) owns all merges.
+
+---
+
+## 9. References
+
+- [Context Engineering Guideline](company/pipeline/mobile-development/skills/shared/guidelines/context-engineering.md)
+- [Stage Transition Schemas](stage-transition-schemas.md)
+- [Stage Transition Summary Template](stage-transition-summary.md)
+- [Red Team Review Protocol](company/pipeline/mobile-development/templates/stage-6-code-review/RED-TEAM-REVIEW.md)
+- [Git Worktree Manager](core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py)
+- [Git Worktree Orchestration](core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md)

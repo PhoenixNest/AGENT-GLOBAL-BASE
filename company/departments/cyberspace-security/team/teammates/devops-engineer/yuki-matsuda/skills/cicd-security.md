@@ -4,6 +4,8 @@ description: "Embed security controls into CI/CD pipelines — Vault OIDC secret
 version: "1.0.0"
 ---
 
+# CICD Security
+
 | Competency                | Description                                                              | Quality Criteria                                                                                                                                             |
 | ------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Secrets Management        | Secure handling of credentials, API keys, and signing materials in CI/CD | Zero hardcoded secrets in pipeline configurations; all secrets managed via Vault with automatic rotation; audit trail for every secret access                |

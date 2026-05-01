@@ -1,4 +1,4 @@
-# Schema Validation Specification — Automated Gate Enforcement (Web Pipeline)
+﻿# Schema Validation Specification — Automated Gate Enforcement (Web Pipeline)
 
 ---
 
@@ -43,8 +43,9 @@ This specification defines how **Stage Transition Schemas** are validated automa
 | `8→9`  | `V-WEB-802`  | `integrity_checks.prd_features_intact` must be `true`                  | **Blocker** |
 | `9→10` | `V-WEB-901`  | `i18n_summary.hardcoded_strings_remaining` must be `0`                 | **Blocker** |
 | `9→10` | `V-WEB-902`  | All BLEU scores must be ≥ 0.80                                         | **Warning** |
-| `10`   | `V-WEB-1001` | All 7 `checklist` items must have `passed: true`                       | **Blocker** |
+| `10`   | `V-WEB-1001` | All 12 `checklist` domain items must have `passed: true`               | **Blocker** |
 | `10`   | `V-WEB-1002` | `user_decision` must be `"release"` for release                        | **Blocker** |
+| All    | `V-WEB-1003` | `harness_compliance_verified` must be `true`                           | **Blocker** |
 
 ---
 
@@ -52,7 +53,7 @@ This specification defines how **Stage Transition Schemas** are validated automa
 
 ```
 Stage N owner produces:
-  1. STAGE-TRANSITION-SUMMARY.md (human-readable)
+  1. stage-transition-summary.md (human-readable)
   2. schema-N-to-N+1.json (machine-readable)
       ↓
 Orchestrator validates schema:
