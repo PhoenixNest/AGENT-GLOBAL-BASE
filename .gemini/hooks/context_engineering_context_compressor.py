@@ -347,3 +347,37 @@ class ContextCompressor:
                 content = content[:1500] + " [truncated]"
             result.append({**turn, "content": content})
         return result
+
+
+# ---------------------------------------------------------------------------
+# CLI Standard JSON I/O Runner
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import json
+    import sys
+    
+    try:
+        input_data = sys.stdin.read()
+        if input_data.startswith('\ufeff'):
+            input_data = input_data[1:]
+        if not input_data.strip():
+            print(json.dumps({}))
+            sys.exit(0)
+            
+        event_payload = json.loads(input_data)
+        
+        # Context Compressor is a PreCompress hook
+        history = event_payload.get("history", [])
+        if history:
+            compressor = ContextCompressor()
+            # Perform standard compression by default
+            compressed_history = compressor.compress(history, strategy="standard")
+            event_payload["history"] = compressed_history
+        
+        # Print strictly formatted JSON to stdout
+        print(json.dumps(event_payload))
+        sys.exit(0)
+        
+    except Exception as e:
+        print(f"Context Compressor Error: {e}", file=sys.stderr)
+        sys.exit(1)

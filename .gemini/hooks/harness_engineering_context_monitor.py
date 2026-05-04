@@ -265,3 +265,33 @@ async def handle_conversation_turn(user_input: str) -> str:
 
     return response.content
 """
+
+# ---------------------------------------------------------------------------
+# CLI Standard JSON I/O Runner
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import json
+    import sys
+    
+    try:
+        input_data = sys.stdin.read()
+        if input_data.startswith('\ufeff'):
+            input_data = input_data[1:]
+        if not input_data.strip():
+            print(json.dumps({}))
+            sys.exit(0)
+            
+        event_payload = json.loads(input_data)
+        
+        # Context Monitor is an AfterAgent hook. 
+        # Perform any monitoring logic here.
+        # For now, simply act as a safe pass-through.
+        monitor = ContextMonitor()
+        
+        # Print strictly formatted JSON to stdout
+        print(json.dumps(event_payload))
+        sys.exit(0)
+        
+    except Exception as e:
+        print(f"Context Monitor Error: {e}", file=sys.stderr)
+        sys.exit(1)

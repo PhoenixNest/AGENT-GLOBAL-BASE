@@ -40,23 +40,23 @@ To ensure the hooks system operates correctly with the Gemini CLI, the following
 - **Strict JSON I/O:** Hooks must be completely silent on standard output (`stdout`) except for their final valid JSON payload. Any logging or progress updates must be directed to standard error (`stderr`).
 - **Exit Codes:** Scripts should return `0` on success, `2` to block an action, or a non-zero code to indicate a non-fatal warning.
 
-### 4. Hook Implementation Strategy (The Wrapper Pattern)
+### 4. Hook Implementation Strategy (Standalone Platform-Specific Implementations)
 
-To preserve the general design philosophy and reusability of the `core-component-00` architecture, **we must not modify the original Python scripts** to accommodate the Gemini CLI's specific standard I/O JSON protocol.
+`core-component-00` is strictly a reference architecture — a blueprint of design philosophy. To preserve this separation, **we must not import or tightly couple** with the original Python scripts in `core-component-00` to accommodate the Gemini CLI's specific standard I/O JSON protocol.
 
-Instead, the `.gemini/hooks/` directory must utilize a **Wrapper Pattern**.
+Instead, the `.gemini/hooks/` directory must contain **standalone, bespoke implementations** inspired by the core components but built specifically for the Gemini CLI's runtime environment.
 
-For each required hook, a thin wrapper script should be created inside `.gemini/hooks/` (e.g., `.gemini/hooks/context_assembler_wrapper.py`). This wrapper will:
+For each required hook, a standalone script should be created inside `.gemini/hooks/` (e.g., `.gemini/hooks/context_assembler.py`). This script will:
 
-1. **Import** the unmodified core logic from `core-component-00` (e.g., `from core_component_00.context_engineering.implementations.context_assembler import ContextAssembler`).
+1. **Implement** the necessary logic inspired by `core-component-00` principles but optimized natively for the CLI.
 2. **Read** the incoming JSON payload from `sys.stdin` as provided by the Gemini CLI.
-3. **Execute** the core component's classes and functions.
+3. **Execute** the hook's operations.
 4. **Route** all logging, debugging, or progress output to `sys.stderr` to ensure the JSON parser is not broken.
 5. **Output** the final, strictly formatted JSON response to `sys.stdout`.
 6. **Exit** with the appropriate status code (`0` for success, `2` for blocking/rejection, or other non-zero codes for warnings).
-7. **Idempotency & Performance:** Since events like `SessionStart` fire for every sub-agent invocation, wrappers for expensive operations (e.g., RAG initialization) should implement state checks (e.g., checking for a shared lock file or a pre-warmed cache) to avoid redundant, high-latency initializations across sessions.
+7. **Idempotency & Performance:** Since events like `SessionStart` fire for every sub-agent invocation, operations (e.g., RAG initialization) should implement state checks (e.g., checking for a shared lock file or a pre-warmed cache) to avoid redundant, high-latency initializations across sessions.
 
-This approach ensures that `core-component-00` remains a pure, decoupled reference methodology, while the `.gemini/hooks/` wrappers handle the proprietary integration layer for the Gemini CLI.
+This approach ensures that `core-component-00` remains a pure reference methodology, while `.gemini/hooks/` contains natively integrated implementations that directly handle the proprietary integration layer for the Gemini CLI without restrictive coupling.
 
 ---
 

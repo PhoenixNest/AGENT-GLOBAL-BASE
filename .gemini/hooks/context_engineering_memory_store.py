@@ -403,3 +403,34 @@ class WorkingMemory:
         self._tool_results.clear()
         self._notes.clear()
         return self
+
+
+# ---------------------------------------------------------------------------
+# CLI Standard JSON I/O Runner
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import json
+    import sys
+    
+    try:
+        input_data = sys.stdin.read()
+        if input_data.startswith('\ufeff'):
+            input_data = input_data[1:]
+        if not input_data.strip():
+            print(json.dumps({}))
+            sys.exit(0)
+            
+        event_payload = json.loads(input_data)
+        
+        # Memory Store is an AfterAgent hook. 
+        # Perform any instantiation or saving logic here.
+        # For now, simply act as a safe pass-through.
+        wm = WorkingMemory()
+        
+        # Print strictly formatted JSON to stdout
+        print(json.dumps(event_payload))
+        sys.exit(0)
+        
+    except Exception as e:
+        print(f"Memory Store Error: {e}", file=sys.stderr)
+        sys.exit(1)

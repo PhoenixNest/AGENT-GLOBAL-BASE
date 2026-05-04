@@ -418,3 +418,60 @@ def _anchor_order(items: List[ContextItem]) -> List[ContextItem]:
     ranked = sorted(items, key=lambda x: x.score, reverse=True)
     middle = ranked[1:-1]
     return [ranked[0]] + middle + [ranked[-1]]
+
+
+# ---------------------------------------------------------------------------
+# CLI Standard JSON I/O Runner
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import json
+    import sys
+    
+    try:
+        # Read the event payload from stdin
+        input_data = sys.stdin.read()
+        if input_data.startswith('\ufeff'):
+            input_data = input_data[1:]
+        if not input_data.strip():
+            # If no input, just exit gracefully with empty JSON
+            print(json.dumps({}))
+            sys.exit(0)
+            
+        event_payload = json.loads(input_data)
+        
+        # Extract necessary fields from the event payload
+        # Gemini CLI BeforeAgent payload typically contains agent, task, etc.
+        task_type = event_payload.get("task_type", "factual_qa")
+        context_data = event_payload.get("context", {})
+        
+        assembler = ContextAssembler()
+        
+        if "system" in context_data:
+            assembler.set_system(context_data["system"])
+            
+        if "retrieved" in context_data:
+            assembler.add_retrieved(items=context_data["retrieved"])
+                
+        # Build the final context
+        try:
+            assembled = assembler.build(task_type=task_type)
+            output = {
+                "messages": assembled.messages,
+                "total_tokens": assembled.total_tokens,
+                "slot_usage": assembled.slot_usage,
+                "task_type": assembled.task_type,
+                "warnings": assembled.warnings
+            }
+        except Exception as build_err:
+            # Fallback if task_type is missing or invalid
+            print(f"Build Error: {build_err}", file=sys.stderr)
+            output = {"error": str(build_err)}
+        
+        # Print strictly formatted JSON to stdout
+        print(json.dumps(output))
+        sys.exit(0)
+        
+    except Exception as e:
+        # Route errors to stderr to prevent breaking the JSON parser
+        print(f"Context Assembler Error: {e}", file=sys.stderr)
+        sys.exit(1)

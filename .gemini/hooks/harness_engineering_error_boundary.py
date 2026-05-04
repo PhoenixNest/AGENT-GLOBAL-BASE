@@ -355,3 +355,33 @@ class RateLimiter:
             
             wait_time = (1 - self.tokens) / self.refill_rate
             await asyncio.sleep(wait_time)
+
+
+# ---------------------------------------------------------------------------
+# CLI Standard JSON I/O Runner
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import json
+    import sys
+    
+    try:
+        input_data = sys.stdin.read()
+        if input_data.startswith('\ufeff'):
+            input_data = input_data[1:]
+        if not input_data.strip():
+            print(json.dumps({}))
+            sys.exit(0)
+            
+        event_payload = json.loads(input_data)
+        
+        # Error Boundary is an AfterTool hook. 
+        # Perform any error checking logic here.
+        # For now, simply act as a safe pass-through.
+        
+        # Print strictly formatted JSON to stdout
+        print(json.dumps(event_payload))
+        sys.exit(0)
+        
+    except Exception as e:
+        print(f"Error Boundary Error: {e}", file=sys.stderr)
+        sys.exit(1)

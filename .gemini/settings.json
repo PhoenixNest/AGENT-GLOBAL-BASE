@@ -15,12 +15,6 @@
             "timeout": 5000
           },
           {
-            "name": "context_engineering_test_context_assembler",
-            "type": "command",
-            "command": "python .gemini/hooks/context_engineering_test_context_assembler.py",
-            "timeout": 5000
-          },
-          {
             "name": "multi_agent_engineering_handoff_packet",
             "type": "command",
             "command": "python .gemini/hooks/multi_agent_engineering_handoff_packet.py",
@@ -30,18 +24,6 @@
             "name": "multi_agent_engineering_swarm_orchestrator",
             "type": "command",
             "command": "python .gemini/hooks/multi_agent_engineering_swarm_orchestrator.py",
-            "timeout": 5000
-          },
-          {
-            "name": "multi_agent_engineering_test_handoff_packet",
-            "type": "command",
-            "command": "python .gemini/hooks/multi_agent_engineering_test_handoff_packet.py",
-            "timeout": 5000
-          },
-          {
-            "name": "multi_agent_engineering_test_swarm_orchestrator",
-            "type": "command",
-            "command": "python .gemini/hooks/multi_agent_engineering_test_swarm_orchestrator.py",
             "timeout": 5000
           }
         ]
@@ -71,21 +53,9 @@
             "timeout": 5000
           },
           {
-            "name": "context_engineering_test_memory_store",
-            "type": "command",
-            "command": "python .gemini/hooks/context_engineering_test_memory_store.py",
-            "timeout": 5000
-          },
-          {
             "name": "harness_engineering_context_monitor",
             "type": "command",
             "command": "python .gemini/hooks/harness_engineering_context_monitor.py",
-            "timeout": 5000
-          },
-          {
-            "name": "harness_engineering_test_context_monitor",
-            "type": "command",
-            "command": "python .gemini/hooks/harness_engineering_test_context_monitor.py",
             "timeout": 5000
           }
         ]
@@ -99,12 +69,6 @@
             "name": "harness_engineering_error_boundary",
             "type": "command",
             "command": "python .gemini/hooks/harness_engineering_error_boundary.py",
-            "timeout": 5000
-          },
-          {
-            "name": "harness_engineering_test_error_boundary",
-            "type": "command",
-            "command": "python .gemini/hooks/harness_engineering_test_error_boundary.py",
             "timeout": 5000
           }
         ]
@@ -131,12 +95,6 @@
             "name": "multi_agent_engineering_git_worktree_manager",
             "type": "command",
             "command": "python .gemini/hooks/multi_agent_engineering_git_worktree_manager.py",
-            "timeout": 5000
-          },
-          {
-            "name": "multi_agent_engineering_test_git_worktree_manager",
-            "type": "command",
-            "command": "python .gemini/hooks/multi_agent_engineering_test_git_worktree_manager.py",
             "timeout": 5000
           },
           {
