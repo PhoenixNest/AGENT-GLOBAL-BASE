@@ -1,0 +1,44 @@
+{
+  "server": {
+    "port": 1234,
+    "host": "127.0.0.1",
+    "cors": true,
+    "log_level": "INFO"
+  },
+  "model": {
+    "name": "Qwen3.6-35B-A3B-Q4_K_M",
+    "context_length": 16384,
+    "max_tokens": 4096,
+    "rope_frequency_base": 1000000
+  },
+  "gpu": {
+    "layers": -1,
+    "main_gpu": 0,
+    "tensor_split": null,
+    "low_vram": false
+  },
+  "cpu": {
+    "threads": 10,
+    "batch_size": 512
+  },
+  "sampling": {
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "top_k": 40,
+    "repeat_penalty": 1.1,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "min_p": 0.05
+  },
+  "thermal": {
+    "max_concurrent_requests": 3,
+    "request_timeout": 180,
+    "idle_timeout": 300
+  },
+  "monitoring": {
+    "enable_metrics": true,
+    "metrics_port": 9090,
+    "log_prompts": false,
+    "log_responses": false
+  }
+}

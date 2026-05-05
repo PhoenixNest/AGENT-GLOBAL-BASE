@@ -12,6 +12,7 @@ This repository contains best practices, templates, and implementation guides fo
 | ------------------------------- | ------------------------------------------------------------------- |
 | [Architecture](./architecture/) | System architecture diagrams and component design patterns          |
 | [Components](./components/)     | Individual module implementations (embedding, retrieval, reranking) |
+| [Deployment](./deployment/)     | Production deployment guides and hardware-specific configurations   |
 | [Evaluation](./evaluation/)     | Metrics, benchmarks, and automated testing frameworks               |
 | [Integrations](./integrations/) | Connectors for common data sources (PDF, Markdown, Wiki, API)       |
 | [Security](./security/)         | Access control, PII handling, audit logging implementations         |
@@ -20,14 +21,19 @@ This repository contains best practices, templates, and implementation guides fo
 
 ## Quick Reference
 
-| Concept                    | Location                                                           |
-| -------------------------- | ------------------------------------------------------------------ |
-| Core Architecture Patterns | `[architecture/overview.md](./architecture/overview.md)`           |
-| Component Specifications   | `[components/reference-table.md](./components/reference-table.md)` |
-| Edge Cases & Handling      | `[evaluation/edge-cases.md](./evaluation/edge-cases.md)`           |
-| Security Best Practices    | `[security/guide.md](./security/guide.md)`                         |
+| Concept                    | Location                                                                                                       |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Core Architecture Patterns | `[architecture/overview.md](./architecture/overview.md)`                                                       |
+| Component Specifications   | `[components/reference-table.md](./components/reference-table.md)`                                             |
+| **Deployment Guides**      | **`[deployment/README.md](./deployment/README.md)`**                                                           |
+| **LM Studio Setup**        | **`[deployment/guides/lm-studio-optimization-guide.md](./deployment/guides/lm-studio-optimization-guide.md)`** |
+| **Quick Start**            | **`[deployment/guides/quick-start-guide.md](./deployment/guides/quick-start-guide.md)`**                       |
+| Edge Cases & Handling      | `[evaluation/edge-cases.md](./evaluation/edge-cases.md)`                                                       |
+| Security Best Practices    | `[security/guide.md](./security/guide.md)`                                                                     |
 
 ## Installation Quickstart
+
+For detailed deployment instructions, see **[deployment/README.md](./deployment/README.md)**.
 
 ```bash
 # Navigate to RAG folder
@@ -43,6 +49,11 @@ pip install -r requirements.txt
 # Initialize the system
 python tools/initialize.py
 ```
+
+**Hardware-Specific Deployment:**
+
+- **ASUS Zenbook Pro 14 Duo OLED (RTX 4060):** See [deployment/guides/lm-studio-optimization-guide.md](./deployment/guides/lm-studio-optimization-guide.md)
+- **General Setup:** See [deployment/guides/quick-start-guide.md](./deployment/guides/quick-start-guide.md)
 
 ## Architecture Overview
 
@@ -140,7 +151,8 @@ Before deploying to production:
 
 | Document                 | Version | Last Updated |
 | ------------------------ | ------- | ------------ |
-| README.md                | 1.1     | 2026-04-28   |
+| README.md                | 1.2     | 2026-05-05   |
+| deployment/README.md     | 1.0     | 2026-05-05   |
 | architecture/overview.md | 1.1     | 2026-04-28   |
 | architecture/diagrams.md | 1.0     | 2026-04-24   |
 | security/guide.md        | 1.0     | 2026-04-24   |
