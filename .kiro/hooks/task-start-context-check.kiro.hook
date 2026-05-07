@@ -1,0 +1,15 @@
+{
+  "name": "Task Start Context Check",
+  "version": "1.0.0",
+  "description": "Review task requirements before starting execution",
+  "when": {
+    "type": "preTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Before starting this task, review the requirements and verify: 1) All necessary context files are available, 2) Dependencies and prerequisites are clear, 3) Success criteria are defined, 4) Relevant pipeline stage requirements are understood. Confirm readiness to proceed or identify any missing information."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "task-start-context-check"
+}

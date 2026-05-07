@@ -1,0 +1,15 @@
+{
+  "name": "Git Worktree Isolation Check",
+  "version": "1.0.0",
+  "description": "Verify worktree isolation for multi-agent tasks per AGENTS.md § 8.5",
+  "when": {
+    "type": "preTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "If this task involves multi-agent parallel work (swarm orchestration), verify that git worktree isolation is properly set up according to the pattern defined in core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md. Check that each agent will have its own worktree and branch."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "git-worktree-check"
+}

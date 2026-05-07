@@ -1,0 +1,77 @@
+{
+  "mcpServers": {
+    "workspace-knowledge": {
+      "command": "python",
+      "args": [
+        "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base\\.kiro\\mcp-servers\\workspace-knowledge\\server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base",
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "search_docs",
+        "retrieve_context",
+        "list_indexed_files"
+      ],
+      "description": "RAG server for workspace documentation - IMPLEMENTED (local)"
+    },
+    "pipeline-automation": {
+      "command": "python",
+      "args": [
+        "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base\\.kiro\\mcp-servers\\pipeline-automation\\server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base",
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "validate_stage_gate",
+        "advance_stage",
+        "get_stage_info",
+        "list_pipeline_stages",
+        "check_project_status"
+      ],
+      "description": "Pipeline stage automation tools for company and studio pipelines - IMPLEMENTED (local)"
+    },
+    "git-worktree-manager": {
+      "command": "python",
+      "args": [
+        "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base\\.kiro\\mcp-servers\\git-worktree-manager\\server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base",
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "create_worktree",
+        "remove_worktree",
+        "list_worktrees",
+        "merge_branch",
+        "get_worktree_status"
+      ],
+      "description": "Git worktree management for multi-agent parallel work - IMPLEMENTED (local)"
+    },
+    "cc00-tools": {
+      "command": "python",
+      "args": [
+        "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base\\.kiro\\mcp-servers\\cc00-tools\\server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "c:\\Users\\ASUS\\Documents\\Code\\Local\\agent-global-base",
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "validate_ase_compliance",
+        "assess_maturity",
+        "check_context_budget",
+        "analyze_handoff"
+      ],
+      "description": "CC-00 implementation helpers and ASE compliance tools - IMPLEMENTED (local)"
+    }
+  }
+}

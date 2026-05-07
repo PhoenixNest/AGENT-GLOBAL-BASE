@@ -1,0 +1,15 @@
+{
+  "name": "Task Completion Validation",
+  "version": "1.0.0",
+  "description": "Verify task completion criteria are met after execution",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "After completing this task, verify that: 1) All stated objectives were achieved, 2) Code changes are tested and working, 3) Documentation is updated if needed, 4) No regressions were introduced, 5) Pipeline stage requirements are satisfied. Provide a brief completion summary and flag any outstanding issues."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "task-completion-validation"
+}

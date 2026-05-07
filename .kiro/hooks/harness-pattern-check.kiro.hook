@@ -1,0 +1,18 @@
+{
+  "name": "Harness Pattern Verification",
+  "version": "1.0.0",
+  "description": "Verify error boundaries and safety patterns are in place for LLM system code. Ensures all model calls go through proper harness engineering patterns per CC-00 Layer 3.",
+  "when": {
+    "type": "postToolUse",
+    "toolTypes": [
+      "write"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Review the file changes just made. If they involve LLM model calls or agent execution code, verify harness engineering patterns are in place: (1) Error Boundary — Are timeout, rate-limit, and validation recovery implemented? (2) Context Monitor — Is token budget enforcement active? (3) Tool Registry — Are tool whitelists, call limits, and dangerous task detection configured? Reference core-component-00/harness-engineering/implementations/ for correct patterns. Flag any missing safety controls as P0 defects."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "harness-pattern-check"
+}

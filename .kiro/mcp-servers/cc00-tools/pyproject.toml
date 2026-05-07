@@ -1,0 +1,17 @@
+[project]
+name = "cc00-tools-server"
+version = "1.0.0"
+description = "CC-00 implementation helpers and ASE compliance tools"
+authors = [{ name = "Kiro Workspace", email = "workspace@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=0.1.0",
+]
+
+[project.scripts]
+cc00-tools-server = "server:mcp.run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

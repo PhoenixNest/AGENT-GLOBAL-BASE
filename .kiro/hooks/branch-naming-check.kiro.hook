@@ -1,0 +1,18 @@
+{
+  "name": "Branch Naming Convention Check",
+  "version": "1.0.0",
+  "description": "Enforce agent/<role>/<task> branch naming convention per AGENTS.md § 8.5",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "shell"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "If this shell command involves creating a git branch, verify it follows the naming convention: agent/<role>/<task> (e.g., agent/backend/dark-mode-api). For stage-scoped work, use: stage<N>/agent/<role>/<task>. If the branch name doesn't follow this convention, suggest the correct format before allowing the operation."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "branch-naming-check"
+}

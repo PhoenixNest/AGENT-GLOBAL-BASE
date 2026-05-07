@@ -1,0 +1,22 @@
+{
+    "name": "{Hook Display Name}",
+    "version": "1.0.0",
+    "description": "{One-line description of what this hook does and why}",
+    "when": {
+        "type": "{eventType}",
+        "patterns": [
+            "{pattern1}",
+            "{pattern2}"
+        ],
+        "toolTypes": [
+            "{toolType1}",
+            "{toolType2}"
+        ]
+    },
+    "then": {
+        "type": "{actionType}",
+        "prompt": "{prompt-for-askAgent}",
+        "command": "{command-for-runCommand}",
+        "timeout": 60
+    }
+}

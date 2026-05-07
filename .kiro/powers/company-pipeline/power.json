@@ -1,0 +1,34 @@
+{
+    "name": "company-pipeline",
+    "displayName": "Company Pipeline",
+    "version": "1.0.0",
+    "status": "active",
+    "description": "Comprehensive support for the Company's 13-stage development pipeline across Mobile, Web, Backend API, and Full-Stack variants",
+    "keywords": [
+        "pipeline",
+        "company",
+        "mobile",
+        "web",
+        "backend",
+        "full-stack",
+        "prd",
+        "srd",
+        "adr",
+        "tsd",
+        "stage-gate"
+    ],
+    "author": "Company C-Suite (CPO, CDO, CTO, CIO, CSO, CTO-L, CHRO)",
+    "authority": "AGENTS.md § Part II — The Three Systems § 4. The Company",
+    "components": {
+        "documentation": true,
+        "templates": false,
+        "steering": true,
+        "mcpServers": false
+    },
+    "dependencies": [],
+    "relatedPowers": [
+        "cc00-engineering",
+        "casual-games-pipeline",
+        "organizational-agents"
+    ]
+}

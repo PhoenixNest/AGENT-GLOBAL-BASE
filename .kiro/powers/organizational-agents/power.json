@@ -1,0 +1,31 @@
+{
+    "name": "organizational-agents",
+    "displayName": "Organizational Agents",
+    "version": "1.0.0",
+    "status": "active",
+    "description": "Comprehensive support for activating and managing Type A organizational agents (personas) across the Company, Studio, and CC-00 Lab systems",
+    "keywords": [
+        "agents",
+        "personas",
+        "type-a",
+        "activation",
+        "skills",
+        "company",
+        "studio",
+        "cc00"
+    ],
+    "author": "Workspace Governance",
+    "authority": "AGENTS.md § Part I — Workspace Identity & Agent Model",
+    "components": {
+        "documentation": true,
+        "templates": false,
+        "steering": true,
+        "mcpServers": false
+    },
+    "dependencies": [],
+    "relatedPowers": [
+        "company-pipeline",
+        "casual-games-pipeline",
+        "cc00-engineering"
+    ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Context Budget Monitor",
+  "version": "1.0.0",
+  "description": "Warn when approaching context budget limits. Monitors token usage and triggers context compression when necessary per CC-00 context engineering patterns.",
+  "when": {
+    "type": "promptSubmit"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check current context window size. If approaching 80% of token budget (160k tokens for Claude Sonnet 4.5), warn and suggest: (1) Apply context compression per core-component-00/context-engineering/implementations/context_compressor.py, (2) Use Sacred Context principles to preserve critical decision history, (3) Consider session boundary and checkpoint creation. If over 90%, compression is mandatory before proceeding."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "context-budget-check"
+}

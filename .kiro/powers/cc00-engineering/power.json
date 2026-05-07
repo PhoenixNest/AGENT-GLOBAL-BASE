@@ -1,0 +1,32 @@
+{
+    "name": "cc00-engineering",
+    "displayName": "CC-00 Engineering",
+    "version": "1.0.0",
+    "status": "active",
+    "description": "Complete LLM engineering stack from Core Component 00 laboratory. Five-layer framework covering prompt engineering, context engineering, harness engineering, RAG, and multi-agent orchestration with production implementations and ASE governance",
+    "keywords": [
+        "llm",
+        "agent",
+        "context",
+        "harness",
+        "rag",
+        "multi-agent",
+        "ase",
+        "prompt",
+        "engineering"
+    ],
+    "author": "Core Component 00 Laboratory",
+    "authority": "AGENTS.md § Part II — The Three Systems § 6. Core Component 00",
+    "components": {
+        "documentation": true,
+        "templates": false,
+        "steering": true,
+        "mcpServers": false
+    },
+    "dependencies": [],
+    "relatedPowers": [
+        "company-pipeline",
+        "casual-games-pipeline",
+        "mcp-development"
+    ]
+}

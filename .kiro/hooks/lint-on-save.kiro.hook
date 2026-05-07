@@ -1,0 +1,25 @@
+{
+  "name": "Lint Code Files",
+  "version": "1.0.0",
+  "description": "Run linters on code file changes to maintain code quality",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.ts",
+      "*.tsx",
+      "*.js",
+      "*.jsx",
+      "*.py",
+      "*.kt",
+      "*.swift"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "npm run lint",
+    "timeout": 120
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "lint-on-save"
+}

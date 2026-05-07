@@ -1,0 +1,45 @@
+---
+version: "1.0.0"
+---
+
+# K6 Performance
+
+| Competency                           | Description                                                                                                                                                                                         | Quality Criteria                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **k6 Load Testing Fundamentals**     | Virtual user (VU) lifecycle, execution stages (init, VU, teardown), scenario types (shared-iterations, per-vu-iterations, constant-vus, ramping-vus, externally-controlled), execution flow control | Scripts follow k6 execution model: init context for imports/config, default/VU function for test logic, teardown for cleanup; scenario type selected based on test objective; VU lifecycle understood (init once, default function called repeatedly)                                                                                                        |
+| **Scenario Configuration**           | Multi-scenario test definition, executor selection, graceful ramp-up/ramp-down, start/end conditions, environment variable injection, tagged requests for metric segmentation                       | Scenarios configured for distinct workload patterns (e.g., `browse` with constant VUs, `checkout` with ramping VUs); graceful ramp allows in-flight requests to complete before scenario ends; tags applied to requests for granular metric analysis; environment variables parameterize base URLs, credentials, and thresholds                              |
+| **Threshold Definition**             | k6 threshold syntax, metric types (http_req_duration, http_req_failed, checks, iterations, vus), custom metrics (Trend, Counter, Gauge, Rate), threshold abort conditions, SLA-aligned thresholds   | Thresholds defined for p95/p99 latency, error rate, and minimum throughput; custom Trend metrics track business-relevant durations (e.g., `checkout_duration`); thresholds with `abortOnFail: true` stop test early when SLA violated; threshold expressions use `rate<0.01`, `p(95)<500`, `avg<200` syntax                                                  |
+| **Distributed Execution**            | k6 Cloud execution, self-hosted distributed mode, load zone configuration, coordinator/worker architecture, result aggregation, cross-region testing                                                | Tests distributed across multiple load generators for realistic geographic simulation; coordinator aggregates metrics from all workers; cloud execution configured with `ext.loadimpact` options; results merged and analyzed centrally; cross-region tests validate CDN and edge caching effectiveness                                                      |
+| **Result Analysis**                  | k6 output formats (JSON, CSV, Prometheus, Datadog, InfluxDB), metric interpretation, percentile analysis, bottleneck identification, correlation analysis, flame graph generation                   | Results exported to time-series database (InfluxDB + Grafana or Prometheus); p50/p95/p99 percentiles analyzed per endpoint; bottleneck identified via correlation between response time and server metrics (CPU, memory, DB connections); custom dashboards show real-time test progress; flame graphs generated for CPU profiling                           |
+| **Bottleneck Identification**        | Database query analysis, connection pool exhaustion, memory leak detection, thread pool saturation, N+1 query detection, cache miss analysis, CDN invalidation impact                               | Bottlenecks traced via server-side metrics correlated with k6 results; DB slow query log analyzed during load test; connection pool utilization monitored (HikariCP, PgBouncer); memory leak detected via heap growth over sustained load; N+1 queries identified via query count vs. request count ratio                                                    |
+| **Performance Regression Detection** | Baseline establishment, threshold comparison, statistical significance testing, trend analysis over time, CI integration with pass/fail gates, regression root cause analysis                       | Baselines established from production traffic patterns or controlled load tests; CI compares current run against baseline; regression defined as >20% increase in p95 latency or >10% decrease in throughput; statistical significance confirmed via multiple runs; regression root cause traced to specific code change via git blame + deployment timeline |
+
+## Pipeline Integration
+
+| Stage                                | Application                                                                                                                                                                                             |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 5** (Development)            | Author k6 test scripts for new API endpoints; establish initial performance baselines for new services                                                                                                  |
+| **Stage 6** (Code Review)            | Review k6 scripts for realistic workload modeling, appropriate threshold selection, and scenario coverage                                                                                               |
+| **Stage 7** (Automated Testing)      | **Primary ownership** — execute k6 load tests; compare against baselines; identify bottlenecks; classify performance regressions as P1/P2 defects; produce Test Results Report with performance metrics |
+| **Stage 8** (Integrity Verification) | Re-run k6 tests against post-fix build; verify performance regressions resolved; confirm no new bottlenecks introduced                                                                                  |
+
+## Quality Standards
+
+| Metric                           | Target                                                       | Measurement                                               |
+| -------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
+| Endpoint performance coverage    | 100% of customer-facing endpoints have k6 tests              | Traced to API spec; untested endpoint = P2 defect         |
+| Baseline establishment           | Every endpoint has baseline before Stage 7 gate              | Baseline JSON stored in `performance/baselines/`          |
+| p95 latency compliance           | p95 < endpoint-specific SLA for all endpoints                | CI gate — k6 threshold failure blocks pipeline            |
+| Error rate under load            | < 1% error rate at target throughput                         | Measured during sustained load scenario                   |
+| Performance regression detection | Detected within single CI run (no false negatives)           | Verified via deliberate regression injection quarterly    |
+| Bottleneck identification SLA    | Root cause identified within 4 hours of regression detection | Tracked via incident response timeline                    |
+| Baseline update frequency        | Updated monthly or after significant architecture changes    | Tracked via git history of baseline files                 |
+| Soak test coverage               | All critical services tested with 4-hour soak test monthly   | Scheduled in CI; memory leak detection via sustained load |
+
+---
+
+## Reference Materials
+
+Detailed code examples and implementation guides are in `references/`:
+
+- [`execution-guidance.md`](references/execution-guidance.md) — Execution Guidance

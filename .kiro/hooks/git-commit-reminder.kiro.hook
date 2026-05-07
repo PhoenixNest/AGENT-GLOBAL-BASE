@@ -1,0 +1,15 @@
+{
+  "name": "Git Commit Reminder",
+  "version": "1.0.0",
+  "description": "Remind to commit finalized workspace additions per AGENTS.md § 8.5",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check if there are uncommitted changes to finalized workspace additions (agent profiles, pipelines, skills, steering files, hooks). If yes, remind the user to commit them with an appropriate commit message following the workspace conventions."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "git-commit-reminder"
+}

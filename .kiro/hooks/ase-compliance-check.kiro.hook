@@ -1,0 +1,18 @@
+{
+  "name": "ASE Compliance Verification",
+  "version": "1.0.0",
+  "description": "Verify ASE compliance after LLM system changes. Checks that changes to agent systems, RAG pipelines, harness implementations, and context solutions follow CC-00 patterns and satisfy ASE compliance standards.",
+  "when": {
+    "type": "postToolUse",
+    "toolTypes": [
+      "write"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Review the file changes just made. If they involve LLM system components (agent profiles, context engineering, harness patterns, RAG pipelines, or multi-agent orchestration), verify ASE compliance: (1) Are CC-00 patterns being followed? (2) Are all five layers properly integrated? (3) Are security controls in place (ACL filtering, PII masking, error boundaries)? (4) Is the system production-ready per core-component-00/agent-systems-engineering/governance/compliance-standard.md? Flag any P0 or P1 compliance gaps."
+  },
+  "enabled": true,
+  "workspaceFolderName": "agent-global-base",
+  "shortName": "ase-compliance-check"
+}
