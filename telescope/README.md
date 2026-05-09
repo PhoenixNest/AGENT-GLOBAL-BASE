@@ -27,9 +27,11 @@ When a user presents a requirement that demands investigation before implementat
 telescope/
 ├── README.md                    ← This file
 ├── template/                    ← Research documentation templates
-│   └── research-report.md       ← Standard template for all investigations
+│   ├── research-report.md       ← Standard template for all investigations
+│   └── qa-document.md           ← Q&A template for stakeholder questions
 └── <YYYY-MM-DD-slug>/           ← Individual research reports (one per investigation)
-    └── research-report.md       ← Completed investigation following template
+    ├── research-report.md       ← Completed investigation following template
+    └── qa-document.md           ← Optional: Q&A document for stakeholder questions
 ```
 
 ---
@@ -112,11 +114,13 @@ Research reports are permanent records. They can be:
 
 ## Template Usage
 
-The standard research report template is located at:
+Two templates are available for research documentation:
 
-```
-telescope/template/research-report.md
-```
+### 1. Research Report Template
+
+**Location:** `telescope/template/research-report.md`
+
+**Purpose:** Primary investigation documentation — comprehensive research findings, analysis, and recommendations
 
 **Template sections:**
 
@@ -134,6 +138,49 @@ telescope/template/research-report.md
 | **Appendices** (optional)     | Supporting materials, code samples, diagrams         |
 | **Research Log** (optional)   | Chronological investigation notes                    |
 | **Open Questions** (optional) | Unresolved questions requiring further investigation |
+
+### 2. Q&A Document Template
+
+**Location:** `telescope/template/qa-document.md`
+
+**Purpose:** Stakeholder question tracking — consolidates all questions and answers related to a research investigation
+
+**When to use:**
+
+- Research report generates follow-up questions from stakeholders (CEO, CPO, Client)
+- Multiple rounds of clarification needed before proceeding to implementation
+- Decision log required to track strategic choices and their rationale
+- Action items need to be tracked with owners and deadlines
+
+**Template sections:**
+
+| Section                | Purpose                                            |
+| ---------------------- | -------------------------------------------------- |
+| **Metadata**           | Investigation ID, related report, stakeholders     |
+| **Purpose**            | Why this Q&A document exists                       |
+| **Resolved Questions** | Questions with final stakeholder decisions         |
+| **Pending Questions**  | Questions awaiting stakeholder input               |
+| **Deferred Questions** | Questions postponed to later pipeline stages       |
+| **Question Summary**   | At-a-glance table of all questions with status     |
+| **Action Items**       | Tracked actions with owners, deadlines, and status |
+| **Version History**    | Document evolution tracking                        |
+
+**Q&A Document Workflow:**
+
+1. Research report completed → generates open questions
+2. Create `qa-document.md` in same investigation folder
+3. Migrate open questions from research report to Q&A document
+4. Remove redundant "Open Questions" section from research report
+5. Track stakeholder responses in Q&A document (resolved/pending/deferred)
+6. Update Q&A document as questions are answered
+7. Use Q&A document as decision log for Stage 1+ pipeline work
+
+**Benefits:**
+
+- **Separation of concerns**: Research findings (report) vs stakeholder decisions (Q&A)
+- **Cleaner documentation**: Research report remains focused on technical findings
+- **Better tracking**: Q&A document provides structured question/answer/action tracking
+- **Audit trail**: Preserves reasoning behind strategic decisions
 
 ---
 
