@@ -110,13 +110,15 @@ Full agent profile and skills: [`core-component-00/director/agent/profile.md`](.
 
 ## Laboratory Mission
 
-CC-00 operates with a three-part mission:
+CC-00 operates with a four-part mission:
 
 **1. Formalise.** Define the engineering disciplines of LLM system construction with the same rigour applied to classical software engineering. Context engineering, harness engineering, and RAG architecture are not folk practices — they are formal disciplines with documented patterns, measurable outcomes, and testable implementations.
 
 **2. Implement.** Ship production-grade reference implementations alongside documentation. Every pattern documented in this laboratory ships with working Python code and an executable test suite. Knowledge that cannot be instantiated is not engineering — it is speculation.
 
 **3. Distribute.** Make these disciplines accessible to every team in this organisation. CC-00 is the central dependency: every LLM-powered system built here is built on top of it. The laboratory's output quality directly determines the ceiling for every downstream product.
+
+**4. Archive.** Preserve research findings and investigation outcomes in a permanent, traceable record. Every requirement investigation, technology evaluation, and research programme produces documented findings archived in the Telescope Research Archive Hub. This ensures decision continuity, knowledge retention, and pattern recognition across the laboratory's lifecycle.
 
 ---
 
@@ -129,6 +131,8 @@ CC-00 operates with a three-part mission:
 | **Retrieval Freshness Guarantees**     | Active  | `retrieval-augmented-generation/` | How do we bound the staleness of retrieved facts at inference time?                      |
 | **Prompt Stability Under Fine-Tuning** | Planned | `prompt-engineering/`             | Do prompt engineering patterns that work on base models transfer to fine-tuned variants? |
 | **Harness Performance Benchmarking**   | Active  | `harness-engineering/`            | What is the latency cost of the full error boundary stack at p99?                        |
+
+**Research Archive:** Completed investigations and research findings are permanently archived in the [Telescope Research Archive Hub](../telescope/README.md) following a standardized documentation template.
 
 ---
 
@@ -214,6 +218,7 @@ Foundational paper: [Agent Systems Engineering: The Convergence of Four Discipli
 | Pass context between agents                   | `[context-engineering/patterns/multi-agent-handoff.md](./context-engineering/patterns/multi-agent-handoff.md)`               |
 | Understand RAG security controls              | `[retrieval-augmented-generation/security/guide.md](./retrieval-augmented-generation/security/guide.md)`                     |
 | Wire all four modules together                | `[context-engineering/workspace/integration-guide.md](./context-engineering/workspace/integration-guide.md)`                 |
+| Document research findings                    | `[telescope/README.md](../telescope/README.md)`                                                                              |
 
 ---
 

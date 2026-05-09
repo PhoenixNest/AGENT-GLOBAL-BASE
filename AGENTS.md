@@ -308,8 +308,11 @@ core-component-00/
 ├── harness-engineering/             ← Layer 3 — How to execute safely
 ├── retrieval-augmented-generation/  ← Layer 4 — Where to get content
 ├── multi-agent-engineering/         ← Layer 5 — How agents cooperate
-└── director/                        ← Lab Director: Dr. Elias Vance
+├── director/                        ← Lab Director: Dr. Elias Vance
+└── telescope/                       ← Research Archive Hub (workspace root)
 ```
+
+**Note:** `telescope/` physically resides at the workspace root but is maintained by CC-00 as the centralized research documentation repository.
 
 ### 6.2 Laboratory Profile
 
@@ -598,6 +601,7 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | How to execute model calls safely          | `core-component-00/harness-engineering/`                  |
 | How to build RAG pipelines                 | `core-component-00/retrieval-augmented-generation/`       |
 | How multi-agent systems cooperate          | `core-component-00/multi-agent-engineering/`              |
+| Document research investigations           | `telescope/README.md`                                     |
 
 ---
 

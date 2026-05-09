@@ -68,6 +68,8 @@ When working in `core-component-00/`:
 
 5. **Document research decisions** — Active research programmes have open questions. Document findings and update research status.
 
+6. **Archive research investigations** — When conducting requirement investigations, technology evaluations, or research programme work, document findings in the Telescope Research Archive Hub (`telescope/`) following the standardized template. This ensures permanent traceability and knowledge retention.
+
 ---
 
 ## Key Production Implementations
@@ -111,6 +113,7 @@ All paths relative to `core-component-00/`:
 | Build RAG pipelines                  | `core-component-00/retrieval-augmented-generation/architecture/` |
 | Orchestrate multi-agent systems      | `core-component-00/multi-agent-engineering/fundamentals/`        |
 | Understand how all modules integrate | `core-component-00/agent-systems-engineering/CONCEPTS.md`        |
+| Document research findings           | `telescope/README.md`                                            |
 
 ---
 
