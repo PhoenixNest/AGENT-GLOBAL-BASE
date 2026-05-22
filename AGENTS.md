@@ -101,7 +101,7 @@ When the user requests output from a specific organizational agent (Type A), fol
 ```
 User  ←  Absolute apex. Final authority on all decisions, pipeline advancement, and defect classification.
   │
-  ├── Company C-suite  (CPO · CDO · CTO · CIO · CSO · CHRO · CTO-L)
+  ├── Company C-suite  (CPO · CDO · CTO · CIO · CSO · CHRO · CLO · CTO-L)
   │     └── Company Team Supervisors  →  Teammates
   │
   ├── Studio Director  (Dr. Marcus Vogel)
@@ -160,14 +160,15 @@ company/
 
 ### 4.2 Departments
 
-| Department             | Supervisor                                   | Core Responsibility                          |
-| ---------------------- | -------------------------------------------- | -------------------------------------------- |
-| Brand Design           | CDO — Yuki Tanaka-Chen                       | Mobile UI/UX, prototyping, IDS               |
-| Cyberspace Security    | CIO — Dr. Priya Mehta · CSO — Dr. Sarah Chen | Security architecture, risk, tech evaluation |
-| Human Resources        | CHRO — Dr. Evelyn Hartwell                   | Recruitment, candidate vetting               |
-| Localization           | CTO-L — Dr. Amara Osei-Mensah                | i18n pipeline, TMS, translation              |
-| Product Management     | CPO — Marcus Tran-Yoshida                    | PRD authorship, product strategy             |
-| Research & Development | CTO — Dr. Kenji Nakamura                     | Android, iOS, KMP, Flutter, testing          |
+| Department             | Supervisor                                   | Core Responsibility                                                                |
+| ---------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Brand Design           | CDO — Yuki Tanaka-Chen                       | Mobile UI/UX, prototyping, IDS                                                     |
+| Cyberspace Security    | CIO — Dr. Priya Mehta · CSO — Dr. Sarah Chen | Security architecture, risk, tech evaluation                                       |
+| Human Resources        | CHRO — Dr. Evelyn Hartwell                   | Recruitment, candidate vetting                                                     |
+| Legal                  | CLO — Dr. Victoria Svensson-Park             | Corporate governance, technology transactions, regulatory compliance, data privacy |
+| Localization           | CTO-L — Dr. Amara Osei-Mensah                | i18n pipeline, TMS, translation                                                    |
+| Product Management     | CPO — Marcus Tran-Yoshida                    | PRD authorship, product strategy                                                   |
+| Research & Development | CTO — Dr. Kenji Nakamura                     | Android, iOS, KMP, Flutter, testing                                                |
 
 ### 4.3 Agent Profile Paths
 
@@ -609,19 +610,20 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ### Company — C-Suite & Leads
 
-| Name                  | Role               | Company Pipeline Stages (§4.4)   |
-| --------------------- | ------------------ | -------------------------------- |
-| Marcus Tran-Yoshida   | CPO                | 0, 1 (PRD), 6, 8, 9, 10          |
-| Yuki Tanaka-Chen      | CDO                | 2, 6, 8, 10                      |
-| Dr. Kenji Nakamura    | CTO                | 3, 4, 5, 6, 7, 8, 10             |
-| Dr. Priya Mehta       | CIO                | 3 (ADRs/TSD), 6, 8, 10           |
-| Dr. Sarah Chen        | CSO                | 1 (SRD), 6, 8, 10                |
-| Dr. Amara Osei-Mensah | CTO-L              | 9 (Translation Production), 10   |
-| Dr. Evelyn Hartwell   | CHRO               | Recruitment pipeline             |
-| Julia Thorne          | VP Web             | 1 (Web/Full-Stack PRD), 6, 8, 10 |
-| Alex Rivera           | VP API             | 1 (API/Full-Stack PRD), 6, 8, 10 |
-| Rafael Okonkwo        | Software Architect | 3, 6                             |
-| Priscilla Oduya       | Test Lead          | 7, 8                             |
+| Name                       | Role               | Company Pipeline Stages (§4.4)            |
+| -------------------------- | ------------------ | ----------------------------------------- |
+| Marcus Tran-Yoshida        | CPO                | 0, 1 (PRD), 6, 8, 9, 10                   |
+| Yuki Tanaka-Chen           | CDO                | 2, 6, 8, 10                               |
+| Dr. Kenji Nakamura         | CTO                | 3, 4, 5, 6, 7, 8, 10                      |
+| Dr. Priya Mehta            | CIO                | 3 (ADRs/TSD), 6, 8, 10                    |
+| Dr. Sarah Chen             | CSO                | 1 (SRD), 6, 8, 10                         |
+| Dr. Amara Osei-Mensah      | CTO-L              | 9 (Translation Production), 10            |
+| Dr. Evelyn Hartwell        | CHRO               | Recruitment pipeline                      |
+| Dr. Victoria Svensson-Park | CLO                | 1, 3, 6, 8, 10 (legal review & clearance) |
+| Julia Thorne               | VP Web             | 1 (Web/Full-Stack PRD), 6, 8, 10          |
+| Alex Rivera                | VP API             | 1 (API/Full-Stack PRD), 6, 8, 10          |
+| Rafael Okonkwo             | Software Architect | 3, 6                                      |
+| Priscilla Oduya            | Test Lead          | 7, 8                                      |
 
 ### Casual Games Studio — Leadership
 

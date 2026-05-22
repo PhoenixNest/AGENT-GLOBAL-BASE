@@ -49,6 +49,36 @@ The company's engineering department, responsible for software architecture, pla
 
 ---
 
+## KMP & Flutter Engineering Teams
+
+Dedicated KMP and Flutter engineering sub-teams added 2026-05-12. All report to the Cross-Platform Development Lead (Mei-Ling Johansson) and serve pipeline Stages 5 and 8.
+
+### KMP Engineers
+
+| Name              | Profile                                                                                                                                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Beatriz Schreiber | [`profile.md`](company/departments/research-develop/team/teammates/kmp-engineer/beatriz-schreiber/agent/profile.md) — iOS integration & Swift interoperability |
+| Dawit Tadesse     | [`profile.md`](company/departments/research-develop/team/teammates/kmp-engineer/dawit-tadesse/agent/profile.md) — Data layer & multiplatform testing           |
+
+| Name              | Skill Files                                                                                                                                                                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Beatriz Schreiber | [`kmp-ios-integration.md`](company/departments/research-develop/team/teammates/kmp-engineer/beatriz-schreiber/skills/kmp-ios-integration.md) · [`kmp-concurrency-patterns.md`](company/departments/research-develop/team/teammates/kmp-engineer/beatriz-schreiber/skills/kmp-concurrency-patterns.md) |
+| Dawit Tadesse     | [`kmp-data-layer.md`](company/departments/research-develop/team/teammates/kmp-engineer/dawit-tadesse/skills/kmp-data-layer.md) · [`kmp-testing-strategy.md`](company/departments/research-develop/team/teammates/kmp-engineer/dawit-tadesse/skills/kmp-testing-strategy.md)                           |
+
+### Flutter Engineers
+
+| Name                     | Profile                                                                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lior Ben-Shahar          | [`profile.md`](company/departments/research-develop/team/teammates/flutter-engineer/lior-ben-shahar/agent/profile.md) — UI systems & native platform integration              |
+| Saoirse O'Brien-Yamamoto | [`profile.md`](company/departments/research-develop/team/teammates/flutter-engineer/saoirse-obrien-yamamoto/agent/profile.md) — Performance optimisation & testing automation |
+
+| Name                     | Skill Files                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lior Ben-Shahar          | [`flutter-ui-systems.md`](company/departments/research-develop/team/teammates/flutter-engineer/lior-ben-shahar/skills/flutter-ui-systems.md) · [`flutter-native-integration.md`](company/departments/research-develop/team/teammates/flutter-engineer/lior-ben-shahar/skills/flutter-native-integration.md)                                     |
+| Saoirse O'Brien-Yamamoto | [`flutter-performance-patterns.md`](company/departments/research-develop/team/teammates/flutter-engineer/saoirse-obrien-yamamoto/skills/flutter-performance-patterns.md) · [`flutter-testing-automation.md`](company/departments/research-develop/team/teammates/flutter-engineer/saoirse-obrien-yamamoto/skills/flutter-testing-automation.md) |
+
+---
+
 ## Team Teammates
 
 | Name           | Role                            | Profile                                                                                                                             |

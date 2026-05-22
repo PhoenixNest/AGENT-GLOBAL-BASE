@@ -6,16 +6,17 @@ A mobile product company organized around a structured, multi-stage development 
 
 ## Departments
 
-The company is organized into six departments. Each department has a designated supervisor (C-suite or equivalent) and a team of recruited personnel.
+The company is organized into seven departments. Each department has a designated supervisor (C-suite or equivalent) and a team of recruited personnel.
 
-| Department                                                                | Core Responsibility                                                                   | Supervisor(s)                                                 |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| [Brand Design](company/library/departments/brand-design.md)               | Mobile UI/UX design, prototyping, interaction design specifications                   | Chief Design Officer (CDO)                                    |
-| [Cyberspace Security](company/library/departments/cyberspace-security.md) | Security requirements, architecture strategy, risk assessment, technology evaluation  | Chief Information Officer (CIO), Chief Security Officer (CSO) |
-| [Human Resources](company/library/departments/human-resources.md)         | Recruitment, candidate vetting across all departments                                 | Chief Human Resources Officer (CHRO)                          |
-| [Localization](company/library/departments/localization.md)               | Translation management, i18n pipeline, TMS operations across all target languages     | Chief Translation Officer (CTO-L)                             |
-| [Product Management](company/library/departments/product-management.md)   | Product requirements, strategy, PRD authorship                                        | Chief Product Officer (CPO)                                   |
-| [Research & Development](company/library/departments/research-develop.md) | Software architecture, Android/iOS/KMP/Flutter development, testing, i18n engineering | Chief Technology Officer (CTO)                                |
+| Department                                                                | Core Responsibility                                                                                     | Supervisor(s)                                                 |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| [Brand Design](company/library/departments/brand-design.md)               | Mobile UI/UX design, prototyping, interaction design specifications                                     | Chief Design Officer (CDO)                                    |
+| [Cyberspace Security](company/library/departments/cyberspace-security.md) | Security requirements, architecture strategy, risk assessment, technology evaluation                    | Chief Information Officer (CIO), Chief Security Officer (CSO) |
+| [Human Resources](company/library/departments/human-resources.md)         | Recruitment, candidate vetting across all departments                                                   | Chief Human Resources Officer (CHRO)                          |
+| [Legal](company/library/departments/legal.md)                             | Corporate governance, technology transactions, multi-jurisdictional regulatory compliance, data privacy | Chief Legal Officer (CLO)                                     |
+| [Localization](company/library/departments/localization.md)               | Translation management, i18n pipeline, TMS operations across all target languages                       | Chief Translation Officer (CTO-L)                             |
+| [Product Management](company/library/departments/product-management.md)   | Product requirements, strategy, PRD authorship                                                          | Chief Product Officer (CPO)                                   |
+| [Research & Development](company/library/departments/research-develop.md) | Software architecture, Android/iOS/KMP/Flutter development, testing, i18n engineering                   | Chief Technology Officer (CTO)                                |
 
 ---
 
@@ -23,12 +24,13 @@ The company is organized into six departments. Each department has a designated 
 
 ```
 User
- ├── CPO  (Product Management)
- ├── CDO  (Brand Design)        → reports to CIO
- ├── CTO  (R&D)                 → reports to CIO, CSO
- ├── CIO  (Cyberspace Security) → oversees Brand Design, Product Management, R&D
- ├── CSO  (Cyberspace Security) → oversees R&D
- ├── CHRO (Human Resources)
+ ├── CPO   (Product Management)
+ ├── CDO   (Brand Design)        → reports to CIO
+ ├── CTO   (R&D)                 → reports to CIO, CSO
+ ├── CIO   (Cyberspace Security) → oversees Brand Design, Product Management, R&D
+ ├── CSO   (Cyberspace Security) → oversees R&D
+ ├── CHRO  (Human Resources)
+ ├── CLO   (Legal)               → cross-cutting counsel; all departments
  └── CTO-L (Localization)
 ```
 
@@ -56,7 +58,7 @@ The company operates under the **Agent Systems Engineering (ASE)** methodology �
 
 |        Layer        | Purpose                              | Examples                                |
 | :-----------------: | :----------------------------------- | :-------------------------------------- |
-| Prompt Engineering  | Standardised agent instructions      | 79 agent profiles, 199 skill guidelines |
+| Prompt Engineering  | Standardised agent instructions      | 86 agent profiles, 214 skill guidelines |
 | Context Engineering | Structured handoffs, context windows | MVC profiles, stage transition schemas  |
 | Harness Engineering | Automated gate enforcement           | Schema validation, red team review      |
 |    RAG / Memory     | Institutional knowledge retention    | KTP, RAG blueprint, embedding stores    |

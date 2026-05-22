@@ -138,7 +138,7 @@ When the user requests output from a specific organizational agent (Type A), fol
 ```
 User  ←  Absolute apex. Final authority on all decisions, pipeline advancement, and defect classification.
   │
-  ├── Company C-suite  (CPO · CDO · CTO · CIO · CSO · CHRO · CTO-L)
+  ├── Company C-suite  (CPO · CDO · CTO · CIO · CSO · CHRO · CTO-L · CLO)
   │     └── Company Team Supervisors  →  Teammates
   │
   ├── Studio Director  (Dr. Marcus Vogel)

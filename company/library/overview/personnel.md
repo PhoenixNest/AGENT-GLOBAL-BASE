@@ -13,10 +13,11 @@ Complete list of all company agents. Sorted by department, then tier.
 | Brand Design           | 2      | 1       | 0            | 0                    | 0                     | 1         | 0               |
 | Cyberspace Security    | 10     | 2       | 0            | 1                    | 0                     | 5         | 2               |
 | Human Resources        | 2      | 1       | 0            | 0                    | 0                     | 0         | 1               |
+| Legal                  | 3      | 1       | 0            | 1                    | 0                     | 1         | 0               |
 | Localization           | 7      | 1       | 0            | 0                    | 0                     | 6         | 0               |
 | Product Management     | 3      | 1       | 2            | 0                    | 0                     | 0         | 0               |
-| Research & Development | 54     | 1       | 5            | 2                    | 7                     | 24        | 17              |
-| **Total**              | **78** | **7**   | **7**        | **3**                | **8**                 | **36**    | **21**          |
+| Research & Development | 58     | 1       | 5            | 2                    | 7                     | 28        | 17              |
+| **Total**              | **85** | **8**   | **7**        | **4**                | **8**                 | **41**    | **21**          |
 
 ---
 
@@ -55,6 +56,16 @@ Complete list of all company agents. Sorted by department, then tier.
 
 ---
 
+## Legal (3)
+
+| #   | Name                       | Role                                         | Tier            | Pipeline Stages | Skills                                                                                        | Profile                                                                                                                                |
+| --- | -------------------------- | -------------------------------------------- | --------------- | --------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| 81  | Dr. Victoria Svensson-Park | Chief Legal Officer (CLO)                    | C-suite         | 1, 3, 6, 8, 10  | `corporate-governance-counsel` · `technology-transactions` · `regulatory-compliance-strategy` | [`profile.md`](company/departments/legal/supervisor/chief-legal-officer/agent/profile.md)                                              |
+| 82  | Nathaniel Osei-Kwabena     | Senior Counsel, Corporate & Technology       | Team Supervisor | 1, 6, 8, 10     | `corporate-counsel` · `commercial-contracts`                                                  | [`profile.md`](company/departments/legal/team/supervisors/senior-counsel-corporate-technology/nathaniel-osei-kwabena/agent/profile.md) |
+| 83  | Azalea Nkrumah             | Associate Counsel, Privacy & Data Compliance | Teammate        | 1, 6, 8, 10     | `privacy-regulatory-counsel` · `data-protection-compliance`                                   | [`profile.md`](company/departments/legal/team/teammates/associate-counsel-privacy-data/azalea-nkrumah/agent/profile.md)                |
+
+---
+
 ## Localization (7)
 
 | #   | Name                    | Role                              | Tier     | Pipeline Stages | Skills                                                                                                              | Profile                                                                                                |
@@ -79,7 +90,7 @@ Complete list of all company agents. Sorted by department, then tier.
 
 ---
 
-## Research & Development (54)
+## Research & Development (58)
 
 ### R&D — C-Suite
 
@@ -124,28 +135,32 @@ Complete list of all company agents. Sorted by department, then tier.
 
 ### R&D — Senior Engineers
 
-| #   | Name            | Role                            | Tier     | Pipeline Stages | Skills                                                     | Profile                                                                                                                             |
-| --- | --------------- | ------------------------------- | -------- | --------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 42  | Dmitri Volkov   | Cross-Platform Engineer         | Teammate | 5, 8            | `kmp-architecture` · `kmp-shared-modules`                  | [`profile.md`](company/departments/research-develop/team/teammates/cross-platform-engineer/dmitri-volkov/agent/profile.md)          |
-| 44  | Kai Nakamura    | Developer Experience Engineer   | Teammate | 5, 8            | `build-optimization` · `developer-analytics`               | [`profile.md`](company/departments/research-develop/team/teammates/developer-experience-engineer/kai-nakamura/agent/profile.md)     |
-| 47  | Yuki Tanaka     | DevOps Engineer                 | Teammate | 5, 8            | `cicd-security` · `iac-gitops`                             | [`profile.md`](company/departments/research-develop/team/teammates/devops-engineer/yuki-tanaka/agent/profile.md)                    |
-| 52  | Diego Morales   | Full-Stack Engineer             | Teammate | 5, 8            | `angular-spring-boot` · `enterprise-patterns`              | [`profile.md`](company/departments/research-develop/team/teammates/full-stack-engineer/diego-morales/agent/profile.md)              |
-| 54  | Nina Petrova    | Full-Stack Engineer             | Teammate | 5, 8            | `full-stack-mvp` · `prd-fluency`                           | [`profile.md`](company/departments/research-develop/team/teammates/full-stack-engineer/nina-petrova/agent/profile.md)               |
-| 56  | Tomas Dvoracek  | Internationalization Specialist | Teammate | 9               | `string-extraction-and-resource-files`                     | [`profile.md`](company/departments/research-develop/team/teammates/internationalization-specialist/tomas-dvoracek/agent/profile.md) |
-| 60  | Ananya Krishnan | SDET Mobile                     | Teammate | 7, 8            | `espresso-xctest` · `maestro-testing`                      | [`profile.md`](company/departments/research-develop/team/teammates/sdet-mobile/ananya-krishnan/agent/profile.md)                    |
-| 62  | Priya Sharma    | SDET Web/Backend                | Teammate | 7, 8            | `api-testing` · `pact-contract-testing` · `k6-performance` | [`profile.md`](company/departments/research-develop/team/teammates/sdet-web-backend/priya-sharma/agent/profile.md)                  |
-| 63  | Priya Narayanan | Senior Android Engineer         | Teammate | 5, 8            | `offline-first-patterns` · `android-security`              | [`profile.md`](company/departments/research-develop/team/teammates/senior-android-engineer/priya-narayanan/agent/profile.md)        |
-| 64  | Sofia Rezende   | Senior Android Engineer         | Teammate | 5, 8            | `android-accessibility` · `android-testing`                | [`profile.md`](company/departments/research-develop/team/teammates/senior-android-engineer/sofia-rezende/agent/profile.md)          |
-| 65  | Tariq Al-Hassan | Senior Android Engineer         | Teammate | 5, 8            | `kotlin-advanced` · `android-architecture`                 | [`profile.md`](company/departments/research-develop/team/teammates/senior-android-engineer/tariq-al-hassan/agent/profile.md)        |
-| 66  | Aisha Mohammed  | Senior Backend Engineer         | Teammate | 5, 8            | `database-sharding` · `api-testing`                        | [`profile.md`](company/departments/research-develop/team/teammates/senior-backend-engineer/aisha-mohammed/agent/profile.md)         |
-| 67  | Kael Jensen     | Senior Backend Engineer         | Teammate | 5, 8            | `real-time-architecture` · `backend-observability`         | [`profile.md`](company/departments/research-develop/team/teammates/senior-backend-engineer/kael-jensen/agent/profile.md)            |
-| 68  | Viktor Horváth  | Senior Backend Engineer         | Teammate | 5, 8            | `event-sourcing` · `security-patterns`                     | [`profile.md`](company/departments/research-develop/team/teammates/senior-backend-engineer/viktor-horvath/agent/profile.md)         |
-| 69  | Elena Kim       | Senior Frontend Engineer        | Teammate | 5, 8            | `advanced-a11y` · `xss-prevention`                         | [`profile.md`](company/departments/research-develop/team/teammates/senior-frontend-engineer/elena-kim/agent/profile.md)             |
-| 70  | Rafael Santos   | Senior Frontend Engineer        | Teammate | 5, 8            | `frontend-performance-optimization` · `react-testing`      | [`profile.md`](company/departments/research-develop/team/teammates/senior-frontend-engineer/rafael-santos/agent/profile.md)         |
-| 71  | Amara Diallo    | Senior iOS Engineer             | Teammate | 5, 8            | `ios-networking` · `ios-ci-cd`                             | [`profile.md`](company/departments/research-develop/team/teammates/senior-ios-engineer/amara-diallo/agent/profile.md)               |
-| 72  | Lars Eriksson   | Senior iOS Engineer             | Teammate | 5, 8            | `swift-concurrency` · `tca-architecture`                   | [`profile.md`](company/departments/research-develop/team/teammates/senior-ios-engineer/lars-eriksson/agent/profile.md)              |
-| 73  | Mei Chen        | Senior iOS Engineer             | Teammate | 5, 8            | `core-animation` · `ios-performance`                       | [`profile.md`](company/departments/research-develop/team/teammates/senior-ios-engineer/mei-chen/agent/profile.md)                   |
-| 76  | Raihan Rahman   | SRE Engineer                    | Teammate | 5, 8            | `sre-practices` · `cloud-infrastructure`                   | [`profile.md`](company/departments/research-develop/team/teammates/sre-engineer/raihan-rahman/agent/profile.md)                     |
+| #   | Name                     | Role                            | Tier     | Pipeline Stages | Skills                                                        | Profile                                                                                                                             |
+| --- | ------------------------ | ------------------------------- | -------- | --------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 42  | Dmitri Volkov            | Cross-Platform Engineer         | Teammate | 5, 8            | `kmp-architecture` · `kmp-shared-modules`                     | [`profile.md`](company/departments/research-develop/team/teammates/cross-platform-engineer/dmitri-volkov/agent/profile.md)          |
+| 44  | Kai Nakamura             | Developer Experience Engineer   | Teammate | 5, 8            | `build-optimization` · `developer-analytics`                  | [`profile.md`](company/departments/research-develop/team/teammates/developer-experience-engineer/kai-nakamura/agent/profile.md)     |
+| 47  | Yuki Tanaka              | DevOps Engineer                 | Teammate | 5, 8            | `cicd-security` · `iac-gitops`                                | [`profile.md`](company/departments/research-develop/team/teammates/devops-engineer/yuki-tanaka/agent/profile.md)                    |
+| 52  | Diego Morales            | Full-Stack Engineer             | Teammate | 5, 8            | `angular-spring-boot` · `enterprise-patterns`                 | [`profile.md`](company/departments/research-develop/team/teammates/full-stack-engineer/diego-morales/agent/profile.md)              |
+| 54  | Nina Petrova             | Full-Stack Engineer             | Teammate | 5, 8            | `full-stack-mvp` · `prd-fluency`                              | [`profile.md`](company/departments/research-develop/team/teammates/full-stack-engineer/nina-petrova/agent/profile.md)               |
+| 56  | Tomas Dvoracek           | Internationalization Specialist | Teammate | 9               | `string-extraction-and-resource-files`                        | [`profile.md`](company/departments/research-develop/team/teammates/internationalization-specialist/tomas-dvoracek/agent/profile.md) |
+| 60  | Ananya Krishnan          | SDET Mobile                     | Teammate | 7, 8            | `espresso-xctest` · `maestro-testing`                         | [`profile.md`](company/departments/research-develop/team/teammates/sdet-mobile/ananya-krishnan/agent/profile.md)                    |
+| 62  | Priya Sharma             | SDET Web/Backend                | Teammate | 7, 8            | `api-testing` · `pact-contract-testing` · `k6-performance`    | [`profile.md`](company/departments/research-develop/team/teammates/sdet-web-backend/priya-sharma/agent/profile.md)                  |
+| 63  | Priya Narayanan          | Senior Android Engineer         | Teammate | 5, 8            | `offline-first-patterns` · `android-security`                 | [`profile.md`](company/departments/research-develop/team/teammates/senior-android-engineer/priya-narayanan/agent/profile.md)        |
+| 64  | Sofia Rezende            | Senior Android Engineer         | Teammate | 5, 8            | `android-accessibility` · `android-testing`                   | [`profile.md`](company/departments/research-develop/team/teammates/senior-android-engineer/sofia-rezende/agent/profile.md)          |
+| 65  | Tariq Al-Hassan          | Senior Android Engineer         | Teammate | 5, 8            | `kotlin-advanced` · `android-architecture`                    | [`profile.md`](company/departments/research-develop/team/teammates/senior-android-engineer/tariq-al-hassan/agent/profile.md)        |
+| 66  | Aisha Mohammed           | Senior Backend Engineer         | Teammate | 5, 8            | `database-sharding` · `api-testing`                           | [`profile.md`](company/departments/research-develop/team/teammates/senior-backend-engineer/aisha-mohammed/agent/profile.md)         |
+| 67  | Kael Jensen              | Senior Backend Engineer         | Teammate | 5, 8            | `real-time-architecture` · `backend-observability`            | [`profile.md`](company/departments/research-develop/team/teammates/senior-backend-engineer/kael-jensen/agent/profile.md)            |
+| 68  | Viktor Horváth           | Senior Backend Engineer         | Teammate | 5, 8            | `event-sourcing` · `security-patterns`                        | [`profile.md`](company/departments/research-develop/team/teammates/senior-backend-engineer/viktor-horvath/agent/profile.md)         |
+| 69  | Elena Kim                | Senior Frontend Engineer        | Teammate | 5, 8            | `advanced-a11y` · `xss-prevention`                            | [`profile.md`](company/departments/research-develop/team/teammates/senior-frontend-engineer/elena-kim/agent/profile.md)             |
+| 70  | Rafael Santos            | Senior Frontend Engineer        | Teammate | 5, 8            | `frontend-performance-optimization` · `react-testing`         | [`profile.md`](company/departments/research-develop/team/teammates/senior-frontend-engineer/rafael-santos/agent/profile.md)         |
+| 71  | Amara Diallo             | Senior iOS Engineer             | Teammate | 5, 8            | `ios-networking` · `ios-ci-cd`                                | [`profile.md`](company/departments/research-develop/team/teammates/senior-ios-engineer/amara-diallo/agent/profile.md)               |
+| 72  | Lars Eriksson            | Senior iOS Engineer             | Teammate | 5, 8            | `swift-concurrency` · `tca-architecture`                      | [`profile.md`](company/departments/research-develop/team/teammates/senior-ios-engineer/lars-eriksson/agent/profile.md)              |
+| 73  | Mei Chen                 | Senior iOS Engineer             | Teammate | 5, 8            | `core-animation` · `ios-performance`                          | [`profile.md`](company/departments/research-develop/team/teammates/senior-ios-engineer/mei-chen/agent/profile.md)                   |
+| 76  | Raihan Rahman            | SRE Engineer                    | Teammate | 5, 8            | `sre-practices` · `cloud-infrastructure`                      | [`profile.md`](company/departments/research-develop/team/teammates/sre-engineer/raihan-rahman/agent/profile.md)                     |
+| 84  | Beatriz Schreiber        | KMP Engineer                    | Teammate | 5, 8            | `kmp-ios-integration` · `kmp-concurrency-patterns`            | [`profile.md`](company/departments/research-develop/team/teammates/kmp-engineer/beatriz-schreiber/agent/profile.md)                 |
+| 85  | Dawit Tadesse            | KMP Engineer                    | Teammate | 5, 8            | `kmp-data-layer` · `kmp-testing-strategy`                     | [`profile.md`](company/departments/research-develop/team/teammates/kmp-engineer/dawit-tadesse/agent/profile.md)                     |
+| 86  | Lior Ben-Shahar          | Flutter Engineer                | Teammate | 5, 8            | `flutter-ui-systems` · `flutter-native-integration`           | [`profile.md`](company/departments/research-develop/team/teammates/flutter-engineer/lior-ben-shahar/agent/profile.md)               |
+| 87  | Saoirse O'Brien-Yamamoto | Flutter Engineer                | Teammate | 5, 8            | `flutter-performance-patterns` · `flutter-testing-automation` | [`profile.md`](company/departments/research-develop/team/teammates/flutter-engineer/saoirse-obrien-yamamoto/agent/profile.md)       |
 
 ### R&D — Mid-Level Engineers
 
