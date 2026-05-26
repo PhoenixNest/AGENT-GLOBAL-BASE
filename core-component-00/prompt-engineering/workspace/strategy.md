@@ -57,11 +57,11 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 ```markdown
 ## Agent Invocation Registry
 
-| Agent | OpenCode                | Gemini                   | Cursor                  | Claude |
-| ----- | ----------------------- | ------------------------ | ----------------------- | ------ |
-| CTO   | dr-kenji-nakamura-cto   | @cto-dr-kenji-nakamura   | cto-dr-kenji-nakamura   | @cto   |
-| CPO   | marcus-tran-yoshida-cpo | @marcus-tran-yoshida-cpo | marcus-tran-yoshida-cpo | @cpo   |
-| ...   | ...                     | ...                      | ...                     | ...    |
+| Agent | Gemini                   |
+| ----- | ------------------------ |
+| CTO   | @cto-dr-kenji-nakamura   |
+| CPO   | @marcus-tran-yoshida-cpo |
+| ...   | ...                      |
 ```
 
 #### B. Pipeline Definitions (5 Files)
@@ -111,7 +111,7 @@ company/pipeline/mobile-development/
 
 #### A. Agent Profiles (77 Agents × 4 Platforms)
 
-**Current:** 77 agents in OpenCode, 77 in Gemini, 77 in Cursor, 12 lead agents in Claude.
+**Current:** 77 in Gemini.
 
 **Prompt Engineering Opportunities:**
 
@@ -130,7 +130,7 @@ company/pipeline/mobile-development/
 
 #### B. Skill Files (213+ Files)
 
-**Current:** Skills exist in multiple formats across platforms (OpenCode: flat 213 files; Claude: 41 files; Gemini/Cursor: hierarchical categories).
+**Current:** Skills exist in multiple formats across platforms.
 
 **Prompt Engineering Opportunities:**
 
