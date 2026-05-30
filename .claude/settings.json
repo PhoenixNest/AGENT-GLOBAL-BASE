@@ -71,5 +71,11 @@
   },
   "worktree": {
     "bgIsolation": "none"
-  }
+  },
+  "enabledMcpjsonServers": [
+    "workspace-knowledge",
+    "pipeline-automation",
+    "git-worktree-manager",
+    "cc00-tools"
+  ]
 }
