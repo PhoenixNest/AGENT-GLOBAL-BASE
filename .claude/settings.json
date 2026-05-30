@@ -3,6 +3,14 @@
   "defaultShell": "powershell",
   "permissions": {
     "allow": [
+      "PowerShell(python *)",
+      "PowerShell(git *)",
+      "PowerShell(prettier *)",
+      "PowerShell(ruff *)",
+      "PowerShell(pytest *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(Get-Content *)",
       "mcp__workspace-knowledge__search_docs",
       "mcp__workspace-knowledge__retrieve_context",
       "mcp__workspace-knowledge__list_indexed_files",
@@ -60,5 +68,8 @@
   "subagentStatusLine": {
     "type": "command",
     "command": "python -u C:/Users/ASUS/.claude/statusline.py"
+  },
+  "worktree": {
+    "bgIsolation": "none"
   }
 }
