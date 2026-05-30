@@ -83,7 +83,7 @@ class SubTask:
 
     @property
     def actual_duration(self) -> Optional[float]:
-        if self.started_at and self.completed_at:
+        if self.started_at is not None and self.completed_at is not None:
             return self.completed_at - self.started_at
         return None
 

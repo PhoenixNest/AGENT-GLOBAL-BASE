@@ -416,5 +416,5 @@ def _anchor_order(items: List[ContextItem]) -> List[ContextItem]:
         return sorted(items, key=lambda x: x.score, reverse=True)
 
     ranked = sorted(items, key=lambda x: x.score, reverse=True)
-    middle = ranked[1:-1]
-    return [ranked[0]] + middle + [ranked[-1]]
+    middle = ranked[2:]
+    return [ranked[0]] + middle + [ranked[1]]

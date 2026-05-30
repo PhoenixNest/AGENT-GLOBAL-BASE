@@ -112,7 +112,7 @@ class SafeModelCall:
                     "attempt": attempt + 1,
                 }
 
-            except TimeoutError:
+            except (asyncio.TimeoutError, TimeoutError):
                 log_error(f"Timeout on model call (model={self.model_id})")
                 return {
                     "success": False,

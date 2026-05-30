@@ -124,8 +124,9 @@ class TestSemanticMemory:
 
     def test_expired_fact_returns_none(self):
         sm = SemanticMemory()
-        sm.store("temp_fact", "Temporary value", expires_after_days=0.00001)
-        time.sleep(0.01)  # Allow expiry
+        # 1e-7 days ~= 8.6 ms TTL; sleep well past it for a reliable margin.
+        sm.store("temp_fact", "Temporary value", expires_after_days=1e-7)
+        time.sleep(0.05)  # Allow expiry
         assert sm.get("temp_fact") is None
 
     def test_non_expired_fact_returns_value(self):
@@ -161,9 +162,10 @@ class TestSemanticMemory:
 
     def test_evict_expired_removes_stale_facts(self):
         sm = SemanticMemory()
-        sm.store("stale", "value", expires_after_days=0.00001)
+        # 1e-7 days ~= 8.6 ms TTL; sleep well past it for a reliable margin.
+        sm.store("stale", "value", expires_after_days=1e-7)
         sm.store("fresh", "value", expires_after_days=365)
-        time.sleep(0.01)
+        time.sleep(0.05)
         removed_count = sm.evict_expired()
         assert removed_count >= 1
         assert sm.get("fresh") == "value"
