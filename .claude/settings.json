@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "defaultShell": "powershell",
+  "permissions": {
+    "allow": [
+      "mcp__workspace-knowledge__search_docs",
+      "mcp__workspace-knowledge__retrieve_context",
+      "mcp__workspace-knowledge__list_indexed_files",
+      "mcp__workspace-knowledge__rebuild_index",
+      "mcp__pipeline-automation__validate_stage_gate",
+      "mcp__pipeline-automation__advance_stage",
+      "mcp__pipeline-automation__get_stage_info",
+      "mcp__pipeline-automation__list_pipeline_stages",
+      "mcp__pipeline-automation__check_project_status",
+      "mcp__git-worktree-manager__create_worktree",
+      "mcp__git-worktree-manager__remove_worktree",
+      "mcp__git-worktree-manager__list_worktrees",
+      "mcp__git-worktree-manager__merge_branch",
+      "mcp__git-worktree-manager__get_worktree_status",
+      "mcp__cc00-tools__validate_ase_compliance",
+      "mcp__cc00-tools__assess_maturity",
+      "mcp__cc00-tools__check_context_budget",
+      "mcp__cc00-tools__analyze_handoff"
+    ],
+    "deny": ["Read(./GEMINI.md)", "Read(./.gemini/**)"]
+  },
+  "env": {
+    "CLAUDE_CODE_USE_POWERSHELL_TOOL": "1"
+  },
+  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/prettier-on-save.ps1"
+          },
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/lint-on-save.ps1"
+          },
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/test-on-code-change.ps1"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python -u C:/Users/ASUS/.claude/statusline.py"
+  },
+  "subagentStatusLine": {
+    "type": "command",
+    "command": "python -u C:/Users/ASUS/.claude/statusline.py"
+  }
+}

@@ -1,0 +1,17 @@
+[project]
+name = "git-worktree-manager-server"
+version = "1.0.0"
+description = "Git worktree management for multi-agent parallel work"
+authors = [{ name = "AGENT-GLOBAL-BASE Workspace", email = "workspace@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=0.1.0",
+]
+
+[project.scripts]
+git-worktree-manager-server = "server:mcp.run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
