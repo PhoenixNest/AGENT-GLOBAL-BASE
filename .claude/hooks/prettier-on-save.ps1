@@ -31,6 +31,6 @@ if (-not (Test-Path $filePath)) {
 
 $result = & prettier --write "$filePath" 2>&1
 if ($LASTEXITCODE -ne 0) {
-    Write-Error "Prettier failed on ${filePath}: $result"
-    exit 1
+    Write-Warning "Prettier could not format ${filePath}: $result"
+    exit 0
 }

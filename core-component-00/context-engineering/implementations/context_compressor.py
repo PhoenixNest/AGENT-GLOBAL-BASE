@@ -15,7 +15,6 @@ Usage:
     reduced = compressor.schema_reduce_tool_output(raw_json, keep_keys=["id", "status"])
 """
 
-import sys
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
@@ -23,6 +22,7 @@ from typing import Any, Dict, List, Optional
 def _estimate_tokens(text: str) -> int:
     try:
         import tiktoken
+
         enc = tiktoken.get_encoding("cl100k_base")
         return len(enc.encode(text))
     except ImportError:
@@ -32,6 +32,7 @@ def _estimate_tokens(text: str) -> int:
 # ---------------------------------------------------------------------------
 # Compression result container
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class CompressionResult:
@@ -51,6 +52,7 @@ class CompressionResult:
 # ---------------------------------------------------------------------------
 # Core compressor
 # ---------------------------------------------------------------------------
+
 
 class ContextCompressor:
     """
@@ -140,10 +142,16 @@ class ContextCompressor:
             if not tier:
                 continue
             # Filter sacred turns — inject verbatim, compress the rest
-            sacred_in_tier = [t for j, t in enumerate(tier)
-                               if (len(turns) - len(older_turns) + j) in sacred_set]
-            non_sacred_in_tier = [t for j, t in enumerate(tier)
-                                   if (len(turns) - len(older_turns) + j) not in sacred_set]
+            sacred_in_tier = [
+                t
+                for j, t in enumerate(tier)
+                if (len(turns) - len(older_turns) + j) in sacred_set
+            ]
+            non_sacred_in_tier = [
+                t
+                for j, t in enumerate(tier)
+                if (len(turns) - len(older_turns) + j) not in sacred_set
+            ]
 
             if sacred_in_tier:
                 compressed_parts.extend(sacred_in_tier)
@@ -151,12 +159,15 @@ class ContextCompressor:
             if non_sacred_in_tier:
                 level = ["paragraph", "sentence", "phrase"][min(i, 2)]
                 summary = self._summarise_tier(non_sacred_in_tier, level=level)
-                compressed_parts.append({"role": "system", "content": f"[Summary] {summary}"})
+                compressed_parts.append(
+                    {"role": "system", "content": f"[Summary] {summary}"}
+                )
 
         compressed_parts.extend(recent_turns)
 
         result_text = "\n".join(
-            f"[{t.get('role', 'system')}]: {t.get('content', '')}" for t in compressed_parts
+            f"[{t.get('role', 'system')}]: {t.get('content', '')}"
+            for t in compressed_parts
         )
         compressed_tokens = _estimate_tokens(result_text)
 
@@ -191,15 +202,19 @@ class ContextCompressor:
             CompressionResult with reduced content.
         """
         import json
+
         original_str = json.dumps(output) if not isinstance(output, str) else output
         original_tokens = _estimate_tokens(original_str)
 
         if isinstance(output, dict):
-            reduced = {k: v for k, v in output.items()
-                       if keep_keys is None or k in keep_keys}
+            reduced = {
+                k: v for k, v in output.items() if keep_keys is None or k in keep_keys
+            }
             for k, v in reduced.items():
                 if isinstance(v, list) and len(v) > max_list_items:
-                    reduced[k] = v[:max_list_items] + [f"... ({len(v) - max_list_items} more)"]
+                    reduced[k] = v[:max_list_items] + [
+                        f"... ({len(v) - max_list_items} more)"
+                    ]
             result = json.dumps(reduced, indent=2)
 
         elif isinstance(output, list):
@@ -255,7 +270,9 @@ class ContextCompressor:
                 information_loss="none",
             )
 
-        sentences = [s.strip() for s in text.replace("\n", ". ").split(".") if s.strip()]
+        sentences = [
+            s.strip() for s in text.replace("\n", ". ").split(".") if s.strip()
+        ]
         if not sentences:
             return CompressionResult(
                 original_tokens=original_tokens,
@@ -303,7 +320,9 @@ class ContextCompressor:
     # Internal helpers
     # ------------------------------------------------------------------
 
-    def _split_into_tiers(self, turns: List[Dict], tier_count: int = 3) -> List[List[Dict]]:
+    def _split_into_tiers(
+        self, turns: List[Dict], tier_count: int = 3
+    ) -> List[List[Dict]]:
         """Split turns into equal-sized tiers (oldest first)."""
         if not turns:
             return [[] for _ in range(tier_count)]
@@ -323,9 +342,7 @@ class ContextCompressor:
         if not turns:
             return ""
 
-        combined = " ".join(
-            t.get("content", "")[:200] for t in turns
-        )
+        combined = " ".join(t.get("content", "")[:200] for t in turns)
 
         if level == "paragraph":
             # Keep first 300 chars as a paragraph summary

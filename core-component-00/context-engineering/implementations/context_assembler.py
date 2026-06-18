@@ -23,9 +23,11 @@ from typing import Any, Dict, List, Optional
 # Token estimation (replace with tiktoken in production)
 # ---------------------------------------------------------------------------
 
+
 def _estimate_tokens(text: str) -> int:
     try:
         import tiktoken
+
         enc = tiktoken.get_encoding("cl100k_base")
         return len(enc.encode(text))
     except ImportError:
@@ -37,12 +39,37 @@ def _estimate_tokens(text: str) -> int:
 # ---------------------------------------------------------------------------
 
 BUDGET_PROFILES: Dict[str, Dict[str, float]] = {
-    "factual_qa":        {"system": 0.10, "retrieved": 0.65, "history": 0.10, "tools": 0.15},
-    "code_generation":   {"system": 0.15, "retrieved": 0.45, "history": 0.20, "tools": 0.20},
-    "creative_writing":  {"system": 0.20, "retrieved": 0.20, "history": 0.50, "tools": 0.10},
-    "tool_research":     {"system": 0.10, "retrieved": 0.35, "history": 0.15, "tools": 0.40},
-    "multi_turn_reason": {"system": 0.15, "retrieved": 0.20, "history": 0.55, "tools": 0.10},
-    "orchestration":     {"system": 0.20, "retrieved": 0.30, "history": 0.10, "tools": 0.40},
+    "factual_qa": {"system": 0.10, "retrieved": 0.65, "history": 0.10, "tools": 0.15},
+    "code_generation": {
+        "system": 0.15,
+        "retrieved": 0.45,
+        "history": 0.20,
+        "tools": 0.20,
+    },
+    "creative_writing": {
+        "system": 0.20,
+        "retrieved": 0.20,
+        "history": 0.50,
+        "tools": 0.10,
+    },
+    "tool_research": {
+        "system": 0.10,
+        "retrieved": 0.35,
+        "history": 0.15,
+        "tools": 0.40,
+    },
+    "multi_turn_reason": {
+        "system": 0.15,
+        "retrieved": 0.20,
+        "history": 0.55,
+        "tools": 0.10,
+    },
+    "orchestration": {
+        "system": 0.20,
+        "retrieved": 0.30,
+        "history": 0.10,
+        "tools": 0.40,
+    },
 }
 
 VALID_TASK_TYPES = set(BUDGET_PROFILES.keys())
@@ -52,15 +79,17 @@ VALID_TASK_TYPES = set(BUDGET_PROFILES.keys())
 # Data containers
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ContextItem:
     """A single item candidate for inclusion in a context slot."""
+
     content: str
-    slot: str                       # "system" | "retrieved" | "history" | "tools"
-    relevance: float = 0.5          # Semantic similarity to current query (0–1)
-    recency: float = 0.5            # Recency score (1.0 = most recent)
-    importance: float = 0.5         # Domain importance weight (0–1)
-    sacred: bool = False            # Sacred items always included regardless of score
+    slot: str  # "system" | "retrieved" | "history" | "tools"
+    relevance: float = 0.5  # Semantic similarity to current query (0–1)
+    recency: float = 0.5  # Recency score (1.0 = most recent)
+    importance: float = 0.5  # Domain importance weight (0–1)
+    sacred: bool = False  # Sacred items always included regardless of score
     metadata: Dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -76,7 +105,8 @@ class ContextItem:
 @dataclass
 class HandoffPacket:
     """Structured context forwarded from orchestrator to subagent."""
-    tier: str                               # "full" | "scoped" | "minimal"
+
+    tier: str  # "full" | "scoped" | "minimal"
     system: str
     task: str
     sacred_context: List[str] = field(default_factory=list)
@@ -90,6 +120,7 @@ class HandoffPacket:
 @dataclass
 class AssembledContext:
     """The final assembled context window, ready for model call."""
+
     messages: List[Dict[str, str]]
     total_tokens: int
     slot_usage: Dict[str, int]
@@ -100,6 +131,7 @@ class AssembledContext:
 # ---------------------------------------------------------------------------
 # Core assembler
 # ---------------------------------------------------------------------------
+
 
 class ContextAssembler:
     """
@@ -158,14 +190,16 @@ class ContextAssembler:
                 label += f", {timestamp}"
             label += "]"
 
-            self._retrieved.append(ContextItem(
-                content=f"{label}\n{content}",
-                slot="retrieved",
-                relevance=scores[i],
-                recency=item.get("recency", 0.5),
-                importance=item.get("importance", 0.5),
-                metadata={"source": source, "query": query},
-            ))
+            self._retrieved.append(
+                ContextItem(
+                    content=f"{label}\n{content}",
+                    slot="retrieved",
+                    relevance=scores[i],
+                    recency=item.get("recency", 0.5),
+                    importance=item.get("importance", 0.5),
+                    metadata={"source": source, "query": query},
+                )
+            )
         return self
 
     def add_history(
@@ -185,14 +219,16 @@ class ContextAssembler:
         for i, turn in enumerate(turns):
             recency = (i + 1) / n  # Higher = more recent
             is_sacred = i in sacred_set
-            self._history.append(ContextItem(
-                content=f"[{turn.get('role', 'user').capitalize()}]: {turn.get('content', '')}",
-                slot="history",
-                relevance=0.5,
-                recency=recency,
-                importance=1.0 if is_sacred else 0.5,
-                sacred=is_sacred,
-            ))
+            self._history.append(
+                ContextItem(
+                    content=f"[{turn.get('role', 'user').capitalize()}]: {turn.get('content', '')}",
+                    slot="history",
+                    relevance=0.5,
+                    recency=recency,
+                    importance=1.0 if is_sacred else 0.5,
+                    sacred=is_sacred,
+                )
+            )
         return self
 
     def add_sacred_context(self, text: str) -> "ContextAssembler":
@@ -211,13 +247,15 @@ class ContextAssembler:
     ) -> "ContextAssembler":
         """Add a validated tool result to the tool output slot."""
         content = f"[Tool: {tool_name}]\n{result}"
-        self._tools.append(ContextItem(
-            content=content,
-            slot="tools",
-            relevance=0.8,
-            recency=1.0,
-            importance=importance,
-        ))
+        self._tools.append(
+            ContextItem(
+                content=content,
+                slot="tools",
+                relevance=0.8,
+                recency=1.0,
+                importance=importance,
+            )
+        )
         return self
 
     # ------------------------------------------------------------------
@@ -242,8 +280,9 @@ class ContextAssembler:
             task_type = "multi_turn_reason"
 
         profile = BUDGET_PROFILES[task_type]
-        budgets = {slot: int(ratio * self.usable_tokens)
-                   for slot, ratio in profile.items()}
+        budgets = {
+            slot: int(ratio * self.usable_tokens) for slot, ratio in profile.items()
+        }
         warnings = []
         slot_usage: Dict[str, int] = {}
 
@@ -258,9 +297,7 @@ class ContextAssembler:
         slot_usage["system"] = system_tokens
 
         # --- Retrieved slot ---
-        selected_retrieved = _priority_fill(
-            self._retrieved, budgets["retrieved"]
-        )
+        selected_retrieved = _priority_fill(self._retrieved, budgets["retrieved"])
         # Slot-order anchoring: highest score first + last
         selected_retrieved = _anchor_order(selected_retrieved)
         retrieved_content = "\n\n".join(i.content for i in selected_retrieved)
@@ -345,7 +382,9 @@ class ContextAssembler:
             subagent_budget: Token budget allocated to the subagent.
         """
         if tier not in ("full", "scoped", "minimal"):
-            raise ValueError(f"Invalid handoff tier: '{tier}'. Use 'full', 'scoped', or 'minimal'.")
+            raise ValueError(
+                f"Invalid handoff tier: '{tier}'. Use 'full', 'scoped', or 'minimal'."
+            )
 
         system = self._system or "You are a helpful assistant."
         sacred = relevant_decisions if tier == "scoped" else self._sacred
@@ -385,6 +424,7 @@ class ContextAssembler:
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
 
 def _priority_fill(items: List[ContextItem], budget_tokens: int) -> List[ContextItem]:
     """Greedily fill a slot budget by priority score, sacred items always included."""

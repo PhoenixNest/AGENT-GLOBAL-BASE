@@ -47,15 +47,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/prettier-on-save.ps1"
+            "command": "pwsh -ExecutionPolicy Bypass -File .claude/hooks/prettier-on-save.ps1"
           },
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/lint-on-save.ps1"
+            "command": "pwsh -ExecutionPolicy Bypass -File .claude/hooks/lint-on-save.ps1"
           },
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .claude/hooks/test-on-code-change.ps1"
+            "command": "pwsh -ExecutionPolicy Bypass -File .claude/hooks/test-on-code-change.ps1"
           }
         ]
       }
