@@ -41,21 +41,35 @@
     "pr": ""
   },
   "hooks": {
-    "PostToolUse": [
+    "UserPromptSubmit": [
       {
-        "matcher": "Write|Edit|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "pwsh -ExecutionPolicy Bypass -File .claude/hooks/prettier-on-save.ps1"
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-quality-gate.ps1"]
           },
           {
             "type": "command",
-            "command": "pwsh -ExecutionPolicy Bypass -File .claude/hooks/lint-on-save.ps1"
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-optimizer.ps1"]
           },
           {
             "type": "command",
-            "command": "pwsh -ExecutionPolicy Bypass -File .claude/hooks/test-on-code-change.ps1"
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/pipeline-context-injector.ps1"]
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-write-guard.ps1"]
           }
         ]
       }
