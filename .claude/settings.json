@@ -57,7 +57,42 @@
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/pipeline-context-injector.ps1"]
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/pipeline-context-injector.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/context-budget-alert.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/retrieval-augmented-generation-freshness-flag.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/harness-rate-limiter-turn-reset.ps1"
+            ]
           }
         ]
       }
@@ -70,6 +105,78 @@
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
             "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-write-guard.ps1"]
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/harness-tool-rate-limiter.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/multi-agent-branch-naming-guard.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/multi-agent-commit-format-guard.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/system-powershell-syntax-guard.ps1"
+            ]
+          },
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/git-line-encoding-validator.ps1"
+            ]
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/harness-error-boundary-monitor.ps1"
+            ]
           }
         ]
       }

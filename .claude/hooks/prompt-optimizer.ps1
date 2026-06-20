@@ -93,10 +93,20 @@ STEP 2 — Use the AskUserQuestion tool with a SINGLE question presenting:
   Ask: "Does the optimized prompt capture your intent?"
 
 STEP 3a — If the user approves (selects Optimized / says yes / looks good):
-  Proceed to execute the task using the OPTIMIZED prompt as your working brief.
+  Before executing, display a confirmation block in this exact format:
+    ---
+    **Prompt selected:** Optimized
+    **Working brief:** <insert the full optimized prompt text here>
+    ---
+  Then proceed to execute the task using the OPTIMIZED prompt as your working brief.
 
 STEP 3b — If the user rejects (selects Original / says no / wants changes):
-  Ask $questionCount targeted clarifying questions (one per missing dimension from: $missingStr).
+  Display a confirmation block in this exact format:
+    ---
+    **Prompt selected:** Original
+    **Working brief:** <insert the full original user prompt text here>
+    ---
+  Then ask $questionCount targeted clarifying questions (one per missing dimension from: $missingStr).
   Wait for answers, then re-run STEP 1 with the feedback incorporated, then STEP 2 again.
   Repeat until the user approves.
 
