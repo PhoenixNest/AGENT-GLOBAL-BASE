@@ -139,18 +139,19 @@ word "errors" never appears in those documents.
 
 ### Phase 2 (additive to Phase 1)
 
-| Item                 | Requirement                          | Notes                                              |
-| -------------------- | ------------------------------------ | -------------------------------------------------- |
-| CPU                  | Any modern CPU                       | No GPU required; ~200–400 ms per query             |
-| RAM overhead         | ~400 MB total                        | Model (~200 MB) + FAISS index (~varies by corpus)  |
-| Disk                 | ~100–200 MB                          | Model file + persisted FAISS index                 |
-| New Python libraries | `sentence-transformers`, `faiss-cpu` | Both CPU-native, no CUDA dependency                |
-| Internet (first run) | Required once                        | Model downloads from Hugging Face on first startup |
-| Internet (ongoing)   | Not required                         | Fully offline after first model download           |
+| Item                 | Requirement                          | Notes                                                                     |
+| -------------------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| CPU / GPU            | Any modern CPU; CUDA GPU recommended | GPU auto-detected at startup (`torch.cuda.is_available()`); CPU fallback  |
+| RAM overhead         | ~500 MB total                        | Model (~420 MB) + FAISS index (~varies by corpus)                         |
+| Disk                 | ~500–600 MB                          | Model cache (`~/.cache/huggingface/hub/`) + persisted FAISS index         |
+| New Python libraries | `sentence-transformers`, `faiss-cpu` | `faiss-cpu` for index serving; encoding uses GPU via `torch` if available |
+| Internet (first run) | Required once                        | Model downloads from Hugging Face on first startup                        |
+| Internet (ongoing)   | Not required                         | Fully offline after first model download                                  |
 
-> **Note on the one-time download:** `all-MiniLM-L6-v2` is approximately 80 MB and downloads
+> **Note on the one-time download:** `all-mpnet-base-v2` is approximately 418 MB and downloads
 > automatically on first server startup after Phase 2 is deployed. Subsequent startups load the
-> model from disk. No recurring internet access is needed.
+> model from disk. With a CUDA-capable GPU the first-run index build completes in under 60 s;
+> CPU-only builds take 5–10 minutes. No recurring internet access is needed.
 
 ---
 

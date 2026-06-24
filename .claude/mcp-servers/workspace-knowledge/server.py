@@ -195,7 +195,9 @@ class SearchEngine:
             or current_mtimes != saved_mtimes
         )
 
-        model = SentenceTransformer("all-mpnet-base-v2")
+        import torch
+        _device = "cuda" if torch.cuda.is_available() else "cpu"
+        model = SentenceTransformer("all-mpnet-base-v2", device=_device)
 
         if needs_rebuild:
             # Encode all chunks
