@@ -271,7 +271,7 @@ Then build the FAISS index:
 ```powershell
 $env:WORKSPACE_ROOT = (Get-Location).Path
 .claude\mcp-servers\workspace-knowledge\.venv\Scripts\python `
-  "C:\Users\ASUS\.claude\jobs\7d1596c6\tmp\build_faiss.py"
+  .claude\mcp-servers\workspace-knowledge\build_faiss.py
 # Expected output: Total: ~95s — faiss.index written (8.8 MB)
 ```
 
@@ -290,7 +290,7 @@ manual start command is needed. Verify tier after connection:
 ```powershell
 # Run the status check script
 .claude\mcp-servers\workspace-knowledge\.venv\Scripts\python `
-  "C:\Users\ASUS\.claude\jobs\7d1596c6\tmp\check_rag_status.py"
+  .claude\mcp-servers\workspace-knowledge\check_rag_status.py
 # Expected: tier: hybrid, chunks: 2999
 ```
 
@@ -327,7 +327,7 @@ Remove-Item .claude\mcp-servers\workspace-knowledge\embedding\index_state.json -
 # 2. Run standalone build (~109s on RTX 4060)
 $env:WORKSPACE_ROOT = (Get-Location).Path
 .claude\mcp-servers\workspace-knowledge\.venv\Scripts\python `
-  "C:\Users\ASUS\.claude\jobs\7d1596c6\tmp\build_faiss.py"
+  .claude\mcp-servers\workspace-knowledge\build_faiss.py
 
 # 3. Reconnect MCP
 ```
@@ -343,7 +343,7 @@ After any start or rebuild, confirm the server has reached `tier: hybrid`:
 
 ```powershell
 .claude\mcp-servers\workspace-knowledge\.venv\Scripts\python `
-  "C:\Users\ASUS\.claude\jobs\7d1596c6\tmp\check_rag_status.py"
+  .claude\mcp-servers\workspace-knowledge\check_rag_status.py
 ```
 
 Expected output:
@@ -427,7 +427,7 @@ async coroutine using `asyncio.run_in_executor`.
 The canonical index build script is at:
 
 ```
-C:\Users\ASUS\.claude\jobs\7d1596c6\tmp\build_faiss.py
+.claude/mcp-servers/workspace-knowledge/build_faiss.py
 ```
 
 This script stubs FastMCP, imports `server.py` to reuse chunk ingestion logic, then builds and
@@ -438,10 +438,11 @@ background thread defect is resolved.
 
 ## Version History
 
-| Version | Date       | Author          | Changes                                                                 |
-| ------- | ---------- | --------------- | ----------------------------------------------------------------------- |
-| 1.0     | 2026-06-24 | Dr. Elias Vance | Initial runbook — Phase 2 ops                                           |
-| 1.1     | 2026-06-24 | Dr. Elias Vance | Update paths for embedding/ subfolder; model now loaded from local path |
+| Version | Date       | Author          | Changes                                                                                     |
+| ------- | ---------- | --------------- | ------------------------------------------------------------------------------------------- |
+| 1.0     | 2026-06-24 | Dr. Elias Vance | Initial runbook — Phase 2 ops                                                               |
+| 1.1     | 2026-06-24 | Dr. Elias Vance | Update paths for embedding/ subfolder; model now loaded from local path                     |
+| 1.2     | 2026-06-24 | Dr. Elias Vance | Replace tmp job paths with workspace-relative scripts (build_faiss.py, check_rag_status.py) |
 
 ---
 
