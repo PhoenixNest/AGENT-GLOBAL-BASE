@@ -1,11 +1,11 @@
 # workspace-knowledge RAG — Production Operations Runbook
 
-**Document Type:** Operations Runbook (Post-Commissioning)  
-**Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director  
-**Date:** 2026-06-25  
-**Status:** Active  
-**Target System:** `workspace-knowledge` MCP Server — `agent-global-base`  
-**Supersedes:** `telescope/2026-06-24-rag-system-ops/research-report.md`  
+**Document Type:** Operations Runbook (Post-Commissioning)
+**Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director
+**Date:** 2026-06-25
+**Status:** Active
+**Target System:** `workspace-knowledge` MCP Server — `agent-global-base`
+**Supersedes:** `telescope/2026-06-24-rag-system-ops/research-report.md`
 **Reference Documents:**
 
 - `ops-manual.md` — Pre-commissioning deployment guide (CPU / planning baseline)
@@ -289,6 +289,6 @@ the broken build path (Procedure C above).
 
 ---
 
-**Document version:** 1.0 — 2026-06-25  
-**Maintained By:** Core Component 00 Laboratory  
+**Document version:** 1.0 — 2026-06-25
+**Maintained By:** Core Component 00 Laboratory
 **Authority:** AGENTS.md § 6. Core Component 00
