@@ -7,15 +7,6 @@
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
-    },
-    "git-worktree-manager": {
-      "command": "python",
-      "args": ["${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/git-worktree-manager/server.py"],
-      "env": {
-        "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "WORKTREES_DIR": "${CLAUDE_PROJECT_DIR:-.}/.claude/worktrees"
-      }
     }
   }
 }

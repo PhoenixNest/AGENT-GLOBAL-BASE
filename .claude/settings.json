@@ -17,14 +17,7 @@
       "mcp__workspace-knowledge__rebuild_index",
       "mcp__workspace-knowledge__summarize_context",
       "mcp__workspace-knowledge__check_adr_precedent",
-      "mcp__workspace-knowledge__validate_pipeline_document",
-      "mcp__git-worktree-manager__create_worktree",
-      "mcp__git-worktree-manager__remove_worktree",
-      "mcp__git-worktree-manager__list_worktrees",
-      "mcp__git-worktree-manager__merge_branch",
-      "mcp__git-worktree-manager__get_worktree_status",
-      "mcp__git-worktree-manager__check_merge_conflicts",
-      "mcp__git-worktree-manager__delete_branch"
+      "mcp__workspace-knowledge__validate_pipeline_document"
     ],
     "deny": ["Read(./GEMINI.md)", "Read(./.gemini/**)"]
   },
@@ -189,5 +182,5 @@
   "worktree": {
     "bgIsolation": "none"
   },
-  "enabledMcpjsonServers": ["workspace-knowledge", "git-worktree-manager"]
+  "enabledMcpjsonServers": ["workspace-knowledge"]
 }

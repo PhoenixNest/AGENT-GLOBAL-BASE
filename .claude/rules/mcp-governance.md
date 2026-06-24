@@ -70,17 +70,17 @@ If any checkbox is ☐ (unchecked) after honest assessment, the server fails. Do
 
 ## Registered Servers (Post-Retirement)
 
-| Server                 | Gates Passed                                | Notes                                              |
-| ---------------------- | ------------------------------------------- | -------------------------------------------------- |
-| `workspace-knowledge`  | Capability ✅ Completeness ✅ Governance ✅ | BM25 search + raw-FS fallback; pending RAG upgrade |
-| `git-worktree-manager` | Capability ✅ Completeness ✅ Governance ✅ | Subprocess-backed; worktree lifecycle management   |
+| Server                | Gates Passed                                | Notes                                                        |
+| --------------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| `workspace-knowledge` | Capability ✅ Completeness ✅ Governance ✅ | BM25 search + raw-FS fallback; Phase 2 semantic upgrade live |
 
 **Retired servers:**
 
-| Server                | Failing Gate    | Reason                                                                    |
-| --------------------- | --------------- | ------------------------------------------------------------------------- |
-| `pipeline-automation` | Completeness ❌ | `advance_stage` returns template regardless of actual stage state         |
-| `cc00-tools`          | Completeness ❌ | `check_context_budget` returns hardcoded arithmetic, not model-layer data |
+| Server                 | Failing Gate                  | Reason                                                                                                                                                                                                          |
+| ---------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pipeline-automation`  | Completeness ❌               | `advance_stage` returns template regardless of actual stage state                                                                                                                                               |
+| `cc00-tools`           | Completeness ❌               | `check_context_budget` returns hardcoded arithmetic, not model-layer data                                                                                                                                       |
+| `git-worktree-manager` | Governance ❌ Completeness ❌ | `merge_branch` and `check_merge_conflicts` run `git checkout` on the main workspace (actor, not advisor); default branch hardcoded to `master`, wrong for workspace; replaced by direct PowerShell git commands |
 
 ---
 
