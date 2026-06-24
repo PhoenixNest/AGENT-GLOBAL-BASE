@@ -103,10 +103,10 @@ Phase 2.
 
 ### Phase 2 — Hybrid Semantic + Keyword Retrieval
 
-**What it is:** A small AI embedding model (`all-MiniLM-L6-v2`) converts each document chunk
-and each query into a vector of numbers that encodes _meaning_, not just words. Chunks with
-similar meaning score highly even when they use different vocabulary. The model is 80 MB — small
-enough to run on any modern laptop CPU in under half a second per query.
+**What it is:** A high-quality AI embedding model (`all-mpnet-base-v2`) converts each document
+chunk and each query into a vector of numbers that encodes _meaning_, not just words. Chunks with
+similar meaning score highly even when they use different vocabulary. The model is 418 MB and runs
+on a CUDA GPU when available (RTX 4060: ~30–60 s first-run encode) with automatic CPU fallback.
 
 **What changes:**
 
