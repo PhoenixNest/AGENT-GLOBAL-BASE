@@ -25,7 +25,8 @@ class GitWorktreeManager:
     
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
-        self.worktrees_dir = workspace_root.parent / "worktrees"
+        _worktrees_env = os.getenv("WORKTREES_DIR")
+        self.worktrees_dir = Path(_worktrees_env) if _worktrees_env else workspace_root.parent / "worktrees"
     
     def _run_git_command(self, args: List[str], cwd: Optional[Path] = None) -> Dict[str, Any]:
         """Run a git command and return result"""
@@ -228,6 +229,48 @@ class GitWorktreeManager:
             "message": f"Merged {branch_name} into {target_branch}",
         }
 
+    def check_merge_conflicts(self, branch_name: str, target_branch: str = "master") -> Dict[str, Any]:
+        """Dry-run merge to detect conflicts without committing"""
+        checkout_result = self._run_git_command(["checkout", target_branch])
+        if not checkout_result["success"]:
+            return {
+                "success": False,
+                "error": f"Cannot checkout {target_branch}: {checkout_result.get('error')}",
+            }
+
+        result = self._run_git_command(["merge", "--no-commit", "--no-ff", branch_name])
+
+        has_conflicts = not result["success"]
+
+        self._run_git_command(["merge", "--abort"])
+
+        return {
+            "success": True,
+            "branch_name": branch_name,
+            "target_branch": target_branch,
+            "has_conflicts": has_conflicts,
+            "details": result.get("error") if has_conflicts else "No conflicts detected — merge is clean",
+        }
+
+    def delete_branch(self, branch_name: str, force: bool = False) -> Dict[str, Any]:
+        """Delete a local git branch"""
+        flag = "-D" if force else "-d"
+        result = self._run_git_command(["branch", flag, branch_name])
+
+        if not result["success"]:
+            return {
+                "success": False,
+                "error": f"Failed to delete branch '{branch_name}': {result.get('error')}",
+                "hint": "Use force=True to delete unmerged branches",
+            }
+
+        return {
+            "success": True,
+            "branch_name": branch_name,
+            "force": force,
+            "message": f"Deleted branch '{branch_name}'",
+        }
+
 
 # Initialize worktree manager
 worktree_manager = GitWorktreeManager(WORKSPACE_ROOT)
@@ -348,6 +391,41 @@ def get_worktree_status(agent_name: str) -> str:
         "status": result["stdout"],
         "has_changes": bool(result["stdout"]),
     }, indent=2)
+
+
+@mcp.tool()
+def check_merge_conflicts(
+    branch_name: str,
+    target_branch: str = "master"
+) -> str:
+    """
+    Dry-run merge to detect conflicts without committing.
+
+    Args:
+        branch_name: Branch to test-merge (e.g., "agent/backend/feature")
+        target_branch: Branch to merge into (default: "master")
+
+    Returns:
+        JSON string with conflict detection results
+    """
+    result = worktree_manager.check_merge_conflicts(branch_name, target_branch)
+    return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+def delete_branch(branch_name: str, force: bool = False) -> str:
+    """
+    Delete a local git branch.
+
+    Args:
+        branch_name: Branch to delete (e.g., "agent/backend/feature")
+        force: Force deletion even if branch is unmerged (default: False)
+
+    Returns:
+        JSON string with deletion results
+    """
+    result = worktree_manager.delete_branch(branch_name, force)
+    return json.dumps(result, indent=2)
 
 
 if __name__ == "__main__":
