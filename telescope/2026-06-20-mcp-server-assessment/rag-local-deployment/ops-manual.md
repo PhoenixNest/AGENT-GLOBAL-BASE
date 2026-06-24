@@ -1,10 +1,10 @@
 # Local RAG Deployment — Operations Manual
 
-**Document Type:** Operations Manual  
-**Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director  
-**Date:** 2026-06-24  
-**Status:** Active  
-**Target System:** `workspace-knowledge` MCP Server — `agent-global-base`  
+**Document Type:** Operations Manual
+**Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director
+**Date:** 2026-06-24
+**Status:** Active
+**Target System:** `workspace-knowledge` MCP Server — `agent-global-base`
 **Reference Documents:**
 
 - `../research-report.md` — Investigation and findings
@@ -938,7 +938,7 @@ print(f'FAISS index type: {\"Flat\" if estimated_chunks < 5000 else \"IVF (recom
 
 ---
 
-**Document version:** 1.0 — 2026-06-24  
-**Maintained By:** Core Component 00 Laboratory  
-**Authority:** AGENTS.md § 6. Core Component 00  
+**Document version:** 1.0 — 2026-06-24
+**Maintained By:** Core Component 00 Laboratory
+**Authority:** AGENTS.md § 6. Core Component 00
 **Next Review:** After Phase 1 deployment validation

@@ -592,7 +592,7 @@ def search(query: str, bm25: BM25Okapi, chunks: list[dict], top_k: int = 5):
 
 ---
 
-**Template Version:** 1.0  
-**Last Updated:** 2026-06-24  
-**Maintained By:** Core Component 00 Laboratory  
+**Template Version:** 1.0
+**Last Updated:** 2026-06-24
+**Maintained By:** Core Component 00 Laboratory
 **Authority:** AGENTS.md § 6. Core Component 00

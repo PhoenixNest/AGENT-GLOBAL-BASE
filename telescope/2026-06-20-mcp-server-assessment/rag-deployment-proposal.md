@@ -1,9 +1,9 @@
 # Local RAG Deployment Proposal
 
-**Document Type:** Strategic Deployment Proposal  
-**Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director  
-**Date:** 2026-06-24  
-**Status:** Awaiting CEO Authorization  
+**Document Type:** Strategic Deployment Proposal
+**Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director
+**Date:** 2026-06-24
+**Status:** Awaiting CEO Authorization
 **Reference:** `telescope/2026-06-20-mcp-server-assessment/research-report.md`
 
 ---
@@ -271,7 +271,7 @@ will commence immediately with no dependency on external resources or procuremen
 
 ---
 
-**Prepared by:** Core Component 00 Laboratory  
-**Laboratory Director:** Dr. Elias Vance  
-**Reviewed by:** _(pending CEO sign-off)_  
+**Prepared by:** Core Component 00 Laboratory
+**Laboratory Director:** Dr. Elias Vance
+**Reviewed by:** _(pending CEO sign-off)_
 **Document version:** 1.1 — 2026-06-24
