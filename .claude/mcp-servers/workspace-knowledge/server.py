@@ -10,6 +10,7 @@ if _venv_sp.exists():
 import json
 import os
 import re
+import threading
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -135,7 +136,12 @@ class SearchEngine:
             self._degradation_reason = f"BM25 build failed: {e}"
             return
 
-        # Try FAISS semantic layer (may require model download)
+        # Launch FAISS in background so mcp.run() can start within the 30 s handshake window
+        t = threading.Thread(target=self._init_faiss_background, daemon=True)
+        t.start()
+
+    def _init_faiss_background(self):
+        """FAISS model load + encode runs off the critical path (background thread)."""
         try:
             import faiss
             import numpy as np
