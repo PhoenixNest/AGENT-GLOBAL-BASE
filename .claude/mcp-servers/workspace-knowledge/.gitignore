@@ -1,0 +1,8 @@
+# Runtime-generated outputs — never commit these
+faiss.index
+index_state.json
+
+# Python environment
+.venv/
+__pycache__/
+*.py[cod]
