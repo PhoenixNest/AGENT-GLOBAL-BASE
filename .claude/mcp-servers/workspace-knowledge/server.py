@@ -34,10 +34,6 @@ class SearchEngine:
         "studio",
         "core-component-00",
         "telescope",
-        ".claude/rules",
-        ".claude/skills",
-        ".claude/agents",
-        ".claude/mcp-servers",
     ]
 
     _INDEX_DIR = Path(__file__).parent  # runtime path via __file__
