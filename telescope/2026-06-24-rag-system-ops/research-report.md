@@ -4,17 +4,18 @@
 
 ## Metadata
 
-| Field                | Value                                                    |
-| -------------------- | -------------------------------------------------------- |
-| **Investigation ID** | `2026-06-24-rag-system-ops`                              |
-| **Date Started**     | 2026-06-24                                               |
-| **Date Completed**   | 2026-06-24                                               |
-| **Status**           | Complete                                                 |
-| **Investigator**     | Dr. Elias Vance — Laboratory Director, Core Component 00 |
-| **Laboratory**       | Core Component 00                                        |
-| **Module(s)**        | Retrieval-Augmented Generation (Layer 4)                 |
-| **Priority**         | High                                                     |
-| **Requestor**        | CEO                                                      |
+| Field                | Value                                                                            |
+| -------------------- | -------------------------------------------------------------------------------- |
+| **Investigation ID** | `2026-06-24-rag-system-ops`                                                      |
+| **Date Started**     | 2026-06-24                                                                       |
+| **Date Completed**   | 2026-06-24                                                                       |
+| **Status**           | Superseded                                                                       |
+| **Superseded by**    | `telescope/2026-06-20-mcp-server-assessment/rag-local-deployment/ops-runbook.md` |
+| **Investigator**     | Dr. Elias Vance — Laboratory Director, Core Component 00                         |
+| **Laboratory**       | Core Component 00                                                                |
+| **Module(s)**        | Retrieval-Augmented Generation (Layer 4)                                         |
+| **Priority**         | High                                                                             |
+| **Requestor**        | CEO                                                                              |
 
 ---
 

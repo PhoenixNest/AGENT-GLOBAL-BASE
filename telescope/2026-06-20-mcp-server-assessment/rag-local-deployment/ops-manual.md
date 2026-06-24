@@ -19,7 +19,7 @@
 | --------------------- | --------------------------------------------------------------- |
 | **This machine**      | Intel i9-13900H, 31.6 GB RAM, Intel Iris Xe (2 GB), 256 GB disk |
 | **Hardware tier**     | Tier 3 — Full hybrid BM25 + semantic embeddings                 |
-| **Recommended model** | `sentence-transformers/all-mpnet-base-v2` (420 MB, CPU)         |
+| **Recommended model** | `sentence-transformers/all-mpnet-base-v2` (420 MB, CUDA)        |
 | **Python version**    | 3.13.5 (detected)                                               |
 | **fastmcp version**   | 3.2.4 (installed)                                               |
 | **Phase 1 install**   | `pip install rank_bm25`                                         |
@@ -84,8 +84,9 @@ def detect_hardware_tier() -> int:
 | `faiss-cpu`             | Vector similarity search index (CPU build) | Phase 2 only | 1.8.0       | `pip install faiss-cpu`             |
 | `numpy`                 | Array operations for FAISS                 | Phase 2 only | 1.26.0      | _auto-installed with faiss-cpu_     |
 
-> **Do not install `faiss-gpu`** — the Intel Iris Xe integrated GPU does not support CUDA.
-> `faiss-cpu` is the correct package for this machine.
+> **Use `faiss-cpu`** even on machines with an NVIDIA GPU. FAISS index storage and search run on
+> CPU; only the SentenceTransformer encoding step uses CUDA (via `torch+cu124`). `faiss-gpu` is
+> not needed and introduces additional CUDA library dependencies without benefit for this workload.
 
 ### Python Version Compatibility
 
@@ -110,9 +111,9 @@ pip install sentence-transformers faiss-cpu
 **Expected output:** `sentence-transformers` pulls in `transformers`, `torch` (CPU build), and
 `huggingface-hub` as dependencies. Total download ~500 MB on first install.
 
-> **PyTorch note:** `sentence-transformers` installs a CPU-only PyTorch build automatically
-> when no CUDA is detected. On this machine (Intel Xe, no CUDA), this is correct behavior.
-> Do not separately install `torch` with CUDA flags.
+> **PyTorch note:** `sentence-transformers` installs a CPU-only PyTorch build by default. On
+> machines with an NVIDIA GPU, replace it with the CUDA wheel after this step — see Phase 2
+> Deployment, Step 1a. Encoding on CPU is 10–30× slower than on CUDA.
 
 ### Verification
 
@@ -451,6 +452,22 @@ one method. 60 is the standard default from the RRF literature.
    pip install sentence-transformers faiss-cpu
    ```
 
+1a. **Install CUDA-enabled PyTorch** (NVIDIA GPU only — skip on CPU-only machines):
+
+    The default `torch` wheel from step 1 is CPU-only. Replace it:
+
+    ```powershell
+    pip uninstall torch -y
+    pip install torch --index-url https://download.pytorch.org/whl/cu124
+    ```
+
+    Verify:
+
+    ```powershell
+    python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+    # Expected on NVIDIA machine: True  NVIDIA GeForce RTX 4060 Laptop GPU
+    ```
+
 2. **Download the embedding model** (requires internet, one time only):
 
    ```powershell
@@ -660,20 +677,23 @@ pip install psutil
 
 ---
 
-### Torch CPU vs GPU confusion
+### Torch device selection
 
-**Symptom:** `sentence-transformers` attempts to use Intel Xe GPU via DirectML, causing errors
-or slow performance.
+**On NVIDIA GPU machines (RTX 4060, etc.):** The encoder should run on `cuda:0`. If
+`torch.cuda.is_available()` returns `False`, the CPU-only wheel is active — replace it:
 
-**Cause:** `torch` installed with a CUDA or DirectML backend.
+```powershell
+pip uninstall torch -y
+pip install torch --index-url https://download.pytorch.org/whl/cu124
+```
 
-**Fix:** Force CPU device:
+**On CPU-only machines (no NVIDIA GPU):** Force CPU to avoid DirectML or other backend errors:
 
 ```python
 model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2", device="cpu")
 ```
 
-Or set via environment variable:
+Or suppress CUDA detection via environment variable:
 
 ```json
 "CUDA_VISIBLE_DEVICES": ""
@@ -845,6 +865,11 @@ See §8 — Disaster Recovery Acceptance Tests.
 ```powershell
 # 1. Install all dependencies
 pip install psutil rank_bm25 sentence-transformers faiss-cpu
+
+# 1a. (NVIDIA GPU only) Replace CPU-only torch with CUDA wheel
+pip uninstall torch -y
+pip install torch --index-url https://download.pytorch.org/whl/cu124
+python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
 
 # 2. Pre-download the Tier 3 embedding model (requires internet, one time)
 python -c "
