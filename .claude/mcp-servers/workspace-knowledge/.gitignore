@@ -1,6 +1,5 @@
-# Runtime-generated outputs — never commit these
-faiss.index
-index_state.json
+# Runtime-generated artifacts — never commit these
+embedding/
 
 # Python environment
 .venv/
