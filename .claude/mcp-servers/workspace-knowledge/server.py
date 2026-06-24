@@ -36,7 +36,9 @@ class SearchEngine:
         "telescope"
     ]
 
-    _INDEX_DIR = Path(__file__).parent  # runtime path via __file__
+    _EMBED_DIR = Path(__file__).parent / "embedding"
+    _INDEX_DIR = _EMBED_DIR              # faiss.index + index_state.json
+    _MODEL_DIR = _EMBED_DIR / "model"    # local all-mpnet-base-v2 files
 
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
@@ -193,7 +195,7 @@ class SearchEngine:
 
         import torch
         _device = "cuda" if torch.cuda.is_available() else "cpu"
-        model = SentenceTransformer("all-mpnet-base-v2", device=_device)
+        model = SentenceTransformer(str(self._MODEL_DIR), device=_device)
 
         if needs_rebuild:
             # Encode all chunks
