@@ -7,6 +7,7 @@ if _venv_sp.exists():
     sys.path.insert(0, str(_venv_sp))
 # ─────────────────────────────────────────────────────────────────────────
 
+import json
 import os
 import re
 from enum import Enum
@@ -21,11 +22,12 @@ mcp = FastMCP("workspace-knowledge")
 
 
 class SearchTier(Enum):
+    HYBRID = "hybrid"
     BM25 = "bm25"
     RAWFS = "rawfs"
 
 
-class BM25Engine:
+class SearchEngine:
     KEY_DIRS = [
         "company",
         "studio",
@@ -37,12 +39,17 @@ class BM25Engine:
         ".claude/mcp-servers",
     ]
 
+    _INDEX_DIR = Path(__file__).parent  # runtime path via __file__
+
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
         self._tier = SearchTier.RAWFS
         self._degradation_reason: str | None = None
         self._chunks: list[dict] = []
         self._bm25 = None
+        self._model = None          # SentenceTransformer
+        self._faiss_index = None    # faiss index object
+        self._chunk_embeddings = None  # np.ndarray for reference
         self._initialize_search_engine()
 
     def _extract_chunks(self, file_path: Path) -> list[dict]:
@@ -111,7 +118,8 @@ class BM25Engine:
         return chunks
 
     def _initialize_search_engine(self):
-        """Try to build BM25 index; fall back to RAWFS on failure."""
+        """Initialization chain: HYBRID -> BM25 -> RAWFS."""
+        # Try BM25 (fast, no download required)
         try:
             from rank_bm25 import BM25Okapi
         except ImportError:
@@ -120,27 +128,84 @@ class BM25Engine:
             return
 
         try:
-            all_chunks = []
-            for dir_name in self.KEY_DIRS:
-                dir_path = self.workspace_root / dir_name
-                if not dir_path.exists():
-                    continue
+            self._build_bm25_index(BM25Okapi)
+            self._tier = SearchTier.BM25
+        except Exception as e:
+            self._tier = SearchTier.RAWFS
+            self._degradation_reason = f"BM25 build failed: {e}"
+            return
+
+        # Try FAISS semantic layer (may require model download)
+        try:
+            import faiss
+            import numpy as np
+            from sentence_transformers import SentenceTransformer
+            self._build_or_load_faiss_index(faiss, np, SentenceTransformer)
+            self._tier = SearchTier.HYBRID
+        except ImportError:
+            self._degradation_reason = "sentence-transformers or faiss not installed — using BM25"
+        except Exception as e:
+            self._degradation_reason = f"FAISS init failed: {e} — using BM25"
+
+    def _build_bm25_index(self, BM25Okapi):
+        """Build the BM25 index from all markdown chunks."""
+        all_chunks = []
+        for dir_name in self.KEY_DIRS:
+            dir_path = self.workspace_root / dir_name
+            if dir_path.exists():
                 for md_file in dir_path.rglob("*.md"):
                     all_chunks.extend(self._extract_chunks(md_file))
+        if not all_chunks:
+            raise RuntimeError("No markdown files found")
+        self._chunks = all_chunks
+        tokenized = [c["text"].lower().split() for c in self._chunks]
+        self._bm25 = BM25Okapi(tokenized)
 
-            if not all_chunks:
-                self._tier = SearchTier.RAWFS
-                self._degradation_reason = "No markdown files found"
-                return
+    def _build_or_load_faiss_index(self, faiss, np, SentenceTransformer):
+        """Build or load a FAISS index with mtime-based delta detection."""
+        index_file = self._INDEX_DIR / "faiss.index"
+        state_file = self._INDEX_DIR / "index_state.json"
 
-            self._chunks = all_chunks
-            tokenized = [c["text"].lower().split() for c in self._chunks]
-            self._bm25 = BM25Okapi(tokenized)
-            self._tier = SearchTier.BM25
-            self._degradation_reason = None
-        except Exception as exc:
-            self._tier = SearchTier.RAWFS
-            self._degradation_reason = f"BM25 index build failed: {exc}"
+        # Compute current file mtimes
+        current_mtimes = {}
+        for dir_name in self.KEY_DIRS:
+            dir_path = self.workspace_root / dir_name
+            if dir_path.exists():
+                for md_file in dir_path.rglob("*.md"):
+                    rel = str(md_file.relative_to(self.workspace_root)).replace("\\", "/")
+                    current_mtimes[rel] = md_file.stat().st_mtime
+
+        # Load saved state
+        saved_mtimes = {}
+        if state_file.exists():
+            try:
+                saved_mtimes = json.loads(state_file.read_text())
+            except Exception:
+                pass
+
+        # Check if index is stale
+        needs_rebuild = (
+            not index_file.exists()
+            or current_mtimes != saved_mtimes
+        )
+
+        model = SentenceTransformer("all-mpnet-base-v2")
+
+        if needs_rebuild:
+            # Encode all chunks
+            texts = [c["text"][:512] for c in self._chunks]
+            embeddings = model.encode(texts, show_progress_bar=False, batch_size=64)
+            embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+            dim = embeddings.shape[1]
+            index = faiss.IndexFlatIP(dim)  # Inner product = cosine similarity after normalization
+            index.add(embeddings.astype("float32"))
+            faiss.write_index(index, str(index_file))
+            state_file.write_text(json.dumps(current_mtimes))
+            self._faiss_index = index
+            self._model = model
+        else:
+            self._faiss_index = faiss.read_index(str(index_file))
+            self._model = model
 
     def _search_bm25(self, query: str, top_k: int) -> list[dict]:
         scores = self._bm25.get_scores(query.lower().split())
@@ -163,6 +228,53 @@ class BM25Engine:
                 break
         return results
 
+    def _search_semantic(self, query: str, top_k: int) -> list[dict]:
+        """Dense vector search over the FAISS index using cosine similarity."""
+        import numpy as np
+        q_emb = self._model.encode([query])
+        q_emb = q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True)
+        scores, indices = self._faiss_index.search(q_emb.astype("float32"), top_k * 3)
+        results = []
+        seen = set()
+        for score, idx in zip(scores[0], indices[0]):
+            if idx < 0 or idx >= len(self._chunks):
+                continue
+            chunk = self._chunks[idx]
+            if chunk["rel_path"] not in seen:
+                seen.add(chunk["rel_path"])
+                results.append({
+                    "file": chunk["rel_path"],
+                    "section": chunk["section"],
+                    "score": float(score),
+                    "snippet": chunk["text"][:400],
+                })
+            if len(results) >= top_k:
+                break
+        return results
+
+    def _search_hybrid(self, query: str, top_k: int) -> list[dict]:
+        """Reciprocal Rank Fusion (k=60) combining BM25 and semantic results."""
+        K = 60
+        bm25_results = self._search_bm25(query, top_k * 3)
+        sem_results = self._search_semantic(query, top_k * 3)
+
+        rrf_scores: dict[str, float] = {}
+        result_map: dict[str, dict] = {}
+
+        for rank, r in enumerate(bm25_results):
+            key = r["file"]
+            rrf_scores[key] = rrf_scores.get(key, 0.0) + 1.0 / (K + rank + 1)
+            result_map[key] = r
+
+        for rank, r in enumerate(sem_results):
+            key = r["file"]
+            rrf_scores[key] = rrf_scores.get(key, 0.0) + 1.0 / (K + rank + 1)
+            if key not in result_map:
+                result_map[key] = r
+
+        ranked = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
+        return [result_map[k] for k, _ in ranked[:top_k]]
+
     def _search_rawfs(self, query: str, top_k: int) -> list[dict]:
         results = []
         query_lower = query.lower()
@@ -177,7 +289,7 @@ class BM25Engine:
                     if count > 0:
                         rel = str(md_file.relative_to(self.workspace_root)).replace("\\", "/")
                         idx = content.lower().find(query_lower)
-                        snippet = content[max(0, idx - 100) : idx + 300]
+                        snippet = content[max(0, idx - 100): idx + 300]
                         results.append(
                             {"file": rel, "section": "", "score": float(count), "snippet": snippet}
                         )
@@ -187,12 +299,18 @@ class BM25Engine:
         return results[:top_k]
 
     def _search_with_fallback(self, query: str, top_k: int = 10) -> list[dict]:
+        if self._tier == SearchTier.HYBRID:
+            try:
+                return self._search_hybrid(query, top_k)
+            except Exception as e:
+                self._tier = SearchTier.BM25
+                self._degradation_reason = f"Hybrid search failed: {e}"
         if self._tier == SearchTier.BM25:
             try:
                 return self._search_bm25(query, top_k)
-            except Exception as exc:
+            except Exception as e:
                 self._tier = SearchTier.RAWFS
-                self._degradation_reason = f"BM25 search failed: {exc}"
+                self._degradation_reason = f"BM25 search failed: {e}"
         return self._search_rawfs(query, top_k)
 
     def _meta_block(self) -> dict:
@@ -206,6 +324,12 @@ class BM25Engine:
     def rebuild(self):
         self._chunks = []
         self._bm25 = None
+        self._model = None
+        self._faiss_index = None
+        # Remove stale state so index rebuilds from scratch
+        state_file = self._INDEX_DIR / "index_state.json"
+        if state_file.exists():
+            state_file.unlink()
         self._initialize_search_engine()
 
     def list_files(self) -> list[str]:
@@ -226,13 +350,14 @@ class BM25Engine:
         return sorted(files)
 
 
-engine = BM25Engine(WORKSPACE_ROOT)
+engine = SearchEngine(WORKSPACE_ROOT)
 
 
 @mcp.tool()
 def search_docs(query: str, top_k: int = 10) -> dict[str, Any]:
-    """BM25 keyword search across workspace markdown files with graceful fallback to raw-FS string matching.
-    Returns ranked results with file path, section heading, relevance score, and text snippet."""
+    """Hybrid semantic + BM25 keyword search across workspace markdown files with graceful
+    fallback through HYBRID -> BM25 -> RAWFS tiers. Returns ranked results with file path,
+    section heading, relevance score, and text snippet."""
     results = engine._search_with_fallback(query, top_k)
     return {"query": query, "results": results, "_meta": engine._meta_block()}
 
@@ -259,7 +384,8 @@ def list_indexed_files() -> dict[str, Any]:
 
 @mcp.tool()
 def rebuild_index() -> dict[str, Any]:
-    """Rebuild the BM25 search index from scratch, re-scanning all workspace markdown files."""
+    """Rebuild the search index from scratch, re-scanning all workspace markdown files.
+    Clears FAISS state file to force a full re-encode on next startup."""
     engine.rebuild()
     return {"status": "rebuilt", "tier": engine._tier.value, "_meta": engine._meta_block()}
 
@@ -344,6 +470,70 @@ def validate_pipeline_document(doc_path: str) -> dict[str, Any]:
         "valid": len(missing) == 0,
         "missing_sections": missing,
         "warnings": warnings,
+        "_meta": engine._meta_block(),
+    }
+
+
+@mcp.tool()
+def find_related_documents(seed_doc_path: str, top_k: int = 5) -> dict[str, Any]:
+    """Find documents semantically similar to a given workspace document.
+    Requires HYBRID tier; falls back to BM25 keyword search on the document's title."""
+    target = WORKSPACE_ROOT / seed_doc_path
+    if not target.exists():
+        return {"error": f"File not found: {seed_doc_path}", "_meta": engine._meta_block()}
+    try:
+        content = target.read_text(encoding="utf-8", errors="ignore")
+        # Use the first 512 words as the query
+        query_text = " ".join(content.split()[:512])
+        results = engine._search_with_fallback(query_text, top_k + 1)
+        # Exclude the seed document itself
+        results = [r for r in results if r["file"] != seed_doc_path][:top_k]
+        return {"seed": seed_doc_path, "related": results, "_meta": engine._meta_block()}
+    except Exception as exc:
+        return {"error": str(exc), "_meta": engine._meta_block()}
+
+
+@mcp.tool()
+def list_research_by_topic(topic: str, format: str = "brief") -> dict[str, Any]:
+    """List research archives in telescope/ by topic.
+    format: 'brief' returns file list; 'full' returns snippets."""
+    results = engine._search_with_fallback(topic, top_k=10)
+    telescope_results = [r for r in results if r["file"].startswith("telescope/")]
+    if format == "full":
+        return {
+            "topic": topic,
+            "count": len(telescope_results),
+            "results": telescope_results,
+            "_meta": engine._meta_block(),
+        }
+    return {
+        "topic": topic,
+        "count": len(telescope_results),
+        "files": [r["file"] for r in telescope_results],
+        "_meta": engine._meta_block(),
+    }
+
+
+@mcp.tool()
+def agent_knowledge_brief(agent_role: str, context_topics: list[str]) -> dict[str, Any]:
+    """Generate a pre-digested knowledge brief for an agent role across multiple topics.
+    Returns the top documents per topic, deduplicated, with relevant snippets."""
+    seen: set[str] = set()
+    brief_sections = []
+    for topic in context_topics:
+        results = engine._search_with_fallback(f"{agent_role} {topic}", top_k=3)
+        section_docs = []
+        for r in results:
+            if r["file"] not in seen:
+                seen.add(r["file"])
+                section_docs.append(r)
+        if section_docs:
+            brief_sections.append({"topic": topic, "docs": section_docs})
+    return {
+        "agent_role": agent_role,
+        "topics": context_topics,
+        "sections": brief_sections,
+        "total_docs": len(seen),
         "_meta": engine._meta_block(),
     }
 
