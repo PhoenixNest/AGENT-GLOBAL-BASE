@@ -119,26 +119,35 @@ main thread is blocked on `mcp.run()` reading stdin.
 
 ### Finding 3: Measured performance on RTX 4060 Laptop GPU
 
-Full first-run build from 2,999 chunks on the production machine:
+Full first-run build from 2,999 chunks on the production machine (initial commissioning, model
+loaded from HuggingFace cache):
 
 | Phase                           | Duration    |
 | ------------------------------- | ----------- |
-| Model load                      | 14.1 s      |
+| Model load (HuggingFace cache)  | 14.1 s      |
 | Encode (47 batches × 64 chunks) | 93.6 s      |
 | Normalize + FAISS add + write   | < 1 s       |
 | **Total**                       | **108.6 s** |
 
+After relocating the model to `embedding/model/` (local path load):
+
+| Phase                           | Duration  |
+| ------------------------------- | --------- |
+| Model load (local path)         | **0.7 s** |
+| Encode (47 batches × 64 chunks) | ~94 s     |
+| **Total**                       | **~95 s** |
+
 Output artifacts:
 
-| File               | Size     |
-| ------------------ | -------- |
-| `faiss.index`      | 8.8 MB   |
-| `index_state.json` | 147.1 KB |
+| File                         | Size     |
+| ---------------------------- | -------- |
+| `embedding/faiss.index`      | 8.8 MB   |
+| `embedding/index_state.json` | 147.1 KB |
 
 **Implications:**
 
 - Plan for ~2 minutes when triggering a full rebuild. Incremental rebuilds (delta detected via
-  mtime) are proportionally faster.
+  mtime) are proportionally faster. Local model path eliminates HuggingFace network/cache overhead.
 
 ---
 
@@ -170,10 +179,11 @@ issue. The correct operating model is therefore:
 
 - The background thread hang is a known defect — not yet root-caused at the asyncio / GIL
   boundary. Do not rely on the server to self-build its index.
-- `faiss.index` and `index_state.json` are excluded from git (`.gitignore`) — they must be rebuilt
-  on any new machine or after a clean clone.
+- The entire `embedding/` folder is excluded from git (`.gitignore`) — model files, FAISS index,
+  and state file must all be reproduced on any new machine or after a clean clone (see Procedure A,
+  Steps 3–4).
 - The RTX 4060 Laptop GPU runs at reduced TDP in some power plans. Ensure the machine is plugged
-  in during the build step for consistent ~108 s timing.
+  in during the build step for consistent ~95 s timing.
 
 ---
 
@@ -231,20 +241,44 @@ Verify:
 # Expected: True  NVIDIA GeForce RTX 4060 Laptop GPU
 ```
 
-**Step 4 — Build FAISS index (standalone script)**
+**Step 4 — Populate `embedding/` folder**
+
+The entire `embedding/` folder is gitignored and must be created on each new machine.
 
 ```powershell
 cd ..\..\..\  # back to workspace root
-$env:WORKSPACE_ROOT = $PWD
+New-Item -ItemType Directory -Force .claude\mcp-servers\workspace-knowledge\embedding\model\1_Pooling
+```
+
+Copy model files from HuggingFace cache (resolves symlinks to real blobs):
+
+```powershell
+$snap = "$env:USERPROFILE\.cache\huggingface\hub\models--sentence-transformers--all-mpnet-base-v2\snapshots"
+$snap = (Get-ChildItem $snap -Directory | Select-Object -First 1).FullName
+$dest = ".claude\mcp-servers\workspace-knowledge\embedding\model"
+Get-ChildItem $snap -File | ForEach-Object {
+    $t = if ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) { (Get-Item $_.FullName -Force).Target } else { $_.FullName }
+    Copy-Item $t "$dest\$($_.Name)" -Force
+}
+Get-ChildItem "$snap\1_Pooling" -File | ForEach-Object {
+    $t = if ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) { (Get-Item $_.FullName -Force).Target } else { $_.FullName }
+    Copy-Item $t "$dest\1_Pooling\$($_.Name)" -Force
+}
+```
+
+Then build the FAISS index:
+
+```powershell
+$env:WORKSPACE_ROOT = (Get-Location).Path
 .claude\mcp-servers\workspace-knowledge\.venv\Scripts\python `
   "C:\Users\ASUS\.claude\jobs\7d1596c6\tmp\build_faiss.py"
-# Expected output: Total: ~108.6s — faiss.index written (8.8 MB)
+# Expected output: Total: ~95s — faiss.index written (8.8 MB)
 ```
 
 Verify output:
 
 ```powershell
-Get-Item .claude\mcp-servers\workspace-knowledge\faiss.index | Select-Object Name, Length
+Get-Item .claude\mcp-servers\workspace-knowledge\embedding\faiss.index | Select-Object Name, Length
 # Expected: faiss.index, ~9,175,xxx bytes
 ```
 
@@ -271,8 +305,8 @@ Get-Process python -ErrorAction SilentlyContinue |
   Stop-Process -Force
 
 # 2. Verify index files are present
-Test-Path .claude\mcp-servers\workspace-knowledge\faiss.index   # must be True
-Test-Path .claude\mcp-servers\workspace-knowledge\index_state.json  # must be True
+Test-Path .claude\mcp-servers\workspace-knowledge\embedding\faiss.index       # must be True
+Test-Path .claude\mcp-servers\workspace-knowledge\embedding\index_state.json  # must be True
 
 # 3. Reconnect Claude Code MCP — server starts automatically
 # No manual start needed.
@@ -287,8 +321,8 @@ coverage is stale.
 
 ```powershell
 # 1. Delete existing index to force rebuild
-Remove-Item .claude\mcp-servers\workspace-knowledge\faiss.index -ErrorAction SilentlyContinue
-Remove-Item .claude\mcp-servers\workspace-knowledge\index_state.json -ErrorAction SilentlyContinue
+Remove-Item .claude\mcp-servers\workspace-knowledge\embedding\faiss.index -ErrorAction SilentlyContinue
+Remove-Item .claude\mcp-servers\workspace-knowledge\embedding\index_state.json -ErrorAction SilentlyContinue
 
 # 2. Run standalone build (~109s on RTX 4060)
 $env:WORKSPACE_ROOT = (Get-Location).Path
@@ -329,19 +363,20 @@ Procedure C (Forced Full Rebuild) and restart.
 
 ## Server Configuration Reference
 
-| Item                  | Value                                                                                    |
-| --------------------- | ---------------------------------------------------------------------------------------- |
-| Server script         | `.claude/mcp-servers/workspace-knowledge/server.py`                                      |
-| venv                  | `.claude/mcp-servers/workspace-knowledge/.venv/`                                         |
-| FAISS index           | `.claude/mcp-servers/workspace-knowledge/faiss.index` (gitignored)                       |
-| Index state           | `.claude/mcp-servers/workspace-knowledge/index_state.json` (gitignored)                  |
-| Model                 | `all-mpnet-base-v2` (418 MB, cached by HuggingFace under `~/.cache/huggingface/`)        |
-| Model cache path      | `C:\Users\ASUS\.cache\huggingface\hub\models--sentence-transformers--all-mpnet-base-v2\` |
-| Embedding device      | `cuda:0` — NVIDIA GeForce RTX 4060 Laptop GPU (8 GB GDDR6)                               |
-| Torch wheel           | `torch 2.6.0+cu124` (CUDA 12.4) — **must not be replaced with CPU wheel**                |
-| Indexed directories   | `company/`, `studio/`, `core-component-00/`, `telescope/`                                |
-| MCP registration      | `.mcp.json` → `workspace-knowledge`                                                      |
-| MCP governance record | `.claude/rules/mcp-governance.md`                                                        |
+| Item                  | Value                                                                             |
+| --------------------- | --------------------------------------------------------------------------------- |
+| Server script         | `.claude/mcp-servers/workspace-knowledge/server.py`                               |
+| venv                  | `.claude/mcp-servers/workspace-knowledge/.venv/`                                  |
+| Embedding folder      | `.claude/mcp-servers/workspace-knowledge/embedding/` (gitignored — entire folder) |
+| Model files           | `embedding/model/` — `all-mpnet-base-v2` (418 MB, local copy, no HF cache needed) |
+| FAISS index           | `embedding/faiss.index` (8.8 MB, gitignored)                                      |
+| Index state           | `embedding/index_state.json` (147 KB, gitignored)                                 |
+| Embedding device      | `cuda:0` — NVIDIA GeForce RTX 4060 Laptop GPU (8 GB GDDR6)                        |
+| Model load time       | **0.7 s** (local path) vs 14 s (HuggingFace cache)                                |
+| Torch wheel           | `torch 2.6.0+cu124` (CUDA 12.4) — **must not be replaced with CPU wheel**         |
+| Indexed directories   | `company/`, `studio/`, `core-component-00/`, `telescope/`                         |
+| MCP registration      | `.mcp.json` → `workspace-knowledge`                                               |
+| MCP governance record | `.claude/rules/mcp-governance.md`                                                 |
 
 ---
 
@@ -403,9 +438,10 @@ background thread defect is resolved.
 
 ## Version History
 
-| Version | Date       | Author          | Changes                       |
-| ------- | ---------- | --------------- | ----------------------------- |
-| 1.0     | 2026-06-24 | Dr. Elias Vance | Initial runbook — Phase 2 ops |
+| Version | Date       | Author          | Changes                                                                 |
+| ------- | ---------- | --------------- | ----------------------------------------------------------------------- |
+| 1.0     | 2026-06-24 | Dr. Elias Vance | Initial runbook — Phase 2 ops                                           |
+| 1.1     | 2026-06-24 | Dr. Elias Vance | Update paths for embedding/ subfolder; model now loaded from local path |
 
 ---
 
