@@ -17,17 +17,18 @@
 
 ## Quick Reference
 
-Run the hardware detection script in §1 before consulting this table. Values marked _detected_
-are determined at deployment time.
+The values below reflect the reference deployment hardware. Run the hardware detection script
+in §1 to confirm these values match the target machine before proceeding.
 
-| Item                | Value                                                           |
-| ------------------- | --------------------------------------------------------------- |
-| **Hardware tier**   | _Detected_ — see §1                                             |
-| **Embed model**     | _Tier-dependent_ — see §3                                       |
-| **Torch wheel**     | _CUDA or CPU_ — determined by §1 GPU scan                       |
-| **Python minimum**  | 3.9                                                             |
-| **Phase 1 install** | `pip install psutil rank_bm25 fastmcp`                          |
-| **Phase 2 install** | See §7 — torch must be installed before `sentence-transformers` |
+| Item                   | Value                                                                  |
+| ---------------------- | ---------------------------------------------------------------------- |
+| **Reference hardware** | Intel i9-13900H · NVIDIA RTX 4060 Laptop GPU 8 GB GDDR6 · CUDA 12.4    |
+| **Available RAM**      | ~22–27 GB → Hardware Tier 3                                            |
+| **Embed model**        | `sentence-transformers/all-mpnet-base-v2` (768-dim, ~420 MB)           |
+| **Torch wheel**        | `pip install torch --index-url https://download.pytorch.org/whl/cu124` |
+| **Python minimum**     | 3.9                                                                    |
+| **Phase 1 install**    | `pip install psutil rank_bm25 fastmcp`                                 |
+| **Phase 2 install**    | See §7 — torch must be installed before `sentence-transformers`        |
 
 ---
 
