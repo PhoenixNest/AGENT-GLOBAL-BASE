@@ -129,7 +129,7 @@ $normalizedPath = $filePath -replace '\\', '/'
 $keyDirs = @("company/", "studio/", "core-component-00/", "telescope/")
 $inKeyDir = $false
 foreach ($dir in $keyDirs) {
-    if ($normalizedPath -match "/$dir" -or $normalizedPath -match "^$dir") {
+    if ($normalizedPath -match "(^|/)$($dir)") {
         $inKeyDir = $true
         break
     }

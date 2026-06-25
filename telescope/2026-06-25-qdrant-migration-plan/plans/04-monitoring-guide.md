@@ -101,7 +101,8 @@ def health_check() -> dict:
             "segments_count": info.segments_count,
             "disk_usage_mb": "n/a (Docker volume — use: docker system df -v)",
             "bm25_chunks": len(engine._chunks),
-            "parity_ok": info.points_count >= len(engine._chunks),  # ≥ handles chunk overlap
+            "parity_ok": info.points_count == len(engine._chunks),
+            "orphaned_points": max(0, info.points_count - len(engine._chunks)),
             "_meta": meta,
         }
     except Exception as exc:
@@ -118,12 +119,13 @@ def health_check() -> dict:
 
 ### 3.3 Key health metrics to watch
 
-| Metric           | Normal range              | Alert threshold         | Action                                                             |
-| ---------------- | ------------------------- | ----------------------- | ------------------------------------------------------------------ |
-| `points_count`   | Stable or growing         | Drops >10% unexpectedly | Investigate; reseed if corrupted                                   |
-| `parity_ok`      | `true`                    | `false`                 | `rebuild_index` to reseed from corpus                              |
-| `disk_usage_mb`  | < 500 MB at current scale | > 1 GB                  | Check via `docker system df -v`; investigate segment fragmentation |
-| `segments_count` | 1–5                       | > 20                    | Run Qdrant collection optimization (see §3.4)                      |
+| Metric            | Normal range              | Alert threshold         | Action                                                             |
+| ----------------- | ------------------------- | ----------------------- | ------------------------------------------------------------------ |
+| `points_count`    | Stable or growing         | Drops >10% unexpectedly | Investigate; reseed if corrupted                                   |
+| `parity_ok`       | `true`                    | `false`                 | `rebuild_index` to reseed from corpus                              |
+| `disk_usage_mb`   | < 500 MB at current scale | > 1 GB                  | Check via `docker system df -v`; investigate segment fragmentation |
+| `segments_count`  | 1–5                       | > 20                    | Run Qdrant collection optimization (see §3.4)                      |
+| `orphaned_points` | `0`                       | `> 0`                   | Points from deleted files present; call `rebuild_index` to reseed  |
 
 ### 3.4 Collection optimization (defragmentation)
 
@@ -162,6 +164,27 @@ in the top-5, averaged over the query set. "Correct result" is the known relevan
 each query.
 
 Record: `faiss_mrr_baseline`, `qdrant_mrr_phase1`, `qdrant_mrr_phase2_week1`, etc.
+
+#### Ground truth specification
+
+**Commit requirement:** The query set and relevance judgments must be committed to
+`tests/rag_eval/mrr_query_set.json` **before Phase 1 entry** — authoring the baseline after
+seeing Qdrant results risks retrofitting ground truth to match outcomes.
+
+**Storage format** (`tests/rag_eval/mrr_query_set.json`):
+
+```json
+[
+  { "query": "stage gate user approval", "relevant_doc": "company/pipeline/mobile/pipeline.md" },
+  { "query": "ADR technology decision lock", "relevant_doc": "company/pipeline/mobile/pipeline.md" }
+]
+```
+
+- `query` — exact string submitted to `search_docs`
+- `relevant_doc` — the `rel_path` of the single known-relevant document (relative to workspace
+  root, matching the `file` field in search results)
+- Authorship: CC-00 Lab Director or designated reviewer before Phase 1 entry
+- Completeness check: exactly 20 entries, no duplicate `relevant_doc` values
 
 ### 4.2 Regression alert thresholds
 

@@ -191,6 +191,12 @@ def _upsert_file_to_qdrant(self, file_path_str: str):
     return len(new_chunks)
 ```
 
+> **Performance note:** The `BM25Okapi` rebuild above is O(N) over total corpus chunk count. At
+> Phase 1 scale (~5,000 chunks) this is negligible (<1 s). As the corpus approaches the secondary
+> trigger threshold (~10,000 chunks), this cost must be explicitly benchmarked in Phase 1 alongside
+> Qdrant upsert latency — since the Phase 2 debounce target (10 s per file) assumes BM25 rebuild
+> time is negligible relative to the Qdrant upsert operation.
+
 ### 3.2 MCP tool wrapper
 
 ```python

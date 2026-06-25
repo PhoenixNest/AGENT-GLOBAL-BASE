@@ -9,7 +9,7 @@
 | **Investigation ID** | `2026-06-25-qdrant-migration-plan`                                           |
 | **Date Started**     | 2026-06-25                                                                   |
 | **Date Completed**   | Planning phase complete 2026-06-25; empirical Phase 1 pending                |
-| **Status**           | Active (v0.5)                                                                |
+| **Status**           | Active (v0.6)                                                                |
 | **Investigator**     | Dr. Elias Vance — CC-00 Laboratory Director                                  |
 | **Laboratory**       | Core Component 00                                                            |
 | **Module(s)**        | retrieval-augmented-generation, harness-engineering, multi-agent-engineering |
@@ -313,12 +313,13 @@ full rebuild) and `upsert_document` (Phase 2–3, Qdrant incremental upsert) bas
 ## Version History
 
 | Version | Date       | Author                               | Changes                                                                                                                                                                                                                                                                         |
-| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0.1     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Investigation stub opened                                                                                                                                                                                                                                                       |
 | 0.2     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Planning phase complete: populated Executive Summary, Methodology, Findings 1–3, Analysis, Trade-offs, Risks, Recommendations; closed Open Question 4; `plans/` subfolder added with four numbered deliverables                                                                 |
 | 0.3     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO approved Docker deployment over embedded mode; updated Finding 1, Analysis, Trade-offs table, Risks, Recommendation 2, and Open Question 1 to reflect Docker selection; propagated to all four `plans/` documents                                                           |
 | 0.4     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO directed FAISS must remain as permanent DR fallback — never retired; Phase 3 renamed from "FAISS Retirement" to "Qdrant Primary, FAISS Permanent Standby"; updated Analysis, Risks, Recommendation 1; propagated to `01-migration-strategy.md`, `diagrams/rag-dr-system.md` |
 | 0.5     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO consolidated hook system from `2026-06-25-rag-index-sync-hook-design` into this investigation; added `05-hook-design.md` as fifth planning deliverable; added Recommendation 5; predecessor investigation folder removed; `telescope/README.md` updated                     |
+| 0.6     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Applied six engineering review gap-closures: BM25 O(N) rebuild cost note added to `03-initialization-guide.md` §3.1; `parity_ok` corrected to `==` with `orphaned_points` field added in `04-monitoring-guide.md` §3.1 and §3.3; H-RAG02 path-matching regex hardened to `(^    | \/)$dir`in`05-hook-design.md`§4; MRR ground truth specification and commit requirement added to`04-monitoring-guide.md`§4.1; Docker volume backup/restore procedure added to`02-deployment-guide.md`§3.6;`qdrant-client`version bound tightened to`<2.0.0`in`02-deployment-guide.md` §4.1 |
 
 ---
 
