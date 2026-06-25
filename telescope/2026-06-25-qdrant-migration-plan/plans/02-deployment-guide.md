@@ -97,6 +97,34 @@ the container is available before the MCP server initialises.
 Invoke-WebRequest -Uri "http://localhost:6333" -UseBasicParsing | Select-Object -ExpandProperty Content
 ```
 
+### 3.6 Volume backup and restore
+
+The Qdrant collection lives in the Docker named volume `qdrant_workspace_knowledge`. Because the
+markdown corpus is the canonical source of truth, a lost volume is always recoverable via
+`rebuild_index` (2–5 min). Take a snapshot before each major migration phase transition.
+
+**Backup** (creates `qdrant-backup.tar.gz` in the current directory):
+
+```powershell
+docker run --rm `
+    -v qdrant_workspace_knowledge:/data `
+    -v "${PWD}:/backup" `
+    alpine tar czf /backup/qdrant-backup.tar.gz /data
+```
+
+**Restore** (overwrites the volume with the archive):
+
+```powershell
+docker run --rm `
+    -v qdrant_workspace_knowledge:/data `
+    -v "${PWD}:/backup" `
+    alpine tar xzf /backup/qdrant-backup.tar.gz -C /
+```
+
+Store the archive outside the repo — it is a large binary and must not be committed to version
+control. **When to backup:** before Phase 1 entry, before Phase 2 entry, and before any bulk
+reseed operation.
+
 ---
 
 ## 4. Dependency Changes
@@ -106,7 +134,7 @@ Invoke-WebRequest -Uri "http://localhost:6333" -UseBasicParsing | Select-Object 
 In `.claude/mcp-servers/workspace-knowledge/pyproject.toml`, add to `[project.dependencies]`:
 
 ```toml
-"qdrant-client>=1.7.0",
+"qdrant-client>=1.7.0,<2.0.0",
 ```
 
 Qdrant v1.7.0 is the minimum required for hybrid search (dense + sparse vector support). Using
@@ -116,20 +144,20 @@ Qdrant v1.7.0 is the minimum required for hybrid search (dense + sparse vector s
 
 ```powershell
 Set-Location ".claude\mcp-servers\workspace-knowledge"
-.\.venv\Scripts\python.exe -m pip install "qdrant-client>=1.7.0"
+.\.venv\Scripts\python.exe -m pip install "qdrant-client>=1.7.0,<2.0.0"
 ```
 
 Or via `uv` (if used):
 
 ```powershell
-uv pip install "qdrant-client>=1.7.0" --python .venv\Scripts\python.exe
+uv pip install "qdrant-client>=1.7.0,<2.0.0" --python .venv\Scripts\python.exe
 ```
 
 ### 4.3 Verify installation
 
 ```powershell
 .\.venv\Scripts\python.exe -c "import qdrant_client; print(qdrant_client.__version__)"
-# Expected: 1.7.x or higher
+# Expected: 1.7.x – 1.x.x (must be < 2.0.0)
 ```
 
 ---
