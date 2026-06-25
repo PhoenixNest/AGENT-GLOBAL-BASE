@@ -290,11 +290,11 @@ telescope/2026-05-15-multi-agent-memory-coherence/
 
 ## Research Archive Index
 
-| Investigation ID                             | Date       | Status   | Topic                                                    | Requestor |
-| -------------------------------------------- | ---------- | -------- | -------------------------------------------------------- | --------- |
-| `2026-06-19-cc00-engineering-hooks-research` | 2026-06-19 | Complete | CC-00 Engineering Domain Hook Suggestions                | CEO       |
-| `2026-06-20-mcp-server-assessment`           | 2026-06-20 | Complete | Enterprise MCP Architecture & Local RAG Recommendations  | CEO       |
-| `2026-06-24-rag-system-ops`                  | 2026-06-24 | Complete | workspace-knowledge RAG System Operations & Init Runbook | CEO       |
+| Investigation ID                             | Date       | Status     | Topic                                                    | Requestor |
+| -------------------------------------------- | ---------- | ---------- | -------------------------------------------------------- | --------- |
+| `2026-06-19-cc00-engineering-hooks-research` | 2026-06-19 | Complete   | CC-00 Engineering Domain Hook Suggestions                | CEO       |
+| `2026-06-20-mcp-server-assessment`           | 2026-06-20 | Complete   | Enterprise MCP Architecture & Local RAG Recommendations  | CEO       |
+| `2026-06-24-rag-system-ops`                  | 2026-06-24 | Superseded | workspace-knowledge RAG System Operations & Init Runbook | CEO       |
 
 ---
 
