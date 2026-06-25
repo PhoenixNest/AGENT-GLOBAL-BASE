@@ -5,7 +5,6 @@
 **Date:** 2026-06-25
 **Status:** Active
 **Target System:** `workspace-knowledge` MCP Server — `agent-global-base`
-**Supersedes:** `telescope/2026-06-24-rag-system-ops/research-report.md`
 **Reference Documents:**
 
 - `ops-manual.md` — Pre-commissioning deployment guide (CPU / planning baseline)
