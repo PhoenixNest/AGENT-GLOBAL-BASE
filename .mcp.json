@@ -2,39 +2,7 @@
   "mcpServers": {
     "workspace-knowledge": {
       "command": "python",
-      "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"
-      ],
-      "env": {
-        "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
-        "FASTMCP_LOG_LEVEL": "ERROR"
-      }
-    },
-    "pipeline-automation": {
-      "command": "python",
-      "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/pipeline-automation/server.py"
-      ],
-      "env": {
-        "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
-        "FASTMCP_LOG_LEVEL": "ERROR"
-      }
-    },
-    "git-worktree-manager": {
-      "command": "python",
-      "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/git-worktree-manager/server.py"
-      ],
-      "env": {
-        "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
-        "FASTMCP_LOG_LEVEL": "ERROR"
-      }
-    },
-    "cc00-tools": {
-      "command": "python",
-      "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/cc00-tools/server.py"
-      ],
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"],
       "env": {
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
         "FASTMCP_LOG_LEVEL": "ERROR"

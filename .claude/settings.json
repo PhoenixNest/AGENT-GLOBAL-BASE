@@ -15,20 +15,12 @@
       "mcp__workspace-knowledge__retrieve_context",
       "mcp__workspace-knowledge__list_indexed_files",
       "mcp__workspace-knowledge__rebuild_index",
-      "mcp__pipeline-automation__validate_stage_gate",
-      "mcp__pipeline-automation__advance_stage",
-      "mcp__pipeline-automation__get_stage_info",
-      "mcp__pipeline-automation__list_pipeline_stages",
-      "mcp__pipeline-automation__check_project_status",
-      "mcp__git-worktree-manager__create_worktree",
-      "mcp__git-worktree-manager__remove_worktree",
-      "mcp__git-worktree-manager__list_worktrees",
-      "mcp__git-worktree-manager__merge_branch",
-      "mcp__git-worktree-manager__get_worktree_status",
-      "mcp__cc00-tools__validate_ase_compliance",
-      "mcp__cc00-tools__assess_maturity",
-      "mcp__cc00-tools__check_context_budget",
-      "mcp__cc00-tools__analyze_handoff"
+      "mcp__workspace-knowledge__summarize_context",
+      "mcp__workspace-knowledge__check_adr_precedent",
+      "mcp__workspace-knowledge__validate_pipeline_document",
+      "mcp__workspace-knowledge__find_related_documents",
+      "mcp__workspace-knowledge__list_research_by_topic",
+      "mcp__workspace-knowledge__agent_knowledge_brief"
     ],
     "deny": ["Read(./GEMINI.md)", "Read(./.gemini/**)"]
   },
@@ -193,10 +185,5 @@
   "worktree": {
     "bgIsolation": "none"
   },
-  "enabledMcpjsonServers": [
-    "workspace-knowledge",
-    "pipeline-automation",
-    "git-worktree-manager",
-    "cc00-tools"
-  ]
+  "enabledMcpjsonServers": ["workspace-knowledge"]
 }
