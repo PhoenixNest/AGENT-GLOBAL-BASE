@@ -111,6 +111,7 @@ STEP 3b — If the user rejects (selects Original / says no / wants changes):
   Repeat until the user approves.
 
 Do NOT skip this protocol. The prompt quality gate requires confirmation before task execution.
+Anchored in CLAUDE.md §11 — active after every /compact. Prior summaries do not satisfy this.
 "@
 
 $output = [ordered]@{
