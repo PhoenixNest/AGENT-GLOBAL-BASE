@@ -3,10 +3,12 @@
 **Document Type:** Operations Manual
 **Prepared By:** Core Component 00 Laboratory — Dr. Elias Vance, Laboratory Director
 **Date:** 2026-06-24
+**Revised:** 2026-06-25
 **Status:** Active
 **Target System:** `workspace-knowledge` MCP Server — `agent-global-base`
 **Reference Documents:**
 
+- `ops-runbook.md` — Production operations runbook (post-commissioning)
 - `../research-report.md` — Investigation and findings
 - `../rag-deployment-proposal.md` — CEO-facing deployment proposal
 - `.claude/mcp-servers/workspace-knowledge/server.py` — Implementation target
@@ -15,28 +17,61 @@
 
 ## Quick Reference
 
-| Item                  | Value                                                           |
-| --------------------- | --------------------------------------------------------------- |
-| **This machine**      | Intel i9-13900H, 31.6 GB RAM, Intel Iris Xe (2 GB), 256 GB disk |
-| **Hardware tier**     | Tier 3 — Full hybrid BM25 + semantic embeddings                 |
-| **Recommended model** | `sentence-transformers/all-mpnet-base-v2` (420 MB, CUDA)        |
-| **Python version**    | 3.13.5 (detected)                                               |
-| **fastmcp version**   | 3.2.4 (installed)                                               |
-| **Phase 1 install**   | `pip install rank_bm25`                                         |
-| **Phase 2 install**   | `pip install sentence-transformers faiss-cpu`                   |
+Run the hardware detection script in §1 before consulting this table. Values marked _detected_
+are determined at deployment time.
+
+| Item                | Value                                                           |
+| ------------------- | --------------------------------------------------------------- |
+| **Hardware tier**   | _Detected_ — see §1                                             |
+| **Embed model**     | _Tier-dependent_ — see §3                                       |
+| **Torch wheel**     | _CUDA or CPU_ — determined by §1 GPU scan                       |
+| **Python minimum**  | 3.9                                                             |
+| **Phase 1 install** | `pip install psutil rank_bm25 fastmcp`                          |
+| **Phase 2 install** | See §7 — torch must be installed before `sentence-transformers` |
 
 ---
 
-## Section 1: Hardware Detection and Tier Assignment
+## Section 1: Hardware Detection
 
-### Why Hardware Detection Matters
+Run the following script before any installation step. It scans available RAM and GPU presence,
+prints the hardware tier, recommended embedding model, and the exact torch install command for
+this machine. All subsequent sections branch on these outputs.
 
-The RAG system has three operating modes. The correct mode is determined by available RAM, since
-the embedding model and FAISS index are held in memory during operation. Selecting too large a
-model for available RAM causes swap thrashing; selecting too small a model when more RAM is
-available leaves retrieval quality on the table.
+```powershell
+python -c "
+import psutil, subprocess, sys
 
-The server auto-detects RAM at startup and selects the appropriate configuration tier.
+ram_gb = psutil.virtual_memory().available / 1e9
+tier = 1 if ram_gb < 4 else 2 if ram_gb < 16 else 3
+models = {
+    1: 'None (BM25 only)',
+    2: 'sentence-transformers/all-MiniLM-L6-v2 (80 MB)',
+    3: 'sentence-transformers/all-mpnet-base-v2 (420 MB)',
+}
+
+try:
+    r = subprocess.run(
+        ['nvidia-smi', '--query-gpu=name,memory.total', '--format=csv,noheader'],
+        capture_output=True, text=True, timeout=5
+    )
+    cuda = r.returncode == 0
+    gpu  = r.stdout.strip() if cuda else 'None'
+except (FileNotFoundError, subprocess.TimeoutExpired):
+    cuda, gpu = False, 'nvidia-smi not found'
+
+torch_cmd = (
+    'pip install torch --index-url https://download.pytorch.org/whl/cu124'
+    if cuda else 'pip install torch'
+)
+
+print(f'Available RAM : {ram_gb:.1f} GB')
+print(f'Hardware Tier : Tier {tier}')
+print(f'Embed model   : {models[tier]}')
+print(f'CUDA detected : {cuda}')
+print(f'GPU           : {gpu}')
+print(f'Torch wheel   : {torch_cmd}')
+"
+```
 
 ### Hardware Tiers
 
@@ -46,10 +81,10 @@ The server auto-detects RAM at startup and selects the appropriate configuration
 | Tier 2 | 4 GB – 16 GB  | Hybrid BM25 + lightweight embeddings | `all-MiniLM-L6-v2` (80 MB)   | FAISS Flat |
 | Tier 3 | > 16 GB       | Hybrid BM25 + full embeddings        | `all-mpnet-base-v2` (420 MB) | FAISS Flat |
 
-> **This machine (31.6 GB RAM) is Tier 3.** `all-mpnet-base-v2` is recommended. If Tier 3
-> performance is acceptable, there is no reason to use the smaller Tier 2 model.
+> **Note:** The RAM check uses _available_ RAM, not total installed RAM, to account for OS and
+> background process overhead. Run the detection script under representative load conditions.
 
-### RAM Detection — Python Snippet
+### RAM Detection Function
 
 ```python
 import psutil
@@ -65,65 +100,68 @@ def detect_hardware_tier() -> int:
         return 3
 ```
 
-> **Note:** The check uses _available_ RAM (not total), accounting for the OS and other running
-> processes. On this machine with 31.6 GB total, available RAM at typical load is ~22–27 GB,
-> firmly in Tier 3.
-
 ---
 
 ## Section 2: Software Stack
 
 ### Full Dependency List
 
-| Package                 | Purpose                                    | Required For | Min Version | Install Command                     |
-| ----------------------- | ------------------------------------------ | ------------ | ----------- | ----------------------------------- |
-| `fastmcp`               | MCP server framework                       | Phase 1 & 2  | 3.0.0       | _already installed (3.2.4)_         |
-| `psutil`                | RAM detection for tier assignment          | Phase 1 & 2  | 5.9.0       | `pip install psutil`                |
-| `rank_bm25`             | BM25 ranking algorithm                     | Phase 1 & 2  | 0.2.2       | `pip install rank_bm25`             |
-| `sentence-transformers` | Embedding model loader and inference       | Phase 2 only | 2.7.0       | `pip install sentence-transformers` |
-| `faiss-cpu`             | Vector similarity search index (CPU build) | Phase 2 only | 1.8.0       | `pip install faiss-cpu`             |
-| `numpy`                 | Array operations for FAISS                 | Phase 2 only | 1.26.0      | _auto-installed with faiss-cpu_     |
+| Package                 | Purpose                                    | Required For | Min Version |
+| ----------------------- | ------------------------------------------ | ------------ | ----------- |
+| `fastmcp`               | MCP server framework                       | Phase 1 & 2  | 3.0.0       |
+| `psutil`                | RAM detection for tier assignment          | Phase 1 & 2  | 5.9.0       |
+| `rank_bm25`             | BM25 ranking algorithm                     | Phase 1 & 2  | 0.2.2       |
+| `torch`                 | Neural network runtime for encoding        | Phase 2 only | 2.0.0       |
+| `sentence-transformers` | Embedding model loader and inference       | Phase 2 only | 2.7.0       |
+| `faiss-cpu`             | Vector similarity search index (CPU build) | Phase 2 only | 1.8.0       |
+| `numpy`                 | Array operations for FAISS                 | Phase 2 only | 1.26.0      |
 
-> **Use `faiss-cpu`** even on machines with an NVIDIA GPU. FAISS index storage and search run on
-> CPU; only the SentenceTransformer encoding step uses CUDA (via `torch+cu124`). `faiss-gpu` is
-> not needed and introduces additional CUDA library dependencies without benefit for this workload.
+> **`faiss-cpu` is correct for all deployments**, including machines with an NVIDIA GPU. FAISS
+> index storage and search run on CPU; only the SentenceTransformer encoding step uses CUDA.
+> `faiss-gpu` is not required and adds unnecessary CUDA library dependencies.
 
-### Python Version Compatibility
-
-- **Minimum:** Python 3.9
-- **Detected:** Python 3.13.5
-- **Status:** All packages above support Python 3.13. No version conflict expected.
+> **Install `torch` before `sentence-transformers`.** When `torch` is already present,
+> `sentence-transformers` skips reinstalling it. Installing in reverse order pulls in the default
+> CPU-only wheel which must then be replaced — an avoidable extra step.
 
 ### Phase 1 Installation (BM25 Only)
 
 ```powershell
-pip install psutil rank_bm25
+pip install psutil rank_bm25 fastmcp
 ```
-
-**Expected output:** Both packages install cleanly. No compilation step; both are pure Python.
 
 ### Phase 2 Installation (Adds Embeddings)
 
+Install torch first using the wheel determined by the §1 hardware scan, then install
+`sentence-transformers`:
+
 ```powershell
-pip install sentence-transformers faiss-cpu
+# NVIDIA GPU (CUDA 12.4):
+pip install torch --index-url https://download.pytorch.org/whl/cu124
+
+# CPU-only machine:
+# pip install torch
 ```
 
-**Expected output:** `sentence-transformers` pulls in `transformers`, `torch` (CPU build), and
-`huggingface-hub` as dependencies. Total download ~500 MB on first install.
-
-> **PyTorch note:** `sentence-transformers` installs a CPU-only PyTorch build by default. On
-> machines with an NVIDIA GPU, replace it with the CUDA wheel after this step — see Phase 2
-> Deployment, Step 1a. Encoding on CPU is 10–30× slower than on CUDA.
+```powershell
+pip install sentence-transformers faiss-cpu numpy
+```
 
 ### Verification
 
 After installation, confirm all packages are present:
 
 ```powershell
-pip show rank_bm25 sentence-transformers faiss-cpu psutil
+pip show psutil rank_bm25 torch sentence-transformers faiss-cpu
 ```
 
-All four should return name/version output with no "not found" errors.
+All five should return name/version output with no "not found" errors. Verify CUDA availability
+on NVIDIA machines:
+
+```powershell
+python -c "import torch; print('CUDA:', torch.cuda.is_available())"
+# Expected on NVIDIA: CUDA: True
+```
 
 ---
 
@@ -146,7 +184,6 @@ No model required. BM25 operates on tokenized text only.
 | **Embedding Size**   | 384 dimensions                                                  |
 | **Model File Size**  | ~80 MB (PyTorch weights)                                        |
 | **RAM at Runtime**   | ~200 MB (model + inference buffers)                             |
-| **Inference Speed**  | ~50–100 ms/batch on i9-13900H CPU                               |
 | **Max Input Length** | 256 tokens (sequences truncated beyond this)                    |
 | **Download Method**  | Automatic on first `SentenceTransformer()` load                 |
 | **Cache Location**   | `~/.cache/huggingface/hub/`                                     |
@@ -163,7 +200,7 @@ print("Model loaded and verified.")
 
 ---
 
-### Tier 3 Model — `all-mpnet-base-v2` _(Recommended for this machine)_
+### Tier 3 Model — `all-mpnet-base-v2`
 
 | Field                | Value                                                            |
 | -------------------- | ---------------------------------------------------------------- |
@@ -174,15 +211,14 @@ print("Model loaded and verified.")
 | **Embedding Size**   | 768 dimensions                                                   |
 | **Model File Size**  | ~420 MB (PyTorch weights)                                        |
 | **RAM at Runtime**   | ~700 MB (model + inference buffers)                              |
-| **Inference Speed**  | ~150–300 ms/batch on i9-13900H CPU                               |
 | **Max Input Length** | 384 tokens (sequences truncated beyond this)                     |
 | **Download Method**  | Automatic on first `SentenceTransformer()` load                  |
 | **Cache Location**   | `~/.cache/huggingface/hub/`                                      |
 
-**Why Tier 3 produces better results:** MPNet-base uses a full 12-layer encoder with masked and
-permuted language modelling pre-training. Benchmark scores (SBERT MTEB) show it consistently
-outperforms MiniLM-L6 on semantic similarity tasks by 5–8 percentage points. On a machine with
-32 GB RAM the additional memory cost (700 MB vs 200 MB) is negligible.
+MPNet-base uses a full 12-layer encoder with masked and permuted language modelling pre-training.
+Benchmark scores (SBERT MTEB) show it consistently outperforms MiniLM-L6 on semantic similarity
+tasks by 5–8 percentage points. The additional runtime memory cost (700 MB vs 200 MB) is
+negligible on Tier 3 hardware.
 
 **Integrity verification (post-download):**
 
@@ -201,42 +237,38 @@ print("Model loaded and verified.")
 #### Automatic Download (Standard)
 
 `sentence-transformers` downloads the model from Hugging Face Hub on the first
-`SentenceTransformer(model_id)` call. The download is resumable; if it is interrupted, re-run
-and it will continue from where it stopped.
+`SentenceTransformer(model_id)` call. Downloads are resumable.
 
 ```python
 from sentence_transformers import SentenceTransformer
-# First call triggers download; subsequent calls load from cache
 model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
 ```
 
 #### Manual Download (Offline-First Workflow)
 
-If the target machine has internet access only during setup:
+For machines with internet access only during initial setup:
 
 ```powershell
-# On a machine with internet access
 pip install huggingface-hub
 python -c "
 from huggingface_hub import snapshot_download
 snapshot_download(
     repo_id='sentence-transformers/all-mpnet-base-v2',
-    local_dir='C:/models/all-mpnet-base-v2'
+    local_dir='./models/all-mpnet-base-v2'
 )
 "
 ```
 
-Then point the server to the local path instead of the Hub ID:
+Point the server to the local path:
 
 ```python
-model = SentenceTransformer("C:/models/all-mpnet-base-v2")
+model = SentenceTransformer("./models/all-mpnet-base-v2")
 ```
 
 #### Offline Operation After First Download
 
-Once downloaded, `sentence-transformers` reads from `~/.cache/huggingface/hub/` with no
-internet access required. Set `HF_HUB_OFFLINE=1` in the environment to prevent any network
-calls at runtime:
+Once downloaded, `sentence-transformers` reads from `~/.cache/huggingface/hub/` without internet
+access. Set `HF_HUB_OFFLINE=1` to prevent any network calls at runtime:
 
 ```powershell
 $env:HF_HUB_OFFLINE = "1"
@@ -279,7 +311,7 @@ HARDWARE_PROFILES = {
         "rrf_k": 60,
         "persist_index": True,
     },
-    3: {  # > 16 GB available RAM — THIS MACHINE
+    3: {  # > 16 GB available RAM
         "mode": "hybrid",
         "embedding_model": "sentence-transformers/all-mpnet-base-v2",
         "chunk_size": 512,
@@ -343,22 +375,22 @@ names are the uppercase snake*case form prefixed with `RAG*`.
 
 **`chunk_size`:** Smaller chunks (256–300) give more precise snippets at the cost of losing
 cross-sentence context. Larger chunks (768–1024) preserve more context but may return
-less-targeted results. 512 is the standard industry default for mixed documentation corpora.
+less-targeted results. 512 is the standard default for mixed documentation corpora.
 
 **`bm25_k1`:** Controls how quickly term frequency saturates. At k1=1.5, a term appearing 5
-times scores notably higher than once but levels off. For technical documentation with repeated
-domain terms, values between 1.2 and 1.8 work best.
+times scores notably higher than once but levels off. Values between 1.2 and 1.8 work best for
+technical documentation with repeated domain terms.
 
 **`bm25_b`:** At b=0.75, a very long document does not disproportionately outrank shorter ones.
-Set to 0.0 if document length variation should have no effect on ranking (not recommended for
-this corpus which mixes short pipeline summaries with long CC-00 module docs).
+Set to 0.0 to disable length normalization entirely (not recommended for corpora that mix short
+pipeline summaries with long module documentation).
 
-**`rrf_k`:** Higher values cause the BM25 and embedding rankings to blend more smoothly, giving
-more weight to items that rank well in both. Lower values amplify items that are top-ranked in
-one method. 60 is the standard default from the RRF literature.
+**`rrf_k`:** Higher values blend BM25 and embedding rankings more smoothly, giving more weight
+to items that rank well in both. Lower values amplify items that are top-ranked in one method.
+60 is the standard default from the RRF literature.
 
-**`faiss_index_type`:** Use `Flat` for the current corpus (estimated 200–500 chunks). Switch to
-`IVF` only if the corpus grows beyond ~5,000 chunks and query latency exceeds 500 ms.
+**`faiss_index_type`:** Use `Flat` for corpora under ~5,000 chunks. Switch to `IVF` only when
+query latency consistently exceeds 500 ms at scale.
 
 ---
 
@@ -382,7 +414,7 @@ one method. 60 is the standard default from the RRF literature.
 }
 ```
 
-### Phase 2 Configuration (Hybrid — Recommended for This Machine)
+### Phase 2 Configuration (Hybrid)
 
 ```json
 {
@@ -406,8 +438,8 @@ one method. 60 is the standard default from the RRF literature.
 }
 ```
 
-> **Do not set `RAG_MODE`** in Phase 2 config — let the server auto-detect from RAM. On this
-> machine it will select Tier 3 automatically.
+> **Do not set `RAG_MODE`** in Phase 2 config — the server auto-detects the hardware tier from
+> available RAM at startup and selects the appropriate operating mode.
 
 ---
 
@@ -415,18 +447,21 @@ one method. 60 is the standard default from the RRF literature.
 
 ### Phase 1 Deployment Steps
 
-1. **Install dependencies:**
+1. **Run hardware detection** — Execute the §1 script and record the detected tier, embed model,
+   and torch wheel command.
+
+2. **Install dependencies:**
 
    ```powershell
-   pip install psutil rank_bm25
+   pip install psutil rank_bm25 fastmcp
    ```
 
-2. **Rewrite the server** — Replace `workspace-knowledge/server.py` with the BM25 implementation
+3. **Rewrite the server** — Replace `workspace-knowledge/server.py` with the BM25 implementation
    (see `../research-report.md` Appendix B for reference architecture).
 
-3. **Update `.mcp.json`** — Apply Phase 1 configuration from Section 6.
+4. **Update `.mcp.json`** — Apply Phase 1 configuration from Section 6.
 
-4. **Verify server starts:**
+5. **Verify server starts:**
 
    ```powershell
    python .claude/mcp-servers/workspace-knowledge/server.py
@@ -435,10 +470,10 @@ one method. 60 is the standard default from the RRF literature.
    Expected output: Server starts, logs index size (file count + chunk count), no errors.
    Press Ctrl+C to stop.
 
-5. **Restart Claude Code** — MCP servers are loaded at session start; a restart is required to
+6. **Restart Claude Code** — MCP servers are loaded at session start; a restart is required to
    pick up the new server.
 
-6. **Run acceptance queries** (see Section 8).
+7. **Run acceptance queries** (see Section 8).
 
 ---
 
@@ -446,58 +481,51 @@ one method. 60 is the standard default from the RRF literature.
 
 > Complete Phase 1 and validate acceptance criteria before starting Phase 2.
 
-1. **Install dependencies:**
+1. **Install `torch` first** using the wheel command from the §1 hardware scan:
 
    ```powershell
-   pip install sentence-transformers faiss-cpu
+   # NVIDIA GPU (CUDA 12.4) — from §1 hardware scan:
+   pip install torch --index-url https://download.pytorch.org/whl/cu124
+
+   # CPU-only machine:
+   # pip install torch
    ```
 
-1a. **Install CUDA-enabled PyTorch** (NVIDIA GPU only — skip on CPU-only machines):
+2. **Install remaining Phase 2 dependencies:**
 
-    The default `torch` wheel from step 1 is CPU-only. Replace it:
+   ```powershell
+   pip install sentence-transformers faiss-cpu numpy
+   ```
 
-    ```powershell
-    pip uninstall torch -y
-    pip install torch --index-url https://download.pytorch.org/whl/cu124
-    ```
-
-    Verify:
-
-    ```powershell
-    python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
-    # Expected on NVIDIA machine: True  NVIDIA GeForce RTX 4060 Laptop GPU
-    ```
-
-2. **Download the embedding model** (requires internet, one time only):
+3. **Download the embedding model** (requires internet, one time only):
 
    ```powershell
    python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-mpnet-base-v2')"
    ```
 
-   Expected output: Download progress bars, then model loaded message. The model caches to
+   Expected output: Download progress bars, then model loaded. The model caches to
    `~/.cache/huggingface/hub/`. Subsequent loads read from cache without internet.
 
-3. **Extend the server** — Add the embedding + FAISS layer on top of the Phase 1 BM25 engine.
+4. **Extend the server** — Add the embedding + FAISS layer on top of the Phase 1 BM25 engine.
 
-4. **Update `.mcp.json`** — Apply Phase 2 configuration from Section 6.
+5. **Update `.mcp.json`** — Apply Phase 2 configuration from Section 6.
 
-5. **First-run index build** — On first start after Phase 2, the server will:
-   - Load the embedding model (~5–10 seconds on i9-13900H)
-   - Embed all document chunks in batches (~30–90 seconds depending on corpus size)
+6. **First-run index build** — On first start after Phase 2, the server will:
+   - Load the embedding model
+   - Embed all document chunks in batches
    - Write the FAISS index to `RAG_INDEX_DIR`
    - Log: `"FAISS index built and persisted: N chunks"`
 
-6. **Restart Claude Code** and run acceptance queries (see Section 8).
+7. **Restart Claude Code** and run acceptance queries (see Section 8).
 
 ---
 
 ### Rebuilding the Index
 
-The index should be rebuilt whenever significant new documentation is added (e.g., new telescope
-research reports, new pipeline docs).
+Rebuild when significant new documentation is added.
 
 **Automatic rebuild** (if `RAG_AUTO_REBUILD=true`): The server compares file modification times
-at startup and triggers a rebuild if any indexed files have changed since the last build.
+at startup and triggers a rebuild if any indexed files have changed.
 
 **Manual rebuild via MCP tool:**
 
@@ -505,8 +533,6 @@ at startup and triggers a rebuild if any indexed files have changed since the la
 Tool: rebuild_index
 Arguments: {}
 ```
-
-This can be invoked from within a Claude Code session without restarting the server.
 
 **Manual rebuild via Python:**
 
@@ -525,7 +551,7 @@ print('Done')
 ## Section 8: Verification and Acceptance Testing
 
 Run these queries after each deployment phase. All should return relevant results within the
-stated latency.
+stated latency targets.
 
 ### Phase 1 Acceptance Queries
 
@@ -557,7 +583,7 @@ Run these after Phase 1 deployment to verify the graceful-degradation architectu
 | **No server crash on missing deps** | Remove all RAG deps; start server                          | Server starts and responds (does not throw uncaught exception)          |
 | **Tier logged on demotion**         | Simulate OOM in Tier A handler; run query                  | `logging.error` entry written; response tier demoted to BM25            |
 
-### Latency Benchmarks (Target: i9-13900H)
+### Latency Benchmarks
 
 | Operation                          | Target        | Notes                              |
 | ---------------------------------- | ------------- | ---------------------------------- |
@@ -579,7 +605,6 @@ Run these after Phase 1 deployment to verify the graceful-degradation architectu
 
 ```powershell
 pip install rank_bm25
-# Confirm the correct Python is used:
 python -c "import rank_bm25; print('OK')"
 ```
 
@@ -602,7 +627,7 @@ pip install faiss-cpu
 
 **Cause:** Model cache corrupted or incomplete download.
 
-**Fix:** Delete the cached model and re-download:
+**Fix:**
 
 ```powershell
 Remove-Item -Recurse -Force "$env:USERPROFILE\.cache\huggingface\hub\models--sentence-transformers--all-mpnet-base-v2"
@@ -613,15 +638,15 @@ python -c "from sentence_transformers import SentenceTransformer; SentenceTransf
 
 ### Server selects wrong hardware tier
 
-**Cause:** Available RAM at server start was lower than usual (many background processes).
+**Cause:** Available RAM at server start was lower than expected due to background processes.
 
-**Fix:** Override the mode explicitly:
+**Fix:** Override the model explicitly in `.mcp.json`:
 
 ```json
 "RAG_EMBEDDING_MODEL": "sentence-transformers/all-mpnet-base-v2"
 ```
 
-Or check available RAM:
+Or verify available RAM:
 
 ```powershell
 python -c "import psutil; print(f'{psutil.virtual_memory().available / 1e9:.1f} GB available')"
@@ -640,14 +665,13 @@ added.
 
 ### Query latency exceeds 500 ms consistently (Phase 2)
 
-**Cause:** Corpus has grown large enough to saturate FAISS Flat index, or embedding batch
-processing is a bottleneck.
+**Cause:** Corpus has grown large enough to saturate the FAISS Flat index.
 
 **Diagnosis:**
 
 ```powershell
 python -c "
-import faiss, numpy as np
+import faiss
 index = faiss.read_index('.claude/mcp-servers/workspace-knowledge/.index/faiss.index')
 print(f'Index contains {index.ntotal} vectors')
 "
@@ -661,7 +685,7 @@ print(f'Index contains {index.ntotal} vectors')
 "RAG_FAISS_INDEX_TYPE": "IVF"
 ```
 
-This requires a full index rebuild.
+Switching index type requires a full rebuild.
 
 ---
 
@@ -677,23 +701,30 @@ pip install psutil
 
 ---
 
-### Torch device selection
+### Torch device mismatch
 
-**On NVIDIA GPU machines (RTX 4060, etc.):** The encoder should run on `cuda:0`. If
-`torch.cuda.is_available()` returns `False`, the CPU-only wheel is active — replace it:
+**NVIDIA GPU — encoder not using CUDA:**
+
+```powershell
+python -c "import torch; print('CUDA:', torch.cuda.is_available())"
+```
+
+If `False`, the CPU-only wheel is active. Replace it:
 
 ```powershell
 pip uninstall torch -y
 pip install torch --index-url https://download.pytorch.org/whl/cu124
 ```
 
-**On CPU-only machines (no NVIDIA GPU):** Force CPU to avoid DirectML or other backend errors:
+**CPU-only machine — unexpected CUDA errors:**
+
+Force CPU device to suppress any backend detection:
 
 ```python
 model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2", device="cpu")
 ```
 
-Or suppress CUDA detection via environment variable:
+Or suppress CUDA via environment variable:
 
 ```json
 "CUDA_VISIBLE_DEVICES": ""
@@ -821,7 +852,7 @@ Every tool response must include a `_meta` block regardless of active tier:
 
 ```json
 {
-  "results": [...],
+  "results": [],
   "_meta": {
     "search_tier": "bm25",
     "degradation_reason": "Hybrid unavailable: No module named 'sentence_transformers'",
@@ -860,42 +891,47 @@ See §8 — Disaster Recovery Acceptance Tests.
 
 ---
 
-## Appendix A: Complete Phase 2 Install Sequence (This Machine)
+## Appendix A: Complete Phase 2 Install Sequence
+
+Run the §1 hardware detection script first to determine your tier and torch wheel, then execute
+the following:
 
 ```powershell
-# 1. Install all dependencies
-pip install psutil rank_bm25 sentence-transformers faiss-cpu
+# Step 1 — Base dependencies (no torch yet)
+pip install psutil rank_bm25 fastmcp faiss-cpu numpy
 
-# 1a. (NVIDIA GPU only) Replace CPU-only torch with CUDA wheel
-pip uninstall torch -y
+# Step 2 — Torch (install BEFORE sentence-transformers)
+# NVIDIA GPU — use the CUDA wheel (torch-first prevents CPU wheel contamination):
 pip install torch --index-url https://download.pytorch.org/whl/cu124
-python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
+# CPU-only machine:
+# pip install torch
 
-# 2. Pre-download the Tier 3 embedding model (requires internet, one time)
+# Verify torch device:
+python -c "import torch; print('CUDA:', torch.cuda.is_available())"
+
+# Step 3 — sentence-transformers (picks up torch already installed in Step 2)
+pip install sentence-transformers
+
+# Step 4 — Pre-download the tier-appropriate embedding model
 python -c "
 from sentence_transformers import SentenceTransformer
-print('Downloading all-mpnet-base-v2...')
-model = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
+model_id = 'sentence-transformers/all-mpnet-base-v2'  # Tier 3; use all-MiniLM-L6-v2 for Tier 2
+print(f'Downloading {model_id}...')
+model = SentenceTransformer(model_id)
 vec = model.encode(['test'])
 print(f'Model ready. Embedding dim: {vec.shape[1]}')
 "
 
-# 3. Verify all packages
-pip show rank_bm25 sentence-transformers faiss-cpu psutil
+# Step 5 — Verify all packages
+pip show psutil rank_bm25 torch sentence-transformers faiss-cpu
 
-# 4. Confirm RAM tier
+# Step 6 — Confirm detected hardware tier
 python -c "
 import psutil
 ram = psutil.virtual_memory().available / 1e9
 tier = 1 if ram < 4 else 2 if ram < 16 else 3
-print(f'Available RAM: {ram:.1f} GB → Tier {tier}')
+print(f'Available RAM: {ram:.1f} GB -> Hardware Tier {tier}')
 "
-```
-
-**Expected final output:**
-
-```
-Available RAM: 22.4 GB → Tier 3
 ```
 
 ---
@@ -925,8 +961,6 @@ Available RAM: 22.4 GB → Tier 3
 
 ## Appendix C: Corpus Size Estimation
 
-Run this to estimate index size before deployment:
-
 ```powershell
 python -c "
 from pathlib import Path
@@ -952,7 +986,7 @@ for d in KEY_DIRS:
             total_files += 1
             total_chars += len(f.read_text(encoding='utf-8', errors='ignore'))
 
-avg_chunk = 512 * 4.5  # ~4.5 chars per word
+avg_chunk = 512 * 4.5
 estimated_chunks = int(total_chars / avg_chunk)
 print(f'Files: {total_files}')
 print(f'Total chars: {total_chars:,}')
@@ -963,7 +997,7 @@ print(f'FAISS index type: {\"Flat\" if estimated_chunks < 5000 else \"IVF (recom
 
 ---
 
-**Document version:** 1.0 — 2026-06-24
+**Document version:** 2.0 — 2026-06-25
 **Maintained By:** Core Component 00 Laboratory
 **Authority:** AGENTS.md § 6. Core Component 00
-**Next Review:** After Phase 1 deployment validation
+**Next Review:** After Phase 2 deployment validation
