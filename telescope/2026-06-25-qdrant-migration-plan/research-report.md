@@ -268,7 +268,7 @@ before Phase 2 entry; alert if Phase 2 MRR drops >10% in any 7-day window.
 **5. Hook System** (`05-hook-design.md`) — H-RAG02 (`rag-index-sync.ps1`) is implemented and
 production-active. It detects `.md` file writes to the four KEY_DIRS and instructs Claude to
 call the appropriate index-update tool. Phase-adaptive: reads `search_backend` from
-`.claude/mcp-servers/workspace-knowledge/rag-sync-state.json` — `"faiss"` → `rebuild_index`
+`.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json` — `"faiss"` → `rebuild_index`
 (Phase 0–1); `"qdrant"` → `upsert_document` (Phase 2–3). Note: `$env:SEARCH_BACKEND` is not
 used (it is scoped to the MCP server process and invisible to hook processes — a P1 bug that
 was fixed during Phase 3 entry on 2026-06-26). Paired with the `/rag-sync` custom command for
