@@ -20,16 +20,22 @@
 
 ## Executive Summary
 
-The planning phase of this investigation is complete. Five production-ready deliverables have
-been produced in `plans/`: a four-phase migration strategy, a deployment guide selecting Qdrant
-Docker mode for this hardware profile (CEO approved 2026-06-25), an initialization guide specifying the collection schema
-and seeding procedure, a monitoring guide covering index freshness, collection health, MRR
-regression detection, and upsert latency thresholds, and a hook system design specifying H-RAG02
-and the `/rag-sync` command. All new MCP tools introduced by the
-migration (`upsert_document`, `health_check`) have been assessed against the MCP governance
-three-gate test and pass. Empirical Phase 1 validation — installing `qdrant-client`, running
-shadow-mode upserts, and benchmarking MRR parity against the FAISS baseline — has not yet
-started; its trigger condition is defined in `01-migration-strategy.md` §2.
+All four migration phases are complete as of 2026-06-26. Five production-ready planning
+deliverables were produced in `plans/`: a four-phase migration strategy, a deployment guide
+selecting Qdrant Docker mode for this hardware profile (CEO approved 2026-06-25), an
+initialization guide specifying the collection schema and seeding procedure, a monitoring guide
+covering index freshness, collection health, MRR regression detection, and upsert latency
+thresholds, and a hook system design specifying H-RAG02 and the `/rag-sync` command. All new
+MCP tools (`upsert_document`, `health_check`) passed the MCP governance three-gate test.
+Empirical Phase 1–2 validation was completed successfully: Qdrant Docker ran stably on Windows
+11 (WSL2 backend), 7,793 points were indexed with no compatibility issues, Qdrant MRR was
+validated within tolerance of the FAISS baseline, and upsert latency was confirmed below the 3 s
+threshold. Phase 3 (FAISS permanent warm standby) was entered on 2026-06-26 with the CEO
+waiving the 30-day stabilisation window. A P1 H-RAG02 bug was identified and fixed during Phase
+3 entry: the hook now reads `search_backend` from the state file rather than `$env:SEARCH_BACKEND`
+(which is unavailable in hook processes). The `workspace-knowledge` MCP server is now in
+production steady state with Qdrant as the primary search backend and FAISS as permanent DR
+fallback.
 
 ---
 
@@ -104,12 +110,15 @@ recommendation. This investigation is that plan.
 The planning phase (steps 4–5 below) is complete. Steps 1–3 are empirical work gated on Phase 1
 entry criteria defined in `01-migration-strategy.md` §2.
 
-1. **Environment assessment** _(Phase 1 — pending)_ — Verify Docker Desktop for Windows
-   (WSL2 backend) compatibility and Qdrant Docker container stability on Windows 11 + Python 3.11
-2. **Prototype build** _(Phase 1 — pending)_ — Implement a Qdrant-backed `SearchEngine`
-   variant alongside the existing FAISS engine; run both in parallel on the live corpus
-3. **Quality benchmarking** _(Phase 1 — pending)_ — Compare retrieval MRR, latency
-   (p50/p95), and rebuild cost between FAISS and Qdrant across corpus size checkpoints
+1. **Environment assessment** _(Phase 1 — complete)_ — Docker Desktop for Windows (WSL2
+   backend) verified stable. Container `qdrant-workspace` ran throughout Phases 1–2 without
+   Windows 11 compatibility issues. Python 3.11 + `qdrant-client` confirmed compatible.
+2. **Prototype build** _(Phase 1 — complete)_ — Qdrant-backed `SearchEngine` variant
+   implemented in `server.py` alongside the existing FAISS engine. Shadow-mode dual-write
+   (Phase 1) and Qdrant-primary read (Phase 2) both verified operational.
+3. **Quality benchmarking** _(Phase 2 — complete)_ — Qdrant MRR validated within tolerance
+   of FAISS baseline. Upsert latency confirmed below 3 s per file. 7,793 points indexed
+   with zero data loss. Debounce recalibrated to 10 s at Phase 2 entry.
 4. **Migration design** _(complete)_ — Produced five deliverables (strategy, deployment,
    initialization, monitoring, hook design) via architecture analysis of `server.py` and
    hardware specification assessment
@@ -256,12 +265,15 @@ IDs for idempotent upserts. Validate with a five-test smoke-test protocol before
 returning live collection metrics. Establish MRR@5 baseline on 20 representative queries
 before Phase 2 entry; alert if Phase 2 MRR drops >10% in any 7-day window.
 
-**5. Hook System** (`05-hook-design.md`) — Implement H-RAG02 (`rag-index-sync.ps1`), a
-`PostToolUse` hook that detects `.md` file writes to the four KEY_DIRS and instructs Claude to
-call the appropriate index-update tool. Phase-adaptive: calls `rebuild_index` (Phase 0–1, FAISS
-full rebuild) and `upsert_document` (Phase 2–3, Qdrant incremental upsert) based on the
-`SEARCH_BACKEND` env var. Paired with the `/rag-sync` custom command for operator control over
-`auto` / `warn` / `off` modes and debounce threshold.
+**5. Hook System** (`05-hook-design.md`) — H-RAG02 (`rag-index-sync.ps1`) is implemented and
+production-active. It detects `.md` file writes to the four KEY_DIRS and instructs Claude to
+call the appropriate index-update tool. Phase-adaptive: reads `search_backend` from
+`.claude/mcp-servers/workspace-knowledge/rag-sync-state.json` — `"faiss"` → `rebuild_index`
+(Phase 0–1); `"qdrant"` → `upsert_document` (Phase 2–3). Note: `$env:SEARCH_BACKEND` is not
+used (it is scoped to the MCP server process and invisible to hook processes — a P1 bug that
+was fixed during Phase 3 entry on 2026-06-26). Paired with the `/rag-sync` custom command for
+operator control over `auto` / `warn` / `off` modes and debounce threshold. Current state:
+`mode=auto`, `debounce_seconds=10`, `search_backend=qdrant`.
 
 ---
 
@@ -325,6 +337,6 @@ RAWFS`). Sparse-vector replacement is a future investigation if warranted.
 ---
 
 **Template Version:** 1.0
-**Last Updated:** 2026-06-25
+**Last Updated:** 2026-06-26
 **Maintained By:** Core Component 00 Laboratory
 **Authority:** AGENTS.md § 6. Core Component 00
