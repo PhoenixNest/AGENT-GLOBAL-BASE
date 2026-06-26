@@ -1,4 +1,4 @@
-Read the file `.claude/hooks/rag-sync-state.json`. If it does not exist, treat the
+Read the file `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`. If it does not exist, treat the
 current state as `{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0}`.
 
 Based on the argument provided after `/rag-sync`:

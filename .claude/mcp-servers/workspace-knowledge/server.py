@@ -7,6 +7,7 @@ if _venv_sp.exists():
     sys.path.insert(0, str(_venv_sp))
 # ─────────────────────────────────────────────────────────────────────────
 
+import hashlib
 import json
 import os
 import re
@@ -18,11 +19,20 @@ from typing import Any
 from fastmcp import FastMCP
 
 WORKSPACE_ROOT = Path(os.getenv("WORKSPACE_ROOT", "."))
+SEARCH_BACKEND = os.getenv("SEARCH_BACKEND", "faiss").lower()
 
 mcp = FastMCP("workspace-knowledge")
 
 
+def _chunk_point_id(rel_path: str, chunk_idx: int) -> int:
+    """Deterministic integer ID: MD5 prefix truncated to 60 bits for Qdrant int64 range."""
+    key = f"{rel_path}:{chunk_idx}"
+    digest = hashlib.md5(key.encode()).hexdigest()
+    return int(digest[:15], 16)
+
+
 class SearchTier(Enum):
+    HYBRID_QDRANT = "hybrid_qdrant"
     HYBRID = "hybrid"
     BM25 = "bm25"
     RAWFS = "rawfs"
@@ -49,6 +59,9 @@ class SearchEngine:
         self._model = None          # SentenceTransformer
         self._faiss_index = None    # faiss index object
         self._chunk_embeddings = None  # np.ndarray for reference
+        self._qdrant_client = None     # QdrantClient instance
+        self._collection_name = "workspace_knowledge"
+        self._qdrant_ready = False
         self._initialize_search_engine()
 
     def _extract_chunks(self, file_path: Path) -> list[dict]:
@@ -117,8 +130,7 @@ class SearchEngine:
         return chunks
 
     def _initialize_search_engine(self):
-        """Initialization chain: HYBRID -> BM25 -> RAWFS."""
-        # Try BM25 (fast, no download required)
+        """Initialization chain: HYBRID_QDRANT or HYBRID -> BM25 -> RAWFS."""
         try:
             from rank_bm25 import BM25Okapi
         except ImportError:
@@ -134,22 +146,97 @@ class SearchEngine:
             self._degradation_reason = f"BM25 build failed: {e}"
             return
 
-        # Launch FAISS in background so mcp.run() can start within the 30 s handshake window
+        # Launch FAISS + Qdrant shadow init off the critical MCP handshake path
         t = threading.Thread(target=self._init_faiss_background, daemon=True)
         t.start()
 
     def _init_faiss_background(self):
-        """FAISS model load + encode runs off the critical path (background thread)."""
+        """FAISS load + Qdrant shadow init runs in background thread."""
         try:
             import faiss
             import numpy as np
             from sentence_transformers import SentenceTransformer
             self._build_or_load_faiss_index(faiss, np, SentenceTransformer)
-            self._tier = SearchTier.HYBRID
         except ImportError:
             self._degradation_reason = "sentence-transformers or faiss not installed — using BM25"
+            return
         except Exception as e:
             self._degradation_reason = f"FAISS init failed: {e} — using BM25"
+            return
+
+        if SEARCH_BACKEND == "qdrant":
+            self._init_qdrant()
+            self._tier = SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID
+        else:
+            self._tier = SearchTier.HYBRID
+            # Shadow: populate Qdrant alongside FAISS; tier stays HYBRID (reads from FAISS)
+            self._init_qdrant()
+
+    def _init_qdrant(self):
+        """Connect to the local Qdrant Docker server and seed collection if empty.
+        Degrades gracefully — sets _qdrant_ready=False if Docker is unreachable."""
+        try:
+            from qdrant_client import QdrantClient
+            self._qdrant_client = QdrantClient(url="http://localhost:6333", timeout=10)
+            self._ensure_collection()
+            self._seed_if_empty()
+            self._qdrant_ready = True
+        except Exception as exc:
+            self._qdrant_ready = False
+            self._degradation_reason = (
+                f"Qdrant Docker unreachable — falling back to FAISS: {exc}"
+            )
+
+    def _ensure_collection(self):
+        """Create Qdrant collection if it does not exist."""
+        from qdrant_client.models import Distance, VectorParams
+        existing = [c.name for c in self._qdrant_client.get_collections().collections]
+        if self._collection_name not in existing:
+            self._qdrant_client.create_collection(
+                collection_name=self._collection_name,
+                vectors_config=VectorParams(size=768, distance=Distance.COSINE),
+            )
+
+    def _seed_if_empty(self):
+        """Seed the Qdrant collection only if it has zero points."""
+        info = self._qdrant_client.get_collection(self._collection_name)
+        if info.points_count == 0:
+            self._seed_qdrant_collection()
+
+    def _seed_qdrant_collection(self):
+        """Encode all BM25 chunks and upsert them into Qdrant. Idempotent by point ID."""
+        if not self._chunks:
+            raise RuntimeError("BM25 chunks must be built before seeding Qdrant")
+
+        from qdrant_client.models import PointStruct
+        import numpy as np
+
+        BATCH_SIZE = 100
+        texts = [c["text"][:512] for c in self._chunks]
+        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
+        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+
+        for i in range(0, len(self._chunks), BATCH_SIZE):
+            batch_chunks = self._chunks[i:i + BATCH_SIZE]
+            batch_embs = embeddings[i:i + BATCH_SIZE]
+            points = [
+                PointStruct(
+                    id=_chunk_point_id(c["rel_path"], c["chunk_idx"]),
+                    vector=emb.astype(float).tolist(),
+                    payload={
+                        "rel_path": c["rel_path"],
+                        "section": c["section"],
+                        "chunk_idx": c["chunk_idx"],
+                        "text": c["text"],
+                        "file_path": c["file_path"],
+                    },
+                )
+                for c, emb in zip(batch_chunks, batch_embs)
+            ]
+            self._qdrant_client.upsert(
+                collection_name=self._collection_name,
+                points=points,
+            )
 
     def _build_bm25_index(self, BM25Okapi):
         """Build the BM25 index from all markdown chunks."""
@@ -187,7 +274,6 @@ class SearchEngine:
             except Exception:
                 pass
 
-        # Check if index is stale
         needs_rebuild = (
             not index_file.exists()
             or current_mtimes != saved_mtimes
@@ -258,8 +344,35 @@ class SearchEngine:
                 break
         return results
 
+    def _search_qdrant(self, query: str, top_k: int) -> list[dict]:
+        """Dense vector search via Qdrant."""
+        import numpy as np
+        q_emb = self._model.encode([query])
+        q_emb = (q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True))[0].tolist()
+        results = self._qdrant_client.search(
+            collection_name=self._collection_name,
+            query_vector=q_emb,
+            limit=top_k * 3,
+            with_payload=True,
+        )
+        seen = set()
+        out = []
+        for r in results:
+            p = r.payload
+            if p["rel_path"] not in seen:
+                seen.add(p["rel_path"])
+                out.append({
+                    "file": p["rel_path"],
+                    "section": p.get("section", ""),
+                    "score": r.score,
+                    "snippet": p.get("text", "")[:400],
+                })
+            if len(out) >= top_k:
+                break
+        return out
+
     def _search_hybrid(self, query: str, top_k: int) -> list[dict]:
-        """Reciprocal Rank Fusion (k=60) combining BM25 and semantic results."""
+        """Reciprocal Rank Fusion (k=60) combining BM25 and FAISS semantic results."""
         K = 60
         bm25_results = self._search_bm25(query, top_k * 3)
         sem_results = self._search_semantic(query, top_k * 3)
@@ -273,6 +386,29 @@ class SearchEngine:
             result_map[key] = r
 
         for rank, r in enumerate(sem_results):
+            key = r["file"]
+            rrf_scores[key] = rrf_scores.get(key, 0.0) + 1.0 / (K + rank + 1)
+            if key not in result_map:
+                result_map[key] = r
+
+        ranked = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
+        return [result_map[k] for k, _ in ranked[:top_k]]
+
+    def _search_hybrid_qdrant(self, query: str, top_k: int) -> list[dict]:
+        """Reciprocal Rank Fusion (k=60) combining BM25 and Qdrant semantic results."""
+        K = 60
+        bm25_results = self._search_bm25(query, top_k * 3)
+        qdrant_results = self._search_qdrant(query, top_k * 3)
+
+        rrf_scores: dict[str, float] = {}
+        result_map: dict[str, dict] = {}
+
+        for rank, r in enumerate(bm25_results):
+            key = r["file"]
+            rrf_scores[key] = rrf_scores.get(key, 0.0) + 1.0 / (K + rank + 1)
+            result_map[key] = r
+
+        for rank, r in enumerate(qdrant_results):
             key = r["file"]
             rrf_scores[key] = rrf_scores.get(key, 0.0) + 1.0 / (K + rank + 1)
             if key not in result_map:
@@ -305,6 +441,12 @@ class SearchEngine:
         return results[:top_k]
 
     def _search_with_fallback(self, query: str, top_k: int = 10) -> list[dict]:
+        if self._tier == SearchTier.HYBRID_QDRANT:
+            try:
+                return self._search_hybrid_qdrant(query, top_k)
+            except Exception as e:
+                self._tier = SearchTier.BM25
+                self._degradation_reason = f"Qdrant search failed: {e}"
         if self._tier == SearchTier.HYBRID:
             try:
                 return self._search_hybrid(query, top_k)
@@ -319,20 +461,82 @@ class SearchEngine:
                 self._degradation_reason = f"BM25 search failed: {e}"
         return self._search_rawfs(query, top_k)
 
+    def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
+        """Re-chunk, re-embed, and upsert one file's points into Qdrant.
+        Deletes old points for this file first, then inserts updated ones."""
+        from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
+        import numpy as np
+
+        file_path = Path(file_path_str)
+        new_chunks = self._extract_chunks(file_path)
+
+        if not new_chunks:
+            return 0
+
+        rel_path = new_chunks[0]["rel_path"]
+
+        # Delete all existing points for this file
+        self._qdrant_client.delete(
+            collection_name=self._collection_name,
+            points_selector=Filter(
+                must=[FieldCondition(key="rel_path", match=MatchValue(value=rel_path))]
+            ),
+        )
+
+        # Encode new chunks
+        texts = [c["text"][:512] for c in new_chunks]
+        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
+        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+
+        points = [
+            PointStruct(
+                id=_chunk_point_id(c["rel_path"], c["chunk_idx"]),
+                vector=emb.astype(float).tolist(),
+                payload={
+                    "rel_path": c["rel_path"],
+                    "section": c["section"],
+                    "chunk_idx": c["chunk_idx"],
+                    "text": c["text"],
+                    "file_path": c["file_path"],
+                },
+            )
+            for c, emb in zip(new_chunks, embeddings)
+        ]
+        self._qdrant_client.upsert(collection_name=self._collection_name, points=points)
+
+        # Update in-memory BM25 chunks for this file
+        self._chunks = [c for c in self._chunks if c["rel_path"] != rel_path]
+        self._chunks.extend(new_chunks)
+        from rank_bm25 import BM25Okapi
+        tokenized = [c["text"].lower().split() for c in self._chunks]
+        self._bm25 = BM25Okapi(tokenized)
+
+        return len(new_chunks)
+
     def _meta_block(self) -> dict:
         return {
             "search_tier": self._tier.value,
+            "search_backend": SEARCH_BACKEND,
+            "qdrant_ready": self._qdrant_ready,
             "degradation_reason": self._degradation_reason,
             "result_quality": self._tier.value,
             "rebuild_available": True,
         }
 
     def rebuild(self):
+        # Clear Qdrant collection so reseed happens on reinit
+        if self._qdrant_ready and self._qdrant_client is not None:
+            try:
+                self._qdrant_client.delete_collection(self._collection_name)
+            except Exception:
+                pass
         self._chunks = []
         self._bm25 = None
         self._model = None
         self._faiss_index = None
-        # Remove stale state so index rebuilds from scratch
+        self._qdrant_client = None
+        self._qdrant_ready = False
+        # Remove FAISS state so index rebuilds from scratch
         state_file = self._INDEX_DIR / "index_state.json"
         if state_file.exists():
             state_file.unlink()
@@ -362,8 +566,8 @@ engine = SearchEngine(WORKSPACE_ROOT)
 @mcp.tool()
 def search_docs(query: str, top_k: int = 10) -> dict[str, Any]:
     """Hybrid semantic + BM25 keyword search across workspace markdown files with graceful
-    fallback through HYBRID -> BM25 -> RAWFS tiers. Returns ranked results with file path,
-    section heading, relevance score, and text snippet."""
+    fallback through HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS tiers. Returns ranked results
+    with file path, section heading, relevance score, and text snippet."""
     results = engine._search_with_fallback(query, top_k)
     return {"query": query, "results": results, "_meta": engine._meta_block()}
 
@@ -391,9 +595,39 @@ def list_indexed_files() -> dict[str, Any]:
 @mcp.tool()
 def rebuild_index() -> dict[str, Any]:
     """Rebuild the search index from scratch, re-scanning all workspace markdown files.
-    Clears FAISS state file to force a full re-encode on next startup."""
+    Also clears and re-seeds the Qdrant collection when Qdrant is initialized."""
     engine.rebuild()
     return {"status": "rebuilt", "tier": engine._tier.value, "_meta": engine._meta_block()}
+
+
+@mcp.tool()
+def upsert_document(file_path: str) -> dict[str, Any]:
+    """Re-chunk, re-embed, and upsert a single document into the Qdrant collection.
+    Also updates the BM25 index for this file. Use after editing an indexed .md file
+    to reflect changes without a full collection rebuild.
+    No-op when SEARCH_BACKEND=faiss — use rebuild_index instead."""
+    if SEARCH_BACKEND != "qdrant":
+        return {
+            "status": "skipped",
+            "reason": "SEARCH_BACKEND is not qdrant — use rebuild_index instead",
+            "_meta": engine._meta_block(),
+        }
+    if not engine._qdrant_ready:
+        return {
+            "status": "error",
+            "reason": "Qdrant not initialized — ensure Docker container is running",
+            "_meta": engine._meta_block(),
+        }
+    try:
+        count = engine._upsert_file_to_qdrant(file_path)
+        return {
+            "status": "upserted",
+            "file": file_path,
+            "new_chunk_count": count,
+            "_meta": engine._meta_block(),
+        }
+    except Exception as exc:
+        return {"status": "error", "error": str(exc), "_meta": engine._meta_block()}
 
 
 @mcp.tool()
@@ -483,7 +717,7 @@ def validate_pipeline_document(doc_path: str) -> dict[str, Any]:
 @mcp.tool()
 def find_related_documents(seed_doc_path: str, top_k: int = 5) -> dict[str, Any]:
     """Find documents semantically similar to a given workspace document.
-    Requires HYBRID tier; falls back to BM25 keyword search on the document's title."""
+    Requires HYBRID or HYBRID_QDRANT tier; falls back to BM25 keyword search."""
     target = WORKSPACE_ROOT / seed_doc_path
     if not target.exists():
         return {"error": f"File not found: {seed_doc_path}", "_meta": engine._meta_block()}
