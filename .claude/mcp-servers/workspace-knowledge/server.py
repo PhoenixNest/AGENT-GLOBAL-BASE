@@ -349,15 +349,15 @@ class SearchEngine:
         import numpy as np
         q_emb = self._model.encode([query])
         q_emb = (q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True))[0].tolist()
-        results = self._qdrant_client.search(
+        response = self._qdrant_client.query_points(
             collection_name=self._collection_name,
-            query_vector=q_emb,
+            query=q_emb,
             limit=top_k * 3,
             with_payload=True,
         )
         seen = set()
         out = []
-        for r in results:
+        for r in response.points:
             p = r.payload
             if p["rel_path"] not in seen:
                 seen.add(p["rel_path"])
