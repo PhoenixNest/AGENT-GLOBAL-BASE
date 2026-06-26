@@ -5,7 +5,8 @@
       "args": ["${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"],
       "env": {
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
-        "FASTMCP_LOG_LEVEL": "ERROR"
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "SEARCH_BACKEND": "qdrant"
       }
     }
   }
