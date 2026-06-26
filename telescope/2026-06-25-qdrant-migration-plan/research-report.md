@@ -8,8 +8,8 @@
 | -------------------- | ---------------------------------------------------------------------------- |
 | **Investigation ID** | `2026-06-25-qdrant-migration-plan`                                           |
 | **Date Started**     | 2026-06-25                                                                   |
-| **Date Completed**   | Planning phase complete 2026-06-25; empirical Phase 1 pending                |
-| **Status**           | Active (v0.6)                                                                |
+| **Date Completed**   | 2026-06-26                                                                   |
+| **Status**           | Complete (v1.0)                                                              |
 | **Investigator**     | Dr. Elias Vance — CC-00 Laboratory Director                                  |
 | **Laboratory**       | Core Component 00                                                            |
 | **Module(s)**        | retrieval-augmented-generation, harness-engineering, multi-agent-engineering |
@@ -286,21 +286,21 @@ full rebuild) and `upsert_document` (Phase 2–3, Qdrant incremental upsert) bas
 
 ## Open Questions
 
-1. **Is Qdrant Docker Desktop stable on Windows 11 (WSL2 backend) for this workstation?**
-   - Status: Not yet tested — embedded mode superseded by Docker (CEO 2026-06-25)
-   - Priority: High — Docker must be verified before Phase 1 entry
-   - Assigned: CC-00 Laboratory
+1. **Is Qdrant Docker Desktop stable on Windows 11 (WSL2 backend) for this workstation?** ✅ **Closed**
+   - Status: Empirically verified in Phases 1–2. Container `qdrant-workspace` ran stably throughout
+     Phase 2; 7,793 points indexed with no Windows 11 compatibility issues observed.
+   - Closed: 2026-06-26
 
-2. **Does Qdrant v1.7+ sparse vector support replace the BM25 tier entirely?**
-   - Status: Not yet investigated
-   - Priority: Medium — affects architecture complexity
-   - Assigned: CC-00 Laboratory
+2. **Does Qdrant v1.7+ sparse vector support replace the BM25 tier entirely?** ✅ **Closed**
+   - Status: Out of scope for this investigation. BM25 tier is retained as a permanent fallback
+     tier alongside Qdrant in the three-tier degradation stack (`HYBRID_QDRANT → HYBRID → BM25 →
+RAWFS`). Sparse-vector replacement is a future investigation if warranted.
+   - Closed: 2026-06-26
 
-3. **What debounce threshold is appropriate for Qdrant upsert (vs. full FAISS rebuild)?**
-   - Status: Design estimate established — 10 s at Phase 2 (upsert is faster than full rebuild);
-     empirical calibration required after Phase 1 benchmarks
-   - Priority: Medium — affects H-RAG02 adaptation
-   - Assigned: CC-00 Laboratory
+3. **What debounce threshold is appropriate for Qdrant upsert (vs. full FAISS rebuild)?** ✅ **Closed**
+   - Status: Calibrated at 10 s at Phase 2 entry; verified empirically throughout Phase 2
+     operation. H-RAG02 debounce set to 10 s in `rag-sync-state.json`.
+   - Closed: 2026-06-26
 
 4. **Does `upsert_document` pass all three MCP governance gates?** ✅ **Answered**
    - Status: Fully assessed in `01-migration-strategy.md` §4 — Capability ✅, Governance ✅,
@@ -312,14 +312,15 @@ full rebuild) and `upsert_document` (Phase 2–3, Qdrant incremental upsert) bas
 
 ## Version History
 
-| Version | Date       | Author                               | Changes                                                                                                                                                                                                                                                                         |
-| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Investigation stub opened                                                                                                                                                                                                                                                       |
-| 0.2     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Planning phase complete: populated Executive Summary, Methodology, Findings 1–3, Analysis, Trade-offs, Risks, Recommendations; closed Open Question 4; `plans/` subfolder added with four numbered deliverables                                                                 |
-| 0.3     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO approved Docker deployment over embedded mode; updated Finding 1, Analysis, Trade-offs table, Risks, Recommendation 2, and Open Question 1 to reflect Docker selection; propagated to all four `plans/` documents                                                           |
-| 0.4     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO directed FAISS must remain as permanent DR fallback — never retired; Phase 3 renamed from "FAISS Retirement" to "Qdrant Primary, FAISS Permanent Standby"; updated Analysis, Risks, Recommendation 1; propagated to `01-migration-strategy.md`, `diagrams/rag-dr-system.md` |
-| 0.5     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO consolidated hook system from `2026-06-25-rag-index-sync-hook-design` into this investigation; added `05-hook-design.md` as fifth planning deliverable; added Recommendation 5; predecessor investigation folder removed; `telescope/README.md` updated                     |
-| 0.6     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Applied six engineering review gap-closures: BM25 O(N) rebuild cost note added to `03-initialization-guide.md` §3.1; `parity_ok` corrected to `==` with `orphaned_points` field added in `04-monitoring-guide.md` §3.1 and §3.3; H-RAG02 path-matching regex hardened to `(^    | \/)$dir`in`05-hook-design.md`§4; MRR ground truth specification and commit requirement added to`04-monitoring-guide.md`§4.1; Docker volume backup/restore procedure added to`02-deployment-guide.md`§3.6;`qdrant-client`version bound tightened to`<2.0.0`in`02-deployment-guide.md` §4.1 |
+| Version | Date       | Author                               | Changes                                                                                                                                                                                                                                                                                                                              |
+| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Investigation stub opened                                                                                                                                                                                                                                                                                                            |
+| 0.2     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Planning phase complete: populated Executive Summary, Methodology, Findings 1–3, Analysis, Trade-offs, Risks, Recommendations; closed Open Question 4; `plans/` subfolder added with four numbered deliverables                                                                                                                      |
+| 0.3     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO approved Docker deployment over embedded mode; updated Finding 1, Analysis, Trade-offs table, Risks, Recommendation 2, and Open Question 1 to reflect Docker selection; propagated to all four `plans/` documents                                                                                                                |
+| 0.4     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO directed FAISS must remain as permanent DR fallback — never retired; Phase 3 renamed from "FAISS Retirement" to "Qdrant Primary, FAISS Permanent Standby"; updated Analysis, Risks, Recommendation 1; propagated to `01-migration-strategy.md`, `diagrams/rag-dr-system.md`                                                      |
+| 0.5     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | CEO consolidated hook system from `2026-06-25-rag-index-sync-hook-design` into this investigation; added `05-hook-design.md` as fifth planning deliverable; added Recommendation 5; predecessor investigation folder removed; `telescope/README.md` updated                                                                          |
+| 0.6     | 2026-06-25 | Dr. Elias Vance — CC-00 Lab Director | Applied six engineering review gap-closures: BM25 O(N) rebuild cost note added to `03-initialization-guide.md` §3.1; `parity_ok` corrected to `==` with `orphaned_points` field added in `04-monitoring-guide.md` §3.1 and §3.3; H-RAG02 path-matching regex hardened to `(^                                                         | \/)$dir`in`05-hook-design.md`§4; MRR ground truth specification and commit requirement added to`04-monitoring-guide.md`§4.1; Docker volume backup/restore procedure added to`02-deployment-guide.md`§3.6;`qdrant-client`version bound tightened to`<2.0.0`in`02-deployment-guide.md` §4.1 |
+| 1.0     | 2026-06-26 | Dr. Elias Vance — CC-00 Lab Director | Phase 3 activated (CEO approval 2026-06-26, 30-day stabilization window waived); all open questions closed; H-RAG02 confirmed phase-adaptive — no hook code change required at Phase 3 (hook already instructs `upsert_document` only when `SEARCH_BACKEND=qdrant`); FAISS permanent warm standby documented; status set to Complete |
 
 ---
 

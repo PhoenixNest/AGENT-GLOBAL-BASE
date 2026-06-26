@@ -1,8 +1,9 @@
 #!/usr/bin/env pwsh
 # H-RAG02: PostToolUse — RAG Index Sync on Doc Write (toggle-aware, phase-adaptive)
 # Fires after Write or Edit tools modify .md files in KEY_DIRS.
-# Behavior is governed by .claude/hooks/rag-sync-state.json (mode: auto|warn|off).
-# Phase adaptation: reads SEARCH_BACKEND env var to determine rebuild vs upsert path.
+# Behavior is governed by .claude/mcp-servers/workspace-knowledge/rag-sync-state.json (mode: auto|warn|off).
+# Phase adaptation: reads search_backend from state file to determine rebuild vs upsert path.
+# Phase 3 active (search_backend=qdrant): instructs upsert_document only; FAISS self-heals via mtime on startup.
 
 param()
 
@@ -40,6 +41,7 @@ $stateFile = Join-Path (Split-Path $PSScriptRoot -Parent) "mcp-servers\workspace
 $mode            = "warn"
 $debounceSeconds = 30
 $lastRebuildAt   = 0
+$backend         = "faiss"
 
 if (Test-Path $stateFile) {
     try {
@@ -47,13 +49,13 @@ if (Test-Path $stateFile) {
         $mode            = if ($state.mode)             { $state.mode }             else { "warn" }
         $debounceSeconds = if ($state.debounce_seconds) { $state.debounce_seconds } else { 30 }
         $lastRebuildAt   = if ($state.last_rebuild_at)  { $state.last_rebuild_at }  else { 0 }
+        $backend         = if ($state.search_backend)   { $state.search_backend }   else { "faiss" }
     } catch {
         $mode = "warn"
     }
 }
 
-# --- Detect active migration phase via SEARCH_BACKEND ---
-$backend = if ($env:SEARCH_BACKEND) { $env:SEARCH_BACKEND } else { "faiss" }
+# --- Select update tool for active migration phase ---
 $updateTool = if ($backend -eq "qdrant") { "upsert_document" } else { "rebuild_index" }
 
 # --- Mode: off — exit silently ---
@@ -91,6 +93,7 @@ try {
         mode             = $mode
         debounce_seconds = $debounceSeconds
         last_rebuild_at  = $now
+        search_backend   = $backend
     }
     $newState | ConvertTo-Json -Compress | Set-Content $stateFile
 } catch { }
