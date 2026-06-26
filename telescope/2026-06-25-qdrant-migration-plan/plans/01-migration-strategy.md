@@ -4,7 +4,7 @@
 **Investigation:** `2026-06-25-qdrant-migration-plan`
 **Author:** Dr. Elias Vance — CC-00 Laboratory Director
 **Date:** 2026-06-25
-**Status:** Approved — Phase 0 Active
+**Status:** Approved — Phase 3 Active (Migration Complete)
 
 ---
 
@@ -224,11 +224,15 @@ the RAG system remains functional on any machine where Docker or Qdrant is unava
 
 ## 6. Go/No-Go Criteria Summary
 
-| Gate        | Condition                                                       | Owner                |
-| ----------- | --------------------------------------------------------------- | -------------------- |
-| Phase 0 → 1 | H-RAG02 + toggle verified; corpus trigger met or CEO authorises | CEO                  |
-| Phase 1 → 2 | Qdrant MRR within 5% of FAISS; 2 weeks shadow without issues    | CC-00 Lab Director   |
-| Phase 2 → 3 | 30 days stable; MRR within 3%; rollback never triggered         | CEO (final approval) |
+| Gate        | Condition                                                                  | Owner                |
+| ----------- | -------------------------------------------------------------------------- | -------------------- |
+| Phase 0 → 1 | H-RAG02 + toggle verified; corpus trigger met or CEO authorises            | CEO                  |
+| Phase 1 → 2 | Qdrant MRR within 5% of FAISS; 2 weeks shadow without issues               | CC-00 Lab Director   |
+| Phase 2 → 3 | 30 days stable; MRR within 3%; rollback never triggered _(see note below)_ | CEO (final approval) |
+
+> **Note — Phase 2 → 3 gate (2026-06-26):** The 30-day stabilisation window was waived by CEO
+> directive on 2026-06-26. Phase 3 was entered immediately upon Phase 2 completion. MRR and
+> rollback-free criteria were considered satisfied based on Phase 2 operational evidence.
 
 ---
 

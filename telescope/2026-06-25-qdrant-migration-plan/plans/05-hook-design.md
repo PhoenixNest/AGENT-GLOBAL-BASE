@@ -34,12 +34,12 @@ designed to work across all four migration phases, adapting the update path from
 | **Trigger condition** | The tool's `file_path` matches a `.md` file under any of the four KEY_DIRS              |
 | **KEY_DIRS**          | `company/`, `studio/`, `core-component-00/`, `telescope/`                               |
 | **Registration**      | `.claude/settings.json` under the `hooks` array for `PostToolUse` events                |
-| **State file**        | `.claude/hooks/rag-sync-state.json`                                                     |
+| **State file**        | `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`                           |
 | **No new MCP tool**   | H-RAG02 calls the existing `rebuild_index` (Phase 0–1) or `upsert_document` (Phase 2–3) |
 
 ### 2.2 Operating modes
 
-H-RAG02 behavior is governed by `.claude/hooks/rag-sync-state.json`. Three modes:
+H-RAG02 behavior is governed by `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`. Three modes:
 
 | Mode   | Behavior                                                                                    |
 | ------ | ------------------------------------------------------------------------------------------- |
@@ -51,17 +51,22 @@ H-RAG02 behavior is governed by `.claude/hooks/rag-sync-state.json`. Three modes
 
 ### 2.3 State file schema
 
-File path: `.claude/hooks/rag-sync-state.json`
+File path: `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`
 
 ```json
 {
   "mode": "warn",
   "debounce_seconds": 30,
-  "last_rebuild_at": 0
+  "last_rebuild_at": 0,
+  "search_backend": "faiss"
 }
 ```
 
-Create this file at Phase 0 implementation with the above initial state.
+`search_backend` governs which MCP tool H-RAG02 instructs: `"faiss"` → `rebuild_index`;
+`"qdrant"` → `upsert_document`. Set to `"qdrant"` at Phase 2 entry; never read from
+`$env:SEARCH_BACKEND` (that env var is scoped to the MCP server process only and is not
+visible to hook processes). Create this file at Phase 0 implementation with the above initial
+state (`search_backend: "faiss"`).
 
 ### 2.4 Debounce behavior
 
@@ -82,17 +87,20 @@ Use `/rag-sync threshold 10` at Phase 2 entry to recalibrate without editing the
 ## 3. Phase-Adaptive Index Update Path
 
 H-RAG02 instructs Claude to call a different MCP tool depending on the active migration phase.
-The `SEARCH_BACKEND` environment variable governs which path is active:
+The `search_backend` field in `rag-sync-state.json` governs which path is active:
 
-| Phase                 | `SEARCH_BACKEND` | H-RAG02 `auto` mode action                                                             | Debounce |
-| --------------------- | ---------------- | -------------------------------------------------------------------------------------- | -------- |
-| 0 (current)           | `faiss`          | Instruct `rebuild_index` (full FAISS rebuild)                                          | 30 s     |
-| 1 (shadow)            | `faiss`          | Instruct `rebuild_index` (FAISS primary) + shadow `upsert_document` (Qdrant, if ready) | 30 s     |
-| 2 (Qdrant primary)    | `qdrant`         | Instruct `upsert_document` (Qdrant incremental) + `rebuild_index` (FAISS DR standby)   | 10 s     |
-| 3 (permanent standby) | `qdrant`         | Instruct `upsert_document` (Qdrant only); FAISS self-heals via mtime on startup        | 10 s     |
+| Phase                 | `search_backend` (state file) | H-RAG02 `auto` mode action                                                             | Debounce |
+| --------------------- | ----------------------------- | -------------------------------------------------------------------------------------- | -------- |
+| 0 (current)           | `"faiss"`                     | Instruct `rebuild_index` (full FAISS rebuild)                                          | 30 s     |
+| 1 (shadow)            | `"faiss"`                     | Instruct `rebuild_index` (FAISS primary) + shadow `upsert_document` (Qdrant, if ready) | 30 s     |
+| 2 (Qdrant primary)    | `"qdrant"`                    | Instruct `upsert_document` (Qdrant incremental) + `rebuild_index` (FAISS DR standby)   | 10 s     |
+| 3 (permanent standby) | `"qdrant"` ← ACTIVE           | Instruct `upsert_document` (Qdrant only); FAISS self-heals via mtime on startup        | 10 s     |
 
-The hook detects the active phase via `SEARCH_BACKEND`: `faiss` → FAISS path; `qdrant` → Qdrant
-path. No code change to the hook is required at phase transition — only the env var changes.
+The hook reads `search_backend` from the state file at runtime: `"faiss"` → FAISS path;
+`"qdrant"` → Qdrant path. No code change to the hook is required at phase transition — only the
+`search_backend` value in `rag-sync-state.json` needs updating. **Note:** `$env:SEARCH_BACKEND`
+is not used for phase detection — it is scoped to the MCP server process and is invisible to
+hook processes. The state file is the shared channel between the MCP server and the hook.
 
 ---
 
@@ -104,8 +112,9 @@ path. No code change to the hook is required at phase transition — only the en
 #!/usr/bin/env pwsh
 # H-RAG02: PostToolUse — RAG Index Sync on Doc Write (toggle-aware, phase-adaptive)
 # Fires after Write or Edit tools modify .md files in KEY_DIRS.
-# Behavior is governed by .claude/hooks/rag-sync-state.json (mode: auto|warn|off).
-# Phase adaptation: reads SEARCH_BACKEND env var to determine rebuild vs upsert path.
+# Behavior is governed by .claude/mcp-servers/workspace-knowledge/rag-sync-state.json (mode: auto|warn|off).
+# Phase adaptation: reads search_backend from state file to determine rebuild vs upsert path.
+# Phase 3 active (search_backend=qdrant): instructs upsert_document only; FAISS self-heals via mtime on startup.
 
 param()
 
@@ -139,10 +148,11 @@ if (-not $inKeyDir) { exit 0 }
 if ($normalizedPath -notmatch '\.md$') { exit 0 }
 
 # --- Read toggle state (defaults to warn if state file absent) ---
-$stateFile = Join-Path $PSScriptRoot "rag-sync-state.json"
+$stateFile = Join-Path (Split-Path $PSScriptRoot -Parent) "mcp-servers\workspace-knowledge\rag-sync-state.json"
 $mode            = "warn"
 $debounceSeconds = 30
 $lastRebuildAt   = 0
+$backend         = "faiss"   # safe default when state file absent
 
 if (Test-Path $stateFile) {
     try {
@@ -150,13 +160,13 @@ if (Test-Path $stateFile) {
         $mode            = if ($state.mode)             { $state.mode }             else { "warn" }
         $debounceSeconds = if ($state.debounce_seconds) { $state.debounce_seconds } else { 30 }
         $lastRebuildAt   = if ($state.last_rebuild_at)  { $state.last_rebuild_at }  else { 0 }
+        $backend         = if ($state.search_backend)   { $state.search_backend }   else { "faiss" }
     } catch {
         $mode = "warn"
     }
 }
 
-# --- Detect active migration phase via SEARCH_BACKEND ---
-$backend = if ($env:SEARCH_BACKEND) { $env:SEARCH_BACKEND } else { "faiss" }
+# --- Select update tool for active migration phase ---
 $updateTool = if ($backend -eq "qdrant") { "upsert_document" } else { "rebuild_index" }
 
 # --- Mode: off — exit silently ---
@@ -194,6 +204,7 @@ try {
         mode             = $mode
         debounce_seconds = $debounceSeconds
         last_rebuild_at  = $now
+        search_backend   = $backend
     }
     $newState | ConvertTo-Json -Compress | Set-Content $stateFile
 } catch { }
@@ -229,7 +240,8 @@ exit 0
 **File:** `.claude/commands/rag-sync.md`
 
 This command provides operator control over H-RAG02's sync behavior without touching
-`.claude/settings.json`. It reads and writes `.claude/hooks/rag-sync-state.json`.
+`.claude/settings.json`. It reads and writes
+`.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`.
 
 ### 5.2 Usage reference
 
@@ -244,8 +256,9 @@ This command provides operator control over H-RAG02's sync behavior without touc
 ### 5.3 Command file contents
 
 ```markdown
-Read the file `.claude/hooks/rag-sync-state.json`. If it does not exist, treat the
-current state as `{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0}`.
+Read the file `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`. If it does not
+exist, treat the current state as
+`{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0, "search_backend": "faiss"}`.
 
 Based on the argument provided after `/rag-sync`:
 
@@ -292,17 +305,20 @@ introduced at Phase 0. `upsert_document` (Phase 2–3) is governed by the assess
 
 ## 7. Implementation Checklist
 
-Complete in order before Phase 1 entry:
+All items complete as of Phase 3 (2026-06-26).
 
-- [ ] Create `.claude/hooks/rag-sync-state.json` with initial state `{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0}`
-- [ ] Implement `rag-index-sync.ps1` (H-RAG02) in `.claude/hooks/` per §4 above
-- [ ] Register H-RAG02 in `.claude/settings.json` under `hooks` array for `PostToolUse` events
-- [ ] Implement `.claude/commands/rag-sync.md` per §5.3 above
-- [ ] Verify hook fires on a test `.md` write in `telescope/` — confirm `[H-RAG02 | MODE: WARN]` block appears
-- [ ] Verify `/rag-sync auto` switches mode correctly
-- [ ] Verify `/rag-sync status` reports current state
-- [ ] At Phase 2 entry: run `/rag-sync threshold 10` to recalibrate debounce
-- [ ] At Phase 2 entry: verify hook correctly emits `upsert_document` instruction (not `rebuild_index`) when `SEARCH_BACKEND=qdrant`
+- [x] Create `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json` with initial state
+      `{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0, "search_backend": "faiss"}`
+- [x] Implement `rag-index-sync.ps1` (H-RAG02) in `.claude/hooks/` per §4 above
+- [x] Register H-RAG02 in `.claude/settings.json` under `hooks` array for `PostToolUse` events
+- [x] Implement `.claude/commands/rag-sync.md` per §5.3 above
+- [x] Verify hook fires on a test `.md` write in `telescope/` — `[H-RAG02 | MODE: WARN]` block confirmed
+- [x] Verify `/rag-sync auto` switches mode correctly — `mode: auto` confirmed in state file
+- [x] Verify `/rag-sync status` reports current state
+- [x] At Phase 2 entry: run `/rag-sync threshold 10` to recalibrate debounce — `debounce_seconds: 10` confirmed
+- [x] At Phase 2/3 entry: verify hook correctly emits `upsert_document` (not `rebuild_index`) —
+      P1 bug fixed 2026-06-26; hook reads `search_backend` from state file; confirmed firing with
+      `upsert_document` throughout Phase 3 documentation remediation
 
 ---
 
