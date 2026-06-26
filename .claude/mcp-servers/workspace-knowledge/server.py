@@ -151,7 +151,19 @@ class SearchEngine:
         t.start()
 
     def _init_faiss_background(self):
-        """FAISS load + Qdrant shadow init runs in background thread."""
+        """FAISS load + Qdrant shadow init runs in background thread.
+
+        Qdrant is initialized before the FAISS rebuild so it becomes available
+        immediately on restart (collection already seeded → no model required).
+        If the collection is empty and the model is not yet loaded, _init_qdrant
+        catches the error and retries after FAISS completes.
+        """
+        # Phase 1 — Qdrant connect (fast path: no-op when collection already seeded)
+        self._init_qdrant()
+        if SEARCH_BACKEND == "qdrant" and self._qdrant_ready:
+            self._tier = SearchTier.HYBRID_QDRANT
+
+        # Phase 2 — FAISS build / load (may take minutes on mtime mismatch)
         try:
             import faiss
             import numpy as np
@@ -164,13 +176,14 @@ class SearchEngine:
             self._degradation_reason = f"FAISS init failed: {e} — using BM25"
             return
 
-        if SEARCH_BACKEND == "qdrant":
+        # Phase 3 — retry Qdrant if Phase 1 failed (e.g., collection was empty; model now ready)
+        if not self._qdrant_ready:
             self._init_qdrant()
+
+        if SEARCH_BACKEND == "qdrant":
             self._tier = SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID
         else:
             self._tier = SearchTier.HYBRID
-            # Shadow: populate Qdrant alongside FAISS; tier stays HYBRID (reads from FAISS)
-            self._init_qdrant()
 
     def _init_qdrant(self):
         """Connect to the local Qdrant Docker server and seed collection if empty.
@@ -198,9 +211,18 @@ class SearchEngine:
             )
 
     def _seed_if_empty(self):
-        """Seed the Qdrant collection only if it has zero points."""
+        """Seed the Qdrant collection only if it has zero points.
+
+        Raises RuntimeError when the collection is empty but the sentence-transformer
+        model is not yet loaded (early Qdrant init before FAISS rebuild). The caller
+        (_init_qdrant) catches this and retries after FAISS completes.
+        """
         info = self._qdrant_client.get_collection(self._collection_name)
         if info.points_count == 0:
+            if self._model is None:
+                raise RuntimeError(
+                    "Collection empty but model not ready — deferred to post-FAISS init"
+                )
             self._seed_qdrant_collection()
 
     def _seed_qdrant_collection(self):
