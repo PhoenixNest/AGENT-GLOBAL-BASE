@@ -158,6 +158,21 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
+            "args": [
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              ".claude/hooks/rag-index-sync.ps1"
+            ]
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {
