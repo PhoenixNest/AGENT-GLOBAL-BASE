@@ -34,12 +34,12 @@ designed to work across all four migration phases, adapting the update path from
 | **Trigger condition** | The tool's `file_path` matches a `.md` file under any of the four KEY_DIRS              |
 | **KEY_DIRS**          | `company/`, `studio/`, `core-component-00/`, `telescope/`                               |
 | **Registration**      | `.claude/settings.json` under the `hooks` array for `PostToolUse` events                |
-| **State file**        | `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`                           |
+| **State file**        | `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`                |
 | **No new MCP tool**   | H-RAG02 calls the existing `rebuild_index` (Phase 0–1) or `upsert_document` (Phase 2–3) |
 
 ### 2.2 Operating modes
 
-H-RAG02 behavior is governed by `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`. Three modes:
+H-RAG02 behavior is governed by `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`. Three modes:
 
 | Mode   | Behavior                                                                                    |
 | ------ | ------------------------------------------------------------------------------------------- |
@@ -51,7 +51,7 @@ H-RAG02 behavior is governed by `.claude/mcp-servers/workspace-knowledge/rag-syn
 
 ### 2.3 State file schema
 
-File path: `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`
+File path: `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`
 
 ```json
 {
@@ -112,7 +112,7 @@ hook processes. The state file is the shared channel between the MCP server and 
 #!/usr/bin/env pwsh
 # H-RAG02: PostToolUse — RAG Index Sync on Doc Write (toggle-aware, phase-adaptive)
 # Fires after Write or Edit tools modify .md files in KEY_DIRS.
-# Behavior is governed by .claude/mcp-servers/workspace-knowledge/rag-sync-state.json (mode: auto|warn|off).
+# Behavior is governed by .claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json (mode: auto|warn|off).
 # Phase adaptation: reads search_backend from state file to determine rebuild vs upsert path.
 # Phase 3 active (search_backend=qdrant): instructs upsert_document only; FAISS self-heals via mtime on startup.
 
@@ -148,7 +148,7 @@ if (-not $inKeyDir) { exit 0 }
 if ($normalizedPath -notmatch '\.md$') { exit 0 }
 
 # --- Read toggle state (defaults to warn if state file absent) ---
-$stateFile = Join-Path (Split-Path $PSScriptRoot -Parent) "mcp-servers\workspace-knowledge\rag-sync-state.json"
+$stateFile = Join-Path (Split-Path $PSScriptRoot -Parent) "mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
 $mode            = "warn"
 $debounceSeconds = 30
 $lastRebuildAt   = 0
@@ -241,7 +241,7 @@ exit 0
 
 This command provides operator control over H-RAG02's sync behavior without touching
 `.claude/settings.json`. It reads and writes
-`.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`.
+`.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`.
 
 ### 5.2 Usage reference
 
@@ -256,7 +256,7 @@ This command provides operator control over H-RAG02's sync behavior without touc
 ### 5.3 Command file contents
 
 ```markdown
-Read the file `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json`. If it does not
+Read the file `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`. If it does not
 exist, treat the current state as
 `{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0, "search_backend": "faiss"}`.
 
@@ -307,7 +307,7 @@ introduced at Phase 0. `upsert_document` (Phase 2–3) is governed by the assess
 
 All items complete as of Phase 3 (2026-06-26).
 
-- [x] Create `.claude/mcp-servers/workspace-knowledge/rag-sync-state.json` with initial state
+- [x] Create `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json` with initial state
       `{"mode": "warn", "debounce_seconds": 30, "last_rebuild_at": 0, "search_backend": "faiss"}`
 - [x] Implement `rag-index-sync.ps1` (H-RAG02) in `.claude/hooks/` per §4 above
 - [x] Register H-RAG02 in `.claude/settings.json` under `hooks` array for `PostToolUse` events
