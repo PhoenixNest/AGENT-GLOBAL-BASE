@@ -15,6 +15,7 @@
       "mcp__workspace-knowledge__retrieve_context",
       "mcp__workspace-knowledge__list_indexed_files",
       "mcp__workspace-knowledge__rebuild_index",
+      "mcp__workspace-knowledge__upsert_document",
       "mcp__workspace-knowledge__summarize_context",
       "mcp__workspace-knowledge__check_adr_precedent",
       "mcp__workspace-knowledge__validate_pipeline_document",
@@ -39,52 +40,32 @@
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-quality-gate.ps1"]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-quality-gate.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-optimizer.ps1"]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-optimizer.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/pipeline-context-injector.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/pipeline-context-injector.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/context-budget-alert.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/context-budget-alert.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/retrieval-augmented-generation-freshness-flag.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/retrieval-augmented-generation-freshness-flag.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/harness-rate-limiter-turn-reset.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/harness-rate-limiter-turn-reset.ps1\"}else{exit 0}"]
           }
         ]
       }
@@ -96,7 +77,7 @@
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": ["-ExecutionPolicy", "Bypass", "-File", ".claude/hooks/prompt-write-guard.ps1"]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-write-guard.ps1\"}else{exit 0}"]
           }
         ]
       },
@@ -106,52 +87,27 @@
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/harness-tool-rate-limiter.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/harness-tool-rate-limiter.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/multi-agent-branch-naming-guard.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/multi-agent-branch-naming-guard.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/multi-agent-commit-format-guard.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/multi-agent-commit-format-guard.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/system-powershell-syntax-guard.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/system-powershell-syntax-guard.ps1\"}else{exit 0}"]
           },
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/git-line-encoding-validator.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/git-line-encoding-validator.ps1\"}else{exit 0}"]
           }
         ]
       }
@@ -163,12 +119,7 @@
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/rag-index-sync.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/rag-index-sync.ps1\"}else{exit 0}"]
           }
         ]
       },
@@ -178,12 +129,7 @@
           {
             "type": "command",
             "command": "C:/PROGRA~1/PowerShell/7/pwsh.exe",
-            "args": [
-              "-ExecutionPolicy",
-              "Bypass",
-              "-File",
-              ".claude/hooks/harness-error-boundary-monitor.ps1"
-            ]
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/harness-error-boundary-monitor.ps1\"}else{exit 0}"]
           }
         ]
       }

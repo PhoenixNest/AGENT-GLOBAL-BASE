@@ -36,7 +36,7 @@ if (-not $inKeyDir) { exit 0 }
 if ($normalizedPath -notmatch '\.md$') { exit 0 }
 
 # --- Read toggle state (defaults to warn if state file absent) ---
-$stateFile = Join-Path $PSScriptRoot "rag-sync-state.json"
+$stateFile = Join-Path (Split-Path $PSScriptRoot -Parent) "mcp-servers\workspace-knowledge\rag-sync-state.json"
 $mode            = "warn"
 $debounceSeconds = 30
 $lastRebuildAt   = 0
