@@ -369,6 +369,8 @@ class SearchEngine:
     def _search_qdrant(self, query: str, top_k: int) -> list[dict]:
         """Dense vector search via Qdrant."""
         import numpy as np
+        if self._model is None:
+            raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
         q_emb = self._model.encode([query])
         q_emb = (q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True))[0].tolist()
         response = self._qdrant_client.query_points(
@@ -466,6 +468,13 @@ class SearchEngine:
         if self._tier == SearchTier.HYBRID_QDRANT:
             try:
                 return self._search_hybrid_qdrant(query, top_k)
+            except RuntimeError as e:
+                if "model not ready" in str(e):
+                    # Temporary fallback — model still loading; tier preserved for next request
+                    self._degradation_reason = f"Qdrant search deferred: {e}"
+                else:
+                    self._tier = SearchTier.BM25
+                    self._degradation_reason = f"Qdrant search failed: {e}"
             except Exception as e:
                 self._tier = SearchTier.BM25
                 self._degradation_reason = f"Qdrant search failed: {e}"
