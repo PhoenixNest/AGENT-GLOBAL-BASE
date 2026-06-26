@@ -472,6 +472,7 @@ class SearchEngine:
                 if "model not ready" in str(e):
                     # Temporary fallback — model still loading; tier preserved for next request
                     self._degradation_reason = f"Qdrant search deferred: {e}"
+                    return self._search_bm25(query, top_k)
                 else:
                     self._tier = SearchTier.BM25
                     self._degradation_reason = f"Qdrant search failed: {e}"
