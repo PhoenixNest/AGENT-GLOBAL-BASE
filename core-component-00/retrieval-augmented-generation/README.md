@@ -21,15 +21,15 @@ This repository contains best practices, templates, and implementation guides fo
 
 ## Quick Reference
 
-| Concept                    | Location                                                                                                       |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Core Architecture Patterns | `[architecture/overview.md](./architecture/overview.md)`                                                       |
-| Component Specifications   | `[components/reference-table.md](./components/reference-table.md)`                                             |
-| **Deployment Guides**      | **`[deployment/README.md](./deployment/README.md)`**                                                           |
-| **LM Studio Setup**        | **`[deployment/guides/lm-studio-optimization-guide.md](./deployment/guides/lm-studio-optimization-guide.md)`** |
-| **Quick Start**            | **`[deployment/guides/quick-start-guide.md](./deployment/guides/quick-start-guide.md)`**                       |
-| Edge Cases & Handling      | `[evaluation/edge-cases.md](./evaluation/edge-cases.md)`                                                       |
-| Security Best Practices    | `[security/guide.md](./security/guide.md)`                                                                     |
+| Concept                    | Location                                                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Core Architecture Patterns | `[architecture/overview.md](./architecture/overview.md)`                                                                             |
+| Component Specifications   | `[components/reference-table.md](./components/reference-table.md)`                                                                   |
+| **Deployment Guides**      | **`[deployment/README.md](./deployment/README.md)`**                                                                                 |
+| **LM Studio Setup**        | **`[deployment/full-stack/guides/lm-studio-optimization-guide.md](./deployment/full-stack/guides/lm-studio-optimization-guide.md)`** |
+| **Quick Start**            | **`[deployment/full-stack/guides/quick-start-guide.md](./deployment/full-stack/guides/quick-start-guide.md)`**                       |
+| Edge Cases & Handling      | `[evaluation/edge-cases.md](./evaluation/edge-cases.md)`                                                                             |
+| Security Best Practices    | `[security/guide.md](./security/guide.md)`                                                                                           |
 
 ## Installation Quickstart
 
@@ -52,8 +52,8 @@ python tools/initialize.py
 
 **Hardware-Specific Deployment:**
 
-- **ASUS Zenbook Pro 14 Duo OLED (RTX 4060):** See [deployment/guides/lm-studio-optimization-guide.md](./deployment/guides/lm-studio-optimization-guide.md)
-- **General Setup:** See [deployment/guides/quick-start-guide.md](./deployment/guides/quick-start-guide.md)
+- **ASUS Zenbook Pro 14 Duo OLED (RTX 4060):** See [deployment/full-stack/guides/lm-studio-optimization-guide.md](./deployment/full-stack/guides/lm-studio-optimization-guide.md)
+- **General Setup:** See [deployment/full-stack/guides/quick-start-guide.md](./deployment/full-stack/guides/quick-start-guide.md)
 
 ## Architecture Overview
 
@@ -115,14 +115,18 @@ graph TB
 
 ## Best Practices Reference
 
-| Area            | Recommendation                                                                           | Rationale                                             |
-| --------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| Chunking        | Use 500-800 token chunks with 100-200 token overlap                                      | Balances context preservation vs. retrieval precision |
-| Embedding Model | Start with `all-MiniLM-L6-v2` (250M params), upgrade to domain-specific models as needed | Good quality/latency tradeoff; easily swappable       |
-| Vector DB       | Use Weaviate/Qdrant for local deployment, Pinecone for managed cloud                     | Local options reduce dependency on third-party APIs   |
-| Reranking       | Always use cross-encoder reranker (bge-reranker) with top-K=10 before generation         | Improves MRR by 20-30% over vector-only ranking       |
-| Caching         | Cache queries with hit rate >70% for 5-15 minutes                                        | Reduces LLM calls by 40-60% for repetitive questions  |
-| Evaluation      | Run automated tests daily, human review weekly                                           | Prevents drift and catches edge cases early           |
+| Area                | Recommendation                                                                                                                                                                                                                                                              | Rationale                                                                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chunking            | Use 500-800 token chunks with 100-200 token overlap                                                                                                                                                                                                                         | Balances context preservation vs. retrieval precision                                                                                                                                       |
+| Embedding Model     | Start with `all-MiniLM-L6-v2` (250M params), upgrade to domain-specific models as needed                                                                                                                                                                                    | Good quality/latency tradeoff; easily swappable                                                                                                                                             |
+| Vector DB (mode)    | Use Qdrant Docker standalone (`QdrantClient(url=...)`) for local deployment, Pinecone for managed cloud. Never use Qdrant embedded mode (`QdrantClient(path=...)`) — its data format is incompatible with Docker/server mode, requiring a full collection reseed to upgrade | Docker mode preserves the upgrade path to managed cloud; embedded mode is a deployment dead end (see `deployment/lightweight-rag-deployment.md` §Vector Database Deployment Mode Selection) |
+| Vector DB (pinning) | Pin `qdrant-client>=1.7.0,<2.0.0` in `pyproject.toml`                                                                                                                                                                                                                       | The `1.x` API surface is stable; `2.0.0` may introduce breaking changes and requires re-validation before upgrading                                                                         |
+| Reranking           | Always use a cross-encoder reranker (bge-reranker) with top-K=10 before context assembly                                                                                                                                                                                    | Improves MRR by 20-30% over vector-only ranking                                                                                                                                             |
+| Caching             | Cache queries with hit rate >70% for 5-15 minutes                                                                                                                                                                                                                           | Reduces LLM calls by 40-60% for repetitive questions                                                                                                                                        |
+| Index freshness     | Deploy a post-write hook to detect document writes and dispatch the appropriate index-update tool. Use a shared state file — not an environment variable — for backend selection across process boundaries                                                                  | Environment variables are process-scoped and invisible to hook processes; the state file is the correct inter-process communication channel (see `patterns/index-sync-hooks.md`)            |
+| Corpus primacy      | Treat all search indexes (vector, BM25, keyword) as derived, rebuildable artifacts. Store no information in an index that cannot be derived from the document corpus                                                                                                        | Enables zero-risk backend migration and guarantees rollback availability at any migration phase (see `architecture/overview.md` §10)                                                        |
+| Degradation stack   | Define an explicit multi-tier fallback stack. Retain in-process search tiers permanently, even after migrating to an external vector store                                                                                                                                  | Guarantees availability on machines where Docker or external services are unavailable (see `architecture/overview.md` §11)                                                                  |
+| Evaluation          | Commit an MRR baseline query set before switching retrieval backends; run automated regression tests after any index rebuild                                                                                                                                                | Prevents baseline retrofitting; catches quality regressions before they reach production (see `evaluation/reference-table.md` §Incremental Upsert Decision Framework)                       |
 
 ## Security Checklist
 
@@ -149,15 +153,21 @@ Before deploying to production:
 
 ## Document Status
 
-| Document                 | Version | Last Updated |
-| ------------------------ | ------- | ------------ |
-| README.md                | 1.2     | 2026-05-05   |
-| deployment/README.md     | 1.0     | 2026-05-05   |
-| architecture/overview.md | 1.1     | 2026-04-28   |
-| architecture/diagrams.md | 1.0     | 2026-04-24   |
-| security/guide.md        | 1.0     | 2026-04-24   |
-| evaluation/edge-cases.md | 1.0     | 2026-04-24   |
-| requirements.txt         | 1.1     | 2026-04-28   |
+| Document                                                  | Version | Last Updated |
+| --------------------------------------------------------- | ------- | ------------ |
+| README.md                                                 | 1.3     | 2026-06-27   |
+| deployment/README.md                                      | 1.0     | 2026-05-05   |
+| architecture/overview.md                                  | 1.1     | 2026-04-28   |
+| architecture/diagrams.md                                  | 1.0     | 2026-04-24   |
+| security/guide.md                                         | 1.0     | 2026-04-24   |
+| evaluation/edge-cases.md                                  | 1.0     | 2026-04-24   |
+| evaluation/reference-table.md                             | 1.0     | 2026-06-27   |
+| requirements.txt                                          | 1.1     | 2026-04-28   |
+| patterns/index-sync-hooks.md                              | 1.0     | 2026-06-27   |
+| deployment/lightweight-rag-deployment.md                  | 1.0     | 2026-06-27   |
+| deployment/lightweight/guides/hook-configuration.md       | 1.0     | 2026-06-27   |
+| deployment/lightweight/guides/mcp-server-setup.md         | 1.0     | 2026-06-27   |
+| deployment/lightweight/reference/rag-sync-state-schema.md | 1.0     | 2026-06-27   |
 
 ## Related Modules
 
