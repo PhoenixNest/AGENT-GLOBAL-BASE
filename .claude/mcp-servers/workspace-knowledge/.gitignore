@@ -1,6 +1,9 @@
 # Runtime-generated artifacts — never commit these
 embedding/
 
+# Local evaluation harness — test scripts and generated outputs stay local
+tests/
+
 # Python environment
 .venv/
 __pycache__/

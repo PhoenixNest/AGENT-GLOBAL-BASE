@@ -193,6 +193,82 @@ graph LR
 | 1M-10M         | Weaviate/Pinecone | IVF_PQ + HNSW        | ~300-500ms       |
 | >10M           | Pinecone/Weaviate | Multi-stage indexing | ~500-800ms       |
 
+## 10. Corpus-as-Source-of-Truth Principle
+
+Every search index — whether FAISS, Qdrant, BM25, or keyword — is a **derived artifact**. The
+document corpus is the single, authoritative source of truth for a RAG system. This principle
+has three concrete architectural implications:
+
+| Implication                                         | Consequence                                                                               |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Indexes are always rebuildable from source          | Migration risk is bounded by re-indexing cost, not by data-loss risk                      |
+| There is no "index migration" in the database sense | Moving between vector stores is a re-seeding operation, not a data transfer requiring ETL |
+| Rollback is always available at any migration phase | Any retrieval backend can be abandoned and the previous one rebuilt from source documents |
+
+This principle structurally lowers the risk of retrieval backend migrations compared to classical
+database migrations: there is no data to "move," only index representations to rebuild and
+validate against the corpus.
+
+**Design rule:** Never store information in a retrieval index that is not derivable from the
+document corpus. Information that exists only in the index will be silently lost if the index
+is rebuilt.
+
+---
+
+## 11. Graceful Degradation Stack Architecture
+
+Production RAG systems must define an **explicit degradation stack** — an ordered sequence of
+fallback retrieval tiers, each less capable but more available than the previous. Without a
+defined degradation stack, any component failure produces undefined recovery behaviour.
+
+### Reference Stack (workspace-knowledge MCP server)
+
+```
+Tier 1 (HYBRID_QDRANT)  — Qdrant semantic search + BM25 keyword fusion        [primary]
+Tier 2 (HYBRID)         — FAISS semantic search + BM25 keyword fusion          [hot standby]
+Tier 3 (BM25)           — BM25 keyword-only search                             [warm standby]
+Tier 4 (Raw Corpus Scan) — Full corpus scan, no index required                 [cold fallback]
+```
+
+### Tier Activation Conditions
+
+| Tier            | Activates When                                                                         |
+| --------------- | -------------------------------------------------------------------------------------- |
+| HYBRID_QDRANT   | External vector store client available and collection health confirmed                 |
+| HYBRID          | External vector store unavailable; in-process index on disk and embedding model loaded |
+| BM25            | Embedding model not yet loaded (initialisation window) or in-process index missing     |
+| Raw Corpus Scan | All index-based tiers unavailable                                                      |
+
+### Permanent Retention Rule
+
+In local deployments where external services (Docker, managed cloud) cannot be guaranteed
+available (developer workstations, CI environments, air-gapped machines), in-process retrieval
+tiers **must be permanently retained** — not removed after migrating to an external vector store.
+This ensures the system degrades gracefully rather than failing completely when external
+dependencies are unavailable.
+
+**Constraint (local and offline deployments):** In-process search code paths, embedding model
+dependencies, and local index files must remain in the codebase after migrating to an external
+vector store. Removing them to reduce code complexity is an availability regression. This
+constraint does not apply to deployments with guaranteed external service availability (e.g.,
+fully managed cloud environments backed by an uptime SLA).
+
+### Rollback Procedure (External Vector Store → In-Process Tier)
+
+```
+1. Set SEARCH_BACKEND=faiss in the MCP server configuration
+2. Restart the MCP server process
+3a. If the in-process index file is on disk: available immediately (< 60 s)
+3b. If the in-process index file is missing: call rebuild_index from corpus (2–5 min)
+```
+
+This procedure is always available because: (a) the corpus is the source of truth (§10) and
+the index can always be rebuilt, and (b) the in-process tier is permanently retained (Permanent
+Retention Rule above).
+
+**Cross-reference:** `patterns/index-sync-hooks.md` — Phase-Adaptive Index Sync Hook pattern
+for maintaining index freshness across all degradation tiers.
+
 ## 7. Cost Optimization Strategies
 
 | Strategy               | Implementation                  | Expected Savings                     |
