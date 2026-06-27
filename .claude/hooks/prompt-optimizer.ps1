@@ -88,9 +88,16 @@ STEP 1 — Generate an improved version of the user's prompt that adds the missi
   agent roles, etc.) where relevant.
 
 STEP 2 — Use the AskUserQuestion tool with a SINGLE question presenting:
-  Option A: Original prompt (label it "Original")
-  Option B: Your optimized version (label it "Optimized — recommended")
-  Ask: "Does the optimized prompt capture your intent?"
+  Option A: Your optimized version (label it "Optimized — recommended")  ← ALWAYS FIRST
+  Option B: Original prompt (label it "Original")
+  Ask: "Does the optimized prompt capture your intent? ⏱ Auto-selecting Optimized in ~30 seconds if no response."
+  IMPORTANT — two mandatory formatting rules:
+  1. Optimized MUST be listed first (Option A) so the default top-of-list selection is the
+     improved prompt, preventing accidental selection of the Original.
+  2. EVERY option MUST include a `preview` field containing the FULL prompt text for that
+     option. This locks the UI into side-by-side layout so the user can read the complete
+     prompt before choosing. Never omit the `preview` field — omitting it collapses the
+     display back to a plain list with truncated descriptions.
 
 STEP 3a — If the user approves (selects Optimized / says yes / looks good):
   Before executing, display a confirmation block in this exact format:
@@ -109,6 +116,14 @@ STEP 3b — If the user rejects (selects Original / says no / wants changes):
   Then ask $questionCount targeted clarifying questions (one per missing dimension from: $missingStr).
   Wait for answers, then re-run STEP 1 with the feedback incorporated, then STEP 2 again.
   Repeat until the user approves.
+
+TIMEOUT / UNATTENDED FALLBACK (30-second rule) — If the user does not respond to the
+AskUserQuestion within ~30 seconds, or if the session resumes with a new message that does NOT
+directly answer the prompt-selection question (e.g., "continue", "I'm back", a new task, or
+any off-topic reply), treat silence/bypass as approval of the Optimized version:
+  1. Display the Optimized confirmation block.
+  2. Proceed with the OPTIMIZED prompt as your working brief.
+  Never stall the session indefinitely waiting for a prompt-selection response.
 
 Do NOT skip this protocol. The prompt quality gate requires confirmation before task execution.
 Anchored in CLAUDE.md §11 — active after every /compact. Prior summaries do not satisfy this.
