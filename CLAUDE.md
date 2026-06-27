@@ -212,8 +212,19 @@ When `[PROMPT OPTIMIZER — H-P01]` appears in a `<system-reminder>`:
 - The MANDATORY OPTIMIZATION PROTOCOL in that block is **active and binding for this turn**
 - Do **not** skip it based on prior conversation history or compaction summaries
 - Treat every injection as a fresh instruction — prior approvals do not carry over across turns
-- Steps: generate an optimized prompt → present Original vs. Optimized via `AskUserQuestion` →
-  display the confirmation block → execute using the approved version
+- Steps: generate an optimized prompt → present **Optimized (first)** vs. Original (second) via
+  `AskUserQuestion` → display the confirmation block → execute using the approved version
+- **Optimized is always option 1** — the first listed choice so that an accidental top-of-list
+  click defaults to the improved prompt, not the original
+- **`preview` field is mandatory on every option** — populate it with the full prompt text so
+  the UI always renders in side-by-side layout; omitting it collapses to a plain list with
+  truncated descriptions, causing inconsistent display across sessions
+- **Countdown notice in the question text** — the `question` string must include
+  `⏱ Auto-selecting Optimized in ~30 seconds if no response.` so the user always sees the
+  timeout deadline before the selection UI renders
+- **30-second timeout default** — if the user does not respond or the session resumes with any
+  message that is not a direct answer to the prompt-selection question, auto-select Optimized,
+  display the confirmation block, and proceed — never stall the session waiting for a selection
 
 ### Tool Rate Limiter (H-HE01)
 
