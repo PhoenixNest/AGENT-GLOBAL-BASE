@@ -195,3 +195,40 @@ every folder that has one with `[→ CLAUDE.md]`.
 | ASE governance (ADRs, compliance)       | `core-component-00/agent-systems-engineering/CLAUDE.md`         |
 | Production Python implementations       | `core-component-00/<module>/implementations/`                   |
 | Research archive                        | `telescope/CLAUDE.md` → `telescope/README.md`                   |
+
+---
+
+## 11. Hook Resilience — Active Protocols
+
+Hooks inject binding instructions via `<system-reminder>` on every qualifying prompt. These
+protocols remain **fully active after any `/compact` operation**. A compaction summary stating
+"the system uses a hook" does **not** satisfy the protocol — each injection is a fresh,
+independent instruction that must be executed in the current turn.
+
+### Prompt Optimization Gate (H-P01)
+
+When `[PROMPT OPTIMIZER — H-P01]` appears in a `<system-reminder>`:
+
+- The MANDATORY OPTIMIZATION PROTOCOL in that block is **active and binding for this turn**
+- Do **not** skip it based on prior conversation history or compaction summaries
+- Treat every injection as a fresh instruction — prior approvals do not carry over across turns
+- Steps: generate an optimized prompt → present Original vs. Optimized via `AskUserQuestion` →
+  display the confirmation block → execute using the approved version
+
+### Tool Rate Limiter (H-HE01)
+
+When `[TOOL RATE LIMITER — H-HE01 PATH A]` or `[TOOL RATE LIMITER — H-HE01 PATH B]` appears in
+a `<system-reminder>`:
+
+- The MANDATORY `AskUserQuestion` instruction in that block is **active and binding for this turn**
+- Do **not** skip it based on prior conversation history or compaction summaries of prior limit
+  extensions
+- Present the options exactly as specified and wait for the user's choice before retrying
+
+### Context Budget Alert (H-CE01)
+
+When `[CONTEXT BUDGET ALERT — H-CE01]` appears in a `<system-reminder>`:
+
+- Apply Sacred Context principles immediately before this response
+- Prioritize: active task state > prior decisions > background knowledge
+- Reference: `core-component-00/context-engineering/implementations/context_monitor.py`

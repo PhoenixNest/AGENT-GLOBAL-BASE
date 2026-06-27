@@ -1,38 +1,74 @@
 # Workspace Knowledge MCP Server
 
-RAG server for workspace documentation search and retrieval.
+RAG server for workspace documentation search and retrieval. Provides 11 MCP tools backed by a
+three-tier search stack: **Qdrant** (primary) → **FAISS** (warm DR standby) → **BM25** (keyword
+fallback). The system degrades gracefully through each tier and never fails silently.
 
-## Features
+---
 
-- **Semantic Search**: Search across all workspace documentation
-- **Full Context Retrieval**: Retrieve complete file contents
-- **Index Management**: List and rebuild the document index
-- **Fast Performance**: Simple keyword-based search for quick results
+## Architecture
+
+```
+search_docs → HYBRID_QDRANT (Qdrant semantic + BM25)
+           → HYBRID         (FAISS semantic + BM25)   ← if Qdrant Docker offline
+           → BM25           (keyword only)             ← if embedding model not loaded
+           → RAWFS          (raw filesystem scan)      ← last resort
+```
+
+**Active backend:** `SEARCH_BACKEND=qdrant` (Phase 3 — FAISS permanent warm standby)
+
+---
+
+## Folder Structure
+
+```
+workspace-knowledge/
+├── server.py              ← MCP server entry point (all 11 tools)
+├── pyproject.toml         ← Python project definition
+├── uv.lock                ← Dependency lock file
+├── README.md              ← This file
+├── .gitignore             ← Excludes embedding/, .venv/, __pycache__, *.pyc
+├── .venv/                 ← Virtual environment (gitignored)
+├── embedding/             ← FAISS index artifacts (gitignored — rebuilt on demand)
+└── rag-system/            ← RAG subsystem utilities and runtime state
+    ├── build_faiss.py     ← Builds FAISS index from scratch (run manually if index is missing)
+    ├── check_rag_status.py ← Diagnostic: prints backend status and index health
+    └── rag-sync-state.json ← H-RAG02 hook runtime state (mode, debounce, search_backend)
+```
+
+---
 
 ## Installation
 
-```bash
-# Install with uv
+```powershell
+# Install dependencies with uv (from this directory)
 uv pip install -e .
-
-# Or install from package
-uvx workspace-rag-server@latest
 ```
+
+Requires Docker Desktop (WSL2 backend) for Qdrant. Start the container before launching:
+
+```powershell
+docker start qdrant-workspace
+# Or first-time setup:
+docker run -d --name qdrant-workspace -p 6333:6333 -p 6334:6334 `
+  -v qdrant_workspace_knowledge:/qdrant/storage qdrant/qdrant
+```
+
+---
 
 ## Configuration
 
-Registered for Claude Code in the project-root `.mcp.json`:
+Registered in the project-root `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "workspace-knowledge": {
       "command": "python",
-      "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"
-      ],
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"],
       "env": {
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
+        "SEARCH_BACKEND": "qdrant",
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
     }
@@ -40,93 +76,96 @@ Registered for Claude Code in the project-root `.mcp.json`:
 }
 ```
 
-Tool permissions are granted in `.claude/settings.json` under `permissions.allow` (e.g. `mcp__workspace-knowledge__search_docs`).
+Tool permissions are granted in `.claude/settings.json` under `permissions.allow`.
+
+---
 
 ## Tools
 
-### `search_docs`
+### Search and Retrieval
 
-Search workspace documentation using keyword search.
+| Tool                     | Description                                                                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `search_docs`            | Hybrid semantic + BM25 search across all indexed `.md` files. Returns ranked results with file path, section, score, and snippet. |
+| `retrieve_context`       | Return the full content of a specific workspace file by path.                                                                     |
+| `find_related_documents` | Find documents semantically similar to a given seed document.                                                                     |
+| `summarize_context`      | Summarize the content of one or more workspace files.                                                                             |
+| `agent_knowledge_brief`  | Generate a pre-digested knowledge brief for an agent role across multiple topics.                                                 |
 
-**Parameters:**
+### Index Management
 
-- `query` (string): Search query
-- `top_k` (int, optional): Number of results (default: 5)
+| Tool                 | Description                                                                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rebuild_index`      | Full FAISS rebuild from corpus. Use for DR recovery or when FAISS index is missing.                                                           |
+| `upsert_document`    | Re-chunk, re-embed, and upsert a single file into the Qdrant collection. Faster than a full rebuild; use after editing an indexed `.md` file. |
+| `list_indexed_files` | List all files currently in the search index.                                                                                                 |
 
-**Returns:** JSON with search results
+### Governance and Validation
 
-### `retrieve_context`
+| Tool                         | Description                                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `check_adr_precedent`        | Surface prior ADRs before a technology decision. Returns matching ADR documents and whether precedent exists. |
+| `validate_pipeline_document` | Validate a pipeline document against workspace conventions.                                                   |
+| `list_research_by_topic`     | List research investigations in `telescope/` by topic or keyword.                                             |
 
-Retrieve full content for a specific file.
+---
 
-**Parameters:**
+## Indexed Directories (KEY_DIRS)
 
-- `file_path` (string): Relative path from workspace root
-
-**Returns:** JSON with file content
-
-### `list_indexed_files`
-
-List all files in the RAG index.
-
-**Returns:** JSON with list of indexed files
-
-### `rebuild_index`
-
-Rebuild the RAG index from workspace files.
-
-**Returns:** JSON with rebuild status
-
-## Indexed Directories
-
-- `company/library`
-- `company/pipeline`
-- `company/departments`
-- `studio/casual-games/library`
-- `studio/casual-games/pipeline`
-- `core-component-00`
-- `.claude/rules`
-- `.claude/skills`
-
-## Usage Examples
-
-### Search Documentation
-
-```typescript
-// In Claude Code
-"Search for pipeline stage gates";
-// Tool: search_docs(query="pipeline stage gates", top_k=5)
+```
+company/
+studio/
+core-component-00/
+telescope/
 ```
 
-### Retrieve File Content
+H-RAG02 (`rag-index-sync.ps1`) fires after any `.md` write to these directories and instructs
+`upsert_document` (Phase 3 — Qdrant mode) to keep the index current within the session.
 
-```typescript
-// In Claude Code
-"Get the content of company/library/overview/pipeline.md";
-// Tool: retrieve_context(file_path="company/library/overview/pipeline.md")
+---
+
+## H-RAG02 Hook Integration
+
+The `PostToolUse` hook at `.claude/hooks/rag-index-sync.ps1` auto-syncs the RAG index after
+qualifying `.md` edits. Runtime state is stored in `rag-system/rag-sync-state.json`.
+
+Control the hook with the `/rag-sync` custom command:
+
+| Command                   | Effect                                                 |
+| ------------------------- | ------------------------------------------------------ |
+| `/rag-sync auto`          | Auto-sync after every qualifying write (10 s debounce) |
+| `/rag-sync warn`          | Passive notice only — no automatic sync                |
+| `/rag-sync off`           | Silent — no notification or sync                       |
+| `/rag-sync status`        | Report current mode, debounce, last sync timestamp     |
+| `/rag-sync threshold <N>` | Set debounce window to N seconds                       |
+
+---
+
+## Disaster Recovery
+
+```powershell
+# Switch to FAISS warm standby immediately (no rebuild needed if index is on disk)
+# Set SEARCH_BACKEND=faiss in .mcp.json env block, then restart Claude Code
+
+# If FAISS index is missing, rebuild from corpus:
+# Call rebuild_index via MCP, or run manually:
+python rag-system/build_faiss.py
+
+# Check current backend status:
+python rag-system/check_rag_status.py
 ```
 
-### List Indexed Files
+Recovery time: < 60 s (FAISS index on disk) or 2–5 min (fresh `rebuild_index`).
 
-```typescript
-// In Claude Code
-"Show me all indexed documentation files";
-// Tool: list_indexed_files()
-```
+---
 
-## Development
+## Migration Status
 
-```bash
-# Install dependencies
-uv pip install -e .
+| Phase | Description                                  | Status      |
+| ----- | -------------------------------------------- | ----------- |
+| 0     | H-RAG02 + `/rag-sync` toggle (FAISS only)    | ✅ Complete |
+| 1     | Shadow mode — Qdrant writes, FAISS reads     | ✅ Complete |
+| 2     | Qdrant primary, FAISS hot standby            | ✅ Complete |
+| 3     | Qdrant primary, FAISS permanent warm standby | ✅ Active   |
 
-# Run server locally
-python server.py
-
-# Test tools
-# (Use Claude Code to test tool invocations)
-```
-
-## License
-
-MIT
+Reference: `telescope/2026-06-25-qdrant-migration-plan/research-report.md`

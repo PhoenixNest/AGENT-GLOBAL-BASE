@@ -161,6 +161,92 @@ This reference table provides comprehensive specifications for evaluating RAG sy
 
 ---
 
+## Incremental Upsert vs. Full-Rebuild Decision Framework
+
+When a RAG pipeline processes document writes, the index update strategy must be chosen
+deliberately. Updating only the modified document (incremental upsert) and rebuilding the
+entire index from the corpus (full rebuild) have fundamentally different cost and correctness
+profiles.
+
+### Decision Criteria
+
+| Criterion         | Full Rebuild                                     | Incremental Upsert                                                      |
+| ----------------- | ------------------------------------------------ | ----------------------------------------------------------------------- |
+| Backend support   | Any (FAISS, Qdrant, BM25)                        | Requires vector store with upsert API (Qdrant, Weaviate, pgvector)      |
+| Corpus size       | Typically < 500 documents / < 10,000 chunks      | Warranted at ≥ 500 documents or ≥ 10,000 chunks                         |
+| Rebuild latency   | < 10 s on available hardware (acceptable)        | —                                                                       |
+| Write frequency   | Infrequent (hours between writes)                | Frequent (multiple writes per session or per day)                       |
+| Index correctness | Full corpus parity guaranteed after each rebuild | Per-file consistency; orphaned points accumulate without a parity check |
+
+### Trigger Thresholds for Adopting Incremental Upsert
+
+Switch from full rebuild to incremental upsert when **any one** of the following conditions is met:
+
+| Trigger                 | Condition                                                          | Rationale                                                                      |
+| ----------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| **Practical (latency)** | Full rebuild takes > 10 s perceptibly                              | User-observable delay; staleness window grows with rebuild time                |
+| **Volumetric**          | Corpus > 500 documents or > 10,000 chunks                          | FAISS re-encode of 10,000 chunks on RTX 4060 ≈ 15–30 s; scales linearly        |
+| **Architectural**       | Migration to a vector store with native incremental upsert support | Adopt the capability when available; retain full rebuild for disaster recovery |
+| **Strategic**           | Explicit authorisation from system owner                           | Invest in readiness before urgency forces the transition                       |
+
+These thresholds are hardware-dependent. The volumetric threshold (10,000 chunks ≈ 15–30 s on
+RTX 4060 GPU) must be re-calibrated for the target hardware profile before use in other contexts.
+
+### Orphaned Point Detection and Remediation
+
+Incremental upserts introduce an index correctness failure mode absent from full-rebuild
+approaches: **orphaned points** — vector store entries for chunks from files that have since
+been deleted or restructured. These points persist silently and degrade retrieval quality by
+surfacing stale content.
+
+| Condition                                    | Detection Method                                               | Remediation                                                                 |
+| -------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `points_count > len(corpus_chunks)`          | `health_check` tool: `parity_ok: false`, `orphaned_points > 0` | Full rebuild from corpus                                                    |
+| File deleted from corpus                     | Not detected automatically — orphaned points persist           | Periodic parity check (`health_check`) + full rebuild on failure            |
+| Chunk boundaries changed (file restructured) | Silent MRR degradation for queries matching the changed file   | Re-index the modified file; run MRR spot check on affected query categories |
+
+Run a `health_check` parity check after any document deletion or bulk restructuring operation,
+and after any upsert volume exceeding 20 files in a single session.
+
+### MRR Baseline Establishment (Required Before Switching Retrieval Backends)
+
+Switching from one retrieval backend to another (e.g., FAISS → Qdrant) requires a committed
+quality baseline to prevent undetected regressions.
+
+**Protocol:**
+
+1. Author a query set of ≥ 20 representative queries with known-relevant documents, covering
+   the full range of query types the system will serve (minimum for a pre-migration quality gate;
+   the full production golden dataset requires 50-100 queries per the Golden Dataset Setup
+   checklist above)
+2. **Commit the query set before switching backends** — authoring baseline judgments after
+   observing the new backend's results risks retrofitting ground truth to match outcomes
+3. Record `prior_backend_mrr_baseline` by running the query set against the current system
+4. After seeding the new backend, measure `new_backend_mrr` before switching reads
+5. Block the backend switch if `new_backend_mrr < 0.95 × prior_backend_mrr_baseline`
+
+**Query set storage format** (`tests/rag_eval/mrr_query_set.json`):
+
+```json
+[
+  {
+    "query": "stage gate user approval",
+    "relevant_doc": "company/pipeline/mobile/pipeline.md"
+  },
+  {
+    "query": "ADR technology decision lock",
+    "relevant_doc": "company/pipeline/mobile/pipeline.md"
+  }
+]
+```
+
+- `query`: exact string submitted to the retrieval tool
+- `relevant_doc`: the `rel_path` of the single known-relevant document (relative to workspace root)
+- Completeness requirement: ≥ 20 entries (minimum for a pre-migration quality gate), no duplicate `relevant_doc` values
+- Authorship: system owner or designated reviewer before Phase 1 / backend-switch entry
+
+---
+
 ## Quick Links to Documentation
 
 - [Architecture Overview](core-component-00/retrieval-augmented-generation/architecture/overview.md) - System design patterns

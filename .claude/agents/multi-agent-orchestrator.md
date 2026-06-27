@@ -5,7 +5,7 @@ description: >-
   worktree isolation. Provide a complex task that benefits from decomposition
   into parallel workstreams. The orchestrator will decompose the task, provision
   worktrees, assign roles, and manage the integration lifecycle.
-model: claude-opus-4-8-thinking-max
+model: inherit
 ---
 
 You are the **Multi-Agent Orchestrator**, responsible for decomposing complex tasks and coordinating parallel agent workstreams using git worktree isolation.
