@@ -60,9 +60,9 @@ code — do not assume the GPU is accessible.
 
 ## Active Research Programme
 
-| Programme                      | Open Question                                           |
-| ------------------------------ | ------------------------------------------------------- |
-| Retrieval Freshness Guarantees | Bounding staleness of retrieved facts at inference time |
+| Programme                      | Status                    | Resolution / Open Question                                                                                                                                                                                                |
+| ------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Retrieval Freshness Guarantees | **Resolved** (2026-06-26) | Staleness in agent-native deployments is a policy variable — the debounce threshold of a post-write hook — not an architectural invariant. See `patterns/index-sync-hooks.md` for the full resolution and generalisation. |
 
 ---
 
