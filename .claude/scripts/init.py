@@ -12,7 +12,7 @@ Usage:
 
 Branches:
     Branch A — pwsh is (or becomes) available: normalizes settings.json paths.
-    Branch B — user declines pwsh install: copies settings.branch-b.json as fallback.
+    Branch B — user declines pwsh install: copies platform-settings/settings.bash.json as fallback.
 
 Both branches conclude with patch_statusline() and sentinel file creation.
 """
@@ -34,7 +34,7 @@ from pathlib import Path
 _SCRIPT_DIR = Path(__file__).resolve().parent          # .claude/scripts/
 _CLAUDE_DIR = _SCRIPT_DIR.parent                       # .claude/
 _SETTINGS   = _CLAUDE_DIR / "settings.json"
-_BRANCH_B   = _CLAUDE_DIR / "settings.branch-b.json"
+_BRANCH_B   = _CLAUDE_DIR / "platform-settings" / "settings.bash.json"
 _SENTINEL   = _CLAUDE_DIR / ".workspace-initialized"
 
 # The hardcoded Windows path that Branch A normalises away.
@@ -115,7 +115,7 @@ def apply_branch_a() -> None:
 # ---------------------------------------------------------------------------
 
 def apply_branch_b(os_name: str) -> None:
-    """Copy settings.branch-b.json over settings.json (with backup)."""
+    """Copy platform-settings/settings.bash.json over settings.json (with backup)."""
     _log(f"Branch B: applying bash-compatible settings for OS '{os_name}'...")
 
     if not _BRANCH_B.exists():
@@ -123,7 +123,7 @@ def apply_branch_b(os_name: str) -> None:
             f"  WARNING: {_BRANCH_B} does not exist yet.\n"
             "  Branch B cannot be applied until that file is created.\n"
             "  Skipping Branch B — settings.json left unchanged.\n"
-            "  Create '.claude/settings.branch-b.json' with a bash-compatible hook\n"
+            "  Create '.claude/platform-settings/settings.bash.json' with a bash-compatible hook\n"
             "  configuration and re-run init.py to complete Branch B setup."
         )
         return
@@ -133,7 +133,7 @@ def apply_branch_b(os_name: str) -> None:
     _log(f"  Backed up settings.json -> {backup.name}")
 
     shutil.copy2(_BRANCH_B, _SETTINGS)
-    _log(f"  Copied settings.branch-b.json -> settings.json")
+    _log(f"  Copied platform-settings/settings.bash.json -> settings.json")
 
 
 # ---------------------------------------------------------------------------
