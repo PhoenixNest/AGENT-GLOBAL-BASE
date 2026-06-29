@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "defaultShell": "bash",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/prompt-quality-gate.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/prompt-optimizer.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/pipeline-context-injector.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/context-budget-alert.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/retrieval-augmented-generation-freshness-flag.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/harness-rate-limiter-turn-reset.sh\""]
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/prompt-write-guard.sh\""]
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/harness-tool-rate-limiter.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/multi-agent-branch-naming-guard.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/multi-agent-commit-format-guard.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/system-shell-syntax-guard.sh\""]
+          },
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/git-line-encoding-validator.sh\""]
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/rag-index-sync.sh\""]
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/harness-error-boundary-monitor.sh\""]
+          }
+        ]
+      }
+    ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
+  },
+  "enabledMcpjsonServers": ["workspace-knowledge"]
+}
