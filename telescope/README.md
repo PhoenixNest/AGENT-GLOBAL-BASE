@@ -290,11 +290,12 @@ telescope/2026-05-15-multi-agent-memory-coherence/
 
 ## Research Archive Index
 
-| Investigation ID                             | Date       | Status     | Topic                                                                                            | Requestor |
-| -------------------------------------------- | ---------- | ---------- | ------------------------------------------------------------------------------------------------ | --------- |
-| `2026-06-19-cc00-engineering-hooks-research` | 2026-06-19 | Complete   | CC-00 Engineering Domain Hook Suggestions                                                        | CEO       |
-| `2026-06-20-mcp-server-assessment`           | 2026-06-20 | Complete   | Enterprise MCP Architecture & Local RAG Recommendations                                          | CEO       |
-| `2026-06-25-qdrant-migration-plan`           | 2026-06-25 | Active     | Qdrant Migration Plan — Strategy, Deployment, Initialization, Monitoring, and Hook System (v0.5) | CEO       |
+| Investigation ID                                | Date       | Status   | Topic                                                                                            | Requestor |
+| ----------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------ | --------- |
+| `2026-06-19-cc00-engineering-hooks-research`    | 2026-06-19 | Complete | CC-00 Engineering Domain Hook Suggestions                                                        | CEO       |
+| `2026-06-20-mcp-server-assessment`              | 2026-06-20 | Complete | Enterprise MCP Architecture & Local RAG Recommendations                                          | CEO       |
+| `2026-06-25-qdrant-migration-plan`              | 2026-06-25 | Active   | Qdrant Migration Plan — Strategy, Deployment, Initialization, Monitoring, and Hook System (v0.5) | CEO       |
+| `2026-06-29-cross-platform-compatibility-audit` | 2026-06-29 | Complete | Cross-Platform Compatibility Audit of the `.claude/` Configuration Layer                         | CEO       |
 
 ---
 
