@@ -6,3 +6,6 @@ __pycache__/
 # Claude Code local overrides (machine-specific, not committed)
 .claude/settings.local.json
 .claude/.workspace-initialized
+
+# RAG sync state (machine-local index metadata, not committed)
+.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json
