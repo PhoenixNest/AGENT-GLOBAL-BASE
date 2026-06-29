@@ -1,8 +1,14 @@
 # ── venv bootstrap (MUST be first, before any other imports) ──────────────
 import sys
+import platform
 from pathlib import Path as _Path
 
-_venv_sp = _Path(__file__).parent / ".venv" / "Lib" / "site-packages"
+_venv = _Path(__file__).parent / ".venv"
+if platform.system() == "Windows":
+    _venv_sp = _venv / "Lib" / "site-packages"
+else:
+    _py = f"python{sys.version_info.major}.{sys.version_info.minor}"
+    _venv_sp = _venv / "lib" / _py / "site-packages"
 if _venv_sp.exists():
     sys.path.insert(0, str(_venv_sp))
 # ─────────────────────────────────────────────────────────────────────────

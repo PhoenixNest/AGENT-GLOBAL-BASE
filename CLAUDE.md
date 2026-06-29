@@ -10,12 +10,16 @@ folder.
 ## 1. Critical Guardrails (read first)
 
 - **Never read `GEMINI.md` or `.gemini/**`.** These are a parallel Gemini-agent configuration,
-explicitly denied to Claude Code in `.claude/settings.json`. Do not read, cite, or sync from
-them. Your equivalents are this file and the folder-level `CLAUDE.md` files.
-- **Shell is Windows PowerShell.** All terminal commands must be PowerShell-compatible. Avoid
-  bash-only syntax (`&&` chaining, `$(...)`, `rm -rf`, heredocs) unless the user has opened WSL
-  or Git Bash. Use `;` or separate calls to sequence commands; use `Remove-Item`,
-  `Get-ChildItem`, etc.
+  explicitly denied to Claude Code in `.claude/settings.json`. Do not read, cite, or sync from
+  them. Your equivalents are this file and the folder-level `CLAUDE.md` files.
+- **Shell is platform-conditional.**
+  - **Windows (primary):** Shell is Windows PowerShell. All terminal commands must be
+    PowerShell-compatible. Avoid bash-only syntax (`&&` chaining, `$(...)`, `rm -rf`,
+    heredocs) unless the user has opened WSL or Git Bash. Use `;` or separate calls to
+    sequence commands; use `Remove-Item`, `Get-ChildItem`, etc.
+  - **macOS / Linux:** Shell is bash. Use POSIX-compatible commands (`rm -rf`, `grep`,
+    `sed`, etc.). `pwsh` is available for hook execution but Claude Code's interactive
+    shell is bash. Validate hook paths on first deploy.
 - **The User holds absolute authority.** No pipeline rule, agent hierarchy, defect classification,
   or technology decision overrides an explicit user directive.
 - **Respect stage gates.** Pipeline stages marked **User Approval ✅** are hard stops. Present the
