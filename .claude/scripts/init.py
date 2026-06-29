@@ -10,11 +10,16 @@ Usage:
     python .claude/scripts/init.py           # normal run (skips if already initialized)
     python .claude/scripts/init.py --force   # re-run even if sentinel exists
 
-Branches:
-    Branch A — pwsh is (or becomes) available: normalizes settings.json paths.
-    Branch B — user declines pwsh install: copies platform-settings/settings.bash.json as fallback.
+Setup paths:
+    pwsh path  — pwsh is (or becomes) available: normalizes settings.json paths.
+    bash path  — user declines pwsh install: copies platform-settings/settings.bash.json as fallback.
 
-Both branches conclude with patch_statusline() and sentinel file creation.
+Both paths conclude with patch_statusline() and sentinel file creation.
+
+PowerShell detection order on Windows:
+    1. pwsh       — PowerShell 7+ cross-platform edition (must be installed separately)
+    2. powershell — Windows PowerShell 5.x (built-in; always present on Windows)
+    Settings.json hooks require pwsh; PS 5.x alone is insufficient.
 """
 
 from __future__ import annotations
@@ -22,6 +27,7 @@ from __future__ import annotations
 import argparse
 import json
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -34,16 +40,16 @@ from pathlib import Path
 _SCRIPT_DIR = Path(__file__).resolve().parent          # .claude/scripts/
 _CLAUDE_DIR = _SCRIPT_DIR.parent                       # .claude/
 _SETTINGS   = _CLAUDE_DIR / "settings.json"
-_BRANCH_B   = _CLAUDE_DIR / "platform-settings" / "settings.bash.json"
-_SENTINEL   = _CLAUDE_DIR / ".workspace-initialized"
+_BASH_SETTINGS = _CLAUDE_DIR / "platform-settings" / "settings.bash.json"
+_SENTINEL      = _CLAUDE_DIR / ".workspace-initialized"
 
-# The hardcoded Windows path that Branch A normalises away.
-_HARDCODED_PWSH = "C:/PROGRA~1/PowerShell/7/pwsh.exe"
-_PORTABLE_PWSH  = "pwsh"
+# Regex matching any absolute path to pwsh/pwsh.exe (any drive, any install dir).
+_PWSH_PATH_PATTERN = re.compile(r'[A-Za-z]:[/\\][^\s",]+[/\\]pwsh(?:\.exe)?', re.IGNORECASE)
+_PORTABLE_PWSH     = "pwsh"
 
-# The hardcoded statusline path that patch_statusline() normalises.
-_HARDCODED_STATUSLINE = "python -u C:/Users/ASUS/.claude/statusline.py"
-_PORTABLE_STATUSLINE  = "python -u ~/.claude/statusline.py"
+# Pattern matching any absolute statusline path; patch_statusline() replaces with ~-form.
+_STATUSLINE_PATTERN  = re.compile(r'python -u [^\s"\\]+statusline\.py')
+_PORTABLE_STATUSLINE = "python -u ~/.claude/statusline.py"
 
 
 # ---------------------------------------------------------------------------
@@ -70,61 +76,51 @@ def _write_settings(data: dict) -> None:
         fh.write("\n")
 
 
-def _replace_in_json_str(raw: str, old: str, new: str) -> tuple[str, int]:
-    """String-level replacement across the whole JSON blob.
-
-    Returns the (possibly modified) string and the replacement count.
-    Operates on the raw text so it handles all nested locations uniformly.
-    """
-    count = raw.count(old)
-    return raw.replace(old, new), count
-
 
 # ---------------------------------------------------------------------------
-# Branch A — normalise hardcoded pwsh path
+# pwsh path — normalise absolute pwsh paths in settings.json
 # ---------------------------------------------------------------------------
 
-def apply_branch_a() -> None:
-    """Replace C:/PROGRA~1/... occurrences with plain 'pwsh' in settings.json."""
-    _log("Branch A: normalising settings.json pwsh paths...")
+def normalise_pwsh_path() -> None:
+    """Replace any absolute pwsh path in settings.json with the portable 'pwsh' command."""
+    _log("Normalising settings.json: replacing absolute pwsh paths with 'pwsh'...")
 
     with _SETTINGS.open(encoding="utf-8") as fh:
         raw = fh.read()
 
-    updated, count = _replace_in_json_str(raw, _HARDCODED_PWSH, _PORTABLE_PWSH)
+    updated = _PWSH_PATH_PATTERN.sub(_PORTABLE_PWSH, raw)
 
-    if count == 0:
-        _log("  settings.json is already clean — no pwsh path substitution needed.")
+    if updated == raw:
+        _log("  settings.json is already clean — no absolute pwsh path found.")
         return
 
-    # Validate that the result is still valid JSON before writing.
     try:
         json.loads(updated)
     except json.JSONDecodeError as exc:
-        _log(f"  ERROR: post-substitution JSON is invalid ({exc}). Aborting Branch A.")
+        _log(f"  ERROR: post-substitution JSON is invalid ({exc}). Aborting.")
         sys.exit(1)
 
     with _SETTINGS.open("w", encoding="utf-8") as fh:
         fh.write(updated)
 
-    _log(f"  Replaced {count} occurrence(s) of hardcoded pwsh path with '{_PORTABLE_PWSH}'.")
+    _log(f"  Replaced absolute pwsh path(s) with '{_PORTABLE_PWSH}'.")
 
 
 # ---------------------------------------------------------------------------
-# Branch B — copy fallback settings
+# bash path — copy bash-compatible settings
 # ---------------------------------------------------------------------------
 
-def apply_branch_b(os_name: str) -> None:
+def apply_bash_config(os_name: str) -> None:
     """Copy platform-settings/settings.bash.json over settings.json (with backup)."""
-    _log(f"Branch B: applying bash-compatible settings for OS '{os_name}'...")
+    _log(f"Bash path: applying bash-compatible settings for OS '{os_name}'...")
 
-    if not _BRANCH_B.exists():
+    if not _BASH_SETTINGS.exists():
         _log(
-            f"  WARNING: {_BRANCH_B} does not exist yet.\n"
-            "  Branch B cannot be applied until that file is created.\n"
-            "  Skipping Branch B — settings.json left unchanged.\n"
+            f"  WARNING: {_BASH_SETTINGS} does not exist yet.\n"
+            "  Bash config cannot be applied until that file is created.\n"
+            "  Skipping bash path — settings.json left unchanged.\n"
             "  Create '.claude/platform-settings/settings.bash.json' with a bash-compatible hook\n"
-            "  configuration and re-run init.py to complete Branch B setup."
+            "  configuration and re-run init.py to complete bash path setup."
         )
         return
 
@@ -132,7 +128,7 @@ def apply_branch_b(os_name: str) -> None:
     shutil.copy2(_SETTINGS, backup)
     _log(f"  Backed up settings.json -> {backup.name}")
 
-    shutil.copy2(_BRANCH_B, _SETTINGS)
+    shutil.copy2(_BASH_SETTINGS, _SETTINGS)
     _log(f"  Copied platform-settings/settings.bash.json -> settings.json")
 
 
@@ -233,13 +229,13 @@ def _print_manual_install_url() -> None:
 # ---------------------------------------------------------------------------
 
 def patch_statusline() -> None:
-    """Replace the hardcoded ASUS statusline path with the portable ~ form."""
+    """Replace any absolute statusline path in settings.json with the portable ~ form."""
     with _SETTINGS.open(encoding="utf-8") as fh:
         raw = fh.read()
 
-    updated, count = _replace_in_json_str(raw, _HARDCODED_STATUSLINE, _PORTABLE_STATUSLINE)
+    updated = _STATUSLINE_PATTERN.sub(_PORTABLE_STATUSLINE, raw)
 
-    if count == 0:
+    if updated == raw:
         _log("patch_statusline: statusLine path already portable — no change needed.")
         return
 
@@ -252,7 +248,7 @@ def patch_statusline() -> None:
     with _SETTINGS.open("w", encoding="utf-8") as fh:
         fh.write(updated)
 
-    _log(f"patch_statusline: updated {count} occurrence(s) to portable path.")
+    _log("patch_statusline: replaced absolute statusline path with portable form.")
 
 
 # ---------------------------------------------------------------------------
@@ -296,30 +292,53 @@ def main() -> None:
     os_name = platform.system()  # "Windows" | "Darwin" | "Linux"
     _log(f"Detected OS: {os_name}")
 
-    # --- pwsh availability check ---
+    # --- PowerShell availability check ---
+    # pwsh   = PowerShell 7+ (must be installed separately on all OSes)
+    # ps5    = Windows PowerShell 5.x (built-in on Windows; not available on macOS/Linux)
     pwsh_path = shutil.which("pwsh")
+    ps5_path  = shutil.which("powershell")
 
     if pwsh_path is not None:
-        _log(f"pwsh found at: {pwsh_path}")
-        apply_branch_a()
-    else:
-        _log("pwsh not found on PATH.")
-        answer = input("Install PowerShell (pwsh)? [y/N]: ").strip().lower()
+        _log(f"pwsh (PS7+) found at: {pwsh_path}")
+        normalise_pwsh_path()
+    elif ps5_path is not None and os_name == "Windows":
+        _log(
+            f"Windows PowerShell 5.x found at: {ps5_path}\n"
+            "  PowerShell 7+ (pwsh) is not installed.\n"
+            "  Note: settings.json hooks use 'pwsh' and require PS7+ to run."
+        )
+        answer = input(
+            "Install PowerShell 7+ (pwsh) for full hook support? [y/N]: "
+        ).strip().lower()
         if answer in ("y", "yes"):
             install_pwsh(os_name)
-            # Re-check after install attempt.
             if shutil.which("pwsh") is not None:
-                _log("pwsh is now available.")
-                apply_branch_a()
+                _log("pwsh (PS7+) is now available.")
+                normalise_pwsh_path()
             else:
                 _log(
-                    "pwsh still not found after install attempt — "
-                    "falling back to Branch B."
+                    "pwsh still not found after install attempt.\n"
+                    "  Hooks using 'pwsh' will not function until PS7+ is installed manually."
                 )
-                apply_branch_b(os_name)
+        else:
+            _log(
+                "User declined pwsh install.\n"
+                "  Warning: settings.json hooks use 'pwsh' and will not run under PS5.x."
+            )
+    else:
+        _log("No PowerShell found on PATH.")
+        answer = input("Install PowerShell 7+ (pwsh)? [y/N]: ").strip().lower()
+        if answer in ("y", "yes"):
+            install_pwsh(os_name)
+            if shutil.which("pwsh") is not None:
+                _log("pwsh is now available.")
+                normalise_pwsh_path()
+            else:
+                _log("pwsh still not found after install attempt — falling back to bash config.")
+                apply_bash_config(os_name)
         else:
             _log("User declined pwsh install.")
-            apply_branch_b(os_name)
+            apply_bash_config(os_name)
 
     # --- Always patch statusLine ---
     patch_statusline()
