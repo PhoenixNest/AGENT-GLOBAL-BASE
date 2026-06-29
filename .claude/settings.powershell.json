@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "defaultShell": "powershell",
+  "includeCoAuthoredBy": false,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-quality-gate.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-optimizer.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/pipeline-context-injector.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/context-budget-alert.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/retrieval-augmented-generation-freshness-flag.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/harness-rate-limiter-turn-reset.ps1\"}else{exit 0}"]
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-write-guard.ps1\"}else{exit 0}"]
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/harness-tool-rate-limiter.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/multi-agent-branch-naming-guard.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/multi-agent-commit-format-guard.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/system-shell-syntax-guard.ps1\"}else{exit 0}"]
+          },
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/git-line-encoding-validator.ps1\"}else{exit 0}"]
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/rag-index-sync.ps1\"}else{exit 0}"]
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/harness-error-boundary-monitor.ps1\"}else{exit 0}"]
+          }
+        ]
+      }
+    ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
+  },
+  "enabledMcpjsonServers": ["workspace-knowledge"]
+}
