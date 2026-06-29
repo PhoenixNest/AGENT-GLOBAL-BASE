@@ -2,3 +2,7 @@
 __pycache__/
 *.py[cod]
 *.pyo
+
+# Claude Code local overrides (machine-specific, not committed)
+.claude/settings.local.json
+.claude/.workspace-initialized
