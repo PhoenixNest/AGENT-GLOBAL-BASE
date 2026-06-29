@@ -105,5 +105,26 @@
   "worktree": {
     "bgIsolation": "none"
   },
-  "enabledMcpjsonServers": ["workspace-knowledge"]
+  "enabledMcpjsonServers": ["workspace-knowledge"],
+  "permissions": {
+    "allow": [
+      "mcp__workspace-knowledge__search_docs",
+      "mcp__workspace-knowledge__retrieve_context",
+      "mcp__workspace-knowledge__list_indexed_files",
+      "mcp__workspace-knowledge__rebuild_index",
+      "mcp__workspace-knowledge__upsert_document",
+      "mcp__workspace-knowledge__summarize_context",
+      "mcp__workspace-knowledge__check_adr_precedent",
+      "mcp__workspace-knowledge__validate_pipeline_document",
+      "mcp__workspace-knowledge__find_related_documents",
+      "mcp__workspace-knowledge__list_research_by_topic",
+      "mcp__workspace-knowledge__agent_knowledge_brief"
+    ],
+    "deny": ["Read(./GEMINI.md)", "Read(./.gemini/**)"]
+  },
+  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  }
 }
