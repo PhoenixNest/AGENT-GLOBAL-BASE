@@ -37,7 +37,8 @@ class HandoffPacket:
         conversation_history: Prior conversation turns (Full tier only).
         relevant_files: File paths relevant to the task.
         budget: Token budget for the receiving agent.
-        metadata: Arbitrary key-value metadata.
+        metadata: Arbitrary key-value metadata. NOTE: direct assignment bypasses GSM scope
+            enforcement. Use write_to_log()/read_from_log() for cross-agent metadata.
     """
 
     tier: HandoffTier = HandoffTier.SCOPED
@@ -76,7 +77,7 @@ class HandoffPacket:
             metadata=data.get("metadata", {}),
         )
 
-    def validate(self) -> list[str]:
+    def validate(self, expected_fleet_id: Optional[str] = None) -> list[str]:
         """Validate the packet and return a list of issues."""
         issues = []
         if not self.task:
@@ -85,7 +86,61 @@ class HandoffPacket:
             issues.append("Full tier requires conversation_history")
         if self.tier == HandoffTier.MINIMAL and self.conversation_history:
             issues.append("Minimal tier should not include conversation_history")
+        # Fleet-origin check for conversation_history (GSMSE remediation T15)
+        if expected_fleet_id and self.conversation_history:
+            for i, turn in enumerate(self.conversation_history):
+                turn_fleet = turn.get("fleet_id")
+                if turn_fleet is not None and turn_fleet != expected_fleet_id:
+                    issues.append(
+                        f"Cross-fleet turn detected in conversation_history[{i}]: "
+                        f"fleet={turn_fleet!r}, expected={expected_fleet_id!r}"
+                    )
         return issues
+
+    def write_to_log(
+        self,
+        memory_log,  # SharedMemoryLog — duck-typed to avoid circular import
+        agent_id: str,
+        fleet_id: str,
+        packet_id: Optional[str] = None,
+    ) -> str:
+        """Write scope-sensitive fields to SharedMemoryLog at MemoryScope.FLEET.
+
+        Returns the packet_id key used for storage (caller uses this for read_from_log).
+        Direct assignment to HandoffPacket.metadata bypasses scope enforcement — use
+        write_to_log/read_from_log for any metadata that crosses agent boundaries.
+        """
+        from .shared_memory_log import MemoryScope
+
+        pid = packet_id or self.task[:16].replace(" ", "_") or "packet"
+        memory_log.write(
+            agent_id=agent_id,
+            fleet_id=fleet_id,
+            scope=MemoryScope.FLEET,
+            key=f"handoff_meta:{pid}",
+            value=self.metadata,
+        )
+        return pid
+
+    @classmethod
+    def read_from_log(
+        cls,
+        memory_log,  # SharedMemoryLog — duck-typed
+        requesting_agent_id: str,
+        requesting_fleet_id: str,
+        packet_id: str,
+    ) -> Optional[dict]:
+        """Read metadata for a packet from SharedMemoryLog, enforcing fleet scope.
+
+        Returns None (silently) if the packet is not visible to the requesting fleet.
+        This mirrors the GSM silent-None-on-denial contract.
+        """
+        entry = memory_log.read(
+            requesting_agent_id=requesting_agent_id,
+            requesting_fleet_id=requesting_fleet_id,
+            key=f"handoff_meta:{packet_id}",
+        )
+        return entry.value if entry is not None else None
 
     @property
     def estimated_tokens(self) -> int:
