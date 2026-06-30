@@ -124,13 +124,13 @@ CC-00 operates with a four-part mission:
 
 ## Active Research Programmes
 
-| Programme                              | Status  | Lead Module                       | Key Open Question                                                                        |
-| -------------------------------------- | ------- | --------------------------------- | ---------------------------------------------------------------------------------------- |
-| **Context Compression Theory**         | Active  | `context-engineering/`            | What is the minimum information-preserving compression of a 100-turn session?            |
-| **Multi-Agent Memory Coherence**       | Active  | `context-engineering/`            | How do distributed agents maintain consistent shared memory without a central store?     |
-| **Retrieval Freshness Guarantees**     | Active  | `retrieval-augmented-generation/` | How do we bound the staleness of retrieved facts at inference time?                      |
-| **Prompt Stability Under Fine-Tuning** | Planned | `prompt-engineering/`             | Do prompt engineering patterns that work on base models transfer to fine-tuned variants? |
-| **Harness Performance Benchmarking**   | Active  | `harness-engineering/`            | What is the latency cost of the full error boundary stack at p99?                        |
+| Programme                              | Status                    | Lead Module                       | Key Open Question                                                                                                                             |
+| -------------------------------------- | ------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Context Compression Theory**         | Active                    | `context-engineering/`            | What is the minimum information-preserving compression of a 100-turn session?                                                                 |
+| **Multi-Agent Memory Coherence**       | Active                    | `context-engineering/`            | How do distributed agents maintain consistent shared memory without a central store?                                                          |
+| **Retrieval Freshness Guarantees**     | **Resolved** (2026-06-26) | `retrieval-augmented-generation/` | Staleness is a policy variable (debounce threshold of a post-write hook), not an architectural invariant. See `patterns/index-sync-hooks.md`. |
+| **Prompt Stability Under Fine-Tuning** | Planned                   | `prompt-engineering/`             | Do prompt engineering patterns that work on base models transfer to fine-tuned variants?                                                      |
+| **Harness Performance Benchmarking**   | Active                    | `harness-engineering/`            | What is the latency cost of the full error boundary stack at p99?                                                                             |
 
 **Research Archive:** Completed investigations and research findings are permanently archived in the [Telescope Research Archive Hub](../telescope/README.md) following a standardized documentation template.
 
@@ -230,7 +230,7 @@ Each module with production code ships with:
 | --------------------------------- | --------------- | ------------------------------- | --------------- |
 | `context-engineering/`            | 3 Python files  | 2 pytest suites (60 test cases) | Yes             |
 | `harness-engineering/`            | 3 Python files  | 2 pytest suites                 | Yes             |
-| `retrieval-augmented-generation/` | 1 Python file   | —                               | Yes             |
+| `retrieval-augmented-generation/` | 4 Python files  | 3 pytest suites (61 test cases) | Yes             |
 | `multi-agent-engineering/`        | 3 Python files  | 3 pytest suites                 | Yes             |
 
 All Python implementations have been smoke-tested and import cleanly. Run all tests from the module root with:
@@ -238,6 +238,8 @@ All Python implementations have been smoke-tested and import cleanly. Run all te
 ```bash
 pytest context-engineering/testing/ -v
 pytest harness-engineering/testing/ -v
+pytest retrieval-augmented-generation/testing/ -v
+pytest multi-agent-engineering/testing/ -v
 ```
 
 ---
@@ -250,7 +252,7 @@ pytest harness-engineering/testing/ -v
 | `prompt-engineering/`                    | 6      | 2026-04-24   |
 | `context-engineering/`                   | 15     | 2026-04-28   |
 | `harness-engineering/`                   | 11     | 2026-04-28   |
-| `retrieval-augmented-generation/`        | 16     | 2026-04-28   |
+| `retrieval-augmented-generation/`        | 25     | 2026-06-30   |
 | `multi-agent-engineering/`               | 11     | 2026-04-29   |
 | **Total**                                | **70** | —            |
 
