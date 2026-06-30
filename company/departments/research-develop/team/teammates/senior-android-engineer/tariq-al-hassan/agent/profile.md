@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Research & Development
 agent_id: tariq-al-hassan-senior-android-engineer
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Tariq Al-Hassan

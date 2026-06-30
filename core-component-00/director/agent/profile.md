@@ -5,6 +5,8 @@ tier: executive
 seniority: Distinguished Research Scientist
 codename: core-component-00
 affiliation: Anthropic Claude Lab → This Organisation (2026–)
+min_tier: sonnet
+stability_class: STABLE
 ---
 
 # Dr. Elias Vance

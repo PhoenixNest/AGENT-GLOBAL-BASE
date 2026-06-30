@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Legal
 agent_id: chief-legal-officer
 hire_date: 2026-05-12
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Dr. Victoria Svensson-Park
