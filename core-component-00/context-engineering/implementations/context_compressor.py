@@ -18,6 +18,48 @@ Usage:
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
+COMPACTION_API_VERSION = "compact_20260112"
+
+
+class CompactionAPIClient:
+    """
+    Wrapper for the Anthropic Compaction API (beta: compact_20260112).
+    Falls back to None-return when client unavailable.
+    """
+
+    def __init__(self, anthropic_client):
+        self._client = anthropic_client
+
+    def compact_session(
+        self, messages: list, instructions: str | None = None
+    ) -> dict | None:
+        """
+        Call the Compaction API with Sacred Context instructions.
+        Returns dict with compressed_messages/original_tokens/compressed_tokens or None on error.
+        """
+        try:
+            kwargs = {
+                "model": "claude-sonnet-4-6",
+                "max_tokens": 1024,
+                "messages": messages,
+                "betas": [COMPACTION_API_VERSION],
+            }
+            if instructions:
+                kwargs["system"] = instructions
+            response = self._client.beta.messages.create(**kwargs)
+            original_tokens = sum(
+                _estimate_tokens(str(m.get("content", ""))) for m in messages
+            )
+            compressed_text = response.content[0].text if response.content else ""
+            return {
+                "compressed_messages": [{"role": "user", "content": compressed_text}],
+                "original_tokens": original_tokens,
+                "compressed_tokens": _estimate_tokens(compressed_text),
+                "strategy": "compaction_api",
+            }
+        except Exception:
+            return None
+
 
 def _estimate_tokens(text: str) -> int:
     try:
@@ -68,8 +110,17 @@ class ContextCompressor:
         print(f"Reduced by {result.compression_ratio:.0%}")
     """
 
-    def __init__(self, keep_recent_turns: int = 3):
+    def __init__(
+        self,
+        keep_recent_turns: int = 3,
+        use_compaction_api: bool = False,
+        anthropic_client=None,
+    ):
         self.keep_recent_turns = keep_recent_turns
+        self.use_compaction_api = use_compaction_api
+        self._api_client = (
+            CompactionAPIClient(anthropic_client) if anthropic_client else None
+        )
 
     # ------------------------------------------------------------------
     # History compression (lossy)
@@ -178,6 +229,34 @@ class ContextCompressor:
             strategy="progressive_compression",
             information_loss="medium",
         )
+
+    def compress_with_api(
+        self,
+        turns: list,
+        sacred_instructions: str | None = None,
+        target_tokens: int = 4000,
+    ) -> "CompressionResult":
+        """
+        Compress using Compaction API if available; fall back to compress_history().
+        sacred_instructions maps to the API instructions field for Sacred Context preservation.
+        """
+        if self.use_compaction_api and self._api_client:
+            messages = [
+                {"role": t.get("role", "user"), "content": t.get("content", "")}
+                for t in turns
+            ]
+            api_result = self._api_client.compact_session(
+                messages, instructions=sacred_instructions
+            )
+            if api_result:
+                return CompressionResult(
+                    original_tokens=api_result["original_tokens"],
+                    compressed_tokens=api_result["compressed_tokens"],
+                    content=api_result["compressed_messages"],
+                    strategy="compaction_api",
+                    information_loss="low",
+                )
+        return self.compress_history(turns, target_tokens=target_tokens)
 
     # ------------------------------------------------------------------
     # Tool output compression (lossless)
