@@ -21,6 +21,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 from .handoff_packet import HandoffPacket, HandoffTier
+from .shared_memory_log import MemoryScope, SharedMemoryLog
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,7 @@ class TaskStatus(Enum):
 
 @dataclass
 class SwarmConfig:
+    fleet_id: str
     topology: str = "hybrid"
     max_agents: int = 10
     enable_git_worktree: bool = False
@@ -141,12 +143,15 @@ class SwarmOrchestrator:
         config: SwarmConfig,
         agents: Optional[list[AgentProfile]] = None,
         execute_fn: Optional[Callable] = None,
+        memory_log: Optional[SharedMemoryLog] = None,
     ):
         self.config = config
         self.agents = agents or []
         self._execute_fn = execute_fn or self._default_execute
         self._execution_log: list[dict[str, Any]] = []
         self._circuit_breaker = None
+        self._memory_log = memory_log
+        self._fleet_id = config.fleet_id
 
     def set_circuit_breaker(self, cb) -> None:
         """Inject a duck-typed circuit breaker.
@@ -190,10 +195,31 @@ class SwarmOrchestrator:
             for t in plan.subtasks
             if t.result == {"error": "circuit_breaker_open"}
         )
-        result = SwarmResult(
-            plan_id=plan.plan_id,
-            success=all(t.status == TaskStatus.COMPLETED for t in plan.subtasks),
-            subtask_results=[
+
+        if self._memory_log is not None:
+            for t in plan.subtasks:
+                self._memory_log.write(
+                    agent_id=t.assigned_agent or "unassigned",
+                    fleet_id=self._fleet_id,
+                    scope=MemoryScope.FLEET,
+                    key=f"result:{t.task_id}",
+                    value={
+                        "task_id": t.task_id,
+                        "status": t.status.value,
+                        "result": t.result,
+                        "variance": t.variance,
+                    },
+                )
+            entries = self._memory_log.read_all(
+                requesting_agent_id="orchestrator",
+                requesting_fleet_id=self._fleet_id,
+            )
+            subtask_results: list[dict[str, Any]] = [
+                entry.value  # type: ignore[misc]
+                for entry in entries
+            ]
+        else:
+            subtask_results = [
                 {
                     "task_id": t.task_id,
                     "status": t.status.value,
@@ -201,7 +227,12 @@ class SwarmOrchestrator:
                     "variance": t.variance,
                 }
                 for t in plan.subtasks
-            ],
+            ]
+
+        result = SwarmResult(
+            plan_id=plan.plan_id,
+            success=all(t.status == TaskStatus.COMPLETED for t in plan.subtasks),
+            subtask_results=subtask_results,
             total_duration=total_duration,
             agent_utilisation=self._calc_utilisation(plan),
             circuit_breaker_aborts=cb_aborts,
@@ -219,6 +250,14 @@ class SwarmOrchestrator:
             if r["status"] == "completed"
         ]
         result.synthesized_output = "\n\n".join(outputs)
+        if self._memory_log is not None:
+            self._memory_log.write(
+                agent_id="orchestrator",
+                fleet_id=self._fleet_id,
+                scope=MemoryScope.FLEET,
+                key=f"synthesized:{result.plan_id}",
+                value=result.synthesized_output,
+            )
         return result.synthesized_output
 
     # -- Topology executors ------------------------------------------------
