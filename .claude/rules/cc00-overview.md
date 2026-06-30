@@ -28,16 +28,19 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 ## Key Production Implementations
 
-| File                                                              | Module | Purpose                                        |
-| ----------------------------------------------------------------- | ------ | ---------------------------------------------- |
-| `context-engineering/implementations/context_assembler.py`        | CE     | Four-slot context window assembly              |
-| `context-engineering/implementations/memory_store.py`             | CE     | Episodic, semantic, procedural, working memory |
-| `context-engineering/implementations/context_compressor.py`       | CE     | Long-session compression                       |
-| `harness-engineering/implementations/error_boundary.py`           | HE     | Timeout, rate-limit, validation recovery       |
-| `harness-engineering/implementations/context_monitor.py`          | HE     | Token budget enforcement                       |
-| `harness-engineering/implementations/tool_registry.py`            | HE     | Tool whitelists, call limits                   |
-| `multi-agent-engineering/implementations/swarm_orchestrator.py`   | MAE    | Swarm topology orchestration                   |
-| `multi-agent-engineering/implementations/handoff_packet.py`       | MAE    | Context Handoff Protocol                       |
+| File                                                            | Module | Purpose                                        |
+| --------------------------------------------------------------- | ------ | ---------------------------------------------- |
+| `context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly              |
+| `context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory |
+| `context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                       |
+| `harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery       |
+| `harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                       |
+| `harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits                   |
+| `retrieval-augmented-generation/implementations/chunker.py`     | RAG    | Fixed-size, semantic, hybrid chunking          |
+| `retrieval-augmented-generation/implementations/retrieval.py`   | RAG    | BM25 scoring, RRF fusion, ACL filtering        |
+| `retrieval-augmented-generation/implementations/pipeline.py`    | RAG    | End-to-end RAG pipeline (injectable deps)      |
+| `multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                   |
+| `multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                       |
 
 ---
 
