@@ -81,6 +81,81 @@ class ContextOverflowError(Exception):
     pass
 
 
+from enum import Enum
+
+
+class CircuitBreakerState(Enum):
+    CLOSED = "closed"
+    DEGRADED = "degraded"
+    OPEN = "open"
+    HALF_OPEN = "half_open"
+
+
+class CircuitBreaker:
+    """
+    4-state circuit breaker with composite health scoring.
+    Health = error_rate*0.4 + (1 - p99_latency_ratio)*0.4 + (1 - rate_429_ratio)*0.2
+    CLOSED >= 0.8 | DEGRADED 0.5-0.8 | OPEN < 0.5 | HALF_OPEN after 60s cooldown
+    """
+
+    COOLDOWN_SECONDS = 60
+
+    def __init__(self):
+        self.state = CircuitBreakerState.CLOSED
+        self._success_count = 0
+        self._failure_count = 0
+        self._rate_limit_count = 0
+        self._total_latency_ms = 0.0
+        self._sample_count = 0
+        self._opened_at = None
+
+    def record_success(self, latency_ms: float) -> None:
+        self._success_count += 1
+        self._total_latency_ms += latency_ms
+        self._sample_count += 1
+        self._update_state()
+
+    def record_failure(self, error_type: str) -> None:
+        self._failure_count += 1
+        if error_type == "rate_limit":
+            self._rate_limit_count += 1
+        self._update_state()
+
+    def is_open(self) -> bool:
+        if self.state == CircuitBreakerState.HALF_OPEN:
+            return False
+        return self.state == CircuitBreakerState.OPEN
+
+    def get_state(self) -> CircuitBreakerState:
+        return self.state
+
+    def _health_score(self) -> float:
+        total = self._success_count + self._failure_count
+        if total == 0:
+            return 1.0
+        error_rate = self._failure_count / total
+        rate_429_ratio = self._rate_limit_count / total
+        avg_latency = self._total_latency_ms / max(self._sample_count, 1)
+        p99_ratio = min(avg_latency / 5000.0, 1.0)
+        return (1 - error_rate) * 0.4 + (1 - p99_ratio) * 0.4 + (1 - rate_429_ratio) * 0.2
+
+    def _update_state(self) -> None:
+        import time
+
+        if self.state == CircuitBreakerState.OPEN:
+            if self._opened_at and (time.monotonic() - self._opened_at) >= self.COOLDOWN_SECONDS:
+                self.state = CircuitBreakerState.HALF_OPEN
+            return
+        score = self._health_score()
+        if score >= 0.8:
+            self.state = CircuitBreakerState.CLOSED
+        elif score >= 0.5:
+            self.state = CircuitBreakerState.DEGRADED
+        else:
+            self.state = CircuitBreakerState.OPEN
+            self._opened_at = time.monotonic()
+
+
 class SafeModelCall:
     """
     Wrapper for model calls with tiered error recovery.
@@ -95,6 +170,7 @@ class SafeModelCall:
         self.model_id = model_id
         self.timeout = timeout if timeout is not None else get_timeout_for_model(model_id)
         self.max_retries = max_retries
+        self.circuit_breaker = CircuitBreaker()
 
     async def execute(self, prompt: str, schema=None) -> dict:
         """
@@ -107,6 +183,9 @@ class SafeModelCall:
         Returns:
             Dict with 'success' flag and either 'data' or 'error' keys
         """
+        if self.circuit_breaker.is_open():
+            raise RateLimitError("Circuit breaker OPEN — request blocked")
+
         # Check rate limit headers from any cached responses
         if (
             hasattr(self.client, "rate_limit_remaining")
