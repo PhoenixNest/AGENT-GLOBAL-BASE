@@ -20,6 +20,22 @@ import time
 from typing import Any, Dict
 
 
+MODEL_TIER_TIMEOUTS = {
+    "haiku": 15,
+    "sonnet": 30,
+    "opus": 90,
+}
+
+
+def get_timeout_for_model(model_id: str) -> int:
+    model_lower = model_id.lower()
+    if "haiku" in model_lower:
+        return MODEL_TIER_TIMEOUTS["haiku"]
+    if "opus" in model_lower:
+        return MODEL_TIER_TIMEOUTS["opus"]
+    return MODEL_TIER_TIMEOUTS["sonnet"]
+
+
 # ---------------------------------------------------------------------------
 # Minimal structured logging helpers
 # In production replace with structlog, loguru, or your observability stack.
@@ -74,10 +90,10 @@ class SafeModelCall:
         result = call.execute(prompt, schema=output_schema)
     """
 
-    def __init__(self, client, model_id, timeout=30, max_retries=3):
+    def __init__(self, client, model_id, timeout=None, max_retries=3):
         self.client = client
         self.model_id = model_id
-        self.timeout = timeout
+        self.timeout = timeout if timeout is not None else get_timeout_for_model(model_id)
         self.max_retries = max_retries
 
     async def execute(self, prompt: str, schema=None) -> dict:
