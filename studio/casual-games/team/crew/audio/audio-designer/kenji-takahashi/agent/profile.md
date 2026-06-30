@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 16/20
 vetting-result: PASS
 recruitment-phase: Phase 3B — Art + Audio + Production
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Kenji Takahashi — Audio Designer

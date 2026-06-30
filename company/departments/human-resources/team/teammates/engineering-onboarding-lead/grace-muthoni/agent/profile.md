@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Human Resources
 agent_id: grace-muthoni-onboarding-lead
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Grace Muthoni

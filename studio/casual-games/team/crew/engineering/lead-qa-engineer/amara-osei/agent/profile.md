@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 17/20
 vetting-result: PASS
 recruitment-phase: Phase 2 — Creative + Production Ramp
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Amara Osei — Lead QA Engineer

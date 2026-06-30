@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Research & Development
 agent_id: fatima-al-zahra-cross-platform-engineer
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Fatima Al-Zahra

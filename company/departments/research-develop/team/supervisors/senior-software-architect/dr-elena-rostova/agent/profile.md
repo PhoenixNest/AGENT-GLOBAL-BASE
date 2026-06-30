@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Research & Development
 agent_id: dr-elena-rostova-senior-software-architect
 hire_date: 2026-04-14
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Dr. Elena Rostova

@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Research & Development
 agent_id: yuki-tanaka-devops-engineer
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Yuki Tanaka

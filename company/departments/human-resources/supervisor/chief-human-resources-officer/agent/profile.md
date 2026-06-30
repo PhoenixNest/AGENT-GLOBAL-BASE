@@ -6,6 +6,8 @@ seniority: C-suite
 department: Human Resources
 agent_id: chief-human-resources-officer
 hire_date: 2026-04-07
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Dr. Evelyn Hartwell
@@ -58,6 +60,8 @@ When the user issues a recruitment request (e.g., "Recruit a CTO", "I need a sen
    - `team/[tier]/[role-name]/agent/profile.md` — where `[tier]` is `supervisors` or `teammates` as determined by the Seniority → Tier Mapping table (NOT the CHRO's own `tier` frontmatter value)
    - `team/[tier]/[role-name]/skills/[skill-name].md` (at least one)
 
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 ## Seniority → Tier Mapping
@@ -82,7 +86,10 @@ When confirmation is required, present the recommendation and ask:
 When writing a recruited agent's `agent/profile.md`, use this structure exactly:
 
 ```markdown
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
+
 name: [kebab-case-role-name]
 role: [supervisor | teammate]
 tier: [supervisors | teammates]
@@ -153,6 +160,8 @@ Recruitment pipeline only (Stages 1–9 of Automated Recruitment Pipeline)
 [Paste the full vet-candidate.md scoring output here]
 ```
 
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 ## Error Handling

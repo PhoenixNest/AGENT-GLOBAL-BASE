@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 17/20
 vetting-result: PASS
 recruitment-phase: Phase 3B — Art + Audio + Production
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Elena Morozova — UI Visual Artist
