@@ -97,7 +97,7 @@ The following four data paths in the CC-00 multi-agent stack carry no scope pred
 ### Audit Record
 
 Full audit documented in:
-`core-component-00/multi-agent-engineering/patterns/gsm-audit-2026-06-30.md`
+`core-component-00/multi-agent-engineering/patterns/gsm-shared-state-classification.md`
 
 ---
 
@@ -214,7 +214,7 @@ Add `test_gsm_scope_enforcement.py` to `multi-agent-engineering/testing/` with:
 - `test_same_fleet_read_succeeds()` — write and read within the same `fleet_id` → non-None
 - `test_cross_fleet_read_denied()` — write under fleet A, read as fleet B → `None`
 
-Update `gsm-audit-2026-06-30.md` to mark all four paths REMEDIATED with implementation date.
+Update `gsm-shared-state-classification.md` to mark all four paths REMEDIATED with implementation date.
 
 ### Implementation Priority
 
@@ -235,7 +235,7 @@ CEO approved remediation plan: **2026-06-30**. Implementation pending Lab Direct
 
 ### Internal Documentation
 
-- `core-component-00/multi-agent-engineering/patterns/gsm-audit-2026-06-30.md`
+- `core-component-00/multi-agent-engineering/patterns/gsm-shared-state-classification.md`
   — Full audit record with all AT-RISK path details
 - `core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py`
   — File to be patched (D1)
