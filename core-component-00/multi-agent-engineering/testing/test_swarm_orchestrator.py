@@ -58,7 +58,7 @@ def agents():
 
 @pytest.fixture
 def config():
-    return SwarmConfig(topology="hybrid", max_agents=5)
+    return SwarmConfig(fleet_id="test_fleet", topology="hybrid", max_agents=5)
 
 
 @pytest.fixture
@@ -113,7 +113,7 @@ class TestPlanCreation:
 class TestExecution:
     @pytest.mark.asyncio
     async def test_fork_join_execution(self, agents):
-        config = SwarmConfig(topology="fork_join")
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
         orch = SwarmOrchestrator(config=config, agents=agents)
 
         subtasks = [
@@ -129,7 +129,7 @@ class TestExecution:
 
     @pytest.mark.asyncio
     async def test_pipeline_execution(self, agents):
-        config = SwarmConfig(topology="pipeline")
+        config = SwarmConfig(fleet_id="test_fleet", topology="pipeline")
         orch = SwarmOrchestrator(config=config, agents=agents)
 
         subtasks = [
@@ -148,7 +148,7 @@ class TestExecution:
 
     @pytest.mark.asyncio
     async def test_hybrid_with_dependencies(self, agents):
-        config = SwarmConfig(topology="hybrid")
+        config = SwarmConfig(fleet_id="test_fleet", topology="hybrid")
         orch = SwarmOrchestrator(config=config, agents=agents)
 
         subtasks = [
@@ -172,7 +172,7 @@ class TestExecution:
         async def failing_execute(task, handoff):
             raise RuntimeError("Agent crashed")
 
-        config = SwarmConfig(topology="fork_join")
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
         orch = SwarmOrchestrator(
             config=config, agents=agents, execute_fn=failing_execute
         )
@@ -213,7 +213,7 @@ class TestSynthesis:
 class TestFeedback:
     @pytest.mark.asyncio
     async def test_feedback_generated(self, agents):
-        config = SwarmConfig(topology="fork_join", enable_feedback_loop=True)
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join", enable_feedback_loop=True)
         orch = SwarmOrchestrator(config=config, agents=agents)
 
         subtasks = [SubTask(description="Task", domain="backend")]
@@ -225,7 +225,7 @@ class TestFeedback:
 
     @pytest.mark.asyncio
     async def test_feedback_disabled(self, agents):
-        config = SwarmConfig(topology="fork_join", enable_feedback_loop=False)
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join", enable_feedback_loop=False)
         orch = SwarmOrchestrator(config=config, agents=agents)
 
         subtasks = [SubTask(description="Task", domain="backend")]
