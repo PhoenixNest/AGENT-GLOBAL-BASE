@@ -53,7 +53,7 @@ audit; CEO approved the remediation plan on 2026-06-30.
 | --- | -------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------- | ----------------------------------------------- | -------- | ---------- | ----------------------------- |
 | T14 | P1       | Patch `swarm_orchestrator.py` — inject `SharedMemoryLog`; scope `subtask_results` + `synthesized_output` to FLEET | multi-agent-engineering | Updated `swarm_orchestrator.py`                 | 4 h      | T07        | Multi-Agent Engineering Agent |
 | T15 | P1       | Patch `handoff_packet.py` — add `write_to_log()` / `read_from_log()` with `MemoryScope.FLEET`                     | multi-agent-engineering | Updated `handoff_packet.py`                     | 4 h      | T07        | Multi-Agent Engineering Agent |
-| T16 | P1       | Add `test_gsm_scope_enforcement.py`; update `gsm-audit-2026-06-30.md` to mark 4 paths REMEDIATED                  | multi-agent-engineering | `testing/test_gsm_scope_enforcement.py` + audit | 2 h      | T14, T15   | Multi-Agent Engineering Agent |
+| T16 | P1       | Add `test_gsm_scope_enforcement.py`; update `gsm-shared-state-classification.md` to mark 4 paths REMEDIATED       | multi-agent-engineering | `testing/test_gsm_scope_enforcement.py` + audit | 2 h      | T14, T15   | Multi-Agent Engineering Agent |
 
 ¹ All effort estimates are reference-only. The CEO pre-approves any day-count adjustments proposed by the assigned agent.
 ² Lab Director note (Dr. Vance, 2026-06-30): T02 may require 3d due to beta API integration surface; T04 may require 5d due to harness fixture complexity. Assigned agents to confirm on Day 1.
@@ -105,7 +105,7 @@ multi-agent-eng.       │ (4 h)      │ (4 h)      │ (2 h)    │
 ```
 
 **Gate:** All four AT-RISK paths must pass `pytest multi-agent-engineering/testing/ -v` (including
-`test_gsm_scope_enforcement.py`) before `gsm-audit-2026-06-30.md` is updated to REMEDIATED.
+`test_gsm_scope_enforcement.py`) before `gsm-shared-state-classification.md` is updated to REMEDIATED.
 
 ---
 
