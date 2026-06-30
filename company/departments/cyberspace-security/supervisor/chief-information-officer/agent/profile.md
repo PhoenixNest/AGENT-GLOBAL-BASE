@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Cyberspace Security
 agent_id: chief-information-officer
 hire_date: 2026-04-07
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Dr. Priya Mehta

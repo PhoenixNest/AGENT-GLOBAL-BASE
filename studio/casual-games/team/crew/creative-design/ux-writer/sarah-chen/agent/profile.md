@@ -8,6 +8,8 @@ department: Crew Division
 studio: Casual Games
 vetting-score: N/A
 vetting-result: PASS
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Sarah Chen — UX Writer / Content Designer

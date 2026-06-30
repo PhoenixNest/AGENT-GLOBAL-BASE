@@ -13,6 +13,8 @@ composite-score: 4.510
 status: active
 studio: Casual Games
 vetting-result: PASS
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # David Okafor — Live Ops Engineer #1

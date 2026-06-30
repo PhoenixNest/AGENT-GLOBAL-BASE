@@ -13,6 +13,8 @@ composite-score: 4.410
 status: active
 studio: Casual Games
 vetting-result: PASS
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Amir Hassan — SDET Gameplay #1

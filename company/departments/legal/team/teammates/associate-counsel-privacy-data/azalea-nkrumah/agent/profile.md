@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Legal
 agent_id: azalea-nkrumah-associate-counsel
 hire_date: 2026-05-12
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Azalea Nkrumah

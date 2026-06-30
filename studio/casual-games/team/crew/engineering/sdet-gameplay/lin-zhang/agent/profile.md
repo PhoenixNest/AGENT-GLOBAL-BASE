@@ -13,6 +13,8 @@ composite-score: 4.480
 status: active
 studio: Casual Games
 vetting-result: PASS
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Lin Zhang — SDET Gameplay #2

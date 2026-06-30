@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Cyberspace Security
 agent_id: li-wei-chen-security-engineer
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Li Wei Chen
