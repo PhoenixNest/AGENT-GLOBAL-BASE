@@ -2,8 +2,11 @@
 Multi-Agent Engineering — Implementations Package
 
 Provides the core Python implementations for the multi-agent
-engineering module: swarm orchestration, git worktree management,
-and inter-agent context handoff.
+engineering module: swarm orchestration and inter-agent context handoff.
+
+Git worktree lifecycle management is handled at the Claude Code session
+layer via the EnterWorktree tool and direct git subprocess calls, per
+the five-phase specification in fundamentals/git-worktree-orchestration.md.
 """
 
 from .handoff_packet import HandoffPacket, HandoffTier
@@ -17,7 +20,6 @@ from .swarm_orchestrator import (
     SwarmTopology,
     TaskStatus,
 )
-from .git_worktree_manager import GitWorktreeManager, WorktreeInfo
 
 __all__ = [
     "HandoffPacket",
@@ -30,6 +32,4 @@ __all__ = [
     "SwarmResult",
     "SwarmTopology",
     "TaskStatus",
-    "GitWorktreeManager",
-    "WorktreeInfo",
 ]

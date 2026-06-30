@@ -1,6 +1,16 @@
 """
 Context Budget Monitor Pattern Implementation
 
+Scope: LLM application layer — Python programs that assemble their own context
+windows before making outbound LLM API calls. Tracks cumulative token spend
+across custom conversation histories and blocks calls that would exceed the
+model's context window.
+
+This module does NOT manage Claude Code session context. Session-level token
+pressure is handled by the context-budget-alert.ps1 hook and the /context
+command at the Claude Code session layer. Use this module only in standalone
+Python LLM applications, not as an alternative to those native Claude Code tools.
+
 This module provides context monitoring and pruning utilities to prevent
 token budget overflow in long-running conversations.
 """

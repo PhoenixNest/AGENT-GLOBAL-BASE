@@ -1,7 +1,9 @@
 # core-component-00/multi-agent-engineering/ — Layer 5: Multi-Agent Engineering
 
 CC-00 Layer 5 — "How agents cooperate." This module provides the orchestration framework for
-multi-agent swarm systems, git worktree isolation, and inter-agent context handoff.
+multi-agent swarm systems and inter-agent context handoff. Git worktree lifecycle management
+is handled at the Claude Code session layer via EnterWorktree and direct git commands; the
+five-phase specification lives in `fundamentals/git-worktree-orchestration.md`.
 
 ---
 
@@ -21,7 +23,6 @@ multi-agent-engineering/
 ├── patterns/              ← Swarm topologies, coordination patterns
 ├── implementations/       ← Production Python code (import from here)
 │   ├── swarm_orchestrator.py       ← Swarm topology orchestration
-│   ├── git_worktree_manager.py     ← Git worktree isolation for parallel agents
 │   └── handoff_packet.py           ← Context Handoff Protocol (Full/Scoped/Minimal)
 └── testing/               ← pytest test suite
 ```
@@ -33,7 +34,6 @@ multi-agent-engineering/
 | File                                      | Class / Entry Point  | Purpose                                                                    |
 | ----------------------------------------- | -------------------- | -------------------------------------------------------------------------- |
 | `implementations/swarm_orchestrator.py`   | `SwarmOrchestrator`  | Orchestrates multi-agent swarm topologies                                  |
-| `implementations/git_worktree_manager.py` | `GitWorktreeManager` | Creates, manages, and cleans up git worktrees for parallel agent isolation |
 | `implementations/handoff_packet.py`       | `HandoffPacket`      | Packages context for inter-agent handoff at Full, Scoped, or Minimal tiers |
 
 ---

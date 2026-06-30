@@ -54,7 +54,6 @@ All paths relative to `core-component-00/`:
 | `harness-engineering/implementations/context_monitor.py`          | HE     | Token budget enforcement                               |
 | `harness-engineering/implementations/tool_registry.py`            | HE     | Tool whitelists, call limits, dangerous task detection |
 | `multi-agent-engineering/implementations/swarm_orchestrator.py`   | MAE    | Swarm topology orchestration                           |
-| `multi-agent-engineering/implementations/git_worktree_manager.py` | MAE    | Git worktree isolation for parallel agents             |
 | `multi-agent-engineering/implementations/handoff_packet.py`       | MAE    | Context Handoff Protocol                               |
 
 ---
