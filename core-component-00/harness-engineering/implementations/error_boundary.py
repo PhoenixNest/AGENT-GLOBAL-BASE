@@ -165,12 +165,13 @@ class SafeModelCall:
         result = call.execute(prompt, schema=output_schema)
     """
 
-    def __init__(self, client, model_id, timeout=None, max_retries=3):
+    def __init__(self, client, model_id, timeout=None, max_retries=3, enable_streaming: bool = True):
         self.client = client
         self.model_id = model_id
         self.timeout = timeout if timeout is not None else get_timeout_for_model(model_id)
         self.max_retries = max_retries
         self.circuit_breaker = CircuitBreaker()
+        self.enable_streaming = enable_streaming
 
     async def execute(self, prompt: str, schema=None) -> dict:
         """
@@ -201,7 +202,8 @@ class SafeModelCall:
 
                 # Make the call with timeout
                 response = await asyncio.wait_for(
-                    self.client.messages.create(messages=[prompt]), timeout=self.timeout
+                    self.client.messages.create(messages=[prompt], stream=self.enable_streaming),
+                    timeout=self.timeout,
                 )
 
                 # Validate output format against schema if provided
