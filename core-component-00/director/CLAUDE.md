@@ -67,9 +67,10 @@ Dr. Vance does **not** hold authority over:
 
 ## Research Programmes
 
-| Programme                        | Module                         | Open Question                                                    |
-| -------------------------------- | ------------------------------ | ---------------------------------------------------------------- |
-| Context Compression Theory       | context-engineering            | Minimum information-preserving compression of a 100-turn session |
-| Multi-Agent Memory Coherence     | context-engineering            | Distributed shared memory without a central store                |
-| Retrieval Freshness Guarantees   | retrieval-augmented-generation | Bounding staleness of retrieved facts at inference time          |
-| Harness Performance Benchmarking | harness-engineering            | Latency cost of full error boundary stack at p99                 |
+| Programme                          | Module                         | Open Question                                                             |
+| ---------------------------------- | ------------------------------ | ------------------------------------------------------------------------- |
+| Context Compression Theory         | context-engineering            | Minimum information-preserving compression of a 100-turn session          |
+| Multi-Agent Memory Coherence       | context-engineering            | Distributed shared memory without a central store                         |
+| Retrieval Freshness Guarantees     | retrieval-augmented-generation | Bounding staleness of retrieved facts at inference time                   |
+| Prompt Stability Under Fine-Tuning | prompt-engineering             | Transfer of prompt patterns from base models to fine-tuned model variants |
+| Harness Performance Benchmarking   | harness-engineering            | Latency cost of full error boundary stack at p99                          |
