@@ -13,6 +13,8 @@ composite-score: 4.585
 status: active
 studio: Casual Games
 vetting-result: PASS
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Aisha Nkemelu — Live Ops Lead

@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 16/20
 vetting-result: PASS
 recruitment-phase: Phase 3A — Engineering Ramp
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Sofia Martinez — Gameplay Engineer #1

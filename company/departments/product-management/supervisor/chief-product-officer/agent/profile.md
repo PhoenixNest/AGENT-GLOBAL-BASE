@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Product Management
 agent_id: chief-product-officer
 hire_date: 2026-04-07
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Marcus Tran-Yoshida

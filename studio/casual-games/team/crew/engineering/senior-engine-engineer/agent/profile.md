@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 18/20
 vetting-result: PASS
 recruitment-phase: Phase 3A — Engineering Ramp
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Viktor Stahl — Senior Engine Engineer
