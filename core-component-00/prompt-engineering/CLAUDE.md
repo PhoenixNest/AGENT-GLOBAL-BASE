@@ -55,6 +55,26 @@ Prompt Engineering is the foundation layer. Its patterns are applied inside:
 
 ---
 
+## No Implementation by Design
+
+Layer 1 ships no Python implementation and no pytest test suite. This is an explicit architectural
+decision, not an oversight.
+
+Layers 2–5 each contain deterministic computational logic — context assembly algorithms, token
+budget arithmetic, retry state machines, BM25 scoring, swarm topology routing — that has
+meaningful behavioural invariants a test suite can verify. Layer 1 does not: prompt patterns are
+textual guidance whose correctness is established by the model's response quality at runtime, not
+by a unit assertion. A Python template library for Layer 1 would reduce to string interpolation
+with no engineering value beyond what the pattern documents already provide.
+
+Testing prompt stability across model versions is a Layer 2–5 integration testing concern (handled
+at the harness or context layer), not a Layer 1 unit concern.
+
+This gap is **closed by design**. Rationale ratified by Dr. Elias Vance, CC-00 Laboratory
+Director, 2026-06-30.
+
+---
+
 ## Rules
 
 - There is **no runnable code** in this module. Do not create Python implementations here — they

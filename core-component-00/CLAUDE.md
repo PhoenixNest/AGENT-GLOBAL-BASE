@@ -33,7 +33,7 @@ else in the repository is Markdown documentation.
 | 1 — What to write         | `prompt-engineering/`             | Knowledge base        | No         |
 | 2 — How to structure it   | `context-engineering/`            | Knowledge + Framework | Yes        |
 | 3 — How to execute safely | `harness-engineering/`            | Production Framework  | Yes        |
-| 4 — Where to get content  | `retrieval-augmented-generation/` | Production Framework  | No         |
+| 4 — Where to get content  | `retrieval-augmented-generation/` | Production Framework  | Yes        |
 | 5 — How agents cooperate  | `multi-agent-engineering/`        | Production Framework  | Yes        |
 
 ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a sixth module. See
@@ -45,16 +45,16 @@ ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a s
 
 All paths relative to `core-component-00/`:
 
-| File                                                              | Module | Purpose                                                |
-| ----------------------------------------------------------------- | ------ | ------------------------------------------------------ |
-| `context-engineering/implementations/context_assembler.py`        | CE     | Four-slot context window assembly                      |
-| `context-engineering/implementations/memory_store.py`             | CE     | Episodic, semantic, procedural, working memory         |
-| `context-engineering/implementations/context_compressor.py`       | CE     | Long-session compression                               |
-| `harness-engineering/implementations/error_boundary.py`           | HE     | Timeout, rate-limit, validation recovery               |
-| `harness-engineering/implementations/context_monitor.py`          | HE     | Token budget enforcement                               |
-| `harness-engineering/implementations/tool_registry.py`            | HE     | Tool whitelists, call limits, dangerous task detection |
-| `multi-agent-engineering/implementations/swarm_orchestrator.py`   | MAE    | Swarm topology orchestration                           |
-| `multi-agent-engineering/implementations/handoff_packet.py`       | MAE    | Context Handoff Protocol                               |
+| File                                                            | Module | Purpose                                                |
+| --------------------------------------------------------------- | ------ | ------------------------------------------------------ |
+| `context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
+| `context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
+| `context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
+| `harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery               |
+| `harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                               |
+| `harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits, dangerous task detection |
+| `multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                           |
+| `multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                               |
 
 ---
 
@@ -66,6 +66,7 @@ Run tests **per-module from the module folder** to avoid duplicate-package impor
 # From core-component-00/
 pytest context-engineering/testing/ -v
 pytest harness-engineering/testing/ -v
+pytest retrieval-augmented-generation/testing/ -v
 pytest multi-agent-engineering/testing/ -v
 ```
 
