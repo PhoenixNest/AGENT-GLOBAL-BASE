@@ -1,6 +1,14 @@
 """
 Error Boundary Pattern Implementation
 
+Scope: LLM application layer — Python programs making outbound LLM API calls
+(Anthropic SDK, OpenAI SDK, etc.). Handles provider-side failures: HTTP 429
+rate limits, request timeouts, and response validation errors.
+
+This module does NOT govern Claude Code tool-call failures. Those are handled
+by the harness-error-boundary-monitor.ps1 hook at the Claude Code session layer.
+Do not use this module as a substitute for that hook, or vice versa.
+
 This module provides wrapper classes for safely calling LLM models with
 tiered error recovery paths. Each error type has a defined recovery strategy.
 """
