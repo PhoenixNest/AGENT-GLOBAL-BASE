@@ -49,6 +49,7 @@ class SwarmConfig:
     variance_threshold: float = 0.20
     timeout_seconds: float = 300.0
     enable_feedback_loop: bool = True
+    circuit_breaker_open_abort: bool = True
 
 
 @dataclass
@@ -129,6 +130,7 @@ class SwarmResult:
     total_duration: float = 0.0
     agent_utilisation: float = 0.0
     feedback: Optional[dict[str, Any]] = None
+    circuit_breaker_aborts: int = 0
 
 
 class SwarmOrchestrator:
@@ -144,6 +146,18 @@ class SwarmOrchestrator:
         self.agents = agents or []
         self._execute_fn = execute_fn or self._default_execute
         self._execution_log: list[dict[str, Any]] = []
+        self._circuit_breaker = None
+
+    def set_circuit_breaker(self, cb) -> None:
+        """Inject a duck-typed circuit breaker.
+
+        The circuit breaker must implement:
+            is_open() -> bool
+            get_state() -> CircuitBreakerState (optional, for observability)
+
+        Using duck typing avoids a circular import with harness error_boundary.
+        """
+        self._circuit_breaker = cb
 
     def plan(
         self, user_request: str, subtasks: Optional[list[SubTask]] = None
@@ -171,6 +185,11 @@ class SwarmOrchestrator:
         await executor(plan)
         total_duration = time.time() - start_time
 
+        cb_aborts = sum(
+            1
+            for t in plan.subtasks
+            if t.result == {"error": "circuit_breaker_open"}
+        )
         result = SwarmResult(
             plan_id=plan.plan_id,
             success=all(t.status == TaskStatus.COMPLETED for t in plan.subtasks),
@@ -185,6 +204,7 @@ class SwarmOrchestrator:
             ],
             total_duration=total_duration,
             agent_utilisation=self._calc_utilisation(plan),
+            circuit_breaker_aborts=cb_aborts,
         )
 
         if self.config.enable_feedback_loop:
@@ -227,6 +247,15 @@ class SwarmOrchestrator:
     # -- Dispatch ----------------------------------------------------------
 
     async def _dispatch(self, task: SubTask) -> None:
+        if self._circuit_breaker is not None and self._circuit_breaker.is_open():
+            task.status = TaskStatus.FAILED
+            task.result = {"error": "circuit_breaker_open"}
+            task.completed_at = time.time()
+            logger.warning(
+                "Swarm dispatch blocked: circuit breaker OPEN for task %s",
+                task.task_id,
+            )
+            return
         task.status = TaskStatus.DISPATCHED
         task.started_at = time.time()
         try:
