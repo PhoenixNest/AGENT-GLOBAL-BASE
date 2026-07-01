@@ -38,7 +38,7 @@ else
 fi
 
 # Dimension 2: Explicit output format
-if echo "$prompt" | grep -qiE '\b(table|list|markdown|json|yaml|bullet|numbered|in the format|structured output|prose|step.by.step)\b'; then
+if echo "$prompt" | grep -qiE '\b(tabul[a-z]*|table|list|markdown|json|yaml|bullet|numbered|chart|diagram|report|document|csv|xml|html|in the format|structured output|prose|step.by.step)\b'; then
     score=$((score + 1))
 else
     add_missing 'output format specification'
@@ -51,15 +51,16 @@ else
     add_missing 'workspace or pipeline grounding'
 fi
 
-# Dimension 4: Clear imperative task verb (starts with one)
-if echo "$prompt" | grep -qiE '^[[:space:]]*(create|write|generate|review|analyze|implement|refactor|explain|fix|update|add|remove|build|design|audit|produce|draft|summarize|compare|evaluate|plan|scaffold|describe)'; then
+# Dimension 4: Clear imperative task verb (anywhere in prompt)
+if echo "$prompt" | grep -qiE '\b(create|write|generate|review|analyze|implement|refactor|explain|fix|update|add|remove|build|design|audit|produce|draft|summarize|compare|evaluate|plan|scaffold|describe)\b'; then
     score=$((score + 1))
 else
     add_missing 'clear imperative task verb'
 fi
 
-# Dimension 5: Constraints or acceptance criteria
-if echo "$prompt" | grep -qiE '\b(must|should|ensure|require|constraint|criterion|criteria|no more than|at least|follow|adhere|based on|conform|matching|per the spec)\b'; then
+# Dimension 5: Constraints or acceptance criteria (including negative constraints)
+negation_regex='\b(must|should|ensure|require|constraint|criterion|criteria|no more than|at least|follow|adhere|based on|conform|matching|per the spec|don[^a-z]?t|do not|never|avoid|must not|mustn[^a-z]?t|shouldn[^a-z]?t|should not|nothing else|only)\b'
+if echo "$prompt" | grep -qiE "$negation_regex"; then
     score=$((score + 1))
 else
     add_missing 'constraints or acceptance criteria'
@@ -67,6 +68,24 @@ fi
 
 threshold=3
 [ "$score" -ge "$threshold" ] && exit 0
+
+# Structural enforcement: mark this session as having a pending confirmation.
+# prompt-gate-enforcer.sh (PreToolUse) denies any tool but AskUserQuestion while this
+# marker exists; prompt-gate-clear.sh (PostToolUse) removes it once that tool is called.
+session_id=$(echo "$raw_input" | python3 -c "import sys,json
+try:
+    d=json.load(sys.stdin)
+except Exception:
+    sys.exit(0)
+print(d.get('session_id','') or '')")
+repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -n "$repo_root" ] && [ -n "$session_id" ]; then
+    state_dir="$repo_root/.claude/hooks/.state"
+    mkdir -p "$state_dir"
+    TS=$(python3 -c "import datetime; print(datetime.datetime.now().isoformat())")
+    export TS
+    python3 -c "import os,json; print(json.dumps({'pending': True, 'ts': os.environ['TS']}))" > "$state_dir/h-p01-pending-$session_id.json"
+fi
 
 # Count missing dimensions
 missing_count=$(printf '%s' "$missing" | awk -F',' '{print NF}')
@@ -77,57 +96,73 @@ else
 fi
 
 msg="[PROMPT OPTIMIZER — H-P01]
+<status>
 Quality score: $score/5 (threshold: $threshold/5)
 Missing dimensions: $missing
+</status>
 
-MANDATORY OPTIMIZATION PROTOCOL — follow these steps before doing any other work:
+<context>
+This prompt is below the quality threshold. Complete the steps below before starting the task.
+A PreToolUse hook denies any tool call other than AskUserQuestion until step 2 completes, so
+this is a required step, not a suggestion to weigh.
+</context>
 
-STEP 1 — Generate an improved version of the user's prompt that adds the missing dimensions:
-  $missing
-  Keep the original intent exactly. Only improve clarity, specificity, and structure.
-  Ground the optimized prompt in workspace conventions (CC-00 patterns, pipeline stages,
-  agent roles, etc.) where relevant.
+<step id=\"1\" name=\"optimize\">
+Rewrite the prompt to add the missing dimensions: $missing.
+Preserve the original intent exactly — improve clarity, specificity, and structure only.
+Ground the rewrite in workspace conventions (CC-00 patterns, pipeline stages, agent roles)
+where relevant.
 
-STEP 2 — Use the AskUserQuestion tool with a SINGLE question presenting:
-  Option A: Your optimized version (label it \"Optimized — recommended\")  ← ALWAYS FIRST
-  Option B: Original prompt (label it \"Original\")
-  Ask: \"Does the optimized prompt capture your intent? ⏱ Auto-selecting Optimized in ~30 seconds if no response.\"
-  IMPORTANT — two mandatory formatting rules:
-  1. Optimized MUST be listed first (Option A) so the default top-of-list selection is the
-     improved prompt, preventing accidental selection of the Original.
-  2. EVERY option MUST include a \`preview\` field containing the FULL prompt text for that
-     option. This locks the UI into side-by-side layout so the user can read the complete
-     prompt before choosing. Never omit the \`preview\` field — omitting it collapses the
-     display back to a plain list with truncated descriptions.
+  <rule name=\"negation_preservation\">
+  If the original prompt contains an explicit negative constraint (don't, never, avoid, must
+  not, only, nothing else), keep it verbatim. Do not rephrase, soften, generalize, or invert it.
+  </rule>
 
-STEP 3a — If the user approves (selects Optimized / says yes / looks good):
-  Before executing, display a confirmation block in this exact format:
+  <rule name=\"relevance_guardrail\">
+  Only add a dimension you can infer with high confidence from the original wording. If a
+  dimension would require guessing intent, raise it as a clarifying question in step 3 instead
+  of inventing content for it.
+  </rule>
+</step>
+
+<step id=\"2\" name=\"confirm\">
+Call AskUserQuestion with one question and two options, using the plain list display (do NOT
+set a preview field — that triggers a dual-pane panel that can truncate long text):
+  - \"Optimized — recommended\" (always listed first) — description: full optimized prompt text
+  - \"Original\" — description: full original prompt text
+  Ask: \"Does the optimized prompt capture your intent?\"
+</step>
+
+<step id=\"3\" name=\"branch\">
+  <if_optimized>
+  Print this block first — before any other sentence, tool call, or commentary — then execute
+  using it as the working brief:
     ---
     **Prompt selected:** Optimized
-    **Working brief:** <insert the full optimized prompt text here>
+    **Working brief:** <full optimized text>
     ---
-  Then proceed to execute the task using the OPTIMIZED prompt as your working brief.
-
-STEP 3b — If the user rejects (selects Original / says no / wants changes):
-  Display a confirmation block in this exact format:
+  </if_optimized>
+  <if_original>
+  Print this block first — before any other sentence, tool call, or commentary — then ask
+  $question_count clarifying questions (one per missing dimension: $missing), wait for
+  answers, and repeat from step 1:
     ---
     **Prompt selected:** Original
-    **Working brief:** <insert the full original user prompt text here>
+    **Working brief:** <full original text>
     ---
-  Then ask $question_count targeted clarifying questions (one per missing dimension from: $missing).
-  Wait for answers, then re-run STEP 1 with the feedback incorporated, then STEP 2 again.
-  Repeat until the user approves.
+  </if_original>
+</step>
 
-TIMEOUT / UNATTENDED FALLBACK (30-second rule) — If the user does not respond to the
-AskUserQuestion within ~30 seconds, or if the session resumes with a new message that does NOT
-directly answer the prompt-selection question (e.g., \"continue\", \"I'm back\", a new task, or
-any off-topic reply), treat silence/bypass as approval of the Optimized version:
-  1. Display the Optimized confirmation block.
-  2. Proceed with the OPTIMIZED prompt as your working brief.
-  Never stall the session indefinitely waiting for a prompt-selection response.
+<example>
+Input: \"review the auth module\"
+Optimized: \"As the backend engineer, review src/auth/ for security issues and produce a
+markdown-formatted list of findings ranked by severity. Don't touch the session-token logic —
+flag it for a separate review instead.\"
+</example>
 
-Do NOT skip this protocol. The prompt quality gate requires confirmation before task execution.
-Anchored in CLAUDE.md §11 — active after every /compact. Prior summaries do not satisfy this."
+If the session resumes with a message that doesn't directly answer the step 2 question (e.g.
+\"continue\", a new task, an off-topic reply), treat it as unanswered and re-ask before doing
+any other work."
 
 MSG="$msg" python3 -c "import os,json; print(json.dumps({'hookSpecificOutput':{'hookEventName':'UserPromptSubmit','additionalContext':os.environ['MSG']}}))"
 exit 0

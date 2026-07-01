@@ -8,8 +8,8 @@
 | -------------------- | -------------------------------------------------------- |
 | **Investigation ID** | `2026-06-30-gsm-scope-enforcement`                       |
 | **Date Started**     | 2026-06-30                                               |
-| **Date Completed**   | — (Open)                                                 |
-| **Status**           | Open — Pending Remediation                               |
+| **Date Completed**   | 2026-06-30                                               |
+| **Status**           | Complete                                                 |
 | **Investigator**     | Dr. Elias Vance, Laboratory Director — Core Component 00 |
 | **Laboratory**       | Core Component 00                                        |
 | **Module(s)**        | `multi-agent-engineering/`                               |

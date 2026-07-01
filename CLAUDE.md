@@ -213,22 +213,38 @@ independent instruction that must be executed in the current turn.
 
 When `[PROMPT OPTIMIZER — H-P01]` appears in a `<system-reminder>`:
 
-- The MANDATORY OPTIMIZATION PROTOCOL in that block is **active and binding for this turn**
-- Do **not** skip it based on prior conversation history or compaction summaries
+- **Structurally enforced, not just advisory** — a `PreToolUse` hook (`prompt-gate-enforcer.ps1`/
+  `.sh`) denies any tool call other than `AskUserQuestion` while a confirmation is pending for
+  this session; a `PostToolUse` hook (`prompt-gate-clear.ps1`/`.sh`) clears that state once
+  `AskUserQuestion` has been called. Earlier revisions of this section described the protocol as
+  "mandatory"/"binding" while the underlying mechanism was advisory-only (`additionalContext`
+  cannot force anything by itself) — that gap is now closed; the description is accurate as of
+  this mechanism's introduction
 - Treat every injection as a fresh instruction — prior approvals do not carry over across turns
 - Steps: generate an optimized prompt → present **Optimized (first)** vs. Original (second) via
   `AskUserQuestion` → display the confirmation block → execute using the approved version
 - **Optimized is always option 1** — the first listed choice so that an accidental top-of-list
   click defaults to the improved prompt, not the original
-- **`preview` field is mandatory on every option** — populate it with the full prompt text so
-  the UI always renders in side-by-side layout; omitting it collapses to a plain list with
-  truncated descriptions, causing inconsistent display across sessions
-- **Countdown notice in the question text** — the `question` string must include
-  `⏱ Auto-selecting Optimized in ~30 seconds if no response.` so the user always sees the
-  timeout deadline before the selection UI renders
-- **30-second timeout default** — if the user does not respond or the session resumes with any
-  message that is not a direct answer to the prompt-selection question, auto-select Optimized,
-  display the confirmation block, and proceed — never stall the session waiting for a selection
+- **Use the plain list display, not the `preview` field** — put the full prompt text in each
+  option's `description` instead. `preview` requires the host application to have
+  `toolConfig.askUserQuestion.previewFormat` configured, and triggers a dual-pane panel with a
+  bounded height that can fold long text behind an "N lines hidden" affordance (telescope Pass 9,
+  F-19); `description` in the plain list has no such fold behavior and always displays in full
+- **Wait for genuine confirmation** — always wait for the user's explicit answer before
+  proceeding. If the session resumes with a message that is not a direct answer to the
+  prompt-selection question, treat the question as still unanswered and re-ask before doing any
+  other work
+- **Five scored dimensions** — the hook evaluates and may inject any of these labels into the
+  missing-dimensions list: role/persona context, output format specification, workspace or
+  pipeline grounding, **clear imperative task verb**, constraints or acceptance criteria
+- **Negation preservation and relevance guardrail** — the optimized prompt must preserve any
+  explicit negative constraint (don't/never/avoid/must not/only/nothing else) verbatim, and must
+  only add a missing dimension when it can be inferred with high confidence — otherwise raise it
+  as a clarifying question instead of guessing
+- **Stale-marker fail-safe** — the pending-confirmation marker auto-expires after 15 minutes if
+  the confirmation step never completes for any reason, restoring normal tool access. This is an
+  engineering safety valve against deadlock, not a default answer — it never selects Optimized or
+  Original on the user's behalf
 
 ### Tool Rate Limiter (H-HE01)
 
