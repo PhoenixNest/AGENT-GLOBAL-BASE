@@ -8,3 +8,6 @@ tests/
 .venv/
 __pycache__/
 *.py[cod]
+
+# RAG sync state (machine-local index metadata, not committed)
+rag-system/rag-sync-state.json

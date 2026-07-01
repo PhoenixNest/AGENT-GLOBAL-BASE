@@ -39,6 +39,16 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-gate-enforcer.ps1\"}else{exit 0}"]
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write|NotebookEdit",
         "hooks": [
           {
@@ -81,6 +91,16 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-gate-clear.ps1\"}else{exit 0}"]
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {
@@ -119,8 +139,7 @@
       "mcp__workspace-knowledge__find_related_documents",
       "mcp__workspace-knowledge__list_research_by_topic",
       "mcp__workspace-knowledge__agent_knowledge_brief"
-    ],
-    "deny": ["Read(./GEMINI.md)", "Read(./.gemini/**)"]
+    ]
   },
   "includeCoAuthoredBy": false,
   "attribution": {

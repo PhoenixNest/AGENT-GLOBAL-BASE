@@ -40,6 +40,16 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/prompt-gate-enforcer.sh\""]
+          }
+        ]
+      },
+      {
         "matcher": "Edit|Write|NotebookEdit",
         "hooks": [
           {
@@ -81,6 +91,16 @@
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash",
+            "args": ["-c", "r=$(git rev-parse --show-toplevel 2>/dev/null) && bash \"$r/.claude/hooks/prompt-gate-clear.sh\""]
+          }
+        ]
+      },
       {
         "matcher": "Write|Edit",
         "hooks": [
