@@ -167,5 +167,3 @@ Recovery time: < 60 s (FAISS index on disk) or 2–5 min (fresh `rebuild_index`)
 | 1     | Shadow mode — Qdrant writes, FAISS reads     | ✅ Complete |
 | 2     | Qdrant primary, FAISS hot standby            | ✅ Complete |
 | 3     | Qdrant primary, FAISS permanent warm standby | ✅ Active   |
-
-Reference: `core-component-00/telescope/2026-06-25-qdrant-migration-plan/research-report.md`

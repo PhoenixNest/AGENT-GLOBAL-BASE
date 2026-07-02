@@ -193,14 +193,13 @@ documented across this module:
 
 ## References
 
-| Resource                             | Location                                                                                   |
-| ------------------------------------ | ------------------------------------------------------------------------------------------ |
-| **CC-00 RAG Architecture**           | `core-component-00/retrieval-augmented-generation/architecture/overview.md`                |
-| **Index Sync Hook Pattern**          | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md`            |
-| **Evaluation Reference**             | `core-component-00/retrieval-augmented-generation/evaluation/reference-table.md`           |
-| **Full-Stack RAG Deployment**        | `core-component-00/retrieval-augmented-generation/deployment/full-stack-rag-deployment.md` |
-| **Qdrant Migration Research Report** | `core-component-00/telescope/2026-06-25-qdrant-migration-plan/research-report.md`          |
-| **Qdrant Documentation**             | https://qdrant.tech/documentation/                                                         |
+| Resource                      | Location                                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| **CC-00 RAG Architecture**    | `core-component-00/retrieval-augmented-generation/architecture/overview.md`                |
+| **Index Sync Hook Pattern**   | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md`            |
+| **Evaluation Reference**      | `core-component-00/retrieval-augmented-generation/evaluation/reference-table.md`           |
+| **Full-Stack RAG Deployment** | `core-component-00/retrieval-augmented-generation/deployment/full-stack-rag-deployment.md` |
+| **Qdrant Documentation**      | https://qdrant.tech/documentation/                                                         |
 
 ---
 

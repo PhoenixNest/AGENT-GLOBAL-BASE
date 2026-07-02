@@ -39,8 +39,8 @@ Where:
 Examples:
 
 ```
-2026-05-01-ase-maturity-assessment/
 2026-06-15-pipeline-stage-consolidation/
+2026-08-10-recruitment-cycle-review/
 ```
 
 ---

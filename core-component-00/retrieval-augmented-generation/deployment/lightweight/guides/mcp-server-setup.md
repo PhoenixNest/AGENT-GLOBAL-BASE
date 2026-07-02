@@ -303,8 +303,6 @@ detection). Rollback is available within one MCP server restart cycle.
 
 | Resource                     | Location                                                                                                     |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| **Deployment Research**      | `core-component-00/telescope/2026-06-25-qdrant-migration-plan/plans/02-deployment-guide.md`                  |
-| **Initialization Research**  | `core-component-00/telescope/2026-06-25-qdrant-migration-plan/plans/03-initialization-guide.md`              |
 | **Hook Configuration**       | `core-component-00/retrieval-augmented-generation/deployment/lightweight/guides/hook-configuration.md`       |
 | **State File Schema**        | `core-component-00/retrieval-augmented-generation/deployment/lightweight/reference/rag-sync-state-schema.md` |
 | **Lightweight RAG Overview** | `core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md`                  |

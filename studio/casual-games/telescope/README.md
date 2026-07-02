@@ -4,7 +4,6 @@
 **Governance sign-off:** Marcus Vogel, Studio Director
 **Day-to-day steward:** James Okonkwo, Executive Producer
 **Creative/monetization co-owner:** Sakura Ishimori, Creative Director
-**Established:** 2026-07-02
 **Purpose:** Archive for competitive, market, and technical research feeding the Studio's 11-stage
 game pipeline
 
@@ -12,15 +11,13 @@ game pipeline
 
 ## Overview
 
-This is the Studio's first dedicated research archive, split out from the shared workspace-root
-`telescope/` (which had been exclusively CC-00-flavored and never covered the Studio). See
+This is the Studio's dedicated research archive, documenting competitive, market, and technical
+research separately from CC-00's engineering research and the Company's product research. See
 workspace-root `telescope/README.md` for the cross-department index.
 
-**This archive starts empty by CEO decision (2026-07-02).** Existing research-shaped documents
-in `studio/casual-games/library/topics/` (SDK vetting report, pen-testing plan, UA strategy
-review framework, and others) remain in place and are not migrated here — see this folder's
-`CLAUDE.md` for the reconciliation note. `telescope/` is used only for future dated
-investigations going forward.
+Existing research-shaped documents in `studio/casual-games/library/topics/` (SDK vetting report,
+pen-testing plan, UA strategy review framework, and others) remain in place — see this folder's
+`CLAUDE.md` for the relationship between the two locations.
 
 ---
 

@@ -8,10 +8,8 @@ engineering or LLM-research investigation.
 ## What This Is
 
 The Laboratory's dedicated instance of the workspace's research-archive pattern — a structured
-repository for engineering and cutting-edge LLM research investigations owned by CC-00. It was
-split out from the shared workspace-root `telescope/` on 2026-07-02 so that each top-level system
-(Company, Studio, CC-00 Lab) maintains research findings scoped to its own direction. See the
-root `telescope/README.md` for the cross-department index and the rationale for the split.
+repository for engineering and cutting-edge LLM research investigations owned by CC-00. See the
+root `telescope/README.md` for the cross-department index.
 
 ---
 
@@ -32,15 +30,18 @@ folder's CLAUDE.md for the classification rule).
 
 ```
 core-component-00/telescope/
-├── README.md              ← Archive index — migrated + new CC-00 research reports
-├── template/               ← Report template (use this for every new report)
+├── README.md               ← Archive index
+├── template/                ← Report template (use this for every new report)
 │   ├── research-report.md
 │   └── qa-document.md
-├── 2026-06-19-cc00-engineering-hooks-research/
-├── 2026-06-25-qdrant-migration-plan/
-├── 2026-06-30-llm-engineering-stack-research/
-└── 2026-06-30-prompt-optimizer-audit/
+└── <YYYY-MM-DD-slug>/       ← Individual research reports
 ```
+
+New investigations use the Simple shape (a single `research-report.md`) unless the investigation
+genuinely produces multiple ancillary documents, in which case use the Programme shape
+(`research-report.md` + one `supporting/` folder). See workspace-root `telescope/CLAUDE.md` §
+Telescope Conventions for the full Simple/Programme shape rule and the four-state Status
+Lifecycle — both apply here.
 
 ---
 
@@ -48,8 +49,10 @@ core-component-00/telescope/
 
 1. Create a new folder: `YYYY-MM-DD-<slug>/`
 2. Copy the template: `template/research-report.md` → `YYYY-MM-DD-<slug>/research-report.md`
-3. Complete the report in the new folder
-4. Add an entry to `README.md` (the archive index)
+3. Complete the report in the new folder — use the Simple shape unless the investigation
+   genuinely produces multiple ancillary documents, in which case use the Programme shape
+   (`research-report.md` + one `supporting/` folder)
+4. Add an entry to `README.md` (the archive index), including its Status
 
 Naming, template usage, append-only policy, versioning, and archival status follow the same
 conventions as every other telescope instance — see workspace-root `telescope/CLAUDE.md` for the
@@ -72,16 +75,3 @@ ownership).
 - **Owner:** Dr. Elias Vance, CC-00 Laboratory Director
 - **Profile:** `core-component-00/director/agent/profile.md`
 - **Authority:** AGENTS.md § 6. Core Component 00
-
----
-
-## Migration Note (2026-07-02)
-
-Four reports migrated here from the former unified `telescope/` on the CEO's decision to
-decentralize the archive by department: `2026-06-19-cc00-engineering-hooks-research`,
-`2026-06-25-qdrant-migration-plan`, `2026-06-30-llm-engineering-stack-research`, and
-`2026-06-30-prompt-optimizer-audit`. Two reports — the MCP server assessment and the
-cross-platform compatibility audit — were judged workspace-wide governance artifacts rather than
-Lab-scoped research and remain at the workspace-root `telescope/`. External documentation citing
-the four migrated reports' old `telescope/<slug>/` paths has been updated to
-`core-component-00/telescope/<slug>/`.

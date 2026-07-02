@@ -162,7 +162,6 @@ class HandoffPacket:
 ## Remediation Status
 
 **Formal sub-issue raised:** TEL-2026-06-30-GSMSE
-(`core-component-00/telescope/2026-06-30-llm-engineering-stack-research/gsm-scope-enforcement/research-report.md`)
 
 **CEO approval:** 2026-06-30 — remediation plan D1/D2/D3 approved.
 

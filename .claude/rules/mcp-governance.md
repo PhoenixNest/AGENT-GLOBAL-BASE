@@ -90,7 +90,6 @@ If any checkbox is ☐ (unchecked) after honest assessment, the server fails. Do
 2. All four checkboxes must be checked.
 3. Add the server to `.mcp.json` only after all gates pass.
 4. Document the server in the Registered Servers table above.
-5. Reference: `telescope/2026-06-20-mcp-server-assessment/research-report.md` (Appendix C)
 
 ---
 
@@ -108,5 +107,4 @@ above with the reason, commit.
 ---
 
 **Authority:** CEO → CC-00 Laboratory Director (Dr. Elias Vance)
-**Reference:** `telescope/2026-06-20-mcp-server-assessment/research-report.md` Appendix C
 **Established:** 2026-06-24

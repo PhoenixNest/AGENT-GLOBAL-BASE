@@ -51,7 +51,9 @@ AGENT-GLOBAL-BASE/
 │   ├── multi-agent-engineering/    ← Layer 5 — how agents cooperate
 │   └── director/                   ← Lab Director persona (Dr. Elias Vance)
 │
-└── telescope/                   ← Research Archive Hub
+└── telescope/                   ← Cross-department research index (company/, core-component-00/,
+                                     and studio/casual-games/ each keep their own instance too —
+                                     see telescope/README.md)
 ```
 
 ---
@@ -167,13 +169,16 @@ Profile locations:
 
 ## Quick Navigation
 
-| I need…                              | Go to                                                         |
-| ------------------------------------ | ------------------------------------------------------------- |
-| Full workspace orientation (agents)  | `AGENTS.md`                                                   |
-| Company overview / people / pipeline | `company/library/README.md`                                   |
-| A specific department's agents       | `company/departments/`                                        |
-| Studio structure + game pipeline     | `studio/casual-games/library/overview/casual-games-studio.md` |
-| LLM engineering patterns             | `core-component-00/README.md`                                 |
-| ASE governance (ADRs, compliance)    | `core-component-00/agent-systems-engineering/`                |
-| Production Python code               | `core-component-00/<module>/implementations/`                 |
-| Research archive                     | `telescope/README.md`                                         |
+| I need…                                   | Go to                                                         |
+| ----------------------------------------- | ------------------------------------------------------------- |
+| Full workspace orientation (agents)       | `AGENTS.md`                                                   |
+| Company overview / people / pipeline      | `company/library/README.md`                                   |
+| A specific department's agents            | `company/departments/`                                        |
+| Studio structure + game pipeline          | `studio/casual-games/library/overview/casual-games-studio.md` |
+| LLM engineering patterns                  | `core-component-00/README.md`                                 |
+| ASE governance (ADRs, compliance)         | `core-component-00/agent-systems-engineering/`                |
+| Production Python code                    | `core-component-00/<module>/implementations/`                 |
+| Research archive (cross-department index) | `telescope/README.md`                                         |
+| CC-00 engineering + LLM research          | `core-component-00/telescope/README.md`                       |
+| Company product research                  | `company/telescope/README.md`                                 |
+| Studio game/market research               | `studio/casual-games/telescope/README.md`                     |

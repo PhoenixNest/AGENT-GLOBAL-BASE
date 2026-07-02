@@ -771,12 +771,21 @@ def find_related_documents(seed_doc_path: str, top_k: int = 5) -> dict[str, Any]
         return {"error": str(exc), "_meta": engine._meta_block()}
 
 
+TELESCOPE_PREFIXES = (
+    "telescope/",
+    "company/telescope/",
+    "core-component-00/telescope/",
+    "studio/casual-games/telescope/",
+)
+
+
 @mcp.tool()
 def list_research_by_topic(topic: str, format: str = "brief") -> dict[str, Any]:
-    """List research archives in telescope/ by topic.
+    """List research archives across all telescope/ instances (workspace root plus the
+    company/, core-component-00/, and studio/casual-games/ department archives) by topic.
     format: 'brief' returns file list; 'full' returns snippets."""
     results = engine._search_with_fallback(topic, top_k=10)
-    telescope_results = [r for r in results if r["file"].startswith("telescope/")]
+    telescope_results = [r for r in results if r["file"].startswith(TELESCOPE_PREFIXES)]
     if format == "full":
         return {
             "topic": topic,
