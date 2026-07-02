@@ -310,10 +310,14 @@ core-component-00/
 ├── retrieval-augmented-generation/  ← Layer 4 — Where to get content
 ├── multi-agent-engineering/         ← Layer 5 — How agents cooperate
 ├── director/                        ← Lab Director: Dr. Elias Vance
-└── telescope/                       ← Research Archive Hub (workspace root)
+└── telescope/                       ← CC-00's own research archive (engineering + LLM research)
 ```
 
-**Note:** `telescope/` physically resides at the workspace root but is maintained by CC-00 as the centralized research documentation repository.
+**Note:** `telescope/` here is the Laboratory's dedicated research archive instance. Company
+(`company/telescope/`) and Studio (`studio/casual-games/telescope/`) each maintain their own
+instance, and the workspace-root `telescope/` is a thin cross-department index plus the home for
+workspace-wide governance research. See workspace-root `telescope/CLAUDE.md` for the
+classification rule and shared conventions.
 
 ### 6.2 Laboratory Profile
 
@@ -585,33 +589,36 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ## 11. Navigation Index
 
-| I need to understand…                      | Go to                                                     |
-| ------------------------------------------ | --------------------------------------------------------- |
-| **Company**                                |                                                           |
-| The company as a whole                     | `company/library/README.md`                               |
-| Org chart, departments, tier system        | `company/library/overview/company.md`                     |
-| All personnel and pipeline stage ownership | `company/library/overview/personnel.md`                   |
-| The 13-stage development pipeline          | `company/library/overview/pipeline.md`                    |
-| A specific department                      | `company/library/departments/<dept>.md`                   |
-| Architecture + ADR conventions             | `company/library/topics/architecture.md`                  |
-| Security + OWASP MASVS standards           | `company/library/topics/security.md`                      |
-| Testing + defect severity system           | `company/library/topics/testing.md`                       |
-| Progress monitoring + session recovery     | `company/library/topics/monitoring.md`                    |
-| Localization + i18n pipeline               | `company/library/topics/localization.md`                  |
-| **Studio**                                 |                                                           |
-| Studio overview and naming conventions     | `studio/README.md`                                        |
-| Casual Games Studio structure              | `studio/casual-games/README.md`                           |
-| Casual Games 11-stage pipeline             | `studio/casual-games/pipeline/casual-games-pipeline.md`   |
-| Studio crew by division                    | `studio/casual-games/team/README.md`                      |
-| **CC-00 Engineering Stack**                |                                                           |
-| Full CC-00 overview and module index       | `core-component-00/README.md`                             |
-| Synthesis of all five disciplines          | `core-component-00/agent-systems-engineering/CONCEPTS.md` |
-| How to write effective prompts             | `core-component-00/prompt-engineering/`                   |
-| How to architect context windows           | `core-component-00/context-engineering/`                  |
-| How to execute model calls safely          | `core-component-00/harness-engineering/`                  |
-| How to build RAG pipelines                 | `core-component-00/retrieval-augmented-generation/`       |
-| How multi-agent systems cooperate          | `core-component-00/multi-agent-engineering/`              |
-| Document research investigations           | `telescope/README.md`                                     |
+| I need to understand…                                     | Go to                                                     |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| **Company**                                               |                                                           |
+| The company as a whole                                    | `company/library/README.md`                               |
+| Org chart, departments, tier system                       | `company/library/overview/company.md`                     |
+| All personnel and pipeline stage ownership                | `company/library/overview/personnel.md`                   |
+| The 13-stage development pipeline                         | `company/library/overview/pipeline.md`                    |
+| A specific department                                     | `company/library/departments/<dept>.md`                   |
+| Architecture + ADR conventions                            | `company/library/topics/architecture.md`                  |
+| Security + OWASP MASVS standards                          | `company/library/topics/security.md`                      |
+| Testing + defect severity system                          | `company/library/topics/testing.md`                       |
+| Progress monitoring + session recovery                    | `company/library/topics/monitoring.md`                    |
+| Localization + i18n pipeline                              | `company/library/topics/localization.md`                  |
+| **Studio**                                                |                                                           |
+| Studio overview and naming conventions                    | `studio/README.md`                                        |
+| Casual Games Studio structure                             | `studio/casual-games/README.md`                           |
+| Casual Games 11-stage pipeline                            | `studio/casual-games/pipeline/casual-games-pipeline.md`   |
+| Studio crew by division                                   | `studio/casual-games/team/README.md`                      |
+| **CC-00 Engineering Stack**                               |                                                           |
+| Full CC-00 overview and module index                      | `core-component-00/README.md`                             |
+| Synthesis of all five disciplines                         | `core-component-00/agent-systems-engineering/CONCEPTS.md` |
+| How to write effective prompts                            | `core-component-00/prompt-engineering/`                   |
+| How to architect context windows                          | `core-component-00/context-engineering/`                  |
+| How to execute model calls safely                         | `core-component-00/harness-engineering/`                  |
+| How to build RAG pipelines                                | `core-component-00/retrieval-augmented-generation/`       |
+| How multi-agent systems cooperate                         | `core-component-00/multi-agent-engineering/`              |
+| Document research investigations (cross-department index) | `telescope/README.md`                                     |
+| CC-00 engineering + LLM research                          | `core-component-00/telescope/README.md`                   |
+| Company product research                                  | `company/telescope/README.md`                             |
+| Studio game/market research                               | `studio/casual-games/telescope/README.md`                 |
 
 ---
 

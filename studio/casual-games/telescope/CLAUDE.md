@@ -8,10 +8,8 @@ market, or technical research investigation.
 ## What This Is
 
 The Studio's dedicated instance of the workspace's research-archive pattern — a structured
-repository for dated game/market/technical research investigations. Established 2026-07-02 as
-part of the CEO-directed decentralization of the former unified workspace-root `telescope/`,
-which had been exclusively CC-00-flavored and never covered the Studio. See workspace-root
-`telescope/README.md` for the cross-department index and rationale.
+repository for dated game/market/technical research investigations. See workspace-root
+`telescope/README.md` for the cross-department index.
 
 ---
 
@@ -30,11 +28,8 @@ workspace-root `telescope/`).
 ## Relationship to `studio/casual-games/library/topics/` — Important
 
 `library/topics/` already contains research-shaped documents filed by subject rather than by
-date (e.g. an SDK vetting report, a pen-testing plan, a UA strategy review framework). **The CEO
-decided (2026-07-02) to leave those documents in place — they are NOT migrated into this
-archive.** `telescope/` starts empty and is used only for _future_ investigations going forward.
-
-This means, until a future reconciliation decision is made:
+date (e.g. an SDK vetting report, a pen-testing plan, a UA strategy review framework). Those
+documents stay where they are — they are **not** migrated into this archive.
 
 - Do not move or duplicate existing `library/topics/` documents into `telescope/`
 - New dated investigations belong in `telescope/`, not `library/topics/`
@@ -47,7 +42,7 @@ This means, until a future reconciliation decision is made:
 
 ```
 studio/casual-games/telescope/
-├── README.md              ← Archive index (currently empty)
+├── README.md              ← Archive index
 └── template/               ← Report template (use this for every new report)
     ├── research-report.md
     └── qa-document.md

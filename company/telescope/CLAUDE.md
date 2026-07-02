@@ -8,10 +8,8 @@ investigation.
 ## What This Is
 
 The Company's dedicated instance of the workspace's research-archive pattern — a structured
-repository for product-oriented research investigations. Established 2026-07-02 as part of the
-CEO-directed decentralization of the former unified workspace-root `telescope/`, which had been
-exclusively CC-00-flavored. See workspace-root `telescope/README.md` for the cross-department
-index and rationale.
+repository for product-oriented research investigations. See workspace-root `telescope/README.md`
+for the cross-department index.
 
 ---
 

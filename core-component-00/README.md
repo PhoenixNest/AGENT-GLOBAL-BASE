@@ -124,15 +124,15 @@ CC-00 operates with a four-part mission:
 
 ## Active Research Programmes
 
-| Programme                              | Status                    | Lead Module                       | Key Open Question                                                                                                                                                                                   |
-| -------------------------------------- | ------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Context Compression Theory**         | **Resolved** (2026-06-30) | `context-engineering/`            | Compaction API (`compact_20260112`) is the canonical solution — 87–95% reduction; align `context_compressor.py`. See Telescope `2026-06-30-llm-engineering-stack-research/`.                        |
-| **Multi-Agent Memory Coherence**       | **Resolved** (2026-06-30) | `context-engineering/`            | git-as-substrate with `current_tasks/` file locking is the canonical pattern; GSM scope enforcement gap is a P1 security item. See Telescope `2026-06-30-llm-engineering-stack-research/`.          |
-| **Retrieval Freshness Guarantees**     | **Resolved** (2026-06-26) | `retrieval-augmented-generation/` | Staleness is a policy variable (debounce threshold of a post-write hook), not an architectural invariant. See `patterns/index-sync-hooks.md`.                                                       |
-| **Prompt Stability Under Fine-Tuning** | **Resolved** (2026-06-30) | `prompt-engineering/`             | Fine-tuning is Haiku-via-Bedrock only; schema-constrained prompts are the most stable class; CoT degrades post-FT. See Telescope `2026-06-30-llm-engineering-stack-research/`.                      |
-| **Harness Performance Benchmarking**   | **Resolved** (2026-06-30) | `harness-engineering/`            | SDK default is 10-min timeout (30 min worst-case); override per tier: Haiku 15s / Sonnet 30s / Opus 90s. P0 fix in `error_boundary.py`. See Telescope `2026-06-30-llm-engineering-stack-research/`. |
+| Programme                              | Status                    | Lead Module                       | Key Open Question                                                                                                                             |
+| -------------------------------------- | ------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Context Compression Theory**         | **Resolved** (2026-06-30) | `context-engineering/`            | Compaction API (`compact_20260112`) is the canonical solution — 87–95% reduction; align `context_compressor.py`.                              |
+| **Multi-Agent Memory Coherence**       | **Resolved** (2026-06-30) | `context-engineering/`            | git-as-substrate with `current_tasks/` file locking is the canonical pattern; GSM scope enforcement gap is a P1 security item.                |
+| **Retrieval Freshness Guarantees**     | **Resolved** (2026-06-26) | `retrieval-augmented-generation/` | Staleness is a policy variable (debounce threshold of a post-write hook), not an architectural invariant. See `patterns/index-sync-hooks.md`. |
+| **Prompt Stability Under Fine-Tuning** | **Resolved** (2026-06-30) | `prompt-engineering/`             | Fine-tuning is Haiku-via-Bedrock only; schema-constrained prompts are the most stable class; CoT degrades post-FT.                            |
+| **Harness Performance Benchmarking**   | **Resolved** (2026-06-30) | `harness-engineering/`            | SDK default is 10-min timeout (30 min worst-case); override per tier: Haiku 15s / Sonnet 30s / Opus 90s. P0 fix in `error_boundary.py`.       |
 
-**Research Archive:** Completed investigations and research findings are permanently archived in the [Telescope Research Archive Hub](../telescope/README.md) following a standardized documentation template.
+**Research Archive:** Completed investigations and research findings are permanently archived in this Laboratory's own [Telescope instance](./telescope/README.md) (engineering + LLM research); see the workspace-root [Telescope index](../telescope/README.md) for the other departments' archives.
 
 ---
 
@@ -218,7 +218,7 @@ Foundational paper: [Agent Systems Engineering: The Convergence of Four Discipli
 | Pass context between agents                   | `[context-engineering/patterns/multi-agent-handoff.md](./context-engineering/patterns/multi-agent-handoff.md)`               |
 | Understand RAG security controls              | `[retrieval-augmented-generation/security/guide.md](./retrieval-augmented-generation/security/guide.md)`                     |
 | Wire all four modules together                | `[context-engineering/workspace/integration-guide.md](./context-engineering/workspace/integration-guide.md)`                 |
-| Document research findings                    | `[telescope/README.md](../telescope/README.md)`                                                                              |
+| Document research findings                    | `[telescope/README.md](./telescope/README.md)`                                                                               |
 
 ---
 

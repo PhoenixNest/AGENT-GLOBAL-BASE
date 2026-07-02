@@ -99,7 +99,7 @@ AGENT-GLOBAL-BASE/
 │
 └── telescope/                            ← Cross-department research index  [→ telescope/CLAUDE.md]
     (per-department archives: company/telescope/, studio/casual-games/telescope/,
-     core-component-00/telescope/ — split 2026-07-02; see telescope/README.md)
+     core-component-00/telescope/ — see telescope/README.md)
 ```
 
 ---
@@ -236,8 +236,8 @@ When `[PROMPT OPTIMIZER — H-P01]` appears in a `<system-reminder>`:
 - **Use the plain list display, not the `preview` field** — put the full prompt text in each
   option's `description` instead. `preview` requires the host application to have
   `toolConfig.askUserQuestion.previewFormat` configured, and triggers a dual-pane panel with a
-  bounded height that can fold long text behind an "N lines hidden" affordance (telescope Pass 9,
-  F-19); `description` in the plain list has no such fold behavior and always displays in full
+  bounded height that can fold long text behind an "N lines hidden" affordance; `description` in
+  the plain list has no such fold behavior and always displays in full
 - **Wait for genuine confirmation** — always wait for the user's explicit answer before
   proceeding. If the session resumes with a message that is not a direct answer to the
   prompt-selection question, treat the question as still unanswered and re-ask before doing any

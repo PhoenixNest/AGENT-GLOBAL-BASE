@@ -2,20 +2,15 @@
 
 **Classification:** Research Documentation Repository
 **Owner/Curator:** CPO — Marcus Tran-Yoshida
-**Established:** 2026-07-02
 **Purpose:** Archive for product-oriented research investigations feeding the Company pipeline
 
 ---
 
 ## Overview
 
-This is the Company's dedicated research archive, split out from the shared workspace-root
-`telescope/` (which had been exclusively CC-00-flavored) so that product-oriented investigations
-have a proper home distinct from CC-00's engineering research and the Studio's game research.
-See workspace-root `telescope/README.md` for the cross-department index.
-
-No reports were migrated in at founding — all six reports in the former unified archive were
-CC-00-native or workspace-governance-wide; none belonged here. This archive starts clean.
+This is the Company's dedicated research archive, documenting product-oriented investigations
+separately from CC-00's engineering research and the Studio's game research. See workspace-root
+`telescope/README.md` for the cross-department index.
 
 ---
 
@@ -31,10 +26,9 @@ company/telescope/
 ```
 
 Naming convention, lifecycle, template usage, append-only policy, versioning, and quality
-standards are unchanged from the prior unified archive — see workspace-root
-`telescope/CLAUDE.md` for the full shared ruleset, and this folder's `CLAUDE.md` for what's
-distinct about the Company's scope and its relationship to `library/` and
-`optimization-history/`.
+standards follow the shared conventions — see workspace-root `telescope/CLAUDE.md` for the full
+ruleset, and this folder's `CLAUDE.md` for what's distinct about the Company's scope and its
+relationship to `library/` and `optimization-history/`.
 
 ---
 
