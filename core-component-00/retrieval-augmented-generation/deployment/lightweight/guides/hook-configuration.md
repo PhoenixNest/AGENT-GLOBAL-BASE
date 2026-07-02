@@ -179,7 +179,7 @@ and the hook.
 
 | Resource                       | Location                                                                                                     |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| **Hook Design Research**       | `telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md`                                         |
+| **Hook Design Research**       | `core-component-00/telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md`                       |
 | **State File Schema**          | `core-component-00/retrieval-augmented-generation/deployment/lightweight/reference/rag-sync-state-schema.md` |
 | **MCP Server Setup**           | `core-component-00/retrieval-augmented-generation/deployment/lightweight/guides/mcp-server-setup.md`         |
 | **Index Sync Hook Pattern**    | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md`                              |

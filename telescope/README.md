@@ -1,325 +1,107 @@
-# Telescope — Research Archive Hub
+# Telescope — Cross-Department Research Index
 
-**Classification:** Research Documentation Repository  
-**Owner:** Core Component 00 Laboratory  
-**Director:** Dr. Elias Vance  
-**Established:** 2026-05-09  
-**Purpose:** Centralized archive for requirement investigation reports and technical research findings
+**Classification:** Research Documentation Repository (cross-department index)
+**Established:** 2026-05-09 · **Decentralized:** 2026-07-02
+**Purpose:** Index into the workspace's three department research archives, plus home for
+research that is genuinely workspace-wide in scope
 
 ---
 
 ## Overview
 
-**Telescope** is the Research Archive Hub for Core Component 00 — a structured repository housing research reports produced during the investigation phase of new user requirements, feature requests, and technical inquiries.
+**Telescope** began as a single unified research archive owned exclusively by Core Component 00.
+On 2026-07-02, the CEO directed that each top-level system maintain its own instance, so research
+direction is documented separately per department instead of all being filed under the Lab:
 
-When a user presents a requirement that demands investigation before implementation, the research findings are documented here following a standardized template. This ensures:
+| Instance                             | Scope                                                       | Owner                         |
+| ------------------------------------ | ----------------------------------------------------------- | ----------------------------- |
+| **`core-component-00/telescope/`**   | Engineering + cutting-edge LLM research                     | Dr. Elias Vance, Lab Director |
+| **`company/telescope/`**             | Product-oriented research                                   | Marcus Tran-Yoshida, CPO      |
+| **`studio/casual-games/telescope/`** | Game-design / competitive / live-ops / market research      | Marcus Vogel, Studio Director |
+| **`telescope/` (this folder)**       | Cross-department index + workspace-wide governance research | Organizer / CEO               |
 
-- **Traceability** — Every requirement investigation has a permanent record
-- **Knowledge retention** — Research findings are preserved for future reference
-- **Decision continuity** — Context is maintained across sessions and team members
-- **Pattern recognition** — Similar requirements can reference prior investigations
+This folder itself no longer hosts general research — it holds the cross-department index and
+any investigation that is genuinely cross-cutting (see `CLAUDE.md` for the classification rule).
 
 ---
 
-## Archive Structure
+## Archive Structure (this folder)
 
 ```
 telescope/
-├── README.md                    ← This file
-├── template/                    ← Research documentation templates
-│   ├── research-report.md       ← Standard template for all investigations
-│   └── qa-document.md           ← Q&A template for stakeholder questions
-└── <YYYY-MM-DD-slug>/           ← Individual research reports (one per investigation)
-    ├── research-report.md       ← Completed investigation following template
-    └── qa-document.md           ← Optional: Q&A document for stakeholder questions
+├── README.md                                        ← This file
+├── CLAUDE.md                                          ← Classification rule + shared ruleset
+├── template/                                          ← Canonical template (each instance mirrors it)
+│   ├── research-report.md
+│   └── qa-document.md
+├── 2026-06-20-mcp-server-assessment/                  ← Workspace-wide governance report (stays here)
+└── 2026-06-29-cross-platform-compatibility-audit/     ← Workspace-wide governance report (stays here)
 ```
 
----
-
-## Naming Convention
-
-Each research report is stored in a dated folder following this pattern:
-
-```
-YYYY-MM-DD-<kebab-case-slug>/
-```
-
-**Examples:**
-
-- `2026-05-09-context-compression-strategies/`
-- `2026-05-15-multi-agent-memory-coherence/`
-- `2026-06-01-rag-freshness-guarantees/`
-
-**Rules:**
-
-- Date format: ISO 8601 (`YYYY-MM-DD`)
-- Slug: lowercase, hyphen-separated, descriptive (3-5 words maximum)
-- One folder per investigation
-- Folder name must match the investigation scope
+For each department's own archive structure, see that instance's `README.md`.
 
 ---
 
-## When to Create a Research Report
+## Research Archive Index — Cross-Cutting Reports (retained at workspace root)
 
-Create a research report in Telescope when:
+| Investigation ID                                | Date       | Status   | Topic                                                                                               | Requestor |
+| ----------------------------------------------- | ---------- | -------- | --------------------------------------------------------------------------------------------------- | --------- |
+| `2026-06-20-mcp-server-assessment`              | 2026-06-20 | Complete | Enterprise MCP Architecture & Local RAG Recommendations — governs `.claude/rules/mcp-governance.md` | CEO       |
+| `2026-06-29-cross-platform-compatibility-audit` | 2026-06-29 | Complete | Cross-Platform Compatibility Audit of the `.claude/` Configuration Layer — affects every department | CEO       |
 
-| Scenario                                  | Example                                                                |
-| ----------------------------------------- | ---------------------------------------------------------------------- |
-| **Requirement needs investigation**       | User asks about implementing a feature requiring technical exploration |
-| **Technology evaluation required**        | Comparing multiple approaches before making an architecture decision   |
-| **Open research question**                | Investigating an active CC-00 research programme question              |
-| **Cross-module integration analysis**     | Understanding how multiple CC-00 modules interact for a use case       |
-| **Performance or scalability assessment** | Analyzing system behavior under specific constraints                   |
-| **Gap analysis**                          | Identifying missing capabilities in current implementations            |
-
-**Do not create a research report for:**
-
-- Simple clarification questions (answer directly)
-- Well-documented patterns (reference existing CC-00 documentation)
-- Implementation work (belongs in the relevant module's directory)
-- Bug reports (use issue tracking)
+These two were judged workspace-wide governance artifacts, not single-department research, and
+were kept here rather than migrated. See `CLAUDE.md`'s classification rule for how future
+cross-cutting investigations are decided.
 
 ---
 
-## Research Report Lifecycle
+## Where the Other Four Reports Went
 
-### Phase 1: Investigation Request
+The four remaining reports from the original unified archive were CC-00-native and migrated to
+`core-component-00/telescope/` on 2026-07-02:
 
-User presents a requirement or question requiring research.
+| Investigation ID                             | New Location                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------- |
+| `2026-06-19-cc00-engineering-hooks-research` | `core-component-00/telescope/2026-06-19-cc00-engineering-hooks-research/` |
+| `2026-06-25-qdrant-migration-plan`           | `core-component-00/telescope/2026-06-25-qdrant-migration-plan/`           |
+| `2026-06-30-llm-engineering-stack-research`  | `core-component-00/telescope/2026-06-30-llm-engineering-stack-research/`  |
+| `2026-06-30-prompt-optimizer-audit`          | `core-component-00/telescope/2026-06-30-prompt-optimizer-audit/`          |
 
-### Phase 2: Research Execution
-
-1. Create dated folder: `telescope/YYYY-MM-DD-<slug>/`
-2. Copy template: `telescope/template/research-report.md` → `telescope/YYYY-MM-DD-<slug>/research-report.md`
-3. Conduct investigation following template structure
-4. Document findings, analysis, and recommendations
-
-### Phase 3: Completion
-
-1. Mark status as **Complete** in report metadata
-2. Ensure all template sections are filled
-3. Run Prettier: `prettier --write telescope/YYYY-MM-DD-<slug>/research-report.md`
-4. Commit to repository
-
-### Phase 4: Reference
-
-Research reports are permanent records. They can be:
-
-- Referenced in ADRs (Architecture Decision Records)
-- Cited in implementation documentation
-- Used as context for similar future investigations
-- Linked from CC-00 module documentation
-
----
-
-## Template Usage
-
-Two templates are available for research documentation:
-
-### 1. Research Report Template
-
-**Location:** `telescope/template/research-report.md`
-
-**Purpose:** Primary investigation documentation — comprehensive research findings, analysis, and recommendations
-
-**Template sections:**
-
-| Section                       | Purpose                                              |
-| ----------------------------- | ---------------------------------------------------- |
-| **Metadata**                  | Investigation ID, date, status, investigator         |
-| **Executive Summary**         | 2-3 sentence overview of findings                    |
-| **Investigation Scope**       | What was investigated and why                        |
-| **Research Questions**        | Specific questions the investigation aimed to answer |
-| **Methodology**               | How the investigation was conducted                  |
-| **Findings**                  | Detailed research results                            |
-| **Analysis**                  | Interpretation of findings                           |
-| **Recommendations**           | Actionable next steps                                |
-| **References**                | Citations, links, and related documentation          |
-| **Appendices** (optional)     | Supporting materials, code samples, diagrams         |
-| **Research Log** (optional)   | Chronological investigation notes                    |
-| **Open Questions** (optional) | Unresolved questions requiring further investigation |
-
-### 2. Q&A Document Template
-
-**Location:** `telescope/template/qa-document.md`
-
-**Purpose:** Stakeholder question tracking — consolidates all questions and answers related to a research investigation
-
-**When to use:**
-
-- Research report generates follow-up questions from stakeholders (CEO, CPO, Client)
-- Multiple rounds of clarification needed before proceeding to implementation
-- Decision log required to track strategic choices and their rationale
-- Action items need to be tracked with owners and deadlines
-
-**Template sections:**
-
-| Section                | Purpose                                            |
-| ---------------------- | -------------------------------------------------- |
-| **Metadata**           | Investigation ID, related report, stakeholders     |
-| **Purpose**            | Why this Q&A document exists                       |
-| **Resolved Questions** | Questions with final stakeholder decisions         |
-| **Pending Questions**  | Questions awaiting stakeholder input               |
-| **Deferred Questions** | Questions postponed to later pipeline stages       |
-| **Question Summary**   | At-a-glance table of all questions with status     |
-| **Action Items**       | Tracked actions with owners, deadlines, and status |
-| **Version History**    | Document evolution tracking                        |
-
-**Q&A Document Workflow:**
-
-1. Research report completed → generates open questions
-2. Create `qa-document.md` in same investigation folder
-3. Migrate open questions from research report to Q&A document
-4. Remove redundant "Open Questions" section from research report
-5. Track stakeholder responses in Q&A document (resolved/pending/deferred)
-6. Update Q&A document as questions are answered
-7. Use Q&A document as decision log for Stage 1+ pipeline work
-
-**Benefits:**
-
-- **Separation of concerns**: Research findings (report) vs stakeholder decisions (Q&A)
-- **Cleaner documentation**: Research report remains focused on technical findings
-- **Better tracking**: Q&A document provides structured question/answer/action tracking
-- **Audit trail**: Preserves reasoning behind strategic decisions
-
----
-
-## Integration with CC-00 Modules
-
-Research reports in Telescope may inform work across all five CC-00 modules:
-
-| Module                            | Research Report Use Case                                 |
-| --------------------------------- | -------------------------------------------------------- |
-| `prompt-engineering/`             | Investigating new prompt patterns or techniques          |
-| `context-engineering/`            | Analyzing context window optimization strategies         |
-| `harness-engineering/`            | Evaluating error recovery patterns or safety mechanisms  |
-| `retrieval-augmented-generation/` | Researching retrieval strategies or freshness guarantees |
-| `multi-agent-engineering/`        | Exploring orchestration patterns or handoff protocols    |
-| `agent-systems-engineering/`      | Conducting ASE compliance audits or integration analysis |
-
-Research findings may lead to:
-
-- New implementations in module `implementations/` directories
-- Updates to module documentation
-- New research programmes
-- Architecture Decision Records (ADRs)
-- Technology Selection Documents (TSDs)
-
----
-
-## Archive Maintenance
-
-### Append-Only Policy
-
-Telescope follows an **append-only** policy:
-
-- ✅ Create new research reports
-- ✅ Add supplementary findings to existing reports (append to Research Log)
-- ❌ Delete completed research reports
-- ❌ Modify findings or recommendations after completion (create new report instead)
-
-### Versioning
-
-If a research topic requires re-investigation:
-
-1. Create a new dated folder with a version suffix: `YYYY-MM-DD-<slug>-v2/`
-2. Reference the original report in the new report's References section
-3. Explain what changed and why re-investigation was needed
-
-### Archival Status
-
-Research reports have three statuses:
-
-| Status          | Meaning                                                  |
-| --------------- | -------------------------------------------------------- |
-| **In Progress** | Investigation ongoing                                    |
-| **Complete**    | Investigation finished, findings documented              |
-| **Superseded**  | Newer investigation exists (link to replacement in note) |
-
----
-
-## Quality Standards
-
-All research reports must:
-
-1. **Follow the template** — Use all required sections
-2. **Be self-contained** — Readable without external context
-3. **Cite sources** — Reference all external materials
-4. **Be actionable** — Include clear recommendations
-5. **Be formatted** — Run through Prettier before commit
-6. **Be traceable** — Link to related ADRs, implementations, or documentation
-
----
-
-## Example Research Reports
-
-### Example 1: Context Compression Investigation
-
-```
-telescope/2026-05-09-context-compression-strategies/
-└── research-report.md
-```
-
-**Scope:** Investigate minimum information-preserving compression techniques for 100-turn agent sessions  
-**Outcome:** Identified three viable strategies; recommended hybrid approach  
-**Impact:** Led to implementation of `context_compressor.py` in Context Engineering module
-
-### Example 2: Multi-Agent Memory Coherence
-
-```
-telescope/2026-05-15-multi-agent-memory-coherence/
-└── research-report.md
-```
-
-**Scope:** Explore distributed shared memory patterns without central store  
-**Outcome:** Documented trade-offs between consistency models  
-**Impact:** Informed Multi-Agent Engineering handoff protocol design
+See `core-component-00/telescope/README.md` for their index entries.
 
 ---
 
 ## Access and Permissions
 
-| Role                    | Access Level                               |
-| ----------------------- | ------------------------------------------ |
-| **Laboratory Director** | Full read/write access to all reports      |
-| **CC-00 Researchers**   | Read all, write to assigned investigations |
-| **Company C-Suite**     | Read access for decision-making context    |
-| **All Agents**          | Read access for reference and context      |
-
----
-
-## Research Archive Index
-
-| Investigation ID                                | Date       | Status   | Topic                                                                                                                                                                                                                                       | Requestor |
-| ----------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| `2026-06-19-cc00-engineering-hooks-research`    | 2026-06-19 | Complete | CC-00 Engineering Domain Hook Suggestions                                                                                                                                                                                                   | CEO       |
-| `2026-06-20-mcp-server-assessment`              | 2026-06-20 | Complete | Enterprise MCP Architecture & Local RAG Recommendations                                                                                                                                                                                     | CEO       |
-| `2026-06-25-qdrant-migration-plan`              | 2026-06-25 | Complete | Qdrant Migration Plan — Strategy, Deployment, Initialization, Monitoring, and Hook System (v0.5)                                                                                                                                            | CEO       |
-| `2026-06-29-cross-platform-compatibility-audit` | 2026-06-29 | Complete | Cross-Platform Compatibility Audit of the `.claude/` Configuration Layer                                                                                                                                                                    | CEO       |
-| `2026-06-30-llm-engineering-stack-research`     | 2026-06-30 | Complete | LLM Engineering Stack Research — Four-programme CC-00 commission (context compression, multi-agent memory, prompt stability, harness performance); consolidated report + per-domain sub-reports                                             | CEO       |
-| `2026-06-30-prompt-optimizer-audit`             | 2026-06-30 | Complete | H-P01 Smart Prompt Optimizer Hook Audit — 11-pass investigation: standards/semantic-fidelity audit, CEO-decided `PreToolUse`/`PostToolUse` enforcement architecture, CEO-reported UX defect remediation, and two repo-hygiene review passes | CEO       |
+| Role                        | Access Level                                                        |
+| --------------------------- | ------------------------------------------------------------------- |
+| **All C-suite / Directors** | Full read/write access to their own department's instance           |
+| **All Agents**              | Read access to every instance for reference and context             |
+| **Organizer / CEO**         | Read/write on this cross-department index and cross-cutting reports |
 
 ---
 
 ## Related Documentation
 
-| Document                                                  | Purpose                                       |
-| --------------------------------------------------------- | --------------------------------------------- |
-| `core-component-00/README.md`                             | CC-00 Laboratory overview                     |
-| `core-component-00/agent-systems-engineering/CONCEPTS.md` | Theoretical synthesis of all five modules     |
-| `company/optimization-history/`                           | Company-level optimization records (separate) |
-| `company/library/topics/architecture.md`                  | ADR conventions and architecture patterns     |
+| Document                                  | Purpose                                       |
+| ----------------------------------------- | --------------------------------------------- |
+| `telescope/CLAUDE.md`                     | Classification rule + shared ruleset          |
+| `core-component-00/telescope/README.md`   | Lab research archive index                    |
+| `company/telescope/README.md`             | Company research archive index                |
+| `studio/casual-games/telescope/README.md` | Studio research archive index                 |
+| `.claude/rules/mcp-governance.md`         | Governed by the MCP assessment report above   |
+| `core-component-00/README.md`             | CC-00 Laboratory overview                     |
+| `company/optimization-history/`           | Company-level optimization records (separate) |
 
 ---
 
 ## Contact
 
-**Questions about Telescope or research report standards:**
-
-- **Laboratory Director:** Dr. Elias Vance
-- **Profile:** `core-component-00/director/agent/profile.md`
-- **Authority:** AGENTS.md § 6. Core Component 00
+**Questions about the cross-department split or classification rule:** the CEO / organizer.
+**Questions about a specific department's archive:** see that instance's `README.md` contact
+section.
 
 ---
 
-**Telescope is maintained by Core Component 00 and follows the workspace conventions defined in AGENTS.md.**
+**Telescope is a cross-department index as of 2026-07-02. Each department's research archive
+follows the shared conventions defined in this folder's `CLAUDE.md` and in AGENTS.md.**

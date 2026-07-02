@@ -162,17 +162,17 @@ class HandoffPacket:
 ## Remediation Status
 
 **Formal sub-issue raised:** TEL-2026-06-30-GSMSE
-(`telescope/2026-06-30-llm-engineering-stack-research/gsm-scope-enforcement/research-report.md`)
+(`core-component-00/telescope/2026-06-30-llm-engineering-stack-research/gsm-scope-enforcement/research-report.md`)
 
 **CEO approval:** 2026-06-30 — remediation plan D1/D2/D3 approved.
 
 **Implementation tasks:** CC00-IMPL-2026-06-30 v1.2, tasks T14–T16 (Multi-Agent Engineering Agent):
 
-| Task | Deliverable                                                                                           | Status                  |
-| ---- | ----------------------------------------------------------------------------------------------------- | ----------------------- |
-| T14  | Patch `swarm_orchestrator.py` — scope `subtask_results` + `synthesized_output` to `MemoryScope.FLEET` | Complete — 2026-06-30   |
-| T15  | Patch `handoff_packet.py` — add `write_to_log()` / `read_from_log()` with `MemoryScope.FLEET`         | Complete — 2026-06-30   |
-| T16  | Add `test_gsm_scope_enforcement.py`; update this audit to mark 4 paths REMEDIATED                     | Complete — 2026-06-30   |
+| Task | Deliverable                                                                                           | Status                |
+| ---- | ----------------------------------------------------------------------------------------------------- | --------------------- |
+| T14  | Patch `swarm_orchestrator.py` — scope `subtask_results` + `synthesized_output` to `MemoryScope.FLEET` | Complete — 2026-06-30 |
+| T15  | Patch `handoff_packet.py` — add `write_to_log()` / `read_from_log()` with `MemoryScope.FLEET`         | Complete — 2026-06-30 |
+| T16  | Add `test_gsm_scope_enforcement.py`; update this audit to mark 4 paths REMEDIATED                     | Complete — 2026-06-30 |
 
 **Current state of AT-RISK paths:** REMEDIATED. All four paths now route through SharedMemoryLog with MemoryScope.FLEET scope enforcement (T14/T15) or validate fleet origin (T15). Multi-fleet operation gate cleared — T16 tests pass.
 

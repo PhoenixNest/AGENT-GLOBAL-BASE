@@ -111,8 +111,7 @@ Indexed workspace document modified: $file_path
 Before issuing any search_docs, find_related_documents, summarize_context, or agent_knowledge_brief
 query this turn, call $update_tool via the workspace-knowledge MCP to ensure retrieval results
 reflect your changes.
-To switch to passive mode: /rag-sync warn    To disable: /rag-sync off
-Reference: telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md"
+To switch to passive mode: /rag-sync warn    To disable: /rag-sync off"
 
 MSG="$msg" python3 -c "import os,json; print(json.dumps({'hookSpecificOutput':{'hookEventName':'PostToolUse','additionalContext':os.environ['MSG']}}))"
 exit 0

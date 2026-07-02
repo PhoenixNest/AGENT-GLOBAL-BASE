@@ -80,10 +80,12 @@ AGENT-GLOBAL-BASE/
 │   ├── pipeline/                         ← Pipeline definitions (mobile/web/api/full-stack/recruitment)
 │   ├── recruitment/                      ← Hiring cycles + templates
 │   ├── optimization-history/             ← APPEND-ONLY archive
+│   ├── telescope/                        ← Company research archive (product-oriented research)
 │   └── project/                          ← Active project dashboard
 │
 ├── studio/                               ← The Studio  [→ studio/CLAUDE.md]
 │   └── casual-games/                     ← Only active studio  [→ studio/casual-games/CLAUDE.md]
+│       └── telescope/                    ← Studio research archive (game/market research)
 │
 ├── core-component-00/                    ← CC-00 Lab — ONLY place with runnable code  [→ core-component-00/CLAUDE.md]
 │   ├── agent-systems-engineering/        ← ASE governing meta-module
@@ -92,9 +94,12 @@ AGENT-GLOBAL-BASE/
 │   ├── harness-engineering/              ← Layer 3 (docs + Python + pytest)
 │   ├── retrieval-augmented-generation/   ← Layer 4 (docs + Python + requirements.txt)
 │   ├── multi-agent-engineering/          ← Layer 5 (docs + Python + pytest)
-│   └── director/                         ← Lab Director persona (Dr. Elias Vance)
+│   ├── director/                         ← Lab Director persona (Dr. Elias Vance)
+│   └── telescope/                        ← Lab research archive (engineering + LLM research)
 │
-└── telescope/                            ← Research Archive Hub  [→ telescope/CLAUDE.md]
+└── telescope/                            ← Cross-department research index  [→ telescope/CLAUDE.md]
+    (per-department archives: company/telescope/, studio/casual-games/telescope/,
+     core-component-00/telescope/ — split 2026-07-02; see telescope/README.md)
 ```
 
 ---
@@ -188,17 +193,20 @@ Claude Code loads `CLAUDE.md` files **hierarchically** — entering any folder a
 that folder's `CLAUDE.md` (and every parent's) onto this file. The repository map in §4 marks
 every folder that has one with `[→ CLAUDE.md]`.
 
-| I need…                                 | Go to                                                           |
-| --------------------------------------- | --------------------------------------------------------------- |
-| Full workspace orientation              | `AGENTS.md` (comprehensive reference — not auto-loaded)         |
-| Company overview / pipeline / people    | `company/CLAUDE.md` → `company/library/README.md`               |
-| A specific department's agents + skills | `company/departments/CLAUDE.md` → `company/departments/<dept>/` |
-| Company pipeline rules and variants     | `company/pipeline/CLAUDE.md`                                    |
-| Studio structure + game pipeline        | `studio/casual-games/CLAUDE.md`                                 |
-| The LLM engineering stack               | `core-component-00/CLAUDE.md`                                   |
-| ASE governance (ADRs, compliance)       | `core-component-00/agent-systems-engineering/CLAUDE.md`         |
-| Production Python implementations       | `core-component-00/<module>/implementations/`                   |
-| Research archive                        | `telescope/CLAUDE.md` → `telescope/README.md`                   |
+| I need…                                    | Go to                                                           |
+| ------------------------------------------ | --------------------------------------------------------------- |
+| Full workspace orientation                 | `AGENTS.md` (comprehensive reference — not auto-loaded)         |
+| Company overview / pipeline / people       | `company/CLAUDE.md` → `company/library/README.md`               |
+| A specific department's agents + skills    | `company/departments/CLAUDE.md` → `company/departments/<dept>/` |
+| Company pipeline rules and variants        | `company/pipeline/CLAUDE.md`                                    |
+| Studio structure + game pipeline           | `studio/casual-games/CLAUDE.md`                                 |
+| The LLM engineering stack                  | `core-component-00/CLAUDE.md`                                   |
+| ASE governance (ADRs, compliance)          | `core-component-00/agent-systems-engineering/CLAUDE.md`         |
+| Production Python implementations          | `core-component-00/<module>/implementations/`                   |
+| Research archives (cross-department index) | `telescope/CLAUDE.md` → `telescope/README.md`                   |
+| Product-oriented research (Company)        | `company/telescope/CLAUDE.md`                                   |
+| Game/market research (Studio)              | `studio/casual-games/telescope/CLAUDE.md`                       |
+| Engineering + LLM research (CC-00 Lab)     | `core-component-00/telescope/CLAUDE.md`                         |
 
 ---
 
