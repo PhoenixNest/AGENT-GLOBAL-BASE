@@ -101,15 +101,16 @@ Governing documents: `agent-systems-engineering/governance/`
 
 ## Where to Look
 
-| I need…                                | Go to                                   |
-| -------------------------------------- | --------------------------------------- |
-| Full lab overview + researcher profile | `README.md`                             |
-| Governing framework + compliance       | `agent-systems-engineering/`            |
-| Synthesis of all five layers           | `agent-systems-engineering/CONCEPTS.md` |
-| Prompt patterns                        | `prompt-engineering/`                   |
-| Context window architecture            | `context-engineering/`                  |
-| Safe model execution                   | `harness-engineering/`                  |
-| RAG pipelines                          | `retrieval-augmented-generation/`       |
-| Multi-agent / swarm systems            | `multi-agent-engineering/`              |
-| Lab Director persona                   | `director/`                             |
-| Research reports                       | `../../telescope/`                      |
+| I need…                                             | Go to                                   |
+| --------------------------------------------------- | --------------------------------------- |
+| Full lab overview + researcher profile              | `README.md`                             |
+| Governing framework + compliance                    | `agent-systems-engineering/`            |
+| Synthesis of all five layers                        | `agent-systems-engineering/CONCEPTS.md` |
+| Prompt patterns                                     | `prompt-engineering/`                   |
+| Context window architecture                         | `context-engineering/`                  |
+| Safe model execution                                | `harness-engineering/`                  |
+| RAG pipelines                                       | `retrieval-augmented-generation/`       |
+| Multi-agent / swarm systems                         | `multi-agent-engineering/`              |
+| Lab Director persona                                | `director/`                             |
+| Research reports (CC-00 engineering + LLM research) | `telescope/`                            |
+| Cross-cutting / workspace-wide research             | `../telescope/` (workspace root)        |

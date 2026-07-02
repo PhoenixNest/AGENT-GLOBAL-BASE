@@ -50,7 +50,8 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 2. **Check implementations first** — Before writing new code, check if it exists in `implementations/`
 3. **Follow module hierarchy** — Respect layer boundaries and integration contracts
 4. **Maintain production readiness** — All Python must import cleanly and pass test suites
-5. **Document research decisions** — Update research status and archive findings in `telescope/`
+5. **Document research decisions** — Update research status and archive findings in
+   `core-component-00/telescope/`
 
 ---
 
@@ -64,4 +65,4 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 | Implement error boundaries      | `core-component-00/harness-engineering/implementations/`         |
 | Build RAG pipelines             | `core-component-00/retrieval-augmented-generation/architecture/` |
 | Orchestrate multi-agent systems | `core-component-00/multi-agent-engineering/fundamentals/`        |
-| Document research findings      | `telescope/README.md`                                            |
+| Document research findings      | `core-component-00/telescope/README.md`                          |

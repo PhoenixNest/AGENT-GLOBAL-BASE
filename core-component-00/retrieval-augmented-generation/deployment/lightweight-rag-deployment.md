@@ -199,7 +199,7 @@ documented across this module:
 | **Index Sync Hook Pattern**          | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md`            |
 | **Evaluation Reference**             | `core-component-00/retrieval-augmented-generation/evaluation/reference-table.md`           |
 | **Full-Stack RAG Deployment**        | `core-component-00/retrieval-augmented-generation/deployment/full-stack-rag-deployment.md` |
-| **Qdrant Migration Research Report** | `telescope/2026-06-25-qdrant-migration-plan/research-report.md`                            |
+| **Qdrant Migration Research Report** | `core-component-00/telescope/2026-06-25-qdrant-migration-plan/research-report.md`          |
 | **Qdrant Documentation**             | https://qdrant.tech/documentation/                                                         |
 
 ---

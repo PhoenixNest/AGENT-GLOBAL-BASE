@@ -100,7 +100,7 @@ The production RAG deployment for this workspace is the **workspace-knowledge MC
 
 It uses BM25 + Qdrant hybrid retrieval and serves as the official reference example for
 deploying a Layer 4 RAG pipeline in an agent-native environment. See
-`telescope/2026-06-25-qdrant-migration-plan/` for the full design and migration history.
+`core-component-00/telescope/2026-06-25-qdrant-migration-plan/` for the full design and migration history.
 
 ---
 

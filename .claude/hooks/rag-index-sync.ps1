@@ -106,7 +106,6 @@ Before issuing any search_docs, find_related_documents, summarize_context, or ag
 query this turn, call $updateTool via the workspace-knowledge MCP to ensure retrieval results
 reflect your changes.
 To switch to passive mode: /rag-sync warn    To disable: /rag-sync off
-Reference: telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md
 "@
 
 $output = [ordered]@{

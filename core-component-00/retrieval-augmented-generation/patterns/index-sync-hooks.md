@@ -268,10 +268,10 @@ The debounce threshold is hardware- and corpus-specific and must be calibrated e
 
 ## References
 
-- `telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md` — H-RAG02 implementation
-  specification (workspace-specific production implementation)
-- `telescope/2026-06-25-qdrant-migration-plan/plans/04-monitoring-guide.md` — Index freshness
-  monitoring and MRR regression detection
+- `core-component-00/telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md` — H-RAG02
+  implementation specification (workspace-specific production implementation)
+- `core-component-00/telescope/2026-06-25-qdrant-migration-plan/plans/04-monitoring-guide.md` —
+  Index freshness monitoring and MRR regression detection
 - `core-component-00/retrieval-augmented-generation/architecture/overview.md` — Graceful
   Degradation Stack (§11) and Corpus-as-Source-of-Truth Principle (§10)
 - `core-component-00/retrieval-augmented-generation/evaluation/reference-table.md` —
