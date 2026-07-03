@@ -73,5 +73,5 @@ ownership).
 ## Ownership
 
 - **Owner:** Dr. Elias Vance, CC-00 Laboratory Director
-- **Profile:** `core-component-00/director/agent/profile.md`
+- **Profile:** `core-component-00/crew/director/elias-vance/agent/profile.md`
 - **Authority:** AGENTS.md § 6. Core Component 00

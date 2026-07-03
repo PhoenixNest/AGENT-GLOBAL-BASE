@@ -2,7 +2,7 @@
 name: core-component-00-director-llm-system-design
 description: Full-stack LLM system architecture using the CC-00 five-module stack. Given a problem description or set of requirements, produces a complete architectural specification covering all five layers — Prompt, Context, Harness, RAG, and Multi-Agent. Use whenever a new LLM-powered system or agent pipeline needs to be designed from scratch.
 version: "1.0.0"
-source: core-component-00/director/skills/llm-system-design.md
+source: core-component-00/crew/director/elias-vance/skills/llm-system-design.md
 agents:
   - core-component-00-director-elias-vance
 ---

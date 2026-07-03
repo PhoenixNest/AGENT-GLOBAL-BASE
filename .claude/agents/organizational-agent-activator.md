@@ -29,7 +29,8 @@ company/departments/<dept>/supervisor/<role>/agent/profile.md         ← C-suit
 company/departments/<dept>/team/supervisors/<role>/agent/profile.md   ← Team Supervisors
 company/departments/<dept>/team/teammates/<role>/agent/profile.md     ← Teammates
 studio/casual-games/team/crew/<division>/<role>/<name>/agent/profile.md
-core-component-00/director/agent/profile.md                            ← Dr. Elias Vance
+core-component-00/crew/director/elias-vance/agent/profile.md           ← Dr. Elias Vance
+core-component-00/crew/<module>/<name>/agent/profile.md                ← CC-00 Research Engineers
 ```
 
 ## Hard Constraints

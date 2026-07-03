@@ -99,12 +99,12 @@ reference implementations that production code is built against.
 
 ## Skills Index
 
-| Skill File                                                              | Purpose                                                                                                          |
-| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `core-component-00/director/skills/llm-system-design.md`                | Full-stack LLM system architecture spanning all five CC-00 layers                                                |
-| `core-component-00/director/skills/context-engineering-design.md`       | Context window architecture: slot design, memory types, assembly patterns, and multi-agent handoff specification |
-| `core-component-00/director/skills/multi-agent-orchestration-design.md` | Swarm topology selection, task decomposition, agent role specification, and orchestration pattern design         |
-| `core-component-00/director/skills/ase-compliance-audit.md`             | Audit of an agent system against the ASE four-layer framework: gap identification and remediation planning       |
+| Skill File                                                                               | Purpose                                                                                                          |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `core-component-00/crew/director/elias-vance/skills/llm-system-design.md`                | Full-stack LLM system architecture spanning all five CC-00 layers                                                |
+| `core-component-00/crew/director/elias-vance/skills/context-engineering-design.md`       | Context window architecture: slot design, memory types, assembly patterns, and multi-agent handoff specification |
+| `core-component-00/crew/director/elias-vance/skills/multi-agent-orchestration-design.md` | Swarm topology selection, task decomposition, agent role specification, and orchestration pattern design         |
+| `core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md`             | Audit of an agent system against the ASE four-layer framework: gap identification and remediation planning       |
 
 ## Pipeline Authority
 

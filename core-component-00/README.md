@@ -14,9 +14,68 @@
 | **Classification** | Applied LLM Research Laboratory                                                                              |
 | **Status**         | CEO-approved · Formally chartered · Active                                                                   |
 | **Founded**        | 2026-04-28                                                                                                   |
-| **Director**       | Dr. Elias Vance — _see [Agent Profile](./director/agent/profile.md)_                                         |
+| **Director**       | Dr. Elias Vance — _see [Agent Profile](./crew/director/elias-vance/agent/profile.md)_                        |
+| **Crew**           | 11 crew FTEs across 3 phases (FY2026 Q3) — _see [Roster](./crew/README.md)_                                  |
 | **Research Scope** | Prompt Engineering · Context Engineering · Harness Engineering · Retrieval Systems · Multi-Agent Engineering |
 | **Output Format**  | Production frameworks · Executable implementations · Peer-reviewed documentation                             |
+
+---
+
+## Organizational Chart
+
+Personnel structure as of FY2026 Q3 — Dr. Vance plus 11 crew hired across three phases (4
+module-owning Research Engineers, then a Research Scientist, Safety & Evaluation Engineer,
+Infrastructure Engineer, and 4 paired Research Engineer IIs). Total headcount 12. Full profiles:
+[`crew/README.md`](./crew/README.md).
+
+```
+User (CEO)
+ │
+ └── Dr. Elias Vance — Laboratory Director (L5)
+      │    owns: ASE governance · cross-module architecture · prompt-engineering/ (direct)
+      │
+      ├── Dr. Idris Farouk — Staff Research Engineer, MAE Lead (L4)
+      │    owns: multi-agent-engineering/ (lead) · ASE audit execution
+      │    │
+      │    └── Amina Yusuf — Senior Research Engineer II (L3)
+      │         owns: multi-agent-engineering/ (fleet resilience, isolation)
+      │
+      ├── Mei-Ling Zhao — Senior Research Engineer (L3)
+      │    owns: context-engineering/ (lead)
+      │    │
+      │    └── Hana Kobayashi — Senior Research Engineer II (L3)
+      │         owns: context-engineering/ (memory scaling, concurrent-access safety)
+      │
+      ├── Kwame Asante — Senior Research Engineer (L3)
+      │    owns: harness-engineering/ (lead)
+      │    │
+      │    └── Connor O'Malley — Senior Research Engineer II (L3)
+      │         owns: harness-engineering/ (fault injection, recovery validation)
+      │
+      ├── Sofia Almeida — Senior Research Engineer (L3)
+      │    owns: retrieval-augmented-generation/ (lead)
+      │    │
+      │    └── Diego Fontán — Senior Research Engineer II (L3)
+      │         owns: retrieval-augmented-generation/ (index scaling, re-embedding ops)
+      │
+      ├── Dr. Amara Nwosu-Chen — Staff Research Scientist (L4)
+      │    owns: cross-cutting — independent research origination
+      │
+      ├── Dr. Tomasz Wieczorek — Staff Safety & Evaluation Engineer (L4)
+      │    owns: cross-cutting — independent adversarial evaluation & audit verification
+      │
+      └── Ravi Deshmukh — Infrastructure Engineer (L3)
+           owns: cross-cutting — dev environment, dependency management, CI-for-research
+```
+
+| Level | Headcount | Role(s)                                                                                                 |
+| ----- | --------- | ------------------------------------------------------------------------------------------------------- |
+| L5    | 1         | Laboratory Director                                                                                     |
+| L4    | 3         | Staff Research Engineer (MAE Lead) · Staff Research Scientist · Staff Safety & Evaluation Engineer      |
+| L3    | 8         | Senior Research Engineer (×3 module leads) · Senior Research Engineer II (×4) · Infrastructure Engineer |
+
+Dr. Vance's direct-report span: 7 (down from a would-be 11 flat structure) — the four Research
+Engineer IIs report to their paired module lead instead, per `recruitment-plan.md` v1.3.
 
 ---
 
@@ -27,7 +86,7 @@
 ```mermaid
 graph TB
     CC00(["core-component-00<br/>— LLM Engineering Laboratory —"])
-    DIR["director/<br/>Dr. Elias Vance"]
+    DIR["crew/<br/>Dr. Vance + 11 crew"]
     ASE["agent-systems-engineering/<br/>«Governing Framework»"]
     PE["prompt-engineering/<br/>Layer 1 — What to write"]
     CE["context-engineering/<br/>Layer 2 — How to structure it"]
@@ -70,7 +129,7 @@ graph TB
 
 A co-founding researcher and principal engineer behind the **Claude family of large language models** at Anthropic. Operating under the internal codename **core-component-00** — the designation assigned to the original LLM reliability research programme from which this laboratory is derived.
 
-Full agent profile and skills: [`core-component-00/director/agent/profile.md`](./director/agent/profile.md)
+Full agent profile and skills: [`core-component-00/crew/director/elias-vance/agent/profile.md`](./crew/director/elias-vance/agent/profile.md). Full lab roster: [`core-component-00/crew/README.md`](./crew/README.md).
 
 #### Academic and Research Background
 

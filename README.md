@@ -163,7 +163,7 @@ Profile locations:
 
 - Company C-suite → `company/departments/<dept>/supervisor/<role>/agent/profile.md`
 - Studio crew → `studio/casual-games/team/crew/<division>/<role>/<name>/agent/profile.md`
-- Lab Director → `core-component-00/director/agent/profile.md`
+- Lab Director → `core-component-00/crew/director/elias-vance/agent/profile.md`
 
 ---
 

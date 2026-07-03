@@ -2,7 +2,7 @@
 name: core-component-00-director-multi-agent-orchestration-design
 description: Design multi-agent swarm architectures — topology selection, task decomposition, agent role specification, context handoff strategy, and orchestration pattern definition. Use when a problem requires coordinated specialist agents rather than a single agent, or when an existing multi-agent system needs architectural review and redesign.
 version: "1.0.0"
-source: core-component-00/director/skills/multi-agent-orchestration-design.md
+source: core-component-00/crew/director/elias-vance/skills/multi-agent-orchestration-design.md
 agents:
   - core-component-00-director-elias-vance
 ---

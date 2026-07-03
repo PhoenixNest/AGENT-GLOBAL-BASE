@@ -2,7 +2,7 @@
 name: core-component-00-director-context-engineering-design
 description: Design the context window architecture for an LLM agent or pipeline — slot composition, memory type selection, assembly patterns, token budget strategy, and multi-agent handoff protocol specification. Use when an agent or pipeline needs a rigorous context design rather than an ad-hoc approach, especially for long-running sessions, multi-turn agents, or multi-agent handoffs.
 version: "1.0.0"
-source: core-component-00/director/skills/context-engineering-design.md
+source: core-component-00/crew/director/elias-vance/skills/context-engineering-design.md
 agents:
   - core-component-00-director-elias-vance
 ---

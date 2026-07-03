@@ -15,14 +15,18 @@ else in the repository is Markdown documentation.
 
 ---
 
-## Laboratory Director
+## Laboratory Director & Crew
 
-| Field             | Detail                                  |
-| ----------------- | --------------------------------------- |
-| Name              | Dr. Elias Vance                         |
-| Internal Codename | core-component-00                       |
-| Role              | Laboratory Director — Core Component 00 |
-| Full Profile      | `director/agent/profile.md`             |
+| Field             | Detail                                       |
+| ----------------- | -------------------------------------------- |
+| Name              | Dr. Elias Vance                              |
+| Internal Codename | core-component-00                            |
+| Role              | Laboratory Director — Core Component 00      |
+| Full Profile      | `crew/director/elias-vance/agent/profile.md` |
+
+As of FY2026 Q3, the lab is staffed beyond the Director: 4 Research Engineer FTEs cover the four
+production-grade modules (Context, Harness, RAG, Multi-Agent). Full roster and activation
+protocol: `crew/README.md` and `crew/CLAUDE.md`.
 
 ---
 
@@ -111,6 +115,6 @@ Governing documents: `agent-systems-engineering/governance/`
 | Safe model execution                                | `harness-engineering/`                  |
 | RAG pipelines                                       | `retrieval-augmented-generation/`       |
 | Multi-agent / swarm systems                         | `multi-agent-engineering/`              |
-| Lab Director persona                                | `director/`                             |
+| Lab Director persona + crew roster                  | `crew/`                                 |
 | Research reports (CC-00 engineering + LLM research) | `telescope/`                            |
 | Cross-cutting / workspace-wide research             | `../telescope/` (workspace root)        |

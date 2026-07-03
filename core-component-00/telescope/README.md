@@ -56,5 +56,5 @@ _No reports yet. Add entries here as investigations are completed._
 ## Contact
 
 **Laboratory Director:** Dr. Elias Vance
-**Profile:** `core-component-00/director/agent/profile.md`
+**Profile:** `core-component-00/crew/director/elias-vance/agent/profile.md`
 **Authority:** AGENTS.md § 6. Core Component 00
