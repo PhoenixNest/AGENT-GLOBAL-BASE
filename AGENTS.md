@@ -342,7 +342,7 @@ CC-00 is the organisation's **centralised LLM engineering laboratory** and the f
 | **Affiliation**       | Anthropic Claude Lab → This Organisation (2026–)   |
 | **Full Profile**      | `core-component-00/README.md` § Researcher Profile |
 
-A co-founding researcher and principal engineer behind the **Claude family of large language models** at Anthropic, operating under the internal codename _core-component-00_. Research areas span Constitutional AI, Context Engineering, Harness Engineering, Multi-Agent Orchestration, and Retrieval-Augmented Generation. Full profile, bibliography, and research philosophy: `core-component-00/director/agent/profile.md`.
+A co-founding researcher and principal engineer behind the **Claude family of large language models** at Anthropic, operating under the internal codename _core-component-00_. Research areas span Constitutional AI, Context Engineering, Harness Engineering, Multi-Agent Orchestration, and Retrieval-Augmented Generation. Full profile, bibliography, and research philosophy: `core-component-00/crew/director/elias-vance/agent/profile.md`. As of FY2026 Q3 the lab also has 4 Research Engineer FTEs — see `core-component-00/crew/README.md`.
 
 ### 6.4 The Five-Module Engineering Stack
 
@@ -650,15 +650,26 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ### CC-00 Laboratory — Director
 
-| Name            | Role                | Scope                                                                        |
-| --------------- | ------------------- | ---------------------------------------------------------------------------- |
-| Dr. Elias Vance | Laboratory Director | Full LLM engineering stack — all five modules and active research programmes |
+| Name                 | Role                               | Scope                                                                        |
+| -------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
+| Dr. Elias Vance      | Laboratory Director                | Full LLM engineering stack — all five modules and active research programmes |
+| Dr. Idris Farouk     | Staff Research Engineer, MAE Lead  | `multi-agent-engineering/` (lead)                                            |
+| Mei-Ling Zhao        | Senior Research Engineer           | `context-engineering/` (lead)                                                |
+| Kwame Asante         | Senior Research Engineer           | `harness-engineering/` (lead)                                                |
+| Sofia Almeida        | Senior Research Engineer           | `retrieval-augmented-generation/` (lead)                                     |
+| Dr. Amara Nwosu-Chen | Staff Research Scientist           | Cross-cutting — independent research origination                             |
+| Dr. Tomasz Wieczorek | Staff Safety & Evaluation Engineer | Cross-cutting — independent adversarial evaluation                           |
+| Ravi Deshmukh        | Infrastructure Engineer            | Cross-cutting — dev environment/dependencies                                 |
+| Amina Yusuf          | Senior Research Engineer II        | `multi-agent-engineering/` (reports to Farouk)                               |
+| Diego Fontán         | Senior Research Engineer II        | `retrieval-augmented-generation/` (reports to Almeida)                       |
+| Hana Kobayashi       | Senior Research Engineer II        | `context-engineering/` (reports to Zhao)                                     |
+| Connor O'Malley      | Senior Research Engineer II        | `harness-engineering/` (reports to Asante)                                   |
 
 For complete rosters and full profiles, see:
 
 - **Company:** `company/library/overview/personnel.md`
 - **Studio:** `studio/casual-games/team/README.md`
-- **CC-00:** `core-component-00/director/agent/profile.md`
+- **CC-00:** `core-component-00/crew/README.md`
 
 ---
 

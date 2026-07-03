@@ -155,7 +155,7 @@ Beyond per-layer compliance, the layers must be **compatible at their interfaces
 
 Compliance audits are conducted using:
 
-> `core-component-00/director/skills/ase-compliance-audit.md`
+> `core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md`
 
 The skill provides layer-by-layer audit checklists, gap severity classification, and
 output format for the compliance report.

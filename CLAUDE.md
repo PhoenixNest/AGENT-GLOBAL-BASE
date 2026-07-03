@@ -147,7 +147,7 @@ Never impersonate an agent without reading their profile first. Profile location
 
 - Company agents → `company/departments/CLAUDE.md` → `company/departments/<dept>/`
 - Studio crew → `studio/casual-games/team/CLAUDE.md` → `team/crew/<division>/<role>/<name>/`
-- Lab Director → `core-component-00/director/CLAUDE.md`
+- Lab Director → `core-component-00/crew/CLAUDE.md`
 
 ---
 

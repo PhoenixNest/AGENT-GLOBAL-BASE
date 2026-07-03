@@ -84,6 +84,30 @@ Automatic fail on any of:
 - [ ] Vague answers to specific technical or strategic questions
 - [ ] Speaks only about what the team did, never what they personally drove
 
+## Evidence Requirement (mandatory as of 2026-07-03)
+
+**No numeric dimension score is valid without the specific signal-question evidence written next
+to it.** A number with no cited evidence is not a score — it is a placeholder, and placeholders do
+not pass this gate.
+
+For each of the four numeric dimensions, the scorer must answer the dimension's own signal
+question in one sentence, naming a concrete fact from the candidate's record — not a restatement
+of their title or seniority level. For Leadership Signal specifically, that means naming who the
+candidate grew and where that person is now, or explicitly writing "not established" if the
+record contains no such evidence.
+
+**"Not established" is an acceptable answer. A default 4/5 backed by nothing is not.** A candidate
+whose Leadership Signal is genuinely unestablished should be scored on what the record actually
+shows — if that means 1 or 2, that is the honest score, not a problem to paper over. Scoring
+generously to avoid an awkward number, or defaulting a score from seniority level rather than from
+cited evidence, is exactly the failure mode this requirement exists to close.
+
+**Stage 7 Secondary Officer Review must check for this evidence explicitly** — not just that a
+number between 1 and 5 exists, but that the cited evidence actually supports that number against
+the dimension's own rubric level. A score with no evidence, or evidence that belongs to a
+different dimension (e.g., a craft achievement cited as leadership evidence), is a Stage 7 defect
+and is sent back for correction before the candidate can proceed.
+
 ## Scoring Output
 
 After scoring, the CHRO must write:
@@ -91,11 +115,11 @@ After scoring, the CHRO must write:
 ```
 VETTING RESULT: [PASS / FAIL]
 
-Scores:
-- Impact at Scale: X/5
-- Craft Depth: X/5
-- Leadership Signal: X/5
-- Standards Signal: X/5
+Scores (each with cited evidence — see Evidence Requirement above):
+- Impact at Scale: X/5 — [evidence: one sentence naming the concrete fact]
+- Craft Depth: X/5 — [evidence: one sentence naming the concrete fact]
+- Leadership Signal: X/5 — [evidence: who did they grow, and where are they now — or "not established"]
+- Standards Signal: X/5 — [evidence: one sentence naming the concrete fact]
 - Red Flag Scan: [PASS / FAIL]
 
 Total: X/20
@@ -104,3 +128,7 @@ Summary: [2–3 sentences on why this candidate passes or fails. Be specific. Na
 ```
 
 If FAIL: State the exact reason. Do not soften it. Offer to recruit a stronger candidate.
+
+If any dimension has no cited evidence, or evidence that belongs to a different dimension: **do
+not finalize the score.** Either find the actual evidence, score it honestly at whatever level the
+record supports, or mark it "not established" and score accordingly.

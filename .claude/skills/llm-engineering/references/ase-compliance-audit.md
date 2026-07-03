@@ -2,7 +2,7 @@
 name: core-component-00-director-ase-compliance-audit
 description: Audit an existing LLM-powered agent system against the Agent Systems Engineering (ASE) four-layer framework. Identifies gaps across Prompt, Context, Harness, and RAG/Memory layers, classifies their severity, and produces a prioritised remediation plan. Use when an existing system needs to be assessed before production, after an incident, or when onboarding an externally-built LLM system into this organisation.
 version: "1.0.0"
-source: core-component-00/director/skills/ase-compliance-audit.md
+source: core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md
 agents:
   - core-component-00-director-elias-vance
 ---

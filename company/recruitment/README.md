@@ -24,19 +24,21 @@ company/recruitment/
 
 ## 2. Conventions
 
-| Convention           | Rule                                                                                                                                                                                         |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Filename pattern** | Each hiring cycle gets its own sub-folder: `<department>-<fy>-<quarter>/` containing the master plan and companion artifacts.                                                                |
-| **Status lifecycle** | `Draft → Approved → In Progress → Complete`                                                                                                                                                  |
-| **Edit policy**      | Approved plans are read-only for headcount and compensation content. Checkpoint and sequence files are updated throughout execution.                                                         |
-| **Retention policy** | Completed cycles are removed once all hires are onboarded and their agent profiles are published. The agent profiles are the living record; the recruitment folder is a transient workspace. |
+| Convention           | Rule                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Filename pattern** | Each hiring cycle gets its own sub-folder: `<department>-<fy>-<quarter>/` containing the master plan and companion artifacts.                                                                                                                                                                                                                                                                                                 |
+| **Status lifecycle** | `Draft → Approved → In Progress → Complete`                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Edit policy**      | Approved plans are read-only for headcount and compensation content. Checkpoint and sequence files are updated throughout execution.                                                                                                                                                                                                                                                                                          |
+| **Retention policy** | Completed cycles are removed once all hires are onboarded and their agent profiles are published. The agent profiles are the living record; the recruitment folder is a transient workspace.                                                                                                                                                                                                                                  |
+| **Deferral review**  | Any staffing or composition assessment (e.g. a department head's own post-hire capacity review) that recommends **deferring action on a named risk** — not hiring for it, not fixing it, "revisit next cycle" — must route to the CEO or CHRO for confirmation before the deferral is treated as final. The assessor's own "not urgent" judgment is not the last word when the assessor also bears the cost of acting sooner. |
 
 ---
 
 ## 3. Active Hiring Cycles
 
-| Plan ID | Department | FY / Quarter | Headcount | Status | Folder |
-| ------- | ---------- | ------------ | --------- | ------ | ------ |
+| Plan ID                       | Department        | FY / Quarter | Headcount        | Status                                                                                                                                                             | Folder                                                           |
+| ----------------------------- | ----------------- | ------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `core-component-00-fy2026-q3` | Core Component 00 | FY2026 Q3    | 11 (11/11 hired) | Complete — organized by document type (`candidates/`, `phase-summaries/`), includes `reflection.md`; eligible for cleanup per retention policy, pending CEO review | [`core-component-00-fy2026-q3/`](./core-component-00-fy2026-q3/) |
 
 > Add rows here when a new hiring cycle opens. Remove the row when the cycle is complete and the folder is deleted.
 
