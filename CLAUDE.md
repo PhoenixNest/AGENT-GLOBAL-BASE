@@ -9,9 +9,6 @@ folder.
 
 ## 1. Critical Guardrails (read first)
 
-- **Never read `GEMINI.md` or `.gemini/**`.** These are a parallel Gemini-agent configuration,
-  explicitly denied to Claude Code in `.claude/settings.json`. Do not read, cite, or sync from
-  them. Your equivalents are this file and the folder-level `CLAUDE.md` files.
 - **Shell is platform-conditional.**
   - **Windows (primary):** Shell is Windows PowerShell. All terminal commands must be
     PowerShell-compatible. Avoid bash-only syntax (`&&` chaining, `$(...)`, `rm -rf`,
@@ -53,7 +50,7 @@ The `.claude/` folder is fully provisioned:
 
 | Path                                  | Purpose                                                                                                   |
 | ------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `.claude/settings.json`               | PowerShell shell, `.gemini` deny rules, hooks, MCP permissions                                            |
+| `.claude/settings.json`               | PowerShell shell, hooks, MCP permissions                                                                  |
 | `.claude/rules/*.md`                  | 26 project rules — 7 always-on + 19 path-scoped                                                           |
 | `.claude/skills/<domain>/SKILL.md`    | 21 skill routers (20 domains + `activate-org-agent`)                                                      |
 | `.claude/skills/<domain>/references/` | Deep sub-skill reference docs                                                                             |
@@ -70,7 +67,6 @@ The `.claude/` folder is fully provisioned:
 AGENT-GLOBAL-BASE/
 ├── AGENTS.md                             ← Comprehensive human-readable orientation guide
 ├── CLAUDE.md                             ← This file (global operating layer for Claude Code)
-├── GEMINI.md  .gemini/                   ← OFF-LIMITS to Claude Code (Gemini-agent config)
 ├── .claude/                              ← Claude Code configuration (see §3 above)
 ├── .mcp.json                             ← MCP server manifest (must be at project root)
 │

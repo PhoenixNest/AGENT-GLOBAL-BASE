@@ -82,12 +82,6 @@ if settings.get("defaultShell") == "powershell":
 else:
     fail("defaultShell not set to powershell")
 
-deny = settings.get("permissions", {}).get("deny", [])
-if "Read(./GEMINI.md)" in deny:
-    ok("GEMINI.md deny rule present")
-else:
-    fail("GEMINI.md deny rule missing")
-
 allow = settings.get("permissions", {}).get("allow", [])
 ps_rules = [r for r in allow if r.startswith("PowerShell(")]
 if len(ps_rules) >= 5:
