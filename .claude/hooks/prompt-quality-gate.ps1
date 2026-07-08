@@ -27,10 +27,6 @@ $violations = @(
         rule    = 'P0/P1 defect classification is non-overridable — CLAUDE.md §8'
     },
     @{
-        pattern = '(?i)(read|open|access|load|view|check|parse).{0,30}(GEMINI\.md|\.gemini)'
-        rule    = 'GEMINI.md and .gemini/** are explicitly denied to Claude Code — CLAUDE.md §1'
-    },
-    @{
         pattern = '(?i)(remove|weaken|disable|trim|strip).{0,30}(feature|security|functionality|test).{0,30}(pass|review|gate|check)'
         rule    = 'Trim-to-Pass is a P0 defect — removing features to pass a review is blocked — CLAUDE.md §8'
     },

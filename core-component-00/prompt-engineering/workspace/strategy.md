@@ -17,9 +17,9 @@ At its core, this workspace is a **hierarchical prompt engineering architecture*
 ```
 AGENTS.md (master system prompt — 263 lines)
 ├── Pipeline definitions (5 files, 1000-2000 lines each — stage routing prompts)
-├── Agent profiles (77 agents × 4 platforms — role-specific system prompts)
+├── Agent profiles (77 agents — role-specific system prompts)
 ├── Skills (213+ files — domain-specific behavioral prompts)
-├── Platform adapters (GEMINI.md — environment-specific instructions)
+├── Platform adapters (CLAUDE.md — environment-specific instructions)
 └── Company knowledge (company/ — context injection sources)
 ```
 
@@ -27,11 +27,11 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 
 ### 1.2 The Three Layers of Prompt Engineering Here
 
-| Layer           | What It Is                                                 | Current State                             | Optimization Potential                    |
-| --------------- | ---------------------------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| **Strategic**   | AGENTS.md, pipeline definitions, platform adapters         | Well-structured but monolithic            | Modularize, add dynamic context injection |
-| **Tactical**    | Agent profiles (77 agents), skill files (213+)             | Good structure, needs cross-platform sync | Cross-platform sync, trigger optimization |
-| **Operational** | User prompts, agent-to-agent messages, artifact generation | Ad hoc, no templates                      | Template library, quality metrics         |
+| Layer           | What It Is                                                 | Current State                              | Optimization Potential                    |
+| --------------- | ---------------------------------------------------------- | ------------------------------------------ | ----------------------------------------- |
+| **Strategic**   | AGENTS.md, pipeline definitions, platform adapters         | Well-structured but monolithic             | Modularize, add dynamic context injection |
+| **Tactical**    | Agent profiles (77 agents), skill files (213+)             | Good structure, needs trigger optimization | Trigger optimization, skill index sync    |
+| **Operational** | User prompts, agent-to-agent messages, artifact generation | Ad hoc, no templates                       | Template library, quality metrics         |
 
 ---
 
@@ -57,7 +57,7 @@ Every file is a prompt. Every directory is a prompt namespace. Every pipeline st
 ```markdown
 ## Agent Invocation Registry
 
-| Agent | Gemini                   |
+| Agent | Invocation Handle        |
 | ----- | ------------------------ |
 | CTO   | @cto-dr-kenji-nakamura   |
 | CPO   | @marcus-tran-yoshida-cpo |
@@ -95,13 +95,13 @@ company/pipeline/mobile-development/
 
 #### C. Platform Adapters
 
-**Current:** Only `GEMINI.md` exists (995 lines). `AGENTS.md` is the canonical source. Additional adapters (`CLAUDE.md`, etc.) can be added as needed.
+**Current:** `CLAUDE.md` is the active platform adapter. `AGENTS.md` is the canonical source. Additional adapters can be added as needed.
 
 **Prompt Engineering Opportunities:**
 
 | Technique                          | Application                                                                               | Expected Impact                      |
 | ---------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------ |
-| **Adapter pattern enforcement**    | Create additional adapter files as needed following the same structure as GEMINI.md       | Consistent behavior across platforms |
+| **Adapter pattern enforcement**    | Create additional adapter files as needed following the same structure as CLAUDE.md       | Consistent behavior across platforms |
 | **Platform-specific tool prompts** | Each adapter includes tool invocation patterns specific to that platform                  | Reduces tool misuse by 40-50%        |
 | **IDE integration prompts**        | Add platform-specific context (e.g., platform adapter conventions, inline agent patterns) | Better developer experience          |
 
@@ -109,17 +109,17 @@ company/pipeline/mobile-development/
 
 ### 2.2 Tactical Layer — Agent and Skill Prompts
 
-#### A. Agent Profiles (77 Agents × 4 Platforms)
+#### A. Agent Profiles (77 Agents)
 
-**Current:** 77 in Gemini.
+**Current:** 77 agent profiles defined as platform-agnostic documents (`profile.md` + `skills/*.md`).
 
 **Prompt Engineering Opportunities:**
 
 | Technique                          | Application                                                                                                                         | Expected Impact                                 |
 | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | **Dynamic context injection**      | Add pipeline-stage-aware context to agent profiles: "When invoked during Stage 6, prioritize code review patterns from your skills" | Agents adapt behavior based on pipeline context |
-| **Trigger keyword optimization**   | Optimize the `description` field (Gemini) or equivalent trigger text with high-signal keywords                                      | Improves agent routing accuracy                 |
-| **Cross-platform synchronization** | Ensure all 4 platforms have identical agent profiles with platform-specific tool adaptations                                        | Eliminates platform behavior divergence         |
+| **Trigger keyword optimization**   | Optimize the `description` field or equivalent trigger text with high-signal keywords                                               | Improves agent routing accuracy                 |
+| **Skill index sync**               | Ensure every agent profile's skill references stay consistent with the skill files that actually exist on disk                      | Eliminates broken skill references              |
 | **Skills index as prompt routing** | Convert the skills index table into an explicit routing map: "When task matches skill X, load skill file Y before responding"       | Reduces skill loading errors                    |
 
 **Priority actions:**
@@ -146,14 +146,7 @@ company/pipeline/mobile-development/
 ```markdown
 ---
 name: android-architecture
-trigger:
-  [
-    "android architecture",
-    "clean architecture",
-    "MVVM",
-    "MVI",
-    "layered architecture",
-  ]
+trigger: ["android architecture", "clean architecture", "MVVM", "MVI", "layered architecture"]
 owner: Tariq Al-Hassan (Senior Android Engineer)
 pipeline_stages: [5, 6]
 ---
@@ -309,13 +302,12 @@ Classify any defects using P0-P3 severity."
 
 ### 4.1 High-Impact Areas (Do First)
 
-| Component                      | Current State                  | Prompt Engineering Action                                                  | Priority |
-| ------------------------------ | ------------------------------ | -------------------------------------------------------------------------- | -------- |
-| **AGENTS.md**                  | Dense, no invocation registry  | Add structured delimiters, agent invocation registry, negative constraints | P0       |
-| **Platform adapter sync**      | Only GEMINI.md exists          | Create CLAUDE.md if needed, or consolidate into AGENTS.md                  | P1       |
-| **Cross-platform agent sync**  | Claude has 12 leads, others 77 | Ensure consistent profiles across all 4 platforms                          | P1       |
-| **Pipeline monoliths**         | 1000-2000 line files           | Modularize into shared + per-stage files                                   | P1       |
-| **Skill trigger optimization** | Inconsistent trigger keywords  | Add explicit trigger keywords to all 213+ skill files                      | P1       |
+| Component                        | Current State                   | Prompt Engineering Action                                                  | Priority |
+| -------------------------------- | ------------------------------- | -------------------------------------------------------------------------- | -------- |
+| **AGENTS.md**                    | Dense, no invocation registry   | Add structured delimiters, agent invocation registry, negative constraints | P0       |
+| **Platform adapter maintenance** | CLAUDE.md is the active adapter | Keep CLAUDE.md and AGENTS.md in sync as the workspace evolves              | P1       |
+| **Pipeline monoliths**           | 1000-2000 line files            | Modularize into shared + per-stage files                                   | P1       |
+| **Skill trigger optimization**   | Inconsistent trigger keywords   | Add explicit trigger keywords to all 213+ skill files                      | P1       |
 
 ### 4.2 Medium-Impact Areas (Do Second)
 
@@ -344,8 +336,7 @@ Classify any defects using P0-P3 severity."
 
 | Task                                       | Deliverable                                                  | Owner       |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------- |
-| Add agent invocation registry to AGENTS.md | Updated AGENTS.md with cross-platform trigger table          | Architect   |
-| Cross-platform agent profile sync          | Ensure all 4 platforms have consistent agent profiles        | Engineering |
+| Add agent invocation registry to AGENTS.md | Updated AGENTS.md with agent trigger table                   | Architect   |
 | Add structured delimiters to AGENTS.md     | XML-style section tags for clarity                           | Architect   |
 | Audit skill trigger keywords               | Inventory of all 213+ skills with trigger keyword assessment | Engineering |
 
@@ -360,12 +351,11 @@ Classify any defects using P0-P3 severity."
 
 ### Phase 3: Skill Optimization (Week 5-6)
 
-| Task                               | Deliverable                                 | Owner         |
-| ---------------------------------- | ------------------------------------------- | ------------- |
-| Add trigger keywords to all skills | 213+ skills with explicit triggers          | Engineering   |
-| Add few-shot examples to skills    | 2-3 examples per skill file                 | Chapter Leads |
-| Add quality checklists to skills   | Self-evaluation prompts per skill           | Chapter Leads |
-| Cross-platform skill sync          | Unified skill source with platform adapters | DevOps        |
+| Task                               | Deliverable                        | Owner         |
+| ---------------------------------- | ---------------------------------- | ------------- |
+| Add trigger keywords to all skills | 213+ skills with explicit triggers | Engineering   |
+| Add few-shot examples to skills    | 2-3 examples per skill file        | Chapter Leads |
+| Add quality checklists to skills   | Self-evaluation prompts per skill  | Chapter Leads |
 
 ### Phase 4: Quality & Measurement (Week 7-8)
 
@@ -382,7 +372,7 @@ Classify any defects using P0-P3 severity."
 
 ### 6.1 The Adapter Discipline Applies to Prompts Too
 
-Just as platform adapter files (GEMINI.md, etc.) must not contradict AGENTS.md, all prompt engineering must respect the canonical rules:
+Just as platform adapter files (CLAUDE.md, etc.) must not contradict AGENTS.md, all prompt engineering must respect the canonical rules:
 
 - **Non-negotiable rules** in AGENTS.md cannot be overridden by any prompt
 - **Defect severity (P0-P3)** is fixed — no prompt can change classification rules
@@ -455,14 +445,14 @@ User submits a request
 
 ## 8. Metrics for Success
 
-| Metric                         | Baseline                                 | Target | Measurement Method                               |
-| ------------------------------ | ---------------------------------------- | ------ | ------------------------------------------------ |
-| Agent routing accuracy         | ~70% (estimated)                         | >90%   | Correct agent invoked / total invocations        |
-| Skill match accuracy           | ~65% (estimated)                         | >85%   | Correct skill loaded / total skill requests      |
-| Artifact quality score         | N/A                                      | >4/5   | Checklist-based evaluation per artifact          |
-| Pipeline stage completion rate | N/A                                      | >95%   | Stages completed without rollback / total stages |
-| User prompt clarity score      | N/A                                      | >4/5   | Ambiguity dimensions resolved / total dimensions |
-| Cross-platform consistency     | Partial (Claude has 12 leads, others 77) | 100%   | All 4 platforms have consistent agent profiles   |
+| Metric                         | Baseline         | Target | Measurement Method                                                        |
+| ------------------------------ | ---------------- | ------ | ------------------------------------------------------------------------- |
+| Agent routing accuracy         | ~70% (estimated) | >90%   | Correct agent invoked / total invocations                                 |
+| Skill match accuracy           | ~65% (estimated) | >85%   | Correct skill loaded / total skill requests                               |
+| Artifact quality score         | N/A              | >4/5   | Checklist-based evaluation per artifact                                   |
+| Pipeline stage completion rate | N/A              | >95%   | Stages completed without rollback / total stages                          |
+| User prompt clarity score      | N/A              | >4/5   | Ambiguity dimensions resolved / total dimensions                          |
+| Agent profile completeness     | Partial          | 100%   | All 77 agent profiles have complete YAML frontmatter and skill references |
 
 ---
 
