@@ -16,7 +16,7 @@
 ## File Location
 
 ```
-.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json
+core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json
 ```
 
 This file is the **shared inter-process communication channel** between the `workspace-knowledge`
@@ -162,7 +162,7 @@ In this implementation (Claude Code): `/rag-sync auto` then `/rag-sync threshold
 If H-RAG02 behaves unexpectedly, verify the state file with:
 
 ```powershell
-Get-Content ".claude\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json" | ConvertFrom-Json
+Get-Content "core-component-00\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json" | ConvertFrom-Json
 ```
 
 Or use the `status` operation from the configuration manager (this implementation:

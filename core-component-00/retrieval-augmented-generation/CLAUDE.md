@@ -95,7 +95,7 @@ correctness, RRF fusion deduplication, ACL enforcement, and the Layer 2 slot-ass
 The production RAG deployment for this workspace is the **workspace-knowledge MCP server**:
 
 ```
-.claude/mcp-servers/workspace-knowledge/
+core-component-00/mcp-servers/workspace-knowledge/
 ```
 
 It uses BM25 + Qdrant hybrid retrieval and serves as the official reference example for

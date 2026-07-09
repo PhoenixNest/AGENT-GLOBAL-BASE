@@ -6,7 +6,7 @@ pipeline components. All heavy dependencies (embedding models, vector
 stores) are passed in as callables, making every component testable
 without GPU, CUDA, or a live Qdrant instance.
 
-User reference deployment: .claude/mcp-servers/workspace-knowledge/
+User reference deployment: core-component-00/mcp-servers/workspace-knowledge/
 (BM25 + Qdrant hybrid retrieval, production-grade)
 """
 

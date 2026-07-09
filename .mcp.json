@@ -2,7 +2,7 @@
   "mcpServers": {
     "workspace-knowledge": {
       "command": "python",
-      "args": ["${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"],
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/workspace-knowledge/server.py"],
       "env": {
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
         "FASTMCP_LOG_LEVEL": "ERROR",
