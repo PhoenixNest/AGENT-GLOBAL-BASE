@@ -40,6 +40,7 @@ from pathlib import Path
 _SCRIPT_DIR = Path(__file__).resolve().parent          # .claude/scripts/
 _CLAUDE_DIR = _SCRIPT_DIR.parent                       # .claude/
 _SETTINGS   = _CLAUDE_DIR / "settings.json"
+_LOCAL_SETTINGS = _CLAUDE_DIR / "settings.local.json"
 _BASH_SETTINGS = _CLAUDE_DIR / "platform-settings" / "settings.bash.json"
 _SENTINEL      = _CLAUDE_DIR / ".workspace-initialized"
 
@@ -104,6 +105,22 @@ def normalise_pwsh_path() -> None:
         fh.write(updated)
 
     _log(f"  Replaced absolute pwsh path(s) with '{_PORTABLE_PWSH}'.")
+
+
+def ensure_local_default_shell() -> None:
+    """Ensure settings.local.json has defaultShell = 'powershell' (machine-specific, gitignored)."""
+    data = {}
+    if _LOCAL_SETTINGS.exists():
+        with _LOCAL_SETTINGS.open(encoding="utf-8") as fh:
+            data = json.load(fh)
+    if data.get("defaultShell") == "powershell":
+        _log("settings.local.json already has defaultShell = powershell.")
+        return
+    data["defaultShell"] = "powershell"
+    with _LOCAL_SETTINGS.open("w", encoding="utf-8") as fh:
+        json.dump(data, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    _log("settings.local.json: set defaultShell = powershell.")
 
 
 # ---------------------------------------------------------------------------
@@ -301,6 +318,7 @@ def main() -> None:
     if pwsh_path is not None:
         _log(f"pwsh (PS7+) found at: {pwsh_path}")
         normalise_pwsh_path()
+        ensure_local_default_shell()
     elif ps5_path is not None and os_name == "Windows":
         _log(
             f"Windows PowerShell 5.x found at: {ps5_path}\n"
@@ -315,6 +333,7 @@ def main() -> None:
             if shutil.which("pwsh") is not None:
                 _log("pwsh (PS7+) is now available.")
                 normalise_pwsh_path()
+                ensure_local_default_shell()
             else:
                 _log(
                     "pwsh still not found after install attempt.\n"
@@ -333,6 +352,7 @@ def main() -> None:
             if shutil.which("pwsh") is not None:
                 _log("pwsh is now available.")
                 normalise_pwsh_path()
+                ensure_local_default_shell()
             else:
                 _log("pwsh still not found after install attempt — falling back to bash config.")
                 apply_bash_config(os_name)
