@@ -55,7 +55,7 @@ The `.claude/` folder is fully provisioned:
 | `.claude/skills/<domain>/SKILL.md`                   | 21 skill routers (20 domains + `activate-org-agent`)                                         |
 | `.claude/skills/<domain>/references/`                | Deep sub-skill reference docs                                                                |
 | `.claude/agents/*.md`                                | 4 functional subagents (pipeline-executor, org-activator, cc00-assistant, orchestrator)      |
-| `.claude/hooks/*.ps1`                                | 3 PowerShell hooks: Prettier, ruff lint, pytest on CC-00 changes                             |
+| `.claude/hooks/*.ps1`                                | 15 PowerShell hooks: prompt governance, harness rate-limiting, RAG sync, git/commit guards   |
 | `core-component-00/mcp-servers/workspace-knowledge/` | MCP server implementation (workspace-knowledge) — only server registered in root `.mcp.json` |
 | `.mcp.json`                                          | MCP manifest at project root (Claude Code platform requirement)                              |
 
