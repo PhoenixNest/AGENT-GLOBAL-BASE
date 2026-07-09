@@ -65,7 +65,7 @@ Registered in the project-root `.mcp.json`:
   "mcpServers": {
     "workspace-knowledge": {
       "command": "python",
-      "args": ["${CLAUDE_PROJECT_DIR:-.}/.claude/mcp-servers/workspace-knowledge/server.py"],
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/workspace-knowledge/server.py"],
       "env": {
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
         "SEARCH_BACKEND": "qdrant",
@@ -167,3 +167,11 @@ Recovery time: < 60 s (FAISS index on disk) or 2–5 min (fresh `rebuild_index`)
 | 1     | Shadow mode — Qdrant writes, FAISS reads     | ✅ Complete |
 | 2     | Qdrant primary, FAISS hot standby            | ✅ Complete |
 | 3     | Qdrant primary, FAISS permanent warm standby | ✅ Active   |
+
+---
+
+## Ownership
+
+Owned and maintained by **CC-00 Lab**. Primary maintainer: **Sofia Almeida**, Senior Research
+Engineer and `retrieval-augmented-generation/` lead, reports to **Dr. Elias Vance** (Lab Director).
+See her full profile at `core-component-00/crew/retrieval-augmented-generation/sofia-almeida/agent/profile.md`.

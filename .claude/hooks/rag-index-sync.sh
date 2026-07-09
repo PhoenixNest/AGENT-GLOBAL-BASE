@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # H-RAG02: PostToolUse — RAG Index Sync on Doc Write (toggle-aware, phase-adaptive) (bash port)
 # Fires after Write or Edit tools modify .md files in KEY_DIRS.
-# Behavior is governed by .claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json (mode: auto|warn|off).
+# Behavior is governed by core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json (mode: auto|warn|off).
 # Phase adaptation: reads search_backend from state file to determine rebuild vs upsert path.
 
 raw_input=$(cat)
@@ -39,7 +39,7 @@ echo "$normalized_path" | grep -qE '\.md$' || exit 0
 
 # --- Read toggle state (defaults to warn if state file absent) ---
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-state_file="$script_dir/../mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json"
+state_file="$script_dir/../../core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json"
 
 mode="warn"
 debounce_seconds=30

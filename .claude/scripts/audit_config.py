@@ -107,10 +107,9 @@ if local_path.exists():
     except Exception as e:
         fail("settings.local.json parse error", str(e))
 
-expected_servers = {"workspace-knowledge", "pipeline-automation",
-                    "git-worktree-manager", "cc00-tools"}
+expected_servers = {"workspace-knowledge"}
 if expected_servers.issubset(set(mcp_enabled)):
-    ok(f"All 4 MCP servers enabled: {sorted(mcp_enabled)}")
+    ok(f"All MCP servers enabled: {sorted(mcp_enabled)}")
 else:
     missing = expected_servers - set(mcp_enabled)
     fail(f"Missing MCP servers in enabledMcpjsonServers", str(missing))
@@ -136,10 +135,7 @@ for h in hooks:
 print("\n[4] MCP servers (syntax)")
 
 servers = [
-    ".claude/mcp-servers/cc00-tools/server.py",
-    ".claude/mcp-servers/pipeline-automation/server.py",
-    ".claude/mcp-servers/git-worktree-manager/server.py",
-    ".claude/mcp-servers/workspace-knowledge/server.py",
+    "core-component-00/mcp-servers/workspace-knowledge/server.py",
 ]
 for s in servers:
     p = ROOT / s
