@@ -37,7 +37,7 @@ ruleset, including the Simple/Programme report shape and the four-state Status L
 
 | Investigation ID                       | Date       | Status                                                        | Topic                                                                                                                                                                            | Requestor |
 | -------------------------------------- | ---------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| `2026-07-10-agent-memory-architecture` | 2026-07-10 | Complete (research/design phase — implementation not started) | Persistent agent memory architecture for the Qdrant-backed knowledge base, benchmarked against Claude/industry memory research, with a human-brain-emulating forgetting strategy | CEO       |
+| `2026-07-10-agent-memory-architecture` | 2026-07-10 | Approved — implementation authorized 2026-07-12 | Persistent agent memory architecture for the Qdrant-backed knowledge base, benchmarked against Claude/industry memory research, with a human-brain-emulating forgetting strategy | CEO       |
 
 ---
 
