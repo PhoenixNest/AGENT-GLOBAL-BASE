@@ -27,6 +27,25 @@ from fastmcp import FastMCP
 WORKSPACE_ROOT = Path(os.getenv("WORKSPACE_ROOT", "."))
 SEARCH_BACKEND = os.getenv("SEARCH_BACKEND", "faiss").lower()
 
+# ── Memory instance (qdrant-memory, http://localhost:6335) — telemetry only ──
+# This server never writes to qdrant-memory: every memory write happens through
+# PersistentMemorySink, called directly by the agent runtime, not through any
+# MCP tool. This server only opens a read-only connection, and only to compute
+# the health_check tool's memory_instance block below.
+_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "context-engineering"
+if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
+    sys.path.insert(0, str(_CONTEXT_ENGINEERING_ROOT))
+
+from implementations.memory_vector_store import (  # noqa: E402
+    COLLECTION_BY_TYPE as MEMORY_COLLECTION_BY_TYPE,
+    MemorySyncState,
+    QdrantMemoryIndex,
+    compute_memory_instance_telemetry,
+)
+
+MEMORY_QDRANT_URL = os.getenv("MEMORY_QDRANT_URL", "http://localhost:6335")
+_memory_sync_state = MemorySyncState()
+
 mcp = FastMCP("workspace-knowledge")
 
 
@@ -822,6 +841,63 @@ def agent_knowledge_brief(agent_role: str, context_topics: list[str]) -> dict[st
         "sections": brief_sections,
         "total_docs": len(seen),
         "_meta": engine._meta_block(),
+    }
+
+
+def _document_kb_health_block() -> dict[str, Any]:
+    """Best-effort reachability/point-count check against the existing
+    qdrant-workspace document collection, reusing the same client/state the
+    engine already maintains (`_qdrant_ready`, `_qdrant_client`,
+    `_collection_name`) rather than opening a second connection."""
+    reachable = False
+    point_count: int | None = None
+    if engine._qdrant_ready and engine._qdrant_client is not None:
+        try:
+            engine._qdrant_client.get_collections()
+            reachable = True
+            info = engine._qdrant_client.get_collection(engine._collection_name)
+            point_count = info.points_count
+        except Exception:
+            reachable = False
+    return {
+        "reachable": reachable,
+        "point_count": point_count,
+        "search_tier": engine._tier.value,
+        "degradation_reason": engine._degradation_reason,
+    }
+
+
+def _memory_instance_health_block() -> dict[str, Any]:
+    """Best-effort telemetry against the dedicated qdrant-memory instance
+    (http://localhost:6335), separate from the document knowledge base's own
+    Qdrant instance. If qdrant-memory is unreachable, this degrades to
+    reachable=False with zeroed counts via QdrantMemoryIndex's own graceful
+    degradation — it never raises."""
+    client = None
+    try:
+        from qdrant_client import QdrantClient
+        client = QdrantClient(url=MEMORY_QDRANT_URL, timeout=5)
+    except Exception:
+        client = None
+    indices = {
+        memory_type: QdrantMemoryIndex(memory_type, client=client)
+        for memory_type in MEMORY_COLLECTION_BY_TYPE
+    }
+    return compute_memory_instance_telemetry(client=client, indices=indices, sync_state=_memory_sync_state)
+
+
+@mcp.tool()
+def health_check() -> dict[str, Any]:
+    """Report health for both Qdrant-backed instances this workspace runs:
+    the document knowledge base (qdrant-workspace) and the persistent agent
+    memory store (qdrant-memory, http://localhost:6335). Always reported as two
+    distinct blocks — document_knowledge_base and memory_instance — and never
+    collapsed into one combined status, since a healthy qdrant-workspace says
+    nothing about qdrant-memory's health or vice versa: they are separate
+    containers, separate ports, separate failure domains."""
+    return {
+        "document_knowledge_base": _document_kb_health_block(),
+        "memory_instance": _memory_instance_health_block(),
     }
 
 

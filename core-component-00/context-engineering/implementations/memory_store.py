@@ -70,10 +70,21 @@ class EpisodicMemory:
         recent = em.recent_turns(n=5)
     """
 
-    def __init__(self, session_id: str = "default"):
+    def __init__(self, session_id: str = "default", sink: Optional[Any] = None):
+        """
+        Args:
+            session_id: Session scope for this memory instance.
+            sink: Optional write-through target implementing write_episodic()
+                  (see context-engineering/implementations/memory_vector_store.py
+                  PersistentMemorySink). None preserves the pre-existing
+                  in-memory-only behaviour; production callers inject a
+                  PersistentMemorySink to also persist to the JSONL log and the
+                  memory_episodic Qdrant collection.
+        """
         self.session_id = session_id
         self._events: List[EpisodicEvent] = []
         self._turn_counter: int = 0
+        self._sink = sink
 
     def advance_turn(self) -> int:
         """Increment the turn counter. Call once per conversation turn."""
@@ -102,6 +113,11 @@ class EpisodicMemory:
         if is_sacred:
             print(f"INFO: Sacred context recorded [{event_type}]: {content[:60]}...",
                   file=sys.stderr)
+        if self._sink is not None:
+            try:
+                self._sink.write_episodic(event, self.session_id)
+            except Exception as exc:
+                print(f"WARNING: episodic write-through to sink failed: {exc}", file=sys.stderr)
         return event
 
     def get_sacred_context(self) -> List[str]:
@@ -194,8 +210,15 @@ class SemanticMemory:
         facts = sm.query("database preference", top_k=3)
     """
 
-    def __init__(self):
+    def __init__(self, sink: Optional[Any] = None):
+        """
+        Args:
+            sink: Optional write-through target implementing write_semantic()
+                  (see memory_vector_store.PersistentMemorySink). None preserves
+                  the pre-existing in-memory-only behaviour.
+        """
         self._facts: Dict[str, SemanticFact] = {}
+        self._sink = sink
 
     def store(
         self,
@@ -224,6 +247,11 @@ class SemanticMemory:
             tags=tags or [],
         )
         self._facts[key] = fact
+        if self._sink is not None:
+            try:
+                self._sink.write_semantic(fact)
+            except Exception as exc:
+                print(f"WARNING: semantic write-through to sink failed: {exc}", file=sys.stderr)
         return fact
 
     def get(self, key: str) -> Optional[str]:
@@ -309,12 +337,26 @@ class ProceduralMemory:
         instruction = pm.activate("code_review")
     """
 
-    def __init__(self):
+    def __init__(self, sink: Optional[Any] = None, source_session_id: Optional[str] = None):
+        """
+        Args:
+            sink: Optional write-through target implementing write_procedural()
+                  (see memory_vector_store.PersistentMemorySink). None preserves
+                  the pre-existing in-memory-only behaviour.
+            source_session_id: Session to attribute persisted corrections to.
+        """
         self._procedures: Dict[str, str] = {}
+        self._sink = sink
+        self._source_session_id = source_session_id
 
     def register(self, skill_name: str, instruction: str) -> None:
         """Register a procedural skill (how to do something)."""
         self._procedures[skill_name] = instruction
+        if self._sink is not None:
+            try:
+                self._sink.write_procedural(skill_name, instruction, self._source_session_id)
+            except Exception as exc:
+                print(f"WARNING: procedural write-through to sink failed: {exc}", file=sys.stderr)
 
     def activate(self, skill_name: str) -> Optional[str]:
         """

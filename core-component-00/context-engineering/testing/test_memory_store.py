@@ -271,3 +271,99 @@ class TestSacredEventTypes:
 
     def test_general_is_not_sacred(self):
         assert "general" not in SACRED_EVENT_TYPES
+
+
+# ---------------------------------------------------------------------------
+# Optional write-through sink (memory_vector_store.PersistentMemorySink)
+# ---------------------------------------------------------------------------
+
+class _RecordingSink:
+    """Minimal duck-typed sink — mirrors PersistentMemorySink's public methods
+    without depending on memory_vector_store.py, keeping this test file focused
+    on memory_store.py's own contract (calls the sink, doesn't crash if it fails)."""
+
+    def __init__(self, fail=False):
+        self.fail = fail
+        self.episodic_calls = []
+        self.semantic_calls = []
+        self.procedural_calls = []
+
+    def write_episodic(self, event, session_id):
+        if self.fail:
+            raise RuntimeError("simulated sink failure")
+        self.episodic_calls.append((event, session_id))
+
+    def write_semantic(self, fact):
+        if self.fail:
+            raise RuntimeError("simulated sink failure")
+        self.semantic_calls.append(fact)
+
+    def write_procedural(self, skill_name, instruction, source_session_id=None):
+        if self.fail:
+            raise RuntimeError("simulated sink failure")
+        self.procedural_calls.append((skill_name, instruction, source_session_id))
+
+
+class TestEpisodicMemorySinkWriteThrough:
+    def test_no_sink_preserves_default_behaviour(self):
+        em = EpisodicMemory(session_id="s1")
+        em.record_event("general", "no sink configured")
+        assert len(em) == 1
+
+    def test_record_event_calls_sink(self):
+        sink = _RecordingSink()
+        em = EpisodicMemory(session_id="s1", sink=sink)
+        em.record_event("general", "hello")
+        assert len(sink.episodic_calls) == 1
+        _, session_id = sink.episodic_calls[0]
+        assert session_id == "s1"
+
+    def test_sink_failure_does_not_break_the_write(self):
+        sink = _RecordingSink(fail=True)
+        em = EpisodicMemory(session_id="s1", sink=sink)
+        event = em.record_event("general", "still recorded in-memory")
+        assert event is not None
+        assert len(em) == 1
+
+
+class TestSemanticMemorySinkWriteThrough:
+    def test_no_sink_preserves_default_behaviour(self):
+        sm = SemanticMemory()
+        sm.store("k", "v")
+        assert sm.get("k") == "v"
+
+    def test_store_calls_sink(self):
+        sink = _RecordingSink()
+        sm = SemanticMemory(sink=sink)
+        sm.store("user_stack", "FastAPI")
+        assert len(sink.semantic_calls) == 1
+        assert sink.semantic_calls[0].key == "user_stack"
+
+    def test_sink_failure_does_not_break_the_write(self):
+        sink = _RecordingSink(fail=True)
+        sm = SemanticMemory(sink=sink)
+        fact = sm.store("k", "v")
+        assert fact is not None
+        assert sm.get("k") == "v"
+
+
+class TestProceduralMemorySinkWriteThrough:
+    def test_no_sink_preserves_default_behaviour(self):
+        pm = ProceduralMemory()
+        pm.register("skill", "do it")
+        assert pm.activate("skill") == "do it"
+
+    def test_register_calls_sink(self):
+        sink = _RecordingSink()
+        pm = ProceduralMemory(sink=sink, source_session_id="s1")
+        pm.register("code_review", "check security")
+        assert len(sink.procedural_calls) == 1
+        skill_name, instruction, session_id = sink.procedural_calls[0]
+        assert skill_name == "code_review"
+        assert session_id == "s1"
+
+    def test_sink_failure_does_not_break_the_write(self):
+        sink = _RecordingSink(fail=True)
+        pm = ProceduralMemory(sink=sink)
+        pm.register("skill", "instruction")  # must not raise
+        assert pm.activate("skill") == "instruction"

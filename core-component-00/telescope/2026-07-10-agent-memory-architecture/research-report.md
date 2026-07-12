@@ -10,7 +10,7 @@
 | **Date Started**          | 2026-07-10                                                                                                                                                                                                           |
 | **Date Completed**        | 2026-07-10                                                                                                                                                                                                           |
 | **Status**                | Complete — this refers to the research/design investigation only; see **Implementation Status** below                                                                                                                |
-| **Implementation Status** | Not started. No code has been written, no Qdrant collections created, no maintenance job deployed. This report is a design specification pending a separate implementation task (see § Recommendations, Next Steps). |
+| **Implementation Status** | P0 complete and verified. P1 complete and verified, signed off by CEO 2026-07-12: telemetry instrumentation built; Dr. Wieczorek's adversarial evaluation found the contradiction-check wrapper has no independent safeguards (0% mitigation, memory-poisoning and race-condition both reproduce) — `i_have_completed_adversarial_review` remains unset, contradiction-check stays inert. Live `qdrant-memory` instance provisioned (Docker, ports 6335/6336, 3 collections created, verified reachable). P2 (threshold recalibration) blocked — 0 points across all three collections, no real session data exists yet; a synthetic sensitivity check (not a substitute) is in `supporting/08-threshold-sensitivity-check.md`. |
 | **Investigator**          | Dr. Elias Vance (Laboratory Director, Principal Investigator)                                                                                                                                                        |
 | **Laboratory**            | Core Component 00                                                                                                                                                                                                    |
 | **Module(s)**             | Context Engineering (memory types) × Retrieval-Augmented Generation (Qdrant)                                                                                                                                         |
@@ -420,6 +420,8 @@ scheduled maintenance job per `supporting/02-deployment-guidelines.md` §5.
 | Version | Date       | Author          | Changes                           |
 | ------- | ---------- | --------------- | --------------------------------- |
 | 1.0     | 2026-07-10 | Dr. Elias Vance | Initial research report completed |
+| 1.1     | 2026-07-12 | CEO             | Reviewed briefing packet from all five contributors (Vance, Zhao, Almeida, Fontán, Wieczorek); signed off per Next Steps §1 User Approval Gate; implementation authorized |
+| 1.2     | 2026-07-12 | CEO             | Signed off on P1 (telemetry instrumentation; Wieczorek's adversarial evaluation of the contradiction-check logic); live `qdrant-memory` instance provisioned with `memory_episodic`/`memory_semantic`/`memory_procedural` collections created and verified reachable |
 
 ---
 

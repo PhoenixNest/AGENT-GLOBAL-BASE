@@ -49,6 +49,15 @@ client = QdrantClient(url="http://localhost:6335")
 Same dependency pin as the document knowledge base: `qdrant-client>=1.7.0,<2.0.0`
 (`lightweight-rag-deployment.md`).
 
+**Windows note (observed during provisioning, 2026-07-12):** `qdrant-client` (via `httpx`,
+`trust_env=True` by default) can get a `502 Bad Gateway` with an empty body against
+`http://localhost:6335` even when the container is healthy and reachable by every other HTTP
+client (PowerShell `Invoke-RestMethod`, `urllib`, `curl`) — some Windows-side proxy configuration
+invisible to `$env:HTTP_PROXY`/`$env:HTTPS_PROXY` is intercepting `httpx`'s connections
+specifically. Confirmed fix: set `NO_PROXY=localhost,127.0.0.1` (and lowercase `no_proxy`) in the
+environment before constructing `QdrantClient`. `qdrant-client` itself exposes no `trust_env`
+override — this must be set at the environment level, not passed as a client kwarg.
+
 ---
 
 ## 2. Directory Layout
