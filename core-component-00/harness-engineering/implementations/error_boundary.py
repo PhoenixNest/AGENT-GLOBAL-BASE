@@ -75,6 +75,17 @@ class RateLimitError(Exception):
     pass
 
 
+class ServiceUnavailableError(Exception):
+    """Raised when a local/self-hosted service (Qdrant, the embedder-service)
+    is unreachable or refuses a connection. Distinct from RateLimitError:
+    RateLimitError models a remote LLM-provider backpressure signal (HTTP
+    429), which has no equivalent for a local service outage — reusing it
+    here would misrepresent the failure as provider throttling rather than
+    "the process/socket isn't there."""
+
+    pass
+
+
 class ContextOverflowError(Exception):
     """Raised when conversation exceeds token budget."""
 
