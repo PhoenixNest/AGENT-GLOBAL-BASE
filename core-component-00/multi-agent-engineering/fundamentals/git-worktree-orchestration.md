@@ -1,4 +1,4 @@
-﻿# Git Worktree Orchestration
+# Git Worktree Orchestration
 
 > Using `git worktree` as infrastructure for multi-agent parallel development — giving each agent an isolated filesystem, a dedicated branch, and Git-native merge, rollback, and audit capabilities.
 
@@ -144,6 +144,32 @@ git branch -d agent/tester/dark-mode-tests
 # Prune stale worktree entries
 git worktree prune
 ```
+
+## Known Violation — Progress-Tracking Files Not Created During Execution (2026-07-14)
+
+The same embedder-service/EX-001 build also surfaced a second process violation, unrelated to the
+junction incident above: the orchestrator (Dr. Vance) had already decided, in writing, exactly
+where `progress.md`/`session-log.md`/`checkpoint.json` should live for that build
+(`telescope/2026-07-13-mcp-embedder-service-redesign/supporting/implementation-tracking/`, per
+`workspace-conventions.md`'s progress-monitoring convention) — but never actually instructed any
+worker agent to create or update them, and never created them directly. All six phases plus the
+EX-001 remediation executed and merged with zero real-time tracking artifacts; the CEO went
+looking for them and found nothing. This is logged as a process violation, not a mere gap, in
+`telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md` (temporary home
+pending the reflexion framework). The tracking files were subsequently compiled from git history
+as the official record — accurate, but their after-the-fact compilation does not excuse the
+violation itself.
+
+**Root cause:** the orchestrator briefs in this build's `agent()`/subagent prompts specified phase
+gates, acceptance criteria, and git-worktree conventions in detail, but never included
+tracking-file creation as a deliverable. A location decision on paper is not the same as an
+execution instruction.
+
+**Rule going forward:** any orchestrator brief for multi-agent work covered by the workspace's
+progress-monitoring convention must include tracking-file creation/update as an explicit,
+checked deliverable in the _first_ phase that produces code — not left as a standing intention in
+a planning document. If no owner is obviously right for it, the orchestrator owns it directly
+rather than assuming a worker agent will infer it.
 
 ---
 
