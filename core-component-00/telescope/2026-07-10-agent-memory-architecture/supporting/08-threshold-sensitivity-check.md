@@ -21,13 +21,13 @@ validate them against. Treat every number below as illustrative, not as a valida
 
 ## Current defaults
 
-| Constant | Value |
-|---|---|
-| `BASE_STRENGTH_DAYS` | 7.0 |
-| `REINFORCEMENT_FACTOR` | 0.5 |
-| `DORMANT_THRESHOLD` | 0.5 |
-| `ARCHIVE_THRESHOLD` | 0.15 |
-| `ARCHIVE_GRACE_DAYS` | 30.0 |
+| Constant                  | Value |
+| ------------------------- | ----- |
+| `BASE_STRENGTH_DAYS`      | 7.0   |
+| `REINFORCEMENT_FACTOR`    | 0.5   |
+| `DORMANT_THRESHOLD`       | 0.5   |
+| `ARCHIVE_THRESHOLD`       | 0.15  |
+| `ARCHIVE_GRACE_DAYS`      | 30.0  |
 | `CONSOLIDATION_THRESHOLD` | 150.0 |
 
 ## Finding 1: Time-to-dormant scales as expected with access count
@@ -35,13 +35,13 @@ validate them against. Treat every number below as illustrative, not as a valida
 For an `importance=1.0` record, days until `decay_weight` crosses the dormant threshold (0.5):
 
 | access_count | strength (days) | days to dormant | days to decay&lt;0.15 |
-|---|---|---|---|
-| 0 | 7.0 | 4.85 | 13.28 |
-| 1 | 10.5 | 7.28 | 19.92 |
-| 3 | 17.5 | 12.13 | 33.20 |
-| 5 | 24.5 | 16.98 | 46.48 |
-| 10 | 42.0 | 29.11 | 79.68 |
-| 20 | 77.0 | 53.37 | 146.08 |
+| ------------ | --------------- | --------------- | --------------------- |
+| 0            | 7.0             | 4.85            | 13.28                 |
+| 1            | 10.5            | 7.28            | 19.92                 |
+| 3            | 17.5            | 12.13           | 33.20                 |
+| 5            | 24.5            | 16.98           | 46.48                 |
+| 10           | 42.0            | 29.11           | 79.68                 |
+| 20           | 77.0            | 53.37           | 146.08                |
 
 Behaves as designed — reinforcement extends survival — but note archival is always additionally
 gated by the 30-day grace period regardless of how fast `decay_weight` itself drops, so a
@@ -55,21 +55,21 @@ not be the intended shape — worth checking against real access patterns once t
 `e^0 = 1`). `DORMANT_THRESHOLD=0.5` means:
 
 | importance | decay_weight at t=0 | status at t=0 |
-|---|---|---|
-| 1.00 | 1.000 | active |
-| 0.80 | 0.800 | active |
-| 0.60 | 0.600 | active |
-| 0.50 | 0.500 | active |
-| 0.40 | 0.400 | **dormant** |
-| 0.30 | 0.300 | **dormant** |
-| 0.15 | 0.150 | **dormant** |
-| 0.10 | 0.100 | **dormant** |
+| ---------- | ------------------- | ------------- |
+| 1.00       | 1.000               | active        |
+| 0.80       | 0.800               | active        |
+| 0.60       | 0.600               | active        |
+| 0.50       | 0.500               | active        |
+| 0.40       | 0.400               | **dormant**   |
+| 0.30       | 0.300               | **dormant**   |
+| 0.15       | 0.150               | **dormant**   |
+| 0.10       | 0.100               | **dormant**   |
 
 Any record written with `importance < 0.5` is `dormant` from the moment it's created, before any
 time has passed. `02-deployment-guidelines.md` §3 says `importance` is assigned by a "write-time
 heuristic" — if that heuristic commonly scores below 0.5 (plausible for routine/low-salience
 episodic events), a large fraction of memory could enter the corpus already dormant. This isn't
-necessarily wrong — a low-importance memory arguably *should* be deprioritized immediately — but
+necessarily wrong — a low-importance memory arguably _should_ be deprioritized immediately — but
 it means `DORMANT_THRESHOLD` and the importance-scoring heuristic are coupled in a way the report
 doesn't discuss, and the write-time heuristic's actual output distribution should be checked
 against this coupling once it exists, not assumed benign.
@@ -80,13 +80,13 @@ against this coupling once it exists, not assumed benign.
 it at various assumed per-record salience:
 
 | importance | access_count | salience/record | records needed |
-|---|---|---|---|
-| 0.6 | 1 | 0.6 | 250 |
-| 0.6 | 3 | 1.8 | 84 |
-| 0.6 | 5 | 3.0 | 50 |
-| 0.8 | 3 | 2.4 | 63 |
-| 1.0 | 3 | 3.0 | 50 |
-| 0.5 | 10 | 5.0 | 30 |
+| ---------- | ------------ | --------------- | -------------- |
+| 0.6        | 1            | 0.6             | 250            |
+| 0.6        | 3            | 1.8             | 84             |
+| 0.6        | 5            | 3.0             | 50             |
+| 0.8        | 3            | 2.4             | 63             |
+| 1.0        | 3            | 3.0             | 50             |
+| 0.5        | 10           | 5.0             | 30             |
 
 Generative Agents' original 150-point threshold (the source of this default, per the research
 report) was tuned against that system's own simulated-agent-day event volume, which has no

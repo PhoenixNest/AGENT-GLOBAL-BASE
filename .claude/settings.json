@@ -49,6 +49,16 @@
         ]
       },
       {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh",
+            "args": ["-ExecutionPolicy", "Bypass", "-Command", "$r=git rev-parse --show-toplevel 2>$null; if($LASTEXITCODE -eq 0){& \"$r/.claude/hooks/prompt-write-guard.ps1\"}else{exit 0}"]
+          }
+        ]
+      },
+      {
         "matcher": "Bash|PowerShell",
         "hooks": [
           {
@@ -115,7 +125,7 @@
   "worktree": {
     "bgIsolation": "none"
   },
-  "enabledMcpjsonServers": ["workspace-knowledge"],
+  "enabledMcpjsonServers": ["workspace-knowledge", "agent-memory"],
   "permissions": {
     "allow": [
       "mcp__workspace-knowledge__search_docs",
@@ -128,7 +138,10 @@
       "mcp__workspace-knowledge__validate_pipeline_document",
       "mcp__workspace-knowledge__find_related_documents",
       "mcp__workspace-knowledge__list_research_by_topic",
-      "mcp__workspace-knowledge__agent_knowledge_brief"
+      "mcp__workspace-knowledge__agent_knowledge_brief",
+      "mcp__workspace-knowledge__health_check",
+      "mcp__agent-memory__search_memory",
+      "mcp__agent-memory__health_check"
     ]
   },
   "includeCoAuthoredBy": false,
