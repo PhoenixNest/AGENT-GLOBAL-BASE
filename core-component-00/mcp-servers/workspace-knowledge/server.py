@@ -18,6 +18,7 @@ import json
 import os
 import re
 import threading
+import time
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -43,10 +44,66 @@ from implementations.memory_vector_store import (  # noqa: E402
     compute_memory_instance_telemetry,
 )
 
+# embedder-service client (Phase 4, telescope/2026-07-13-mcp-embedder-service-redesign).
+# Same cross-module import pattern as memory_vector_store above.
+_MCP_SERVERS_SHARED_ROOT = Path(__file__).resolve().parents[1] / "_shared"
+if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
+    sys.path.insert(0, str(_MCP_SERVERS_SHARED_ROOT))
+import embedder_client  # noqa: E402
+
 MEMORY_QDRANT_URL = os.getenv("MEMORY_QDRANT_URL", "http://localhost:6335")
 _memory_sync_state = MemorySyncState()
 
 mcp = FastMCP("workspace-knowledge")
+
+
+def _diag(msg: str) -> None:
+    print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
+
+
+# ---------------------------------------------------------------------------
+# embedder-service integration (Phase 4) — same feature-flagged,
+# fallback-preserving pattern as agent-memory's Phase 2 integration
+# (mcp-servers/_shared/embedder_client.py). Scoped deliberately to the
+# QUERY-time embedding calls only (SearchEngine._search_semantic /
+# _search_qdrant, on the live search_docs hot path) — NOT the batch
+# index-build/reseed/upsert paths (_build_or_load_faiss_index,
+# _seed_qdrant_collection, _upsert_file_to_qdrant), which already run off
+# the critical MCP-handshake path (_init_faiss_background's own background
+# thread) and need a local SentenceTransformer instance for efficient
+# batch encoding regardless. Migrating those too would be a larger
+# architecture change than "the same client pattern as Phase 2" calls for.
+# ---------------------------------------------------------------------------
+
+EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
+    "0",
+    "false",
+    "no",
+)
+_QUERY_EMBEDDER_SERVICE_MODEL = "all-mpnet-base-v2"  # matches this server's 768-dim collection
+
+_embedder_service_lock = threading.Lock()
+# "disabled" | "starting" | "ready" | "unavailable"
+_embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
+
+
+def _start_embedder_service_background() -> None:
+    global _embedder_service_state
+    ok = embedder_client.ensure_service_running()
+    with _embedder_service_lock:
+        _embedder_service_state = "ready" if ok else "unavailable"
+    _diag(f"embedder-service background start: {'ready' if ok else 'unavailable'}")
+
+
+if EMBEDDER_SERVICE_ENABLED:
+    threading.Thread(
+        target=_start_embedder_service_background, daemon=True, name="embedder-service-warmup"
+    ).start()
+
+
+def _embedder_service_ready() -> bool:
+    with _embedder_service_lock:
+        return _embedder_service_state == "ready"
 
 
 def _chunk_point_id(rel_path: str, chunk_idx: int) -> int:
@@ -367,11 +424,33 @@ class SearchEngine:
                 break
         return results
 
+    def _encode_query_vector(self, query: str):
+        """
+        Returns a single L2-normalized query embedding as a (1, dim)
+        np.ndarray — the shape _search_semantic/_search_qdrant already
+        expect. Prefers the shared embedder-service; falls back to the
+        in-process self._model (unchanged) on service-unavailable or a
+        runtime call failure. Mirrors agent-memory's Phase 2 composite
+        resolver pattern (_get_embedder() in agent-memory/server.py) rather
+        than inventing a new one.
+        """
+        import numpy as np
+
+        if EMBEDDER_SERVICE_ENABLED and _embedder_service_ready():
+            vectors = embedder_client.embed([query], model=_QUERY_EMBEDDER_SERVICE_MODEL)
+            if vectors is not None:
+                arr = np.array(vectors, dtype="float32")
+                return arr / np.linalg.norm(arr, axis=1, keepdims=True)
+            _diag("embedder-service query-embed call failed at runtime — falling back to in-process model")
+
+        if self._model is None:
+            raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
+        q_emb = self._model.encode([query])
+        return q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True)
+
     def _search_semantic(self, query: str, top_k: int) -> list[dict]:
         """Dense vector search over the FAISS index using cosine similarity."""
-        import numpy as np
-        q_emb = self._model.encode([query])
-        q_emb = q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True)
+        q_emb = self._encode_query_vector(query)
         scores, indices = self._faiss_index.search(q_emb.astype("float32"), top_k * 3)
         results = []
         seen = set()
@@ -393,11 +472,7 @@ class SearchEngine:
 
     def _search_qdrant(self, query: str, top_k: int) -> list[dict]:
         """Dense vector search via Qdrant."""
-        import numpy as np
-        if self._model is None:
-            raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
-        q_emb = self._model.encode([query])
-        q_emb = (q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True))[0].tolist()
+        q_emb = self._encode_query_vector(query)[0].tolist()
         response = self._qdrant_client.query_points(
             collection_name=self._collection_name,
             query=q_emb,
