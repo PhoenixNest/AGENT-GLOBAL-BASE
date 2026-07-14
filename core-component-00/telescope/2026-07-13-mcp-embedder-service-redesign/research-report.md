@@ -9,7 +9,7 @@
 | **Investigation ID** | `2026-07-13-mcp-embedder-service-redesign`                                    |
 | **Date Started**     | 2026-07-13                                                                    |
 | **Date Completed**   | In Progress                                                                   |
-| **Status**           | Gating experiment complete (failed) — redesign proposal awaiting CEO decision |
+| **Status**           | Approved 2026-07-13 — CEO delegated full authority to Dr. Vance; implementation plan presented, awaiting sign-off (see `supporting/implementation-plan.md`) |
 | **Investigator**     | Dr. Elias Vance, Laboratory Director                                          |
 | **Laboratory**       | Core Component 00                                                             |
 | **Module(s)**        | MCP server infrastructure (`agent-memory`, `workspace-knowledge`)             |
@@ -294,14 +294,18 @@ supporting/09-mcp-architecture-decision.md`). Whether one shared embedder servic
    - Assigned: Next session
 
 2. **Service lifecycle ownership**, if the redesign proceeds
-   - Status: Three candidate answers identified, none selected
-   - Priority: Blocker for implementation
-   - Assigned: CEO decision
+   - Status: **Resolved 2026-07-13** — self-launching, first-consumer-owned, with idle-timeout
+     self-shutdown and a supervisor script for orphan cleanup. See
+     `supporting/implementation-plan.md` §2.1.
+   - Priority: Closed
+   - Assigned: Dr. Vance, under CEO-delegated authority
 
 3. **Shared vs. isolated embedder service per model**, if the redesign proceeds
-   - Status: Precedent exists (Qdrant instance separation) but not yet applied to this decision
-   - Priority: Blocker for implementation
-   - Assigned: CEO decision
+   - Status: **Resolved 2026-07-13** — one shared service; the Qdrant isolation precedent was
+     about mutable tenant-data separation and does not transfer to a stateless compute service.
+     See `supporting/implementation-plan.md` §2.2.
+   - Priority: Closed
+   - Assigned: Dr. Vance, under CEO-delegated authority
 
 ---
 
@@ -310,6 +314,7 @@ supporting/09-mcp-architecture-decision.md`). Whether one shared embedder servic
 | Version | Date       | Author                               | Changes                                                                                                                        |
 | ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | 1.0     | 2026-07-13 | Dr. Elias Vance, Laboratory Director | Initial report — reframed from `agent-memory-architecture` supporting docs into a standalone telescope study per CEO direction |
+| 1.1     | 2026-07-13 | Dr. Elias Vance, Laboratory Director | CEO delegated full authority for this matter to Dr. Vance; both blocker decisions resolved and detailed implementation plan + personnel assignments added as `supporting/implementation-plan.md`, presented for CEO sign-off |
 
 ---
 
