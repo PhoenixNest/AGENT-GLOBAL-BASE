@@ -53,6 +53,20 @@ PORT = int(os.getenv("EMBEDDER_SERVICE_PORT", "8791"))
 IDLE_TIMEOUT_S = float(os.getenv("EMBEDDER_SERVICE_IDLE_TIMEOUT_S", "600"))
 IDLE_CHECK_INTERVAL_S = float(os.getenv("EMBEDDER_SERVICE_IDLE_CHECK_INTERVAL_S", "15"))
 
+# Phase 3 adversarial-review hardening: the service is localhost-only and
+# unauthenticated (same trust boundary as the existing Qdrant-over-HTTP
+# precedent in this codebase — any local process can already read the same
+# files an embed request's text would come from, so auth does not raise the
+# ceiling of what a local attacker could already do). What auth would NOT
+# have prevented, and this does, is an unbounded-body / unbounded-batch
+# resource-exhaustion request from any local process, malicious or merely
+# buggy. These caps are generous relative to real call sites (agent-memory
+# and workspace-knowledge send at most one text and a batch of a few dozen
+# chunks respectively) while bounding worst-case memory/CPU per request.
+MAX_REQUEST_BODY_BYTES = int(os.getenv("EMBEDDER_SERVICE_MAX_BODY_BYTES", str(2 * 1024 * 1024)))  # 2 MB
+MAX_TEXTS_PER_REQUEST = int(os.getenv("EMBEDDER_SERVICE_MAX_TEXTS", "256"))
+MAX_TEXT_LENGTH_CHARS = int(os.getenv("EMBEDDER_SERVICE_MAX_TEXT_CHARS", "20000"))
+
 _SHARED_DIR = Path(__file__).resolve().parent.parent
 MODELS_CACHE_DIR = _SHARED_DIR / "models"
 RUN_DIR = Path(__file__).resolve().parent / "run"
@@ -177,6 +191,11 @@ class Handler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", "0"))
         if length <= 0:
             return {}
+        if length > MAX_REQUEST_BODY_BYTES:
+            # Reject on the declared Content-Length before reading a single
+            # byte of the body — never buffer an attacker-declared-huge
+            # payload into memory just to then discard it.
+            raise ValueError(f"request body of {length} bytes exceeds {MAX_REQUEST_BODY_BYTES}-byte limit")
         raw = self.rfile.read(length)
         return json.loads(raw.decode("utf-8"))
 
@@ -225,6 +244,21 @@ class Handler(BaseHTTPRequestHandler):
                 return
             if not isinstance(texts, list) or not texts or not all(isinstance(t, str) for t in texts):
                 self._send_json(400, {"error": "'texts' must be a non-empty list of strings"})
+                return
+            if len(texts) > MAX_TEXTS_PER_REQUEST:
+                self._send_json(
+                    400,
+                    {"error": f"'texts' has {len(texts)} items, exceeds limit of {MAX_TEXTS_PER_REQUEST}"},
+                )
+                return
+            oversized = next((t for t in texts if len(t) > MAX_TEXT_LENGTH_CHARS), None)
+            if oversized is not None:
+                self._send_json(
+                    400,
+                    {
+                        "error": f"one or more texts exceed the {MAX_TEXT_LENGTH_CHARS}-character limit"
+                    },
+                )
                 return
 
             slug = self.registry.resolve(model_name)
