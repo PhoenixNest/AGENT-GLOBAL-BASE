@@ -38,6 +38,13 @@ from implementations.memory_vector_store import (  # noqa: E402
 )
 import concurrent.futures  # noqa: E402
 
+# embedder-service client (Phase 2, telescope/2026-07-13-mcp-embedder-service-redesign).
+# Same cross-module import pattern as memory_vector_store above.
+_MCP_SERVERS_SHARED_ROOT = Path(__file__).resolve().parents[1] / "_shared"
+if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
+    sys.path.insert(0, str(_MCP_SERVERS_SHARED_ROOT))
+import embedder_client  # noqa: E402
+
 
 def _diag(msg: str) -> None:
     """Unbuffered, timestamped stderr line. A blocking native call that never
@@ -139,18 +146,93 @@ def _load_embedder_background() -> None:
 threading.Thread(target=_load_embedder_background, daemon=True, name="embedder-warmup").start()
 
 
-def _get_embedder() -> Optional[Callable[[str], List[float]]]:
+def _get_in_process_embedder() -> Optional[Callable[[str], List[float]]]:
     with _embedder_lock:
         return _embedder_cache
 
 
+# ---------------------------------------------------------------------------
+# embedder-service integration (Phase 2) — feature-flagged primary path, with
+# the in-process loader above kept as an unmodified automatic fallback. The
+# degrade-never-block guarantee is not weakened at any point: every failure
+# mode below (flag off, service unreachable, service call fails mid-request)
+# falls through to the same in-process path/degradation this module already
+# had before this integration, never to a hang or a raised exception.
+# ---------------------------------------------------------------------------
+
+EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
+    "0",
+    "false",
+    "no",
+)
+_EMBEDDER_SERVICE_MODEL = "all-MiniLM-L6-v2"  # matches this server's collection dimension (384)
+
+_embedder_service_lock = threading.Lock()
+# "disabled" | "starting" | "ready" | "unavailable"
+_embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
+
+
+def _start_embedder_service_background() -> None:
+    global _embedder_service_state
+    ok = embedder_client.ensure_service_running()
+    with _embedder_service_lock:
+        _embedder_service_state = "ready" if ok else "unavailable"
+    _diag(f"embedder-service background start: {'ready' if ok else 'unavailable'}")
+
+
+if EMBEDDER_SERVICE_ENABLED:
+    threading.Thread(
+        target=_start_embedder_service_background, daemon=True, name="embedder-service-warmup"
+    ).start()
+
+
+def _embedder_service_ready() -> bool:
+    with _embedder_service_lock:
+        return _embedder_service_state == "ready"
+
+
+def _get_embedder() -> Optional[Callable[[str], List[float]]]:
+    """
+    Composite resolver: prefers the shared embedder-service when it is ready,
+    falls back to the in-process loader otherwise or on a runtime failure.
+    Returns None only when neither path has anything to offer right now —
+    the same signal _search_memory_impl already treats as "degrade, do not
+    block or raise" via embedder_unavailable_reason.
+    """
+    service_ready = EMBEDDER_SERVICE_ENABLED and _embedder_service_ready()
+    in_process = _get_in_process_embedder()
+
+    if not service_ready and in_process is None:
+        return None
+
+    def _resilient_embed(text: str) -> List[float]:
+        if service_ready:
+            vector = embedder_client.embed([text], model=_EMBEDDER_SERVICE_MODEL)
+            if vector is not None:
+                return vector[0]
+            _diag("embedder-service call failed at runtime — falling back to in-process embedder")
+        fallback = _get_in_process_embedder()
+        if fallback is not None:
+            return fallback(text)
+        raise RuntimeError("embedder-service unavailable and in-process embedder not ready")
+
+    return _resilient_embed
+
+
 def _get_embedder_unavailable_reason() -> str:
     with _embedder_lock:
-        state = _embedder_state
-    if state == "loading":
+        in_process_state = _embedder_state
+    if EMBEDDER_SERVICE_ENABLED:
+        with _embedder_service_lock:
+            service_state = _embedder_service_state
+        return (
+            f"embedding unavailable (embedder-service: {service_state}; "
+            f"in-process fallback: {in_process_state})"
+        )
+    if in_process_state == "loading":
         return "embedding model still loading (background warmup in progress on this server process — retry shortly)"
-    if state.startswith("failed"):
-        return f"embedding model failed to load ({state})"
+    if in_process_state.startswith("failed"):
+        return f"embedding model failed to load ({in_process_state})"
     return "embedding model unavailable"  # unreachable in practice: "ready" implies embedder is not None
 
 
