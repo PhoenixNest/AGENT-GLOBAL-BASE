@@ -49,6 +49,29 @@ if TYPE_CHECKING:
 
 
 # ---------------------------------------------------------------------------
+# Reuse harness-engineering's canonical typed-exception vocabulary
+# (error_boundary.py) for diagnostic classification instead of a bare
+# `except Exception` — per EX-001 remediation (adr-ase-001.md). Deliberately
+# does NOT import error_boundary.TimeoutError: since Python 3.10,
+# concurrent.futures.TimeoutError *is* the builtin TimeoutError (verified:
+# `concurrent.futures.TimeoutError is builtins.TimeoutError` == True), while
+# error_boundary.TimeoutError is a distinct, unrelated class that happens to
+# share the same name. Importing it bare here would shadow the name
+# `_call_with_hard_timeout` actually raises and silently stop matching it —
+# a correctness bug, not a style issue. The canonical timeout name at every
+# call site in this module stays the fully-qualified
+# `concurrent.futures.TimeoutError`, since that is what the watchdog raises;
+# error_boundary.TimeoutError remains scoped to its documented domain
+# (SafeModelCall/SafeToolCall's LLM-provider calls).
+# ---------------------------------------------------------------------------
+
+_HARNESS_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "harness-engineering"
+if str(_HARNESS_ENGINEERING_ROOT) not in sys.path:
+    sys.path.insert(0, str(_HARNESS_ENGINEERING_ROOT))
+from implementations.error_boundary import ValidationError, ServiceUnavailableError  # noqa: E402
+
+
+# ---------------------------------------------------------------------------
 # qdrant-client is a heavy, optional dependency (mirrors
 # retrieval-augmented-generation/CLAUDE.md: "install only when actively
 # needed"). When it isn't installed, fall back to minimal structural shims
@@ -478,6 +501,18 @@ class QdrantMemoryIndex:
                 f"WARNING: Qdrant collection ensure TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s for '{self.collection_name}'",
                 file=sys.stderr,
             )
+        except (ConnectionError, OSError) as exc:
+            print(
+                f"WARNING [{ServiceUnavailableError.__name__}]: Qdrant unreachable while ensuring "
+                f"collection '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
+        except (AttributeError, TypeError, KeyError) as exc:
+            print(
+                f"WARNING [{ValidationError.__name__}]: malformed Qdrant response while ensuring "
+                f"collection '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
         except Exception as exc:
             print(
                 f"WARNING: could not ensure Qdrant collection '{self.collection_name}': {exc}",
@@ -504,6 +539,20 @@ class QdrantMemoryIndex:
         except concurrent.futures.TimeoutError:
             print(
                 f"WARNING: Qdrant upsert TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s for '{self.collection_name}'",
+                file=sys.stderr,
+            )
+            return False
+        except (ConnectionError, OSError) as exc:
+            print(
+                f"WARNING [{ServiceUnavailableError.__name__}]: Qdrant unreachable during upsert "
+                f"for '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
+            return False
+        except (AttributeError, TypeError, KeyError, ValueError) as exc:
+            print(
+                f"WARNING [{ValidationError.__name__}]: malformed record or response during Qdrant "
+                f"upsert for '{self.collection_name}': {exc}",
                 file=sys.stderr,
             )
             return False
@@ -547,6 +596,22 @@ class QdrantMemoryIndex:
         except concurrent.futures.TimeoutError:
             _diag(f"search: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (collection={self.collection_name!r})")
             return []
+        except (ConnectionError, OSError) as exc:
+            _diag(f"search: unreachable (collection={self.collection_name!r}): {exc}")
+            print(
+                f"WARNING [{ServiceUnavailableError.__name__}]: Qdrant unreachable during search "
+                f"for '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
+            return []
+        except (AttributeError, TypeError, KeyError) as exc:
+            _diag(f"search: malformed response (collection={self.collection_name!r}): {exc}")
+            print(
+                f"WARNING [{ValidationError.__name__}]: malformed Qdrant response during search "
+                f"for '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
+            return []
         except Exception as exc:
             _diag(f"search: failed (collection={self.collection_name!r}): {exc}")
             print(f"WARNING: Qdrant search failed for '{self.collection_name}': {exc}", file=sys.stderr)
@@ -577,6 +642,22 @@ class QdrantMemoryIndex:
             return result.count
         except concurrent.futures.TimeoutError:
             _diag(f"count_points: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (collection={self.collection_name!r}, status={status!r})")
+            return 0
+        except (ConnectionError, OSError) as exc:
+            _diag(f"count_points: unreachable (collection={self.collection_name!r}, status={status!r}): {exc}")
+            print(
+                f"WARNING [{ServiceUnavailableError.__name__}]: Qdrant unreachable during count "
+                f"for '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
+            return 0
+        except (AttributeError, TypeError, KeyError) as exc:
+            _diag(f"count_points: malformed response (collection={self.collection_name!r}, status={status!r}): {exc}")
+            print(
+                f"WARNING [{ValidationError.__name__}]: malformed Qdrant response during count "
+                f"for '{self.collection_name}': {exc}",
+                file=sys.stderr,
+            )
             return 0
         except Exception as exc:
             _diag(f"count_points: failed (collection={self.collection_name!r}, status={status!r}): {exc}")
@@ -634,6 +715,12 @@ def check_reachable(client: Any) -> bool:
         return True
     except concurrent.futures.TimeoutError:
         _diag(f"check_reachable: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (call still running in a leaked thread)")
+        return False
+    except (ConnectionError, OSError) as exc:
+        # No response body is parsed here (a bare connectivity ping), so unlike
+        # the other methods above there is no separate malformed-response case
+        # to distinguish — only timeout vs. unreachable vs. last-resort.
+        _diag(f"check_reachable: unreachable [{ServiceUnavailableError.__name__}]: {exc}")
         return False
     except Exception as exc:
         _diag(f"check_reachable: failed: {exc}")

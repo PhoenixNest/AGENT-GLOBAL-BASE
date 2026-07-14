@@ -22,6 +22,7 @@ loader when a call here returns a degraded result.
 """
 from __future__ import annotations
 
+import concurrent.futures
 import json
 import os
 import subprocess
@@ -45,6 +46,18 @@ if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
     sys.path.insert(0, str(_CONTEXT_ENGINEERING_ROOT))
 from implementations.memory_vector_store import _call_with_hard_timeout  # noqa: E402
 
+# Same typed-exception reconciliation as memory_vector_store.py (EX-001,
+# adr-ase-001.md): reuse error_boundary.py's diagnostic vocabulary for
+# classification, but never import its TimeoutError bare — the watchdog
+# above raises concurrent.futures.TimeoutError (== builtins.TimeoutError
+# since Python 3.10), a distinct class from error_boundary.TimeoutError
+# despite the shared name. `concurrent.futures.TimeoutError`, fully
+# qualified, stays the one canonical timeout name at every call site here.
+_HARNESS_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "harness-engineering"
+if str(_HARNESS_ENGINEERING_ROOT) not in sys.path:
+    sys.path.insert(0, str(_HARNESS_ENGINEERING_ROOT))
+from implementations.error_boundary import ValidationError, ServiceUnavailableError  # noqa: E402
+
 HOST = os.getenv("EMBEDDER_SERVICE_HOST", "127.0.0.1")
 PORT = int(os.getenv("EMBEDDER_SERVICE_PORT", "8791"))
 BASE_URL = f"http://{HOST}:{PORT}"
@@ -65,6 +78,10 @@ def _probe_health_once() -> bool:
         with urllib.request.urlopen(req, timeout=HEALTH_PROBE_TIMEOUT_S) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         return data.get("service") == "embedder-service"
+    except (urllib.error.URLError, OSError):
+        return False
+    except (KeyError, ValueError, json.JSONDecodeError):
+        return False
     except Exception:
         return False
 
@@ -75,6 +92,8 @@ def probe_health() -> bool:
     if the underlying socket call ignores its own timeout."""
     try:
         return bool(_call_with_hard_timeout(_probe_health_once, timeout=HEALTH_PROBE_TIMEOUT_S + 2.0))
+    except concurrent.futures.TimeoutError:
+        return False
     except Exception:
         return False
 
@@ -201,6 +220,15 @@ def embed(
     """
     try:
         return _call_with_hard_timeout(lambda: _embed_once(model, texts), timeout=timeout)
+    except concurrent.futures.TimeoutError:
+        _diag(f"embed TIMED OUT after {timeout}s (model={model!r})")
+        return None
+    except (urllib.error.URLError, OSError) as exc:
+        _diag(f"embed: {ServiceUnavailableError.__name__} (model={model!r}): {exc}")
+        return None
+    except (KeyError, ValueError, json.JSONDecodeError) as exc:
+        _diag(f"embed: {ValidationError.__name__} — malformed response (model={model!r}): {exc}")
+        return None
     except Exception as exc:
         _diag(f"embed failed (model={model!r}): {exc}")
         return None
