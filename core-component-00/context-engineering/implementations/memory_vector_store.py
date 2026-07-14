@@ -32,8 +32,11 @@ Usage:
 
 from __future__ import annotations
 
+import concurrent.futures
 import json
+import queue
 import sys
+import threading
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -117,6 +120,66 @@ def _parse_iso(s: str) -> float:
 
 def _new_id() -> str:
     return str(uuid.uuid4())
+
+
+def _diag(msg: str) -> None:
+    """Unbuffered, timestamped stderr line. Each Qdrant call in this module
+    logs before/after so a stalled log tail (a "calling..." line with no
+    matching "returned") identifies exactly which round-trip never came
+    back — a stuck native call is otherwise invisible, since it never raises."""
+    print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
+
+
+# ---------------------------------------------------------------------------
+# Hard client-side watchdog. A Qdrant round-trip can block indefinitely in
+# a native OS-level read() that QdrantClient's own `timeout=` parameter
+# does not always enforce. A caught exception can't fix this — the
+# call never raises, it just never returns. The only way to bound a call that
+# won't honor its own timeout is to run it in a disposable thread and stop
+# *waiting* on it after QDRANT_CALL_TIMEOUT_S, regardless of whether the
+# underlying thread itself ever finishes. That thread is intentionally
+# leaked on timeout (Python cannot force-kill a thread blocked in a native
+# syscall) — the guarantee this provides is bounded caller latency, not
+# resource reclamation. Every Qdrant call site in this module goes through
+# this wrapper so no code path can hang the calling MCP tool indefinitely.
+# ---------------------------------------------------------------------------
+
+QDRANT_CALL_TIMEOUT_S = 8.0
+
+
+def _call_with_hard_timeout(fn: Callable[[], Any], timeout: float = QDRANT_CALL_TIMEOUT_S) -> Any:
+    """Runs fn() in a throwaway daemon thread; raises
+    concurrent.futures.TimeoutError if it hasn't returned within `timeout`
+    seconds, regardless of fn's own internal timeout handling. See
+    module-level comment above for why this exists — every call site here
+    already treats TimeoutError as just another degradation case, same as
+    any other Exception.
+
+    Deliberately NOT built on concurrent.futures.ThreadPoolExecutor: that
+    class registers an atexit hook that joins every worker thread it has ever
+    created at interpreter shutdown, regardless of shutdown(wait=False) — a
+    hung call correctly raises TimeoutError and returns control, but the
+    *process* then hangs indefinitely at exit anyway, defeating the whole
+    point. A raw daemon=True thread has no such hook: the interpreter does
+    not wait for daemon threads at shutdown, so a leaked thread here can only
+    ever leak memory/a stuck OS handle, never block the caller or the process.
+    """
+    result_queue: "queue.Queue[Tuple[str, Any]]" = queue.Queue(maxsize=1)
+
+    def _runner() -> None:
+        try:
+            result_queue.put(("ok", fn()))
+        except Exception as exc:  # forwarded to and re-raised in the caller's thread
+            result_queue.put(("error", exc))
+
+    threading.Thread(target=_runner, daemon=True, name="qdrant-call-watchdog").start()
+    try:
+        kind, payload = result_queue.get(timeout=timeout)
+    except queue.Empty:
+        raise concurrent.futures.TimeoutError(f"call did not return within {timeout}s") from None
+    if kind == "error":
+        raise payload
+    return payload
 
 
 # ---------------------------------------------------------------------------
@@ -402,12 +465,19 @@ class QdrantMemoryIndex:
         if self.client is None:
             return
         try:
-            existing = [c.name for c in self.client.get_collections().collections]
+            existing = [c.name for c in _call_with_hard_timeout(self.client.get_collections).collections]
             if self.collection_name not in existing:
-                self.client.create_collection(
-                    collection_name=self.collection_name,
-                    vectors_config=VectorParams(size=self.dim, distance=Distance.COSINE),
+                _call_with_hard_timeout(
+                    lambda: self.client.create_collection(
+                        collection_name=self.collection_name,
+                        vectors_config=VectorParams(size=self.dim, distance=Distance.COSINE),
+                    )
                 )
+        except concurrent.futures.TimeoutError:
+            print(
+                f"WARNING: Qdrant collection ensure TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s for '{self.collection_name}'",
+                file=sys.stderr,
+            )
         except Exception as exc:
             print(
                 f"WARNING: could not ensure Qdrant collection '{self.collection_name}': {exc}",
@@ -424,11 +494,19 @@ class QdrantMemoryIndex:
             return False
         try:
             vector = self.embedder(record.content)
-            self.client.upsert(
-                collection_name=self.collection_name,
-                points=[PointStruct(id=record.id, vector=vector, payload=record.to_payload())],
+            _call_with_hard_timeout(
+                lambda: self.client.upsert(
+                    collection_name=self.collection_name,
+                    points=[PointStruct(id=record.id, vector=vector, payload=record.to_payload())],
+                )
             )
             return True
+        except concurrent.futures.TimeoutError:
+            print(
+                f"WARNING: Qdrant upsert TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s for '{self.collection_name}'",
+                file=sys.stderr,
+            )
+            return False
         except Exception as exc:
             print(f"WARNING: Qdrant upsert failed for '{self.collection_name}': {exc}", file=sys.stderr)
             return False
@@ -448,20 +526,29 @@ class QdrantMemoryIndex:
         if self.client is None or self.embedder is None:
             return []
         try:
+            _diag(f"search: embedding query (collection={self.collection_name!r})")
             vector = self.embedder(query_text)
+            _diag(f"search: embedded, calling client.query_points(collection={self.collection_name!r}) (hard-timeout guarded)")
             must = [FieldCondition(key="status", match=MatchAny(any=list(status_in)))]
             if session_id is not None:
                 must.append(FieldCondition(key="source_session_id", match=MatchValue(value=session_id)))
-            response = self.client.query_points(
-                collection_name=self.collection_name,
-                query=vector,
-                query_filter=Filter(must=must),
-                limit=top_k,
-                with_payload=True,
+            response = _call_with_hard_timeout(
+                lambda: self.client.query_points(
+                    collection_name=self.collection_name,
+                    query=vector,
+                    query_filter=Filter(must=must),
+                    limit=top_k,
+                    with_payload=True,
+                )
             )
+            _diag(f"search: query_points returned (collection={self.collection_name!r})")
             points = getattr(response, "points", response)
             return [MemoryRecord.from_payload(p.payload) for p in points]
+        except concurrent.futures.TimeoutError:
+            _diag(f"search: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (collection={self.collection_name!r})")
+            return []
         except Exception as exc:
+            _diag(f"search: failed (collection={self.collection_name!r}): {exc}")
             print(f"WARNING: Qdrant search failed for '{self.collection_name}': {exc}", file=sys.stderr)
             return []
 
@@ -480,11 +567,19 @@ class QdrantMemoryIndex:
             count_filter = None
             if status is not None:
                 count_filter = Filter(must=[FieldCondition(key="status", match=MatchValue(value=status))])
-            result = self.client.count(
-                collection_name=self.collection_name, count_filter=count_filter, exact=True
+            _diag(f"count_points: calling client.count(collection={self.collection_name!r}, status={status!r}) (hard-timeout guarded)")
+            result = _call_with_hard_timeout(
+                lambda: self.client.count(
+                    collection_name=self.collection_name, count_filter=count_filter, exact=True
+                )
             )
+            _diag(f"count_points: returned (collection={self.collection_name!r}, status={status!r}, count={result.count})")
             return result.count
+        except concurrent.futures.TimeoutError:
+            _diag(f"count_points: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (collection={self.collection_name!r}, status={status!r})")
+            return 0
         except Exception as exc:
+            _diag(f"count_points: failed (collection={self.collection_name!r}, status={status!r}): {exc}")
             print(f"WARNING: Qdrant count failed for '{self.collection_name}': {exc}", file=sys.stderr)
             return 0
 
@@ -533,9 +628,15 @@ def check_reachable(client: Any) -> bool:
     if client is None:
         return False
     try:
-        client.get_collections()
+        _diag("check_reachable: calling client.get_collections() (hard-timeout guarded)")
+        _call_with_hard_timeout(client.get_collections)
+        _diag("check_reachable: returned")
         return True
-    except Exception:
+    except concurrent.futures.TimeoutError:
+        _diag(f"check_reachable: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (call still running in a leaked thread)")
+        return False
+    except Exception as exc:
+        _diag(f"check_reachable: failed: {exc}")
         return False
 
 

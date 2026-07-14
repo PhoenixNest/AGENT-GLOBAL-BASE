@@ -1,0 +1,18 @@
+[project]
+name = "agent-memory-server"
+version = "0.1.0"
+description = "MCP server for the persistent agent memory system (episodic, semantic, procedural)"
+authors = [{ name = "AGENT-GLOBAL-BASE Workspace", email = "workspace@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=0.1.0",
+    "qdrant-client>=1.7.0,<2.0.0",
+]
+
+[project.scripts]
+agent-memory-server = "server:mcp.run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

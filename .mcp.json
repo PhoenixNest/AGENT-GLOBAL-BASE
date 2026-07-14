@@ -10,6 +10,16 @@
         "NO_PROXY": "localhost,127.0.0.1",
         "no_proxy": "localhost,127.0.0.1"
       }
+    },
+    "agent-memory": {
+      "command": "python",
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/server.py"],
+      "env": {
+        "MEMORY_QDRANT_URL": "http://localhost:6335",
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "NO_PROXY": "localhost,127.0.0.1",
+        "no_proxy": "localhost,127.0.0.1"
+      }
     }
   }
 }
