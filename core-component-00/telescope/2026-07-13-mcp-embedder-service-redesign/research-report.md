@@ -4,17 +4,17 @@
 
 ## Metadata
 
-| Field                | Value                                                                         |
-| -------------------- | ----------------------------------------------------------------------------- |
-| **Investigation ID** | `2026-07-13-mcp-embedder-service-redesign`                                    |
-| **Date Started**     | 2026-07-13                                                                    |
-| **Date Completed**   | In Progress                                                                   |
-| **Status**           | Approved 2026-07-13 — CEO delegated full authority to Dr. Vance; implementation plan presented, awaiting sign-off (see `supporting/implementation-plan.md`) |
-| **Investigator**     | Dr. Elias Vance, Laboratory Director                                          |
-| **Laboratory**       | Core Component 00                                                             |
-| **Module(s)**        | MCP server infrastructure (`agent-memory`, `workspace-knowledge`)             |
-| **Priority**         | Medium — quality gap, not an outage (see Findings)                            |
-| **Requestor**        | CEO                                                                           |
+| Field                | Value                                                                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Investigation ID** | `2026-07-13-mcp-embedder-service-redesign`                                                                                                                                                                                |
+| **Date Started**     | 2026-07-13                                                                                                                                                                                                                |
+| **Date Completed**   | In Progress                                                                                                                                                                                                               |
+| **Status**           | Implemented and closed 2026-07-14 — Conditional ASE verdict (EX-001 exception recorded for one inherited Mandatory-level gap; two Required-level gaps tracked, non-blocking); see `supporting/implementation-plan.md` §10 |
+| **Investigator**     | Dr. Elias Vance, Laboratory Director                                                                                                                                                                                      |
+| **Laboratory**       | Core Component 00                                                                                                                                                                                                         |
+| **Module(s)**        | MCP server infrastructure (`agent-memory`, `workspace-knowledge`)                                                                                                                                                         |
+| **Priority**         | Medium — quality gap, not an outage (see Findings)                                                                                                                                                                        |
+| **Requestor**        | CEO                                                                                                                                                                                                                       |
 
 ---
 
@@ -311,9 +311,9 @@ supporting/09-mcp-architecture-decision.md`). Whether one shared embedder servic
 
 ## Version History
 
-| Version | Date       | Author                               | Changes                                                                                                                        |
-| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| 1.0     | 2026-07-13 | Dr. Elias Vance, Laboratory Director | Initial report — reframed from `agent-memory-architecture` supporting docs into a standalone telescope study per CEO direction |
+| Version | Date       | Author                               | Changes                                                                                                                                                                                                                      |
+| ------- | ---------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | 2026-07-13 | Dr. Elias Vance, Laboratory Director | Initial report — reframed from `agent-memory-architecture` supporting docs into a standalone telescope study per CEO direction                                                                                               |
 | 1.1     | 2026-07-13 | Dr. Elias Vance, Laboratory Director | CEO delegated full authority for this matter to Dr. Vance; both blocker decisions resolved and detailed implementation plan + personnel assignments added as `supporting/implementation-plan.md`, presented for CEO sign-off |
 
 ---
