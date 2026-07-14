@@ -186,15 +186,44 @@ main
 
 ## Practical Considerations
 
-| Consideration           | Detail                                                  | Mitigation                                                                 |
-| ----------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------- |
-| **Disk space**          | Each worktree duplicates the working tree (not `.git/`) | Use sparse checkout for large repos: `git sparse-checkout set src/ tests/` |
-| **Windows path limits** | Default 260-char limit                                  | `git config --system core.longpaths true`                                  |
-| **Concurrent Git ops**  | Multiple worktrees share one `.git/` directory          | Each worktree has its own index; lock contention is minimal                |
-| **Stale worktrees**     | Forgotten worktrees waste disk space                    | Schedule `git worktree prune` in cleanup phase                             |
-| **Submodules**          | Worktrees don't auto-initialise submodules              | Run `git submodule update --init` in each new worktree                     |
-| **Merge conflicts**     | Two agents editing the same file in the same region     | Pre-assign file ownership where possible; use Integration Agent            |
-| **Agent failure**       | Agent crashes mid-work; worktree left in dirty state    | Orchestrator checks worktree status; force-removes if unrecoverable        |
+| Consideration                 | Detail                                                                                                | Mitigation                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Disk space**                | Each worktree duplicates the working tree (not `.git/`)                                               | Use sparse checkout for large repos: `git sparse-checkout set src/ tests/` |
+| **Windows path limits**       | Default 260-char limit                                                                                | `git config --system core.longpaths true`                                  |
+| **Concurrent Git ops**        | Multiple worktrees share one `.git/` directory                                                        | Each worktree has its own index; lock contention is minimal                |
+| **Stale worktrees**           | Forgotten worktrees waste disk space                                                                  | Schedule `git worktree prune` in cleanup phase                             |
+| **Submodules**                | Worktrees don't auto-initialise submodules                                                            | Run `git submodule update --init` in each new worktree                     |
+| **Merge conflicts**           | Two agents editing the same file in the same region                                                   | Pre-assign file ownership where possible; use Integration Agent            |
+| **Agent failure**             | Agent crashes mid-work; worktree left in dirty state                                                  | Orchestrator checks worktree status; force-removes if unrecoverable        |
+| **Shared large-asset caches** | Sharing a heavy directory (model weights, datasets) across worktrees via a directory junction/symlink | **Never junction. Always plain-copy.** See incident below.                 |
+
+---
+
+## Known Incident — Directory Junctions and `git worktree remove` (2026-07-14)
+
+During the embedder-service build (`core-component-00/telescope/2026-07-13-mcp-embedder-service-redesign/`),
+an agent needed to give a new worktree access to a large, slow-to-populate shared cache
+(`core-component-00/mcp-servers/_shared/models/`) without re-downloading it per worktree. It used
+a Windows directory **junction** to point the worktree's copy at the real shared cache directory.
+
+When that worktree was later removed with `git worktree remove`, Git's recursive cleanup followed
+the junction as if it were a real subdirectory and **deleted the shared cache's actual contents in
+the main repository** — not a copy, the source. This is a known Windows junction/recursive-delete
+footgun: a junction is transparent to most recursive filesystem walks, so tooling that assumes
+"remove this directory tree" cannot tell where the junction's real target lives and treats it as
+disposable.
+
+**Recovery in this incident:** both cached models were restored (one from an intact local
+Hugging Face hub cache with no re-download, one by re-copying from a second consumer's still-intact
+private copy). No permanent data loss — but only because a second copy happened to exist elsewhere.
+That will not always be true.
+
+**Rule going forward:** if a worktree needs read access to a large shared asset directory that
+lives outside the repo's normal working tree, **copy it in, never junction or symlink it in**. The
+extra disk/time cost of a copy is bounded and known; the failure mode of a junction plus a
+recursive-delete tool is unbounded (it can take out the one real copy). This applies to any shared
+cache — model weights, datasets, or similar — not just the embedding-model cache that triggered
+this incident.
 
 ---
 

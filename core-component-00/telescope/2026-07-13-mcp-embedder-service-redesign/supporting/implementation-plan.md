@@ -3,7 +3,7 @@
 **Parent report:** `../research-report.md`
 **Author:** Dr. Elias Vance, Laboratory Director
 **Date:** 2026-07-13
-**Status:** Presented for CEO review — implementation not yet started
+**Status:** Implementation complete (2026-07-14) — Conditional ASE verdict, see §10 Closeout Review
 
 ---
 
@@ -254,3 +254,80 @@ stateDiagram-v2
 
 This plan is presented for CEO review. On approval, Phase 0 begins immediately. No implementation
 work starts before that sign-off.
+
+---
+
+## 10. Closeout Review (Dr. Vance, 2026-07-14)
+
+CEO sign-off was granted; all six phases executed and merged into `core00/dev/engineering`
+(14 commits, working tree clean, all worktrees removed and pruned — verified independently via
+`git log`/`git status`/`git worktree list`, not taken solely on the execution report).
+
+### 10.1 Phase-by-phase result vs. plan
+
+| Phase | Planned gate (§4)                                             | Result                                                                                                                                                                                                                                                                                                                  |
+| ----- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0     | No unresolved objection                                       | PASSED — two requirements (atomic launch lock, no mid-request shutdown) carried into Phase 1's gate                                                                                                                                                                                                                     |
+| 1     | Zero stalls across a concurrency sweep                        | PASSED — 20-way sweep, zero stalls, exactly one live process (atomic lock closes the double-spawn race that caused the original root-cause stall)                                                                                                                                                                       |
+| 2     | 10 consecutive clean reconnects + fallback-on-outage verified | PASSED — 26/26 tests, 10/10 clean reconnects, explicit kill-mid-flight test confirms clean fallback                                                                                                                                                                                                                     |
+| 2a    | Context-engineering suite passes unchanged                    | PASSED — `memory_store.py` zero diff; 180 passed / 1 pre-existing unrelated failure, matches documented baseline                                                                                                                                                                                                        |
+| 3     | No open critical finding; crash/restart degrades cleanly      | PASSED — one real gap found and fixed (unbounded resource exhaustion); no-auth exposure assessed and accepted as consistent with the existing unauthenticated local Qdrant-over-HTTP precedent                                                                                                                          |
+| 4     | No retrieval-quality regression                               | PASSED on isolated real-weights evidence (4/4 tests, identical top-k, scores within 1e-3). **Caveat honestly disclosed by the build, not discovered by me**: the full-corpus (~1,770 file) comparison was killed after 30+ minutes of CPU-bound encoding and never completed — the gate rests on the isolated test only |
+| 5     | Ratified; no new orphaned-process count                       | **Conditional**, not an unqualified pass — see §10.2. Orphan-process regression itself passed (5 clean start/stop cycles, 0 orphans before and after)                                                                                                                                                                   |
+
+### 10.2 ASE verdict — corrected
+
+The build's own self-report proposed a **Conditional** verdict while simultaneously disclosing a
+partial gap against a **Mandatory** requirement (Layer 3, "error boundary with typed recovery" —
+`_call_with_hard_timeout` and `embedder_client.py` use `except Exception`, confirmed by direct code
+read at `core-component-00/mcp-servers/_shared/embedder_client.py:204`). Per
+`compliance-standard.md`'s own verdict table, **Conditional requires zero unmet Mandatory
+requirements** — an unexcepted Mandatory gap is Non-Compliant, full stop. The self-report's math
+didn't match its own disclosure.
+
+I've resolved this the way ADR-ASE-001 Clause 5 provides for, not by re-labeling it: recorded a
+formal, written exception (**EX-001**, `governance/adr-ase-001.md`) for this specific, pre-existing,
+inherited pattern, with a tracked remediation task assigned to Kwame Asante rather than folded into
+this build's closeout. With that exception on the record, the verdict is legitimately **Conditional**:
+
+- Layer 3 PII scrubbing on the embed path (Required) — open, pre-existing, not introduced here.
+- Layer 5 merge-integration-agent designation (Required) — open; this build self-merged every phase
+  branch rather than routing through a designated separate integration agent, appropriate for
+  single-agent sequential persona execution but a real deviation from the standard's letter for
+  parallel multi-agent development.
+
+Neither blocks production use of the embedder-service; both are tracked, not silently absorbed.
+
+### 10.3 Items requiring your attention directly (not resolved by me)
+
+1. **Duplicate MCP host processes.** The build agent found, and I independently confirmed via
+   `Get-CimInstance Win32_Process`, two live process pairs for `agent-memory`/`workspace-knowledge`
+   under two different parent process IDs, launched ~6 minutes apart on 2026-07-13 evening — before
+   this build began. This is consistent with either two concurrent legitimate MCP host sessions
+   (e.g. two Claude Code windows) or genuine orphans; neither I nor the build agent can safely tell
+   which from inside a session, and killing a live connection on a guess is the wrong failure mode.
+   Left untouched. Worth a look on your end, where you have visibility into how many sessions are
+   actually open.
+2. **The Phase 4 full-corpus check never completed** (§10.1) — the isolated-test evidence is solid
+   but is a smaller sample than originally planned. Not blocking, but noted so the record doesn't
+   overstate what was verified.
+3. **One incident, already resolved, worth having on file:** a directory-junction misstep during
+   Phase 2 worktree setup caused `git worktree remove` to delete the shared model-weights cache's
+   actual contents. Fully recovered within the same session (no re-download needed for one model,
+   re-copied from an intact secondary copy for the other); the build switched to plain copies for
+   every worktree afterward. No permanent data loss, no repeat.
+
+### 10.4 Overall assessment
+
+The core engineering claim — this build removes the host-launch-specific embedder-loading stall
+that the parent research report root-caused — is well-evidenced, not just asserted: the Phase 1
+concurrency sweep is a direct repeat of the methodology that originally proved the stall, and it
+now shows zero stalls with the atomic lock in place. Every explicit constraint from the original
+brief held: the Qdrant watchdog, disaster-recovery replay path, and degrade-never-block contract
+are all at zero diff. The two open Required-level gaps and the one now-formally-excepted Mandatory
+gap are real, tracked, and none of them undo that core result.
+
+**Recommendation:** accept this as Conditional-verdict production-ready, with the two Required
+gaps and the EX-001 remediation task tracked as CC-00 harness-engineering backlog rather than
+blocking. I'd ask you to make the call on the duplicate-process finding in §10.3.1, since that's a
+determination I don't have enough visibility to make safely from here.
