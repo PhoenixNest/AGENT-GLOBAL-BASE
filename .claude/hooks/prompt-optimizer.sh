@@ -67,7 +67,12 @@ else
 fi
 
 threshold=3
-[ "$score" -ge "$threshold" ] && exit 0
+if [ "$score" -ge "$threshold" ]; then
+    # Pass-path visibility: without this, a passing prompt and a non-running gate look
+    # identical from the transcript. Passive signal only — no confirmation, no blocking.
+    MSG="[H-P01: prompt met quality threshold ($score/5), proceeding without confirmation]" python3 -c "import os,json; print(json.dumps({'hookSpecificOutput':{'hookEventName':'UserPromptSubmit','additionalContext':os.environ['MSG']}}))"
+    exit 0
+fi
 
 # Structural enforcement: mark this session as having a pending confirmation.
 # prompt-gate-enforcer.sh (PreToolUse) denies any tool but AskUserQuestion while this
