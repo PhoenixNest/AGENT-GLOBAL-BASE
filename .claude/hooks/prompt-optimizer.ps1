@@ -68,7 +68,20 @@ if ($prompt -match '(?i)\b(must|should|ensure|require|constraint|criterion|crite
 }
 
 $threshold = 3
-if ($score -ge $threshold) { exit 0 }
+if ($score -ge $threshold) {
+    # Pass-path visibility: without this, "the gate evaluated this prompt and it passed"
+    # and "the gate did not run" are indistinguishable to the user — both produce no
+    # visible signal. Emit a minimal, non-blocking indicator instead of exiting silently.
+    $passContext = "[H-P01: prompt met quality threshold ($score/5), proceeding without confirmation]"
+    $passOutput = [ordered]@{
+        hookSpecificOutput = [ordered]@{
+            hookEventName     = "UserPromptSubmit"
+            additionalContext = $passContext
+        }
+    } | ConvertTo-Json -Depth 5 -Compress
+    Write-Output $passOutput
+    exit 0
+}
 
 # Structural enforcement: mark this session as having a pending confirmation.
 # prompt-gate-enforcer.ps1 (PreToolUse) denies any tool but AskUserQuestion while this
