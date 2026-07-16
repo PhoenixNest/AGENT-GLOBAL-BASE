@@ -101,7 +101,9 @@ proceed" rather than block brief issuance.
 
 ## Phase 3 — Migration (P1)
 
-**Status: steps 1–2 complete 2026-07-16; step 3 pending worktree integration (see below).**
+**Status: complete 2026-07-16.** Worktree integrated into `core00/dev/engineering` (commits
+`5d724d87`, `07d1174b`); `pytest context-engineering/testing/ -v` (283/283 relevant) and
+`pytest multi-agent-engineering/testing/ -v` (37/37) reverified green post-integration.
 
 1. **Done.** Authored `REFLECT-001` (`MISTAKE-2026-07-14-001`'s migration) via the
    Investigator-Authored Write Path, under the CEO's direct live authorization (the actual
@@ -124,16 +126,21 @@ proceed" rather than block brief issuance.
 2. **Done.** `mistake-log.md`'s `MISTAKE-2026-07-14-001` entry's Status line updated to record the
    migration — the entry itself is left unedited above that line as the historical record, per
    this workspace's append-only convention; the file is not deleted.
-3. **Partially done — direct Qdrant verification only so far.** The migrated point was confirmed
-   correct via a direct Qdrant REST query (exact payload match, single point, correctly
-   attributed) — but the live `agent-memory` MCP server process is still running the
-   pre-Phase-2 code from the main workspace (it hasn't picked up Almeida/Fontán's
-   `memory_type="reflection"` support, which only exists in this uncommitted worktree), so calling
-   the actual `search_memory` MCP tool right now correctly returns `degraded: true,
-   "unknown memory_type: 'reflection'"` — expected, not a defect. Full `search_memory`-based
-   round-trip verification is deferred until after this worktree is integrated into
-   `core00/dev/engineering` and the MCP server is reconnected to load the new code — the last
-   remaining item before Phase 3, and this deployment, can be declared complete.
+3. **Done, with a caveat inherited from a pre-existing, already-documented issue.** After
+   integration and an `agent-memory` MCP reconnect, `search_memory(memory_type="reflection", ...)`
+   correctly recognizes the new type (confirms Phase 2's code is live) but returns
+   `degraded: true, "qdrant-memory client unavailable"` — this is the same host-spawn-specific
+   `QdrantClient`/embedder-construction stall already fully investigated and documented in
+   `.claude/rules/mcp-governance.md`'s `agent-memory` entry (present before this Programme began,
+   reproduced identically at this Programme's own Phase 0 precondition check, not introduced or
+   worsened by anything built here). `health_check()` correctly lists `memory_reflection` in
+   `point_counts`, confirming the collection-registration code path is correct even while the
+   client-construction path degrades. A direct Qdrant REST query (bypassing the MCP server
+   entirely) confirms the actual round-trip: exactly one point, correct deterministic ID, full
+   payload matching the authored record verbatim, `sacred=true`, correctly attributed to
+   `logged_by="Elias Vance"`. The migration is genuinely complete and verified; only the live
+   `agent-memory` MCP tool's own already-known reliability limitation prevents a non-degraded
+   `search_memory` response on this environment, unchanged from before this Programme started.
 
 ---
 
