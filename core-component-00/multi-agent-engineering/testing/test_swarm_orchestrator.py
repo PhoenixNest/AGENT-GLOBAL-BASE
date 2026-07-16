@@ -240,6 +240,188 @@ class TestFeedback:
 # ---------------------------------------------------------------------------
 
 
+class TestReflectionRetrievalHook:
+    """Phase 2 proactive orchestrator-brief-time retrieval hook — see
+    telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §5.2
+    and supporting/03-deployment-guidelines.md Phase 2's anti-pattern gate.
+    """
+
+    @pytest.mark.asyncio
+    async def test_hook_fires_at_brief_issuance_time(self, agents):
+        calls = []
+
+        def reflection_fn(task_description):
+            calls.append(task_description)
+            return {"results": [], "count": 0, "degraded": False, "reason": None}
+
+        captured_handoffs = []
+
+        async def capturing_execute(task, handoff):
+            captured_handoffs.append(handoff)
+            return {"status": "completed", "output": "ok"}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
+        orch = SwarmOrchestrator(
+            config=config,
+            agents=agents,
+            execute_fn=capturing_execute,
+            reflection_search_fn=reflection_fn,
+        )
+        subtasks = [SubTask(description="Build API", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        await orch.execute(plan)
+
+        assert calls == ["Build API"]
+        assert len(captured_handoffs) == 1
+
+    @pytest.mark.asyncio
+    async def test_empty_collection_degrades_to_proceed(self, agents):
+        def reflection_fn(task_description):
+            # Expected steady state at initial rollout: no records migrated yet.
+            return {"results": [], "count": 0, "degraded": False, "reason": None}
+
+        captured_handoffs = []
+
+        async def capturing_execute(task, handoff):
+            captured_handoffs.append(handoff)
+            return {"status": "completed", "output": "ok"}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
+        orch = SwarmOrchestrator(
+            config=config,
+            agents=agents,
+            execute_fn=capturing_execute,
+            reflection_search_fn=reflection_fn,
+        )
+        subtasks = [SubTask(description="Task", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert result.success is True
+        assert captured_handoffs[0].retrieved_reflections == []
+        assert captured_handoffs[0].sacred_context == []
+
+    @pytest.mark.asyncio
+    async def test_degraded_response_also_proceeds(self, agents):
+        def reflection_fn(task_description):
+            return {
+                "results": [],
+                "count": 0,
+                "degraded": True,
+                "reason": "qdrant-memory client unavailable",
+            }
+
+        captured_handoffs = []
+
+        async def capturing_execute(task, handoff):
+            captured_handoffs.append(handoff)
+            return {"status": "completed", "output": "ok"}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
+        orch = SwarmOrchestrator(
+            config=config,
+            agents=agents,
+            execute_fn=capturing_execute,
+            reflection_search_fn=reflection_fn,
+        )
+        subtasks = [SubTask(description="Task", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert result.success is True
+        assert captured_handoffs[0].retrieved_reflections == []
+        assert captured_handoffs[0].sacred_context == []
+
+    @pytest.mark.asyncio
+    async def test_populated_match_included_in_brief(self, agents):
+        def reflection_fn(task_description):
+            return {
+                "results": [
+                    {
+                        "reflection_id": "REFLECT-001",
+                        "trigger_type": "process_violation",
+                        "summary": "Never delete a worktree without checking git status first.",
+                        "scope_of_applicability": "any git worktree cleanup task",
+                        "root_cause": "...",
+                        "remediation": "...",
+                        "logged_by": "Dr. Elias Vance",
+                        "sacred": True,
+                        "status": "active",
+                    }
+                ],
+                "count": 1,
+                "degraded": False,
+                "reason": None,
+            }
+
+        captured_handoffs = []
+
+        async def capturing_execute(task, handoff):
+            captured_handoffs.append(handoff)
+            return {"status": "completed", "output": "ok"}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
+        orch = SwarmOrchestrator(
+            config=config,
+            agents=agents,
+            execute_fn=capturing_execute,
+            reflection_search_fn=reflection_fn,
+        )
+        subtasks = [SubTask(description="Clean up worktree", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert result.success is True
+        assert len(captured_handoffs[0].retrieved_reflections) == 1
+        note = captured_handoffs[0].retrieved_reflections[0]
+        assert "REFLECT-001" in note
+        assert "Never delete a worktree without checking git status first." in note
+        assert "any git worktree cleanup task" in note
+        # Retrieved reflections are a "required read," not a binding decision —
+        # they land in retrieved_reflections even when the source record is
+        # sacred=True, never in sacred_context (reserved for orchestrator-level
+        # decisions/constraints per HandoffPacket's own contract).
+        assert captured_handoffs[0].sacred_context == []
+
+    @pytest.mark.asyncio
+    async def test_retrieval_failure_degrades_to_proceed(self, agents):
+        def failing_reflection_fn(task_description):
+            raise TimeoutError("qdrant-memory call exceeded hard timeout")
+
+        captured_handoffs = []
+
+        async def capturing_execute(task, handoff):
+            captured_handoffs.append(handoff)
+            return {"status": "completed", "output": "ok"}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
+        orch = SwarmOrchestrator(
+            config=config,
+            agents=agents,
+            execute_fn=capturing_execute,
+            reflection_search_fn=failing_reflection_fn,
+        )
+        subtasks = [SubTask(description="Task", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert result.success is True
+        assert captured_handoffs[0].retrieved_reflections == []
+        assert captured_handoffs[0].sacred_context == []
+
+    @pytest.mark.asyncio
+    async def test_no_reflection_fn_configured_proceeds_unchanged(self, agents):
+        """Default (unset) — no dependency on memory_reflection at all."""
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join")
+        orch = SwarmOrchestrator(config=config, agents=agents)
+
+        subtasks = [SubTask(description="Task", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert result.success is True
+
+
 class TestSubTaskProperties:
     def test_is_independent(self):
         task = SubTask(description="Independent")

@@ -63,6 +63,76 @@ satisfied**, e.g. by requiring the authoring script to run only under an authent
 human/Director session (matching how git commit authorship is already enforced in this
 workspace) rather than relying on the field being filled in honestly.
 
+**Update (2026-07-16) — Phase 1 §5 final verification (Dr. Tomasz Wieczorek):** Dispatched by
+Dr. Vance for a third, narrowly-scoped pass — not another bypass hunt; see
+`core-component-00/telescope/2026-07-14-reflexion-memory-system/supporting/audits/mistake-log.md`
+MISTAKE-2026-07-16-001 for the full history this update presumes as read. Two rounds of
+implementation-and-adversarial-review preceded this one: round 1 showed the original git-identity
+
+- roster check authenticates the machine, not the operator; round 2 showed the follow-up
+  `IdentityVerification` token + TTY-gated confirmation were both still forgeable — a caller could
+  construct the token directly (silently skipping the confirmation, which lived one layer up), or
+  call `PersistentMemorySink.write_reflection()` directly, bypassing every check above it. Round 2's
+  conclusion, which I still hold: no purely code-level check running inside Claude Code's own
+  tool-execution environment can be unforgeable here, because any Python-importable layer is
+  skippable by calling something lower. That is a structural ceiling, not a bug — this pass does not
+  revisit it, and finding a further code-level bypass would not change that conclusion.
+
+This pass verified Mei-Ling Zhao's round-3 rework against that narrower bar — correctly
+implemented defense-in-depth, honestly documented as such, not unforgeability:
+
+1. **`require_governance_confirmation()` return value + `author_reflection()` folding
+   (verified correct).** `context-engineering/implementations/reflection_authoring.py:340-417`
+   — the function now returns the confirmed `reflection_id` (line 417) rather than `None`.
+   `author_reflection()` (lines 420-502) calls it for `GOVERNANCE_TRIGGERS` types and folds the
+   result into the identity token via `dataclasses.replace(identity,
+governance_confirmation=confirmed_reflection_id)` (lines 483-485) before passing that token to
+   `ReflectionMemory.record_reflection()`. `memory_store.py`'s `record_reflection()`
+   (lines 673-762) checks, for `GOVERNANCE_TRIGGERS` trigger types only, that
+   `identity.governance_confirmation == reflection_id` (lines 722-731), raising
+   `UnverifiedReflectionError` otherwise. This closes the specific composition gap round 2 found —
+   a fabricated token must now also carry a matching `governance_confirmation` value, not merely
+   omit the confirmation step.
+2. **`write_reflection()` independent re-check (verified correct).**
+   `context-engineering/implementations/memory_vector_store.py:947-1014` — `write_reflection()`
+   independently re-verifies `isinstance(identity, IdentityVerification)` (992-999),
+   `identity.logged_by == record.logged_by` (1000-1005), and, for `GOVERNANCE_TRIGGERS` types,
+   `identity.governance_confirmation == record.reflection_id` (1006-1014) — all before ever
+   calling `self.log.append_reflection(record)`. This closes the direct-sink-call bypass round 2
+   demonstrated (constructing a bare `ReflectionRecord` and calling this method directly, skipping
+   `ReflectionMemory` entirely).
+3. **Module docstring honesty (confirmed).**
+   `context-engineering/implementations/reflection_authoring.py`'s module docstring (lines 1-102)
+   leads with the procedural-boundary statement in capitals before describing any code layer, and
+   explicitly frames each of the four code layers (git-identity/roster, the `IdentityVerification`
+   gate, the TTY confirmation, the sink re-check) as "legitimate defense-in-depth against
+   careless/accidental misuse, explicitly NOT claimed as unforgeable or as the boundary." It does
+   not overclaim. `IdentityVerification`'s own docstring (`memory_store.py:555-613`) and
+   `require_governance_confirmation()`'s docstring
+   (`reflection_authoring.py:340-390`) are consistent with this framing throughout.
+
+`pytest context-engineering/testing/ -v` (run directly by me from `core-component-00/`, deselecting
+`test_acon_benchmark.py`'s one pre-existing unrelated failure) — **283 passed, 1 deselected**,
+matching the expected count exactly, including
+`TestGovernanceConfirmationComposition` and `TestWriteReflectionIdentityGate` (covering the
+direct-sink-call-bypass regression test specifically).
+
+**Verdict: the three round-3 changes are real, correctly implemented, and accurately documented.**
+This is not "identity enforcement is closed" — it structurally cannot be, in this environment, per
+round 2's conclusion, which stands. It is: the code-level layers are correctly implemented as
+defense-in-depth against careless or accidental misuse, and the real accountability mechanism for
+`GOVERNANCE_TRIGGERS` records — genuine, live, in-transcript human confirmation, per
+`03-deployment-guidelines.md`'s revised Phase 1 "done" gate — is honestly documented as the actual
+boundary rather than being overshadowed by a false claim of code-level unforgeability. §2.2's
+Open finding is not resolved by code and is not being marked Resolved here; it is superseded, for
+`GOVERNANCE_TRIGGERS` records specifically, by the procedural boundary now documented in
+`reflection_authoring.py`'s module docstring and in `03-deployment-guidelines.md`'s revised Phase 1
+gate. On the three verification points I was dispatched to check, all three check out — no further
+gap found within this pass's narrower scope.
+
+**Reviewer:** Dr. Tomasz Wieczorek, Staff Safety & Evaluation Engineer
+**Date:** 2026-07-16
+
 ### 2.3 — Conditionally Met: the sacred/decay-skip reuse claim is asserted, not re-verified here
 
 `core-component-00/telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md` §3 states the existing decay job "already skips all `sacred=True`

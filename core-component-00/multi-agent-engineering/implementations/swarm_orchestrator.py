@@ -144,6 +144,7 @@ class SwarmOrchestrator:
         agents: Optional[list[AgentProfile]] = None,
         execute_fn: Optional[Callable] = None,
         memory_log: Optional[SharedMemoryLog] = None,
+        reflection_search_fn: Optional[Callable[[str], dict[str, Any]]] = None,
     ):
         self.config = config
         self.agents = agents or []
@@ -152,6 +153,7 @@ class SwarmOrchestrator:
         self._circuit_breaker = None
         self._memory_log = memory_log
         self._fleet_id = config.fleet_id
+        self._reflection_search_fn = reflection_search_fn
 
     def set_circuit_breaker(self, cb) -> None:
         """Inject a duck-typed circuit breaker.
@@ -163,6 +165,25 @@ class SwarmOrchestrator:
         Using duck typing avoids a circular import with harness error_boundary.
         """
         self._circuit_breaker = cb
+
+    def set_reflection_search_fn(
+        self, fn: Optional[Callable[[str], dict[str, Any]]]
+    ) -> None:
+        """Inject a duck-typed reflection-retrieval callable.
+
+        `fn(task_description)` must return a dict shaped like agent-memory's
+        `search_memory(memory_type="reflection", ...)` contract:
+            {"results": [...], "count": int, "degraded": bool, "reason": str|None}
+        where each entry in "results" is a ReflectionRecord.to_dict() payload
+        (see mcp-servers/agent-memory/server.py's search_memory docstring).
+
+        Optional — if never set (the default), brief issuance proceeds exactly
+        as before this hook existed; no reflection retrieval is attempted.
+        Duck typing avoids a hard import of the agent-memory MCP server into
+        this pure-orchestration module, mirroring set_circuit_breaker's
+        rationale above.
+        """
+        self._reflection_search_fn = fn
 
     def plan(
         self, user_request: str, subtasks: Optional[list[SubTask]] = None
@@ -302,6 +323,7 @@ class SwarmOrchestrator:
                 tier=HandoffTier.SCOPED,
                 task=task.description,
                 acceptance_criteria=task.gate_criteria or [],
+                retrieved_reflections=self._retrieve_reflections(task.description),
             )
             result = await asyncio.wait_for(
                 self._execute_fn(task, handoff),
@@ -318,6 +340,58 @@ class SwarmOrchestrator:
     @staticmethod
     async def _default_execute(task: SubTask, handoff: HandoffPacket) -> Any:
         return {"status": "completed", "output": f"Result for: {task.description}"}
+
+    def _retrieve_reflections(self, task_description: str) -> list[str]:
+        """Query memory_reflection for prior reflections relevant to this
+        brief, at brief-construction time — proactive retrieval per
+        telescope/2026-07-14-reflexion-memory-system/supporting/
+        01-technical-options.md §5.2.
+
+        Never blocks or delays brief issuance and never raises: no injected
+        fn, an empty/degraded response, or an exception from the fn itself
+        all fall through to returning [] — "no matching reflection found,
+        proceed" — the expected steady state at initial rollout before any
+        records are migrated into memory_reflection. Mirrors search_memory's
+        own timeout-guarded, degrade-gracefully contract one layer up; this
+        call site introduces no new failure-mode class of its own.
+
+        Returned notes are informational ("required read"), not binding
+        constraints — the caller routes them into HandoffPacket's dedicated
+        retrieved_reflections field, never sacred_context, since a retrieved
+        reflection is not automatically a decision the receiving agent must
+        not override, even when its source ReflectionRecord has sacred=True.
+        Every match is treated uniformly regardless of the record's own
+        sacred flag — simpler than branching sacred matches into
+        sacred_context, and defensible since sacred_context's contract is
+        about orchestrator-level decisions, not surfaced memory.
+        """
+        if self._reflection_search_fn is None:
+            return []
+        try:
+            response = self._reflection_search_fn(task_description)
+        except Exception as exc:
+            logger.warning(
+                "Reflection retrieval failed for brief %r — proceeding without it: %s",
+                task_description,
+                exc,
+            )
+            return []
+        if not isinstance(response, dict) or response.get("degraded"):
+            return []
+        results = response.get("results") or []
+        notes: list[str] = []
+        for record in results:
+            if not isinstance(record, dict):
+                continue
+            summary = record.get("summary")
+            if not summary:
+                continue
+            note = f"[reflection:{record.get('reflection_id', 'unknown')}] {summary}"
+            scope = record.get("scope_of_applicability")
+            if scope:
+                note += f" (applies when: {scope})"
+            notes.append(note)
+        return notes
 
     # -- Helpers -----------------------------------------------------------
 

@@ -45,7 +45,14 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .memory_store import EpisodicEvent, SemanticFact
+    from .memory_store import EpisodicEvent, SemanticFact, ReflectionRecord
+
+# Real (non-TYPE_CHECKING) import: PersistentMemorySink.write_reflection()'s
+# identity gate (MISTAKE-2026-07-16-001 remediation item 2) needs these at
+# runtime, not just for type annotations. No circular-import risk —
+# memory_store.py has no dependency on this module (verified: it imports
+# nothing from memory_vector_store.py).
+from .memory_store import GOVERNANCE_TRIGGERS, IdentityVerification, UnverifiedReflectionError  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -145,6 +152,23 @@ def _new_id() -> str:
     return str(uuid.uuid4())
 
 
+# Reflections use a human-readable, investigator-chosen reflection_id
+# (e.g. "REFLECT-001") as their primary identifier throughout this module
+# and in reflection_authoring.py -- but Qdrant point IDs must be an unsigned
+# integer or a UUID (discovered live during the MISTAKE-2026-07-14-001
+# Phase 3 migration: a raw "REFLECT-001" point ID was rejected with a 400).
+# Deriving a deterministic UUID5 from reflection_id (fixed namespace) keeps
+# upserts idempotent -- the same reflection_id always maps to the same
+# point, matching the existing disaster-recovery contract for the other
+# three memory types -- while reflection_id itself stays the reflection's
+# real identity, carried in the payload.
+_REFLECTION_POINT_ID_NAMESPACE = uuid.UUID("a3f6e2d4-6f74-4865-b265-666c65637400")
+
+
+def _reflection_point_id(reflection_id: str) -> str:
+    return str(uuid.uuid5(_REFLECTION_POINT_ID_NAMESPACE, reflection_id))
+
+
 def _diag(msg: str) -> None:
     """Unbuffered, timestamped stderr line. Each Qdrant call in this module
     logs before/after so a stalled log tail (a "calling..." line with no
@@ -213,6 +237,7 @@ COLLECTION_BY_TYPE: Dict[str, str] = {
     "episodic": "memory_episodic",
     "semantic": "memory_semantic",
     "procedural": "memory_procedural",
+    "reflection": "memory_reflection",
 }
 MEMORY_COLLECTIONS: List[str] = list(COLLECTION_BY_TYPE.values())
 EMBEDDING_DIM = 384  # all-MiniLM-L6-v2's output vector dimension
@@ -337,13 +362,24 @@ class JSONLMemoryLog:
         ├── episodic/<session_id>.jsonl
         ├── semantic.jsonl
         ├── procedural.jsonl
+        ├── reflection/reflection-log.jsonl
         └── memory-sync-state.json
+
+    Reflections use a single cross-session file
+    (reflection/reflection-log.jsonl), not one file per session — unlike
+    episodic memory, reflections are inherently cross-session by nature
+    (02-storage-specification.md §2.1). They also carry a distinct payload
+    shape (the full ReflectionRecord, not MemoryRecord — see
+    01-technical-options.md §2), so they are read/written via
+    append_reflection()/read_all_reflections() rather than the generic
+    append()/read_all() used by the other three memory types.
     """
 
     def __init__(self, root_dir: Optional[Path] = None):
         self.root_dir = Path(root_dir) if root_dir else DEFAULT_MEMORY_ROOT
         self.root_dir.mkdir(parents=True, exist_ok=True)
         (self.root_dir / "episodic").mkdir(parents=True, exist_ok=True)
+        (self.root_dir / "reflection").mkdir(parents=True, exist_ok=True)
 
     def _path_for(self, memory_type: str, session_id: Optional[str] = None) -> Path:
         if memory_type == "episodic":
@@ -394,6 +430,35 @@ class JSONLMemoryLog:
             session_id = path.stem
             grouped[session_id] = self.read_all("episodic", session_id)
         return grouped
+
+    def _reflection_path(self) -> Path:
+        return self.root_dir / "reflection" / "reflection-log.jsonl"
+
+    def append_reflection(self, record: "ReflectionRecord") -> None:
+        """Append one reflection to the single cross-session
+        reflection-log.jsonl source-of-truth log (02-storage-specification.md
+        §2.1). Serialises via record.to_dict() — the full ReflectionRecord
+        payload, verbatim, not the generic MemoryRecord shape used by the
+        other three memory types."""
+        with open(self._reflection_path(), "a", encoding="utf-8") as f:
+            f.write(json.dumps(record.to_dict(), ensure_ascii=False) + "\n")
+
+    def read_all_reflections(self) -> List[Dict[str, Any]]:
+        """Replay reflection-log.jsonl. Returns raw payload dicts (not
+        ReflectionRecord instances) so this module never needs a runtime
+        import of memory_store.ReflectionRecord — callers that need
+        ReflectionRecord instances construct them via
+        ReflectionRecord.from_dict() (implementations/memory_store.py)."""
+        path = self._reflection_path()
+        if not path.exists():
+            return []
+        records: List[Dict[str, Any]] = []
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    records.append(json.loads(line))
+        return records
 
 
 # ---------------------------------------------------------------------------
@@ -521,18 +586,34 @@ class QdrantMemoryIndex:
 
     def upsert_record(self, record: MemoryRecord) -> bool:
         """
-        Embed and upsert one record. Returns True on success, False on graceful
-        degradation — the caller (PersistentMemorySink) treats False as "the JSONL
-        log already has it, Qdrant is temporarily behind," never as a write failure.
+        Embed and upsert one MemoryRecord-shaped record (episodic/semantic/
+        procedural). Returns True on success, False on graceful degradation —
+        the caller (PersistentMemorySink) treats False as "the JSONL log
+        already has it, Qdrant is temporarily behind," never as a write
+        failure. Thin wrapper over upsert_payload(); see that method for the
+        reflection-collection case, whose payload is not MemoryRecord-shaped.
+        """
+        return self.upsert_payload(record.id, record.content, record.to_payload())
+
+    def upsert_payload(self, point_id: str, embed_text: str, payload: Dict[str, Any]) -> bool:
+        """
+        Embed `embed_text` and upsert `payload` verbatim as the point's
+        payload, keyed by `point_id`. upsert_record() wraps this for the
+        MemoryRecord-shaped collections (episodic/semantic/procedural);
+        memory_reflection writes go through this method directly, since a
+        ReflectionRecord's payload is the full record verbatim
+        (01-technical-options.md §2: "Payload fields: All ReflectionRecord
+        fields verbatim"), not a MemoryRecord. Returns True on success, False
+        on graceful degradation — same contract as upsert_record().
         """
         if self.client is None or self.embedder is None:
             return False
         try:
-            vector = self.embedder(record.content)
+            vector = self.embedder(embed_text)
             _call_with_hard_timeout(
                 lambda: self.client.upsert(
                     collection_name=self.collection_name,
-                    points=[PointStruct(id=record.id, vector=vector, payload=record.to_payload())],
+                    points=[PointStruct(id=point_id, vector=vector, payload=payload)],
                 )
             )
             return True
@@ -674,10 +755,22 @@ class QdrantMemoryIndex:
         self.ensure_collection()
         if self.memory_type == "episodic":
             records = log.read_all_episodic_sessions()
+            count = sum(1 for record in records if self.upsert_record(record))
+        elif self.memory_type == "reflection":
+            payloads = log.read_all_reflections()
+            count = sum(
+                1
+                for payload in payloads
+                if self.upsert_payload(
+                    _reflection_point_id(payload["reflection_id"]),
+                    f"{payload['summary']} {payload['scope_of_applicability']}",
+                    payload,
+                )
+            )
         else:
             records = log.read_all(self.memory_type)
+            count = sum(1 for record in records if self.upsert_record(record))
 
-        count = sum(1 for record in records if self.upsert_record(record))
         if sync_state is not None:
             sync_state.record_rebuild(self.collection_name, count)
         return count
@@ -867,3 +960,81 @@ class PersistentMemorySink:
             tags=[skill_name],
         )
         return self._write(record)
+
+    def write_reflection(
+        self, record: "ReflectionRecord", identity: "IdentityVerification"
+    ) -> "ReflectionRecord":
+        """
+        Write-through for the fourth memory type (reflections). Same
+        JSONL-first-then-Qdrant-upsert pattern as write_episodic/
+        write_semantic/write_procedural (append is the only step allowed to
+        be load-bearing; a Qdrant hiccup degrades, never raises), but a
+        ReflectionRecord keeps its own shape end-to-end rather than being
+        wrapped in MemoryRecord — the payload stored is the full
+        ReflectionRecord, verbatim (01-technical-options.md §2), and the
+        embedded text is `summary` + `scope_of_applicability` (the two
+        fields most predictive of retrieval relevance), not a generic
+        `content` field.
+
+        Never called from an agent-callable surface — only from the
+        Investigator-Authored Write Path
+        (implementations/reflection_authoring.py), per the design's explicit
+        rejection of an MCP write tool (01-technical-options.md §4,
+        "Option A" rejected).
+
+        Identity gate (MISTAKE-2026-07-16-001 remediation item 2, second
+        Wieczorek pass): requires the same IdentityVerification token
+        ReflectionMemory.record_reflection() requires, and independently
+        re-checks it here rather than trusting that the caller already did
+        — this is defense-in-depth against a caller who constructs a bare
+        ReflectionRecord and calls this method directly, bypassing
+        ReflectionMemory (and therefore record_reflection()'s own gate)
+        entirely, which is exactly the second live bypass Dr. Wieczorek
+        demonstrated. Honest limitation, same as everywhere else this token
+        is checked: this is not a floor. JSONLMemoryLog.append_reflection()
+        and QdrantMemoryIndex.upsert_payload() remain directly callable
+        beneath this method with no check of any kind — per
+        03-deployment-guidelines.md's revised Phase 1 gate, the actual
+        security boundary for GOVERNANCE_TRIGGERS records is procedural
+        (live human confirmation in the coordinating session), not this or
+        any other code layer.
+
+        Raises:
+            UnverifiedReflectionError: if `identity` is not a genuine
+                IdentityVerification, was issued for a different logged_by
+                than `record.logged_by`, or (for GOVERNANCE_TRIGGERS trigger
+                types only) does not carry a governance_confirmation
+                matching `record.reflection_id`.
+        """
+        if not isinstance(identity, IdentityVerification):
+            raise UnverifiedReflectionError(
+                "PersistentMemorySink.write_reflection() requires a verified "
+                "IdentityVerification token — refusing to persist a "
+                "ReflectionRecord without one, regardless of whether the "
+                "caller went through ReflectionMemory.record_reflection() "
+                "first."
+            )
+        if identity.logged_by != record.logged_by:
+            raise UnverifiedReflectionError(
+                f"IdentityVerification was issued for logged_by="
+                f"{identity.logged_by!r}, not {record.logged_by!r} — refusing "
+                "to persist under a mismatched identity."
+            )
+        if (
+            record.trigger_type in GOVERNANCE_TRIGGERS
+            and identity.governance_confirmation != record.reflection_id
+        ):
+            raise UnverifiedReflectionError(
+                f"GOVERNANCE_TRIGGERS record {record.reflection_id!r} requires "
+                "an IdentityVerification carrying a governance_confirmation "
+                "matching this exact reflection_id — refusing to persist."
+            )
+
+        self.log.append_reflection(record)
+        index = self.indices.get("reflection")
+        if index is not None:
+            embed_text = f"{record.summary} {record.scope_of_applicability}"
+            index.upsert_payload(
+                _reflection_point_id(record.reflection_id), embed_text, record.to_dict()
+            )
+        return record
