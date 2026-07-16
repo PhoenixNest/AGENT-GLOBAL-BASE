@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import concurrent.futures
 import json
+import os
 import queue
 import sys
 import threading
@@ -43,6 +44,17 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING
+
+# qdrant_client talks to Qdrant over httpx, which honors the OS-level system
+# proxy by default (trust_env=True). On a machine with a local proxy/VPN
+# tool configured, that can route loopback traffic through the proxy instead
+# of connecting directly, which a local-only service like qdrant-memory
+# cannot answer. Setting NO_PROXY/no_proxy for localhost and 127.0.0.1
+# guarantees direct connections regardless of the host machine's proxy
+# configuration. setdefault() so a deliberately-configured value is never
+# overridden.
+os.environ.setdefault("NO_PROXY", "localhost,127.0.0.1")
+os.environ.setdefault("no_proxy", "localhost,127.0.0.1")
 
 if TYPE_CHECKING:
     from .memory_store import EpisodicEvent, SemanticFact, ReflectionRecord
