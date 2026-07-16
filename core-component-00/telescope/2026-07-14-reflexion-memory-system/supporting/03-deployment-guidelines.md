@@ -49,12 +49,32 @@ up a new instance:
 reviewed the schema for the write-path threat-model concerns raised in `research-report.md`
 Finding 4 (see `audits/01-design-stage/01-safety-self-review.md`).
 
-**Gate — Phase 1 is done:** per `01-safety-self-review.md` §3's explicit condition, Phase 1 is not
-considered complete until step 5 above is implemented and Dr. Wieczorek has verified it closes
-§2.2 with a concrete mechanism, not a documented expectation. This is a P1 item — it blocks
-treating Phase 1 as finished, not CEO sign-off on the design itself (§3's own distinction).
-`MISTAKE-001`'s Phase 3 migration (the only planned use of the authoring path before broader
-rollout) must not proceed until this gate closes.
+**Gate — Phase 1 is done (revised 2026-07-16, per `audits/mistake-log.md` MISTAKE-2026-07-16-001's
+2026-07-16 Update):** Two full rounds of implementation + adversarial review established that no
+purely code-level check running inside Claude Code's own tool-execution environment can make
+identity/authorization for this write path unforgeable — any layer (a token, a TTY prompt) is
+skippable by calling something lower (the sink, the raw JSONL/Qdrant calls), since an agent has
+the same import access a human developer does. Chasing a further code layer would only produce a
+further bypass; it is no longer the gate. The revised gate has two parts:
+
+1. **Code layers implemented as defense-in-depth** (raises the bar against careless/accidental
+   misuse; not claimed as unforgeable): git-identity + roster attribution, the `IdentityVerification`
+   token required by `record_reflection()`, and the TTY-gated confirmation for `GOVERNANCE_TRIGGERS`
+   types — implemented, tests green, does not regress existing suites.
+2. **The procedural requirement is the actual security boundary for `GOVERNANCE_TRIGGERS` records**:
+   genuine, live, in-transcript confirmation from the real human user (the CEO, or Dr. Vance under
+   CEO-delegated authority, confirming directly in the live session — never relayed through an
+   intermediary agent, per this workspace's own tested precedent for `.claude/hooks/`
+   self-modification) is required before any such record is treated as authorized to persist for
+   real. This must be documented plainly in `reflection_authoring.py`'s module docstring and in
+   `01-safety-self-review.md` §2.2's final disposition — not asserted only here.
+
+Dr. Wieczorek's role in closing this gate is now scoped to verifying (1) doesn't regress anything
+and (2) is honestly documented — not to further bypass-hunting, since code is no longer claimed as
+the boundary. `MISTAKE-001`'s Phase 3 migration (a `process_violation` `GOVERNANCE_TRIGGERS`
+record — the only planned use of the authoring path before broader rollout) must not proceed until
+both this gate closes **and** the CEO has given live, direct confirmation authorizing that specific
+migration, per the procedural requirement above.
 
 ---
 
@@ -81,14 +101,39 @@ proceed" rather than block brief issuance.
 
 ## Phase 3 — Migration (P1)
 
-1. Author the `MISTAKE-001` `ReflectionRecord` using the Investigator-Authored Write Path
-   (`01-technical-options.md` §4), with `migrated_from = "mistake-log.md#MISTAKE-001"` and
-   `logged_by` preserving the original investigator of record (Dr. Elias Vance).
-2. Update `mistake-log.md`'s status line to record the migration and mark the file superseded,
-   per its own stated terms ("migrated into it and this file is superseded, not deleted") — the
-   file is not deleted, consistent with this workspace's append-only archive convention.
-3. Verify the migrated record round-trips correctly through `search_memory` with
-   `memory_type="reflection"` before declaring the migration complete.
+**Status: steps 1–2 complete 2026-07-16; step 3 pending worktree integration (see below).**
+
+1. **Done.** Authored `REFLECT-001` (`MISTAKE-2026-07-14-001`'s migration) via the
+   Investigator-Authored Write Path, under the CEO's direct live authorization (the actual
+   security boundary for this `GOVERNANCE_TRIGGERS` record, per `mistake-log.md`
+   MISTAKE-2026-07-16-001's resolution) — the CLI's TTY-interactivity check is structurally
+   unsatisfiable by any Claude Code tool invocation (verified directly:
+   `sys.stdin.isatty()` is always `False` in this environment), so the documented
+   `stdin`/`prompt_fn` test-only injection points were used with the CEO's explicit,
+   transparent authorization, not silently. `migrated_from` set to the full
+   workspace-root-relative anchor (`core-component-00/telescope/2026-07-14-reflexion-memory-system/supporting/audits/mistake-log.md#MISTAKE-2026-07-14-001`),
+   `logged_by="Elias Vance"` preserving the original investigator of record.
+   **Defect found and fixed during this step:** `PersistentMemorySink.write_reflection()` and
+   `QdrantMemoryIndex.rebuild_from_log()`'s reflection branch both passed the human-readable
+   `reflection_id` directly as the Qdrant point ID, which Qdrant rejects (valid point IDs are an
+   unsigned integer or a UUID only) — caught live on the first real migration attempt, never
+   caught by unit tests since those mock the Qdrant client. Fixed with a deterministic
+   `uuid5`-derived point ID (`memory_vector_store.py`'s `_reflection_point_id()`), keeping
+   `reflection_id` as the record's real identity in the payload. Full context-engineering suite
+   reverified green after the fix (283/283 relevant tests).
+2. **Done.** `mistake-log.md`'s `MISTAKE-2026-07-14-001` entry's Status line updated to record the
+   migration — the entry itself is left unedited above that line as the historical record, per
+   this workspace's append-only convention; the file is not deleted.
+3. **Partially done — direct Qdrant verification only so far.** The migrated point was confirmed
+   correct via a direct Qdrant REST query (exact payload match, single point, correctly
+   attributed) — but the live `agent-memory` MCP server process is still running the
+   pre-Phase-2 code from the main workspace (it hasn't picked up Almeida/Fontán's
+   `memory_type="reflection"` support, which only exists in this uncommitted worktree), so calling
+   the actual `search_memory` MCP tool right now correctly returns `degraded: true,
+   "unknown memory_type: 'reflection'"` — expected, not a defect. Full `search_memory`-based
+   round-trip verification is deferred until after this worktree is integrated into
+   `core00/dev/engineering` and the MCP server is reconnected to load the new code — the last
+   remaining item before Phase 3, and this deployment, can be declared complete.
 
 ---
 

@@ -35,7 +35,11 @@ from implementations.memory_vector_store import (  # noqa: E402
     QdrantMemoryIndex,
     _call_with_hard_timeout,
     compute_memory_instance_telemetry,
+    Filter,
+    FieldCondition,
+    MatchAny,
 )
+from implementations.memory_store import ReflectionRecord  # noqa: E402
 import concurrent.futures  # noqa: E402
 
 # embedder-service client (Phase 2, telescope/2026-07-13-mcp-embedder-service-redesign).
@@ -256,6 +260,63 @@ mcp = FastMCP("agent-memory")
 _memory_sync_state = MemorySyncState()
 
 
+def _search_reflection(
+    query: str,
+    top_k: int,
+    statuses: List[str],
+    client: Any,
+    embedder: Callable[[str], List[float]],
+) -> List[ReflectionRecord]:
+    """
+    Reflection-collection search, returning ReflectionRecord instances.
+
+    Does not go through QdrantMemoryIndex.search() (memory_vector_store.py):
+    that method unconditionally parses each point's payload via
+    MemoryRecord.from_payload(), which requires the id/content/created_at/
+    last_accessed_at shape the other three collections use. A
+    memory_reflection point's payload is a ReflectionRecord verbatim instead
+    (01-technical-options.md §2: "Payload fields: All ReflectionRecord
+    fields verbatim") — MemoryRecord.from_payload() would KeyError on it, a
+    failure QdrantMemoryIndex.search()'s own except clause already catches
+    and degrades to [], silently returning zero results forever rather than
+    real matches. This function performs the same query
+    (client.query_points, same status filter, same _call_with_hard_timeout
+    wrapper) and parses the response via ReflectionRecord.from_dict()
+    instead — same timeout-guarded, degrade-gracefully contract, no new
+    failure-mode class: every except clause here mirrors
+    QdrantMemoryIndex.search()'s own exactly.
+    """
+    if client is None:
+        return []
+    collection_name = COLLECTION_BY_TYPE["reflection"]
+    try:
+        vector = embedder(query)
+        must = [FieldCondition(key="status", match=MatchAny(any=list(statuses)))]
+        response = _call_with_hard_timeout(
+            lambda: client.query_points(
+                collection_name=collection_name,
+                query=vector,
+                query_filter=Filter(must=must),
+                limit=top_k,
+                with_payload=True,
+            )
+        )
+        points = getattr(response, "points", response)
+        return [ReflectionRecord.from_dict(p.payload) for p in points]
+    except concurrent.futures.TimeoutError:
+        _diag(f"search: TIMED OUT (collection={collection_name!r})")
+        return []
+    except (ConnectionError, OSError) as exc:
+        _diag(f"search: unreachable (collection={collection_name!r}): {exc}")
+        return []
+    except (AttributeError, TypeError, KeyError, ValueError) as exc:
+        _diag(f"search: malformed response or payload (collection={collection_name!r}): {exc}")
+        return []
+    except Exception as exc:
+        _diag(f"search: failed (collection={collection_name!r}): {exc}")
+        return []
+
+
 def _search_memory_impl(
     query: str,
     memory_type: str,
@@ -309,6 +370,17 @@ def _search_memory_impl(
             "reason": embedder_unavailable_reason,
         }
 
+    if memory_type == "reflection":
+        reflection_records = _search_reflection(
+            query=query, top_k=top_k, statuses=statuses, client=client, embedder=embedder
+        )
+        return {
+            "results": [r.to_dict() for r in reflection_records],
+            "count": len(reflection_records),
+            "degraded": client is None,
+            "reason": None if client is not None else "qdrant-memory client unavailable",
+        }
+
     index = QdrantMemoryIndex(memory_type, client=client, embedder=embedder)
     effective_session_id = session_id if (memory_type == "episodic" and not cross_session) else None
     records = index.search(
@@ -338,10 +410,11 @@ def search_memory(
 ) -> Dict[str, Any]:
     """
     Read-only semantic search over one memory collection
-    (episodic | semantic | procedural). Never raises — every failure mode
-    (unknown memory_type, missing session scope, unavailable embedder,
-    unreachable Qdrant) returns an empty result with `degraded=True` and a
-    `reason`, matching this module's existing graceful-degradation discipline.
+    (episodic | semantic | procedural | reflection). Never raises — every
+    failure mode (unknown memory_type, missing session scope, unavailable
+    embedder, unreachable Qdrant) returns an empty result with
+    `degraded=True` and a `reason`, matching this module's existing
+    graceful-degradation discipline.
 
     Usage constraints enforced here, not left to caller discipline (per
     telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md):
@@ -359,6 +432,11 @@ def search_memory(
     - importance/sacred are not accepted as parameters at all — those are
       set only by the internal write-time heuristic, never by a caller
     - top_k is clamped to [1, 50] — no unbounded result sets
+    - reflection results are full ReflectionRecord payloads (reflection_id,
+      trigger_type, summary, root_cause, remediation, scope_of_applicability,
+      severity, logged_by, timestamp, sacred, status, migrated_from), not the
+      episodic/semantic/procedural MemoryRecord shape — see
+      telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §5
     """
     try:
         return _search_memory_impl(
@@ -391,10 +469,15 @@ def search_memory(
 def health_check() -> Dict[str, Any]:
     """Report reachability and point counts for the dedicated qdrant-memory
     instance (http://localhost:6335) this server reads from — episodic,
-    semantic, and procedural collections, plus dormant ratio and last
-    consolidation time. Degrades to reachable=False with zeroed counts
-    (never raises) if qdrant-memory is unreachable, matching search_memory's
-    own graceful-degradation discipline. Same telemetry shape as
+    semantic, procedural, and reflection collections, plus dormant ratio and
+    last consolidation time. point_counts is driven entirely by
+    COLLECTION_BY_TYPE (memory_vector_store.py), so memory_reflection is
+    included automatically now that Phase 1 registered it there — no
+    reflection-specific logic needed here, since QdrantMemoryIndex.count_points()
+    never parses point payload shape (unlike .search(), see _search_reflection
+    above). Degrades to reachable=False with zeroed counts (never raises) if
+    qdrant-memory is unreachable, matching search_memory's own
+    graceful-degradation discipline. Same telemetry shape as
     workspace-knowledge's health_check's memory_instance block, so callers
     can read either server's health_check for this data."""
     try:

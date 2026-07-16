@@ -18,7 +18,7 @@ Usage:
 import sys
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 
 # ---------------------------------------------------------------------------
@@ -445,3 +445,375 @@ class WorkingMemory:
         self._tool_results.clear()
         self._notes.clear()
         return self
+
+
+# ---------------------------------------------------------------------------
+# Reflection Memory
+# ---------------------------------------------------------------------------
+#
+# The fourth memory type, added by the 2026-07-14-reflexion-memory-system
+# Programme (Phase 1). Full design: core-component-00/telescope/
+# 2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §1
+# and supporting/02-storage-specification.md.
+#
+# Unlike episodic/semantic/procedural, a ReflectionRecord is never
+# constructed by application code from arbitrary agent output — only by the
+# Investigator-Authored Write Path (implementations/reflection_authoring.py),
+# which enforces a real, non-spoofable identity check before a record is
+# ever built. No MCP write tool exists or should ever be added for this
+# memory type (01-technical-options.md §4, "Option A" explicitly rejected).
+
+TRIGGER_TYPES = {
+    "process_violation",
+    "defect_root_cause",
+    "ase_exception_closure",
+    "adversarial_finding",
+    "director_flagged",
+}
+
+GOVERNANCE_TRIGGERS = {"process_violation", "defect_root_cause", "ase_exception_closure"}
+
+
+@dataclass
+class ReflectionRecord:
+    """A single synthesized, investigator-gated reflection.
+
+    See 02-storage-specification.md §1.1 for the trigger taxonomy and §2.2
+    for the field-by-field rationale. `summary` is the Reflexion-style
+    verbal lesson — synthesized, not a copy of the triggering event — and,
+    together with `scope_of_applicability`, is the text embedded into the
+    memory_reflection Qdrant collection (01-technical-options.md §2).
+    """
+    reflection_id: str                 # e.g. "REFLECT-001"
+    trigger_type: str                  # one of TRIGGER_TYPES — see 02-storage-specification.md §1.1
+    source_event_ref: str              # pointer to the originating report/event, e.g.
+                                        # "core-component-00/telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md#MISTAKE-001"
+    summary: str                       # synthesized verbal reflection (Reflexion-style) — not a copy of the source
+    root_cause: str
+    remediation: str
+    scope_of_applicability: str        # what future situations should surface this record
+    severity: Optional[str] = None     # "P0" | "P1" | None (only for defect_root_cause)
+    logged_by: str = ""                # named investigator of record — never "agent"
+    timestamp: float = field(default_factory=_now)
+    sacred: bool = False               # defaults True for GOVERNANCE_TRIGGERS at construction time
+    status: str = "active"             # "active" | "dormant" | "archived" — irrelevant while sacred
+    migrated_from: Optional[str] = None  # e.g. "mistake-log.md#MISTAKE-001"
+
+    def __post_init__(self):
+        if self.trigger_type not in TRIGGER_TYPES:
+            raise ValueError(f"Unknown trigger_type: {self.trigger_type}")
+        if self.trigger_type in GOVERNANCE_TRIGGERS and not self.sacred:
+            self.sacred = True  # governance triggers are sacred unless the caller already set it
+        if not self.logged_by:
+            raise ValueError("ReflectionRecord requires a named logged_by investigator")
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Serialise to a JSON-safe dict — the full reflection payload
+        persisted verbatim to reflection-log.jsonl and to the
+        memory_reflection Qdrant collection's point payload
+        (01-technical-options.md §2: "Payload fields: All ReflectionRecord
+        fields verbatim")."""
+        return {
+            "reflection_id": self.reflection_id,
+            "trigger_type": self.trigger_type,
+            "source_event_ref": self.source_event_ref,
+            "summary": self.summary,
+            "root_cause": self.root_cause,
+            "remediation": self.remediation,
+            "scope_of_applicability": self.scope_of_applicability,
+            "severity": self.severity,
+            "logged_by": self.logged_by,
+            "timestamp": self.timestamp,
+            "sacred": self.sacred,
+            "status": self.status,
+            "migrated_from": self.migrated_from,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ReflectionRecord":
+        """Reconstruct a ReflectionRecord from a dict produced by to_dict()
+        (or an equivalent JSONL/Qdrant payload). Re-runs __post_init__
+        validation, so a corrupted or hand-edited record on disk is caught
+        on read, not silently trusted."""
+        return cls(
+            reflection_id=data["reflection_id"],
+            trigger_type=data["trigger_type"],
+            source_event_ref=data["source_event_ref"],
+            summary=data["summary"],
+            root_cause=data["root_cause"],
+            remediation=data["remediation"],
+            scope_of_applicability=data["scope_of_applicability"],
+            severity=data.get("severity"),
+            logged_by=data.get("logged_by", ""),
+            timestamp=data.get("timestamp", _now()),
+            sacred=data.get("sacred", False),
+            status=data.get("status", "active"),
+            migrated_from=data.get("migrated_from"),
+        )
+
+
+@dataclass(frozen=True)
+class IdentityVerification:
+    """
+    Opaque proof that implementations/reflection_authoring.py's
+    verify_authorized_identity() has run and passed for a specific
+    logged_by value. ReflectionMemory.record_reflection() requires one of
+    these — never a bare logged_by string — as its `identity` argument.
+
+    This closes the direct-import bypass documented in
+    core-component-00/telescope/2026-07-14-reflexion-memory-system/
+    supporting/audits/mistake-log.md (MISTAKE-2026-07-16-001): before this
+    gate existed, any caller importing memory_store.py directly (rather
+    than going through reflection_authoring.py) could call
+    record_reflection() with an arbitrary logged_by and no identity check
+    ran at all — reflection_authoring.py's wrapper was the *only* enforced
+    checkpoint, and it was trivially skippable by importing this module
+    instead.
+
+    Honest limitation, per mistake-log.md's 2026-07-16 Update (second
+    Wieczorek pass): this is not a cryptographic guarantee, and cannot be
+    made into one. Python has no true encapsulation — a caller who reads
+    this module's source can still construct an IdentityVerification
+    instance directly (`IdentityVerification(logged_by=..., git_identity=...,
+    governance_confirmation=...)`) without ever having called
+    verify_authorized_identity() or require_governance_confirmation(). Two
+    rounds of adversarial review established this is a structural ceiling,
+    not an engineering gap awaiting a cleverer fix: in a process an agent
+    has import access to, any in-process check is skippable by calling
+    something lower. What each field here does is narrower and honestly
+    bounded:
+
+    - logged_by / git_identity close the *zero-effort* bypass (import
+      memory_store, call record_reflection() with nothing but a string) —
+      raises the bar to "requires deliberately fabricating this token."
+    - governance_confirmation (added after the second Wieczorek pass) folds
+      require_governance_confirmation()'s TTY-gated human confirmation
+      result into the token itself, so forging a GOVERNANCE_TRIGGERS
+      IdentityVerification requires fabricating *this* field too, not just
+      skipping a separate, independently-callable confirmation step. This
+      is a composition-gap fix, not a new unforgeability claim — the field
+      is still a plain dataclass attribute, directly settable by any caller.
+
+    For GOVERNANCE_TRIGGERS records, per 03-deployment-guidelines.md's
+    revised Phase 1 "done" gate, the actual security boundary is procedural
+    — genuine, live, in-transcript human confirmation in the coordinating
+    session — not this token or any other code-level check. See
+    implementations/reflection_authoring.py's module docstring for the
+    full, current statement of that boundary.
+    """
+    logged_by: str
+    git_identity: Tuple[str, str]
+    verified_at: float = field(default_factory=_now)
+    governance_confirmation: Optional[str] = None
+    """Set only for GOVERNANCE_TRIGGERS records: the reflection_id
+    require_governance_confirmation() (reflection_authoring.py) confirmed
+    via a real interactive TTY + typed confirmation. record_reflection()
+    requires this to equal the record's own reflection_id whenever
+    trigger_type is in GOVERNANCE_TRIGGERS — see that method."""
+
+
+class UnverifiedReflectionError(ValueError):
+    """Raised by ReflectionMemory.record_reflection() when called without a
+    valid IdentityVerification token, or with one issued for a different
+    logged_by than the one supplied. Subclasses ValueError so any existing
+    `except ValueError` handling around ReflectionRecord construction still
+    catches this, while remaining distinguishable by type (isinstance
+    checks, exception-type assertions in tests) from a plain schema-level
+    ValueError raised by ReflectionRecord.__post_init__."""
+
+
+class ReflectionMemory:
+    """
+    Cross-session persistent memory for investigator-gated reflections.
+
+    Mirrors EpisodicMemory/SemanticMemory's sink write-through pattern
+    exactly — record_reflection() plays the role of record_event()/store(),
+    query() mirrors SemanticMemory.query()'s signature — so the module stays
+    internally consistent for anyone already familiar with the other three
+    memory types (01-technical-options.md §1).
+
+    record_reflection() itself enforces the identity gate (requires a valid
+    IdentityVerification — see that class's docstring) — this was
+    previously enforced only by the reflection_authoring.py wrapper one
+    layer up, which meant any caller importing this module directly bypassed
+    the check entirely (MISTAKE-2026-07-16-001). The only sanctioned way to
+    obtain an IdentityVerification in production use is
+    implementations/reflection_authoring.py's verify_authorized_identity().
+
+    Usage:
+        from implementations.reflection_authoring import verify_authorized_identity
+        identity = verify_authorized_identity("Mei-Ling Zhao")
+        rm = ReflectionMemory(sink=sink)
+        rm.record_reflection(
+            reflection_id="REFLECT-001",
+            trigger_type="process_violation",
+            source_event_ref="core-component-00/telescope/.../mistake-log.md#MISTAKE-001",
+            summary="...",
+            root_cause="...",
+            remediation="...",
+            scope_of_applicability="...",
+            logged_by="Mei-Ling Zhao",
+            identity=identity,
+        )
+        matches = rm.query("git worktree orchestration", top_k=3)
+    """
+
+    def __init__(self, sink: Optional[Any] = None):
+        """
+        Args:
+            sink: Optional write-through target implementing
+                  write_reflection() (see
+                  context-engineering/implementations/memory_vector_store.py
+                  PersistentMemorySink). None preserves in-memory-only
+                  behaviour, useful for tests.
+        """
+        self._reflections: Dict[str, ReflectionRecord] = {}
+        self._sink = sink
+
+    def record_reflection(
+        self,
+        reflection_id: str,
+        trigger_type: str,
+        source_event_ref: str,
+        summary: str,
+        root_cause: str,
+        remediation: str,
+        scope_of_applicability: str,
+        logged_by: str,
+        identity: IdentityVerification,
+        severity: Optional[str] = None,
+        sacred: bool = False,
+        status: str = "active",
+        migrated_from: Optional[str] = None,
+    ) -> ReflectionRecord:
+        """
+        Construct, validate (via ReflectionRecord.__post_init__), store, and
+        write through a new ReflectionRecord.
+
+        Args:
+            identity: The IdentityVerification returned by
+                      reflection_authoring.verify_authorized_identity() for
+                      this exact logged_by value. Required — there is no
+                      default — so a caller cannot accidentally omit it.
+
+        Raises:
+            UnverifiedReflectionError: if `identity` is not a genuine
+                IdentityVerification, was issued for a different logged_by
+                than the one supplied here, or (for GOVERNANCE_TRIGGERS
+                trigger types only) does not carry a governance_confirmation
+                matching this exact reflection_id.
+            ValueError: if trigger_type is not in TRIGGER_TYPES, or
+                        logged_by is empty (ReflectionRecord.__post_init__).
+        """
+        if not isinstance(identity, IdentityVerification):
+            raise UnverifiedReflectionError(
+                "record_reflection() requires a verified IdentityVerification "
+                "token (see implementations/reflection_authoring.py "
+                "verify_authorized_identity()) — refusing to construct a "
+                "ReflectionRecord without one, regardless of which module the "
+                "caller imports from."
+            )
+        if identity.logged_by != logged_by:
+            raise UnverifiedReflectionError(
+                f"IdentityVerification was issued for logged_by="
+                f"{identity.logged_by!r}, not {logged_by!r} — refusing to "
+                "record under a mismatched identity."
+            )
+        if trigger_type in GOVERNANCE_TRIGGERS and identity.governance_confirmation != reflection_id:
+            raise UnverifiedReflectionError(
+                f"GOVERNANCE_TRIGGERS reflection {reflection_id!r} requires an "
+                "IdentityVerification carrying a governance_confirmation that "
+                "matches this exact reflection_id — the TTY-gated human "
+                "confirmation (reflection_authoring.require_governance_confirmation()) "
+                "was not attested for this record. Defense-in-depth only, per "
+                "MISTAKE-2026-07-16-001: the actual security boundary for these "
+                "records is procedural, not this check."
+            )
+
+        record = ReflectionRecord(
+            reflection_id=reflection_id,
+            trigger_type=trigger_type,
+            source_event_ref=source_event_ref,
+            summary=summary,
+            root_cause=root_cause,
+            remediation=remediation,
+            scope_of_applicability=scope_of_applicability,
+            severity=severity,
+            logged_by=logged_by,
+            sacred=sacred,
+            status=status,
+            migrated_from=migrated_from,
+        )
+        self._reflections[record.reflection_id] = record
+        if record.sacred:
+            print(f"INFO: Sacred reflection recorded [{trigger_type}]: {summary[:60]}...",
+                  file=sys.stderr)
+        if self._sink is not None:
+            try:
+                # identity is passed through so the sink can independently
+                # re-verify it (PersistentMemorySink.write_reflection() —
+                # memory_vector_store.py) rather than trusting that this
+                # method already did — defense-in-depth against a caller
+                # who bypasses ReflectionMemory and calls the sink directly
+                # (the second bypass MISTAKE-2026-07-16-001 documents).
+                self._sink.write_reflection(record, identity)
+            except Exception as exc:
+                print(f"WARNING: reflection write-through to sink failed: {exc}", file=sys.stderr)
+        return record
+
+    def get(self, reflection_id: str) -> Optional[ReflectionRecord]:
+        """Retrieve a reflection by exact ID."""
+        return self._reflections.get(reflection_id)
+
+    def query(self, scope_text: str, top_k: int = 3) -> List[Dict[str, Any]]:
+        """
+        Retrieve top-K reflections most relevant to scope_text, scored by
+        keyword overlap against `summary` + `scope_of_applicability` — the
+        same two fields the memory_reflection Qdrant collection embeds
+        (01-technical-options.md §2).
+
+        Production note: this in-memory keyword-overlap implementation is a
+        development/test fallback, mirroring SemanticMemory.query()'s own
+        documented limitation. Production retrieval goes through
+        agent-memory's search_memory tool with memory_type="reflection"
+        (Phase 2 — out of scope for this module).
+
+        Args:
+            scope_text: Natural language description of the current
+                        situation/task.
+            top_k: Maximum number of reflections to return.
+
+        Returns:
+            List of dicts with 'reflection_id', 'summary',
+            'scope_of_applicability', 'trigger_type', 'sacred'.
+        """
+        query_words = set(scope_text.lower().split())
+        scored = []
+        for record in self._reflections.values():
+            haystack = f"{record.summary} {record.scope_of_applicability}".lower()
+            haystack_words = set(haystack.split())
+            overlap = len(query_words & haystack_words)
+            score = overlap / max(len(query_words), 1)
+            if score > 0:
+                scored.append((score, record))
+
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return [
+            {
+                "reflection_id": r.reflection_id,
+                "summary": r.summary,
+                "scope_of_applicability": r.scope_of_applicability,
+                "trigger_type": r.trigger_type,
+                "sacred": r.sacred,
+            }
+            for _, r in scored[:top_k]
+        ]
+
+    def get_sacred_reflections(self) -> List[ReflectionRecord]:
+        """Return all sacred reflections verbatim. GOVERNANCE_TRIGGERS
+        records default sacred=True and are exempt from the decay job
+        (02-storage-specification.md §2.3)."""
+        return [r for r in self._reflections.values() if r.sacred]
+
+    def __len__(self) -> int:
+        return len(self._reflections)

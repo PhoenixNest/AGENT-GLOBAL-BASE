@@ -39,6 +39,13 @@ class HandoffPacket:
         budget: Token budget for the receiving agent.
         metadata: Arbitrary key-value metadata. NOTE: direct assignment bypasses GSM scope
             enforcement. Use write_to_log()/read_from_log() for cross-agent metadata.
+        retrieved_reflections: Prior Reflexion-style reflections surfaced as informational
+            context for this task (e.g. via the orchestrator's proactive memory_reflection
+            retrieval hook). Distinct from sacred_context: these are a "required read," not
+            a "must not be overridden" constraint — a retrieved reflection is not itself a
+            decision the receiving agent is bound by, even when its source ReflectionRecord
+            happens to be sacred=True. See
+            telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §5.2.
     """
 
     tier: HandoffTier = HandoffTier.SCOPED
@@ -49,6 +56,7 @@ class HandoffPacket:
     relevant_files: list[str] = field(default_factory=list)
     budget: int = 128_000
     metadata: dict[str, Any] = field(default_factory=dict)
+    retrieved_reflections: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize to dictionary for transport."""
@@ -61,6 +69,7 @@ class HandoffPacket:
             "relevant_files": self.relevant_files,
             "budget": self.budget,
             "metadata": self.metadata,
+            "retrieved_reflections": self.retrieved_reflections,
         }
 
     @classmethod
@@ -75,6 +84,7 @@ class HandoffPacket:
             relevant_files=data.get("relevant_files", []),
             budget=data.get("budget", 128_000),
             metadata=data.get("metadata", {}),
+            retrieved_reflections=data.get("retrieved_reflections", []),
         )
 
     def validate(self, expected_fleet_id: Optional[str] = None) -> list[str]:
@@ -147,6 +157,7 @@ class HandoffPacket:
         """Rough estimate of token count for this packet."""
         text = self.task + " ".join(self.acceptance_criteria)
         text += " ".join(self.sacred_context)
+        text += " ".join(self.retrieved_reflections)
         if self.conversation_history:
             for msg in self.conversation_history:
                 text += msg.get("content", "")
