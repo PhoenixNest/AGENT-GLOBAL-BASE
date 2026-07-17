@@ -68,24 +68,14 @@ if ($prompt -match '(?i)\b(must|should|ensure|require|constraint|criterion|crite
 }
 
 $threshold = 3
-if ($score -ge $threshold) {
-    # Pass-path visibility: without this, "the gate evaluated this prompt and it passed"
-    # and "the gate did not run" are indistinguishable to the user — both produce no
-    # visible signal. Emit a minimal, non-blocking indicator instead of exiting silently.
-    $passContext = "[H-P01: prompt met quality threshold ($score/5), proceeding without confirmation]"
-    $passOutput = [ordered]@{
-        hookSpecificOutput = [ordered]@{
-            hookEventName     = "UserPromptSubmit"
-            additionalContext = $passContext
-        }
-    } | ConvertTo-Json -Depth 5 -Compress
-    Write-Output $passOutput
-    exit 0
-}
+$metThreshold = $score -ge $threshold
 
 # Structural enforcement: mark this session as having a pending confirmation.
 # prompt-gate-enforcer.ps1 (PreToolUse) denies any tool but AskUserQuestion while this
 # marker exists; prompt-gate-clear.ps1 (PostToolUse) removes it once that tool is called.
+# Applies on BOTH the pass and fail path — a prompt meeting the threshold still requires
+# confirmation before proceeding (workspace policy: confirm-and-append is symmetric, not
+# a below-threshold-only behavior).
 $repoRoot = git rev-parse --show-toplevel 2>$null
 if ($LASTEXITCODE -eq 0 -and $data.session_id) {
     $stateDir = Join-Path $repoRoot '.claude/hooks/.state'
@@ -95,24 +85,47 @@ if ($LASTEXITCODE -eq 0 -and $data.session_id) {
 }
 
 $missingStr  = $missing -join ', '
+if ($missing.Count -eq 0) { $missingStr = 'none — all 5 dimensions satisfied' }
 $complexity  = if ($missing.Count -le 2) { 'simple' } else { 'complex' }
 $questionCount = if ($complexity -eq 'simple') { '1-2' } else { '2-4' }
+
+$statusLine = if ($metThreshold) {
+    "Quality score: $score/5 (threshold: $threshold/5) — threshold met; confirmation still required per workspace policy."
+} else {
+    "Quality score: $score/5 (threshold: $threshold/5)"
+}
+
+$contextLine = if ($metThreshold) {
+    "This prompt meets the quality threshold, but confirmation is still required before proceeding — the confirm-and-append step is symmetric across the pass and fail paths, not a below-threshold-only behavior. A PreToolUse hook denies any tool call other than AskUserQuestion until step 2 completes, so this is a required step, not a suggestion to weigh."
+} else {
+    "This prompt is below the quality threshold. Complete the steps below before starting the task. A PreToolUse hook denies any tool call other than AskUserQuestion until step 2 completes, so this is a required step, not a suggestion to weigh."
+}
+
+$optimizeInstruction = if ($metThreshold) {
+    "Lightly polish the prompt for clarity/structure only if it meaningfully helps — the prompt already satisfies all 5 dimensions, so this is optional refinement, not dimension-filling. If no meaningful polish exists, the ""optimized"" option may be identical to the original."
+} else {
+    "Rewrite the prompt to add the missing dimensions: $missingStr."
+}
+
+$ifOriginalInstruction = if ($metThreshold) {
+    "Print this block first — before any other sentence, tool call, or commentary — then execute using the original text as the working brief (no clarifying questions needed; all 5 dimensions were already satisfied, so rejecting the polish suggestion just means proceeding as written):"
+} else {
+    "Print this block first — before any other sentence, tool call, or commentary — then ask $questionCount clarifying questions (one per missing dimension: $missingStr), wait for answers, and repeat from step 1:"
+}
 
 $additionalContext = @"
 [PROMPT OPTIMIZER — H-P01]
 <status>
-Quality score: $score/5 (threshold: $threshold/5)
+$statusLine
 Missing dimensions: $missingStr
 </status>
 
 <context>
-This prompt is below the quality threshold. Complete the steps below before starting the task.
-A PreToolUse hook denies any tool call other than AskUserQuestion until step 2 completes, so
-this is a required step, not a suggestion to weigh.
+$contextLine
 </context>
 
 <step id="1" name="optimize">
-Rewrite the prompt to add the missing dimensions: $missingStr.
+$optimizeInstruction
 Preserve the original intent exactly — improve clarity, specificity, and structure only.
 Ground the rewrite in workspace conventions (CC-00 patterns, pipeline stages, agent roles)
 where relevant.
@@ -147,9 +160,7 @@ set a preview field — that triggers a dual-pane panel that can truncate long t
     ---
   </if_optimized>
   <if_original>
-  Print this block first — before any other sentence, tool call, or commentary — then ask
-  $questionCount clarifying questions (one per missing dimension: $missingStr), wait for
-  answers, and repeat from step 1:
+  $ifOriginalInstruction
     ---
     **Prompt selected:** Original
     **Working brief:** <full original text>
