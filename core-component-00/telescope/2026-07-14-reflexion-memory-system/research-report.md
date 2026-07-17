@@ -41,10 +41,10 @@ published by Anthropic's own research organization and the wider field, with an 
 requirement to specify what warrants storage as a reflection, how it should be stored, why
 persistence (rather than ephemeral context) is justified, and what the deployment path looks
 like. This is not a green-field request: a "reflexion framework" was already **named and
-promised** in this lab's own prior work. `telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md`
-opens by stating that the workspace's reflexion framework "is not yet operational" and that its
-one logged entry, `MISTAKE-001`, is held there only until reflexion exists to receive it. This
-report is that framework's design, and closes that open commitment.
+promised** in this lab's own prior work — the 2026-07-13-mcp-embedder-service-redesign Programme's
+`MISTAKE-001`, held pending until reflexion existed to receive it. This report is that framework's
+design, and closes that open commitment; `MISTAKE-001` is now migrated as `REFLECT-004` in the
+`memory_reflection` collection (see § Audit History).
 
 We benchmarked three architectures published by Anthropic's own research team — the
 self-critique/revision loop underpinning **Constitutional AI** (Bai et al., 2022, a framework Dr.
@@ -167,8 +167,9 @@ surveyed, not a coincidence worth treating as a data point in isolation.
 - This workspace's existing `context-engineering/implementations/memory_store.py`,
   `core-component-00/mcp-servers/agent-memory/` (README + server contract), and
   `telescope/2026-07-10-agent-memory-architecture/` (prior programme this investigation extends)
-- `telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md` and
-  `agent-systems-engineering/governance/adr-ase-001.md` (EX-001 Exceptions Log entry)
+- the 2026-07-13-mcp-embedder-service-redesign Programme's `MISTAKE-001` (now `REFLECT-004` in
+  `memory_reflection`) and `agent-systems-engineering/governance/adr-ase-001.md` (EX-001
+  Exceptions Log entry)
 - Crew profiles: `crew/director/elias-vance/`, `crew/safety-evaluation/tomasz-wieczorek/`
 
 ### Constraints
@@ -452,7 +453,8 @@ on-demand (an extension of `agent-memory`'s existing `search_memory` tool to
 - `core-component-00/mcp-servers/agent-memory/README.md`
 - `core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md` (prior
   programme this investigation extends, not duplicates)
-- `core-component-00/telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md`
+- `REFLECT-004` in the `memory_reflection` collection (formerly the 2026-07-13-mcp-embedder-service-redesign
+  Programme's `MISTAKE-001`)
 - `core-component-00/agent-systems-engineering/governance/adr-ase-001.md` (EX-001 Exceptions Log)
 - `crew/director/elias-vance/agent/profile.md`; `crew/safety-evaluation/tomasz-wieczorek/agent/profile.md`
 - `supporting/00-sources-and-references.md`, `supporting/01-technical-options.md`,
@@ -476,9 +478,9 @@ the summary below is a condensed pointer, not a substitute.
 - `2026-07-10-agent-memory-architecture` — the prior programme establishing the Qdrant/JSONL
   Memory-as-Corpus pattern and the `active → dormant → archived` decay lifecycle this design
   reuses rather than re-deriving.
-- `2026-07-13-mcp-embedder-service-redesign` — the programme whose `mistake-log.md` created the
-  standing commitment this report closes, and whose `adr-ase-001.md` EX-001 entry is the
-  governance-level precedent for formally logging a remediated finding.
+- `2026-07-13-mcp-embedder-service-redesign` — the programme whose `MISTAKE-001` (now `REFLECT-004`)
+  created the standing commitment this report closes, and whose `adr-ase-001.md` EX-001 entry is
+  the governance-level precedent for formally logging a remediated finding.
 
 ---
 
@@ -575,52 +577,10 @@ CEO.
 
 ### Mistake Log
 
-**`MISTAKE-2026-07-14-001` — Prompt Optimization Gate (H-P01) reportedly not executed on two
-occasions.** Logged on the CEO's report; root cause not immediately reconstructable from session
-context. A dedicated harness-engineering forensic pass (Kwame Asante, 2026-07-15) scanned this
-session's complete raw transcript directly and found exactly 6 genuine H-P01 firings across the
-entire session, every one followed by the required `AskUserQuestion` confirmation — 6/6 compliant,
-zero exceptions. The candidate explanation that the two flagged prompts scored ≥3/5 and no
-confirmation was structurally owed is the one consistent with all available evidence, though the
-two specific flagged turns could not be forensically identified after the fact. **Status: Closed**
-(2026-07-15) — no code or process change required, the gate was functioning as documented.
-**Migrated 2026-07-16 as `REFLECT-001`**, the Programme's first production reflection record, into
-the `memory_reflection` collection under the CEO's direct live authorization.
-
-**`MISTAKE-2026-07-14-002` — Ambiguous `../`-style relative paths throughout audit documents.**
-Every audit document used relative-path chains whose correctness depended on the file's current
-folder depth, breaking on every folder move (demonstrated directly when two files moved into
-`01-design-stage/` the same session). **Status: Remediated** (2026-07-14) — all `../`-style
-references replaced with full workspace-root-relative paths; verified via repository-wide search
-returning zero remaining matches at the time. **Migrated 2026-07-16 as `REFLECT-002`** into the
-`memory_reflection` collection.
-
-**`MISTAKE-2026-07-16-001` — Git-identity-based authoring check does not distinguish human from
-co-located agent.** The most significant finding of this Programme's execution, in three rounds:
-
-1. **Round 1:** the original `logged_by` check (git config + roster allowlist) authenticates the
-   *machine*, not the *operator* — Dr. Wieczorek demonstrated this live by successfully passing
-   the check from his own adversarial-review agent, no forgery required.
-2. **Round 2:** Mei-Ling Zhao's rework (an `IdentityVerification` token + TTY-gated
-   `require_governance_confirmation()`) was still bypassable two ways — a caller could fabricate
-   the token directly (silently skipping confirmation, checked one layer up), or call
-   `PersistentMemorySink.write_reflection()` directly, bypassing every check above it.
-3. **Round 3 (final):** governance confirmation folded directly into the identity token via
-   `dataclasses.replace()`, checked independently at both `record_reflection()` and
-   `write_reflection()`. Verified correctly implemented by Wieczorek's third pass (2026-07-16) and
-   independently re-confirmed by the implementation-stage adversarial evaluation (above).
-
-**Final architectural conclusion (stands as this Programme's most consequential design decision):**
-no purely code-level check running inside Claude Code's own tool-execution environment can be
-unforgeable, because any Python-importable layer is skippable by calling something lower — there
-is no floor a purely in-process check can stand on. For `GOVERNANCE_TRIGGERS` records, the actual
-security boundary is **procedural**: genuine, live, in-transcript confirmation from the real human
-user, never relayed through an intermediary agent — mirroring the precedent already established
-this session for `.claude/hooks/` self-modification. The code-level layers are retained and
-honestly documented as defense-in-depth against careless/accidental misuse, not as the boundary
-itself. **Status: Resolved** — closed by the round-3 rework and both independent verification
-passes. **Migrated 2026-07-16 as `REFLECT-003`** into the `memory_reflection` collection under
-the CEO's direct live authorization.
+This Programme's mistake log, and the 2026-07-13-mcp-embedder-service-redesign Programme's own
+`MISTAKE-001`, are fully migrated into the `memory_reflection` collection — `REFLECT-001` through
+`REFLECT-004` are the canonical record; query `search_memory(memory_type="reflection")` or the
+collection directly for the full text of each.
 
 ---
 
@@ -670,6 +630,7 @@ recommendations — warrant a version increment.
 | ------- | ---------- | --------------- | --------------------------------- |
 | 1.0     | 2026-07-14 | Dr. Elias Vance | Initial research report completed |
 | 1.1     | 2026-07-16 | Dr. Elias Vance | Added § Audit History as the canonical record of independent reviews and the mistake log |
+| 1.2     | 2026-07-16 | Dr. Elias Vance | Retired the Mistake Log subsection's prose, now fully superseded by REFLECT-001 through REFLECT-004 in the memory_reflection collection |
 
 ---
 

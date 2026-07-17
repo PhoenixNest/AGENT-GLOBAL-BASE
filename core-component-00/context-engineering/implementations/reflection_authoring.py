@@ -27,8 +27,9 @@ Identity enforcement — the actual security boundary, stated plainly (revised
     of the user's authorization, because consent must be present directly
     in the transcript of whoever performs the action. See
     supporting/03-deployment-guidelines.md's revised Phase 1 "done" gate and
-    research-report.md's § Audit History, MISTAKE-2026-07-16-001 entry, for
-    the full reasoning behind this pivot. Nothing below changes that.
+    REFLECT-003 (the memory_reflection collection's own MISTAKE-2026-07-16-001
+    record) for the full reasoning behind this pivot. Nothing below changes
+    that.
 
     Why code alone cannot be the boundary: two full rounds of
     implementation + adversarial review by Dr. Wieczorek established that

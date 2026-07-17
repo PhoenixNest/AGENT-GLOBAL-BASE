@@ -560,11 +560,10 @@ class IdentityVerification:
     logged_by value. ReflectionMemory.record_reflection() requires one of
     these — never a bare logged_by string — as its `identity` argument.
 
-    This closes the direct-import bypass documented in
-    core-component-00/telescope/2026-07-14-reflexion-memory-system/
-    research-report.md § Audit History (MISTAKE-2026-07-16-001): before this
-    gate existed, any caller importing memory_store.py directly (rather
-    than going through reflection_authoring.py) could call
+    This closes the direct-import bypass documented in REFLECT-003 (the
+    memory_reflection collection's own MISTAKE-2026-07-16-001 record):
+    before this gate existed, any caller importing memory_store.py directly
+    (rather than going through reflection_authoring.py) could call
     record_reflection() with an arbitrary logged_by and no identity check
     ran at all — reflection_authoring.py's wrapper was the *only* enforced
     checkpoint, and it was trivially skippable by importing this module
