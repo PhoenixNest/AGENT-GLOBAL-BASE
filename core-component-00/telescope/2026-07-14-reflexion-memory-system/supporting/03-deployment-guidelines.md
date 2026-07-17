@@ -41,16 +41,16 @@ up a new instance:
 5. Implement an identity-enforcement mechanism on the authoring script so `logged_by` cannot be
    an arbitrary unauthenticated string — e.g. requiring the script to run only under an
    authenticated human/Director session, matching how git commit authorship is already enforced
-   in this workspace. This closes `audits/01-design-stage/01-safety-self-review.md` §2.2
-   (Dr. Wieczorek's Open finding: a non-empty-string check is a formatting check, not identity
-   verification).
+   in this workspace. This closes the Independent Safety Self-Review's §2.2 (Dr. Wieczorek's Open
+   finding: a non-empty-string check is a formatting check, not identity verification) — see
+   `research-report.md` § Audit History.
 
 **Gate — Phase 1 begins:** does not start until Phase 1's test suite passes and Dr. Wieczorek has
 reviewed the schema for the write-path threat-model concerns raised in `research-report.md`
-Finding 4 (see `audits/01-design-stage/01-safety-self-review.md`).
+Finding 4 (see `research-report.md` § Audit History, Design-Stage Reviews).
 
-**Gate — Phase 1 is done (revised 2026-07-16, per `audits/mistake-log.md` MISTAKE-2026-07-16-001's
-2026-07-16 Update):** Two full rounds of implementation + adversarial review established that no
+**Gate — Phase 1 is done (revised 2026-07-16, per `research-report.md` § Audit History's
+`MISTAKE-2026-07-16-001` entry):** Two full rounds of implementation + adversarial review established that no
 purely code-level check running inside Claude Code's own tool-execution environment can make
 identity/authorization for this write path unforgeable — any layer (a token, a TTY prompt) is
 skippable by calling something lower (the sink, the raw JSONL/Qdrant calls), since an agent has
@@ -67,7 +67,8 @@ further bypass; it is no longer the gate. The revised gate has two parts:
    intermediary agent, per this workspace's own tested precedent for `.claude/hooks/`
    self-modification) is required before any such record is treated as authorized to persist for
    real. This must be documented plainly in `reflection_authoring.py`'s module docstring and in
-   `01-safety-self-review.md` §2.2's final disposition — not asserted only here.
+   `research-report.md` § Audit History's record of the Independent Safety Self-Review's §2.2
+   final disposition — not asserted only here.
 
 Dr. Wieczorek's role in closing this gate is now scoped to verifying (1) doesn't regress anything
 and (2) is honestly documented — not to further bypass-hunting, since code is no longer claimed as
@@ -102,19 +103,21 @@ proceed" rather than block brief issuance.
 ## Phase 3 — Migration (P1)
 
 **Status: complete 2026-07-16.** Worktree integrated into `core00/dev/engineering` (commits
-`5d724d87`, `07d1174b`); `pytest context-engineering/testing/ -v` (283/283 relevant) and
-`pytest multi-agent-engineering/testing/ -v` (37/37) reverified green post-integration.
+`f8fe937f`, `8f432148`, `200a38d2`). `pytest context-engineering/testing/ -v` (283/283 relevant)
+and `pytest multi-agent-engineering/testing/ -v` (37/37) reverified green post-integration.
 
 1. **Done.** Authored `REFLECT-001` (`MISTAKE-2026-07-14-001`'s migration) via the
    Investigator-Authored Write Path, under the CEO's direct live authorization (the actual
-   security boundary for this `GOVERNANCE_TRIGGERS` record, per `mistake-log.md`
-   MISTAKE-2026-07-16-001's resolution) — the CLI's TTY-interactivity check is structurally
+   security boundary for this `GOVERNANCE_TRIGGERS` record, per `research-report.md` § Audit
+   History's `MISTAKE-2026-07-16-001` entry) — the CLI's TTY-interactivity check is structurally
    unsatisfiable by any Claude Code tool invocation (verified directly:
    `sys.stdin.isatty()` is always `False` in this environment), so the documented
    `stdin`/`prompt_fn` test-only injection points were used with the CEO's explicit,
    transparent authorization, not silently. `migrated_from` set to the full
-   workspace-root-relative anchor (`core-component-00/telescope/2026-07-14-reflexion-memory-system/supporting/audits/mistake-log.md#MISTAKE-2026-07-14-001`),
-   `logged_by="Elias Vance"` preserving the original investigator of record.
+   workspace-root-relative anchor
+   (`core-component-00/telescope/2026-07-14-reflexion-memory-system/research-report.md#audit-history`,
+   the `MISTAKE-2026-07-14-001` entry under § Mistake Log), `logged_by="Elias Vance"` preserving
+   the original investigator of record.
    **Defect found and fixed during this step:** `PersistentMemorySink.write_reflection()` and
    `QdrantMemoryIndex.rebuild_from_log()`'s reflection branch both passed the human-readable
    `reflection_id` directly as the Qdrant point ID, which Qdrant rejects (valid point IDs are an
@@ -123,9 +126,9 @@ proceed" rather than block brief issuance.
    `uuid5`-derived point ID (`memory_vector_store.py`'s `_reflection_point_id()`), keeping
    `reflection_id` as the record's real identity in the payload. Full context-engineering suite
    reverified green after the fix (283/283 relevant tests).
-2. **Done.** `mistake-log.md`'s `MISTAKE-2026-07-14-001` entry's Status line updated to record the
-   migration — the entry itself is left unedited above that line as the historical record, per
-   this workspace's append-only convention; the file is not deleted.
+2. **Done.** `MISTAKE-2026-07-14-001`'s Status line (now in `research-report.md` § Audit History)
+   records the migration — the entry itself is preserved unedited above that line as the
+   historical record, per this workspace's append-only convention.
 3. **Done, with a caveat inherited from a pre-existing, already-documented issue.** After
    integration and an `agent-memory` MCP reconnect, `search_memory(memory_type="reflection", ...)`
    correctly recognizes the new type (confirms Phase 2's code is live) but returns
@@ -173,17 +176,18 @@ Farouk/Yusuf for the orchestrator hook, Vance for the Phase 3 migration) were ve
 against each person's actual module ownership and left unchanged.
 
 **Revised again 2026-07-15** (same day, director's final pre-implementation review): Phase 1 §5
-added above, and a corresponding checklist row below, so `01-safety-self-review.md` §2.2's Open
-finding (no identity enforcement on the authoring script's `logged_by` field) is a checkable
-Phase-1 completion gate here, not only a note inside the audit document.
+added above, and a corresponding checklist row below, so the Independent Safety Self-Review's
+§2.2 Open finding (no identity enforcement on the authoring script's `logged_by` field) is a
+checkable Phase-1 completion gate here, not only a note inside the audit document (now
+`research-report.md` § Audit History).
 
 | Step                                                                                                              | Owner                                                                                        | Gate                                                                                                                                                                                                                                     |
 | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Preconditions verified (§0: `qdrant-memory` container, shared model cache, `agent-memory/server.py` reachability) | Ravi Deshmukh                                                                                | All three §0 preconditions confirmed before Phase 1 begins — his cross-cutting dev-environment/dependency mandate, not implicitly assumed by whoever starts Phase 1                                                                      |
 | Phase 1 schema + collection + tests green                                                                         | Mei-Ling Zhao                                                                                | `pytest context-engineering/testing/ -v` passes                                                                                                                                                                                          |
-| Phase 1 §5 — authoring-script identity enforcement                                                                | Mei-Ling Zhao (implementation); Dr. Tomasz Wieczorek (verification)                          | Closes `audits/01-design-stage/01-safety-self-review.md` §2.2 with a concrete mechanism — Phase 1 is not "done," and `MISTAKE-001`'s migration (Phase 3) must not proceed, until Wieczorek confirms this closes cleanly                  |
+| Phase 1 §5 — authoring-script identity enforcement                                                                | Mei-Ling Zhao (implementation); Dr. Tomasz Wieczorek (verification)                          | Closes the Independent Safety Self-Review's §2.2 with a concrete mechanism (see `research-report.md` § Audit History) — Phase 1 is not "done," and `MISTAKE-001`'s migration (Phase 3) must not proceed, until Wieczorek confirms this closes cleanly |
 | Phase 1/2 harness-pattern conformance review                                                                      | Kwame Asante                                                                                 | Confirms the `error_boundary.py` timeout-guarded, degrade-gracefully pattern this plan claims to reuse "verbatim" (§0, Phase 2 §1) is applied correctly and introduces no new failure-mode class — signed off by the pattern's own owner |
-| Dr. Wieczorek's write-path review                                                                                 | Dr. Tomasz Wieczorek                                                                         | Sign-off recorded in `audits/01-design-stage/01-safety-self-review.md` or a follow-up adversarial-evaluation doc                                                                                                                         |
+| Dr. Wieczorek's write-path review                                                                                 | Dr. Tomasz Wieczorek                                                                         | Sign-off recorded in `research-report.md` § Audit History (Design-Stage Reviews and Implementation-Stage Review)                                                                                                                         |
 | Phase 2 retrieval extension + orchestrator hook + tests green                                                     | Sofia Almeida / Diego Fontán (retrieval); Dr. Idris Farouk / Amina Yusuf (orchestrator hook) | `pytest multi-agent-engineering/testing/ -v` passes; anti-pattern review complete (Dr. Idris Farouk, against `multi-agent-engineering/patterns/anti-patterns.md`)                                                                        |
 | Phase 3 `MISTAKE-001` migration                                                                                   | Dr. Elias Vance                                                                              | Round-trip verified via `search_memory`                                                                                                                                                                                                  |
 | CEO sign-off                                                                                                      | CEO                                                                                          | User Approval Gate — required before Phase 1 begins, per this workspace's stage-gate convention                                                                                                                                          |
