@@ -562,7 +562,7 @@ class IdentityVerification:
 
     This closes the direct-import bypass documented in
     core-component-00/telescope/2026-07-14-reflexion-memory-system/
-    supporting/audits/mistake-log.md (MISTAKE-2026-07-16-001): before this
+    research-report.md § Audit History (MISTAKE-2026-07-16-001): before this
     gate existed, any caller importing memory_store.py directly (rather
     than going through reflection_authoring.py) could call
     record_reflection() with an arbitrary logged_by and no identity check

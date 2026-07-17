@@ -15,12 +15,12 @@ Programme (2026-07-15).
 This template is not invented from nothing. It reconciles two things that already exist and were
 never previously made to match field-for-field:
 
-1. **This workspace's own empirically-used pattern.** `supporting/audits/mistake-log.md`'s two
-   entries (`MISTAKE-2026-07-14-001`, `MISTAKE-2026-07-14-002`) already converged, independently,
-   on a structure — Classification, Dates, Logged by, Requirement violated, What happened, Root
-   cause, Remediation, Status, and dated Update blocks appended rather than silently rewritten.
-   That structure was arrived at under real use, twice, before this template existed — it is
-   evidence, not a guess.
+1. **This workspace's own empirically-used pattern.** `research-report.md` § Audit History's
+   mistake log — its first two entries, `MISTAKE-2026-07-14-001` and `MISTAKE-2026-07-14-002` —
+   already converged, independently, on a structure — Classification, Dates, Logged by,
+   Requirement violated, What happened, Root cause, Remediation, Status, and dated Update blocks
+   appended rather than silently rewritten. That structure was arrived at under real use, twice,
+   before this template existed — it is evidence, not a guess.
 2. **Professional incident-review practice**, specifically the parts of it that this workspace's
    own emergent pattern already independently reproduced, which is itself a signal those parts are
    load-bearing rather than ceremony:

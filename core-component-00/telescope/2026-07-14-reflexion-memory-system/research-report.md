@@ -26,12 +26,10 @@ Ravi Deshmukh (Infrastructure — preconditions verification). The last three we
 verified agent assignments against `crew/CLAUDE.md`'s actual module-ownership records and found
 two gaps (no owner for preconditions verification; the reused harness pattern was never reviewed
 by harness-engineering) — see that document's revision note. Independent audit: Dr. Tomasz
-Wieczorek (Staff Safety & Evaluation Engineer) — see
-`supporting/audits/01-design-stage/01-safety-self-review.md`. Director alignment review (against
-the CEO's "Reflexion system" research focus, at the CEO's request): Dr. Elias Vance — see
-`supporting/audits/01-design-stage/02-director-alignment-review.md`. Both audit-type documents,
-plus the Programme's mistake log, are filed under `supporting/audits/` per the CEO's
-audit-subfolder convention — see `supporting/audits/README.md`.
+Wieczorek (Staff Safety & Evaluation Engineer). Director alignment review (against the CEO's
+"Reflexion system" research focus, at the CEO's request): Dr. Elias Vance. Both reviews, the
+post-implementation adversarial evaluation, and the Programme's mistake log: see § Audit History
+below.
 
 ---
 
@@ -73,9 +71,9 @@ time against a `scope_of_applicability` field — closing the exact failure mode
 `MISTAKE-001` in the first place: a corrected rule that lived only in a document no orchestrator
 brief was required to consult. Full technical specification: `supporting/01-technical-options.md`;
 storage specification (what/how/why): `supporting/02-storage-specification.md`; deployment:
-`supporting/03-deployment-guidelines.md`; self-review: `supporting/audits/01-design-stage/01-safety-self-review.md`;
-director alignment review: `supporting/audits/01-design-stage/02-director-alignment-review.md`; mistake log:
-`supporting/audits/mistake-log.md`; full bibliography: `supporting/00-sources-and-references.md`.
+`supporting/03-deployment-guidelines.md`; self-review, director alignment review, the
+post-implementation adversarial evaluation, and the mistake log: see § Audit History below; full
+bibliography: `supporting/00-sources-and-references.md`.
 
 ---
 
@@ -152,7 +150,7 @@ phase mapping each surveyed mechanism onto this workspace's existing `memory_sto
 `agent-memory` MCP server, and multi-agent orchestration pattern, explicitly reconciling with the
 prior `2026-07-10-agent-memory-architecture` programme rather than re-deriving it from scratch;
 (3) an independent self-review pass cross-checking the design against the CEO's explicit asks
-(`supporting/audits/01-design-stage/01-safety-self-review.md`).
+(§ Audit History, Design-Stage Reviews).
 
 **Freshness note (per RAG freshness protocol):** Anthropic's multi-agent research system writeup
 (2025) and its Memory for Managed Agents public beta (April 2026) both postdate or sit at the edge
@@ -421,7 +419,7 @@ on-demand (an extension of `agent-memory`'s existing `search_memory` tool to
 3. **Route the reflection write path's schema validation through Dr. Wieczorek's evaluation
    function** before production activation, consistent with how the prior programme's
    contradiction-check logic was gated (`2026-07-10-agent-memory-architecture/supporting/07-adversarial-evaluation-results.md`)
-   — see `supporting/audits/01-design-stage/01-safety-self-review.md` for the applied review.
+   — see § Audit History below for the applied review.
 
 ### Implementation Priority
 
@@ -459,8 +457,7 @@ on-demand (an extension of `agent-memory`'s existing `search_memory` tool to
 - `crew/director/elias-vance/agent/profile.md`; `crew/safety-evaluation/tomasz-wieczorek/agent/profile.md`
 - `supporting/00-sources-and-references.md`, `supporting/01-technical-options.md`,
   `supporting/02-storage-specification.md`, `supporting/03-deployment-guidelines.md`,
-  `supporting/audits/01-design-stage/01-safety-self-review.md`, `supporting/audits/01-design-stage/02-director-alignment-review.md`,
-  `supporting/audits/mistake-log.md`, `supporting/audits/README.md` (this programme)
+  § Audit History below (this programme)
 
 ### External Sources (retrieved via live web search, 2026-07-14)
 
@@ -482,6 +479,146 @@ the summary below is a condensed pointer, not a substitute.
 - `2026-07-13-mcp-embedder-service-redesign` — the programme whose `mistake-log.md` created the
   standing commitment this report closes, and whose `adr-ase-001.md` EX-001 entry is the
   governance-level precedent for formally logging a remediated finding.
+
+---
+
+## Audit History
+
+Independent reviews and the Programme's mistake log, in full. This is the authoritative,
+canonical record — not a pointer to another document.
+
+### Design-Stage Reviews (2026-07-14)
+
+**Independent Safety Self-Review** (Dr. Tomasz Wieczorek). Checked all eight of the CEO's literal
+requirements against the design bundle — all eight **Met** at the design-documentation level
+(specified, not yet implemented/validated, which this report's own Status field already
+disclosed). Five independent findings:
+
+- **Confirmed** — the write-gating rationale (no MCP write tool, investigator-gated writes) is
+  sound and consistent with every benchmarked architecture.
+- **Open at design stage, later closed** — the "named investigator" `logged_by` attribution had
+  no real identity enforcement, only a non-empty-string check. This became the seed of
+  `MISTAKE-2026-07-16-001` (below); Wieczorek's final 2026-07-16 verification pass confirmed the
+  round-3 rework is correctly implemented as defense-in-depth, with the real accountability
+  boundary for `GOVERNANCE_TRIGGERS` records honestly documented as procedural (live human
+  confirmation), not code.
+- **Conditionally Met** — the claim that the existing decay job "already skips all `sacred=True`
+  records" was asserted, not independently re-verified (the decay job didn't exist yet at design
+  time either). Later shown by the implementation-stage review (below) not to hold for reflections
+  as stated.
+- **Open, disclosed** — the five-category trigger taxonomy is validated against only one real
+  historical instance (`MISTAKE-001`); no larger corpus exists yet to test against.
+- **Not yet tested** — retrieval precision of free-text `scope_of_applicability` matching is
+  unvalidated; an inherited, not new, risk.
+
+Overall verdict: **Conditionally ready for CEO sign-off** — coherent, well-precedented design, no
+new prompt-injectable write surface, with the identity-enforcement gap required to close (with a
+real mechanism, not a documented expectation) before Phase 1 could be considered done.
+
+**Director Alignment Review** (Dr. Elias Vance, self-review at CEO's request). Confirmed the named
+Reflexion architecture (Shinn et al.) was genuinely benchmarked, not gestured at
+(component-by-component mapping, cited 91% pass@1 result). Central finding: the recommended design
+is investigator-gated, cross-session, and persisted for months — materially different in cadence
+and authorship from Reflexion's tight autonomous within-task retry loop — a deliberate, disclosed,
+and correct trade given this workspace's write-tool threat model, but one the Executive Summary
+didn't name prominently enough. Verdict: **Aligned in substance**, with a required framing
+clarification (reproduced below) to accompany any future briefing of this report, and a
+recommended (not commissioned) follow-up — a purely ephemeral, `WorkingMemory`-only,
+agent-authored reflection variant to recover Reflexion's original tight-loop benefit without
+reopening the write-tool decision — CEO-approved in principle 2026-07-15 as its own future,
+separately-commissioned Programme (Open Question 4, above).
+
+> **Required clarification (verbatim, per the Director Alignment Review):** "This system is named
+> and framed after Reflexion (Shinn et al., 2023) and implements its core insight — a synthesized,
+> retrievable lesson persisted from a failed or corrected attempt — but deliberately does not
+> implement Reflexion's autonomous, agent-authored, within-task retry loop. That mechanism was
+> considered and rejected (Finding 4, Option A) because it would reopen a write-tool threat model
+> this workspace's `agent-memory` server has already and deliberately declined to accept. What is
+> built instead is a slower, human-gated, cross-session analog, closer in cadence to Anthropic's
+> own Memory for Managed Agents pattern than to Reflexion's tight loop, while still drawing its
+> taxonomy-of-what-to-persist directly from Reflexion and Generative Agents' importance-gating
+> principle."
+
+### Implementation-Stage Review (2026-07-16)
+
+**Independent Adversarial Evaluation** (Dr. Tomasz Wieczorek, post-merge, against real code and
+live infrastructure — commits `f8fe937f`, `8f432148`, `200a38d2`). Confirmed: both test suites are
+real and pass (283/1-deselected; 37/37, including all six `TestReflectionRetrievalHook` cases);
+test coverage exercises genuine behavior (real bypass attempts, real throwaway git repos, real
+production-repo identity checks), not mock-call assertions; the write-boundary (no MCP write tool)
+is intact; the three-round identity-gate hardening from `MISTAKE-2026-07-16-001` holds under
+independent re-verification against the actual code; the one production record `REFLECT-001` is
+genuinely correct end-to-end, independently re-derived and matched against live Qdrant via direct
+REST query; the `agent-memory` MCP server's live degradation is the same pre-existing,
+already-documented infrastructure limitation, not introduced by this Programme; design fidelity
+elsewhere (schema, embedded-text choice, `HandoffPacket.retrieved_reflections` kept distinct from
+`sacred_context`, the `AUTHORIZED_INVESTIGATOR_NAMES` allowlist matching the Laboratory Roster
+exactly) is solid.
+
+New findings: **(1)** the decay/maintenance job (`memory_maintenance.py`) never actually processes
+`memory_reflection` records at all — not because it correctly skips sacred ones as
+`01-technical-options.md` §3 claimed, but because reflections are never fed into it; net effect is
+more conservative than documented (nothing ever decays) but the documentation overstates what's
+wired — open follow-up, not a security gap. **(2)** `03-deployment-guidelines.md`'s Phase 3 status
+cited commit hashes (`5d724d87`, `07d1174b`) that no longer existed in reachable history after the
+CEO-approved history rewrite — corrected in that document to the current hashes. **(3, escalated)**
+`core00/dev/engineering` was found tracking a real GitHub remote with the rewritten history already
+pushed there, contradicting this workspace's documented "local-only, no remote" convention —
+escalated to the CEO outside this Programme's scope; the CEO has since confirmed the remote's
+existence and reiterated the local-only, no-push convention (2026-07-16). **(4)** no standalone
+sign-off artifact exists for Dr. Farouk's Phase 2 anti-pattern review, though the behavior it gates
+is directly test-covered — minor paper-trail gap, still open.
+
+Overall verdict: **Ready for ASE ratification**, with findings (1) and (2) as non-blocking
+follow-ups and the remote/push finding already escalated and resolved at the policy level by the
+CEO.
+
+### Mistake Log
+
+**`MISTAKE-2026-07-14-001` — Prompt Optimization Gate (H-P01) reportedly not executed on two
+occasions.** Logged on the CEO's report; root cause not immediately reconstructable from session
+context. A dedicated harness-engineering forensic pass (Kwame Asante, 2026-07-15) scanned this
+session's complete raw transcript directly and found exactly 6 genuine H-P01 firings across the
+entire session, every one followed by the required `AskUserQuestion` confirmation — 6/6 compliant,
+zero exceptions. The candidate explanation that the two flagged prompts scored ≥3/5 and no
+confirmation was structurally owed is the one consistent with all available evidence, though the
+two specific flagged turns could not be forensically identified after the fact. **Status: Closed**
+(2026-07-15) — no code or process change required, the gate was functioning as documented.
+**Migrated 2026-07-16 as `REFLECT-001`**, the Programme's first production reflection record, into
+the `memory_reflection` collection under the CEO's direct live authorization.
+
+**`MISTAKE-2026-07-14-002` — Ambiguous `../`-style relative paths throughout audit documents.**
+Every audit document used relative-path chains whose correctness depended on the file's current
+folder depth, breaking on every folder move (demonstrated directly when two files moved into
+`01-design-stage/` the same session). **Status: Remediated** (2026-07-14) — all `../`-style
+references replaced with full workspace-root-relative paths; verified via repository-wide search
+returning zero remaining matches at the time.
+
+**`MISTAKE-2026-07-16-001` — Git-identity-based authoring check does not distinguish human from
+co-located agent.** The most significant finding of this Programme's execution, in three rounds:
+
+1. **Round 1:** the original `logged_by` check (git config + roster allowlist) authenticates the
+   *machine*, not the *operator* — Dr. Wieczorek demonstrated this live by successfully passing
+   the check from his own adversarial-review agent, no forgery required.
+2. **Round 2:** Mei-Ling Zhao's rework (an `IdentityVerification` token + TTY-gated
+   `require_governance_confirmation()`) was still bypassable two ways — a caller could fabricate
+   the token directly (silently skipping confirmation, checked one layer up), or call
+   `PersistentMemorySink.write_reflection()` directly, bypassing every check above it.
+3. **Round 3 (final):** governance confirmation folded directly into the identity token via
+   `dataclasses.replace()`, checked independently at both `record_reflection()` and
+   `write_reflection()`. Verified correctly implemented by Wieczorek's third pass (2026-07-16) and
+   independently re-confirmed by the implementation-stage adversarial evaluation (above).
+
+**Final architectural conclusion (stands as this Programme's most consequential design decision):**
+no purely code-level check running inside Claude Code's own tool-execution environment can be
+unforgeable, because any Python-importable layer is skippable by calling something lower — there
+is no floor a purely in-process check can stand on. For `GOVERNANCE_TRIGGERS` records, the actual
+security boundary is **procedural**: genuine, live, in-transcript confirmation from the real human
+user, never relayed through an intermediary agent — mirroring the precedent already established
+this session for `.claude/hooks/` self-modification. The code-level layers are retained and
+honestly documented as defense-in-depth against careless/accidental misuse, not as the boundary
+itself. **Status: Resolved** — closed by the round-3 rework and both independent verification
+passes.
 
 ---
 
@@ -530,6 +667,7 @@ recommendations — warrant a version increment.
 | Version | Date       | Author          | Changes                           |
 | ------- | ---------- | --------------- | --------------------------------- |
 | 1.0     | 2026-07-14 | Dr. Elias Vance | Initial research report completed |
+| 1.1     | 2026-07-16 | Dr. Elias Vance | Added § Audit History as the canonical record of independent reviews and the mistake log |
 
 ---
 
