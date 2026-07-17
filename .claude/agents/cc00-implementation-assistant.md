@@ -42,4 +42,4 @@ Implement production-quality LLM engineering code and configurations using the C
 
 ## Invocation Example
 
-> "Implement a context assembler for the company's new RAG-based search feature. Use the four-slot context model and integrate with the existing memory_store.py. The feature must pass ASE compliance. Context files: core-component-00/context-engineering/implementations/context_assembler.py, memory_store.py, governance/compliance-standard.md"
+> "Implement a context assembler for the company's new RAG-based search feature. Use the four-slot context model and integrate with the existing memory_store.py. The feature must pass ASE compliance. Context files: core-component-00/engineering/context-engineering/implementations/context_assembler.py, memory_store.py, governance/compliance-standard.md"

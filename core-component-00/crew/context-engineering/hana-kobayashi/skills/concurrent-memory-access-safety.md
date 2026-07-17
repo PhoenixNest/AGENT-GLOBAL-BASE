@@ -59,4 +59,4 @@ or downstream agent behavior) identified during Phase 3 vetting.
 ## References
 
 - Adversarial Evaluation Design (Dr. Wieczorek) — source of the original finding
-- `core-component-00/context-engineering/implementations/memory_store.py`
+- `core-component-00/engineering/context-engineering/implementations/memory_store.py`

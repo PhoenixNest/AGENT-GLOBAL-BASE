@@ -32,13 +32,13 @@ protocol: `crew/README.md` and `crew/CLAUDE.md`.
 
 ## The Five-Module Engineering Stack
 
-| Layer                     | Module Folder                     | Type                  | Has Tests? |
-| ------------------------- | --------------------------------- | --------------------- | ---------- |
-| 1 — What to write         | `prompt-engineering/`             | Knowledge base        | No         |
-| 2 — How to structure it   | `context-engineering/`            | Knowledge + Framework | Yes        |
-| 3 — How to execute safely | `harness-engineering/`            | Production Framework  | Yes        |
-| 4 — Where to get content  | `retrieval-augmented-generation/` | Production Framework  | Yes        |
-| 5 — How agents cooperate  | `multi-agent-engineering/`        | Production Framework  | Yes        |
+| Layer                     | Module Folder                              | Type                  | Has Tests? |
+| ------------------------- | ------------------------------------------- | --------------------- | ---------- |
+| 1 — What to write         | `engineering/prompt-engineering/`           | Knowledge base        | No         |
+| 2 — How to structure it   | `engineering/context-engineering/`          | Knowledge + Framework | Yes        |
+| 3 — How to execute safely | `engineering/harness-engineering/`          | Production Framework  | Yes        |
+| 4 — Where to get content  | `retrieval-augmented-generation/`           | Production Framework  | Yes        |
+| 5 — How agents cooperate  | `engineering/multi-agent-engineering/`      | Production Framework  | Yes        |
 
 ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a sixth module. See
 `agent-systems-engineering/`.
@@ -49,16 +49,16 @@ ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a s
 
 All paths relative to `core-component-00/`:
 
-| File                                                            | Module | Purpose                                                |
-| --------------------------------------------------------------- | ------ | ------------------------------------------------------ |
-| `context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
-| `context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
-| `context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
-| `harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery               |
-| `harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                               |
-| `harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits, dangerous task detection |
-| `multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                           |
-| `multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                               |
+| File                                                                         | Module | Purpose                                                |
+| ---------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
+| `engineering/context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
+| `engineering/context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
+| `engineering/context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
+| `engineering/harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery               |
+| `engineering/harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                               |
+| `engineering/harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits, dangerous task detection |
+| `engineering/multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                           |
+| `engineering/multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                               |
 
 ---
 
@@ -68,10 +68,10 @@ Run tests **per-module from the module folder** to avoid duplicate-package impor
 
 ```powershell
 # From core-component-00/
-pytest context-engineering/testing/ -v
-pytest harness-engineering/testing/ -v
+pytest engineering/context-engineering/testing/ -v
+pytest engineering/harness-engineering/testing/ -v
 pytest retrieval-augmented-generation/testing/ -v
-pytest multi-agent-engineering/testing/ -v
+pytest engineering/multi-agent-engineering/testing/ -v
 ```
 
 Do NOT run all modules together with a single root-level `pytest .` — this causes import conflicts.
@@ -101,6 +101,10 @@ All LLM-powered systems built in this workspace are bound by the ASE framework �
 
 Governing documents: `agent-systems-engineering/governance/`
 
+> **Note (2026-07-16):** `prompt-engineering/`, `context-engineering/`, `harness-engineering/`, and
+> `multi-agent-engineering/` were relocated under `engineering/` on this date.
+> `retrieval-augmented-generation/` and `agent-systems-engineering/` were not moved.
+
 ---
 
 ## Where to Look
@@ -110,11 +114,11 @@ Governing documents: `agent-systems-engineering/governance/`
 | Full lab overview + researcher profile              | `README.md`                             |
 | Governing framework + compliance                    | `agent-systems-engineering/`            |
 | Synthesis of all five layers                        | `agent-systems-engineering/CONCEPTS.md` |
-| Prompt patterns                                     | `prompt-engineering/`                   |
-| Context window architecture                         | `context-engineering/`                  |
-| Safe model execution                                | `harness-engineering/`                  |
+| Prompt patterns                                     | `engineering/prompt-engineering/`       |
+| Context window architecture                         | `engineering/context-engineering/`      |
+| Safe model execution                                | `engineering/harness-engineering/`      |
 | RAG pipelines                                       | `retrieval-augmented-generation/`       |
-| Multi-agent / swarm systems                         | `multi-agent-engineering/`              |
+| Multi-agent / swarm systems                         | `engineering/multi-agent-engineering/`  |
 | Lab Director persona + crew roster                  | `crew/`                                 |
 | Research reports (CC-00 engineering + LLM research) | `telescope/`                            |
 | Cross-cutting / workspace-wide research             | `../telescope/` (workspace root)        |

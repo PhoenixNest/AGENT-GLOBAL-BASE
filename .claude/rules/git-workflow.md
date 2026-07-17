@@ -64,4 +64,4 @@ Single-line commits with no body are a P2 defect.
 
 **Branch naming:** `agent/<role>/<task>` (e.g., `agent/backend/dark-mode-api`)
 
-**Full spec:** `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+**Full spec:** `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`

@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 # H-P01: UserPromptSubmit — Smart Prompt Optimizer
 # Scores the user's prompt on 5 quality dimensions drawn from CC-00 prompt-engineering
-# patterns (core-component-00/prompt-engineering/fundamentals/). Below-threshold prompts
+# patterns (core-component-00/engineering/prompt-engineering/fundamentals/). Below-threshold prompts
 # trigger additionalContext instructing Claude to optimize the prompt and use
 # AskUserQuestion for confirmation before proceeding with the actual task.
 #

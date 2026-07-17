@@ -129,6 +129,6 @@ to the next stage, it checks:
 
 ## CC-00 References
 
-- `core-component-00/harness-engineering/` — Quality gate implementation patterns
-- `core-component-00/multi-agent-engineering/patterns/orchestration-patterns.md` —
+- `core-component-00/engineering/harness-engineering/` — Quality gate implementation patterns
+- `core-component-00/engineering/multi-agent-engineering/patterns/orchestration-patterns.md` —
   Pipeline pattern governs artifact gating between stages

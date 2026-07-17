@@ -148,7 +148,7 @@ review agent both review the same PR), their severity assignments must be reconc
 
 ## CC-00 References
 
-- `core-component-00/harness-engineering/patterns/prompt-templates.md` — Error boundary
+- `core-component-00/engineering/harness-engineering/patterns/prompt-templates.md` — Error boundary
   prompts that reference this severity vocabulary
-- `core-component-00/multi-agent-engineering/patterns/orchestration-patterns.md` —
+- `core-component-00/engineering/multi-agent-engineering/patterns/orchestration-patterns.md` —
   Pipeline pattern's quality gate mechanism

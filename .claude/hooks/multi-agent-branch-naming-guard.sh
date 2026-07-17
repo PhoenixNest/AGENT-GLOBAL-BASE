@@ -3,7 +3,7 @@
 # Detects git commands that create new branches and validates the branch name
 # against the workspace multi-agent naming convention:
 #   agent/<role>/<task>  or  stage<N>/agent/<role>/<task>
-# Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 
 raw_input=$(cat)
 
@@ -36,7 +36,7 @@ echo "$branch_name" | grep -qE '^(feature|fix|chore|docs|refactor|test)/.*$' && 
 
 [ "$is_valid" -eq 1 ] && exit 0
 
-reason="[BRANCH NAMING GUARD — H-MAE01] Branch name '$branch_name' does not follow workspace conventions. Multi-agent branches must be: agent/<role>/<task> or stage<N>/agent/<role>/<task> (e.g., agent/backend/dark-mode-api). Standard branches (feature/, fix/, company/, studio/) are also accepted. Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
+reason="[BRANCH NAMING GUARD — H-MAE01] Branch name '$branch_name' does not follow workspace conventions. Multi-agent branches must be: agent/<role>/<task> or stage<N>/agent/<role>/<task> (e.g., agent/backend/dark-mode-api). Standard branches (feature/, fix/, company/, studio/) are also accepted. Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
 
 REASON="$reason" python3 -c "import os,json; print(json.dumps({'hookSpecificOutput':{'hookEventName':'PreToolUse','permissionDecision':'deny','permissionDecisionReason':os.environ['REASON']}}))"
 exit 0

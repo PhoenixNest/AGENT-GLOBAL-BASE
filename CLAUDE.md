@@ -85,11 +85,12 @@ AGENT-GLOBAL-BASE/
 │
 ├── core-component-00/                    ← CC-00 Lab — ONLY place with runnable code  [→ core-component-00/CLAUDE.md]
 │   ├── agent-systems-engineering/        ← ASE governing meta-module
-│   ├── prompt-engineering/               ← Layer 1 (docs only)
-│   ├── context-engineering/              ← Layer 2 (docs + Python + pytest)
-│   ├── harness-engineering/              ← Layer 3 (docs + Python + pytest)
+│   ├── engineering/                      ← Layers 1, 2, 3, 5 (see below)
+│   │   ├── prompt-engineering/           ← Layer 1 (docs only)
+│   │   ├── context-engineering/          ← Layer 2 (docs + Python + pytest)
+│   │   ├── harness-engineering/          ← Layer 3 (docs + Python + pytest)
+│   │   └── multi-agent-engineering/      ← Layer 5 (docs + Python + pytest)
 │   ├── retrieval-augmented-generation/   ← Layer 4 (docs + Python + requirements.txt)
-│   ├── multi-agent-engineering/          ← Layer 5 (docs + Python + pytest)
 │   ├── director/                         ← Lab Director persona (Dr. Elias Vance)
 │   └── telescope/                        ← Lab research archive (engineering + LLM research)
 │
@@ -125,7 +126,7 @@ AGENT-GLOBAL-BASE/
   - Branch: `agent/<role>/<task>` (or `stage<N>/agent/<role>/<task>`)
   - Commit subject: `agent/<name>: <verb-phrase>` (≤72 chars, imperative, lowercase)
   - Commit body: hyphen-bulleted discrete changes — a bodyless single-line commit is a P2 defect
-  - Full spec: `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+  - Full spec: `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 ---
 
@@ -266,4 +267,4 @@ When `[CONTEXT BUDGET ALERT — H-CE01]` appears in a `<system-reminder>`:
 
 - Apply Sacred Context principles immediately before this response
 - Prioritize: active task state > prior decisions > background knowledge
-- Reference: `core-component-00/context-engineering/implementations/context_monitor.py`
+- Reference: `core-component-00/engineering/harness-engineering/implementations/context_monitor.py`

@@ -14,6 +14,12 @@ direction separately from the Company's product research (`company/telescope/`) 
 game/market research (`studio/casual-games/telescope/`). See workspace-root `telescope/README.md`
 for the cross-department index.
 
+> **Note (2026-07-17):** `prompt-engineering/`, `context-engineering/`, `harness-engineering/`,
+> and `multi-agent-engineering/` were relocated to `core-component-00/engineering/` on this date.
+> `retrieval-augmented-generation/` was not moved. Archived reports below predate this change and
+> retain their original module paths as written — see `core-component-00/CLAUDE.md` for current
+> paths.
+
 ---
 
 ## Archive Structure

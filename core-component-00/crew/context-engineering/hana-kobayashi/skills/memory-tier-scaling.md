@@ -58,5 +58,5 @@ session count grows.
 
 ## References
 
-- `core-component-00/context-engineering/implementations/memory_store.py`
+- `core-component-00/engineering/context-engineering/implementations/memory_store.py`
 - Memory Store Engineering (Mei-Ling Zhao) — the module lead's tier-boundary design ownership

@@ -13,7 +13,7 @@ version: "1.0.0"
 ## Overview
 
 Production implementation and tuning of the four-slot context window assembly pattern defined in
-`core-component-00/context-engineering/implementations/context_assembler.py`: System, Working,
+`core-component-00/engineering/context-engineering/implementations/context_assembler.py`: System, Working,
 Retrieved, and Conversation slots, assembled under a token budget with deterministic priority
 ordering.
 
@@ -62,4 +62,4 @@ ordering.
 ## References
 
 - CC-00 Six Pillars of Context Engineering (Dr. Vance, internal framework, 2025)
-- `core-component-00/context-engineering/implementations/context_assembler.py`
+- `core-component-00/engineering/context-engineering/implementations/context_assembler.py`

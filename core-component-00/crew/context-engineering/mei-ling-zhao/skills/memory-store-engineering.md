@@ -13,7 +13,7 @@ version: "1.0.0"
 ## Overview
 
 Design and production hardening of the four-tier memory store implemented in
-`core-component-00/context-engineering/implementations/memory_store.py`, distinguishing episodic
+`core-component-00/engineering/context-engineering/implementations/memory_store.py`, distinguishing episodic
 (session events), semantic (durable facts), procedural (learned patterns), and working (current
 task) memory.
 
@@ -60,4 +60,4 @@ task) memory.
 ## References
 
 - CC-00 Six Pillars of Context Engineering (Dr. Vance, internal framework, 2025)
-- `core-component-00/context-engineering/implementations/memory_store.py`
+- `core-component-00/engineering/context-engineering/implementations/memory_store.py`

@@ -32,7 +32,7 @@ of problem. The specification is the contract between layers.
 ## Reference Architecture
 
 All five layers are specified in `core-component-00/`. The canonical integration guide
-is `core-component-00/context-engineering/workspace/integration-guide.md`. Consult it
+is `core-component-00/engineering/context-engineering/workspace/integration-guide.md`. Consult it
 alongside this skill before producing the design.
 
 ## Design Process

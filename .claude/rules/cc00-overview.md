@@ -17,11 +17,11 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 | Layer | Module                            | Type                  | Purpose                  |
 | ----- | --------------------------------- | --------------------- | ------------------------ |
-| 1     | `prompt-engineering/`             | Knowledge base        | What to write            |
-| 2     | `context-engineering/`            | Knowledge + Framework | How to structure it      |
-| 3     | `harness-engineering/`            | Production Framework  | How to execute safely    |
-| 4     | `retrieval-augmented-generation/` | Production Framework  | Where to get content     |
-| 5     | `multi-agent-engineering/`        | Production Framework  | How agents cooperate     |
+| 1     | `engineering/prompt-engineering/`      | Knowledge base        | What to write            |
+| 2     | `engineering/context-engineering/`     | Knowledge + Framework | How to structure it      |
+| 3     | `engineering/harness-engineering/`     | Production Framework  | How to execute safely    |
+| 4     | `retrieval-augmented-generation/`      | Production Framework  | Where to get content     |
+| 5     | `engineering/multi-agent-engineering/` | Production Framework  | How agents cooperate     |
 | Meta  | `agent-systems-engineering/`      | Governance            | Compliance & integration |
 
 ---
@@ -30,17 +30,17 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 | File                                                            | Module | Purpose                                        |
 | --------------------------------------------------------------- | ------ | ---------------------------------------------- |
-| `context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly              |
-| `context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory |
-| `context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                       |
-| `harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery       |
-| `harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                       |
-| `harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits                   |
-| `retrieval-augmented-generation/implementations/chunker.py`     | RAG    | Fixed-size, semantic, hybrid chunking          |
-| `retrieval-augmented-generation/implementations/retrieval.py`   | RAG    | BM25 scoring, RRF fusion, ACL filtering        |
-| `retrieval-augmented-generation/implementations/pipeline.py`    | RAG    | End-to-end RAG pipeline (injectable deps)      |
-| `multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                   |
-| `multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                       |
+| `engineering/context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly              |
+| `engineering/context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory |
+| `engineering/context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                       |
+| `engineering/harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery       |
+| `engineering/harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                       |
+| `engineering/harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits                   |
+| `retrieval-augmented-generation/implementations/chunker.py`                 | RAG    | Fixed-size, semantic, hybrid chunking          |
+| `retrieval-augmented-generation/implementations/retrieval.py`               | RAG    | BM25 scoring, RRF fusion, ACL filtering        |
+| `retrieval-augmented-generation/implementations/pipeline.py`                | RAG    | End-to-end RAG pipeline (injectable deps)      |
+| `engineering/multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                   |
+| `engineering/multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                       |
 
 ---
 
@@ -61,8 +61,8 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 | ------------------------------- | ---------------------------------------------------------------- |
 | Understand the full laboratory  | `core-component-00/README.md`                                    |
 | Learn about ASE governance      | `core-component-00/agent-systems-engineering/README.md`          |
-| Design context windows          | `core-component-00/context-engineering/fundamentals/`            |
-| Implement error boundaries      | `core-component-00/harness-engineering/implementations/`         |
-| Build RAG pipelines             | `core-component-00/retrieval-augmented-generation/architecture/` |
-| Orchestrate multi-agent systems | `core-component-00/multi-agent-engineering/fundamentals/`        |
+| Design context windows          | `core-component-00/engineering/context-engineering/fundamentals/`     |
+| Implement error boundaries      | `core-component-00/engineering/harness-engineering/implementations/`  |
+| Build RAG pipelines             | `core-component-00/retrieval-augmented-generation/architecture/`      |
+| Orchestrate multi-agent systems | `core-component-00/engineering/multi-agent-engineering/fundamentals/` |
 | Document research findings      | `core-component-00/telescope/README.md`                          |

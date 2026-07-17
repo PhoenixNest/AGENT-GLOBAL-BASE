@@ -58,5 +58,5 @@ losing all in-flight work.
 
 ## References
 
-- `core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py`
+- `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`
 - Swarm Topology Engineering (Dr. Farouk) — the module lead's primary ownership area

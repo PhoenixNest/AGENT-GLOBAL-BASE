@@ -55,5 +55,5 @@ running simultaneously must never leak state, context, or results across fleet b
 
 ## References
 
-- `core-component-00/multi-agent-engineering/testing/test_swarm_orchestrator.py`
+- `core-component-00/engineering/multi-agent-engineering/testing/test_swarm_orchestrator.py`
 - Adversarial Evaluation Design (Dr. Wieczorek) — escalation path for confirmed isolation gaps

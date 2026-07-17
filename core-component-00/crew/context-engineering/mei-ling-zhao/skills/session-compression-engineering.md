@@ -13,7 +13,7 @@ version: "1.0.0"
 ## Overview
 
 Implementation and tuning of long-session compression in
-`core-component-00/context-engineering/implementations/context_compressor.py`, applying Sacred
+`core-component-00/engineering/context-engineering/implementations/context_compressor.py`, applying Sacred
 Context principles (decision-critical content preserved losslessly, background context
 summarized) as sessions approach the context budget threshold.
 
@@ -64,4 +64,4 @@ summarized) as sessions approach the context budget threshold.
 
 - Sacred Context: Preserving Decision Continuity Across Long Agent Sessions (Dr. Vance, research
   note, 2026)
-- `core-component-00/context-engineering/implementations/context_compressor.py`
+- `core-component-00/engineering/context-engineering/implementations/context_compressor.py`

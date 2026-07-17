@@ -12,10 +12,10 @@ version: "1.0.0"
 
 ## Overview
 
-Production implementation of `core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py`
+Production implementation of `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`
 — swarm topology selection (hierarchical, mesh, pipeline, hub-and-spoke) and orchestration
 execution for multi-agent fleets, including the `fleet_id`-scoped orchestration required by
-`core-component-00/multi-agent-engineering/testing/test_swarm_orchestrator.py`.
+`core-component-00/engineering/multi-agent-engineering/testing/test_swarm_orchestrator.py`.
 
 ## Tools & Frameworks
 
@@ -65,5 +65,5 @@ execution for multi-agent fleets, including the `fleet_id`-scoped orchestration 
 
 ## References
 
-- `core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py`
+- `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`
 - Multi-Agent Orchestration Design (Dr. Vance, `skills/multi-agent-orchestration-design.md`)

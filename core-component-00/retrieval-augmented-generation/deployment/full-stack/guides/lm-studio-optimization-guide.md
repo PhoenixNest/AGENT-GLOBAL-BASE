@@ -1595,8 +1595,8 @@ python core-component-00\retrieval-augmented-generation\tools\test_rag_pipeline.
 | Document                | Location                                                                               | Purpose                                  |
 | ----------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------- |
 | **RAG Architecture**    | `core-component-00/retrieval-augmented-generation/architecture/overview.md`            | System architecture and component design |
-| **Context Engineering** | `core-component-00/context-engineering/README.md`                                      | 4-slot context assembly patterns         |
-| **Harness Engineering** | `core-component-00/harness-engineering/README.md`                                      | Error boundaries and safe execution      |
+| **Context Engineering** | `core-component-00/engineering/context-engineering/README.md`                                      | 4-slot context assembly patterns         |
+| **Harness Engineering** | `core-component-00/engineering/harness-engineering/README.md`                                      | Error boundaries and safe execution      |
 | **Quick Start Guide**   | `core-component-00/retrieval-augmented-generation/deployment/quick-start-guide.md`     | Complete RAG deployment walkthrough      |
 | **Model Comparison**    | `core-component-00/retrieval-augmented-generation/deployment/model-comparison-2026.md` | Comprehensive model benchmarks           |
 
