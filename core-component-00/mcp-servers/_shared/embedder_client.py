@@ -41,7 +41,7 @@ _LOCK_FILE = _RUN_DIR / "embedder-service.lock"
 # Reuse _call_with_hard_timeout rather than re-implement it. Mirrors the
 # cross-module import agent-memory/server.py and workspace-knowledge/server.py
 # already both do for memory_vector_store.py.
-_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "context-engineering"
+_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "engineering" / "context-engineering"
 if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
     sys.path.insert(0, str(_CONTEXT_ENGINEERING_ROOT))
 from implementations.memory_vector_store import _call_with_hard_timeout  # noqa: E402
@@ -53,7 +53,7 @@ from implementations.memory_vector_store import _call_with_hard_timeout  # noqa:
 # since Python 3.10), a distinct class from error_boundary.TimeoutError
 # despite the shared name. `concurrent.futures.TimeoutError`, fully
 # qualified, stays the one canonical timeout name at every call site here.
-_HARNESS_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "harness-engineering"
+_HARNESS_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "engineering" / "harness-engineering"
 if str(_HARNESS_ENGINEERING_ROOT) not in sys.path:
     sys.path.insert(0, str(_HARNESS_ENGINEERING_ROOT))
 from implementations.error_boundary import ValidationError, ServiceUnavailableError  # noqa: E402
