@@ -78,11 +78,19 @@ _SHARED_MODEL_SLUG = "sentence-transformers--all-MiniLM-L6-v2"
 
 # Importing sentence_transformers pulls in torch + scipy/sklearn, taking
 # anywhere from ~9s to 50+s on a cold process depending on machine state —
-# far past typical MCP tool-call timeouts. Loading happens instead in a
-# background thread started the moment this module is imported (i.e. at
-# server process startup, not blocking FastMCP's own startup/handshake
-# either). Any search_memory call that arrives before loading finishes just
-# degrades gracefully (embedder still None) — never blocks, never hangs.
+# far past typical MCP tool-call timeouts — and this import can also wedge
+# indefinitely partway through without ever releasing CPython's import
+# lock. A held import lock blocks bootstrapping of any new OS thread in the
+# process, including the one QdrantClient's own constructor spawns
+# internally, so an eager, always-on warmup thread starting this import at
+# module-import time can stall unrelated tool calls that never needed the
+# in-process embedder at all (the embedder-service path below normally
+# covers that need). Loading is therefore lazy: the background thread only
+# starts on-demand, the first time _get_embedder() actually needs the
+# in-process fallback (see _ensure_embedder_load_started() below). Any
+# search_memory call that arrives before loading finishes, or before it
+# has even been triggered, degrades gracefully (embedder still None) —
+# never blocks, never hangs.
 #
 # The load can also stall indefinitely rather than merely being slow (see
 # mcp-governance.md's agent-memory row and telescope/2026-07-13-mcp-embedder-
@@ -95,13 +103,18 @@ _EMBEDDER_LOAD_MAX_ATTEMPTS = 2
 
 _embedder_cache: Optional[Callable[[str], List[float]]] = None
 _embedder_lock = threading.Lock()
-# "loading" | "ready" | "failed: <exc>" — distinguishes "still warming up"
-# from "actually broken" in the search_memory degraded-reason message.
-# "Loading" does not imply the model is missing — provisioning and
+# "not started" | "loading" | "ready" | "failed: <exc>" — distinguishes
+# "never triggered", "still warming up", and "actually broken" in the
+# search_memory degraded-reason message. "Not started" is the module-import
+# default now that the warmup thread is lazily triggered rather than eager
+# (see _ensure_embedder_load_started() below) — it must not be conflated
+# with "loading", since nothing has begun importing anything yet in that
+# state. "Loading" does not imply the model is missing — provisioning and
 # background-thread readiness are independent; the shared cache can be
 # fully correct while this state is still "loading" for an arbitrarily
 # long time on a cold process.
-_embedder_state: str = "loading"
+_embedder_state: str = "not started"
+_embedder_load_started = False
 
 
 def _import_and_build_embedder() -> Callable[[str], List[float]]:
@@ -147,7 +160,27 @@ def _load_embedder_background() -> None:
         # _get_embedder() keeps returning None on any non-return path above; search_memory degrades gracefully
 
 
-threading.Thread(target=_load_embedder_background, daemon=True, name="embedder-warmup").start()
+def _ensure_embedder_load_started() -> None:
+    """
+    Starts the in-process embedder-warmup thread on first need instead of
+    unconditionally at module-import time. The import chain this thread
+    runs (sentence_transformers -> scipy.sparse.linalg) can wedge
+    indefinitely without releasing CPython's import lock, and a held
+    import lock blocks bootstrapping of any new OS thread in the process —
+    including the one QdrantClient's constructor spawns internally.
+    Triggering the thread only from _get_embedder(), and only when the
+    embedder-service path is not ready, keeps this fragile import chain
+    from ever racing against unrelated startup activity in the process.
+    Idempotent — safe to call on every _get_embedder() invocation; only the
+    first call per process starts the thread.
+    """
+    global _embedder_load_started, _embedder_state
+    with _embedder_lock:
+        if _embedder_load_started:
+            return
+        _embedder_load_started = True
+        _embedder_state = "loading"
+    threading.Thread(target=_load_embedder_background, daemon=True, name="embedder-warmup").start()
 
 
 def _get_in_process_embedder() -> Optional[Callable[[str], List[float]]]:
@@ -204,6 +237,11 @@ def _get_embedder() -> Optional[Callable[[str], List[float]]]:
     block or raise" via embedder_unavailable_reason.
     """
     service_ready = EMBEDDER_SERVICE_ENABLED and _embedder_service_ready()
+    if not service_ready:
+        # Only the in-process fallback needs this fragile import chain — no
+        # reason to pay its risk when the embedder-service already has us
+        # covered.
+        _ensure_embedder_load_started()
     in_process = _get_in_process_embedder()
 
     if not service_ready and in_process is None:
@@ -233,6 +271,8 @@ def _get_embedder_unavailable_reason() -> str:
             f"embedding unavailable (embedder-service: {service_state}; "
             f"in-process fallback: {in_process_state})"
         )
+    if in_process_state == "not started":
+        return "embedding model warmup not yet triggered (in-process fallback starts lazily on first need — retry shortly)"
     if in_process_state == "loading":
         return "embedding model still loading (background warmup in progress on this server process — retry shortly)"
     if in_process_state.startswith("failed"):
@@ -240,20 +280,35 @@ def _get_embedder_unavailable_reason() -> str:
     return "embedding model unavailable"  # unreachable in practice: "ready" implies embedder is not None
 
 
-def _get_memory_client() -> Any:
-    try:
-        from qdrant_client import QdrantClient
+_memory_client_cache: Any = None
+_memory_client_lock = threading.Lock()
 
-        _diag("constructing QdrantClient (hard-timeout guarded)...")
-        client = _call_with_hard_timeout(lambda: QdrantClient(url=MEMORY_QDRANT_URL, timeout=5))
-        _diag("QdrantClient constructed")
-        return client
-    except concurrent.futures.TimeoutError:
-        _diag("QdrantClient construction TIMED OUT")
-        return None
-    except Exception as exc:
-        _diag(f"QdrantClient construction failed: {exc}")
-        return None
+
+def _get_memory_client() -> Any:
+    """
+    Returns a QdrantClient constructed once per process and cached thereafter,
+    using a plain `timeout=5` — the same construction pattern
+    workspace-knowledge/server.py already uses against this same qdrant-memory
+    instance without incident. QdrantClient's constructor spawns its own
+    background thread internally; wrapping construction in an additional
+    watchdog thread does not shorten how long that internal thread takes to
+    start, and only adds a second thread that can itself be starved under
+    the same conditions.
+    """
+    global _memory_client_cache
+    with _memory_client_lock:
+        if _memory_client_cache is not None:
+            return _memory_client_cache
+        try:
+            from qdrant_client import QdrantClient
+
+            _diag("constructing QdrantClient (plain timeout=5, process-cached)...")
+            _memory_client_cache = QdrantClient(url=MEMORY_QDRANT_URL, timeout=5)
+            _diag("QdrantClient constructed")
+        except Exception as exc:
+            _diag(f"QdrantClient construction failed: {exc}")
+            return None
+        return _memory_client_cache
 
 
 mcp = FastMCP("agent-memory")
