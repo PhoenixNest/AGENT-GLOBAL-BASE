@@ -25,7 +25,7 @@ from fastmcp import FastMCP
 # Reuses the context-engineering module's memory implementation rather than
 # duplicating it — same pattern workspace-knowledge/server.py already uses
 # to pull in implementations/memory_vector_store.py for its health_check tool.
-_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "context-engineering"
+_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "engineering" / "context-engineering"
 if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
     sys.path.insert(0, str(_CONTEXT_ENGINEERING_ROOT))
 

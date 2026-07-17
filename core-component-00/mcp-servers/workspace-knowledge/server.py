@@ -33,7 +33,7 @@ SEARCH_BACKEND = os.getenv("SEARCH_BACKEND", "faiss").lower()
 # PersistentMemorySink, called directly by the agent runtime, not through any
 # MCP tool. This server only opens a read-only connection, and only to compute
 # the health_check tool's memory_instance block below.
-_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "context-engineering"
+_CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "engineering" / "context-engineering"
 if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
     sys.path.insert(0, str(_CONTEXT_ENGINEERING_ROOT))
 
