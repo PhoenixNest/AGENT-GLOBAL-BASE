@@ -592,7 +592,8 @@ Every audit document used relative-path chains whose correctness depended on the
 folder depth, breaking on every folder move (demonstrated directly when two files moved into
 `01-design-stage/` the same session). **Status: Remediated** (2026-07-14) — all `../`-style
 references replaced with full workspace-root-relative paths; verified via repository-wide search
-returning zero remaining matches at the time.
+returning zero remaining matches at the time. **Migrated 2026-07-16 as `REFLECT-002`** into the
+`memory_reflection` collection.
 
 **`MISTAKE-2026-07-16-001` — Git-identity-based authoring check does not distinguish human from
 co-located agent.** The most significant finding of this Programme's execution, in three rounds:
@@ -618,7 +619,8 @@ user, never relayed through an intermediary agent — mirroring the precedent al
 this session for `.claude/hooks/` self-modification. The code-level layers are retained and
 honestly documented as defense-in-depth against careless/accidental misuse, not as the boundary
 itself. **Status: Resolved** — closed by the round-3 rework and both independent verification
-passes.
+passes. **Migrated 2026-07-16 as `REFLECT-003`** into the `memory_reflection` collection under
+the CEO's direct live authorization.
 
 ---
 
