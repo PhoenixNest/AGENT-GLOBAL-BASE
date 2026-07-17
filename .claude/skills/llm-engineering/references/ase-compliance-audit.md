@@ -86,7 +86,7 @@ Assess the quality and structure of the system's instruction layer:
   is schema-constrained prompting used?
 - Are there few-shot examples where they would materially improve output consistency?
 - Do the prompts reflect the techniques documented in
-  `core-component-00/prompt-engineering/patterns/advanced-patterns.md`, or are they
+  `core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md`, or are they
   ad-hoc?
 
 **Checklist:**
@@ -133,7 +133,7 @@ Assess the execution envelope around model calls:
 - Is there an error boundary that recovers gracefully from transient failures rather than
   propagating raw exceptions to users?
 
-Reference: `core-component-00/harness-engineering/implementations/`
+Reference: `core-component-00/engineering/harness-engineering/implementations/`
 
 **Checklist:**
 

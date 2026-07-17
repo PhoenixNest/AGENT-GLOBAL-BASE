@@ -12,7 +12,7 @@ version: "1.0.0"
 
 ## Overview
 
-Production implementation of `core-component-00/harness-engineering/implementations/error_boundary.py`
+Production implementation of `core-component-00/engineering/harness-engineering/implementations/error_boundary.py`
 — the recovery layer wrapping LLM and tool calls with timeout handling, rate-limit backoff, and
 output validation recovery.
 
@@ -62,4 +62,4 @@ output validation recovery.
 ## References
 
 - Harness Engineering: Production Patterns for Reliable LLM Execution (Dr. Vance, framework spec, 2025)
-- `core-component-00/harness-engineering/implementations/error_boundary.py`
+- `core-component-00/engineering/harness-engineering/implementations/error_boundary.py`

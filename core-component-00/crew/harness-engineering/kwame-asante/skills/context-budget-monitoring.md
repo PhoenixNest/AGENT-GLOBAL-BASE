@@ -12,7 +12,7 @@ version: "1.0.0"
 
 ## Overview
 
-Production implementation of `core-component-00/harness-engineering/implementations/context_monitor.py`
+Production implementation of `core-component-00/engineering/harness-engineering/implementations/context_monitor.py`
 — token budget enforcement and tiered alerting that signals other modules (memory eviction,
 session compression) when a session approaches its context budget.
 
@@ -60,5 +60,5 @@ session compression) when a session approaches its context budget.
 
 ## References
 
-- `core-component-00/harness-engineering/implementations/context_monitor.py`
+- `core-component-00/engineering/harness-engineering/implementations/context_monitor.py`
 - Sacred Context principles (Dr. Vance / Mei-Ling Zhao, context-engineering)

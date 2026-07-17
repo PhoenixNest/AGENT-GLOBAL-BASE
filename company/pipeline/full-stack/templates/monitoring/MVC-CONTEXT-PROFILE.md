@@ -1,4 +1,4 @@
-﻿# Minimum Viable Context (MVC) Profile Template
+# Minimum Viable Context (MVC) Profile Template
 
 > **Addresses Gap:** #8 (MVC Enforcement)
 > **Usage:** Append this section to each agent profile under `company/departments/<dept>/.../<role>/agent/profile.md`
@@ -25,7 +25,7 @@ When dispatching a task to an agent, the orchestrator **must** consult the agent
 | **Tool Outputs** | _(in-session)_  | Validation results, orchestrator feedback            |   ≤ 15%    |          No          |
 
 **Prune trigger:** At 85% of model context window, invoke
-`core-component-00/context-engineering/implementations/context_compressor.py`.
+`core-component-00/engineering/context-engineering/implementations/context_compressor.py`.
 Compression priority order: Zone C → Zone B → **never Zone A**.
 
 > **Sacred Context rule:** Zone A items (agent identity, pipeline constraints, task objective) are
@@ -37,13 +37,13 @@ Compression priority order: Zone C → Zone B → **never Zone A**.
 
 For sessions exceeding **10 turns**, apply compression before assembling the next context window:
 
-1. Invoke `core-component-00/context-engineering/implementations/context_compressor.py`
+1. Invoke `core-component-00/engineering/context-engineering/implementations/context_compressor.py`
 2. Target Zone C (History slot) first — summarise completed stage outputs, retain only gate decisions and sign-offs
 3. Target Zone B (Retrieved slot) second — collapse artifact summaries, retain only active references
 4. **Never compress Zone A** — Sacred Context items travel whole in every handoff
 5. After compression, validate total context remains below 85% of model context window
 
-> Reference: `core-component-00/context-engineering/CONCEPTS.md` §compression
+> Reference: `core-component-00/engineering/context-engineering/CONCEPTS.md` §compression
 
 ---
 

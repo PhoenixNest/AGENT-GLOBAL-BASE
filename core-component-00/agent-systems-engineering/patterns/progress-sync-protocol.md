@@ -194,7 +194,7 @@ In the studio pipeline, escalation goes to the relevant Division Director.
 
 ## CC-00 References
 
-- `core-component-00/harness-engineering/implementations/context_monitor.py` — Token
+- `core-component-00/engineering/harness-engineering/implementations/context_monitor.py` — Token
   budget monitoring pattern analogous to variance monitoring
-- `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+- `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
   — Checkpoint commits in git serve as milestone markers for the PSP

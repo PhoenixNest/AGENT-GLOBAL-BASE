@@ -1,8 +1,8 @@
-﻿# Knowledge Transfer Protocol — Casual Games Studio
+# Knowledge Transfer Protocol — Casual Games Studio
 
 > **ASE Layer:** 2 — Context Engineering (institutional memory) + Layer 4 — RAG (static knowledge base)
 > **Authority:** Studio Director Dr. Marcus Vogel
-> **Reference:** `core-component-00/context-engineering/patterns/multi-agent-handoff.md`
+> **Reference:** `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`
 > **Related:** `rag-integration-blueprint.md` (explains why no live retrieval pipeline is used)
 
 This protocol defines how **institutional knowledge is captured, structured, and transferred** across stages, crew agents, and future projects within the Casual Games Studio.

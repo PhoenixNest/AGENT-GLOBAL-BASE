@@ -173,8 +173,8 @@ Before deploying to production:
 
 | Module                                                                    | Relationship                                                                                                                                            |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`context-engineering/`](core-component-00/context-engineering/README.md) | Consumes RAG-retrieved documents via `ContextAssembler.add_retrieved()`. Context slot budgets and priority ordering are defined in context-engineering. |
-| [`harness-engineering/`](core-component-00/harness-engineering/README.md) | Executes the assembled context window safely. Token budget enforcement for retrieved content is handled at the harness layer.                           |
+| [`context-engineering/`](core-component-00/engineering/context-engineering/README.md) | Consumes RAG-retrieved documents via `ContextAssembler.add_retrieved()`. Context slot budgets and priority ordering are defined in context-engineering. |
+| [`harness-engineering/`](core-component-00/engineering/harness-engineering/README.md) | Executes the assembled context window safely. Token budget enforcement for retrieved content is handled at the harness layer.                           |
 
 ---
 

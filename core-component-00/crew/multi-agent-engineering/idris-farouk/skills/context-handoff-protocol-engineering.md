@@ -12,10 +12,10 @@ version: "1.0.0"
 
 ## Overview
 
-Production implementation of `core-component-00/multi-agent-engineering/implementations/handoff_packet.py`
+Production implementation of `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`
 — the three-tier Context Handoff Protocol (Full / Scoped / Minimal) governing how orchestrator
 agents forward state to subagents without over-sharing or under-sharing context, per
-`core-component-00/context-engineering/patterns/multi-agent-handoff.md`.
+`core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`.
 
 ## Tools & Frameworks
 
@@ -65,5 +65,5 @@ agents forward state to subagents without over-sharing or under-sharing context,
 ## References
 
 - Multi-Agent Context Handoff Protocols (Dr. Vance, architecture spec, 2026)
-- `core-component-00/context-engineering/patterns/multi-agent-handoff.md`
-- `core-component-00/multi-agent-engineering/implementations/handoff_packet.py`
+- `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`
+- `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`

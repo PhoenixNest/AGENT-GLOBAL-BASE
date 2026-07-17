@@ -12,7 +12,7 @@ version: "1.0.0"
 
 ## Overview
 
-Production implementation of `core-component-00/harness-engineering/implementations/tool_registry.py`
+Production implementation of `core-component-00/engineering/harness-engineering/implementations/tool_registry.py`
 — tool whitelisting, per-session call limits, and dangerous-task pattern detection for
 agent-invoked tool calls.
 
@@ -63,5 +63,5 @@ agent-invoked tool calls.
 
 ## References
 
-- `core-component-00/harness-engineering/implementations/tool_registry.py`
+- `core-component-00/engineering/harness-engineering/implementations/tool_registry.py`
 - Harness Engineering: Production Patterns for Reliable LLM Execution (Dr. Vance, framework spec, 2025)

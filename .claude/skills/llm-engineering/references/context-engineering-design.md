@@ -29,7 +29,7 @@ underlying model is. Context engineering is the discipline of making the model s
 what it needs to see, in the right structure, at the right time.
 
 The foundational reference for this discipline is:
-`core-component-00/context-engineering/`
+`core-component-00/engineering/context-engineering/`
 
 ## Reference Materials
 
@@ -37,12 +37,12 @@ Read the following before producing a context design:
 
 | Document                                                                       | Purpose                                          |
 | ------------------------------------------------------------------------------ | ------------------------------------------------ |
-| `core-component-00/context-engineering/fundamentals/context-window-anatomy.md` | The four typed slots and their composition rules |
-| `core-component-00/context-engineering/fundamentals/memory-types.md`           | Episodic, semantic, procedural, working memory   |
-| `core-component-00/context-engineering/patterns/assembly-patterns.md`          | Dynamic assembly strategies                      |
-| `core-component-00/context-engineering/patterns/multi-agent-handoff.md`        | Full / Scoped / Minimal handoff protocol tiers   |
-| `core-component-00/context-engineering/implementations/context_assembler.py`   | Reference implementation of the assembler        |
-| `core-component-00/context-engineering/implementations/context_compressor.py`  | Sacred context compression for long sessions     |
+| `core-component-00/engineering/context-engineering/fundamentals/context-window-anatomy.md` | The four typed slots and their composition rules |
+| `core-component-00/engineering/context-engineering/fundamentals/memory-types.md`           | Episodic, semantic, procedural, working memory   |
+| `core-component-00/engineering/context-engineering/patterns/assembly-patterns.md`          | Dynamic assembly strategies                      |
+| `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`        | Full / Scoped / Minimal handoff protocol tiers   |
+| `core-component-00/engineering/context-engineering/implementations/context_assembler.py`   | Reference implementation of the assembler        |
+| `core-component-00/engineering/context-engineering/implementations/context_compressor.py`  | Sacred context compression for long sessions     |
 
 ## Design Process
 
@@ -118,12 +118,12 @@ For sessions expected to exceed the model's context window, specify:
 | **Compression trigger**      | At what token threshold does compression engage?                                                                   |
 | **Sacred context**           | What is exempt from compression? (Decisions made, user preferences, confirmed constraints — must survive verbatim) |
 | **Compression target**       | How many tokens should the compressed history occupy after compression?                                            |
-| **Reference implementation** | `context-engineering/implementations/context_compressor.py`                                                        |
+| **Reference implementation** | `engineering/context-engineering/implementations/context_compressor.py`                                                        |
 
 ### Step 6 — Handoff Protocol (if applicable)
 
 If this agent's context will be passed to another agent, specify the tier and packet
-contents explicitly. Reference: `context-engineering/patterns/multi-agent-handoff.md`
+contents explicitly. Reference: `engineering/context-engineering/patterns/multi-agent-handoff.md`
 
 | Tier        | When to Use                                                                                                           | What Is Included                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |

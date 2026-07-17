@@ -9,7 +9,7 @@
 #   Path A (per-turn limit, default 150)
 #   Path B (session ceiling, default 1000)
 #
-# Reference: core-component-00/harness-engineering/implementations/tool_registry.py
+# Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py
 
 raw_input=$(cat)
 
@@ -97,7 +97,7 @@ Options:
      Action: summarise progress and do not retry the blocked command.
 
 NOTE: Any extension granted here is automatically removed at the start of the next prompt.
-Reference: core-component-00/harness-engineering/implementations/tool_registry.py"
+Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py"
 
     reason="[TOOL RATE LIMITER — H-HE01] Per-turn limit reached: $turn_count / $max_turn_calls. See additionalContext for AskUserQuestion instructions."
 
@@ -132,7 +132,7 @@ Options:
   D) \"End conversation\" — wrap up and stop.
      Action: summarise progress and do not retry the blocked command.
 
-Reference: core-component-00/harness-engineering/implementations/tool_registry.py"
+Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py"
 
     reason="[TOOL RATE LIMITER — H-HE01] Session ceiling reached: $session_count / $max_session_calls. See additionalContext for AskUserQuestion instructions."
 

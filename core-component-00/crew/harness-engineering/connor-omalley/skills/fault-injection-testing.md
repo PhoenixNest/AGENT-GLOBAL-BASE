@@ -58,5 +58,5 @@ behavior, rather than only testing the happy path.
 
 ## References
 
-- `core-component-00/harness-engineering/implementations/error_boundary.py`
+- `core-component-00/engineering/harness-engineering/implementations/error_boundary.py`
 - Error Boundary Implementation (Kwame Asante) — the module lead's recovery-logic design ownership

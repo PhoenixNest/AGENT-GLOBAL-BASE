@@ -27,7 +27,7 @@ gaps. See `adr-ase-001.md` for the exception process.
 
 ## Layer 1 — Prompt Engineering
 
-**Reference implementation:** `core-component-00/prompt-engineering/`
+**Reference implementation:** `core-component-00/engineering/prompt-engineering/`
 
 Layer 1 governs the instruction architecture of every agent in the system.
 
@@ -38,14 +38,14 @@ Layer 1 governs the instruction architecture of every agent in the system.
 | **Output format constrained**                   | Mandatory      | Any agent whose output is consumed by another agent or downstream system must use schema-constrained prompting. The schema is explicitly stated in the prompt.          |
 | **Behavioural constraints enumerated**          | Required       | Forbidden behaviours (scope creep, silent failure, trim-to-pass) are explicitly listed in the agent's identity. See `patterns/anti-pattern-firewall.md`.                |
 | **Escalation criteria defined**                 | Required       | Each agent specifies the conditions under which it escalates to a human or supervisor. These conditions are in the prompt, not inferred.                                |
-| **Prompting technique appropriate to task**     | Required       | The prompting technique (zero-shot, few-shot, chain-of-thought) is matched to task type. See `core-component-00/prompt-engineering/patterns/advanced-patterns.md`.      |
+| **Prompting technique appropriate to task**     | Required       | The prompting technique (zero-shot, few-shot, chain-of-thought) is matched to task type. See `core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md`.      |
 | **Few-shot examples provided where beneficial** | Recommended    | Tasks with consistent structure and high precision requirements include representative examples in the prompt.                                                          |
 
 ---
 
 ## Layer 2 — Context Engineering
 
-**Reference implementation:** `core-component-00/context-engineering/`
+**Reference implementation:** `core-component-00/engineering/context-engineering/`
 
 Layer 2 governs how the context window is assembled, managed, and handed off across
 agent boundaries.
@@ -58,14 +58,14 @@ agent boundaries.
 | **Minimum Viable Context enforced**         | Required                 | Each agent receives only the context relevant to its task. Full conversation history is not forwarded wholesale to specialist subagents.                                                   |
 | **Sacred context identified and protected** | Required                 | Irreversible decisions and non-negotiable constraints (e.g., approved PRD scope, security requirements) are designated as sacred and excluded from compression.                            |
 | **History managed with compression**        | Required                 | For sessions exceeding 10 turns, history is managed with a rolling window and compression strategy. Raw history is not permitted to grow unbounded.                                        |
-| **Context Handoff Protocol specified**      | Required for multi-agent | For every agent-to-agent transition, the handoff tier (Full / Scoped / Minimal) is specified and implemented. See `core-component-00/context-engineering/patterns/multi-agent-handoff.md`. |
+| **Context Handoff Protocol specified**      | Required for multi-agent | For every agent-to-agent transition, the handoff tier (Full / Scoped / Minimal) is specified and implemented. See `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`. |
 | **Positional placement optimised**          | Recommended              | High-priority content appears at the beginning (system) and end (most recent) of the context window. Critical content is not buried in the middle.                                         |
 
 ---
 
 ## Layer 3 — Harness Engineering
 
-**Reference implementations:** `core-component-00/harness-engineering/implementations/`
+**Reference implementations:** `core-component-00/engineering/harness-engineering/implementations/`
 
 Layer 3 governs the execution envelope around every model call in the system.
 
@@ -109,7 +109,7 @@ Layer 4 governs how the system retrieves and manages knowledge beyond model weig
 
 ## Layer 5 — Multi-Agent Engineering
 
-**Reference implementations:** `core-component-00/multi-agent-engineering/`
+**Reference implementations:** `core-component-00/engineering/multi-agent-engineering/`
 
 Layer 5 is **required when the system involves more than one coordinated LLM agent**.
 For single-agent systems, this layer is not applicable.
@@ -121,7 +121,7 @@ For single-agent systems, this layer is not applicable.
 | **Context Handoff Protocol implemented**                 | Mandatory                          | Every agent-to-agent handoff uses the Full / Scoped / Minimal tier protocol. See Context Engineering Layer 2 requirement.                                          |
 | **Agent roles non-overlapping**                          | Required                           | Each agent has a distinct, bounded role. Agents with >70% skill-set overlap should be consolidated.                                                                |
 | **Supervisor agent defined for hierarchical swarms**     | Required                           | Hierarchical swarms have a supervisor agent responsible for task delegation, output synthesis, and conflict resolution.                                            |
-| **Git worktree isolation used for parallel development** | Required when parallel coding      | Agent parallel development uses git worktree for filesystem isolation. See `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`. |
+| **Git worktree isolation used for parallel development** | Required when parallel coding      | Agent parallel development uses git worktree for filesystem isolation. See `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`. |
 | **Merge integration agent designated**                   | Required when parallel development | A designated Integration Agent is responsible for conflict resolution and merge to main. No agent self-merges without review.                                      |
 | **Anti-patterns explicitly prohibited in agent prompts** | Required                           | Agent identity prompts include an explicit Forbidden Behaviours section. See `patterns/anti-pattern-firewall.md`.                                                  |
 

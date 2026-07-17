@@ -4,7 +4,7 @@
 #   Subject: agent/<name>: <verb-phrase>  (imperative, <=72 chars)
 #   Body:    at least one hyphen-bulleted change line
 # Bodyless single-line agent commits are a P2 defect per CLAUDE.md §6.
-# Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 
 raw_input=$(cat)
 
@@ -53,7 +53,7 @@ subject=$(printf '%s' "$commit_msg" | head -n 1 | sed -e 's/^[[:space:]]*//' -e 
 
 # Validate subject format: agent/<name>: <verb-phrase>
 if ! echo "$subject" | grep -qE '^agent/[^:]+:[[:space:]]+[^[:space:]]'; then
-    reason="[COMMIT FORMAT GUARD — H-MAE02] Agent commit subject '$subject' does not match required format 'agent/<name>: <verb-phrase>' (imperative, <=72 chars). This is a P2 defect per CLAUDE.md §6. Example: 'agent/backend: add authentication endpoint'. Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md."
+    reason="[COMMIT FORMAT GUARD — H-MAE02] Agent commit subject '$subject' does not match required format 'agent/<name>: <verb-phrase>' (imperative, <=72 chars). This is a P2 defect per CLAUDE.md §6. Example: 'agent/backend: add authentication endpoint'. Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md."
     REASON="$reason" python3 -c "import os,json; print(json.dumps({'hookSpecificOutput':{'hookEventName':'PreToolUse','permissionDecision':'deny','permissionDecisionReason':os.environ['REASON']}}))"
     exit 0
 fi
