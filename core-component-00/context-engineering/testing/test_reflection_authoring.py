@@ -4,11 +4,10 @@ enforcement (implementations/reflection_authoring.py).
 
 Closes the Independent Safety Self-Review's §2.2 (Dr. Wieczorek's Open
 finding: a non-empty-string check on `logged_by` is a formatting check, not
-identity verification) AND the follow-up finding MISTAKE-2026-07-16-001
-(both recorded in core-component-00/telescope/2026-07-14-reflexion-memory-system/
-research-report.md § Audit History): the two-factor git-identity +
-roster-name check alone does not distinguish a human operator from a
-co-located AI agent process. These tests exercise:
+identity verification) AND the follow-up finding MISTAKE-2026-07-16-001,
+recorded as REFLECT-003 in the memory_reflection collection: the two-factor
+git-identity + roster-name check alone does not distinguish a human
+operator from a co-located AI agent process. These tests exercise:
 
   1. The two-factor mechanism itself: an authenticated git identity read
      from git config (never from a caller-supplied argument), independently

@@ -154,11 +154,10 @@ where `progress.md`/`session-log.md`/`checkpoint.json` should live for that buil
 `workspace-conventions.md`'s progress-monitoring convention) — but never actually instructed any
 worker agent to create or update them, and never created them directly. All six phases plus the
 EX-001 remediation executed and merged with zero real-time tracking artifacts; the CEO went
-looking for them and found nothing. This is logged as a process violation, not a mere gap, in
-`telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md` (temporary home
-pending the reflexion framework). The tracking files were subsequently compiled from git history
-as the official record — accurate, but their after-the-fact compilation does not excuse the
-violation itself.
+looking for them and found nothing. This is logged as a process violation, not a mere gap —
+`REFLECT-004` in the `memory_reflection` collection. The tracking files were subsequently
+compiled from git history as the official record — accurate, but their after-the-fact compilation
+does not excuse the violation itself.
 
 **Root cause:** the orchestrator briefs in this build's `agent()`/subagent prompts specified phase
 gates, acceptance criteria, and git-worktree conventions in detail, but never included

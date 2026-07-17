@@ -290,7 +290,7 @@ class TestReflectionMemory:
 
 # ---------------------------------------------------------------------------
 # ReflectionMemory.record_reflection()'s IdentityVerification gate —
-# closes the direct-import bypass documented in mistake-log.md
+# closes the direct-import bypass documented in REFLECT-003
 # (MISTAKE-2026-07-16-001): a caller importing memory_store.py directly,
 # bypassing reflection_authoring.py entirely, must still supply a genuine
 # IdentityVerification token issued for the exact logged_by being recorded.

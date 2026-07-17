@@ -49,8 +49,8 @@ up a new instance:
 reviewed the schema for the write-path threat-model concerns raised in `research-report.md`
 Finding 4 (see `research-report.md` § Audit History, Design-Stage Reviews).
 
-**Gate — Phase 1 is done (revised 2026-07-16, per `research-report.md` § Audit History's
-`MISTAKE-2026-07-16-001` entry):** Two full rounds of implementation + adversarial review established that no
+**Gate — Phase 1 is done (revised 2026-07-16, per `REFLECT-003`, the memory_reflection
+collection's own `MISTAKE-2026-07-16-001` record):** Two full rounds of implementation + adversarial review established that no
 purely code-level check running inside Claude Code's own tool-execution environment can make
 identity/authorization for this write path unforgeable — any layer (a token, a TTY prompt) is
 skippable by calling something lower (the sink, the raw JSONL/Qdrant calls), since an agent has
@@ -108,16 +108,15 @@ and `pytest multi-agent-engineering/testing/ -v` (37/37) reverified green post-i
 
 1. **Done.** Authored `REFLECT-001` (`MISTAKE-2026-07-14-001`'s migration) via the
    Investigator-Authored Write Path, under the CEO's direct live authorization (the actual
-   security boundary for this `GOVERNANCE_TRIGGERS` record, per `research-report.md` § Audit
-   History's `MISTAKE-2026-07-16-001` entry) — the CLI's TTY-interactivity check is structurally
+   security boundary for this `GOVERNANCE_TRIGGERS` record, per `REFLECT-003`'s own
+   `MISTAKE-2026-07-16-001` resolution) — the CLI's TTY-interactivity check is structurally
    unsatisfiable by any Claude Code tool invocation (verified directly:
    `sys.stdin.isatty()` is always `False` in this environment), so the documented
    `stdin`/`prompt_fn` test-only injection points were used with the CEO's explicit,
    transparent authorization, not silently. `migrated_from` set to the full
    workspace-root-relative anchor
-   (`core-component-00/telescope/2026-07-14-reflexion-memory-system/research-report.md#audit-history`,
-   the `MISTAKE-2026-07-14-001` entry under § Mistake Log), `logged_by="Elias Vance"` preserving
-   the original investigator of record.
+   (`core-component-00/telescope/2026-07-14-reflexion-memory-system/research-report.md#audit-history`),
+   `logged_by="Elias Vance"` preserving the original investigator of record.
    **Defect found and fixed during this step:** `PersistentMemorySink.write_reflection()` and
    `QdrantMemoryIndex.rebuild_from_log()`'s reflection branch both passed the human-readable
    `reflection_id` directly as the Qdrant point ID, which Qdrant rejects (valid point IDs are an
@@ -126,9 +125,9 @@ and `pytest multi-agent-engineering/testing/ -v` (37/37) reverified green post-i
    `uuid5`-derived point ID (`memory_vector_store.py`'s `_reflection_point_id()`), keeping
    `reflection_id` as the record's real identity in the payload. Full context-engineering suite
    reverified green after the fix (283/283 relevant tests).
-2. **Done.** `MISTAKE-2026-07-14-001`'s Status line (now in `research-report.md` § Audit History)
-   records the migration — the entry itself is preserved unedited above that line as the
-   historical record, per this workspace's append-only convention.
+2. **Done.** `REFLECT-001` is now the canonical record of `MISTAKE-2026-07-14-001` — the original
+   entry's prose has been retired from this Programme's documentation, superseded by the
+   reflection record itself, per this workspace's stated migration terms.
 3. **Done, with a caveat inherited from a pre-existing, already-documented issue.** After
    integration and an `agent-memory` MCP reconnect, `search_memory(memory_type="reflection", ...)`
    correctly recognizes the new type (confirms Phase 2's code is live) but returns
