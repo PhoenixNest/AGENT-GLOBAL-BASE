@@ -38,6 +38,19 @@
 | ------------ | ----- | ----- | -------------- | ------------ |
 | [Role title] | L[N]  | [N]   | [Manager role] | [Department] |
 
+### Span-of-Control Check (required before this plan leaves Draft status)
+
+<!-- List every role in the table above with more than 5 direct reports once this plan's hires
+     are added to the existing org chart. If none, write "None — max span is [N]." -->
+
+| Role with > 5 direct reports | Resulting span | Justification, or restructure applied                                                                       |
+| ---------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| [Role title, or "None"]      | [N]            | [Why this span is acceptable, or how the plan was restructured to reduce it — e.g. paired/tiered reporting] |
+
+**Rule:** a plan may not move from Draft to Approved with an unresolved row in this table. Either
+justify the span explicitly or restructure reporting lines (e.g. route new ICs to a senior peer or
+lead instead of the department head) before requesting approval.
+
 ---
 
 ## Phased Hiring Timeline

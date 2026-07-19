@@ -4,7 +4,7 @@
 #   Subject: agent/<name>: <verb-phrase>  (imperative, ≤72 chars)
 #   Body:    at least one hyphen-bulleted change line
 # Bodyless single-line agent commits are a P2 defect per CLAUDE.md §6.
-# Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 
 param()
 
@@ -56,7 +56,7 @@ if ($subject -notmatch '^agent/[^:]+:\s+\S') {
         hookSpecificOutput = [ordered]@{
             hookEventName            = "PreToolUse"
             permissionDecision       = "deny"
-            permissionDecisionReason = "[COMMIT FORMAT GUARD — H-MAE02] Agent commit subject '$subject' does not match required format 'agent/<name>: <verb-phrase>' (imperative, ≤72 chars). This is a P2 defect per CLAUDE.md §6. Example: 'agent/backend: add authentication endpoint'. Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md."
+            permissionDecisionReason = "[COMMIT FORMAT GUARD — H-MAE02] Agent commit subject '$subject' does not match required format 'agent/<name>: <verb-phrase>' (imperative, ≤72 chars). This is a P2 defect per CLAUDE.md §6. Example: 'agent/backend: add authentication endpoint'. Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md."
         }
     } | ConvertTo-Json -Depth 3 -Compress
     Write-Output $output

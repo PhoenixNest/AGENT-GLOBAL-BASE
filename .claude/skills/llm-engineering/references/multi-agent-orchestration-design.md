@@ -2,7 +2,7 @@
 name: core-component-00-director-multi-agent-orchestration-design
 description: Design multi-agent swarm architectures — topology selection, task decomposition, agent role specification, context handoff strategy, and orchestration pattern definition. Use when a problem requires coordinated specialist agents rather than a single agent, or when an existing multi-agent system needs architectural review and redesign.
 version: "1.0.0"
-source: core-component-00/director/skills/multi-agent-orchestration-design.md
+source: core-component-00/crew/director/elias-vance/skills/multi-agent-orchestration-design.md
 agents:
   - core-component-00-director-elias-vance
 ---
@@ -15,7 +15,7 @@ Given a problem that benefits from multiple coordinated agents, produce a comple
 orchestration architecture: which agents exist, what each one does, how work flows between
 them, how context is handed off, and which CC-00 patterns govern the execution. The
 specification should be implementable directly against
-`core-component-00/multi-agent-engineering/`.
+`core-component-00/engineering/multi-agent-engineering/`.
 
 ## Why Multi-Agent Architecture Requires Deliberate Design
 
@@ -32,13 +32,13 @@ protocol, prevents these failure modes before the first line of code is written.
 
 | Document                                                                               | Purpose                                      |
 | -------------------------------------------------------------------------------------- | -------------------------------------------- |
-| `core-component-00/multi-agent-engineering/fundamentals/swarm-topologies.md`           | Topology catalogue with selection criteria   |
-| `core-component-00/multi-agent-engineering/patterns/orchestration-patterns.md`         | Orchestration pattern library                |
-| `core-component-00/multi-agent-engineering/patterns/anti-patterns.md`                  | Failure modes to avoid                       |
-| `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md` | Parallel agent isolation using git worktrees |
-| `core-component-00/context-engineering/patterns/multi-agent-handoff.md`                | Context Handoff Protocol tiers               |
-| `core-component-00/multi-agent-engineering/implementations/swarm_orchestrator.py`      | Reference orchestrator implementation        |
-| `core-component-00/multi-agent-engineering/implementations/handoff_packet.py`          | Handoff packet construction                  |
+| `core-component-00/engineering/multi-agent-engineering/fundamentals/swarm-topologies.md`           | Topology catalogue with selection criteria   |
+| `core-component-00/engineering/multi-agent-engineering/patterns/orchestration-patterns.md`         | Orchestration pattern library                |
+| `core-component-00/engineering/multi-agent-engineering/patterns/anti-patterns.md`                  | Failure modes to avoid                       |
+| `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md` | Parallel agent isolation using git worktrees |
+| `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`                | Context Handoff Protocol tiers               |
+| `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`      | Reference orchestrator implementation        |
+| `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`          | Handoff packet construction                  |
 
 ## Design Process
 
@@ -97,7 +97,7 @@ outputs; gaps produce work that nobody does.
 
 Select the orchestration pattern that governs how agents are tasked, how results are
 collected, and how the system responds to agent failures. Reference:
-`multi-agent-engineering/patterns/orchestration-patterns.md`
+`engineering/multi-agent-engineering/patterns/orchestration-patterns.md`
 
 | Design Question      | Decision Space                                                           |
 | -------------------- | ------------------------------------------------------------------------ |
@@ -112,7 +112,7 @@ For each agent transition in the topology, specify the handoff explicitly. The h
 design must be consistent with the downstream agent's context budget — a Full handoff to
 an agent with a small context window produces a budget overflow on the first call.
 
-Reference: `context-engineering/patterns/multi-agent-handoff.md`
+Reference: `engineering/context-engineering/patterns/multi-agent-handoff.md`
 
 | Field               | Specification                                                            |
 | ------------------- | ------------------------------------------------------------------------ |
@@ -126,13 +126,13 @@ Reference: `context-engineering/patterns/multi-agent-handoff.md`
 If agents will execute in parallel and share a filesystem or repository:
 
 - Specify the git worktree isolation pattern to prevent filesystem contention.
-- Reference: `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+- Reference: `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 - Document the five-phase lifecycle: Provision → Execute → Integrate → Resolve → Clean up.
 
 ### Step 7 — Anti-Pattern Review
 
 Before finalising the design, check it against the anti-patterns in
-`multi-agent-engineering/patterns/anti-patterns.md`.
+`engineering/multi-agent-engineering/patterns/anti-patterns.md`.
 
 | Anti-Pattern                  | Presence Check                                                                              |
 | ----------------------------- | ------------------------------------------------------------------------------------------- |

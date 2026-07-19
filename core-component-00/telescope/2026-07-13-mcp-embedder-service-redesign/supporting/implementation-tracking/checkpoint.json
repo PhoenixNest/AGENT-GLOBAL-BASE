@@ -1,0 +1,100 @@
+{
+  "investigation_id": "2026-07-13-mcp-embedder-service-redesign",
+  "record_status": "official progress record, compiled and certified 2026-07-14 from git commit history and phase reports",
+  "compiled_at": "2026-07-14",
+  "process_violation_logged": "supporting/mistake-log.md#MISTAKE-001",
+  "overall_status": "complete",
+  "ase_verdict": "Conditional",
+  "milestones": [
+    {
+      "phase": "0",
+      "name": "Design pre-review",
+      "owner": "Dr. Elias Vance / Dr. Tomasz Wieczorek",
+      "status": "done",
+      "commit": null,
+      "gate": "no unresolved objection"
+    },
+    {
+      "phase": "1",
+      "name": "embedder-service core",
+      "owner": "Ravi Deshmukh",
+      "status": "done",
+      "commit": "4668362b",
+      "merge_commit": "30618282",
+      "gate": "20-way concurrency sweep, zero stalls"
+    },
+    {
+      "phase": "2",
+      "name": "agent-memory client integration",
+      "owner": "Kwame Asante / Connor O'Malley",
+      "status": "done",
+      "commit": "6228bb74",
+      "merge_commit": "f1694ee2",
+      "gate": "26/26 tests, 10/10 clean reconnects, fallback-on-outage verified"
+    },
+    {
+      "phase": "2a",
+      "name": "Memory-contract regression review",
+      "owner": "Mei-Ling Zhao",
+      "status": "done",
+      "commit": null,
+      "gate": "context-engineering suite unchanged (180 passed / 1 pre-existing failure)"
+    },
+    {
+      "phase": "3",
+      "name": "Adversarial + fault-injection verification",
+      "owner": "Dr. Tomasz Wieczorek / Connor O'Malley",
+      "status": "done",
+      "commit": "6b06ca35",
+      "merge_commit": "5321f6ff",
+      "gate": "no open critical finding; clean degrade on crash/restart"
+    },
+    {
+      "phase": "4",
+      "name": "workspace-knowledge migration",
+      "owner": "Sofia Almeida / Diego Fontán",
+      "status": "done",
+      "commit": "33e3a796",
+      "merge_commit": "e1dec931",
+      "gate": "no retrieval-quality regression (isolated real-weights evidence; full-corpus check incomplete, flagged)"
+    },
+    {
+      "phase": "5",
+      "name": "ASE ratification + orphan-process regression",
+      "owner": "Dr. Elias Vance",
+      "status": "done",
+      "commit": "9e7583b2",
+      "gate": "Conditional verdict; orphan-process regression clean (0 before/after)"
+    },
+    {
+      "phase": "EX-001",
+      "name": "Typed error-boundary remediation",
+      "owner": "Kwame Asante",
+      "status": "done",
+      "commit": "60156b46",
+      "merge_commit": "15724248",
+      "gate": "no bare except-Exception as sole handler; zero behavior regression; 20 new tests added"
+    }
+  ],
+  "open_items": [
+    {
+      "id": "gap-pii-scrubbing",
+      "requirement_level": "Required",
+      "status": "open",
+      "owner": null,
+      "blocking": false
+    },
+    {
+      "id": "gap-merge-integration-agent",
+      "requirement_level": "Required",
+      "status": "open",
+      "owner": "Dr. Elias Vance (interpretation pending)",
+      "blocking": false
+    },
+    {
+      "id": "duplicate-mcp-host-processes",
+      "status": "closed",
+      "resolution": "investigated 2026-07-14, confirmed two legitimate live sessions, not orphans"
+    }
+  ]
+}

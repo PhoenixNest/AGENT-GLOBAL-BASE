@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 18/20
 vetting-result: PASS
 recruitment-phase: Phase 2 — Creative + Production Ramp
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Dmitri Volkov — Senior Game Engineer

@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Cyberspace Security
 agent_id: james-wright-lead-security-engineer
 hire_date: 2026-04-14
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # James Wright

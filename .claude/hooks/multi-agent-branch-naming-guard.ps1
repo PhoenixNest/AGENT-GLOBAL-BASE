@@ -3,7 +3,7 @@
 # Detects git commands that create new branches and validates the branch name
 # against the workspace multi-agent naming convention:
 #   agent/<role>/<task>  or  stage<N>/agent/<role>/<task>
-# Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 
 param()
 
@@ -54,7 +54,7 @@ $output = [ordered]@{
     hookSpecificOutput = [ordered]@{
         hookEventName            = "PreToolUse"
         permissionDecision       = "deny"
-        permissionDecisionReason = "[BRANCH NAMING GUARD — H-MAE01] Branch name '$branchName' does not follow workspace conventions. Multi-agent branches must be: agent/<role>/<task> or stage<N>/agent/<role>/<task> (e.g., agent/backend/dark-mode-api). Standard branches (feature/, fix/, company/, studio/) are also accepted. Reference: core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
+        permissionDecisionReason = "[BRANCH NAMING GUARD — H-MAE01] Branch name '$branchName' does not follow workspace conventions. Multi-agent branches must be: agent/<role>/<task> or stage<N>/agent/<role>/<task> (e.g., agent/backend/dark-mode-api). Standard branches (feature/, fix/, company/, studio/) are also accepted. Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
     }
 } | ConvertTo-Json -Depth 3 -Compress
 

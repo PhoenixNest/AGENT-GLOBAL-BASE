@@ -2,7 +2,7 @@
 # H-CE01: UserPromptSubmit — Context Budget Alert
 # Reads transcript_path file size as a session-length proxy. When it exceeds the
 # threshold, injects additionalContext directing Claude to apply Sacred Context
-# principles from CC-00 context-engineering/implementations/context_monitor.py.
+# principles from CC-00 engineering/harness-engineering/implementations/context_monitor.py.
 
 param()
 
@@ -31,7 +31,7 @@ The session context is growing large. Apply Sacred Context principles before res
 - Compress or summarize non-critical Conversation context where possible
 - If approaching model context limits, invoke context_compressor.py patterns
 - Prioritize: active task state > prior decisions > background knowledge
-Reference: core-component-00/context-engineering/implementations/context_monitor.py
+Reference: core-component-00/engineering/harness-engineering/implementations/context_monitor.py
 "@
 
 $output = [ordered]@{

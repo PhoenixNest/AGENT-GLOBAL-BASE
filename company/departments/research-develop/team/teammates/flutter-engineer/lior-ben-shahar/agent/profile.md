@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Research & Development
 agent_id: lior-ben-shahar-flutter-engineer
 hire_date: 2026-05-12
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Lior Ben-Shahar

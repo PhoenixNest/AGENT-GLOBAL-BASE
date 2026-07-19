@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 19/20
 vetting-result: PASS
 recruitment-phase: Phase 2 — Creative + Production Ramp
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Renaud Leclercq — Art Director

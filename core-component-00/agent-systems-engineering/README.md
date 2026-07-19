@@ -115,7 +115,8 @@ Every LLM-powered system follows this path before production:
 | 5    | Post-incident or quarterly: re-audit against `compliance-standard.md` | Updated verdict       |
 
 The audit skill is available at:
-`core-component-00/director/skills/ase-compliance-audit.md`
+`core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md` (ratification) or
+`core-component-00/crew/multi-agent-engineering/idris-farouk/skills/ase-compliance-operations.md` (execution)
 
 ---
 

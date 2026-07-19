@@ -73,7 +73,7 @@ For long-running Stage 5 sessions approaching context limits:
 2. Run `ContextCompressor` if session exceeds budget
 3. Use the Context Handoff Protocol for any agent transitions
 
-Reference: `core-component-00/context-engineering/patterns/multi-agent-handoff.md`
+Reference: `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`
 
 ---
 

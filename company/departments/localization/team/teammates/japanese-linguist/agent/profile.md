@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Localization
 agent_id: japanese-linguist
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Haruki Yoshimoto

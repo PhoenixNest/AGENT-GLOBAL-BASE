@@ -117,6 +117,6 @@ they translate the canonical definition into the format each context requires.
 
 ## CC-00 References
 
-- `core-component-00/prompt-engineering/` — Patterns for writing canonical agent identities
-- `core-component-00/context-engineering/patterns/multi-agent-handoff.md` — How canonical
+- `core-component-00/engineering/prompt-engineering/` — Patterns for writing canonical agent identities
+- `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md` — How canonical
   context slot definitions are communicated between agents

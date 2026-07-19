@@ -13,6 +13,8 @@ composite-score: 4.440
 status: active
 studio: Casual Games
 vetting-result: PASS
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Sofia Reyes — Live Ops Engineer #2
