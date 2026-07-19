@@ -31,10 +31,10 @@ multi-agent-engineering/
 
 ## Key Implementations
 
-| File                                      | Class / Entry Point  | Purpose                                                                    |
-| ----------------------------------------- | -------------------- | -------------------------------------------------------------------------- |
-| `implementations/swarm_orchestrator.py`   | `SwarmOrchestrator`  | Orchestrates multi-agent swarm topologies                                  |
-| `implementations/handoff_packet.py`       | `HandoffPacket`      | Packages context for inter-agent handoff at Full, Scoped, or Minimal tiers |
+| File                                    | Class / Entry Point | Purpose                                                                    |
+| --------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| `implementations/swarm_orchestrator.py` | `SwarmOrchestrator` | Orchestrates multi-agent swarm topologies                                  |
+| `implementations/handoff_packet.py`     | `HandoffPacket`     | Packages context for inter-agent handoff at Full, Scoped, or Minimal tiers |
 
 ---
 
@@ -43,7 +43,7 @@ multi-agent-engineering/
 Run from `core-component-00/` (not workspace root) to avoid import conflicts:
 
 ```powershell
-pytest multi-agent-engineering/testing/ -v
+pytest engineering/multi-agent-engineering/testing/ -v
 ```
 
 ---
@@ -100,5 +100,5 @@ Reference: `implementations/handoff_packet.py` and
 - Handoff packets must use the three-tier protocol (`HandoffPacket`) — do not write freeform
   context dumps.
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
-- Any implementation change must pass `pytest multi-agent-engineering/testing/ -v` before committing.
+- Any implementation change must pass `pytest engineering/multi-agent-engineering/testing/ -v` before committing.
 - Single-line commits with no body are a P2 defect in agent work.

@@ -47,13 +47,13 @@ agent-systems-engineering/
 
 ## ASE Layer Map
 
-| Layer | Name                | CC-00 Module                      | Requirement Class                    |
-| ----- | ------------------- | --------------------------------- | ------------------------------------ |
-| 1     | Prompt Engineering  | `prompt-engineering/`             | Standardised instruction patterns    |
-| 2     | Context Engineering | `context-engineering/`            | Structured handoffs, context windows |
-| 3     | Harness Engineering | `harness-engineering/`            | Automated gate enforcement           |
-| 4     | RAG / Memory        | `retrieval-augmented-generation/` | Institutional knowledge retention    |
-| 5     | Multi-Agent         | `multi-agent-engineering/`        | Swarm orchestration and isolation    |
+| Layer | Name                | CC-00 Module                           | Requirement Class                    |
+| ----- | ------------------- | -------------------------------------- | ------------------------------------ |
+| 1     | Prompt Engineering  | `engineering/prompt-engineering/`      | Standardised instruction patterns    |
+| 2     | Context Engineering | `engineering/context-engineering/`     | Structured handoffs, context windows |
+| 3     | Harness Engineering | `engineering/harness-engineering/`     | Automated gate enforcement           |
+| 4     | RAG / Memory        | `retrieval-augmented-generation/`      | Institutional knowledge retention    |
+| 5     | Multi-Agent         | `engineering/multi-agent-engineering/` | Swarm orchestration and isolation    |
 
 ---
 
