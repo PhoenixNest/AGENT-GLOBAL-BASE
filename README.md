@@ -44,12 +44,14 @@ AGENT-GLOBAL-BASE/
 │
 ├── core-component-00/           ← CC-00 Lab (only place with runnable code)
 │   ├── agent-systems-engineering/  ← ASE governing framework
-│   ├── prompt-engineering/         ← Layer 1 — what to write
-│   ├── context-engineering/        ← Layer 2 — how to structure it
-│   ├── harness-engineering/        ← Layer 3 — how to execute safely
+│   ├── engineering/                ← Layers 1, 2, 3, 5
+│   │   ├── prompt-engineering/         ← Layer 1 — what to write
+│   │   ├── context-engineering/        ← Layer 2 — how to structure it
+│   │   ├── harness-engineering/        ← Layer 3 — how to execute safely
+│   │   └── multi-agent-engineering/    ← Layer 5 — how agents cooperate
 │   ├── retrieval-augmented-generation/  ← Layer 4 — where to get content
-│   ├── multi-agent-engineering/    ← Layer 5 — how agents cooperate
-│   └── director/                   ← Lab Director persona (Dr. Elias Vance)
+│   ├── mcp-servers/                ← MCP server implementations (deployment surface)
+│   └── crew/                       ← Lab Director + 11 crew (director/elias-vance/, module leads, etc.)
 │
 └── telescope/                   ← Cross-department research index (company/, core-component-00/,
                                      and studio/casual-games/ each keep their own instance too —
@@ -121,13 +123,13 @@ large language models starts here. **Lab Director:** Dr. Elias Vance.
 
 ### The Five-Module Stack
 
-| Layer | Module                            | Has Runnable Code |
-| ----- | --------------------------------- | :---------------: |
-| 1     | `prompt-engineering/`             |        No         |
-| 2     | `context-engineering/`            |        Yes        |
-| 3     | `harness-engineering/`            |        Yes        |
-| 4     | `retrieval-augmented-generation/` |        Yes        |
-| 5     | `multi-agent-engineering/`        |        Yes        |
+| Layer | Module                                 | Has Runnable Code |
+| ----- | -------------------------------------- | :---------------: |
+| 1     | `engineering/prompt-engineering/`      |        No         |
+| 2     | `engineering/context-engineering/`     |        Yes        |
+| 3     | `engineering/harness-engineering/`     |        Yes        |
+| 4     | `retrieval-augmented-generation/`      |        Yes        |
+| 5     | `engineering/multi-agent-engineering/` |        Yes        |
 
 Key production implementations live under each module's `implementations/` folder. The governing
 framework — ASE — is defined in `core-component-00/agent-systems-engineering/`.
@@ -177,7 +179,8 @@ Profile locations:
 | Studio structure + game pipeline          | `studio/casual-games/library/overview/casual-games-studio.md` |
 | LLM engineering patterns                  | `core-component-00/README.md`                                 |
 | ASE governance (ADRs, compliance)         | `core-component-00/agent-systems-engineering/`                |
-| Production Python code                    | `core-component-00/<module>/implementations/`                 |
+| Production Python code                    | `core-component-00/engineering/<module>/implementations/`     |
+| MCP server implementations                | `core-component-00/mcp-servers/`                              |
 | Research archive (cross-department index) | `telescope/README.md`                                         |
 | CC-00 engineering + LLM research          | `core-component-00/telescope/README.md`                       |
 | Company product research                  | `company/telescope/README.md`                                 |
