@@ -89,7 +89,7 @@
 ## Context Handoff Checklist
 
 > **CC-00 Compliance:** Layer 2 — Context Engineering (Required)
-> Reference: `core-component-00/context-engineering/patterns/multi-agent-handoff.md`
+> Reference: `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`
 
 ### Handoff Tier Selection
 

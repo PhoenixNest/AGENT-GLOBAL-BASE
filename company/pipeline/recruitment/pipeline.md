@@ -201,12 +201,12 @@ Every transition is logged. Every score is stored with the rule version that pro
 ### Stage 1: Role Intake → Position Specification
 
 > **Responsible Producer:** System (configured by CHRO + role-requesting department head)
-> **Artifacts In:** Role intake request (title, role family, seniority, team, justification)
+> **Artifacts In:** Role intake request (title, role family, seniority, team, justification, Adjacent Capability Check)
 > **Artifacts Out:** Position Specification Document (PSD)
 
 **Execution:**
 
-1. Department head submits role intake request through the system.
+1. Department head submits role intake request through the system, including the **Adjacent Capability Check** (see below).
 2. System validates request against quarterly headcount plan and org structure.
 3. System auto-generates Position Specification Document (PSD) from the appropriate role-family template:
 
@@ -219,20 +219,38 @@ Every transition is logged. Every score is stored with the rule version that pro
 
 4. System publishes PSD to the Sourcing Agent Network.
 
+**Adjacent Capability Check (required intake field, human-authored, not automatable):**
+
+The requesting department head must name the one or two other departments most likely to already
+have capability adjacent to the proposed role, and state in 1–2 sentences why the new requisition
+is not redundant with them. This is not a veto step — it does not block the requisition — it is a
+documented check the requester must actually perform before the req opens, the same way
+compensation-band and no-outsourcing compliance are documented rather than assumed. If the check
+reveals genuine overlap, the requester should first ask whether existing capacity elsewhere in the
+org can absorb the need before proceeding with a net-new hire.
+
+This check ensures a new requisition is evaluated against existing organizational capability
+before sourcing begins, preventing duplicate investment in a function another department already
+covers.
+
 **Auto-Validation Rules:**
 
 - Role exists in quarterly headcount plan
 - Compensation band is within configured range
 - Assessment battery matches role-family template
 - No duplicate open positions for same role + team
+- Adjacent Capability Check field is present and non-empty (content review is human, not automated — the system checks the field was filled in, not that the reasoning is sound)
 
 **Gate Criteria:**
 
 - PSD generated and validated
+- Adjacent Capability Check documented
 - Role published to sourcing network
 - Audit log entry created
 
-**No human approval required.** System proceeds to Stage 2 automatically.
+**No human approval required** for the automated stage progression. The Adjacent Capability Check
+itself is human-authored input, not a human approval gate — it's a required field, not a stop.
+System proceeds to Stage 2 automatically once the field is present.
 
 ---
 

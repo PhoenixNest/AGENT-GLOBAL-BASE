@@ -28,8 +28,8 @@ data:
     markdown_files:
       enabled: true
       source_paths:
-        - "./core-component-00/harness-engineering"
-        - "./core-component-00/prompt-engineering"
+        - "./core-component-00/engineering/harness-engineering"
+        - "./core-component-00/engineering/prompt-engineering"
       chunking_strategy:
         type: "heading-based" # heading-based | fixed-tokens | semantic
         chunk_size_tokens: 512

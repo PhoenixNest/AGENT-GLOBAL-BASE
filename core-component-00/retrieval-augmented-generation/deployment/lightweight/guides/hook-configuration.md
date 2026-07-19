@@ -52,7 +52,7 @@ are scoped to the MCP server process and are not visible to hook processes).
 | **File**         | `.claude/hooks/rag-index-sync.ps1`                                       |
 | **Event name**   | `PostToolUse` on `Write` and `Edit` tool calls                           |
 | **Registration** | `.claude/settings.json` under `hooks` array for `PostToolUse` events     |
-| **State file**   | `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json` |
+| **State file**   | `core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json` |
 
 ---
 
@@ -87,7 +87,7 @@ All commands read and write the state file directly — no manual JSON editing r
 | `set-threshold <N>` | `/rag-sync threshold <N>` | Set debounce window to N seconds                                    |
 
 State file path (this workspace):
-`.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`
+`core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`
 
 ---
 
@@ -138,7 +138,7 @@ See `core-component-00/retrieval-augmented-generation/evaluation/reference-table
 
 ## State File Location and Schema
 
-**File:** `.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`
+**File:** `core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`
 
 ```json
 {
@@ -162,7 +162,7 @@ change to the hook is required.
 
 ```powershell
 # Update state file to Qdrant (set all fields before writing)
-$stateFile = ".claude\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
+$stateFile = "core-component-00\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
 $state = Get-Content $stateFile | ConvertFrom-Json
 $state.search_backend   = "qdrant"
 $state.debounce_seconds = 10        # recalibrate for Qdrant upsert speed
@@ -179,7 +179,6 @@ and the hook.
 
 | Resource                       | Location                                                                                                     |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| **Hook Design Research**       | `telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md`                                         |
 | **State File Schema**          | `core-component-00/retrieval-augmented-generation/deployment/lightweight/reference/rag-sync-state-schema.md` |
 | **MCP Server Setup**           | `core-component-00/retrieval-augmented-generation/deployment/lightweight/guides/mcp-server-setup.md`         |
 | **Index Sync Hook Pattern**    | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md`                              |

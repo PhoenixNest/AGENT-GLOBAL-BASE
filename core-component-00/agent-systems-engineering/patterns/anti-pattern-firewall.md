@@ -157,8 +157,8 @@ prompt defines these as absolute constraints. For additional enforcement:
 
 ## CC-00 References
 
-- `core-component-00/prompt-engineering/patterns/advanced-patterns.md` — Techniques
+- `core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md` — Techniques
   for making behavioural constraints effective in system prompts
-- `core-component-00/harness-engineering/` — Harness-level gate verification
-- `core-component-00/multi-agent-engineering/patterns/anti-patterns.md` — System-level
+- `core-component-00/engineering/harness-engineering/` — Harness-level gate verification
+- `core-component-00/engineering/multi-agent-engineering/patterns/anti-patterns.md` — System-level
   anti-patterns the firewall guards against

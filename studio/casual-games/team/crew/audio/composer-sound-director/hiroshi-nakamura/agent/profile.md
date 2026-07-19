@@ -11,6 +11,8 @@ vetting-score: 17/20
 vetting-result: PASS
 recruitment-phase: Phase 2 — Creative + Production Ramp
 employment-type: Contract (12 months + 6-month extension option)
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Hiroshi Nakamura — Composer / Sound Director (Contract)

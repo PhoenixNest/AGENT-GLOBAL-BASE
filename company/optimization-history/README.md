@@ -78,9 +78,9 @@ Every plan starts as a folder for three reasons:
 
 ## 3. Plan Index
 
-| Plan ID            | Date       | Title                          | Scope                                         | Status    | Audit Decision | File                                                                                |
-| ------------------ | ---------- | ------------------------------ | --------------------------------------------- | --------- | -------------- | ----------------------------------------------------------------------------------- |
-| OPT-2026-05-01-001 | 2026-05-01 | ASE Compliance Gap Remediation | All 4 company pipelines + Casual Games Studio | ✅ Closed | Closed         | [`optimization-plan.md`](./2026-05-01-ase-maturity-assessment/optimization-plan.md) |
+| Plan ID | Date | Title | Scope | Status | Audit Decision | File |
+| ------- | ---- | ----- | ----- | ------ | -------------- | ---- |
+| —       | —    | —     | —     | —      | —              | —    |
 
 > Add new rows above this line as new optimization plans are filed.
 
@@ -96,9 +96,9 @@ Every plan starts as a folder for three reasons:
 | **In Progress**    | 0     | One or more findings actively being remediated                                                          |
 | **Implemented**    | 0     | All approved findings have remediation work completed; pending verification                             |
 | **Verified**       | 0     | All approved findings verified by independent review (e.g., red-team / devil's advocate per FIND-P1-08) |
-| **Closed**         | 1     | All approved findings verified, success metrics measured, plan retrospective complete                   |
+| **Closed**         | 0     | All approved findings verified, success metrics measured, plan retrospective complete                   |
 | **Superseded**     | 0     | Replaced by a newer plan; retained for historical traceability                                          |
-| **Total Plans**    | **1** |                                                                                                         |
+| **Total Plans**    | **0** |                                                                                                         |
 
 ---
 
@@ -178,11 +178,9 @@ Every plan starts as a folder for three reasons:
 
 ## 8. Document Version History
 
-| Version | Date           | Author     | Changes                                                                                                                         |
-| ------- | -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 1.0     | April 30, 2026 | —          | Template retained as process reference. Historical plan data cleared. Folder-only convention adopted; flat-file option removed. |
-| 1.1     | May 1, 2026    | CTO Office | §3 Plan Index: OPT-2026-05-01-001 registered. §4 Status Summary: Awaiting Audit count 0 → 1; Total Plans 0 → 1.                 |
-| 1.2     | May 1, 2026    | CTO Office | §3 Plan Index: OPT-2026-05-01-001 status updated to Closed. §4: Awaiting Audit 1 → 0; Closed 0 → 1.                             |
+| Version | Date           | Author | Changes                                                                                                                         |
+| ------- | -------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | April 30, 2026 | —      | Template retained as process reference. Historical plan data cleared. Folder-only convention adopted; flat-file option removed. |
 
 ---
 

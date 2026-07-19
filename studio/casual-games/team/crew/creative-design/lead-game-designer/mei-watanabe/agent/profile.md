@@ -10,6 +10,8 @@ studio: Casual Games
 vetting-score: 20/20
 vetting-result: PASS
 recruitment-phase: Phase 2 — Creative + Production Ramp
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Mei Watanabe — Lead Game Designer

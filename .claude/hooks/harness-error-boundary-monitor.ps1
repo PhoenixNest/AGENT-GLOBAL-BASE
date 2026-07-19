@@ -3,7 +3,7 @@
 # Scans tool_output for Python exception patterns and injects additionalContext
 # presenting the three recovery actions from CC-00 error_boundary.py:
 # retry-with-backoff, fallback-to-safe-default, graceful-degradation.
-# Reference: core-component-00/harness-engineering/implementations/error_boundary.py
+# Reference: core-component-00/engineering/harness-engineering/implementations/error_boundary.py
 
 param()
 
@@ -56,7 +56,7 @@ Apply CC-00 error_boundary.py recovery protocol (Harness Engineering, Layer 3):
    - Report the failure clearly to the user
    - Stop safely — do not mask or silently swallow the error
 
-Reference: core-component-00/harness-engineering/implementations/error_boundary.py
+Reference: core-component-00/engineering/harness-engineering/implementations/error_boundary.py
 "@
 
 $output = [ordered]@{

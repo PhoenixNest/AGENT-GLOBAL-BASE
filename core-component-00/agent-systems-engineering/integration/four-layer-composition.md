@@ -89,7 +89,7 @@ perform slot priority ordering or staleness detection → context degrades silen
 monitor's token limit → harness truncates blindly, potentially removing sacred context
 → agent loses critical decision continuity.
 
-**Reference:** `core-component-00/context-engineering/implementations/context_assembler.py`
+**Reference:** `core-component-00/engineering/context-engineering/implementations/context_assembler.py`
 
 ---
 
@@ -108,7 +108,7 @@ monitor's token limit → harness truncates blindly, potentially removing sacred
 cannot separate identity from instructions → token budget management is imprecise →
 instructions leak into wrong context slots.
 
-**Reference:** `core-component-00/prompt-engineering/patterns/advanced-patterns.md`
+**Reference:** `core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md`
 
 ---
 
@@ -145,7 +145,7 @@ decisions already made by previous pipeline stages.
 subagents waste token budget on irrelevant history → effective context for the actual
 task is crowded out → quality degrades and costs increase linearly with swarm size.
 
-**Reference:** `core-component-00/multi-agent-engineering/implementations/handoff_packet.py`
+**Reference:** `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`
 
 ---
 
@@ -243,8 +243,8 @@ Each integration contract should be tested independently:
 
 - [Foundational Paper](core-component-00/agent-systems-engineering/CONCEPTS.md) — Convergence thesis
 - [Compliance Standard](core-component-00/agent-systems-engineering/governance/compliance-standard.md) — Per-layer requirements
-- [Context Assembler](core-component-00/context-engineering/implementations/context_assembler.py)
-- [Harness Error Boundary](core-component-00/harness-engineering/implementations/error_boundary.py)
-- [Token Budget Monitor](core-component-00/harness-engineering/implementations/context_monitor.py)
-- [Handoff Packet](core-component-00/multi-agent-engineering/implementations/handoff_packet.py)
+- [Context Assembler](core-component-00/engineering/context-engineering/implementations/context_assembler.py)
+- [Harness Error Boundary](core-component-00/engineering/harness-engineering/implementations/error_boundary.py)
+- [Token Budget Monitor](core-component-00/engineering/harness-engineering/implementations/context_monitor.py)
+- [Handoff Packet](core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py)
 - [RAG Architecture](core-component-00/retrieval-augmented-generation/architecture/overview.md)

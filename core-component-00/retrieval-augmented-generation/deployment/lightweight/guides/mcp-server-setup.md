@@ -115,7 +115,7 @@ Get-Process -Name "python" | Where-Object {
 
 ```powershell
 # Navigate to the MCP server directory
-Set-Location ".claude\mcp-servers\workspace-knowledge"
+Set-Location "core-component-00\mcp-servers\workspace-knowledge"
 
 # Install into the existing virtual environment
 .\.venv\Scripts\python.exe -m pip install "qdrant-client>=1.7.0,<2.0.0"
@@ -211,7 +211,7 @@ when chunk count is unchanged).
 ```powershell
 # Step 1: Set SEARCH_BACKEND to "faiss" in .mcp.json (edit the env block directly)
 # Step 2: Update the state file so the hook also routes to the FAISS path
-$stateFile = ".claude\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
+$stateFile = "core-component-00\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
 $state = Get-Content $stateFile | ConvertFrom-Json
 $state.search_backend   = "faiss"
 $state.debounce_seconds = 30
@@ -265,7 +265,7 @@ version control.
 # Step 1: Set SEARCH_BACKEND to "faiss" in .mcp.json (edit the env block directly)
 
 # Step 2: Update the state file — both the MCP server and the hook must agree on the backend
-$stateFile = ".claude\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
+$stateFile = "core-component-00\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
 $state = Get-Content $stateFile | ConvertFrom-Json
 $state.search_backend   = "faiss"
 $state.debounce_seconds = 30        # recalibrate for full-rebuild latency
@@ -303,8 +303,6 @@ detection). Rollback is available within one MCP server restart cycle.
 
 | Resource                     | Location                                                                                                     |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| **Deployment Research**      | `telescope/2026-06-25-qdrant-migration-plan/plans/02-deployment-guide.md`                                    |
-| **Initialization Research**  | `telescope/2026-06-25-qdrant-migration-plan/plans/03-initialization-guide.md`                                |
 | **Hook Configuration**       | `core-component-00/retrieval-augmented-generation/deployment/lightweight/guides/hook-configuration.md`       |
 | **State File Schema**        | `core-component-00/retrieval-augmented-generation/deployment/lightweight/reference/rag-sync-state-schema.md` |
 | **Lightweight RAG Overview** | `core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md`                  |

@@ -1,0 +1,7 @@
+# Python environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local evaluation harness — test scripts and generated outputs stay local
+tests/

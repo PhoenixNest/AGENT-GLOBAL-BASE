@@ -1,4 +1,4 @@
-﻿# ADR-ASE-001: Adoption of Agent Systems Engineering as Permanent Methodology — Casual Games Studio
+# ADR-ASE-001: Adoption of Agent Systems Engineering as Permanent Methodology — Casual Games Studio
 
 > **Author:** Studio Director Dr. Marcus Vogel
 > **Co-Authors:** CTO Dr. Kenji Nakamura (parent company liaison), CSO Dr. Sarah Chen
@@ -86,7 +86,7 @@ multiple crew divisions operate concurrently. Specifically:
 - **Stage 1–4:** Sequential handoffs; L5 patterns apply at each stage gate (handoff tiers)
 - **Stage 5 onward:** Concurrent multi-division work (Art, Engineering, Audio, Live-Ops); full L5
   orchestration including worktree isolation for parallel coding tasks
-- **Reference:** `inter-agent-communication-protocol.md`, `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+- **Reference:** `inter-agent-communication-protocol.md`, `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 ---
 

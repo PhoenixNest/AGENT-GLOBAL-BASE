@@ -15,7 +15,7 @@
 #   cc00-tool-limit-turn-<id>.txt    — per-turn cap override (deleted on each new prompt)
 #   cc00-tool-limit-session-<id>.txt — session ceiling override (persists for whole session)
 #
-# Reference: core-component-00/harness-engineering/implementations/tool_registry.py
+# Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py
 
 param()
 
@@ -104,7 +104,7 @@ Options:
      Action: summarise progress and do not retry the blocked command.
 
 NOTE: Any extension granted here is automatically removed at the start of the next prompt.
-Reference: core-component-00/harness-engineering/implementations/tool_registry.py
+Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py
 "@
 
     $output = [ordered]@{
@@ -149,7 +149,7 @@ Options:
   D) "End conversation" — wrap up and stop.
      Action: summarise progress and do not retry the blocked command.
 
-Reference: core-component-00/harness-engineering/implementations/tool_registry.py
+Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py
 "@
 
     $output = [ordered]@{

@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Research & Development
 agent_id: android-development-lead
 hire_date: 2026-04-14
+min_tier: sonnet
+stability_class: TIER_SENSITIVE
 ---
 
 # Kofi Asante-Mensah

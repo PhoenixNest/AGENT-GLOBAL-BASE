@@ -7,8 +7,9 @@ retrieval-augmented generation pipelines that ground LLM responses in institutio
 
 ## What Lives Here
 
-This module contains knowledge documentation and a production Python implementation. Unlike Layers 2,
-3, and 5, **there is no pytest test suite** for this module.
+This module contains knowledge documentation, production Python reference implementations, and a
+lightweight pytest test suite. The test suite uses mock dependencies and requires no GPU, CUDA,
+spaCy, or a live Qdrant instance.
 
 ---
 
@@ -18,8 +19,16 @@ This module contains knowledge documentation and a production Python implementat
 retrieval-augmented-generation/
 ├── fundamentals/          ← Concepts: retrieval strategies, chunking, embedding, reranking
 ├── patterns/              ← Pipeline patterns (naive RAG, advanced RAG, modular RAG)
-├── implementations/       ← Production Python code
-│   └── <rag-modules>      ← RAG pipeline components
+├── implementations/       ← Reference Python implementations (pure Python, injectable deps)
+│   ├── chunker.py         ← FixedSizeChunker, SemanticChunker, HybridChunker
+│   ├── retrieval.py       ← BM25 scoring, RRF fusion, ACL filtering
+│   └── pipeline.py        ← RAGPipeline — end-to-end orchestration
+├── testing/               ← Lightweight pytest suite (no heavy deps required)
+│   ├── conftest.py        ← Mock embedder, mock Qdrant client, sample corpus
+│   ├── test_chunking.py   ← Chunking strategy tests
+│   ├── test_retrieval.py  ← BM25, RRF fusion, ACL filter tests
+│   └── test_pipeline.py   ← End-to-end pipeline + Layer 2 contract tests
+├── tools/                 ← Operational scripts (initialize.py, thermal_guardian.py)
 └── requirements.txt       ← Heavy dependencies (install only when needed)
 ```
 
@@ -66,11 +75,31 @@ code — do not assume the GPU is accessible.
 
 ---
 
-## No Test Suite
+## Running the Test Suite
 
-Unlike Layers 2, 3, and 5, this module ships an implementation but **no pytest test suite**. There
-are no automated tests to run. Validation of RAG pipeline behaviour happens through integration
-testing in downstream systems.
+The test suite requires only standard library + pytest + unittest.mock — no heavy RAG dependencies:
+
+```powershell
+# From core-component-00/
+pytest retrieval-augmented-generation/testing/ -v
+```
+
+All heavy dependencies (embedding models, Qdrant, spaCy) are replaced by deterministic stubs
+defined in `testing/conftest.py`. The suite validates chunking invariants, BM25 scoring
+correctness, RRF fusion deduplication, ACL enforcement, and the Layer 2 slot-assembly contract.
+
+---
+
+## User Reference Deployment
+
+The production RAG deployment for this workspace is the **workspace-knowledge MCP server**:
+
+```
+core-component-00/mcp-servers/workspace-knowledge/
+```
+
+It uses BM25 + Qdrant hybrid retrieval and serves as the official reference example for
+deploying a Layer 4 RAG pipeline in an agent-native environment.
 
 ---
 
@@ -88,8 +117,8 @@ RAG is the knowledge retrieval layer. It integrates with:
 
 - Install dependencies only when actively needed — `requirements.txt` is a heavy payload.
 - Verify `torch.cuda.is_available()` before any GPU-dependent code path.
-- There is no test suite — validate RAG components through integration tests in consuming systems.
+- No CC-00 implementation change merges until `pytest retrieval-augmented-generation/testing/ -v`
+  passes. The lightweight suite requires no heavy deps and must always be green.
 - New RAG patterns must conform to ASE compliance standards in
   `agent-systems-engineering/governance/compliance-standard.md`.
-- Do not place test files here — if a test suite is added in the future, it belongs in a `testing/`
-  subfolder following the pattern of the other CC-00 modules.
+- Test files live in `testing/` — do not place them alongside implementation files.

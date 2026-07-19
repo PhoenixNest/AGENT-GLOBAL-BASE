@@ -1,0 +1,13 @@
+# Runtime-generated artifacts — never commit these
+embedding/
+
+# Local evaluation harness — test scripts and generated outputs stay local
+tests/
+
+# Python environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# RAG sync state (machine-local index metadata, not committed)
+rag-system/rag-sync-state.json

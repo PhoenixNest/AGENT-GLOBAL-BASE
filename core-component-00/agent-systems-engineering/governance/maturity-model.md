@@ -205,5 +205,5 @@ affirmatively. A partial affirmative moves the system to the level below.
 - [ADR-ASE-001](./adr-ase-001.md) — Governing ratification decision
 - [Compliance Standard](./compliance-standard.md) — Per-layer requirements
 - [Foundational Paper](core-component-00/agent-systems-engineering/CONCEPTS.md) — Convergence thesis
-- [Multi-Agent Engineering Module](core-component-00/multi-agent-engineering/README.md) — Swarm implementation
-- [Git Worktree Orchestration](core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md) — Level 4 infrastructure
+- [Multi-Agent Engineering Module](core-component-00/engineering/multi-agent-engineering/README.md) — Swarm implementation
+- [Git Worktree Orchestration](core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md) — Level 4 infrastructure

@@ -7,6 +7,8 @@ recruited-by: chief-human-resources-officer
 department: Brand Design
 agent_id: product-ui-ux-prototyper
 hire_date: 2026-04-21
+min_tier: sonnet
+stability_class: BRITTLE
 ---
 
 # Lena Vasquez

@@ -684,8 +684,8 @@ Get-Content -Path ./logs/rag-system.log -Tail 50 -Wait
 | Resource                      | URL                                                                         |
 | ----------------------------- | --------------------------------------------------------------------------- |
 | **CC-00 RAG Architecture**    | `core-component-00/retrieval-augmented-generation/architecture/overview.md` |
-| **CC-00 Context Engineering** | `core-component-00/context-engineering/README.md`                           |
-| **CC-00 Harness Engineering** | `core-component-00/harness-engineering/README.md`                           |
+| **CC-00 Context Engineering** | `core-component-00/engineering/context-engineering/README.md`                           |
+| **CC-00 Harness Engineering** | `core-component-00/engineering/harness-engineering/README.md`                           |
 | **LM Studio Documentation**   | https://lmstudio.ai/docs                                                    |
 | **Qdrant Documentation**      | https://qdrant.tech/documentation/                                          |
 | **Qwen 3.6 Model Card**       | https://huggingface.co/Qwen/Qwen3.6-35B-A3B                                 |

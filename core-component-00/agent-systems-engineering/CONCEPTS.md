@@ -239,7 +239,7 @@ flowchart TB
 ```
 
 Full implementation specifications:
-`core-component-00/multi-agent-engineering/patterns/orchestration-patterns.md`
+`core-component-00/engineering/multi-agent-engineering/patterns/orchestration-patterns.md`
 
 ### Layer 4: Knowledge (RAG + Memory Systems)
 
@@ -346,7 +346,7 @@ module. Each is fully specified in the `patterns/` sub-folder:
 | **The "God Agent"**        | One agent that does everything                                 | Context window overflow, quality degradation         | Decompose into specialists with clear boundaries      |
 
 Full system-level anti-patterns:
-`core-component-00/multi-agent-engineering/patterns/anti-patterns.md`
+`core-component-00/engineering/multi-agent-engineering/patterns/anti-patterns.md`
 
 ---
 

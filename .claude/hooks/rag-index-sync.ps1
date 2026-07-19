@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 # H-RAG02: PostToolUse — RAG Index Sync on Doc Write (toggle-aware, phase-adaptive)
 # Fires after Write or Edit tools modify .md files in KEY_DIRS.
-# Behavior is governed by .claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json (mode: auto|warn|off).
+# Behavior is governed by core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json (mode: auto|warn|off).
 # Phase adaptation: reads search_backend from state file to determine rebuild vs upsert path.
 # Phase 3 active (search_backend=qdrant): instructs upsert_document only; FAISS self-heals via mtime on startup.
 
@@ -37,7 +37,7 @@ if (-not $inKeyDir) { exit 0 }
 if ($normalizedPath -notmatch '\.md$') { exit 0 }
 
 # --- Read toggle state (defaults to warn if state file absent) ---
-$stateFile = Join-Path (Split-Path $PSScriptRoot -Parent) "mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
+$stateFile = Join-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) "core-component-00\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json"
 $mode            = "warn"
 $debounceSeconds = 30
 $lastRebuildAt   = 0
@@ -106,7 +106,6 @@ Before issuing any search_docs, find_related_documents, summarize_context, or ag
 query this turn, call $updateTool via the workspace-knowledge MCP to ensure retrieval results
 reflect your changes.
 To switch to passive mode: /rag-sync warn    To disable: /rag-sync off
-Reference: telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md
 "@
 
 $output = [ordered]@{

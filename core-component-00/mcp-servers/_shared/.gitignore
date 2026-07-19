@@ -1,0 +1,7 @@
+# Provisioned embedding models — regenerated via provision_model.py, not checked in
+# (mirrors workspace-knowledge/.gitignore's own embedding/ exclusion for the same reason)
+models/
+
+# Python environment / build artifacts
+__pycache__/
+*.py[cod]

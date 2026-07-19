@@ -16,7 +16,7 @@
 ## File Location
 
 ```
-.claude/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json
+core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json
 ```
 
 This file is the **shared inter-process communication channel** between the `workspace-knowledge`
@@ -162,7 +162,7 @@ In this implementation (Claude Code): `/rag-sync auto` then `/rag-sync threshold
 If H-RAG02 behaves unexpectedly, verify the state file with:
 
 ```powershell
-Get-Content ".claude\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json" | ConvertFrom-Json
+Get-Content "core-component-00\mcp-servers\workspace-knowledge\rag-system\rag-sync-state.json" | ConvertFrom-Json
 ```
 
 Or use the `status` operation from the configuration manager (this implementation:
@@ -177,7 +177,6 @@ malformed — a safe degraded state that does not cause incorrect behavior.
 
 | Resource                     | Location                                                                                               |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
-| **Hook Design Research**     | `telescope/2026-06-25-qdrant-migration-plan/plans/05-hook-design.md`                                   |
 | **Hook Configuration Guide** | `core-component-00/retrieval-augmented-generation/deployment/lightweight/guides/hook-configuration.md` |
 | **Index Sync Hook Pattern**  | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md`                        |
 | **MCP Server Setup**         | `core-component-00/retrieval-augmented-generation/deployment/lightweight/guides/mcp-server-setup.md`   |

@@ -304,16 +304,21 @@ Additional studios follow: `studio/<studio-name>/library/`, `pipeline/`, `projec
 ```
 core-component-00/
 ├── agent-systems-engineering/       ← Governing Framework (meta-module, not a peer layer)
-├── prompt-engineering/              ← Layer 1 — What to write
-├── context-engineering/             ← Layer 2 — How to structure it
-├── harness-engineering/             ← Layer 3 — How to execute safely
+├── engineering/                     ← Layers 1, 2, 3, 5 (see below)
+│   ├── prompt-engineering/          ← Layer 1 — What to write
+│   ├── context-engineering/         ← Layer 2 — How to structure it
+│   ├── harness-engineering/         ← Layer 3 — How to execute safely
+│   └── multi-agent-engineering/     ← Layer 5 — How agents cooperate
 ├── retrieval-augmented-generation/  ← Layer 4 — Where to get content
-├── multi-agent-engineering/         ← Layer 5 — How agents cooperate
 ├── director/                        ← Lab Director: Dr. Elias Vance
-└── telescope/                       ← Research Archive Hub (workspace root)
+└── telescope/                       ← CC-00's own research archive (engineering + LLM research)
 ```
 
-**Note:** `telescope/` physically resides at the workspace root but is maintained by CC-00 as the centralized research documentation repository.
+**Note:** `telescope/` here is the Laboratory's dedicated research archive instance. Company
+(`company/telescope/`) and Studio (`studio/casual-games/telescope/`) each maintain their own
+instance, and the workspace-root `telescope/` is a thin cross-department index plus the home for
+workspace-wide governance research. See workspace-root `telescope/CLAUDE.md` for the
+classification rule and shared conventions.
 
 ### 6.2 Laboratory Profile
 
@@ -338,17 +343,17 @@ CC-00 is the organisation's **centralised LLM engineering laboratory** and the f
 | **Affiliation**       | Anthropic Claude Lab → This Organisation (2026–)   |
 | **Full Profile**      | `core-component-00/README.md` § Researcher Profile |
 
-A co-founding researcher and principal engineer behind the **Claude family of large language models** at Anthropic, operating under the internal codename _core-component-00_. Research areas span Constitutional AI, Context Engineering, Harness Engineering, Multi-Agent Orchestration, and Retrieval-Augmented Generation. Full profile, bibliography, and research philosophy: `core-component-00/director/agent/profile.md`.
+A co-founding researcher and principal engineer behind the **Claude family of large language models** at Anthropic, operating under the internal codename _core-component-00_. Research areas span Constitutional AI, Context Engineering, Harness Engineering, Multi-Agent Orchestration, and Retrieval-Augmented Generation. Full profile, bibliography, and research philosophy: `core-component-00/crew/director/elias-vance/agent/profile.md`. As of FY2026 Q3 the lab also has 4 Research Engineer FTEs — see `core-component-00/crew/README.md`.
 
 ### 6.4 The Five-Module Engineering Stack
 
 | Layer                     | Module                            | Type                  | Has Code? |
 | ------------------------- | --------------------------------- | --------------------- | --------- |
-| 1 — What to write         | `prompt-engineering/`             | Knowledge base        | No        |
-| 2 — How to structure it   | `context-engineering/`            | Knowledge + Framework | Yes       |
-| 3 — How to execute safely | `harness-engineering/`            | Production Framework  | Yes       |
-| 4 — Where to get content  | `retrieval-augmented-generation/` | Production Framework  | Yes       |
-| 5 — How agents cooperate  | `multi-agent-engineering/`        | Production Framework  | Yes       |
+| 1 — What to write         | `engineering/prompt-engineering/`      | Knowledge base        | No        |
+| 2 — How to structure it   | `engineering/context-engineering/`     | Knowledge + Framework | Yes       |
+| 3 — How to execute safely | `engineering/harness-engineering/`     | Production Framework  | Yes       |
+| 4 — Where to get content  | `retrieval-augmented-generation/`      | Production Framework  | Yes       |
+| 5 — How agents cooperate  | `engineering/multi-agent-engineering/` | Production Framework  | Yes       |
 
 Theoretical synthesis of how all five converge: `core-component-00/agent-systems-engineering/CONCEPTS.md`
 
@@ -358,24 +363,24 @@ All paths are relative to `core-component-00/`.
 
 | File                                                              | Module | Purpose                                                  |
 | ----------------------------------------------------------------- | ------ | -------------------------------------------------------- |
-| `context-engineering/implementations/context_assembler.py`        | CE     | Four-slot context window assembly at runtime             |
-| `context-engineering/implementations/memory_store.py`             | CE     | Episodic, semantic, procedural, working memory           |
-| `context-engineering/implementations/context_compressor.py`       | CE     | Long-session compression for token budget compliance     |
-| `harness-engineering/implementations/error_boundary.py`           | HE     | Timeout, rate-limit, and validation recovery             |
-| `harness-engineering/implementations/context_monitor.py`          | HE     | Token budget enforcement                                 |
-| `harness-engineering/implementations/tool_registry.py`            | HE     | Tool whitelists, call limits, dangerous task detection   |
-| `multi-agent-engineering/implementations/swarm_orchestrator.py`   | MAE    | Swarm topology orchestration                             |
-| `multi-agent-engineering/implementations/git_worktree_manager.py` | MAE    | Git worktree isolation for parallel agents               |
-| `multi-agent-engineering/implementations/handoff_packet.py`       | MAE    | Context Handoff Protocol (Full / Scoped / Minimal tiers) |
+| `engineering/context-engineering/implementations/context_assembler.py`        | CE     | Four-slot context window assembly at runtime             |
+| `engineering/context-engineering/implementations/memory_store.py`             | CE     | Episodic, semantic, procedural, working memory           |
+| `engineering/context-engineering/implementations/context_compressor.py`       | CE     | Long-session compression for token budget compliance     |
+| `engineering/harness-engineering/implementations/error_boundary.py`           | HE     | Timeout, rate-limit, and validation recovery             |
+| `engineering/harness-engineering/implementations/context_monitor.py`          | HE     | Token budget enforcement                                 |
+| `engineering/harness-engineering/implementations/tool_registry.py`            | HE     | Tool whitelists, call limits, dangerous task detection   |
+| `engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`   | MAE    | Swarm topology orchestration                             |
+| `engineering/multi-agent-engineering/implementations/git_worktree_manager.py` | MAE    | Git worktree isolation for parallel agents               |
+| `engineering/multi-agent-engineering/implementations/handoff_packet.py`       | MAE    | Context Handoff Protocol (Full / Scoped / Minimal tiers) |
 
 ### 6.6 Active Research Programmes
 
 | Programme                        | Module                            | Open Question                                                    |
 | -------------------------------- | --------------------------------- | ---------------------------------------------------------------- |
-| Context Compression Theory       | `context-engineering/`            | Minimum information-preserving compression of a 100-turn session |
-| Multi-Agent Memory Coherence     | `context-engineering/`            | Distributed shared memory without a central store                |
-| Retrieval Freshness Guarantees   | `retrieval-augmented-generation/` | Bounding staleness of retrieved facts at inference time          |
-| Harness Performance Benchmarking | `harness-engineering/`            | Latency cost of full error boundary stack at p99                 |
+| Context Compression Theory       | `engineering/context-engineering/` | Minimum information-preserving compression of a 100-turn session |
+| Multi-Agent Memory Coherence     | `engineering/context-engineering/` | Distributed shared memory without a central store                |
+| Retrieval Freshness Guarantees   | `retrieval-augmented-generation/`  | Bounding staleness of retrieved facts at inference time          |
+| Harness Performance Benchmarking | `engineering/harness-engineering/` | Latency cost of full error boundary stack at p99                 |
 
 ---
 
@@ -391,11 +396,11 @@ ASE is not a sixth engineering discipline alongside the five CC-00 modules. It i
 
 | Layer | Name                | Purpose                              | CC-00 Module                      |
 | ----- | ------------------- | ------------------------------------ | --------------------------------- |
-| 1     | Prompt Engineering  | Standardised instruction patterns    | `prompt-engineering/`             |
-| 2     | Context Engineering | Structured handoffs, context windows | `context-engineering/`            |
-| 3     | Harness Engineering | Automated gate enforcement           | `harness-engineering/`            |
-| 4     | RAG / Memory        | Institutional knowledge retention    | `retrieval-augmented-generation/` |
-| 5     | Multi-Agent         | Swarm orchestration and isolation    | `multi-agent-engineering/`        |
+| 1     | Prompt Engineering  | Standardised instruction patterns    | `engineering/prompt-engineering/`      |
+| 2     | Context Engineering | Structured handoffs, context windows | `engineering/context-engineering/`     |
+| 3     | Harness Engineering | Automated gate enforcement           | `engineering/harness-engineering/`     |
+| 4     | RAG / Memory        | Institutional knowledge retention    | `retrieval-augmented-generation/`      |
+| 5     | Multi-Agent         | Swarm orchestration and isolation    | `engineering/multi-agent-engineering/` |
 
 **Governing documents** (all in `core-component-00/agent-systems-engineering/`):
 
@@ -465,7 +470,7 @@ Any company pipeline task exceeding its estimate by >20% triggers a CTO → CPO 
 
 #### Multi-Agent Swarm Workflow — Git Worktree
 
-For parallel multi-agent (swarm) work, this workspace follows the **git worktree isolation pattern** defined in `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`. The core principle: each agent receives an isolated filesystem and branch, eliminating filesystem contention between concurrent agents.
+For parallel multi-agent (swarm) work, this workspace follows the **git worktree isolation pattern** defined in `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`. The core principle: each agent receives an isolated filesystem and branch, eliminating filesystem contention between concurrent agents.
 
 **Five-phase lifecycle:**
 
@@ -492,8 +497,8 @@ For parallel multi-agent (swarm) work, this workspace follows the **git worktree
 | Commit subject | `agent/<name>: <verb-phrase>`            | ≤72 chars · imperative mood · lowercase                                                    |
 | Commit body    | Hyphen-bulleted list of discrete changes | Required — single-line commits with no body are a P2 defect; no audit trail                |
 
-**Programmatic control:** `core-component-00/multi-agent-engineering/implementations/git_worktree_manager.py`
-**Full specification:** `core-component-00/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+**Programmatic control:** `core-component-00/engineering/multi-agent-engineering/implementations/git_worktree_manager.py`
+**Full specification:** `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 #### Git Line Ending & Branching Alignment Specifications
 
@@ -511,8 +516,8 @@ For long-running work sessions — including company pipeline Stage 4 (_UML → 
 | Situation                | Action                                                                   | Reference                                                                     |
 | ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
 | Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                             |
-| Context budget pressure  | Apply Sacred Context principles; run the context compressor              | `core-component-00/context-engineering/implementations/context_compressor.py` |
-| Inter-agent handoff      | Follow the three-tier Context Handoff Protocol (Full / Scoped / Minimal) | `core-component-00/context-engineering/patterns/multi-agent-handoff.md`       |
+| Context budget pressure  | Apply Sacred Context principles; run the context compressor              | `core-component-00/engineering/context-engineering/implementations/context_compressor.py` |
+| Inter-agent handoff      | Follow the three-tier Context Handoff Protocol (Full / Scoped / Minimal) | `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`       |
 
 ### 8.7 Formatting
 
@@ -585,33 +590,36 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ## 11. Navigation Index
 
-| I need to understand…                      | Go to                                                     |
-| ------------------------------------------ | --------------------------------------------------------- |
-| **Company**                                |                                                           |
-| The company as a whole                     | `company/library/README.md`                               |
-| Org chart, departments, tier system        | `company/library/overview/company.md`                     |
-| All personnel and pipeline stage ownership | `company/library/overview/personnel.md`                   |
-| The 13-stage development pipeline          | `company/library/overview/pipeline.md`                    |
-| A specific department                      | `company/library/departments/<dept>.md`                   |
-| Architecture + ADR conventions             | `company/library/topics/architecture.md`                  |
-| Security + OWASP MASVS standards           | `company/library/topics/security.md`                      |
-| Testing + defect severity system           | `company/library/topics/testing.md`                       |
-| Progress monitoring + session recovery     | `company/library/topics/monitoring.md`                    |
-| Localization + i18n pipeline               | `company/library/topics/localization.md`                  |
-| **Studio**                                 |                                                           |
-| Studio overview and naming conventions     | `studio/README.md`                                        |
-| Casual Games Studio structure              | `studio/casual-games/README.md`                           |
-| Casual Games 11-stage pipeline             | `studio/casual-games/pipeline/casual-games-pipeline.md`   |
-| Studio crew by division                    | `studio/casual-games/team/README.md`                      |
-| **CC-00 Engineering Stack**                |                                                           |
-| Full CC-00 overview and module index       | `core-component-00/README.md`                             |
-| Synthesis of all five disciplines          | `core-component-00/agent-systems-engineering/CONCEPTS.md` |
-| How to write effective prompts             | `core-component-00/prompt-engineering/`                   |
-| How to architect context windows           | `core-component-00/context-engineering/`                  |
-| How to execute model calls safely          | `core-component-00/harness-engineering/`                  |
-| How to build RAG pipelines                 | `core-component-00/retrieval-augmented-generation/`       |
-| How multi-agent systems cooperate          | `core-component-00/multi-agent-engineering/`              |
-| Document research investigations           | `telescope/README.md`                                     |
+| I need to understand…                                     | Go to                                                     |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| **Company**                                               |                                                           |
+| The company as a whole                                    | `company/library/README.md`                               |
+| Org chart, departments, tier system                       | `company/library/overview/company.md`                     |
+| All personnel and pipeline stage ownership                | `company/library/overview/personnel.md`                   |
+| The 13-stage development pipeline                         | `company/library/overview/pipeline.md`                    |
+| A specific department                                     | `company/library/departments/<dept>.md`                   |
+| Architecture + ADR conventions                            | `company/library/topics/architecture.md`                  |
+| Security + OWASP MASVS standards                          | `company/library/topics/security.md`                      |
+| Testing + defect severity system                          | `company/library/topics/testing.md`                       |
+| Progress monitoring + session recovery                    | `company/library/topics/monitoring.md`                    |
+| Localization + i18n pipeline                              | `company/library/topics/localization.md`                  |
+| **Studio**                                                |                                                           |
+| Studio overview and naming conventions                    | `studio/README.md`                                        |
+| Casual Games Studio structure                             | `studio/casual-games/README.md`                           |
+| Casual Games 11-stage pipeline                            | `studio/casual-games/pipeline/casual-games-pipeline.md`   |
+| Studio crew by division                                   | `studio/casual-games/team/README.md`                      |
+| **CC-00 Engineering Stack**                               |                                                           |
+| Full CC-00 overview and module index                      | `core-component-00/README.md`                             |
+| Synthesis of all five disciplines                         | `core-component-00/agent-systems-engineering/CONCEPTS.md` |
+| How to write effective prompts                            | `core-component-00/engineering/prompt-engineering/`       |
+| How to architect context windows                          | `core-component-00/engineering/context-engineering/`      |
+| How to execute model calls safely                         | `core-component-00/engineering/harness-engineering/`      |
+| How to build RAG pipelines                                | `core-component-00/retrieval-augmented-generation/`       |
+| How multi-agent systems cooperate                         | `core-component-00/engineering/multi-agent-engineering/`  |
+| Document research investigations (cross-department index) | `telescope/README.md`                                     |
+| CC-00 engineering + LLM research                          | `core-component-00/telescope/README.md`                   |
+| Company product research                                  | `company/telescope/README.md`                             |
+| Studio game/market research                               | `studio/casual-games/telescope/README.md`                 |
 
 ---
 
@@ -643,15 +651,26 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ### CC-00 Laboratory — Director
 
-| Name            | Role                | Scope                                                                        |
-| --------------- | ------------------- | ---------------------------------------------------------------------------- |
-| Dr. Elias Vance | Laboratory Director | Full LLM engineering stack — all five modules and active research programmes |
+| Name                 | Role                               | Scope                                                                        |
+| -------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
+| Dr. Elias Vance      | Laboratory Director                | Full LLM engineering stack — all five modules and active research programmes |
+| Dr. Idris Farouk     | Staff Research Engineer, MAE Lead  | `engineering/multi-agent-engineering/` (lead)                                |
+| Mei-Ling Zhao        | Senior Research Engineer           | `engineering/context-engineering/` (lead)                                    |
+| Kwame Asante         | Senior Research Engineer           | `engineering/harness-engineering/` (lead)                                    |
+| Sofia Almeida        | Senior Research Engineer           | `retrieval-augmented-generation/` (lead)                                     |
+| Dr. Amara Nwosu-Chen | Staff Research Scientist           | Cross-cutting — independent research origination                             |
+| Dr. Tomasz Wieczorek | Staff Safety & Evaluation Engineer | Cross-cutting — independent adversarial evaluation                           |
+| Ravi Deshmukh        | Infrastructure Engineer            | Cross-cutting — dev environment/dependencies                                 |
+| Amina Yusuf          | Senior Research Engineer II        | `engineering/multi-agent-engineering/` (reports to Farouk)                   |
+| Diego Fontán         | Senior Research Engineer II        | `retrieval-augmented-generation/` (reports to Almeida)                       |
+| Hana Kobayashi       | Senior Research Engineer II        | `engineering/context-engineering/` (reports to Zhao)                         |
+| Connor O'Malley      | Senior Research Engineer II        | `engineering/harness-engineering/` (reports to Asante)                       |
 
 For complete rosters and full profiles, see:
 
 - **Company:** `company/library/overview/personnel.md`
 - **Studio:** `studio/casual-games/team/README.md`
-- **CC-00:** `core-component-00/director/agent/profile.md`
+- **CC-00:** `core-component-00/crew/README.md`
 
 ---
 

@@ -1,0 +1,6 @@
+# Runtime PID/lock files — regenerated on every launch, never checked in
+run/
+
+# Local evaluation harness — test scripts and generated outputs stay local
+# (mirrors agent-memory/.gitignore's own tests/ exclusion for the same reason)
+tests/

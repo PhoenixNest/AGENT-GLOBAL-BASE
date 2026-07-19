@@ -1,8 +1,8 @@
-﻿# Harness Configuration Specification — Casual Games Studio Pipeline
+# Harness Configuration Specification — Casual Games Studio Pipeline
 
 > **ASE Layer:** 3 — Harness Engineering (Mandatory)
 > **Authority:** Studio Director Dr. Marcus Vogel (co-signed: CTO Dr. Kenji Nakamura)
-> **Reference implementations:** `core-component-00/harness-engineering/implementations/`
+> **Reference implementations:** `core-component-00/engineering/harness-engineering/implementations/`
 > **Compliance standard:** `core-component-00/agent-systems-engineering/governance/compliance-standard.md` §Layer 3
 > **Studio ADR:** `studio/casual-games/pipeline/templates/monitoring/adr-ase-001.md`
 
@@ -28,7 +28,7 @@ This document defines the harness configuration that **every executor agent** op
 
 ## 2. Typed Error Boundary
 
-> **Tier:** Mandatory | **Reference:** `core-component-00/harness-engineering/implementations/error_boundary.py`
+> **Tier:** Mandatory | **Reference:** `core-component-00/engineering/harness-engineering/implementations/error_boundary.py`
 
 All errors must be caught by **type** — no blanket `except Exception` handling:
 
@@ -64,7 +64,7 @@ After 5 failed attempts, surface a `RateLimitError` to the stage owner with time
 
 ## 4. Token Budget Monitor
 
-> **Tier:** Mandatory | **Reference:** `core-component-00/harness-engineering/implementations/context_monitor.py`
+> **Tier:** Mandatory | **Reference:** `core-component-00/engineering/harness-engineering/implementations/context_monitor.py`
 
 |          Threshold          | Action                                                                                    |
 | :-------------------------: | :---------------------------------------------------------------------------------------- |
@@ -81,7 +81,7 @@ After 5 failed attempts, surface a `RateLimitError` to the stage owner with time
 
 ## 5. Tool Registry
 
-> **Tier:** Required (when tools are invoked) | **Reference:** `core-component-00/harness-engineering/implementations/tool_registry.py`
+> **Tier:** Required (when tools are invoked) | **Reference:** `core-component-00/engineering/harness-engineering/implementations/tool_registry.py`
 
 **Whitelist principle:** crew agents may only invoke tools explicitly listed for their pipeline stage. Unlisted tools are silently blocked and the attempt is logged.
 
@@ -112,7 +112,7 @@ Per-task call caps apply. No single task may make more than **20 tool calls** wi
 
 ## 7. Degradation Tiers
 
-> **Tier:** Recommended | **Reference:** `core-component-00/harness-engineering/CONCEPTS.md` §degradation
+> **Tier:** Recommended | **Reference:** `core-component-00/engineering/harness-engineering/CONCEPTS.md` §degradation
 
 When the full harness stack encounters sustained failures, degrade gracefully:
 

@@ -780,8 +780,8 @@ integrations:
   markdown_files:
     enabled: true
     source_paths:
-      - "./core-component-00/harness-engineering"
-      - "./core-component-00/prompt-engineering"
+      - "./core-component-00/engineering/harness-engineering"
+      - "./core-component-00/engineering/prompt-engineering"
     polling_interval_seconds: 30
 
   pdf_documents:
