@@ -46,11 +46,11 @@ ASE Compliance Standard before it is considered production-ready.
 ```
 ADR-ASE-001 (ratifying decision)
     └── Compliance Standard (per-layer requirements)
-            ├── prompt-engineering/ (Layer 1)
-            ├── context-engineering/ (Layer 2)
-            ├── harness-engineering/ (Layer 3)
+            ├── engineering/prompt-engineering/ (Layer 1)
+            ├── engineering/context-engineering/ (Layer 2)
+            ├── engineering/harness-engineering/ (Layer 3)
             ├── retrieval-augmented-generation/ (Layer 4)
-            └── multi-agent-engineering/ (Layer 5 — when applicable)
+            └── engineering/multi-agent-engineering/ (Layer 5 — when applicable)
 ```
 
 The **Laboratory Director (Dr. Elias Vance)** holds governing authority over this

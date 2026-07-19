@@ -42,7 +42,7 @@ harness-engineering/
 Run from `core-component-00/` (not workspace root) to avoid import conflicts:
 
 ```powershell
-pytest harness-engineering/testing/ -v
+pytest engineering/harness-engineering/testing/ -v
 ```
 
 Tests import via `from implementations.<module>` — the module root must be on `sys.path`. The test
@@ -87,6 +87,6 @@ from implementations.tool_registry import ToolRegistry
 - Token budgets must be enforced via `ContextMonitor` — do not rely on ad-hoc token counting.
 - Tool access must be governed by `ToolRegistry` — do not allow unrestricted tool access.
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
-- Any implementation change must pass `pytest harness-engineering/testing/ -v` before committing.
+- Any implementation change must pass `pytest engineering/harness-engineering/testing/ -v` before committing.
 - Never bypass safety enforcement to advance a task — this is equivalent to Trim-to-Pass and is a
   P0 defect in any ASE-governed system.
