@@ -1,7 +1,7 @@
 # agent-memory MCP Server
 
-MCP server for this workspace's persistent agent memory system — episodic, semantic, and
-procedural memory backed by a dedicated `qdrant-memory` Qdrant instance
+MCP server for this workspace's persistent agent memory system — episodic, semantic,
+procedural, and reflection memory backed by a dedicated `qdrant-memory` Qdrant instance
 (`http://localhost:6335`), physically separate from `workspace-knowledge`'s document knowledge
 base instance (`qdrant-workspace`).
 
@@ -15,17 +15,28 @@ table — treat that as the source of truth if it and this file ever disagree.
 
 ## How the memory system works
 
-Three independent memory types, each its own Qdrant collection, sharing one schema:
+Four independent memory types, each its own Qdrant collection. **This is a distinct taxonomy
+from `memory_store.py`'s four in-context runtime memory types** (episodic, semantic, procedural,
+_working_ — see `engineering/context-engineering/CLAUDE.md`); three of the four names overlap but
+the fourth diverges by design, not oversight — `working` memory is inherently ephemeral and never
+persisted to Qdrant, so it has no collection here, while `reflection` is inherently persisted and
+cross-session, so it has no in-context runtime slot there. Do not conflate the two lists.
 
 | Memory type    | Collection          | Lifespan                  | Scoping                                           |
 | -------------- | ------------------- | ------------------------- | ------------------------------------------------- |
 | **Episodic**   | `memory_episodic`   | One session               | Requires `session_id` unless `cross_session=True` |
 | **Semantic**   | `memory_semantic`   | Cross-session, persistent | Never session-scoped                              |
 | **Procedural** | `memory_procedural` | Cross-session, persistent | Never session-scoped                              |
+| **Reflection** | `memory_reflection` | Cross-session, persistent | Never session-scoped                              |
+
+`memory_reflection` shares the collection's cross-session lifespan but not its record schema —
+`search_memory` returns a differently-shaped `ReflectionRecord` payload for it (see
+[`search_memory`](#search_memory) below), not the standard `MemoryRecord` shape the other three
+share.
 
 **Write path** (not exposed via this MCP server — see below): every write goes through
 `PersistentMemorySink` and always appends to a durable, human-readable JSONL log _first_
-(`context-engineering/memory/episodic/<session_id>.jsonl`, `semantic.jsonl`,
+(`engineering/context-engineering/memory/episodic/<session_id>.jsonl`, `semantic.jsonl`,
 `procedural.jsonl`) — that log is the source of truth. The write then embeds the content
 (`all-MiniLM-L6-v2`) and upserts it into the matching Qdrant collection as a derived, rebuildable
 index, exactly the same "log is truth, Qdrant is a derived index" pattern already used for the
@@ -60,10 +71,11 @@ one — the same blast-radius reasoning that already gave `qdrant-memory` its ow
 instead of a collection inside `qdrant-workspace`.
 
 This server does not reimplement memory logic — it imports
-`context-engineering/implementations/memory_vector_store.py` (and, once a maintenance-trigger
-tool exists, `memory_maintenance.py`), the same way `workspace-knowledge/server.py` already
-imports across module boundaries for its `health_check` tool. The engineering lives in
-`context-engineering/`; this server is the thin MCP exposition layer over it.
+`engineering/context-engineering/implementations/memory_vector_store.py` (and, once a
+maintenance-trigger tool exists, `memory_maintenance.py`), the same way
+`workspace-knowledge/server.py` already imports across module boundaries for its `health_check`
+tool. The engineering lives in `engineering/context-engineering/`; this server is the thin MCP
+exposition layer over it.
 
 ---
 
@@ -150,15 +162,15 @@ Qdrant) returns an empty result with `degraded: true` and a `reason`, and every 
 Qdrant call is timeout-guarded (8s) so a stalled network call degrades the response instead of
 hanging it.
 
-| Parameter          | Default  | Notes                                               |
-| ------------------ | -------- | --------------------------------------------------- |
-| `query`            | required | Text to embed and search with                       |
-| `memory_type`      | required | `episodic` \| `semantic` \| `procedural`            |
-| `top_k`            | `5`      | Clamped to `[1, 50]`                                |
-| `session_id`       | `null`   | Required for `episodic` unless `cross_session=True` |
-| `cross_session`    | `false`  | `episodic` only — search across all sessions        |
-| `include_dormant`  | `false`  | Widen beyond `status=active`                        |
-| `include_archived` | `false`  | Widen beyond `status=active`                        |
+| Parameter          | Default  | Notes                                                                                                                                               |
+| ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `query`            | required | Text to embed and search with                                                                                                                       |
+| `memory_type`      | required | `episodic` \| `semantic` \| `procedural` \| `reflection` — `reflection` returns a `ReflectionRecord` payload, not the standard `MemoryRecord` shape |
+| `top_k`            | `5`      | Clamped to `[1, 50]`                                                                                                                                |
+| `session_id`       | `null`   | Required for `episodic` unless `cross_session=True`                                                                                                 |
+| `cross_session`    | `false`  | `episodic` only — search across all sessions                                                                                                        |
+| `include_dormant`  | `false`  | Widen beyond `status=active`                                                                                                                        |
+| `include_archived` | `false`  | Widen beyond `status=active`                                                                                                                        |
 
 Example call:
 
@@ -190,14 +202,19 @@ Example response (degraded — embedder not ready yet on this process):
 
 ### `health_check`
 
-Reachability and point counts for `qdrant-memory`'s three collections, plus dormant ratio and
+Reachability and point counts for `qdrant-memory`'s four collections, plus dormant ratio and
 last consolidation time, under a `memory_instance` key:
 
 ```json
 {
   "memory_instance": {
     "reachable": true,
-    "point_counts": { "memory_episodic": 0, "memory_semantic": 0, "memory_procedural": 0 },
+    "point_counts": {
+      "memory_episodic": 0,
+      "memory_semantic": 0,
+      "memory_procedural": 0,
+      "memory_reflection": 4
+    },
     "last_consolidation_at": null,
     "dormant_ratio": 0.0
   }
@@ -234,14 +251,14 @@ all CC-00 MCP servers (see `.claude/rules/mcp-governance.md`).
 `_get_embedder()` in `server.py` loads the model in a background thread at process startup so
 the first `search_memory` call is never blocked on it; `search_memory` degrades gracefully with
 a `reason` explaining whether the embedder is still loading, failed to load, or (if this code
-path is ever reached) is genuinely unavailable — it never raises. Known caveat: on this
-environment, that background load has been observed to stall indefinitely on one of its
-transitive imports in a live server process, even though the same import completes in well
-under a second in isolation — tracked as an open Completeness gap in
-`.claude/rules/mcp-governance.md`, not yet root-caused. This server has no private per-server
-model cache and no dependency on `workspace-knowledge`'s process, state, or cache — the shared
-cache is a filesystem convention both read independently, not a coupling between the two
-servers.
+path is ever reached) is genuinely unavailable — it never raises. A background-load stall on one
+of the embedder's transitive imports was previously observed in some live server processes on
+this environment; it is now resolved via a lazy embedder warmup, per
+`core-component-00/telescope/2026-07-17-agent-memory-client-instability/` (root-caused and
+fixed). Full status, including prior investigation history, is tracked in
+`.claude/rules/mcp-governance.md`. This server has no private per-server model cache and no
+dependency on `workspace-knowledge`'s process, state, or cache — the shared cache is a filesystem
+convention both read independently, not a coupling between the two servers.
 
 ---
 
@@ -253,10 +270,12 @@ Assessment Protocol: Capability ✅, Governance ✅, Completeness ⚠️. `searc
 end-to-end MCP calls). Open caveats, both tracked in `.claude/rules/mcp-governance.md` rather
 than duplicated here to avoid drift:
 
-1. The embedder background-load stall described above — `search_memory` currently cannot
-   reliably return non-degraded results on this environment until it's root-caused.
-2. The live collections still hold zero real records (no production memory writes exist yet),
-   so retrieval _quality_ against real content is unverified independent of (1).
+1. The embedder background-load stall described above is now resolved (root-caused and fixed —
+   see `core-component-00/telescope/2026-07-17-agent-memory-client-instability/`).
+2. `memory_reflection` holds 4 real records (`REFLECT-001`–`004`, migrated 2026-07-15 from the
+   retired mistake-log); `memory_episodic`/`memory_semantic`/`memory_procedural` still hold zero
+   (no production memory writes exist yet), so retrieval _quality_ against real content remains
+   unverified for those three.
 
 ---
 

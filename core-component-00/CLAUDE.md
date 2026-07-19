@@ -32,13 +32,13 @@ protocol: `crew/README.md` and `crew/CLAUDE.md`.
 
 ## The Five-Module Engineering Stack
 
-| Layer                     | Module Folder                              | Type                  | Has Tests? |
-| ------------------------- | ------------------------------------------- | --------------------- | ---------- |
-| 1 — What to write         | `engineering/prompt-engineering/`           | Knowledge base        | No         |
-| 2 — How to structure it   | `engineering/context-engineering/`          | Knowledge + Framework | Yes        |
-| 3 — How to execute safely | `engineering/harness-engineering/`          | Production Framework  | Yes        |
-| 4 — Where to get content  | `retrieval-augmented-generation/`           | Production Framework  | Yes        |
-| 5 — How agents cooperate  | `engineering/multi-agent-engineering/`      | Production Framework  | Yes        |
+| Layer                     | Module Folder                          | Type                  | Has Tests? |
+| ------------------------- | -------------------------------------- | --------------------- | ---------- |
+| 1 — What to write         | `engineering/prompt-engineering/`      | Knowledge base        | No         |
+| 2 — How to structure it   | `engineering/context-engineering/`     | Knowledge + Framework | Yes        |
+| 3 — How to execute safely | `engineering/harness-engineering/`     | Production Framework  | Yes        |
+| 4 — Where to get content  | `retrieval-augmented-generation/`      | Production Framework  | Yes        |
+| 5 — How agents cooperate  | `engineering/multi-agent-engineering/` | Production Framework  | Yes        |
 
 ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a sixth module. See
 `agent-systems-engineering/`.
@@ -49,8 +49,8 @@ ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a s
 
 All paths relative to `core-component-00/`:
 
-| File                                                                         | Module | Purpose                                                |
-| ---------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
+| File                                                                        | Module | Purpose                                                |
+| --------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
 | `engineering/context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
 | `engineering/context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
 | `engineering/context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
@@ -119,6 +119,7 @@ Governing documents: `agent-systems-engineering/governance/`
 | Safe model execution                                | `engineering/harness-engineering/`      |
 | RAG pipelines                                       | `retrieval-augmented-generation/`       |
 | Multi-agent / swarm systems                         | `engineering/multi-agent-engineering/`  |
+| MCP server implementations (deployment surface)     | `mcp-servers/`                          |
 | Lab Director persona + crew roster                  | `crew/`                                 |
 | Research reports (CC-00 engineering + LLM research) | `telescope/`                            |
 | Cross-cutting / workspace-wide research             | `../telescope/` (workspace root)        |

@@ -42,7 +42,7 @@ context-engineering/
 Run from `core-component-00/` (not workspace root) to avoid import conflicts:
 
 ```powershell
-pytest context-engineering/testing/ -v
+pytest engineering/context-engineering/testing/ -v
 ```
 
 Tests import via `from implementations.<module>` — the module root must be on `sys.path`. The test
@@ -98,4 +98,4 @@ Reference: `patterns/multi-agent-handoff.md`
 - Do not create ad-hoc context structures. Use the four-slot assembly pattern.
 - Memory types (episodic, semantic, procedural, working) have distinct roles — do not conflate them.
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
-- This module has an active test suite — any implementation change must pass `pytest context-engineering/testing/ -v` before committing.
+- This module has an active test suite — any implementation change must pass `pytest engineering/context-engineering/testing/ -v` before committing.
