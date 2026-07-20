@@ -1,5 +1,14 @@
 ---
-description: Backend/API architecture patterns — invoke manually when designing server-side systems
+paths:
+  - "**/*.go"
+  - "**/*.rb"
+  - "company/**/backend/**"
+  - "company/**/api/**"
+  - "studio/**/backend/**"
+  - "studio/**/api/**"
+  - "company/**/*.py"
+  - "studio/**/*.py"
+description: Backend/API architecture patterns
 ---
 
 # Backend Architecture

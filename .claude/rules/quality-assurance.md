@@ -1,5 +1,9 @@
 ---
-description: Testing/QA patterns, defect classification, and quality standards — invoke manually when writing tests or conducting reviews
+paths:
+  - "core-component-00/engineering/**/testing/**"
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+description: Testing/QA patterns, defect classification, and quality standards
 ---
 
 # Quality Assurance
