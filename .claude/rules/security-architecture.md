@@ -1,9 +1,13 @@
 ---
 paths:
-  - "**/security/**"
+  - "core-component-00/retrieval-augmented-generation/security/**"
+  - "studio/casual-games/library/topics/security/**"
   - "**/*security*.md"
   - "**/*auth*.ts"
-  - "**/*auth*.py"
+  - "company/**/*auth*.py"
+  - "studio/**/*auth*.py"
+  - "core-component-00/engineering/**/*auth*.py"
+  - "core-component-00/retrieval-augmented-generation/**/*auth*.py"
   - "**/*auth*.kt"
   - "**/*auth*.swift"
 description: Security architecture patterns and OWASP best practices
@@ -59,3 +63,11 @@ X-Content-Type-Options: nosniff
 2. **DAST:** OWASP ZAP, Burp Suite — scan running app
 3. **Dependency scanning:** Snyk, npm audit
 4. **Pen testing:** Annual, cover auth/injection/business logic
+
+---
+
+## Related Rules
+
+- `android-development.md`, `ios-development.md` — Platform-specific security implementation (Keystore/Keychain, biometric auth)
+- `frontend-architecture.md` — XSS, CSRF, CSP client-side security patterns
+- `backend-architecture.md` — Authentication, authorization, and secrets management patterns
