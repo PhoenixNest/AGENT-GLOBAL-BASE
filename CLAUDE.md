@@ -51,7 +51,7 @@ The `.claude/` folder is fully provisioned:
 | Path                                                 | Purpose                                                                                    |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | `.claude/settings.json`                              | PowerShell shell, hooks, MCP permissions                                                   |
-| `.claude/rules/*.md`                                 | 27 project rules — 7 always-on + 20 path-scoped                                            |
+| `.claude/rules/*.md`                                 | 27 project rules — 3 always-on + 24 path-scoped                                            |
 | `.claude/skills/<domain>/SKILL.md`                   | 21 skill routers (20 domains + `activate-org-agent`)                                       |
 | `.claude/skills/<domain>/references/`                | Deep sub-skill reference docs                                                              |
 | `.claude/agents/*.md`                                | 4 functional subagents (pipeline-executor, org-activator, cc00-assistant, orchestrator)    |

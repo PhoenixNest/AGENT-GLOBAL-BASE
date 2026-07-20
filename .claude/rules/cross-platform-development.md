@@ -1,5 +1,12 @@
 ---
-description: KMP/Flutter cross-platform development patterns — invoke manually when working on shared code
+paths:
+  - "**/*.dart"
+  - "**/commonMain/**"
+  - "**/androidMain/**"
+  - "**/iosMain/**"
+  - "**/commonTest/**"
+  - "pubspec.yaml"
+description: KMP/Flutter cross-platform development patterns
 ---
 
 # Cross-Platform Development

@@ -1,5 +1,11 @@
 ---
-description: i18n/l10n engineering patterns — invoke manually when working on multi-language features
+paths:
+  - "**/*.arb"
+  - "**/*.po"
+  - "**/locales/**"
+  - "**/i18n/**"
+  - "**/l10n/**"
+description: i18n/l10n engineering patterns
 ---
 
 # Localization Engineering
