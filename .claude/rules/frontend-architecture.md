@@ -1,5 +1,11 @@
 ---
-description: Frontend/Web architecture patterns — invoke manually when designing web UI
+paths:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/*.vue"
+  - "**/*.svelte"
+  - "**/web/**"
+description: Frontend/Web architecture patterns
 ---
 
 # Frontend Architecture
