@@ -249,7 +249,7 @@ def _get_embedder() -> Optional[Callable[[str], List[float]]]:
 
     def _resilient_embed(text: str) -> List[float]:
         if service_ready:
-            vector = embedder_client.embed([text], model=_EMBEDDER_SERVICE_MODEL)
+            vector = embedder_client.embed([text], model=_EMBEDDER_SERVICE_MODEL, expected_dim=384)
             if vector is not None:
                 return vector[0]
             _diag("embedder-service call failed at runtime — falling back to in-process embedder")

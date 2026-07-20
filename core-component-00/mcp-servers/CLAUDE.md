@@ -8,13 +8,20 @@ surface — architecturally distinct from the five-module research stack under `
 
 ## What Lives Here
 
-Two live MCP servers plus a shared provisioning convention:
+Two live MCP servers, a shared model-provisioning convention, and a shared internal embedding
+process (`embedder-service`) both servers depend on but which is not itself registered in
+`.mcp.json`:
 
 ```
 mcp-servers/
-├── workspace-knowledge/   ← Document knowledge base (BM25 + semantic search over qdrant-workspace)
-├── agent-memory/          ← Persistent agent memory (episodic/semantic/procedural/reflection over qdrant-memory)
-└── _shared/                ← Shared embedding-model provisioning convention (provision_model.py)
+├── workspace-knowledge/     ← Document knowledge base (BM25 + semantic search over qdrant-workspace)
+├── agent-memory/            ← Persistent agent memory (episodic/semantic/procedural/reflection over qdrant-memory)
+└── _shared/
+    ├── provision_model.py    ← Shared embedding-model provisioning (writes to _shared/models/<slug>/)
+    └── embedder-service/     ← Persistent localhost-only HTTP embedding process; both servers route
+                                 embed calls through it when available, each falling back to its own
+                                 private in-process model load if it isn't. Not an MCP server itself —
+                                 see .claude/rules/mcp-governance.md "Shared Infrastructure" section.
 ```
 
 Each server carries its own `README.md` — read that first for the server's tool contract,
@@ -35,11 +42,12 @@ file, not this one or either server's README, as canonical if they ever disagree
 
 ## Where to Look
 
-| I need…                                | Go to                             |
-| -------------------------------------- | --------------------------------- |
-| A server's tools, contract, setup      | `<server>/README.md`              |
-| Gate status, caveats, incident history | `.claude/rules/mcp-governance.md` |
-| Shared embedding-model provisioning    | `_shared/provision_model.py`      |
+| I need…                                      | Go to                                |
+| -------------------------------------------- | ------------------------------------ |
+| A server's tools, contract, setup            | `<server>/README.md`                 |
+| Gate status, caveats, incident history       | `.claude/rules/mcp-governance.md`    |
+| Shared embedding-model provisioning          | `_shared/provision_model.py`         |
+| Shared embedding process (not an MCP server) | `_shared/embedder-service/server.py` |
 
 ---
 

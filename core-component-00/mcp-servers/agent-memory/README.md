@@ -150,6 +150,20 @@ The `NO_PROXY`/`no_proxy` pair works around a Windows-specific issue where `qdra
 HTTP transport can be intercepted by a system proxy invisible to the usual environment
 variables — see the deployment guidelines linked above for detail.
 
+### Shared Infrastructure Dependency
+
+`search_memory` optionally routes embedding through `embedder-service` — a persistent,
+localhost-only process shared with `workspace-knowledge` — instead of loading
+`all-MiniLM-L6-v2` in-process on every launch. Full architecture, lifecycle, and config surface:
+`.claude/rules/mcp-governance.md` § "Shared Infrastructure — `embedder-service`".
+
+| Env var                    | Default | Effect                                                                                                    |
+| -------------------------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `EMBEDDER_SERVICE_ENABLED` | `true`  | `false` skips the service entirely and always uses `_get_in_process_embedder()`'s background-loaded copy. |
+
+If `embedder-service` is down, unreachable, or returns a wrong-dimension vector, `search_memory`
+falls back to the in-process embedder automatically — never raises, degrades per the table above.
+
 ---
 
 ## Tools
