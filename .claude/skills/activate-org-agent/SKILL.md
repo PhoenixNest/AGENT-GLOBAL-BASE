@@ -67,7 +67,7 @@ core-component-00/crew/<module>/<name>/agent/profile.md
 | Dr. Amara Osei-Mensah      | CTO-L           | `company/departments/localization/supervisor/chief-translation-officer/agent/profile.md`        |
 | Dr. Evelyn Hartwell        | CHRO            | `company/departments/human-resources/supervisor/chief-human-resources-officer/agent/profile.md` |
 | Dr. Victoria Svensson-Park | CLO             | `company/departments/legal/supervisor/chief-legal-officer/agent/profile.md`                     |
-| Dr. Marcus Vogel           | Studio Director | `studio/casual-games/team/crew/leadership/studio-director/dr-marcus-vogel/agent/profile.md`     |
+| Dr. Marcus Vogel           | Studio Director | `studio/casual-games/team/crew/leadership/studio-director/marcus-vogel/agent/profile.md`        |
 | Dr. Elias Vance            | CC-00 Director  | `core-component-00/crew/director/elias-vance/agent/profile.md`                                  |
 | Dr. Idris Farouk           | CC-00 MAE Lead  | `core-component-00/crew/multi-agent-engineering/idris-farouk/agent/profile.md`                  |
 | Mei-Ling Zhao              | CC-00 Sr. RE    | `core-component-00/crew/context-engineering/mei-ling-zhao/agent/profile.md`                     |
