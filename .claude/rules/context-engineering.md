@@ -1,7 +1,7 @@
 ---
 paths:
   - "**/context-engineering/**"
-  - "**/*context*.py"
+  - "core-component-00/engineering/**/*context*.py"
 description: Context Engineering (Layer 2) patterns and behavior rules
 ---
 
