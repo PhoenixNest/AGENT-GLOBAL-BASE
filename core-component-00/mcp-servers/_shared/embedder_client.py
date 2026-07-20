@@ -194,7 +194,7 @@ def ensure_service_running() -> bool:
         _release_lock()
 
 
-def _embed_once(model: str, texts: List[str]) -> List[List[float]]:
+def _embed_once(model: str, texts: List[str]) -> "tuple[List[List[float]], int]":
     payload = json.dumps({"model": model, "texts": texts}).encode("utf-8")
     req = urllib.request.Request(
         f"{BASE_URL}/embed",
@@ -204,22 +204,36 @@ def _embed_once(model: str, texts: List[str]) -> List[List[float]]:
     )
     with urllib.request.urlopen(req, timeout=EMBED_CALL_TIMEOUT_S) as resp:
         data = json.loads(resp.read().decode("utf-8"))
-    return data["vectors"]
+    return data["vectors"], data["dim"]
 
 
 def embed(
-    texts: List[str], model: str, timeout: float = EMBED_CALL_TIMEOUT_S
+    texts: List[str],
+    model: str,
+    timeout: float = EMBED_CALL_TIMEOUT_S,
+    expected_dim: Optional[int] = None,
 ) -> Optional[List[List[float]]]:
     """
     Returns embedding vectors for `texts` via the shared embedder-service, or
     None on any failure — unreachable service, timeout (including a
     native-level hang the socket's own timeout= failed to enforce), non-200
-    response, or malformed body. Never raises, never blocks past `timeout`
+    response, malformed body, or (if `expected_dim` is given) a dimension
+    mismatch between the server's reported vector size and the caller's own
+    collection dimensionality. Never raises, never blocks past `timeout`
     seconds (plus watchdog scheduling overhead). Callers must fall back to
     their in-process loader on None.
+
+    `expected_dim` guards against the model-alias table in embedder-service
+    ever being mis-edited (e.g. a copy-paste bug swapping which slug two
+    model names resolve to) — without it, a caller would silently receive a
+    wrong-dimension vector: Qdrant rejects a mismatched upsert outright, but
+    a query-time similarity call (Qdrant or this codebase's FAISS fallback)
+    would not, and would corrupt results instead of failing loudly. Passing
+    it costs nothing when the alias table is correct, as it always has been
+    so far.
     """
     try:
-        return _call_with_hard_timeout(lambda: _embed_once(model, texts), timeout=timeout)
+        vectors, dim = _call_with_hard_timeout(lambda: _embed_once(model, texts), timeout=timeout)
     except concurrent.futures.TimeoutError:
         _diag(f"embed TIMED OUT after {timeout}s (model={model!r})")
         return None
@@ -232,3 +246,12 @@ def embed(
     except Exception as exc:
         _diag(f"embed failed (model={model!r}): {exc}")
         return None
+
+    if expected_dim is not None and dim != expected_dim:
+        _diag(
+            f"embed: dimension mismatch (model={model!r}): server returned dim={dim}, "
+            f"caller expected {expected_dim} — refusing to return a wrong-dimension vector"
+        )
+        return None
+
+    return vectors
