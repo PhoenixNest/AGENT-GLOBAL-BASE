@@ -52,6 +52,7 @@ if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
 import embedder_client  # noqa: E402
 
 MEMORY_QDRANT_URL = os.getenv("MEMORY_QDRANT_URL", "http://localhost:6335")
+WORKSPACE_QDRANT_URL = os.getenv("WORKSPACE_QDRANT_URL", "http://localhost:6333")
 _memory_sync_state = MemorySyncState()
 
 mcp = FastMCP("workspace-knowledge")
@@ -272,7 +273,7 @@ class SearchEngine:
         Degrades gracefully — sets _qdrant_ready=False if Docker is unreachable."""
         try:
             from qdrant_client import QdrantClient
-            self._qdrant_client = QdrantClient(url="http://localhost:6333", timeout=10)
+            self._qdrant_client = QdrantClient(url=WORKSPACE_QDRANT_URL, timeout=10)
             self._ensure_collection()
             self._seed_if_empty()
             self._qdrant_ready = True
@@ -437,7 +438,9 @@ class SearchEngine:
         import numpy as np
 
         if EMBEDDER_SERVICE_ENABLED and _embedder_service_ready():
-            vectors = embedder_client.embed([query], model=_QUERY_EMBEDDER_SERVICE_MODEL)
+            vectors = embedder_client.embed(
+                [query], model=_QUERY_EMBEDDER_SERVICE_MODEL, expected_dim=768
+            )
             if vectors is not None:
                 arr = np.array(vectors, dtype="float32")
                 return arr / np.linalg.norm(arr, axis=1, keepdims=True)

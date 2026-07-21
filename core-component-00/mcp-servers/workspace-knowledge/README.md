@@ -80,6 +80,21 @@ Registered in the project-root `.mcp.json`:
 
 Tool permissions are granted in `.claude/settings.json` under `permissions.allow`.
 
+### Shared Infrastructure Dependency
+
+Query-time embedding optionally routes through `embedder-service` — a persistent, localhost-only
+process shared with `agent-memory` — instead of loading `all-mpnet-base-v2` in-process on every
+launch. Full architecture, lifecycle, and config surface:
+`.claude/rules/mcp-governance.md` § "Shared Infrastructure — `embedder-service`".
+
+| Env var                    | Default                 | Effect                                                                                                                                 |
+| -------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `EMBEDDER_SERVICE_ENABLED` | `true`                  | `false` skips the service entirely and always uses this server's own private in-process `all-mpnet-base-v2` copy (`embedding/model/`). |
+| `WORKSPACE_QDRANT_URL`     | `http://localhost:6333` | Override the `qdrant-workspace` connection URL.                                                                                        |
+
+If `embedder-service` is down, unreachable, or returns a wrong-dimension vector, this server falls
+back to its private in-process model automatically — no manual intervention needed.
+
 ---
 
 ## Tools

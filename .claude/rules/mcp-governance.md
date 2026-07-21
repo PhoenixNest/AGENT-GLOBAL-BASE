@@ -94,6 +94,51 @@ migration — this convention governs new/future provisioning, not a retrofit of
 works. Servers read the shared cache independently at call time; there is no shared init sequence,
 lock, or state file between servers.
 
+**The shared cache has a third consumer beyond the two registered servers.** `embedder-service`
+(see "Shared Infrastructure" below) loads every model any of its consumers route through it
+directly from `_shared/models/<slug>/` — including a copy of `all-mpnet-base-v2`, even though
+`workspace-knowledge` also keeps its own separate private copy for its no-service fallback path.
+Do not assume a model present in the shared cache but "unused" by a registered server's own code
+is dead weight — check `embedder-service`'s `MODEL_ALIASES` table and each consumer's
+`EMBEDDER_SERVICE_ENABLED` wiring before deleting anything from `_shared/models/`.
+
+---
+
+## Shared Infrastructure — `embedder-service` (Not Individually Gated)
+
+`core-component-00/mcp-servers/_shared/embedder-service/server.py` is a persistent,
+localhost-only HTTP process that `workspace-knowledge` and `agent-memory` both route embedding
+calls through when it's available. It is **not** an entry in `.mcp.json` and Claude Code never
+connects to it directly — it is an internal implementation detail of the two registered servers,
+not a standalone MCP server, so the Three-Gate Inclusion Test does not apply to it: there is no
+`.mcp.json` entry to gate.
+
+**Lifecycle.** Self-launched by whichever consumer needs it first
+(`embedder_client.ensure_service_running()`, guarded by a real atomic lock file —
+`embedder-service.lock`, created `O_CREAT|O_EXCL` so concurrent launches don't race — distinct
+from `embedder-service.pid`, which `server.py` writes purely for introspection and does not use
+for locking), and self-terminating after an idle timeout (600s default) once its in-flight
+request counter reaches zero — no external supervisor process has to remember to stop it.
+
+**What it does.** Loads every sentence-transformers model provisioned in
+`_shared/models/<slug>/` once at process startup — today that's `all-MiniLM-L6-v2` (for
+`agent-memory`) and `all-mpnet-base-v2` (for `workspace-knowledge`) — then serves
+`POST /embed {model, texts}` over plain HTTP (`127.0.0.1:8791` by default). This removes the
+failure mode described in the `agent-memory` row above: a heavy `sentence_transformers` →
+`torch`/`scipy` import happening inside a process the MCP host itself spawns and churns, which
+was the root cause of the intermittent embedder-warmup stalls fixed 2026-07-17.
+
+**Graceful degradation.** Both consumers treat the service being down or slow to start as a
+non-error. `agent-memory` falls back to its pre-existing `embedder=None` → `degraded: true` path
+(unchanged from before `embedder-service` existed). `workspace-knowledge` falls back to loading
+its own private in-process copy of `all-mpnet-base-v2` from `embedding/model/`.
+
+**Config (env vars, all optional, sane localhost defaults):** `EMBEDDER_SERVICE_HOST`
+(`127.0.0.1`), `EMBEDDER_SERVICE_PORT` (`8791`), `EMBEDDER_SERVICE_IDLE_TIMEOUT_S` (`600`),
+`EMBEDDER_SERVICE_MAX_BODY_BYTES` (2 MB), `EMBEDDER_SERVICE_MAX_TEXTS` (256 texts/request),
+`EMBEDDER_SERVICE_MAX_TEXT_CHARS` (20,000 chars/text). `workspace-knowledge` additionally reads
+`EMBEDDER_SERVICE_ENABLED` (default `true`) to decide whether to attempt the service at all.
+
 **Retired servers:**
 
 | Server                 | Failing Gate                  | Reason                                                                                                                                                                                                          |
