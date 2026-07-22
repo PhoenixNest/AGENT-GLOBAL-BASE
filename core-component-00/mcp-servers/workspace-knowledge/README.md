@@ -113,7 +113,8 @@ back to its private in-process model automatically — no manual intervention ne
 
 | Tool                 | Description                                                                                                                                   |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `rebuild_index`      | Full FAISS rebuild from corpus. Use for DR recovery or when FAISS index is missing.                                                           |
+| `rebuild_index`      | Full FAISS rebuild from corpus. Use for DR recovery or when FAISS index is missing. Blocks until the Qdrant re-seed fully completes.          |
+| `rebuild_status`     | Poll live progress (phase, files scanned, chunks embedded) of the most recently started `rebuild_index` call from a separate call.           |
 | `upsert_document`    | Re-chunk, re-embed, and upsert a single file into the Qdrant collection. Faster than a full rebuild; use after editing an indexed `.md` file. |
 | `list_indexed_files` | List all files currently in the search index.                                                                                                 |
 
@@ -173,7 +174,17 @@ doesn't exist.
 No parameters. Re-scans every workspace markdown file from scratch and re-seeds the Qdrant
 collection if Qdrant is initialized. Returns `{"status": "rebuilt", "tier", "_meta"}`. This is
 the full DR rebuild path — see [Disaster Recovery](#disaster-recovery) for when to use it versus
-`upsert_document`.
+`upsert_document`. The call blocks until the Qdrant re-seed fully completes, so the returned
+`tier` reflects the true final state rather than a transient mid-rebuild reading — call
+`rebuild_status` from a separate call to watch progress while it runs.
+
+### `rebuild_status`
+
+No parameters. Reports live progress of the most recently started `rebuild_index` call:
+`{"phase", "files_scanned", "files_total", "chunks_embedded", "chunks_total", "_meta"}`, where
+`phase` is one of `idle` / `bm25` / `qdrant_connect` / `faiss` / `qdrant_seed` / `done` / `error`.
+Safe to poll repeatedly from a separate call while `rebuild_index` is still running — there is no
+push/streaming progress channel, this is a pull-based snapshot.
 
 ### `upsert_document`
 

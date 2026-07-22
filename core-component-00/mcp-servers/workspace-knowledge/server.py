@@ -145,6 +145,14 @@ class SearchEngine:
         self._qdrant_client = None     # QdrantClient instance
         self._collection_name = "workspace_knowledge"
         self._qdrant_ready = False
+        self._init_thread: threading.Thread | None = None
+        self._rebuild_progress: dict[str, Any] = {
+            "phase": "idle",  # idle | bm25 | qdrant_connect | faiss | qdrant_seed | done | error
+            "files_scanned": 0,
+            "files_total": 0,
+            "chunks_embedded": 0,
+            "chunks_total": 0,
+        }
         self._initialize_search_engine()
 
     def _extract_chunks(self, file_path: Path) -> list[dict]:
@@ -219,6 +227,7 @@ class SearchEngine:
         except ImportError:
             self._tier = SearchTier.RAWFS
             self._degradation_reason = "rank_bm25 not installed"
+            self._init_thread = None
             return
 
         try:
@@ -227,10 +236,12 @@ class SearchEngine:
         except Exception as e:
             self._tier = SearchTier.RAWFS
             self._degradation_reason = f"BM25 build failed: {e}"
+            self._init_thread = None
             return
 
         # Launch FAISS + Qdrant shadow init off the critical MCP handshake path
         t = threading.Thread(target=self._init_faiss_background, daemon=True)
+        self._init_thread = t
         t.start()
 
     def _init_faiss_background(self):
@@ -242,11 +253,13 @@ class SearchEngine:
         catches the error and retries after FAISS completes.
         """
         # Phase 1 — Qdrant connect (fast path: no-op when collection already seeded)
+        self._rebuild_progress["phase"] = "qdrant_connect"
         self._init_qdrant()
         if SEARCH_BACKEND == "qdrant" and self._qdrant_ready:
             self._tier = SearchTier.HYBRID_QDRANT
 
         # Phase 2 — FAISS build / load (may take minutes on mtime mismatch)
+        self._rebuild_progress["phase"] = "faiss"
         try:
             import faiss
             import numpy as np
@@ -254,12 +267,15 @@ class SearchEngine:
             self._build_or_load_faiss_index(faiss, np, SentenceTransformer)
         except ImportError:
             self._degradation_reason = "sentence-transformers or faiss not installed — using BM25"
+            self._rebuild_progress["phase"] = "error"
             return
         except Exception as e:
             self._degradation_reason = f"FAISS init failed: {e} — using BM25"
+            self._rebuild_progress["phase"] = "error"
             return
 
         # Phase 3 — retry Qdrant if Phase 1 failed (e.g., collection was empty; model now ready)
+        self._rebuild_progress["phase"] = "qdrant_seed"
         if not self._qdrant_ready:
             self._init_qdrant()
 
@@ -267,6 +283,7 @@ class SearchEngine:
             self._tier = SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID
         else:
             self._tier = SearchTier.HYBRID
+        self._rebuild_progress["phase"] = "done"
 
     def _init_qdrant(self):
         """Connect to the local Qdrant Docker server and seed collection if empty.
@@ -277,6 +294,7 @@ class SearchEngine:
             self._ensure_collection()
             self._seed_if_empty()
             self._qdrant_ready = True
+            self._degradation_reason = None
         except Exception as exc:
             self._qdrant_ready = False
             self._degradation_reason = (
@@ -318,6 +336,8 @@ class SearchEngine:
 
         BATCH_SIZE = 100
         texts = [c["text"][:512] for c in self._chunks]
+        self._rebuild_progress["chunks_total"] = len(texts)
+        self._rebuild_progress["chunks_embedded"] = 0
         embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
         embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
@@ -342,15 +362,22 @@ class SearchEngine:
                 collection_name=self._collection_name,
                 points=points,
             )
+            self._rebuild_progress["chunks_embedded"] = min(i + BATCH_SIZE, len(self._chunks))
 
     def _build_bm25_index(self, BM25Okapi):
         """Build the BM25 index from all markdown chunks."""
-        all_chunks = []
+        self._rebuild_progress["phase"] = "bm25"
+        md_files = []
         for dir_name in self.KEY_DIRS:
             dir_path = self.workspace_root / dir_name
             if dir_path.exists():
-                for md_file in dir_path.rglob("*.md"):
-                    all_chunks.extend(self._extract_chunks(md_file))
+                md_files.extend(dir_path.rglob("*.md"))
+        self._rebuild_progress["files_total"] = len(md_files)
+        self._rebuild_progress["files_scanned"] = 0
+        all_chunks = []
+        for md_file in md_files:
+            all_chunks.extend(self._extract_chunks(md_file))
+            self._rebuild_progress["files_scanned"] += 1
         if not all_chunks:
             raise RuntimeError("No markdown files found")
         self._chunks = all_chunks
@@ -659,6 +686,13 @@ class SearchEngine:
         }
 
     def rebuild(self):
+        self._rebuild_progress = {
+            "phase": "starting",
+            "files_scanned": 0,
+            "files_total": 0,
+            "chunks_embedded": 0,
+            "chunks_total": 0,
+        }
         # Clear Qdrant collection so reseed happens on reinit
         if self._qdrant_ready and self._qdrant_client is not None:
             try:
@@ -676,6 +710,12 @@ class SearchEngine:
         if state_file.exists():
             state_file.unlink()
         self._initialize_search_engine()
+        # rebuild() is an explicit, user-invoked action, not the startup handshake
+        # path _initialize_search_engine's background thread is designed to keep
+        # fast — wait for the FAISS/Qdrant reseed so the returned tier reflects
+        # final state, not the transient BM25-only window before it completes.
+        if self._init_thread is not None:
+            self._init_thread.join()
 
     def list_files(self) -> list[str]:
         seen = set()
@@ -730,9 +770,20 @@ def list_indexed_files() -> dict[str, Any]:
 @mcp.tool()
 def rebuild_index() -> dict[str, Any]:
     """Rebuild the search index from scratch, re-scanning all workspace markdown files.
-    Also clears and re-seeds the Qdrant collection when Qdrant is initialized."""
+    Also clears and re-seeds the Qdrant collection when Qdrant is initialized. This call
+    blocks until the rebuild fully completes (including the Qdrant re-seed) — poll
+    rebuild_status() from another call for live phase/progress while it runs."""
     engine.rebuild()
     return {"status": "rebuilt", "tier": engine._tier.value, "_meta": engine._meta_block()}
+
+
+@mcp.tool()
+def rebuild_status() -> dict[str, Any]:
+    """Report live progress of the most recently started rebuild_index call: current
+    phase (idle/bm25/qdrant_connect/faiss/qdrant_seed/done/error), markdown files
+    scanned so far vs. total, and chunks embedded/upserted into Qdrant so far vs. total.
+    Safe to poll repeatedly from a separate call while rebuild_index is still running."""
+    return {**engine._rebuild_progress, "_meta": engine._meta_block()}
 
 
 @mcp.tool()
