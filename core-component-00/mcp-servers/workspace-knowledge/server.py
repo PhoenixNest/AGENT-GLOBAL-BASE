@@ -716,6 +716,16 @@ class SearchEngine:
         # final state, not the transient BM25-only window before it completes.
         if self._init_thread is not None:
             self._init_thread.join()
+        # Release PyTorch's CUDA caching allocator's reserved-but-unused pool
+        # (grown to the rebuild's peak batch-encode footprint) back to the
+        # driver, rather than holding it for the life of the process — a
+        # no-op on CPU-only environments or when CUDA isn't in use.
+        try:
+            import torch
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        except ImportError:
+            pass
 
     def list_files(self) -> list[str]:
         seen = set()
