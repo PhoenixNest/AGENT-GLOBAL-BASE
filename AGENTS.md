@@ -1,22 +1,22 @@
 # AGENTS.md — Workspace Agent Orientation Guide
 
 > **Document level:** Workspace root — not owned by any single system
-> **Last Updated:** 2026-04-30
+> **Last Updated:** 2026-07-23
 > **Scope:** All AI agents operating within this repository
 
-This is the authoritative entry point for every AI agent working in this workspace. Read it completely before taking any action. It defines what this workspace is, who the agents are, the chain of authority, the three co-resident systems, operating conventions, available tooling, and the rules that govern all work here.
+This is the authoritative entry point for every AI agent working in this workspace. Read it completely before taking any action. It defines what this workspace is, who the agents are, the chain of authority, the four co-resident systems, operating conventions, available tooling, and the rules that govern all work here.
 
 ---
 
 ## Table of Contents
 
-| Part                                     | Sections  | Covers                                                       |
-| ---------------------------------------- | --------- | ------------------------------------------------------------ |
-| **I — Workspace Identity & Agent Model** | §1 – §3   | What this is, who you are, who's in charge                   |
-| **II — The Three Systems**               | §4 – §6   | Company, Studio, CC-00 Lab — structure, pipelines, personnel |
-| **III — Governance**                     | §7        | ASE framework — mandatory multi-agent governance layer       |
-| **IV — Operating Standards**             | §8 – §10  | Conventions, behaviour rules, hardware environment           |
-| **V — Reference**                        | §11 – §12 | Navigation index, key personnel roster                       |
+| Part                                     | Sections  | Covers                                                               |
+| ---------------------------------------- | --------- | -------------------------------------------------------------------- |
+| **I — Workspace Identity & Agent Model** | §1 – §3   | What this is, who you are, who's in charge                           |
+| **II — The Four Systems**                | §4 – §7   | Company, Studio, CC-00 Lab, ANU-00 — structure, pipelines, personnel |
+| **III — Governance**                     | §8        | ASE framework — mandatory multi-agent governance layer               |
+| **IV — Operating Standards**             | §9 – §11  | Conventions, behaviour rules, hardware environment                   |
+| **V — Reference**                        | §12 – §13 | Navigation index, key personnel roster                               |
 
 ---
 
@@ -28,15 +28,16 @@ This is the authoritative entry point for every AI agent working in this workspa
 
 ### 1.1 What This Workspace Is
 
-This repository is a **unified organizational simulation and LLM engineering base** consisting of three co-resident systems:
+This repository is a **unified organizational simulation and LLM engineering base** consisting of four co-resident systems:
 
-| System          | Path                 | Purpose                                                             |
-| --------------- | -------------------- | ------------------------------------------------------------------- |
-| **The Company** | `company/`           | Mobile product company — org structure, pipelines, personnel        |
-| **The Studio**  | `studio/`            | Creative studios — crew, pipelines, and projects across disciplines |
-| **CC-00 Lab**   | `core-component-00/` | Applied LLM research laboratory — engineering stack                 |
+| System          | Path                       | Purpose                                                                                                                 |
+| --------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **The Company** | `company/`                 | Mobile product company — org structure, pipelines, personnel                                                            |
+| **The Studio**  | `studio/`                  | Creative studios — crew, pipelines, and projects across disciplines                                                     |
+| **CC-00 Lab**   | `core-component-00/`       | Applied LLM research laboratory — engineering stack                                                                     |
+| **ANU-00**      | `academic-neural-unit-00/` | Independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 |
 
-These three systems are architecturally independent but share governance through the **Agent Systems Engineering (ASE)** framework (§7).
+These four systems are architecturally independent but share governance through the **Agent Systems Engineering (ASE)** framework (§8).
 
 This is a **Markdown-first, agent-native knowledge base**. There is no monolithic build system and no shell scripts to run at startup. The primary artifacts are documents, agent profiles, skill files, and Python reference implementations.
 
@@ -119,11 +120,11 @@ Pipeline stages marked **User Approval? ✅** are **hard stops**. The AI executo
 
 ### 3.3 Mandatory Governance
 
-The Agent Systems Engineering (ASE) framework is mandatory across all pipelines (§7). No agent may bypass it. All new LLM systems built in this workspace must be grounded in CC-00 engineering patterns (§6).
+The Agent Systems Engineering (ASE) framework is mandatory across all pipelines (§8). No agent may bypass it. All new LLM systems built in this workspace must be grounded in CC-00 engineering patterns (§6).
 
 ---
 
-## Part II — The Three Systems
+## Part II — The Four Systems
 
 ---
 
@@ -347,8 +348,8 @@ A co-founding researcher and principal engineer behind the **Claude family of la
 
 ### 6.4 The Five-Module Engineering Stack
 
-| Layer                     | Module                            | Type                  | Has Code? |
-| ------------------------- | --------------------------------- | --------------------- | --------- |
+| Layer                     | Module                                 | Type                  | Has Code? |
+| ------------------------- | -------------------------------------- | --------------------- | --------- |
 | 1 — What to write         | `engineering/prompt-engineering/`      | Knowledge base        | No        |
 | 2 — How to structure it   | `engineering/context-engineering/`     | Knowledge + Framework | Yes       |
 | 3 — How to execute safely | `engineering/harness-engineering/`     | Production Framework  | Yes       |
@@ -361,8 +362,8 @@ Theoretical synthesis of how all five converge: `core-component-00/agent-systems
 
 All paths are relative to `core-component-00/`.
 
-| File                                                              | Module | Purpose                                                  |
-| ----------------------------------------------------------------- | ------ | -------------------------------------------------------- |
+| File                                                                          | Module | Purpose                                                  |
+| ----------------------------------------------------------------------------- | ------ | -------------------------------------------------------- |
 | `engineering/context-engineering/implementations/context_assembler.py`        | CE     | Four-slot context window assembly at runtime             |
 | `engineering/context-engineering/implementations/memory_store.py`             | CE     | Episodic, semantic, procedural, working memory           |
 | `engineering/context-engineering/implementations/context_compressor.py`       | CE     | Long-session compression for token budget compliance     |
@@ -375,8 +376,8 @@ All paths are relative to `core-component-00/`.
 
 ### 6.6 Active Research Programmes
 
-| Programme                        | Module                            | Open Question                                                    |
-| -------------------------------- | --------------------------------- | ---------------------------------------------------------------- |
+| Programme                        | Module                             | Open Question                                                    |
+| -------------------------------- | ---------------------------------- | ---------------------------------------------------------------- |
 | Context Compression Theory       | `engineering/context-engineering/` | Minimum information-preserving compression of a 100-turn session |
 | Multi-Agent Memory Coherence     | `engineering/context-engineering/` | Distributed shared memory without a central store                |
 | Retrieval Freshness Guarantees   | `retrieval-augmented-generation/`  | Bounding staleness of retrieved facts at inference time          |
@@ -384,18 +385,79 @@ All paths are relative to `core-component-00/`.
 
 ---
 
+## 7. Academic Neural Unit 00 (`academic-neural-unit-00/`)
+
+> **Start here:** `academic-neural-unit-00/README.md` → then `academic-neural-unit-00/CLAUDE.md`
+> for operating conventions → then `academic-neural-unit-00/crew/README.md` for the roster.
+
+### 7.1 Directory Structure
+
+```
+academic-neural-unit-00/
+├── CLAUDE.md                              ← Entity operating-layer file (hierarchically loaded)
+├── README.md                              ← Overview, charter, CC-00 boundary statement
+├── formation/                             ← Formation record: charter, CEO decisions, final review
+│   └── 2026-07-23-formation-meeting/
+└── crew/                                  ← Personnel roster (10 FTEs)
+    ├── lead/naledi-mokoena/
+    ├── research-science/                  ← 7 Research Scientists (flat, plus one pod)
+    └── knowledge-systems/tobias-lindqvist/
+```
+
+### 7.2 Entity Profile
+
+| Field                     | Detail                                                                                                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Designation**           | Academic Neural Unit 00 (ANU-00)                                                                                                                                          |
+| **Classification**        | Independent Academic Research Entity                                                                                                                                      |
+| **Status**                | CEO-approved · Formally chartered · Active                                                                                                                                |
+| **Founded**               | 2026-07-23                                                                                                                                                                |
+| **Research Scope**        | Computer science · Artificial intelligence · Neural networks · Software engineering                                                                                       |
+| **Relationship to CC-00** | Incubated, not governed. CC-00's role was advisory during formation only and formally ended once ANU-00's own Lead was hired — no reporting line into CC-00 or Dr. Vance. |
+
+### 7.3 Lead
+
+| Field            | Detail                                                              |
+| ---------------- | ------------------------------------------------------------------- |
+| **Name**         | Dr. Naledi Mokoena                                                  |
+| **Role**         | ANU-00 Lead                                                         |
+| **Reports To**   | CEO (direct — no supervisory layer between her and the CEO)         |
+| **Full Profile** | `academic-neural-unit-00/crew/lead/naledi-mokoena/agent/profile.md` |
+
+Full roster of Dr. Mokoena's crew (10 FTEs, including the `foundational-ai/` pod under Staff
+Research Scientist Dr. Aditi Bhandari): §13, or `academic-neural-unit-00/crew/README.md`.
+
+### 7.4 Charter Boundary — the Stage-of-Inquiry Test
+
+ANU-00 and CC-00 are distinguished by **stage of inquiry**, not by field vocabulary: CC-00 hardens
+already-validated theory into production implementation (_post-validation_); ANU-00 investigates
+whether a theory or technique is workable at all (_pre-implementation_) — even when a question
+shares vocabulary with a CC-00 module. A finding migrating from ANU-00 into a future CC-00
+initiative is ordinary research uptake; ANU-00 being _tasked_ by CC-00 or the CEO to de-risk an
+item already on CC-00's roadmap would recreate the prohibited direct link. Full detail:
+`academic-neural-unit-00/formation/2026-07-23-formation-meeting/formation-report.md` §3.1, or
+`academic-neural-unit-00/CLAUDE.md`.
+
+### 7.5 Recruitment
+
+ANU-00 recruits through the same standard company-wide 9-stage pipeline (§4.6) under CHRO
+authority — it has no separate hiring process of its own. Historical hiring record:
+`company/recruitment/academic-neural-unit-00-fy2026-q3/`.
+
+---
+
 ## Part III — Governance
 
 ---
 
-## 7. The Agent Systems Engineering (ASE) Framework
+## 8. The Agent Systems Engineering (ASE) Framework
 
 ASE is the **mandatory governing framework** for all LLM-powered systems built in this organisation — ratified via ADR-ASE-001 and enforced across all company and studio pipelines. Every AI executor agent operating in this workspace is bound by it.
 
 ASE is not a sixth engineering discipline alongside the five CC-00 modules. It is the **meta-layer above them** — defining the compliance standards they must collectively satisfy, the cross-cutting patterns that span their boundaries, and the integration contracts between them.
 
-| Layer | Name                | Purpose                              | CC-00 Module                      |
-| ----- | ------------------- | ------------------------------------ | --------------------------------- |
+| Layer | Name                | Purpose                              | CC-00 Module                           |
+| ----- | ------------------- | ------------------------------------ | -------------------------------------- |
 | 1     | Prompt Engineering  | Standardised instruction patterns    | `engineering/prompt-engineering/`      |
 | 2     | Context Engineering | Structured handoffs, context windows | `engineering/context-engineering/`     |
 | 3     | Harness Engineering | Automated gate enforcement           | `engineering/harness-engineering/`     |
@@ -419,9 +481,9 @@ All four **company** development pipelines (Mobile, Web, Backend API, Full-Stack
 
 ---
 
-## 8. Universal Conventions
+## 9. Universal Conventions
 
-### 8.1 File and Folder Naming
+### 9.1 File and Folder Naming
 
 | Item Type              | Convention                                                                             |
 | ---------------------- | -------------------------------------------------------------------------------------- |
@@ -431,7 +493,7 @@ All four **company** development pipelines (Mobile, Web, Backend API, Full-Stack
 | Pipeline documents     | `pipeline.md` — inside the pipeline folder                                             |
 | Optimization records   | `YYYY-MM-DD-<slug>/` folder containing `optimization-plan.md` + `execution-tracker.md` |
 
-### 8.2 Document Authority Hierarchy
+### 9.2 Document Authority Hierarchy
 
 When sources conflict, apply this precedence (highest to lowest):
 
@@ -440,7 +502,7 @@ When sources conflict, apply this precedence (highest to lowest):
 3. `library/overview/*.md` — authoritative summaries
 4. `library/departments/*.md` — readable summaries (may lag the canonical source)
 
-### 8.3 Company — Personnel Tier System
+### 9.3 Company — Personnel Tier System
 
 The following tier system applies to the **Company** system only. The Casual Games Studio uses a division-based structure (see §5.4).
 
@@ -450,7 +512,7 @@ The following tier system applies to the **Company** system only. The Casual Gam
 | Team Supervisors | Recruited after C-suite; own sub-department execution |
 | Teammates        | Individual contributors                               |
 
-### 8.4 Company Pipeline — Progress Monitoring
+### 9.4 Company Pipeline — Progress Monitoring
 
 For any company development project at or beyond **Stage 4 — _UML → Implementation Plan + Gantt_** (see §4.4), three files must be maintained within the project folder:
 
@@ -462,9 +524,9 @@ For any company development project at or beyond **Stage 4 — _UML → Implemen
 
 Any company pipeline task exceeding its estimate by >20% triggers a CTO → CPO schedule risk notification. Studio projects follow the escalation path defined in the Casual Games Studio pipeline (`studio/casual-games/pipeline/casual-games-pipeline.md`).
 
-### 8.5 Git and Version Control
+### 9.5 Git and Version Control
 
-**Repository root:** `c:\Users\ASUS\Documents\Code\Local\agent-global-base` · Default branch: `master` · No remote configured (local-only repository)
+**Repository root:** `c:\Users\ASUS\Documents\Code\Local\agent-global-base` · Default branch: `master`
 
 **Commit policy:** Commit finalized workspace additions (profiles, pipelines, skills, this file). Never force-push to `master` — escalate to the user if a destructive git operation is being considered.
 
@@ -509,17 +571,17 @@ To maintain repository integrity and prevent parallel branch tracks or duplicate
 | **Line Ending Compliance** | On Windows development environments (such as the ASUS Zenbook Pro 14 Duo UX8402VV), native text editors default to CRLF (`\r\n`). To prevent mismatch and duplicate Git histories, files must use CRLF for Windows workflows while ensuring Git commit messages remain clean of carriage returns. | Configure Git (`git config --global core.autocrlf true` or equivalent local configuration). Enforce proper mappings in [`.gitattributes`](file:///C:/Users/ASUS/Documents/Code/Local/AGENT-GLOBAL-BASE/.gitattributes) (e.g. `*.md text=crlf`) to handle cross-platform checkouts cleanly. |
 | **Branch Point Alignment** | All feature or pipeline stage branches MUST branch directly from the tip commit of their parent branch or preceding stage, rather than an outdated historical baseline commit.                                                                                                                    | Verify parentage using `git log --oneline --graph` prior to branching. If incorrect branch points are used, rebase the branch(es) onto the correct parent tip (rewriting branch resets where necessary using `GIT_SEQUENCE_EDITOR` for merges).                                            |
 
-### 8.6 Context and Session Management
+### 9.6 Context and Session Management
 
 For long-running work sessions — including company pipeline Stage 4 (_UML → Implementation Plan + Gantt_) onward, Casual Games Studio pipeline Stage 5 (_Full Production_) onward, or any multi-session research task:
 
-| Situation                | Action                                                                   | Reference                                                                     |
-| ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                             |
+| Situation                | Action                                                                   | Reference                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                                         |
 | Context budget pressure  | Apply Sacred Context principles; run the context compressor              | `core-component-00/engineering/context-engineering/implementations/context_compressor.py` |
 | Inter-agent handoff      | Follow the three-tier Context Handoff Protocol (Full / Scoped / Minimal) | `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`       |
 
-### 8.7 Formatting
+### 9.7 Formatting
 
 Run **Prettier** on every file created or modified before finalising:
 
@@ -529,7 +591,7 @@ prettier --write "<file-path>"
 
 ---
 
-## 9. Agent Behaviour Rules
+## 10. Agent Behaviour Rules
 
 These rules apply to **all AI executor agents** operating in this workspace without exception.
 
@@ -550,9 +612,9 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ---
 
-## 10. Operating Environment
+## 11. Operating Environment
 
-### 10.1 Development Machine
+### 11.1 Development Machine
 
 | Field                 | Detail                                                                       |
 | --------------------- | ---------------------------------------------------------------------------- |
@@ -572,7 +634,7 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | **Weight**            | 1.75 kg                                                                      |
 | **Security**          | TPM 2.0 · IR webcam + Windows Hello · MIL-STD 810H                           |
 
-### 10.2 Implications for Agent Work
+### 11.2 Implications for Agent Work
 
 | Concern              | Guidance                                                                                                                                            |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -588,42 +650,48 @@ These rules apply to **all AI executor agents** operating in this workspace with
 
 ---
 
-## 11. Navigation Index
+## 12. Navigation Index
 
-| I need to understand…                                     | Go to                                                     |
-| --------------------------------------------------------- | --------------------------------------------------------- |
-| **Company**                                               |                                                           |
-| The company as a whole                                    | `company/library/README.md`                               |
-| Org chart, departments, tier system                       | `company/library/overview/company.md`                     |
-| All personnel and pipeline stage ownership                | `company/library/overview/personnel.md`                   |
-| The 13-stage development pipeline                         | `company/library/overview/pipeline.md`                    |
-| A specific department                                     | `company/library/departments/<dept>.md`                   |
-| Architecture + ADR conventions                            | `company/library/topics/architecture.md`                  |
-| Security + OWASP MASVS standards                          | `company/library/topics/security.md`                      |
-| Testing + defect severity system                          | `company/library/topics/testing.md`                       |
-| Progress monitoring + session recovery                    | `company/library/topics/monitoring.md`                    |
-| Localization + i18n pipeline                              | `company/library/topics/localization.md`                  |
-| **Studio**                                                |                                                           |
-| Studio overview and naming conventions                    | `studio/README.md`                                        |
-| Casual Games Studio structure                             | `studio/casual-games/README.md`                           |
-| Casual Games 11-stage pipeline                            | `studio/casual-games/pipeline/casual-games-pipeline.md`   |
-| Studio crew by division                                   | `studio/casual-games/team/README.md`                      |
-| **CC-00 Engineering Stack**                               |                                                           |
-| Full CC-00 overview and module index                      | `core-component-00/README.md`                             |
-| Synthesis of all five disciplines                         | `core-component-00/agent-systems-engineering/CONCEPTS.md` |
-| How to write effective prompts                            | `core-component-00/engineering/prompt-engineering/`       |
-| How to architect context windows                          | `core-component-00/engineering/context-engineering/`      |
-| How to execute model calls safely                         | `core-component-00/engineering/harness-engineering/`      |
-| How to build RAG pipelines                                | `core-component-00/retrieval-augmented-generation/`       |
-| How multi-agent systems cooperate                         | `core-component-00/engineering/multi-agent-engineering/`  |
-| Document research investigations (cross-department index) | `telescope/README.md`                                     |
-| CC-00 engineering + LLM research                          | `core-component-00/telescope/README.md`                   |
-| Company product research                                  | `company/telescope/README.md`                             |
-| Studio game/market research                               | `studio/casual-games/telescope/README.md`                 |
+| I need to understand…                                     | Go to                                                                                |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Company**                                               |                                                                                      |
+| The company as a whole                                    | `company/library/README.md`                                                          |
+| Org chart, departments, tier system                       | `company/library/overview/company.md`                                                |
+| All personnel and pipeline stage ownership                | `company/library/overview/personnel.md`                                              |
+| The 13-stage development pipeline                         | `company/library/overview/pipeline.md`                                               |
+| A specific department                                     | `company/library/departments/<dept>.md`                                              |
+| Architecture + ADR conventions                            | `company/library/topics/architecture.md`                                             |
+| Security + OWASP MASVS standards                          | `company/library/topics/security.md`                                                 |
+| Testing + defect severity system                          | `company/library/topics/testing.md`                                                  |
+| Progress monitoring + session recovery                    | `company/library/topics/monitoring.md`                                               |
+| Localization + i18n pipeline                              | `company/library/topics/localization.md`                                             |
+| **Studio**                                                |                                                                                      |
+| Studio overview and naming conventions                    | `studio/README.md`                                                                   |
+| Casual Games Studio structure                             | `studio/casual-games/README.md`                                                      |
+| Casual Games 11-stage pipeline                            | `studio/casual-games/pipeline/casual-games-pipeline.md`                              |
+| Studio crew by division                                   | `studio/casual-games/team/README.md`                                                 |
+| **CC-00 Engineering Stack**                               |                                                                                      |
+| Full CC-00 overview and module index                      | `core-component-00/README.md`                                                        |
+| Synthesis of all five disciplines                         | `core-component-00/agent-systems-engineering/CONCEPTS.md`                            |
+| How to write effective prompts                            | `core-component-00/engineering/prompt-engineering/`                                  |
+| How to architect context windows                          | `core-component-00/engineering/context-engineering/`                                 |
+| How to execute model calls safely                         | `core-component-00/engineering/harness-engineering/`                                 |
+| How to build RAG pipelines                                | `core-component-00/retrieval-augmented-generation/`                                  |
+| How multi-agent systems cooperate                         | `core-component-00/engineering/multi-agent-engineering/`                             |
+| Document research investigations (cross-department index) | `telescope/README.md`                                                                |
+| CC-00 engineering + LLM research                          | `core-component-00/telescope/README.md`                                              |
+| Company product research                                  | `company/telescope/README.md`                                                        |
+| Studio game/market research                               | `studio/casual-games/telescope/README.md`                                            |
+| **ANU-00**                                                |                                                                                      |
+| ANU-00 charter, crew, and boundary vs. CC-00              | `academic-neural-unit-00/CLAUDE.md`                                                  |
+| Full formation record and all CEO decisions               | `academic-neural-unit-00/formation/2026-07-23-formation-meeting/formation-report.md` |
+| ANU-00 roster and activation protocol                     | `academic-neural-unit-00/crew/README.md`                                             |
+| **Cross-System**                                          |                                                                                      |
+| A reusable meeting-minutes or final-review template       | `templates/README.md`                                                                |
 
 ---
 
-## 12. Key Personnel Roster
+## 13. Key Personnel Roster
 
 ### Company — C-Suite & Leads
 
@@ -666,11 +734,27 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | Hana Kobayashi       | Senior Research Engineer II        | `engineering/context-engineering/` (reports to Zhao)                         |
 | Connor O'Malley      | Senior Research Engineer II        | `engineering/harness-engineering/` (reports to Asante)                       |
 
+### Academic Neural Unit 00 — Founding Lead & Crew
+
+| Name                    | Role                                            | Scope                                                              |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------------------------ |
+| Dr. Naledi Mokoena      | ANU-00 Lead                                     | All 10 FTEs — research direction, personnel, day-to-day operations |
+| Dr. Aditi Bhandari      | Staff Research Scientist — Foundational AI Lead | `research-science/foundational-ai/` pod (2 direct reports)         |
+| Dr. Rafael Ibarra-Costa | Research Scientist — Generalist                 | `research-science/` (reports to Mokoena)                           |
+| Dr. Yuna Baek           | Research Scientist — AI / Neural Networks       | `research-science/` (reports to Mokoena)                           |
+| Dr. Inés Roldán         | Research Scientist — Software Engineering / CS  | `research-science/` (reports to Mokoena)                           |
+| Dr. Samuel Okonkwo      | Research Scientist — Machine Learning Theory    | `research-science/` (reports to Mokoena)                           |
+| Dr. Mireille Dubois     | Research Scientist — LLM Systems                | `research-science/foundational-ai/` (reports to Bhandari)          |
+| Dr. Wei-Ling Tan        | Research Scientist — Applied AI Systems         | `research-science/foundational-ai/` (reports to Bhandari)          |
+| Dr. Kaito Fujimori      | Research Scientist — Agent Systems Research     | `research-science/` (reports to Mokoena)                           |
+| Tobias Lindqvist        | Knowledge Systems Engineer                      | `knowledge-systems/` (reports to Mokoena)                          |
+
 For complete rosters and full profiles, see:
 
 - **Company:** `company/library/overview/personnel.md`
 - **Studio:** `studio/casual-games/team/README.md`
 - **CC-00:** `core-component-00/crew/README.md`
+- **ANU-00:** `academic-neural-unit-00/crew/README.md`
 
 ---
 
