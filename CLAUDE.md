@@ -72,6 +72,8 @@ AGENT-GLOBAL-BASE/
 ├── .claude/                              ← Claude Code configuration (see §3 above)
 ├── .mcp.json                             ← MCP server manifest (must be at project root)
 ├── templates/                            ← Cross-system document templates (see templates/README.md)
+│   ├── meeting-records/                  ← In-progress deliberation records (e.g. meeting-minutes.md)
+│   └── review-records/                   ← Post-hoc completion/sign-off records (e.g. final-review.md)
 │
 ├── company/                              ← The Company  [→ company/CLAUDE.md]
 │   ├── library/                          ← Central knowledge hub
