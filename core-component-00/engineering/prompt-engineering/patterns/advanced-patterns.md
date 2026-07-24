@@ -2,20 +2,22 @@
 
 ## Pattern Catalog
 
-| ID    | Pattern                         | Purpose                                                               | Best For                                                    |
-| ----- | ------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------- |
-| P-001 | **Socratic Prompt**             | Guide thinking through probing questions rather than direct answers   | Learning, interview prep, architectural thinking            |
-| P-002 | **Devil's Advocate**            | Stress-test ideas by having the model argue against them              | Decision validation, risk assessment                        |
-| P-003 | **Multi-Perspective Analyzer**  | Examine a topic from multiple stakeholder viewpoints                  | Product decisions, policy analysis, team dynamics           |
-| P-004 | **Incremental Refinement Loop** | Iteratively improve output through structured feedback cycles         | Writing, code, design documents                             |
-| P-005 | **Constraint Solver**           | Find solutions that satisfy multiple hard constraints                 | Scheduling, resource allocation, system design              |
-| P-006 | **Knowledge Synthesizer**       | Combine information from multiple sources into coherent understanding | Literature review, competitive analysis                     |
-| P-007 | **Scenario Simulator**          | Explore "what if" scenarios with structured reasoning                 | Risk planning, strategy, incident response prep             |
-| P-008 | **Abstraction Ladder**          | Move between concrete details and abstract principles                 | Learning transfer, innovation, cross-domain problem solving |
-| P-009 | **Pre-Mortem**                  | Identify failure modes before they happen                             | Project planning, product launches, deployments             |
-| P-010 | **Teaching Test**               | Verify understanding by having the model teach the concept            | Learning verification, documentation                        |
-| P-011 | **Format Transformer**          | Convert between representations while preserving meaning              | Data migration, documentation conversion                    |
-| P-012 | **Priority Matrix**             | Systematically prioritise a list of items                             | Backlog prioritisation, feature planning                    |
+| ID    | Pattern                         | Purpose                                                                                    | Best For                                                     |
+| ----- | ------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| P-001 | **Socratic Prompt**             | Guide thinking through probing questions rather than direct answers                        | Learning, interview prep, architectural thinking             |
+| P-002 | **Devil's Advocate**            | Stress-test ideas by having the model argue against them                                   | Decision validation, risk assessment                         |
+| P-003 | **Multi-Perspective Analyzer**  | Examine a topic from multiple stakeholder viewpoints                                       | Product decisions, policy analysis, team dynamics            |
+| P-004 | **Incremental Refinement Loop** | Iteratively improve output through structured feedback cycles                              | Writing, code, design documents                              |
+| P-005 | **Constraint Solver**           | Find solutions that satisfy multiple hard constraints                                      | Scheduling, resource allocation, system design               |
+| P-006 | **Knowledge Synthesizer**       | Combine information from multiple sources into coherent understanding                      | Literature review, competitive analysis                      |
+| P-007 | **Scenario Simulator**          | Explore "what if" scenarios with structured reasoning                                      | Risk planning, strategy, incident response prep              |
+| P-008 | **Abstraction Ladder**          | Move between concrete details and abstract principles                                      | Learning transfer, innovation, cross-domain problem solving  |
+| P-009 | **Pre-Mortem**                  | Identify failure modes before they happen                                                  | Project planning, product launches, deployments              |
+| P-010 | **Teaching Test**               | Verify understanding by having the model teach the concept                                 | Learning verification, documentation                         |
+| P-011 | **Format Transformer**          | Convert between representations while preserving meaning                                   | Data migration, documentation conversion                     |
+| P-012 | **Priority Matrix**             | Systematically prioritise a list of items                                                  | Backlog prioritisation, feature planning                     |
+| P-013 | **Persona Resolution**          | Ground a detected persona in a real, documented identity instead of freehanding voice      | Gates/optimizers that add role context, multi-agent handoffs |
+| P-014 | **Delegation Routing**          | Decide whether a request should go to a single agent, a team of leads, or a broad fallback | Request triage, gate/optimizer ownership decisions           |
 
 ---
 
@@ -312,6 +314,75 @@ Output: Prioritized list with scores and brief justification for each ranking.
 
 ---
 
+### P-013: Persona Resolution
+
+**Purpose:** When a prompt names or clearly implies a specific real agent, persona, department, or
+module, ground the response in that identity's actual documented profile instead of freehanding
+voice or authority from the label alone.
+
+```
+A prompt or gate has detected persona/role context: {detected_label}.
+
+Before responding in that voice:
+1. Determine whether {detected_label} names a real, documented agent in this workspace (a
+   Company/Studio/CC-00/ANU-00 crew member) or is a generic/hypothetical role.
+2. If real: read that agent's profile.md and every skill file it references before producing
+   any output. Follow the workspace's Activation Protocol exactly — do not skip straight to
+   voice imitation.
+3. If generic or ambiguous: do not invent a specific real identity. Either use the generic role
+   as stated, or ask a clarifying question if the ambiguity is high-confidence-unresolvable.
+4. Stay within that identity's documented authority scope. Do not claim authority, reporting
+   lines, or module ownership the profile does not grant.
+
+Output: a response in the resolved identity's voice, grounded in its actual profile — never a
+label-only impersonation.
+```
+
+**Design constraint:** detection of a persona cue (a keyword match, a gate heuristic) is cheap and
+unreliable at _resolving_ identity — that judgment requires reading the real source document.
+Any consumer of this pattern (a hook, a gate, an agent) should trigger on the cue but defer
+resolution to this pattern's steps, never resolve identity from the trigger alone.
+
+**Use cases:** Prompt-optimization gates that add role/persona context (e.g. H-P01), multi-agent
+handoffs, any system that lets a user address a named organizational agent directly.
+
+---
+
+### P-014: Delegation Routing
+
+**Purpose:** Decide whether a request should be handled by a single agent, a team of
+module/department leads, or a broad/uncategorizable fallback — and surface that decision for
+confirmation rather than applying it silently.
+
+```
+A request needs an ownership decision before execution.
+
+1. Domain match: does the request clearly belong to one documented agent, module, or department?
+   → Route single-agent. Resolve via P-013 before responding in their voice.
+2. Multi-domain match: does the request span more than one module/department without a single
+   clean owner? → Route to that specific set of module/department leads, named explicitly — not
+   a generic "the team."
+3. No confident domain match: is the request genuinely too broad or unclassifiable, not just a
+   heuristic miss? → Route to the designated broad fallback for the requesting system (defined
+   per-system, e.g. Dr. Vance + Dr. Nwosu-Chen for CC-00-scoped requests).
+4. Surface the proposed owner from step 1-3 alongside the rewritten/optimized request in the same
+   confirmation step already required by the calling gate or workflow — never apply routing
+   silently.
+
+Constraint: never route across an explicit organizational-independence boundary (e.g. ANU-00's
+independence from CC-00) as a standing fallback, even when convenient. A boundary violation is
+not a valid "no confident match" resolution.
+```
+
+**Design constraint:** like P-013, domain detection stays heuristic (fast, approximate); routing
+_decisions_ — especially fallback assignment — require model judgment and, where an
+organizational-boundary rule exists, a compliance check against it before the route is proposed.
+
+**Use cases:** Prompt-optimization gates deciding whether to hand a request to a specific agent
+or team (e.g. H-P01), request-triage systems, any workflow with more than one plausible owner.
+
+---
+
 ## Pattern Composition
 
 Patterns can be combined for more powerful prompts:
@@ -331,18 +402,20 @@ P-004 (Incremental Refinement) + P-010 (Priority Matrix) =
 
 ## Pattern Selection Guide
 
-| If you need to...          | Use pattern                                           |
-| -------------------------- | ----------------------------------------------------- |
-| Understand deeply          | P-001 (Socratic), P-010 (Teaching Test)               |
-| Validate decisions         | P-002 (Devil's Advocate), P-009 (Pre-Mortem)          |
-| Analyze complexity         | P-003 (Multi-Perspective), P-008 (Abstraction Ladder) |
-| Improve iteratively        | P-004 (Incremental Refinement)                        |
-| Solve constrained problems | P-005 (Constraint Solver)                             |
-| Synthesize information     | P-006 (Knowledge Synthesizer)                         |
-| Plan for uncertainty       | P-007 (Scenario Simulator), P-009 (Pre-Mortem)        |
-| Transform data             | P-011 (Format Transformer)                            |
-| Prioritize work            | P-012 (Priority Matrix)                               |
+| If you need to...                   | Use pattern                                           |
+| ----------------------------------- | ----------------------------------------------------- |
+| Understand deeply                   | P-001 (Socratic), P-010 (Teaching Test)               |
+| Validate decisions                  | P-002 (Devil's Advocate), P-009 (Pre-Mortem)          |
+| Analyze complexity                  | P-003 (Multi-Perspective), P-008 (Abstraction Ladder) |
+| Improve iteratively                 | P-004 (Incremental Refinement)                        |
+| Solve constrained problems          | P-005 (Constraint Solver)                             |
+| Synthesize information              | P-006 (Knowledge Synthesizer)                         |
+| Plan for uncertainty                | P-007 (Scenario Simulator), P-009 (Pre-Mortem)        |
+| Transform data                      | P-011 (Format Transformer)                            |
+| Prioritize work                     | P-012 (Priority Matrix)                               |
+| Ground a persona in a real identity | P-013 (Persona Resolution)                            |
+| Decide request ownership            | P-014 (Delegation Routing)                            |
 
 ---
 
-_Advanced Patterns v1.1 — 2026-04-24_
+_Advanced Patterns v1.2 — 2026-07-24_

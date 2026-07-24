@@ -82,6 +82,24 @@ if ($LASTEXITCODE -eq 0 -and $data.session_id) {
     if (-not (Test-Path $stateDir)) { New-Item -ItemType Directory -Path $stateDir -Force | Out-Null }
     $marker = [ordered]@{ pending = $true; ts = (Get-Date).ToString('o') } | ConvertTo-Json -Compress
     Set-Content -Path (Join-Path $stateDir "h-p01-pending-$($data.session_id).json") -Value $marker -NoNewline
+
+    # Log scoring signals for later false-routing-rate analysis. Best-effort: a logging
+    # failure must never block prompt-optimization behavior.
+    try {
+        $personaSignal = $prompt -match '(?i)\b(as |act as |you are |from the perspective of |like a |in the role of |playing )\b'
+        $domainSignal  = $prompt -match '(?i)\b(Stage \d|pipeline|PRD|SRD|ADR|IDS|agent|profile|skill|CC-00|department|company|studio|casual.games|telescope)\b'
+        $telemetry = [ordered]@{
+            ts             = (Get-Date).ToString('o')
+            score          = $score
+            metThreshold   = $metThreshold
+            personaSignal  = [bool]$personaSignal
+            domainSignal   = [bool]$domainSignal
+            missing        = $missing
+        } | ConvertTo-Json -Compress
+        Add-Content -Path (Join-Path $stateDir 'h-p01-telemetry.jsonl') -Value $telemetry
+    } catch {
+        # Swallow — telemetry is best-effort, never a gating concern.
+    }
 }
 
 $missingStr  = $missing -join ', '
@@ -139,6 +157,19 @@ where relevant.
   Only add a dimension you can infer with high confidence from the original wording. If a
   dimension would require guessing intent, raise it as a clarifying question in step 3 instead
   of inventing content for it.
+  </rule>
+
+  <rule name="persona_and_delegation_resolution">
+  If the prompt names or clearly implies a specific real agent, persona, department, or module
+  (not a generic invented role), apply CC-00 Prompt Engineering pattern P-013 (Persona
+  Resolution): read that agent's actual profile.md and skills before responding, per the
+  workspace Activation Protocol (CLAUDE.md §7, crew/CLAUDE.md) — never freehand voice or
+  authority from the label alone. If the request could instead be delegated to a specific agent
+  or a team of module/department leads, apply P-014 (Delegation Routing) and surface the
+  proposed owner inside the step 2 confirmation, alongside the rewritten prompt — never apply
+  routing silently. Never route a broad/uncategorizable fallback across an explicit
+  organizational-independence boundary (e.g. ANU-00's independence from CC-00). See
+  core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md.
   </rule>
 </step>
 
