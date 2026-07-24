@@ -7,13 +7,14 @@ specifications, pipeline definitions, and Python reference implementations.
 
 ---
 
-## The Three Co-Resident Systems
+## The Four Co-Resident Systems
 
-| System          | Path                 | What it is                                               |
-| --------------- | -------------------- | -------------------------------------------------------- |
-| **The Company** | `company/`           | Mobile product company — departments, pipelines, crew    |
-| **The Studio**  | `studio/`            | Casual Games Studio — 39 crew, 11-stage game pipeline    |
-| **CC-00 Lab**   | `core-component-00/` | Applied LLM research lab — five-module engineering stack |
+| System          | Path                       | What it is                                                                                                              |
+| --------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **The Company** | `company/`                 | Mobile product company — departments, pipelines, crew                                                                   |
+| **The Studio**  | `studio/`                  | Casual Games Studio — 39 crew, 11-stage game pipeline                                                                   |
+| **CC-00 Lab**   | `core-component-00/`       | Applied LLM research lab — five-module engineering stack                                                                |
+| **ANU-00**      | `academic-neural-unit-00/` | Independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 |
 
 These systems are architecturally independent but share governance through the
 **Agent Systems Engineering (ASE)** framework.
@@ -52,6 +53,13 @@ AGENT-GLOBAL-BASE/
 │   ├── retrieval-augmented-generation/  ← Layer 4 — where to get content
 │   ├── mcp-servers/                ← MCP server implementations (deployment surface)
 │   └── crew/                       ← Lab Director + 11 crew (director/elias-vance/, module leads, etc.)
+│
+├── academic-neural-unit-00/     ← ANU-00 — independent academic research entity
+│   ├── CLAUDE.md                   ← Entity operating-layer file
+│   ├── formation/                  ← Formation record: charter, CEO decisions, final review
+│   └── crew/                       ← Lead + 9 crew (10 FTEs total)
+│
+├── templates/                   ← Cross-system document templates (meeting-records/, review-records/)
 │
 └── telescope/                   ← Cross-department research index (company/, core-component-00/,
                                      and studio/casual-games/ each keep their own instance too —
@@ -136,6 +144,18 @@ framework — ASE — is defined in `core-component-00/agent-systems-engineering
 
 ---
 
+## Academic Neural Unit 00 (ANU-00)
+
+**Start here:** `academic-neural-unit-00/CLAUDE.md`
+
+ANU-00 is an independent academic research entity chartered to investigate computer science, AI,
+neural networks, and software engineering, and to build a knowledge base from that research. It is
+**incubated, not governed, by CC-00** — no reporting line into CC-00 or Dr. Vance. **ANU-00 Lead:**
+Dr. Naledi Mokoena, 10 FTEs total. Full formation record, CEO decisions, and charter:
+`academic-neural-unit-00/formation/2026-07-23-formation-meeting/formation-report.md`.
+
+---
+
 ## Key Conventions
 
 | Item                 | Convention                                                          |
@@ -166,22 +186,25 @@ Profile locations:
 - Company C-suite → `company/departments/<dept>/supervisor/<role>/agent/profile.md`
 - Studio crew → `studio/casual-games/team/crew/<division>/<role>/<name>/agent/profile.md`
 - Lab Director → `core-component-00/crew/director/elias-vance/agent/profile.md`
+- ANU-00 Lead → `academic-neural-unit-00/crew/lead/naledi-mokoena/agent/profile.md`
 
 ---
 
 ## Quick Navigation
 
-| I need…                                   | Go to                                                         |
-| ----------------------------------------- | ------------------------------------------------------------- |
-| Full workspace orientation (agents)       | `AGENTS.md`                                                   |
-| Company overview / people / pipeline      | `company/library/README.md`                                   |
-| A specific department's agents            | `company/departments/`                                        |
-| Studio structure + game pipeline          | `studio/casual-games/library/overview/casual-games-studio.md` |
-| LLM engineering patterns                  | `core-component-00/README.md`                                 |
-| ASE governance (ADRs, compliance)         | `core-component-00/agent-systems-engineering/`                |
-| Production Python code                    | `core-component-00/engineering/<module>/implementations/`     |
-| MCP server implementations                | `core-component-00/mcp-servers/`                              |
-| Research archive (cross-department index) | `telescope/README.md`                                         |
-| CC-00 engineering + LLM research          | `core-component-00/telescope/README.md`                       |
-| Company product research                  | `company/telescope/README.md`                                 |
-| Studio game/market research               | `studio/casual-games/telescope/README.md`                     |
+| I need…                                             | Go to                                                         |
+| --------------------------------------------------- | ------------------------------------------------------------- |
+| Full workspace orientation (agents)                 | `AGENTS.md`                                                   |
+| Company overview / people / pipeline                | `company/library/README.md`                                   |
+| A specific department's agents                      | `company/departments/`                                        |
+| Studio structure + game pipeline                    | `studio/casual-games/library/overview/casual-games-studio.md` |
+| LLM engineering patterns                            | `core-component-00/README.md`                                 |
+| ASE governance (ADRs, compliance)                   | `core-component-00/agent-systems-engineering/`                |
+| Production Python code                              | `core-component-00/engineering/<module>/implementations/`     |
+| MCP server implementations                          | `core-component-00/mcp-servers/`                              |
+| Research archive (cross-department index)           | `telescope/README.md`                                         |
+| CC-00 engineering + LLM research                    | `core-component-00/telescope/README.md`                       |
+| Company product research                            | `company/telescope/README.md`                                 |
+| Studio game/market research                         | `studio/casual-games/telescope/README.md`                     |
+| ANU-00 charter, crew, and boundary vs. CC-00        | `academic-neural-unit-00/CLAUDE.md`                           |
+| A reusable meeting-minutes or final-review template | `templates/README.md`                                         |

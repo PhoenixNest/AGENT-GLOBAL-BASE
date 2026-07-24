@@ -57,9 +57,9 @@ Any task exceeding estimate by >20% triggers CTO → CPO schedule risk notificat
 
 ## Context and Session Management
 
-| Situation                | Action                                                                   | Reference                                                                     |
-| ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                             |
+| Situation                | Action                                                                   | Reference                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                                         |
 | Context budget pressure  | Apply Sacred Context; run the context compressor                         | `core-component-00/engineering/context-engineering/implementations/context_compressor.py` |
 | Inter-agent handoff      | Follow the three-tier Context Handoff Protocol (Full / Scoped / Minimal) | `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`       |
 
@@ -75,13 +75,14 @@ prettier --write "<file-path>"
 
 ---
 
-## The Three Co-Resident Systems
+## The Four Co-Resident Systems
 
-| System          | Path                 | Purpose                                                      |
-| --------------- | -------------------- | ------------------------------------------------------------ |
-| **The Company** | `company/`           | Mobile product company — org structure, pipelines, personnel |
-| **The Studio**  | `studio/`            | Creative studios — crew, pipelines, and projects             |
-| **CC-00 Lab**   | `core-component-00/` | Applied LLM research laboratory — engineering stack          |
+| System          | Path                       | Purpose                                                                                                                 |
+| --------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **The Company** | `company/`                 | Mobile product company — org structure, pipelines, personnel                                                            |
+| **The Studio**  | `studio/`                  | Creative studios — crew, pipelines, and projects                                                                        |
+| **CC-00 Lab**   | `core-component-00/`       | Applied LLM research laboratory — engineering stack                                                                     |
+| **ANU-00**      | `academic-neural-unit-00/` | Independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 |
 
 ---
 
