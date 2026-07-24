@@ -97,3 +97,11 @@ Integrity Verification sign-off, any cross-department joint approval.
    filled in.
 3. Follow the workspace's Prettier and naming conventions (root `CLAUDE.md` §1, §5) before
    finalizing.
+4. **Both templates are point-in-time snapshots, not living documents — new content gets a new
+   file, not an edit to a past one.** A `meeting-minutes.md` instance is the record of one specific
+   meeting; if a later event changes something discussed there, add a pointer note in the _new_
+   document (or in whatever ongoing report tracks the decision) rather than editing the original
+   minutes. Same for `final-review.md` — a second review is a new instance, not an addendum to the
+   first. This is the opposite convention from a `formation-report.md`-style running decision log
+   (§ What Didn't Become a Template), which is deliberately append-only in a single file — don't
+   mix the two patterns.
