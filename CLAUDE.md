@@ -33,14 +33,15 @@ engineering base. There is **no root build system, no entry point, and no startu
 primary artifacts are documents: agent profiles, skill specs, pipeline definitions, and Python
 reference implementations under `core-component-00/`.
 
-Three architecturally independent but co-resident systems, unified by one governance framework
+Four architecturally independent but co-resident systems, unified by one governance framework
 (ASE):
 
-| System          | Path                 | What it is                                                   |
-| --------------- | -------------------- | ------------------------------------------------------------ |
-| **The Company** | `company/`           | Mobile product company — departments, pipelines, personnel   |
-| **The Studio**  | `studio/`            | Casual Games Studio — crew, 11-stage game pipeline, projects |
-| **CC-00 Lab**   | `core-component-00/` | Applied LLM research lab — the five-module engineering stack |
+| System          | Path                       | What it is                                                                                                                                                                                  |
+| --------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **The Company** | `company/`                 | Mobile product company — departments, pipelines, personnel                                                                                                                                  |
+| **The Studio**  | `studio/`                  | Casual Games Studio — crew, 11-stage game pipeline, projects                                                                                                                                |
+| **CC-00 Lab**   | `core-component-00/`       | Applied LLM research lab — the five-module engineering stack                                                                                                                                |
+| **ANU-00**      | `academic-neural-unit-00/` | Academic Neural Unit 00 — independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 — see `academic-neural-unit-00/README.md` |
 
 ---
 
@@ -94,6 +95,11 @@ AGENT-GLOBAL-BASE/
 │   ├── retrieval-augmented-generation/   ← Layer 4 (docs + Python + requirements.txt)
 │   ├── director/                         ← Lab Director persona (Dr. Elias Vance)
 │   └── telescope/                        ← Lab research archive (engineering + LLM research)
+│
+├── academic-neural-unit-00/              ← ANU-00 [→ academic-neural-unit-00/CLAUDE.md]
+│   ├── README.md                         ← Entity overview, charter, CC-00 boundary statement
+│   ├── formation/                        ← Formation record: charter, CEO decisions, final review
+│   └── crew/                             ← Personnel roster (10 FTEs, see crew/README.md)
 │
 └── telescope/                            ← Cross-department research index  [→ telescope/CLAUDE.md]
     (per-department archives: company/telescope/, studio/casual-games/telescope/,
