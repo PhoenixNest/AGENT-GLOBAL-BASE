@@ -90,6 +90,25 @@ if [ -n "$repo_root" ] && [ -n "$session_id" ]; then
     TS=$(python3 -c "import datetime; print(datetime.datetime.now().isoformat())")
     export TS
     python3 -c "import os,json; print(json.dumps({'pending': True, 'ts': os.environ['TS']}))" > "$state_dir/h-p01-pending-$session_id.json"
+
+    # Log scoring signals for later false-routing-rate analysis. Best-effort: a logging
+    # failure must never block prompt-optimization behavior.
+    persona_signal=false
+    echo "$prompt" | grep -qiE '\b(as |act as |you are |from the perspective of |like a |in the role of |playing )\b' && persona_signal=true
+    domain_signal=false
+    echo "$prompt" | grep -qiE '\b(Stage [0-9]|pipeline|PRD|SRD|ADR|IDS|agent|profile|skill|CC-00|department|company|studio|casual.games|telescope)\b' && domain_signal=true
+    MISSING="$missing" PERSONA="$persona_signal" DOMAIN="$domain_signal" SCORE="$score" python3 -c "
+import os, json, datetime
+entry = {
+    'ts': datetime.datetime.now().isoformat(),
+    'score': int(os.environ['SCORE']),
+    'metThreshold': False,
+    'personaSignal': os.environ['PERSONA'] == 'true',
+    'domainSignal': os.environ['DOMAIN'] == 'true',
+    'missing': [m.strip() for m in os.environ['MISSING'].split(',') if m.strip()],
+}
+print(json.dumps(entry))
+" >> "$state_dir/h-p01-telemetry.jsonl" 2>/dev/null || true
 fi
 
 # Count missing dimensions
@@ -127,6 +146,19 @@ where relevant.
   Only add a dimension you can infer with high confidence from the original wording. If a
   dimension would require guessing intent, raise it as a clarifying question in step 3 instead
   of inventing content for it.
+  </rule>
+
+  <rule name=\"persona_and_delegation_resolution\">
+  If the prompt names or clearly implies a specific real agent, persona, department, or module
+  (not a generic invented role), apply CC-00 Prompt Engineering pattern P-013 (Persona
+  Resolution): read that agent's actual profile.md and skills before responding, per the
+  workspace Activation Protocol (CLAUDE.md §7, crew/CLAUDE.md) — never freehand voice or
+  authority from the label alone. If the request could instead be delegated to a specific agent
+  or a team of module/department leads, apply P-014 (Delegation Routing) and surface the
+  proposed owner inside the step 2 confirmation, alongside the rewritten prompt — never apply
+  routing silently. Never route a broad/uncategorizable fallback across an explicit
+  organizational-independence boundary (e.g. ANU-00's independence from CC-00). See
+  core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md.
   </rule>
 </step>
 
