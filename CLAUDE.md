@@ -71,6 +71,7 @@ AGENT-GLOBAL-BASE/
 ├── CLAUDE.md                             ← This file (global operating layer for Claude Code)
 ├── .claude/                              ← Claude Code configuration (see §3 above)
 ├── .mcp.json                             ← MCP server manifest (must be at project root)
+├── templates/                            ← Cross-system document templates (see templates/README.md)
 │
 ├── company/                              ← The Company  [→ company/CLAUDE.md]
 │   ├── library/                          ← Central knowledge hub
@@ -197,20 +198,22 @@ Claude Code loads `CLAUDE.md` files **hierarchically** — entering any folder a
 that folder's `CLAUDE.md` (and every parent's) onto this file. The repository map in §4 marks
 every folder that has one with `[→ CLAUDE.md]`.
 
-| I need…                                    | Go to                                                           |
-| ------------------------------------------ | --------------------------------------------------------------- |
-| Full workspace orientation                 | `AGENTS.md` (comprehensive reference — not auto-loaded)         |
-| Company overview / pipeline / people       | `company/CLAUDE.md` → `company/library/README.md`               |
-| A specific department's agents + skills    | `company/departments/CLAUDE.md` → `company/departments/<dept>/` |
-| Company pipeline rules and variants        | `company/pipeline/CLAUDE.md`                                    |
-| Studio structure + game pipeline           | `studio/casual-games/CLAUDE.md`                                 |
-| The LLM engineering stack                  | `core-component-00/CLAUDE.md`                                   |
-| ASE governance (ADRs, compliance)          | `core-component-00/agent-systems-engineering/CLAUDE.md`         |
-| Production Python implementations          | `core-component-00/<module>/implementations/`                   |
-| Research archives (cross-department index) | `telescope/CLAUDE.md` → `telescope/README.md`                   |
-| Product-oriented research (Company)        | `company/telescope/CLAUDE.md`                                   |
-| Game/market research (Studio)              | `studio/casual-games/telescope/CLAUDE.md`                       |
-| Engineering + LLM research (CC-00 Lab)     | `core-component-00/telescope/CLAUDE.md`                         |
+| I need…                                             | Go to                                                           |
+| --------------------------------------------------- | --------------------------------------------------------------- |
+| Full workspace orientation                          | `AGENTS.md` (comprehensive reference — not auto-loaded)         |
+| Company overview / pipeline / people                | `company/CLAUDE.md` → `company/library/README.md`               |
+| A specific department's agents + skills             | `company/departments/CLAUDE.md` → `company/departments/<dept>/` |
+| Company pipeline rules and variants                 | `company/pipeline/CLAUDE.md`                                    |
+| Studio structure + game pipeline                    | `studio/casual-games/CLAUDE.md`                                 |
+| The LLM engineering stack                           | `core-component-00/CLAUDE.md`                                   |
+| ASE governance (ADRs, compliance)                   | `core-component-00/agent-systems-engineering/CLAUDE.md`         |
+| Production Python implementations                   | `core-component-00/<module>/implementations/`                   |
+| Research archives (cross-department index)          | `telescope/CLAUDE.md` → `telescope/README.md`                   |
+| Product-oriented research (Company)                 | `company/telescope/CLAUDE.md`                                   |
+| Game/market research (Studio)                       | `studio/casual-games/telescope/CLAUDE.md`                       |
+| Engineering + LLM research (CC-00 Lab)              | `core-component-00/telescope/CLAUDE.md`                         |
+| ANU-00 charter, crew, and boundary vs. CC-00        | `academic-neural-unit-00/CLAUDE.md`                             |
+| A reusable meeting-minutes or final-review template | `templates/README.md`                                           |
 
 ---
 
