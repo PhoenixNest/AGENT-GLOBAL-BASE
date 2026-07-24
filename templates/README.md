@@ -23,29 +23,50 @@ Become a Template.
 
 ---
 
+## Directory Structure
+
+```
+templates/
+├── README.md                          ← this index
+├── meeting-records/                   ← in-progress deliberation: captured while a meeting happens
+│   └── meeting-minutes.md
+└── review-records/                    ← post-hoc confirmation: captured after work is already done
+    └── final-review.md
+```
+
+Categorized by **when in a process the record is produced**, not by which system uses it — every
+template here is cross-system by definition (§ Why This Folder Exists). `meeting-records/` holds
+templates for documenting a discussion as it happens; `review-records/` holds templates for
+certifying completed work afterward. Each category currently holds one template; new templates
+join whichever category matches their moment in the process, or found a new category if neither
+fits — don't force a genuinely new shape into one of these two just to avoid adding a category.
+
+---
+
 ## Available Templates
 
-| Template             | Use for                                                                        |
-| -------------------- | ------------------------------------------------------------------------------ |
-| `meeting-minutes.md` | Any internal deliberative meeting where attendees discuss and record decisions |
-| `final-review.md`    | Any multi-party sign-off verifying completion before closing a body of work    |
+| Template                             | Category        | Use for                                                                        |
+| ------------------------------------ | --------------- | ------------------------------------------------------------------------------ |
+| `meeting-records/meeting-minutes.md` | Meeting Records | Any internal deliberative meeting where attendees discuss and record decisions |
+| `review-records/final-review.md`     | Review Records  | Any multi-party sign-off verifying completion before closing a body of work    |
 
-### `meeting-minutes.md`
+### `meeting-records/meeting-minutes.md`
 
 Generic internal-meeting record: attendees + roles, agenda, numbered discussion sections,
-decisions-recorded table, next steps. Candidate future uses: CC-00 research-programme chartering
-discussions, Company Stage 6 Architecture & Conformance Review panel deliberations, Studio crew
-composition or project greenlight/kill discussions, any future new-entity formation.
+decisions-recorded table, next steps. Candidate future uses (same category, same folder once
+built): CC-00 research-programme chartering discussions, Company Stage 6 Architecture &
+Conformance Review panel deliberations, Studio crew composition or project greenlight/kill
+discussions, any future new-entity formation.
 
-### `final-review.md`
+### `review-records/final-review.md`
 
 Generic joint-verification record: named reviewers, an explicit method section proving each
 reviewer checked primary records rather than restating prior claims, per-reviewer findings, and a
 joint recommendation. The "we verified, we didn't just assert" discipline is the part worth
 enforcing every time this template is used — don't let a reviewer skip straight to a conclusion.
-Candidate future uses: Company QBR (Stage 11 Live Operations), CHRO hiring-outcome audits for any
-department's recruitment cycle, Stage 8 Testing → Integrity Verification sign-off, any
-cross-department joint approval.
+Candidate future uses (same category, same folder once built): Company QBR (Stage 11 Live
+Operations), CHRO hiring-outcome audits for any department's recruitment cycle, Stage 8 Testing →
+Integrity Verification sign-off, any cross-department joint approval.
 
 ---
 
@@ -68,9 +89,10 @@ cross-department joint approval.
 
 ## Usage
 
-1. Copy the relevant template into the folder where the record belongs (the meeting's own system —
-   `company/`, `studio/`, `core-component-00/`, or `academic-neural-unit-00/` — not into
-   `templates/` itself).
+1. Copy the relevant template (from its category subfolder, e.g.
+   `templates/meeting-records/meeting-minutes.md`) into the folder where the record belongs (the
+   meeting's own system — `company/`, `studio/`, `core-component-00/`, or
+   `academic-neural-unit-00/` — not into `templates/` itself).
 2. Fill in every bracketed placeholder. Delete instructional HTML comments once the section is
    filled in.
 3. Follow the workspace's Prettier and naming conventions (root `CLAUDE.md` §1, §5) before
