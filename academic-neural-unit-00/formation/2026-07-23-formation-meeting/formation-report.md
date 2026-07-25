@@ -315,3 +315,79 @@ exists yet for `academic-neural-unit-00/` itself, so the repository map does not
 
 **With this, every item raised across §1–§9 is either resolved or explicitly and knowingly
 deferred (none remain open by omission). The ANU-00 formation and expansion thread is closed.**
+
+---
+
+## 11. Research Templates and Knowledge Base (2026-07-24 / 2026-07-25)
+
+A new decision thread, opened after §10 closed the formation thread. Recorded here rather than in a
+separate document because this file is ANU-00's running decision log and these are CEO decisions
+about the entity — §1–§10 remain untouched, per the append-only convention.
+
+### 11.1 Delegation (2026-07-24)
+
+The CEO asked Dr. Mokoena to draft templates for research topics and other materials ANU-00 needs
+for future research, and asked to consult first. Following that consultation, the CEO delegated
+**full responsibility for the template work** to Dr. Mokoena, with the standing expectation of
+laboratory-grade output. A further grant on 2026-07-25 extended this to **full authority over
+ANU-00 and full responsibility for the remaining work**, including the workspace-documentation
+updates in §11.5.
+
+### 11.2 Six open questions, resolved by Dr. Mokoena under that delegation
+
+| #   | Question                               | Decision                                                                                                              |
+| --- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 1   | Template form, or a seeded topic list? | Form. No topic list produced; a list has nowhere to be ratified into without one                                      |
+| 2   | Minimum set, or the full set?          | Full set now — the deferred items were specified by existing skill rules, not guesses                                 |
+| 3   | Where do they live?                    | `academic-neural-unit-00/templates/` — not root `templates/`, which holds only cross-system shapes                    |
+| 4   | Open `knowledge-base/`?                | Yes, with a README. Eight skill files named it as canonical while it did not exist                                    |
+| 5   | Approval model                         | Dr. Mokoena ratifies the templates under her knowledge-base-structure authority; the CEO receives the decision record |
+| 6   | A CEO-only topic-raising channel?      | **No — deliberately not built.** See §11.4                                                                            |
+
+A seventh call made without being asked: the proposed standalone source-ledger template was folded
+into the research report as §3.1, since a ledger detached from the claims it supports defeats the
+per-field rigor rule it exists to serve. Six proposed templates became five.
+
+### 11.3 Implementation method
+
+Parallel worktree execution and delegation-to-crew were both considered and rejected with reasons —
+the templates encode the union of eight researchers' rules, making this a coherence problem rather
+than a domain-depth or throughput problem. Chosen: solo drafting by Dr. Mokoena under a
+**rule-traceability constraint** — no required section written from her own judgment; each cites
+the crew skill file or charter clause that mandates it. Standing gate: Tobias Lindqvist's review of
+the research report's §0 ingestion metadata before first use, per his taxonomy-before-tooling rule.
+
+### 11.4 Boundary decision — no external topic-request form
+
+The most consequential decision in this thread, recorded explicitly because it is an omission
+rather than an artifact. No template contains a field through which ANU-00 can be assigned work
+from outside. Even a form labelled CEO-only would normalize external origination of ANU-00 research
+and create a shape trivially copied for other requesters — making the §2 boundary a matter of who
+fills in which field. The charter's origination section is instead an enumerated, ANU-00-internal
+list that halts and escalates on any origin not on it.
+
+Related, and decided the same way: a per-cycle pre-research alignment Q&A with the CEO was assessed
+as **useful and permitted**, under three rules — it informs what Dr. Mokoena chooses to charter and
+never gates ratification; it carries direction and priorities, not specific items; and its minutes
+are ANU-00's own record. Per-programme review was rejected as the tasking pattern wearing an
+alignment badge.
+
+### 11.5 Executed
+
+- **2026-07-24** — five templates plus `knowledge-base/` created; ANU-00's own `CLAUDE.md` and
+  `README.md` updated.
+- **2026-07-25** — CEO approved a sixth template, `observation-record.md`, closing a gap Dr.
+  Mokoena identified and reported rather than papered over: the original five captured how to
+  reproduce a _finding_, but nothing captured how to reproduce an _incident_.
+- **2026-07-25** — workspace documentation reconciled under the §11.1 authority grant: root
+  `CLAUDE.md` §4 and §10, `AGENTS.md` §7.1 and its ANU-00 quick-reference block, and root
+  `templates/README.md` (a preventive pointer that system-specific research templates belong in
+  their own system's folder). Only ANU-00-descriptive additions were made to those files.
+- **2026-07-25** — `telescope/README.md` given a one-line signpost stating that ANU-00 is **not** a
+  telescope instance. Enrolling ANU-00's knowledge base in a cross-department index owned outside
+  the entity, with a rule that routes investigations between departments, was judged too close to a
+  governance link to create casually; the shapes also differ (chartered-programme output vs.
+  commissioned investigations). Findable, not enrolled.
+
+**This thread is closed.** Open items carried forward, neither resolved nor forgotten: Lindqvist's
+§0 review (§11.3), and the first real programme, which will be the templates' actual test.

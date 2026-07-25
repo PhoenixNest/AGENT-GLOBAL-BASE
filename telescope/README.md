@@ -20,6 +20,12 @@ Research direction is documented separately per department, each maintaining its
 This folder itself does not host general research — it holds the cross-department index and any
 investigation that is genuinely cross-cutting (see `CLAUDE.md` for the classification rule).
 
+**ANU-00 is not a telescope instance.** Academic Neural Unit 00 maintains its own research output
+at `academic-neural-unit-00/knowledge-base/`, holding chartered-programme findings rather than
+commissioned investigations. It uses the same dated `YYYY-MM-DD-<slug>/` folder shape for
+navigational consistency, but it is not indexed here and the classification rule above does not
+route work to or from it. Signposted so it can be found — not enrolled.
+
 ---
 
 ## Archive Structure (this folder)
