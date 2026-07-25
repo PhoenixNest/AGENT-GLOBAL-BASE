@@ -2,7 +2,13 @@
 # H-GIT01: PreToolUse (Bash|PowerShell) — Pre-Commit Line Encoding Validator
 # Detects git add / git commit commands and validates line-ending issues before the
 # command executes.
-#   - Advisory (non-blocking): git diff --check whitespace warnings, missing *.ps1 gitattributes rule.
+#   - Advisory (non-blocking): git diff --check whitespace warnings, missing *.ps1 gitattributes
+#     rule, and round-trip-unsafe working-tree endings (a file that is internally consistent but
+#     disagrees with what checkout would produce under the effective attributes + core.autocrlf —
+#     e.g. a pure-LF .md in a core.autocrlf=true repo, which makes every commit emit
+#     core.safecrlf warnings). The committed blob is correct in that case, so this is advisory:
+#     the Edit/Write/Prettier toolchain writes LF routinely and blocking it would deadlock
+#     ordinary work.
 #   - Blocking: mixed line endings within a staged file's WORKING-TREE content, or a CR
 #     byte in a staged *.ps1/*.sh file's working-tree content — a CRLF shebang breaks bash
 #     on Linux/macOS/WSL, so this is a correctness defect, not a style preference.
@@ -82,12 +88,47 @@ foreach ($path in ($stagedNamesRaw | Where-Object { $_ })) {
 
 $hasBlockingIssues = ($mixedEolFiles.Count -gt 0) -or ($badCrScripts.Count -gt 0)
 
+# --- 5. Round-trip safety: working-tree endings vs what checkout would produce (advisory) ---
+# Uses git's own `ls-files --eol` rather than reimplementing attribute resolution, so explicit
+# `eol=` declarations are honoured for free — a pure-LF *.ps1 under `text eol=lf` is CORRECT and
+# must never be flagged here.
+$autocrlf = (git -C $cwd config --get core.autocrlf 2>$null)
+if (-not $autocrlf) { $autocrlf = 'false' }
+$autocrlf = "$autocrlf".Trim().ToLower()
+
+$roundTripUnsafe = @()
+if ($stagedNamesRaw.Count -gt 0) {
+    $eolLines = @(git -C $cwd ls-files --eol -- $stagedNamesRaw 2>$null)
+    foreach ($line in $eolLines) {
+        if ($line -notmatch '^i/(\S*)\s+w/(\S*)\s+attr/(.*?)\s*\t(.+)$') { continue }
+        $wEol = $Matches[2]
+        $attr = $Matches[3].Trim()
+        $path = $Matches[4]
+
+        # Skip binaries, empty files, files with no line terminators, and mixed
+        # (mixed is already a blocking finding above — do not double-report it).
+        if ($wEol -eq '' -or $wEol -eq 'none' -or $wEol -eq 'mixed' -or $wEol -eq '-text') { continue }
+        if ($attr -match '(^|\s)-text(\s|$)') { continue }
+
+        $expected = $null
+        if     ($attr -match 'eol=lf')     { $expected = 'lf' }
+        elseif ($attr -match 'eol=crlf')   { $expected = 'crlf' }
+        elseif ($attr -match '(^|\s)text') { $expected = if ($autocrlf -eq 'true') { 'crlf' } else { 'lf' } }
+        if (-not $expected) { continue }
+
+        if ($wEol -ne $expected) {
+            $roundTripUnsafe += [pscustomobject]@{ Path = $path; Actual = $wEol; Expected = $expected }
+        }
+    }
+}
+$hasRoundTripIssues = ($roundTripUnsafe.Count -gt 0)
+
 # Exit if nothing to report at all
-if (-not $hasDiffIssues -and -not ($hasStagedPs1 -and $ps1RuleMissing) -and -not $hasBlockingIssues) {
+if (-not $hasDiffIssues -and -not ($hasStagedPs1 -and $ps1RuleMissing) -and -not $hasBlockingIssues -and -not $hasRoundTripIssues) {
     exit 0
 }
 
-# --- 5. Build additionalContext ---
+# --- 6. Build additionalContext ---
 $contextLines = @()
 $contextLines += '[LINE ENCODING VALIDATOR — H-GIT01]'
 $contextLines += 'Line-ending check triggered by git add/commit.'
@@ -117,6 +158,28 @@ if ($hasDiffIssues) {
     $contextLines += '  - For .ps1/.sh files: must be stored as LF (*.ps1/*.sh text eol=lf in .gitattributes).'
     $contextLines += '  - For all other text files: left to `* text=auto` — normalised to the OS of whoever checks the repo out, not hardcoded.'
     $contextLines += "  - Run: git add --renormalize . && git status to see the effect."
+    $contextLines += ''
+}
+
+if ($hasRoundTripIssues) {
+    $contextLines += 'ROUND-TRIP-UNSAFE WORKING-TREE ENDINGS (advisory):'
+    $contextLines += '  These staged files are internally consistent, but their on-disk endings differ'
+    $contextLines += "  from what checkout would write (core.autocrlf=$autocrlf + .gitattributes), so git"
+    $contextLines += '  emits a core.safecrlf warning for each one on every add/commit:'
+    foreach ($f in $roundTripUnsafe) {
+        $contextLines += "    - $($f.Path)  (working tree: $($f.Actual), checkout would produce: $($f.Expected))"
+    }
+    $contextLines += ''
+    $contextLines += '  Typical cause: a formatter or editor that always writes LF (Prettier, most agent'
+    $contextLines += '  Edit/Write tools) touching a file in a core.autocrlf=true repo.'
+    $contextLines += '  The COMMITTED CONTENT IS NOT AFFECTED — `* text=auto` normalises the blob to LF'
+    $contextLines += '  either way. This is a working-copy consistency defect, not a content defect,'
+    $contextLines += '  which is why it is advisory rather than blocking.'
+    $contextLines += ''
+    $contextLines += '  Action (representation only — changes no content):'
+    $contextLines += '    git add --renormalize <path>'
+    $contextLines += '    git checkout-index -f -- <path>   # rewrites the working copy in the expected form'
+    $contextLines += '  Or re-save the file(s) with the expected endings before staging.'
     $contextLines += ''
 }
 
