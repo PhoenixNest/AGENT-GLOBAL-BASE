@@ -1,8 +1,8 @@
-# ADR-ASE-001 — Ratify Agent Systems Engineering as the Mandatory Governing Framework
+# ADR-ASGF-001 — Ratify Agent Systems Governance Framework as the Mandatory Governing Framework
 
 | Field              | Value                                              |
 | ------------------ | -------------------------------------------------- |
-| **ADR ID**         | ADR-ASE-001                                        |
+| **ADR ID**         | ADR-ASGF-001                                       |
 | **Status**         | Ratified                                           |
 | **Date**           | 2026-04-28                                         |
 | **Governing Body** | Core Component 00 Laboratory                       |
@@ -35,18 +35,18 @@ execution, knowledge) is addressed in isolation without integration design**. A 
 that passes functional testing can fail in production because the layers do not compose
 correctly even if each layer is individually adequate.
 
-The emerging field of Agent Systems Engineering (ASE) addresses this gap. ASE is the
+The emerging field of Agent Systems Governance Framework (ASGF) addresses this gap. ASGF is the
 convergence of four foundational engineering disciplines — Prompt, Context, Harness, and
 RAG Engineering — into a unified architecture discipline that governs how they compose.
 
 The theoretical basis is documented in:
-[_Agent Systems Engineering: The Convergence of Four Disciplines_](core-component-00/agent-systems-engineering/CONCEPTS.md)
+[_Agent Systems Governance Framework: The Convergence of Four Disciplines_](core-component-00/agent-systems-governance-framework/CONCEPTS.md)
 
 ---
 
 ## Decision
 
-**Agent Systems Engineering is ratified as the mandatory governing framework for all
+**Agent Systems Governance Framework is ratified as the mandatory governing framework for all
 LLM-powered systems built in this organisation.**
 
 | Clause                        | Mandate                                                                                                                                                                                                                                                                                              |
@@ -54,7 +54,7 @@ LLM-powered systems built in this organisation.**
 | **1 — Four-layer coverage**   | Every LLM-powered system must address Prompt Engineering (Layer 1), Context Engineering (Layer 2), Harness Engineering (Layer 3), and RAG / Memory (Layer 4) before it is considered production-ready. Layer 4 may be intentionally absent with documented rationale; Layers 1–3 are non-negotiable. |
 | **2 — Multi-Agent (Layer 5)** | Additionally required when a system involves more than one coordinated LLM agent. Governs swarm topology, task decomposition, context handoff, and parallel execution safety.                                                                                                                        |
 | **3 — Compliance Standard**   | `compliance-standard.md` defines per-layer requirements. Maintained by CC-00 and updated as requirements evolve.                                                                                                                                                                                     |
-| **4 — Mandatory audit**       | ASE Compliance Audits are required before production deployment, conducted using `crew/director/elias-vance/skills/ase-compliance-audit.md`. Systems with P0 or P1 gaps may not enter production.                                                                                                    |
+| **4 — Mandatory audit**       | ASGF Compliance Audits are required before production deployment, conducted using `crew/director/elias-vance/skills/asgf-compliance-audit.md`. Systems with P0 or P1 gaps may not enter production.                                                                                                  |
 | **5 — Governing authority**   | The CC-00 laboratory (Director: Dr. Elias Vance) holds authority over interpretation of the standard, architectural exceptions, and evolution of compliance requirements.                                                                                                                            |
 
 ---
@@ -90,12 +90,12 @@ standard is always achievable and that the implementations always satisfy the st
 
 ## Consequences
 
-| Stakeholder               | Obligations                                                                                                                                                                                                                                                                                                                       |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **All development teams** | Design LLM integrations against the ASE Compliance Standard from the outset — not retrofitted after functional development. Pre-production ASE audits are a hard gate, not a recommendation. Build against CC-00 patterns; do not create parallel implementations of harness, context, or RAG functionality without CC-00 review. |
-| **CC-00 laboratory**      | Keep the Compliance Standard current as engineering modules evolve. Maintain `ase-compliance-audit.md` as the primary audit instrument. Remain available to consult on architectural exceptions and edge cases.                                                                                                                   |
-| **Company pipelines**     | ASE compliance is a mandatory input to Stage 3 (_Prototype → UML Engineering Package_) of all four development pipelines for any LLM-powered feature.                                                                                                                                                                             |
-| **Studio pipelines**      | ASE compliance is required before Stage 5 (_Full Production_) of the Casual Games Studio pipeline for any agent-powered feature.                                                                                                                                                                                                  |
+| Stakeholder               | Obligations                                                                                                                                                                                                                                                                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **All development teams** | Design LLM integrations against the ASGF Compliance Standard from the outset — not retrofitted after functional development. Pre-production ASGF audits are a hard gate, not a recommendation. Build against CC-00 patterns; do not create parallel implementations of harness, context, or RAG functionality without CC-00 review. |
+| **CC-00 laboratory**      | Keep the Compliance Standard current as engineering modules evolve. Maintain `asgf-compliance-audit.md` as the primary audit instrument. Remain available to consult on architectural exceptions and edge cases.                                                                                                                    |
+| **Company pipelines**     | ASGF compliance is a mandatory input to Stage 3 (_Prototype → UML Engineering Package_) of all four development pipelines for any LLM-powered feature.                                                                                                                                                                              |
+| **Studio pipelines**      | ASGF compliance is required before Stage 5 (_Full Production_) of the Casual Games Studio pipeline for any agent-powered feature.                                                                                                                                                                                                   |
 
 ---
 
@@ -117,18 +117,18 @@ absence.
 
 ### EX-001 — Catch-all exception handling in the bounded-timeout-then-degrade harness pattern — **REMEDIATED, CLOSED 2026-07-14**
 
-| Field           | Value                                                                                                                                                                                                                                                                                                              |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Date**        | 2026-07-14                                                                                                                                                                                                                                                                                                         |
-| **Requirement** | Layer 3 — "Error boundary with typed recovery" (Mandatory)                                                                                                                                                                                                                                                         |
+| Field           | Value                                                                                                                                                                                                                                                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Date**        | 2026-07-14                                                                                                                                                                                                                                                                                                                     |
+| **Requirement** | Layer 3 — "Error boundary with typed recovery" (Mandatory)                                                                                                                                                                                                                                                                     |
 | **Scope**       | `_call_with_hard_timeout` and its call sites: `core-component-00/engineering/context-engineering/implementations/memory_vector_store.py` (pre-existing — corrected path, was misstated as `agent-memory/...` in the original entry), `core-component-00/mcp-servers/_shared/embedder_client.py` (new, reuses the same pattern) |
-| **Finding**     | These call sites use `except Exception` rather than distinct `TimeoutError`/`RateLimitError`/`ValidationError` recovery paths, which `compliance-standard.md` states plainly "are not acceptable."                                                                                                                 |
-| **Approved by** | Dr. Elias Vance, Laboratory Director (authority: Clause 5 of this ADR)                                                                                                                                                                                                                                             |
+| **Finding**     | These call sites use `except Exception` rather than distinct `TimeoutError`/`RateLimitError`/`ValidationError` recovery paths, which `compliance-standard.md` states plainly "are not acceptable."                                                                                                                             |
+| **Approved by** | Dr. Elias Vance, Laboratory Director (authority: Clause 5 of this ADR)                                                                                                                                                                                                                                                         |
 
 **Technical rationale:** the catch-all pattern predates this exception request — it originates in
 the Qdrant hard-timeout watchdog fixed 2026-07-13 (`.claude/rules/mcp-governance.md`, `agent-memory`
 row) and was never audited against this standard at the time, since `agent-memory` entered
-production before any ASE compliance audit was run against it. The 2026-07-13/14 embedder-service
+production before any ASGF compliance audit was run against it. The 2026-07-13/14 embedder-service
 build (`telescope/2026-07-13-mcp-embedder-service-redesign/`) was explicitly instructed to reuse
 this existing pattern rather than invent a parallel one, and did so faithfully — it did not
 introduce this gap, and did not expand its blast radius beyond one new call site using an already-
@@ -151,7 +151,7 @@ owner rather than folded into this build's closeout under time pressure.
 2. A remediation task — typed recovery paths for `_call_with_hard_timeout` and its call sites — is
    tracked as CC-00 harness-engineering backlog, owned by Kwame Asante (module lead), not closed by
    this exception. Full scope below.
-3. This exception is revisited at the next ASE compliance audit of `agent-memory` or
+3. This exception is revisited at the next ASGF compliance audit of `agent-memory` or
    `harness-engineering/`, whichever comes first.
 
 #### Remediation task — scoped 2026-07-14 (Dr. Vance)
@@ -194,7 +194,7 @@ name at each call site rather than leaving both in play.
 3. New unit tests in `harness-engineering/testing/` cover each new typed path (timeout,
    unavailable, malformed-response) at both the `memory_vector_store.py` and `embedder_client.py`
    call sites.
-4. Once merged, this task closes EX-001 — the exception is revisited (§ condition 3) and the ASE
+4. Once merged, this task closes EX-001 — the exception is revisited (§ condition 3) and the ASGF
    verdict re-run against the fixed state.
 
 **Out of scope:** changing `QDRANT_CALL_TIMEOUT_S`/the embedder-service's own timeout values, retry
@@ -235,7 +235,7 @@ exists in the code — this is a genuine fix, not a re-labeling. EX-001 itself n
 historical rationale rather than an active exception.
 
 **Effect on the embedder-service build's overall verdict:** remains **Conditional**, not upgraded
-to ASE-Compliant — the two Required-level gaps (PII scrubbing on the embed path,
+to ASGF-Compliant — the two Required-level gaps (PII scrubbing on the embed path,
 merge-integration-agent designation) are still open and unrelated to this remediation.
 
 ---
@@ -245,5 +245,5 @@ merge-integration-agent designation) are still open and unrelated to this remedi
 | Date       | Change                                                                             | Authority              |
 | ---------- | ---------------------------------------------------------------------------------- | ---------------------- |
 | 2026-04-28 | Initial ratification                                                               | Dr. Elias Vance, CC-00 |
-| 2026-07-14 | Added Exceptions Log; recorded EX-001 (embedder-service ASE closeout)              | Dr. Elias Vance, CC-00 |
+| 2026-07-14 | Added Exceptions Log; recorded EX-001 (embedder-service ASGF closeout)             | Dr. Elias Vance, CC-00 |
 | 2026-07-14 | Closed EX-001 - typed error-boundary remediation merged and independently verified | Dr. Elias Vance, CC-00 |

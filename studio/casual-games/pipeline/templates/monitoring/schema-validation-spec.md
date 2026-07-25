@@ -1,6 +1,6 @@
-﻿# Schema Validation Specification — Casual Games Studio
+# Schema Validation Specification — Casual Games Studio
 
-> **ASE Layer:** 3 — Harness Engineering (gate automation)
+> **ASGF Layer:** 3 — Harness Engineering (gate automation)
 > **Authority:** Studio Director Dr. Marcus Vogel
 > **Reference:** `stage-transition-schemas.md`, `harness-config.md`
 
@@ -73,9 +73,9 @@ This specification defines how stage transition schemas are validated at every k
 
 ### Stage 10 — QBR
 
-| Rule ID     | Rule                                               |  Severity   |
+| Rule ID | Rule | Severity |
 | :---------- | :------------------------------------------------- | :---------: | ------- | ----------- |
-| `V-QBR-001` | All QBR scorecard metrics must be populated        | **Blocker** |
+| `V-QBR-001` | All QBR scorecard metrics must be populated | **Blocker** |
 | `V-QBR-002` | `outcome_routing` must be one of: `full_investment | maintenance | sunset` | **Blocker** |
 
 ---

@@ -1,6 +1,6 @@
 # Stage Transition Schemas — Casual Games Studio
 
-> **ASE Layer:** 3 — Harness Engineering (gate automation) + Layer 2 — Context Engineering (handoff contracts)
+> **ASGF Layer:** 3 — Harness Engineering (gate automation) + Layer 2 — Context Engineering (handoff contracts)
 > **Authority:** Studio Director Dr. Marcus Vogel
 > **Reference:** `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`
 

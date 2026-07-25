@@ -1,11 +1,11 @@
-# ASE Compliance Standard
+# ASGF Compliance Standard
 
-> **Governing authority:** ADR-ASE-001 · Core Component 00 Laboratory
+> **Governing authority:** ADR-ASGF-001 · Core Component 00 Laboratory
 > **Version:** 1.0 · **Ratified:** 2026-04-28 · **Last Updated:** 2026-04-30
 
 This document defines the minimum requirements an LLM-powered system must satisfy at
-each ASE layer to receive an **ASE-Compliant** verdict. It is the authoritative
-specification referenced during ASE compliance audits.
+each ASGF layer to receive an **ASGF-Compliant** verdict. It is the authoritative
+specification referenced during ASGF compliance audits.
 
 ---
 
@@ -20,8 +20,8 @@ non-compliance:
 | **Required**    | Expected in all standard cases. Absence is a P1 gap unless formally excepted. |
 | **Recommended** | Best practice. Absence is a P2 or P3 gap depending on system scope.           |
 
-A system achieves **ASE-Compliant** status when it has no P0 gaps and no unexcepted P1
-gaps. See `adr-ase-001.md` for the exception process.
+A system achieves **ASGF-Compliant** status when it has no P0 gaps and no unexcepted P1
+gaps. See `adr-asgf-001.md` for the exception process.
 
 ---
 
@@ -92,7 +92,7 @@ Layer 4 governs how the system retrieves and manages knowledge beyond model weig
 
 > **Layer 4 may be intentionally absent.** If the system operates entirely on parametric
 > knowledge with no retrieval requirement, document the rationale and mark this layer as
-> _intentionally absent_. This is the only ASE layer that can be absent without a
+> _intentionally absent_. This is the only ASGF layer that can be absent without a
 > compliance gap, provided the rationale is documented and approved.
 
 | Requirement                                               | Classification          | Specification                                                                                                                                                                                         |
@@ -144,11 +144,11 @@ Beyond per-layer compliance, the layers must be **compatible at their interfaces
 
 ## Compliance Verdict Criteria
 
-| Verdict           | Conditions                                                                     |
-| ----------------- | ------------------------------------------------------------------------------ |
-| **ASE-Compliant** | No Mandatory requirements unmet. No Required requirements unmet (or excepted). |
-| **Conditional**   | No Mandatory gaps. One or more Required gaps with active remediation plan.     |
-| **Non-Compliant** | One or more Mandatory requirements unmet. System may not enter production.     |
+| Verdict            | Conditions                                                                     |
+| ------------------ | ------------------------------------------------------------------------------ |
+| **ASGF-Compliant** | No Mandatory requirements unmet. No Required requirements unmet (or excepted). |
+| **Conditional**    | No Mandatory gaps. One or more Required gaps with active remediation plan.     |
+| **Non-Compliant**  | One or more Mandatory requirements unmet. System may not enter production.     |
 
 ---
 
@@ -156,7 +156,7 @@ Beyond per-layer compliance, the layers must be **compatible at their interfaces
 
 Compliance audits are conducted using:
 
-> `core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md`
+> `core-component-00/crew/director/elias-vance/skills/asgf-compliance-audit.md`
 
 The skill provides layer-by-layer audit checklists, gap severity classification, and
 output format for the compliance report.

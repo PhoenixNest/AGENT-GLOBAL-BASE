@@ -1,4 +1,4 @@
-﻿# Stage Transition Schemas — JSON Contract Definitions (Web Pipeline)
+# Stage Transition Schemas — JSON Contract Definitions (Web Pipeline)
 
 ---
 
@@ -28,12 +28,8 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
     "srd": { "version": "v1", "path": "string", "sec_req_count": 0 }
   },
   "target_delivery_model": "SPA | SSR | PWA | hybrid",
-  "constraints_forward": [
-    { "constraint": "string", "source": "PRD | SRD", "ref": "§X" }
-  ],
-  "open_questions": [
-    { "question": "string", "impact": "high | medium | low", "owner": "string" }
-  ]
+  "constraints_forward": [{ "constraint": "string", "source": "PRD | SRD", "ref": "§X" }],
+  "open_questions": [{ "question": "string", "impact": "high | medium | low", "owner": "string" }]
 }
 ```
 
@@ -139,9 +135,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
     },
     "sis": { "path": "string", "cso_signed": false }
   },
-  "technology_decision_registry": [
-    { "adr_id": "ADR-NNN", "compliant": true, "notes": "string" }
-  ],
+  "technology_decision_registry": [{ "adr_id": "ADR-NNN", "compliant": true, "notes": "string" }],
   "track_assignments": {
     "track_w_fe": {
       "lead": "string",
@@ -252,7 +246,7 @@ Each schema is designed to be **machine-parseable** (JSON) while remaining **hum
   "constraints_forward": [
     {
       "constraint": "Stage 6 codebase tag is the integrity baseline for Stage 8",
-      "source": "ASE Red Team Protocol"
+      "source": "ASGF Red Team Protocol"
     }
   ]
 }

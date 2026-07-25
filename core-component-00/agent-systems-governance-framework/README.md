@@ -1,4 +1,4 @@
-# Agent Systems Engineering — Governance & Integration Layer
+# Agent Systems Governance Framework — Governance & Integration Layer
 
 > **This module is not a sixth engineering pillar.**
 >
@@ -9,34 +9,34 @@
 
 ---
 
-## What Is Agent Systems Engineering?
+## What Is Agent Systems Governance Framework?
 
-**Agent Systems Engineering (ASE)** is the discipline of designing, governing, and
+**Agent Systems Governance Framework (ASGF)** is the discipline of designing, governing, and
 evaluating complete LLM-powered agent systems — treating the ensemble of Prompt,
 Context, Harness, RAG, and Multi-Agent engineering not as independent tools, but as a
 unified, interdependent architecture.
 
 Just as **Software Engineering** coalesced from programming, testing, deployment, and
-management in the 1960s, ASE is the convergence of four foundational LLM engineering
+management in the 1960s, ASGF is the convergence of four foundational LLM engineering
 disciplines into a single unified field. The convergence thesis is documented in the
 foundational paper:
 
-> [`core-component-00/agent-systems-engineering/CONCEPTS.md`](./CONCEPTS.md)
+> [`core-component-00/agent-systems-governance-framework/CONCEPTS.md`](./CONCEPTS.md)
 
-ASE is ratified as **mandatory** across all company and studio pipelines via
-**ADR-ASE-001**. Every LLM-powered system built in this organisation must satisfy the
-ASE Compliance Standard before it is considered production-ready.
+ASGF is ratified as **mandatory** across all company and studio pipelines via
+**ADR-ASGF-001**. Every LLM-powered system built in this organisation must satisfy the
+ASGF Compliance Standard before it is considered production-ready.
 
 ---
 
 ## This Module vs. the Five Engineering Pillars
 
-| Dimension               | Five Engineering Pillars                      | Agent Systems Engineering                                            |
+| Dimension               | Five Engineering Pillars                      | Agent Systems Governance Framework                                   |
 | ----------------------- | --------------------------------------------- | -------------------------------------------------------------------- |
 | **Scope**               | Single discipline — one layer of the stack    | Cross-cutting — all five layers simultaneously                       |
 | **Question answered**   | _"How do I engineer Layer N?"_                | _"How do all layers compose into a compliant, coherent system?"_     |
 | **Primary output**      | Patterns, implementations, test suites        | Governance standards, cross-layer patterns, compliance audit reports |
-| **Governing authority** | Each module is self-contained                 | ADR-ASE-001 — mandatory across all pipelines                         |
+| **Governing authority** | Each module is self-contained                 | ADR-ASGF-001 — mandatory across all pipelines                        |
 | **Activation**          | Consulted when building within a single layer | Mandatory before any LLM-powered system enters production            |
 
 ---
@@ -44,7 +44,7 @@ ASE Compliance Standard before it is considered production-ready.
 ## Authority Chain
 
 ```
-ADR-ASE-001 (ratifying decision)
+ADR-ASGF-001 (ratifying decision)
     └── Compliance Standard (per-layer requirements)
             ├── engineering/prompt-engineering/ (Layer 1)
             ├── engineering/context-engineering/ (Layer 2)
@@ -65,7 +65,7 @@ exceptions are escalated to the CC-00 laboratory.
 
 | Document                 | Purpose                                                                     |
 | ------------------------ | --------------------------------------------------------------------------- |
-| `adr-ase-001.md`         | The ratifying Architecture Decision Record — why ASE is mandatory           |
+| `adr-asgf-001.md`        | The ratifying Architecture Decision Record — why ASGF is mandatory          |
 | `compliance-standard.md` | Per-layer requirements every LLM-powered system must satisfy                |
 | `maturity-model.md`      | Formal Levels 0–5 maturity model for evaluating agent system sophistication |
 
@@ -94,10 +94,10 @@ module. Every pattern references the CC-00 implementations that realise it.
 
 The theoretical basis for this entire module is the convergence thesis:
 
-> **_Agent Systems Engineering: The Convergence of Four Disciplines_**
-> [`core-component-00/agent-systems-engineering/CONCEPTS.md`](./CONCEPTS.md)
+> **_Agent Systems Governance Framework: The Convergence of Four Disciplines_**
+> [`core-component-00/agent-systems-governance-framework/CONCEPTS.md`](./CONCEPTS.md)
 
-Read the paper to understand _why_ ASE exists. Use this module to understand _how_ to
+Read the paper to understand _why_ ASGF exists. Use this module to understand _how_ to
 apply it.
 
 ---
@@ -106,20 +106,20 @@ apply it.
 
 Every LLM-powered system follows this path before production:
 
-| Step | Action                                                                | Gate / Output         |
-| ---- | --------------------------------------------------------------------- | --------------------- |
-| 1    | Build the system against CC-00 module patterns                        | —                     |
-| 2    | Run ASE compliance audit against `compliance-standard.md`             | Checklist per layer   |
-| 3    | Remediate all P0 and P1 gaps                                          | ASE-Compliant verdict |
-| 4    | System enters production                                              | —                     |
-| 5    | Post-incident or quarterly: re-audit against `compliance-standard.md` | Updated verdict       |
+| Step | Action                                                                | Gate / Output          |
+| ---- | --------------------------------------------------------------------- | ---------------------- |
+| 1    | Build the system against CC-00 module patterns                        | —                      |
+| 2    | Run ASGF compliance audit against `compliance-standard.md`            | Checklist per layer    |
+| 3    | Remediate all P0 and P1 gaps                                          | ASGF-Compliant verdict |
+| 4    | System enters production                                              | —                      |
+| 5    | Post-incident or quarterly: re-audit against `compliance-standard.md` | Updated verdict        |
 
 The audit skill is available at:
-`core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md` (ratification) or
-`core-component-00/crew/multi-agent-engineering/idris-farouk/skills/ase-compliance-operations.md` (execution)
+`core-component-00/crew/director/elias-vance/skills/asgf-compliance-audit.md` (ratification) or
+`core-component-00/crew/multi-agent-engineering/idris-farouk/skills/asgf-compliance-operations.md` (execution)
 
 ---
 
 **Maintained by:** Dr. Elias Vance, Laboratory Director — Core Component 00
-**Authority:** ADR-ASE-001 (ratified 2026-04-28)
+**Authority:** ADR-ASGF-001 (ratified 2026-04-28)
 **Last Updated:** 2026-04-30

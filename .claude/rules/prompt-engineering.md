@@ -50,6 +50,6 @@ Context Window
 
 1. Use established patterns from `patterns/` before inventing new structures
 2. Follow workspace strategy — integrate into profiles, skills, rules, and hooks
-3. No ad-hoc prompts in production — all must follow documented patterns (ASE requirement)
+3. No ad-hoc prompts in production — all must follow documented patterns (ASGF requirement)
 4. Test prompt stability across model versions
 5. Document prompt rationale

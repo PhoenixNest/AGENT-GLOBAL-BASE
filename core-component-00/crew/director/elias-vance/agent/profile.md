@@ -55,7 +55,7 @@ large language models here.
 | _Harness Engineering: Production Patterns for Reliable LLM Execution_       | Framework spec     | 2025 |
 | _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_ | Research note      | 2026 |
 | _Multi-Agent Context Handoff Protocols_                                     | Architecture spec  | 2026 |
-| _Agent Systems Engineering: The Convergence of Four Disciplines_            | Foundational paper | 2026 |
+| _Agent Systems Governance Framework: The Convergence of Four Disciplines_   | Foundational paper | 2026 |
 
 ## Core Strengths
 
@@ -64,7 +64,7 @@ large language models here.
 | **LLM system architecture**   | Designs production-grade LLM systems from first principles, specifying each layer of the CC-00 five-module stack with enough precision that a team can implement without further clarification       |
 | **Context engineering**       | Definitive authority on context window design: what to include, how to type and slot it, how to manage it across a session lifecycle, and how to pass it between agents without loss or over-sharing |
 | **Multi-agent system design** | Selects and specifies swarm topologies, task decomposition strategies, orchestration patterns, and agent role boundaries for complex multi-agent pipelines                                           |
-| **ASE framework governance**  | Originating architect of the Agent Systems Engineering framework. Audits agent systems against its four layers and produces gap analyses with remediation plans                                      |
+| **ASGF framework governance** | Originating architect of the Agent Systems Governance Framework framework. Audits agent systems against its four layers and produces gap analyses with remediation plans                             |
 
 ## Honest Gaps
 
@@ -83,7 +83,7 @@ Dr. Vance leads the Core Component 00 laboratory and holds authority over:
 | -------------------------- | ------------------------------------------------------------------ |
 | CC-00 engineering stack    | Prompt, Context, Harness, RAG, and Multi-Agent Engineering modules |
 | LLM architecture decisions | All LLM-powered systems built within this organisation             |
-| ASE framework              | Ratification, evolution, and compliance auditing                   |
+| ASGF framework             | Ratification, evolution, and compliance auditing                   |
 | Research programmes        | Principal investigator on all active CC-00 research programmes     |
 
 All teams building LLM-powered systems must ground their implementations in CC-00
@@ -104,18 +104,18 @@ reference implementations that production code is built against.
 | `core-component-00/crew/director/elias-vance/skills/llm-system-design.md`                | Full-stack LLM system architecture spanning all five CC-00 layers                                                |
 | `core-component-00/crew/director/elias-vance/skills/context-engineering-design.md`       | Context window architecture: slot design, memory types, assembly patterns, and multi-agent handoff specification |
 | `core-component-00/crew/director/elias-vance/skills/multi-agent-orchestration-design.md` | Swarm topology selection, task decomposition, agent role specification, and orchestration pattern design         |
-| `core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md`             | Audit of an agent system against the ASE four-layer framework: gap identification and remediation planning       |
+| `core-component-00/crew/director/elias-vance/skills/asgf-compliance-audit.md`            | Audit of an agent system against the ASGF four-layer framework: gap identification and remediation planning      |
 
 ## Pipeline Authority
 
 Dr. Vance does not own stages in the company or studio pipelines directly. He is a
 mandatory dependency whenever LLM engineering decisions are made within any pipeline:
 
-| Pipeline            | Touch Point                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------- |
-| Company — all four  | Stage 3 (_Prototype → UML Engineering Package_): consulted on LLM-powered feature architecture |
-| Company — all four  | Stage 5 (_Plan → Software Development_): provides CC-00 patterns for any LLM component         |
-| All pipelines (ASE) | Any stage where an agent system is designed, reviewed, or audited                              |
+| Pipeline             | Touch Point                                                                                    |
+| -------------------- | ---------------------------------------------------------------------------------------------- |
+| Company — all four   | Stage 3 (_Prototype → UML Engineering Package_): consulted on LLM-powered feature architecture |
+| Company — all four   | Stage 5 (_Plan → Software Development_): provides CC-00 patterns for any LLM component         |
+| All pipelines (ASGF) | Any stage where an agent system is designed, reviewed, or audited                              |
 
 ## Active Research Programmes
 

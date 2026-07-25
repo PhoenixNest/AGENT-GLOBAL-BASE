@@ -59,4 +59,4 @@ multi-agent handoff.
 ## References
 
 - `core-component-00/telescope/README.md`
-- `core-component-00/agent-systems-engineering/CONCEPTS.md` — synthesis across all five modules
+- `core-component-00/agent-systems-governance-framework/CONCEPTS.md` — synthesis across all five modules

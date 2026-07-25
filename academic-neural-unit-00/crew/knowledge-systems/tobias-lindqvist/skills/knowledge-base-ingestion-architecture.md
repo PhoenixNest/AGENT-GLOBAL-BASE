@@ -23,9 +23,9 @@ itself needs revision as the knowledge base grows.
    workspace, for consistent navigability — not because of any link to those archives themselves.
 3. **Cross-reference on ingestion.** When a new entry cites or extends a prior ANU-00 entry, record
    that link bidirectionally at ingestion time, not as a later cleanup pass.
-4. **ASE boundary, checked every time a new tool is built.** Any LLM-powered component of this
+4. **ASGF boundary, checked every time a new tool is built.** Any LLM-powered component of this
    ingestion pipeline (e.g., automated tagging, embedding-based search) is bound by the
-   workspace-wide ASE framework (`core-component-00/agent-systems-engineering/governance/`) as a
+   workspace-wide ASGF framework (`core-component-00/agent-systems-governance-framework/governance/`) as a
    technical standard — this applies regardless of ANU-00's organizational independence from CC-00.
    Do **not** assume reuse of CC-00's `workspace-knowledge` or `agent-memory` MCP servers; if
    ANU-00 needs equivalent capability, it is built or provisioned independently, subject to the
@@ -38,5 +38,5 @@ itself needs revision as the knowledge base grows.
 
 - Research question design or evidencing rigor — that belongs to the relevant Research Scientist's
   own skill file.
-- ASE ratification itself — Dr. Vance retains that authority workspace-wide; this skill only
+- ASGF ratification itself — Dr. Vance retains that authority workspace-wide; this skill only
   covers compliance with the standard, not authoring or changing it.

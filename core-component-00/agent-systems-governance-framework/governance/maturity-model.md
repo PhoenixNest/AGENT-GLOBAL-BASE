@@ -1,9 +1,9 @@
-﻿# ASE Maturity Model
+# ASGF Maturity Model
 
-> **Governing authority:** ADR-ASE-001 · Core Component 00 Laboratory
+> **Governing authority:** ADR-ASGF-001 · Core Component 00 Laboratory
 > **Version:** 1.0 · **Last Updated:** 2026-04-30
 
-The ASE Maturity Model provides a structured progression for evaluating and evolving
+The ASGF Maturity Model provides a structured progression for evaluating and evolving
 the sophistication of LLM-powered agent systems. Each level builds on the previous and
 corresponds to a measurable increase in system capability, resilience, and architectural
 coherence.
@@ -17,14 +17,14 @@ The model is used in two ways:
 
 ## The Six Levels
 
-| Level | Name                  | Core Capability                                                             | ASE Compliance |
-| ----- | --------------------- | --------------------------------------------------------------------------- | -------------- |
-| **0** | Single Agent          | One LLM, one prompt, no orchestration                                       | Not required   |
-| **1** | Prompt Specialisation | Multiple structured prompts; router selects the right one per task type     | Layer 1        |
-| **2** | Subagent Delegation   | Orchestrator + 2–5 specialists with defined handoff protocol                | Layers 1–2     |
-| **3** | Agent Swarm           | 5–20+ agents in hierarchical or hybrid topology with fork-join              | Layers 1–3     |
-| **4** | Git-Backed Swarm      | Level 3 + git worktree isolation; full filesystem isolation and audit trail | Layers 1–4     |
-| **5** | Self-Improving Swarm  | Level 4 + episodic memory feedback loops; swarm optimises its own routing   | All Layers     |
+| Level | Name                  | Core Capability                                                             | ASGF Compliance |
+| ----- | --------------------- | --------------------------------------------------------------------------- | --------------- |
+| **0** | Single Agent          | One LLM, one prompt, no orchestration                                       | Not required    |
+| **1** | Prompt Specialisation | Multiple structured prompts; router selects the right one per task type     | Layer 1         |
+| **2** | Subagent Delegation   | Orchestrator + 2–5 specialists with defined handoff protocol                | Layers 1–2      |
+| **3** | Agent Swarm           | 5–20+ agents in hierarchical or hybrid topology with fork-join              | Layers 1–3      |
+| **4** | Git-Backed Swarm      | Level 3 + git worktree isolation; full filesystem isolation and audit trail | Layers 1–4      |
+| **5** | Self-Improving Swarm  | Level 4 + episodic memory feedback loops; swarm optimises its own routing   | All Layers      |
 
 ---
 
@@ -43,7 +43,7 @@ beyond what the application layer provides.
 | Session management                                | No — each interaction is stateless              |
 | Suitable for                                      | Prototypes, demos, and bounded low-stakes tasks |
 
-**Why this is not ASE-compliant:** The absence of harness engineering means the system
+**Why this is not ASGF-compliant:** The absence of harness engineering means the system
 fails silently when rate limits, timeouts, or context overflows occur. Acceptable for
 exploration; not for production.
 
@@ -68,7 +68,7 @@ request.
 | Agent count         | Single-agent per invocation — no inter-agent communication                           |
 | Error handling      | Basic only — retry on failure                                                        |
 
-**ASE requirements satisfied:** Layer 1 (Prompt Engineering) — basic compliance.
+**ASGF requirements satisfied:** Layer 1 (Prompt Engineering) — basic compliance.
 
 **What it lacks:** Context engineering for long sessions, harness-level error
 boundaries, retrieval, and multi-agent coordination.
@@ -94,7 +94,7 @@ receives.
 | Context window structure | Four-slot (System / Retrieved / History / Tool) implemented |
 | Token budget             | Tracked and managed at context assembly time                |
 
-**ASE requirements satisfied:** Layers 1–2 (Prompt + Context Engineering).
+**ASGF requirements satisfied:** Layers 1–2 (Prompt + Context Engineering).
 
 **What it lacks:** Harness-level error boundaries for tool use and model calls,
 retrieval pipeline for external knowledge, and swarm-level orchestration for large
@@ -122,7 +122,7 @@ engineering stack is in place.
 | Knowledge retrieval | RAG pipeline implemented for domain knowledge                                   |
 | Retrieval quality   | Reranking, ACL filtering, and freshness management in place                     |
 
-**ASE requirements satisfied:** Layers 1–4 (all four original ASE pillars).
+**ASGF requirements satisfied:** Layers 1–4 (all four original ASGF pillars).
 
 **What it lacks:** Filesystem-level isolation for parallel coding agents — agents
 sharing a repository risk overwriting each other's work.
@@ -149,7 +149,7 @@ merge sequencing and conflict resolution.
 | Audit trail     | Every change attributable to a specific agent and task                          |
 | Reproducibility | Swarm executions are reproducible and rollback-safe                             |
 
-**ASE requirements satisfied:** All five layers — full ASE compliance.
+**ASGF requirements satisfied:** All five layers — full ASGF compliance.
 
 **What it lacks:** The ability to learn from execution history to improve future
 routing and performance.
@@ -175,7 +175,7 @@ efficiency metrics — and uses this data to optimise its own behaviour over tim
 | Agent identity refinement   | Identity prompts updated from performance data — not by hand, but by ground-truth feedback analysis               |
 | Self-assessment             | The swarm knows where it is failing and why — maturity is continuously monitored                                  |
 
-**ASE requirements satisfied:** All five layers + continuous compliance monitoring.
+**ASGF requirements satisfied:** All five layers + continuous compliance monitoring.
 
 This is the target state for any production-grade, long-lived LLM-powered system. It
 is the architectural equivalent of a self-healing distributed system.
@@ -202,8 +202,8 @@ affirmatively. A partial affirmative moves the system to the level below.
 
 ## References
 
-- [ADR-ASE-001](./adr-ase-001.md) — Governing ratification decision
+- [ADR-ASGF-001](./adr-asgf-001.md) — Governing ratification decision
 - [Compliance Standard](./compliance-standard.md) — Per-layer requirements
-- [Foundational Paper](core-component-00/agent-systems-engineering/CONCEPTS.md) — Convergence thesis
+- [Foundational Paper](core-component-00/agent-systems-governance-framework/CONCEPTS.md) — Convergence thesis
 - [Multi-Agent Engineering Module](core-component-00/engineering/multi-agent-engineering/README.md) — Swarm implementation
 - [Git Worktree Orchestration](core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md) — Level 4 infrastructure

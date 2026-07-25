@@ -71,11 +71,11 @@ Any task exceeding its estimate by >20% triggers a CTO → CPO schedule risk not
 
 ---
 
-## ASE Template Parity
+## ASGF Template Parity
 
-All four development pipelines have achieved 100% ASE template parity. Monitoring templates in each
-pipeline's `templates/monitoring/` folder conform to the ASE compliance standard defined in
-`core-component-00/agent-systems-engineering/governance/compliance-standard.md`.
+All four development pipelines have achieved 100% ASGF template parity. Monitoring templates in each
+pipeline's `templates/monitoring/` folder conform to the ASGF compliance standard defined in
+`core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`.
 
 ---
 

@@ -17,7 +17,7 @@ specifications, pipeline definitions, and Python reference implementations.
 | **ANU-00**      | `academic-neural-unit-00/` | Independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 |
 
 These systems are architecturally independent but share governance through the
-**Agent Systems Engineering (ASE)** framework.
+**Agent Systems Governance Framework (ASGF)** framework.
 
 ---
 
@@ -44,7 +44,7 @@ AGENT-GLOBAL-BASE/
 │       └── projects/            ← Per-game folders (none scaffolded yet)
 │
 ├── core-component-00/           ← CC-00 Lab (only place with runnable code)
-│   ├── agent-systems-engineering/  ← ASE governing framework
+│   ├── agent-systems-governance-framework/  ← ASGF governing framework
 │   ├── engineering/                ← Layers 1, 2, 3, 5
 │   │   ├── prompt-engineering/         ← Layer 1 — what to write
 │   │   ├── context-engineering/        ← Layer 2 — how to structure it
@@ -140,7 +140,7 @@ large language models starts here. **Lab Director:** Dr. Elias Vance.
 | 5     | `engineering/multi-agent-engineering/` |        Yes        |
 
 Key production implementations live under each module's `implementations/` folder. The governing
-framework — ASE — is defined in `core-component-00/agent-systems-engineering/`.
+framework — ASGF — is defined in `core-component-00/agent-systems-governance-framework/`.
 
 ---
 
@@ -199,7 +199,7 @@ Profile locations:
 | A specific department's agents                      | `company/departments/`                                        |
 | Studio structure + game pipeline                    | `studio/casual-games/library/overview/casual-games-studio.md` |
 | LLM engineering patterns                            | `core-component-00/README.md`                                 |
-| ASE governance (ADRs, compliance)                   | `core-component-00/agent-systems-engineering/`                |
+| ASGF governance (ADRs, compliance)                  | `core-component-00/agent-systems-governance-framework/`       |
 | Production Python code                              | `core-component-00/engineering/<module>/implementations/`     |
 | MCP server implementations                          | `core-component-00/mcp-servers/`                              |
 | Research archive (cross-department index)           | `telescope/README.md`                                         |

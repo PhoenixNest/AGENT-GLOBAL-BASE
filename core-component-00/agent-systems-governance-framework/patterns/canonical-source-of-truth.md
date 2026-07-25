@@ -4,7 +4,7 @@
 | ------------ | -------------------------------- |
 | **Category** | Governance · Identity Management |
 | **Layer**    | Cross-cutting (Layers 1 + 2)     |
-| **Status**   | Ratified — ADR-ASE-001           |
+| **Status**   | Ratified — ADR-ASGF-001          |
 
 ---
 
