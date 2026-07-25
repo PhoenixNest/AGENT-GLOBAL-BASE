@@ -29,7 +29,7 @@ scientist by background.
    tool used by three independent labs — the closest available precedent to "build and maintain
    ANU-00's knowledge base" of any candidate sourced.
 2. **Governance Awareness Without Over-Coupling** — Independently raised, before being asked, that
-   any LLM-powered ingestion tooling he builds must comply with the workspace's ASE framework as a
+   any LLM-powered ingestion tooling he builds must comply with the workspace's ASGF framework as a
    technical standard, while correctly noting this creates no organizational dependency on CC-00's
    `workspace-knowledge`/`agent-memory` MCP infrastructure specifically.
 3. **Taxonomy-First Instinct** — Prioritized designing a stable taxonomy before building ingestion
@@ -59,7 +59,7 @@ inform chartering decisions.
 ## Skills Index
 
 - `skills/knowledge-base-ingestion-architecture.md` — designing ANU-00's knowledge-base ingestion,
-  taxonomy, and cross-reference indexing, including the ASE-compliance boundary for any
+  taxonomy, and cross-reference indexing, including the ASGF-compliance boundary for any
   LLM-powered component
 
 ## Pipeline Stages

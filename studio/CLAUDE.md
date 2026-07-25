@@ -47,7 +47,7 @@ entirely self-contained per studio.
 
 ## Architecture Principle
 
-Studios are architecturally independent of The Company. They share governance through the ASE
+Studios are architecturally independent of The Company. They share governance through the ASGF
 framework and report through the authority hierarchy, but their pipelines, crew structures, and
 project conventions are self-contained. Do not import company pipeline stage numbers or department
 structures into studio work.

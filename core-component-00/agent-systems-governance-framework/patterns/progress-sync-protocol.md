@@ -4,7 +4,7 @@
 | ------------ | ----------------------------------- |
 | **Category** | Pipeline Governance · Observability |
 | **Layer**    | Cross-cutting (Layer 3 + Layer 5)   |
-| **Status**   | Ratified — ADR-ASE-001              |
+| **Status**   | Ratified — ADR-ASGF-001             |
 
 ---
 

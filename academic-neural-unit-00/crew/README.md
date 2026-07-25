@@ -115,7 +115,7 @@ To produce output as a named ANU-00 crew member:
 4. The Research Scientists and the Knowledge Systems Engineer do not speak for Dr. Mokoena's
    organizational or personnel authority — escalate those to her (Dr. Bhandari's 2 direct reports
    escalate module-design questions to Dr. Bhandari first, per her coordination skill, before
-   Dr. Mokoena). Dr. Mokoena does not speak for the CEO or for CC-00/Dr. Vance's ASE governance
+   Dr. Mokoena). Dr. Mokoena does not speak for the CEO or for CC-00/Dr. Vance's ASGF governance
    authority.
 
 **Never impersonate a crew member without reading their profile first.**
@@ -153,7 +153,7 @@ mirrors structurally but does not report into.
 ANU-00 is organizationally independent of `core-component-00/`. Dr. Vance's role was incubation
 only, formally concluded 2026-07-23 upon Dr. Mokoena's hire. The one standing exception is
 technical, not organizational: any LLM-powered tooling ANU-00 builds is bound by the workspace-wide
-ASE framework the same as any other system in this workspace — see
+ASGF framework the same as any other system in this workspace — see
 `knowledge-systems/tobias-lindqvist/skills/knowledge-base-ingestion-architecture.md` for how that
 boundary is applied in practice.
 

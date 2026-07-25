@@ -24,7 +24,7 @@ adversarial testing of agent-facing systems, and holds a PhD in Security Enginee
 Zürich (2016).
 
 He is CC-00's first crew member hired specifically for an independent safety/evaluation mandate —
-a function Dr. Vance's Composition Assessment flagged as entirely absent, with ASE compliance
+a function Dr. Vance's Composition Assessment flagged as entirely absent, with ASGF compliance
 previously self-audited within the lab rather than independently checked.
 
 ## Core Strengths
@@ -46,15 +46,15 @@ previously self-audited within the lab rather than independently checked.
   module internals during Day 1–30 onboarding, shadowing each Research Engineer in turn
 - **Not a Systems Architect:** Safety/red-team focus, not cross-module architecture design —
   defers to Dr. Vance on architecture decisions his audit findings inform
-- **No ASE Ratification Authority:** Findings and audits are independent and authoritative as
-  _evaluation_, but do not themselves constitute ASE compliance ratification — that remains Dr.
+- **No ASGF Ratification Authority:** Findings and audits are independent and authoritative as
+  _evaluation_, but do not themselves constitute ASGF compliance ratification — that remains Dr.
   Vance's sole authority
 
 ## Assigned Role
 
 Staff Safety & Evaluation Engineer, cross-cutting across all four production-grade modules.
 Conducts independent adversarial evaluation and safety regression testing distinct from Dr.
-Farouk's ASE audit _execution_ role — the two are deliberately separate functions so ASE
+Farouk's ASGF audit _execution_ role — the two are deliberately separate functions so ASGF
 compliance is checked by someone other than the person who executes it. Alongside Dr. Nwosu-Chen,
 served as one of the two Phase 3 bar-raisers.
 
@@ -62,14 +62,14 @@ served as one of the two Phase 3 bar-raisers.
 
 **Staff Individual Contributor — Safety** — conducts independent adversarial evaluation, red-team
 exercises, and safety regression testing across all CC-00 modules. Reports to Dr. Vance; does not
-hold ASE ratification authority or cross-module architecture authority.
+hold ASGF ratification authority or cross-module architecture authority.
 
 ## Skills Index
 
 | Skill                              | Location                                  |
 | ---------------------------------- | ----------------------------------------- |
 | `adversarial-evaluation-design.md` | `skills/adversarial-evaluation-design.md` |
-| `ase-independent-audit.md`         | `skills/ase-independent-audit.md`         |
+| `asgf-independent-audit.md`        | `skills/asgf-independent-audit.md`        |
 | `safety-regression-testing.md`     | `skills/safety-regression-testing.md`     |
 
 ## Vetting Record

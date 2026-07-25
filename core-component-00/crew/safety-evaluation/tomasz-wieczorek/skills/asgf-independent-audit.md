@@ -1,35 +1,35 @@
 ---
-name: cc00-ase-independent-audit
-description: Independent verification of ASE compliance findings, structurally separate from the execution role that runs the audits. Owned by Dr. Tomasz Wieczorek (Staff Safety & Evaluation Engineer). Trigger: independent ASE check, second-opinion audit, self-audit prevention.
+name: cc00-asgf-independent-audit
+description: Independent verification of ASGF compliance findings, structurally separate from the execution role that runs the audits. Owned by Dr. Tomasz Wieczorek (Staff Safety & Evaluation Engineer). Trigger: independent ASGF check, second-opinion audit, self-audit prevention.
 version: "1.0.0"
 ---
 
-# ASE Independent Audit
+# ASGF Independent Audit
 
-**Skill ID:** ase-independent-audit
+**Skill ID:** asgf-independent-audit
 **Role:** Staff Safety & Evaluation Engineer
 **Seniority:** L4 — Staff
 
 ## Overview
 
-Provides an independent check on ASE compliance audits executed by Dr. Farouk
-(`ase-compliance-operations.md`) — verifying findings rather than re-running the same checklist,
+Provides an independent check on ASGF compliance audits executed by Dr. Farouk
+(`asgf-compliance-operations.md`) — verifying findings rather than re-running the same checklist,
 so compliance isn't marked purely by the same function that executes it.
 
 ## Tools & Frameworks
 
 | Tool                        | Proficiency | Use Case                                                                                |
 | --------------------------- | ----------- | --------------------------------------------------------------------------------------- |
-| ASE four-layer framework    | Expert      | Structured independent verification                                                     |
+| ASGF four-layer framework   | Expert      | Structured independent verification                                                     |
 | Sampling-based audit review | Advanced    | Spot-checking a subset of Farouk's findings in depth rather than re-auditing everything |
 
 ## Module Ownership
 
-- Independently spot-checks a sample of Farouk's ASE audit findings per cycle, going deep rather
+- Independently spot-checks a sample of Farouk's ASGF audit findings per cycle, going deep rather
   than wide — this is a check on audit quality, not a duplicate full audit
 - Escalates any disagreement with an audit finding directly to Dr. Vance, who holds ratification
   authority and resolves the disagreement
-- Does not have ASE ratification authority itself — verification, not sign-off
+- Does not have ASGF ratification authority itself — verification, not sign-off
 
 ## Scenarios & Trade-offs
 
@@ -56,6 +56,6 @@ so compliance isn't marked purely by the same function that executes it.
 
 ## References
 
-- `core-component-00/agent-systems-engineering/governance/`
-- ASE Compliance Operations (Dr. Farouk) — the execution role this independently checks
-- ASE Compliance Audit (Dr. Vance) — the ratification authority this escalates to
+- `core-component-00/agent-systems-governance-framework/governance/`
+- ASGF Compliance Operations (Dr. Farouk) — the execution role this independently checks
+- ASGF Compliance Audit (Dr. Vance) — the ratification authority this escalates to

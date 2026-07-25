@@ -1,7 +1,7 @@
-# Agent Systems Engineering: The Convergence of Four Disciplines
+# Agent Systems Governance Framework: The Convergence of Four Disciplines
 
 > **Type:** Foundational concepts document — the theoretical basis for this module.
-> This document explains _why_ Agent Systems Engineering exists and _what_ it is.
+> This document explains _why_ Agent Systems Governance Framework exists and _what_ it is.
 > For _how to apply it_, see the module's `governance/`, `patterns/`, and `integration/` sub-folders.
 
 ---
@@ -10,7 +10,7 @@
 
 We are witnessing the emergence of a new engineering discipline. Just as "software
 engineering" coalesced from the convergence of programming, testing, deployment, and
-project management in the 1960s–70s, **Agent Systems Engineering** is now emerging
+project management in the 1960s–70s, **Agent Systems Governance Framework** is now emerging
 from the convergence of four foundational pillars:
 
 | Pillar                  | Focus                          | Core Question                                   |
@@ -355,26 +355,26 @@ Full system-level anti-patterns:
 ### Where We Are
 
 The four engineering disciplines — Prompt, Context, Harness, and RAG — are converging
-into a single unified discipline: **Agent Systems Engineering**.
+into a single unified discipline: **Agent Systems Governance Framework**.
 
 ```mermaid
 graph LR
-    PE["Prompt<br/>Engineering<br/>(2022)"] --> ASE["Agent Systems<br/>Engineering<br/>(2026+)"]
-    CE["Context<br/>Engineering<br/>(2024)"] --> ASE
-    HE["Harness<br/>Engineering<br/>(2025)"] --> ASE
-    RAG["RAG<br/>Systems<br/>(2023)"] --> ASE
+    PE["Prompt<br/>Engineering<br/>(2022)"] --> ASGF["Agent Systems<br/>Engineering<br/>(2026+)"]
+    CE["Context<br/>Engineering<br/>(2024)"] --> ASGF
+    HE["Harness<br/>Engineering<br/>(2025)"] --> ASGF
+    RAG["RAG<br/>Systems<br/>(2023)"] --> ASGF
 
-    style ASE fill:#e74c3c,stroke:#c0392b,color:#fff,font-weight:bold
+    style ASGF fill:#e74c3c,stroke:#c0392b,color:#fff,font-weight:bold
 ```
 
 This is analogous to historical engineering convergences:
 
-| Era   | Convergence                                            | Result                          |
-| ----- | ------------------------------------------------------ | ------------------------------- |
-| 1960s | Programming + Testing + Deployment + Management        | → **Software Engineering**      |
-| 1990s | Networking + Security + Systems + Applications         | → **Internet Engineering**      |
-| 2010s | Development + Operations + Monitoring + Infrastructure | → **DevOps / SRE**              |
-| 2026+ | Prompt + Context + Harness + RAG                       | → **Agent Systems Engineering** |
+| Era   | Convergence                                            | Result                                   |
+| ----- | ------------------------------------------------------ | ---------------------------------------- |
+| 1960s | Programming + Testing + Deployment + Management        | → **Software Engineering**               |
+| 1990s | Networking + Security + Systems + Applications         | → **Internet Engineering**               |
+| 2010s | Development + Operations + Monitoring + Infrastructure | → **DevOps / SRE**                       |
+| 2026+ | Prompt + Context + Harness + RAG                       | → **Agent Systems Governance Framework** |
 
 ### What Comes Next
 
