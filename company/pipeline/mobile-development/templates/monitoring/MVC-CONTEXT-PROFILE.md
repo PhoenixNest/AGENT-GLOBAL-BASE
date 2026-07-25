@@ -15,7 +15,7 @@ When dispatching a task to an agent, the orchestrator **must** consult the agent
 
 ## Token Budget Allocation (CC-00 L2 Compliance)
 
-> Mandatory per `core-component-00/agent-systems-engineering/governance/compliance-standard.md` — Layer 2 Context Engineering.
+> Mandatory per `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` — Layer 2 Context Engineering.
 
 | CC-00 Slot       | Zone (this doc) | Contents                                             | Budget Cap |       Sacred?        |
 | :--------------- | :-------------- | :--------------------------------------------------- | :--------: | :------------------: |

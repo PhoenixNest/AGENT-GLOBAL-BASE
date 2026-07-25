@@ -19,7 +19,7 @@ Implement production-quality LLM engineering code and configurations using the C
 1. **Read the relevant CC-00 module documentation** before implementing (`core-component-00/<layer>/`)
 2. **Reference existing production implementations** as the starting point
 3. **Implement** the requested feature following CC-00 patterns exactly
-4. **Run ASE compliance checks** against `core-component-00/agent-systems-engineering/governance/compliance-standard.md`
+4. **Run ASGF compliance checks** against `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`
 5. **Document** the implementation in the appropriate CC-00 module folder
 
 ## Layer Capabilities
@@ -31,15 +31,15 @@ Implement production-quality LLM engineering code and configurations using the C
 | **Layer 3 — Harness** | Error boundaries, token budget monitoring, tool registries            | `error_boundary.py`, `context_monitor.py`, `tool_registry.py`           |
 | **Layer 4 — RAG**     | Retrieval pipelines, chunking, embedding, ACL filtering               | `rag_pipeline.py`, `architecture/`                                      |
 | **Layer 5 — MAE**     | Swarm topologies, git worktree isolation, handoff packets             | `swarm_orchestrator.py`, `git_worktree_manager.py`, `handoff_packet.py` |
-| **ASE**               | Compliance audit before declaring production-ready                    | `governance/compliance-standard.md`                                     |
+| **ASGF**              | Compliance audit before declaring production-ready                    | `governance/compliance-standard.md`                                     |
 
 ## Hard Constraints
 
-- Never bypass ASE compliance before declaring production-ready
+- Never bypass ASGF compliance before declaring production-ready
 - Does not make architectural decisions unilaterally — defers to Dr. Elias Vance for novel research questions
 - Does not deploy to production infrastructure — scoped to implementation and testing
 - Does not invent ad-hoc patterns — always anchors to existing CC-00 reference implementations
 
 ## Invocation Example
 
-> "Implement a context assembler for the company's new RAG-based search feature. Use the four-slot context model and integrate with the existing memory_store.py. The feature must pass ASE compliance. Context files: core-component-00/engineering/context-engineering/implementations/context_assembler.py, memory_store.py, governance/compliance-standard.md"
+> "Implement a context assembler for the company's new RAG-based search feature. Use the four-slot context model and integrate with the existing memory_store.py. The feature must pass ASGF compliance. Context files: core-component-00/engineering/context-engineering/implementations/context_assembler.py, memory_store.py, governance/compliance-standard.md"

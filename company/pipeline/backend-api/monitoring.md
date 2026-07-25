@@ -1,4 +1,4 @@
-﻿# Backend API Pipeline — Monitoring System
+# Backend API Pipeline — Monitoring System
 
 **Pipeline:** Backend API Services (P2)
 **Version:** 1.0
@@ -244,11 +244,11 @@ Before Stage 6 entry, the Internationalization Specialist audits error messages:
 
 ---
 
-## Agent Systems Engineering (ASE) — Governance Layer
+## Agent Systems Governance Framework (ASGF) — Governance Layer
 
-In addition to the three-layer monitoring system above, all pipelines operate under the **ASE Framework** — a 4-layer governance methodology for multi-agent coordination. The ASE templates are co-located with the monitoring templates:
+In addition to the three-layer monitoring system above, all pipelines operate under the **ASGF Framework** — a 4-layer governance methodology for multi-agent coordination. The ASGF templates are co-located with the monitoring templates:
 
-| ASE Template                            | Layer               | Purpose                                 |
+| ASGF Template                           | Layer               | Purpose                                 |
 | --------------------------------------- | ------------------- | --------------------------------------- |
 | `stage-transition-summary.md`           | Context Engineering | Cross-stage context handoff             |
 | `stage-transition-schemas.md`           | Harness Engineering | JSON schema contracts (`V-API-` prefix) |
@@ -257,10 +257,10 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 | `mvc-context-profile.md`                | Context Engineering | Agent context window management         |
 | `knowledge-transfer-protocol.md`        | RAG / Memory        | 3-tier learning loop                    |
 | `rag-integration-blueprint.md`          | RAG / Memory        | Semantic retrieval architecture         |
-| `adr-ase-001.md`                        | Governance          | ASE adoption decision record            |
+| `adr-asgf-001.md`                       | Governance          | ASGF adoption decision record           |
 
 > **Template location:** `company/pipeline/backend-api/templates/monitoring/` and `templates/stage-6-code-review/`
-> **Full ASE specification:** See `company/library/overview/pipeline.md` § Agent Systems Engineering (ASE) Framework.
+> **Full ASGF specification:** See `company/library/overview/pipeline.md` § Agent Systems Governance Framework (ASGF) Framework.
 
 ---
 
@@ -269,5 +269,5 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 - **Pipeline Definition:** `company/pipeline/backend-api/pipeline.md`
 - **Progress Sync Protocol:** See "Progress Sync Protocol" section in pipeline.md
 - **Project Directory Structure:** Refer to project root documentation
-- **ASE Framework Templates:** `templates/monitoring/` (8 ASE templates + 3 base monitoring templates)
-- **ASE Governance ADR:** `templates/monitoring/adr-ase-001.md`
+- **ASGF Framework Templates:** `templates/monitoring/` (8 ASGF templates + 3 base monitoring templates)
+- **ASGF Governance ADR:** `templates/monitoring/adr-asgf-001.md`

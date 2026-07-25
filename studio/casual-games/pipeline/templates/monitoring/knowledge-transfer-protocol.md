@@ -1,6 +1,6 @@
 # Knowledge Transfer Protocol — Casual Games Studio
 
-> **ASE Layer:** 2 — Context Engineering (institutional memory) + Layer 4 — RAG (static knowledge base)
+> **ASGF Layer:** 2 — Context Engineering (institutional memory) + Layer 4 — RAG (static knowledge base)
 > **Authority:** Studio Director Dr. Marcus Vogel
 > **Reference:** `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`
 > **Related:** `rag-integration-blueprint.md` (explains why no live retrieval pipeline is used)

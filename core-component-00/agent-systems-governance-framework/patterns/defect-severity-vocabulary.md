@@ -4,7 +4,7 @@
 | ------------ | -------------------------------------- |
 | **Category** | Governance · Inter-Agent Communication |
 | **Layer**    | Cross-cutting (Layers 1 + 3)           |
-| **Status**   | Ratified — ADR-ASE-001                 |
+| **Status**   | Ratified — ADR-ASGF-001                |
 
 ---
 
@@ -95,7 +95,7 @@ All defects are classified using the organisational severity vocabulary:
 P0 and P1 findings are never reclassified downward. When uncertain, escalate.
 ```
 
-This inclusion is **required** per the ASE Compliance Standard, Layer 1.
+This inclusion is **required** per the ASGF Compliance Standard, Layer 1.
 
 ---
 
@@ -125,7 +125,7 @@ review agent both review the same PR), their severity assignments must be reconc
 
 ---
 
-## ASE Layer Alignment
+## ASGF Layer Alignment
 
 | Issue Type                        | Applies At Layer | Severity Reference Used By          |
 | --------------------------------- | ---------------- | ----------------------------------- |

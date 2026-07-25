@@ -1,34 +1,34 @@
 ---
-name: core-component-00-director-ase-compliance-audit
-description: Audit an existing LLM-powered agent system against the Agent Systems Engineering (ASE) four-layer framework. Identifies gaps across Prompt, Context, Harness, and RAG/Memory layers, classifies their severity, and produces a prioritised remediation plan. Use when an existing system needs to be assessed before production, after an incident, or when onboarding an externally-built LLM system into this organisation.
+name: core-component-00-director-asgf-compliance-audit
+description: Audit an existing LLM-powered agent system against the Agent Systems Governance Framework (ASGF) four-layer framework. Identifies gaps across Prompt, Context, Harness, and RAG/Memory layers, classifies their severity, and produces a prioritised remediation plan. Use when an existing system needs to be assessed before production, after an incident, or when onboarding an externally-built LLM system into this organisation.
 version: "1.0.0"
-source: core-component-00/crew/director/elias-vance/skills/ase-compliance-audit.md
+source: core-component-00/crew/director/elias-vance/skills/asgf-compliance-audit.md
 agents:
   - core-component-00-director-elias-vance
 ---
 
-# ASE Compliance Audit
+# ASGF Compliance Audit
 
 ## Purpose
 
 Given a description of an existing LLM-powered agent system, produce a structured
-compliance assessment against the Agent Systems Engineering (ASE) four-layer framework.
+compliance assessment against the Agent Systems Governance Framework (ASGF) four-layer framework.
 The audit identifies which layers are absent, under-engineered, or incorrectly implemented
 — and produces a remediation plan ordered by impact.
 
-The ASE framework is ratified via ADR-ASE-001 and is mandatory across all company and
+The ASGF framework is ratified via ADR-ASGF-001 and is mandatory across all company and
 studio pipelines. This skill is the enforcement mechanism for that mandate.
 
 **Governing documents:**
 
-- ADR: `core-component-00/agent-systems-engineering/governance/adr-ase-001.md`
-- Standard: `core-component-00/agent-systems-engineering/governance/compliance-standard.md`
-- Maturity: `core-component-00/agent-systems-engineering/governance/maturity-model.md`
+- ADR: `core-component-00/agent-systems-governance-framework/governance/adr-asgf-001.md`
+- Standard: `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`
+- Maturity: `core-component-00/agent-systems-governance-framework/governance/maturity-model.md`
 
 The **Compliance Standard** is the authoritative specification for pass/fail criteria.
 When in doubt about a requirement, the standard takes precedence over this skill.
 
-## Why ASE Compliance Matters
+## Why ASGF Compliance Matters
 
 An LLM system that passes functional testing can still fail in production due to
 architectural gaps that only manifest under load, across long sessions, or at security
@@ -41,11 +41,11 @@ boundaries.
 | RAG / Memory                  | Produces hallucinations when parametric knowledge is insufficient or stale        |
 | Structured prompt engineering | Produces inconsistent outputs that break downstream consumers                     |
 
-An ASE audit surfaces these gaps before they become incidents.
+An ASGF audit surfaces these gaps before they become incidents.
 
 ## Audit Scope
 
-The ASE framework covers four layers. Each layer is audited independently, then the
+The ASGF framework covers four layers. Each layer is audited independently, then the
 inter-layer integration is assessed:
 
 | Layer | Name                | What It Covers                                                  |
@@ -193,14 +193,14 @@ Classify each identified gap by severity:
 | **P2**   | Gap that reduces engineering maintainability or makes the system harder to extend       |
 | **P3**   | Improvement opportunity with no current reliability impact                              |
 
-P0 and P1 gaps must be remediated before the system is considered ASE-compliant.
+P0 and P1 gaps must be remediated before the system is considered ASGF-compliant.
 
 ## Output Format
 
 Deliver as a structured Markdown document:
 
 ```
-# ASE Compliance Audit — [System Name]
+# ASGF Compliance Audit — [System Name]
 
 ## Audit Summary
 [System description · Evidence available · Overall compliance status]
@@ -225,12 +225,12 @@ OR: [Rationale for intentional absence]
 [Gaps ordered by severity · Recommended CC-00 implementation references for each gap]
 
 ## Compliance Verdict
-[ASE-Compliant / Non-Compliant (P0 gaps present) / Conditional (P1 gaps only)]
+[ASGF-Compliant / Non-Compliant (P0 gaps present) / Conditional (P1 gaps only)]
 ```
 
 ## Quality Signal
 
-A complete ASE audit leaves no ambiguity about what must be fixed and in what order:
+A complete ASGF audit leaves no ambiguity about what must be fixed and in what order:
 
 - Every checklist item has a Pass / Fail / Partial verdict with evidence cited.
 - Every gap has a severity classification and a reference to the CC-00 pattern or

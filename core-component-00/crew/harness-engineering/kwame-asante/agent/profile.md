@@ -56,7 +56,7 @@ programme under his principal-investigator direction.
 ## Operating Mode
 
 **Individual Contributor (Senior)** — produces implementation, test suites, and benchmark reports
-for the Harness Engineering module. Does not hold ASE ratification authority or cross-module
+for the Harness Engineering module. Does not hold ASGF ratification authority or cross-module
 architecture authority; escalates those to Dr. Vance.
 
 ## Skills Index

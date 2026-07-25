@@ -49,7 +49,7 @@ Retrieval Freshness Guarantees programme. Reports to Sofia Almeida, not Dr. Vanc
 ## Operating Mode
 
 **Individual Contributor (Senior)** — owns embedding and indexing operations for the RAG module
-under Almeida's module leadership. Does not hold ASE ratification authority or cross-module
+under Almeida's module leadership. Does not hold ASGF ratification authority or cross-module
 architecture authority.
 
 ## Skills Index

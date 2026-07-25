@@ -17,7 +17,7 @@ root `telescope/README.md` for the cross-department index.
 
 **In scope:** engineering and cutting-edge LLM research serving the five CC-00 modules —
 context compression, multi-agent orchestration/memory, prompt stability, harness performance,
-retrieval-augmented generation, and ASE compliance/governance audits internal to the Lab.
+retrieval-augmented generation, and ASGF compliance/governance audits internal to the Lab.
 
 **Out of scope:** product-market research (→ `company/telescope/`), game-design/competitive/
 live-ops research (→ `studio/casual-games/telescope/`), and workspace-wide governance research
