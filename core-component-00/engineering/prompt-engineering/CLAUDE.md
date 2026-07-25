@@ -83,5 +83,5 @@ Director, 2026-06-30.
   integration testing in Layers 2–5.
 - Prompt patterns defined here are guidance, not hard constraints — they must be adapted to
   the specific model, task, and context window at hand.
-- New prompt patterns added here must align with ASE compliance standards in
-  `agent-systems-engineering/governance/compliance-standard.md`.
+- New prompt patterns added here must align with ASGF compliance standards in
+  `agent-systems-governance-framework/governance/compliance-standard.md`.

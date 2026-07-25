@@ -1,4 +1,4 @@
-﻿# Architecture
+# Architecture
 
 Cross-cutting reference for all software architecture concerns: UML engineering, architecture decision records, technology selection, and mobile architecture patterns. This topic spans the Cyberspace Security and R&D departments and is central to Stage 3 of the pipeline.
 
@@ -69,11 +69,11 @@ Produced by CIO at Stage 3. Contains:
 - Migration risk matrices
 - Explicit technology recommendations
 
-### ADR-ASE-001 — Agent Systems Engineering Adoption
+### ADR-ASGF-001 — Agent Systems Governance Framework Adoption
 
-A special governance ADR ratifying the ASE framework as the company's mandatory multi-agent coordination methodology. Unlike Stage 3 technology ADRs, ADR-ASE-001 is **cross-pipeline** and applies to all 4 development pipelines. It is versioned and supersedable per the standard ADR template.
+A special governance ADR ratifying the ASGF framework as the company's mandatory multi-agent coordination methodology. Unlike Stage 3 technology ADRs, ADR-ASGF-001 is **cross-pipeline** and applies to all 4 development pipelines. It is versioned and supersedable per the standard ADR template.
 
-> **Location:** `company/pipeline/<pipeline>/templates/monitoring/adr-ase-001.md` (mirrored across all pipelines)
+> **Location:** `company/pipeline/<pipeline>/templates/monitoring/adr-asgf-001.md` (mirrored across all pipelines)
 
 ---
 

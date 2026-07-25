@@ -1,4 +1,4 @@
-﻿# progress Monitoring & Recovery System
+# progress Monitoring & Recovery System
 
 **Version:** 1.0  
 **Effective Date:** April 1, 2026  
@@ -254,9 +254,9 @@ Detailed log of each work session for audit, recovery, and continuous improvemen
 
 ## Issues Encountered
 
-| Time  | Issue         | Resolution     | Impact |
+| Time | Issue | Resolution | Impact |
 | ----- | ------------- | -------------- | ------ | ----- | ------ |
-| HH:MM | <Description> | <How resolved> | <None  | Minor | Major> |
+| HH:MM | <Description> | <How resolved> | <None | Minor | Major> |
 
 ## Decisions Made
 
@@ -582,9 +582,9 @@ From Stage 4 onward, CTO produces weekly progress summaries:
 
 ## Risks & Mitigations
 
-| Risk          | Status  | Action Taken |
+| Risk | Status | Action Taken |
 | ------------- | ------- | ------------ | ---------- | ------ |
-| <Description> | <Active | Resolved     | Escalated> | <Plan> |
+| <Description> | <Active | Resolved | Escalated> | <Plan> |
 
 ## Next Week Priorities
 
@@ -624,11 +624,11 @@ The system is designed to be tool-agnostic but supports integration with:
 
 ---
 
-## Agent Systems Engineering (ASE) — Governance Layer
+## Agent Systems Governance Framework (ASGF) — Governance Layer
 
-In addition to the three-layer monitoring system above, all pipelines operate under the **ASE Framework** — a 4-layer governance methodology for multi-agent coordination. The ASE templates are co-located with the monitoring templates:
+In addition to the three-layer monitoring system above, all pipelines operate under the **ASGF Framework** — a 4-layer governance methodology for multi-agent coordination. The ASGF templates are co-located with the monitoring templates:
 
-| ASE Template                            | Layer               | Purpose                                    |
+| ASGF Template                           | Layer               | Purpose                                    |
 | --------------------------------------- | ------------------- | ------------------------------------------ |
 | `stage-transition-summary.md`           | Context Engineering | Cross-stage context handoff                |
 | `stage-transition-schemas.md`           | Harness Engineering | JSON schema contracts for gate enforcement |
@@ -637,9 +637,9 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 | `mvc-context-profile.md`                | Context Engineering | Agent context window management            |
 | `knowledge-transfer-protocol.md`        | RAG / Memory        | 3-tier learning loop                       |
 | `rag-integration-blueprint.md`          | RAG / Memory        | Semantic retrieval architecture            |
-| `adr-ase-001.md`                        | Governance          | ASE adoption decision record               |
+| `adr-asgf-001.md`                       | Governance          | ASGF adoption decision record              |
 
-**Stage 6 ASE Templates:**
+**Stage 6 ASGF Templates:**
 
 | Template                      | Purpose                             |
 | ----------------------------- | ----------------------------------- |
@@ -647,16 +647,16 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 | `stage-transition-summary.md` | Stage 6-specific transition summary |
 
 > **Template location:** `company/pipeline/mobile-development/templates/monitoring/` and `templates/stage-6-code-review/`
-> **Full ASE specification:** See `company/library/overview/pipeline.md` § Agent Systems Engineering (ASE) Framework.
+> **Full ASGF specification:** See `company/library/overview/pipeline.md` § Agent Systems Governance Framework (ASGF) Framework.
 
 ---
 
 ## Document History
 
-| Version | Date       | Author     | Changes                              |
-| ------- | ---------- | ---------- | ------------------------------------ |
-| 1.0     | 2026-04-01 | CTO Office | Initial system definition            |
-| 1.1     | 2026-04-29 | Lead Agent | Added ASE Framework governance layer |
+| Version | Date       | Author     | Changes                               |
+| ------- | ---------- | ---------- | ------------------------------------- |
+| 1.0     | 2026-04-01 | CTO Office | Initial system definition             |
+| 1.1     | 2026-04-29 | Lead Agent | Added ASGF Framework governance layer |
 
 ---
 
@@ -665,8 +665,8 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 - **Pipeline Definition:** `pipeline.md`
 - **Progress Sync Protocol:** See Section "Progress Sync Protocol" in pipeline.md
 - **Project Directory Structure:** Refer to project root documentation for directory conventions
-- **ASE Framework Templates:** `templates/monitoring/` (8 ASE templates + 3 base monitoring templates)
-- **ASE Governance ADR:** `templates/monitoring/adr-ase-001.md`
+- **ASGF Framework Templates:** `templates/monitoring/` (8 ASGF templates + 3 base monitoring templates)
+- **ASGF Governance ADR:** `templates/monitoring/adr-asgf-001.md`
 
 ---
 

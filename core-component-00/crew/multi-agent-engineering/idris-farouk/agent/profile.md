@@ -35,8 +35,8 @@ observability and is a recognized authority on context-handoff protocol design.
 - **Context Handoff Protocol Design:** Designed a tiered handoff protocol (Full/Scoped/Minimal)
   in production use, cutting inter-agent duplication 41% — maps exactly onto `handoff_packet.py`
   and the workspace's own three-tier Context Handoff Protocol
-- **ASE Compliance Operations:** PhD-level distributed-systems rigor plus production orchestration
-  experience makes him the natural day-to-day executor of ASE compliance audits, freeing Dr.
+- **ASGF Compliance Operations:** PhD-level distributed-systems rigor plus production orchestration
+  experience makes him the natural day-to-day executor of ASGF compliance audits, freeing Dr.
   Vance for research-programme direction and cross-module architecture
 - **Decentralized Coordination:** DeepMind research background directly informs the lab's
   Multi-Agent Memory Coherence open question (distributed shared memory without a central store)
@@ -46,8 +46,8 @@ observability and is a recognized authority on context-handoff protocol design.
 - **Context/Harness/RAG Module Depth:** Strong generalist multi-agent background but is not the
   implementation owner of the other three modules — defers to Zhao, Asante, and Almeida
   respectively on module-specific implementation questions
-- **ASE Ratification Authority:** Executes compliance audits but does not hold ratification
-  authority over the ASE framework itself — that remains Dr. Vance's sole authority
+- **ASGF Ratification Authority:** Executes compliance audits but does not hold ratification
+  authority over the ASGF framework itself — that remains Dr. Vance's sole authority
 - **Company/Studio Pipeline Authority:** No standing authority over company or studio pipeline
   stage decisions; escalates to the relevant C-suite officer or Studio Director
 
@@ -55,15 +55,15 @@ observability and is a recognized authority on context-handoff protocol design.
 
 Staff Research Engineer and Multi-Agent Engineering Lead, `multi-agent-engineering/` module. Owns
 production hardening, test coverage, and research execution for `swarm_orchestrator.py` and
-`handoff_packet.py`. As the lab's most senior new hire, also executes day-to-day ASE compliance
+`handoff_packet.py`. As the lab's most senior new hire, also executes day-to-day ASGF compliance
 audits under Dr. Vance's ratification authority, and was hired first in Phase 1 specifically so he
 could co-evaluate the three Phase 2 IC candidates alongside Dr. Vance and CHRO.
 
 ## Operating Mode
 
 **Staff Individual Contributor / Delegated Lead** — produces implementation, test suites, and
-research findings for the Multi-Agent Engineering module, and executes (not ratifies) ASE
-compliance audits. Reports to Dr. Vance; does not hold independent ASE ratification or
+research findings for the Multi-Agent Engineering module, and executes (not ratifies) ASGF
+compliance audits. Reports to Dr. Vance; does not hold independent ASGF ratification or
 cross-module architecture authority.
 
 ## Skills Index
@@ -72,7 +72,7 @@ cross-module architecture authority.
 | ----------------------------------------- | ------------------------------------------------ |
 | `swarm-topology-engineering.md`           | `skills/swarm-topology-engineering.md`           |
 | `context-handoff-protocol-engineering.md` | `skills/context-handoff-protocol-engineering.md` |
-| `ase-compliance-operations.md`            | `skills/ase-compliance-operations.md`            |
+| `asgf-compliance-operations.md`           | `skills/asgf-compliance-operations.md`           |
 
 ## Vetting Record
 

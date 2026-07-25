@@ -181,7 +181,7 @@ CEO (User)
 
 ## 8. Parallel Agent Workflow (Git Worktree)
 
-> **ASE Layer:** 5 — Multi-Agent Engineering (Required for parallel coding tasks)
+> **ASGF Layer:** 5 — Multi-Agent Engineering (Required for parallel coding tasks)
 > **Reference:** `core-component-00/engineering/multi-agent-engineering/implementations/git_worktree_manager.py`, `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 When multiple agents work concurrently on the same project (e.g. Stage 5 — Full Production, where multiple platform tracks execute in parallel), the **git worktree isolation pattern** is mandatory:

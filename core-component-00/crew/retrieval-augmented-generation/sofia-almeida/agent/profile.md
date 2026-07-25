@@ -57,7 +57,7 @@ Freshness Guarantees research programme under his principal-investigator directi
 ## Operating Mode
 
 **Individual Contributor (Senior)** — produces implementation, test suites, and research findings
-for the RAG module. Does not hold ASE ratification authority or cross-module architecture
+for the RAG module. Does not hold ASGF ratification authority or cross-module architecture
 authority; escalates those to Dr. Vance.
 
 ## Skills Index

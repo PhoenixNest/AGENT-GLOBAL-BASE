@@ -1,34 +1,34 @@
 ---
-name: cc00-ase-compliance-operations
-description: Day-to-day execution of ASE compliance audits under Dr. Vance's ratification authority. Owned by Dr. Idris Farouk (Staff Research Engineer, Multi-Agent Engineering Lead). Trigger: ASE compliance, ASE audit execution, four-layer audit, gap analysis.
+name: cc00-asgf-compliance-operations
+description: Day-to-day execution of ASGF compliance audits under Dr. Vance's ratification authority. Owned by Dr. Idris Farouk (Staff Research Engineer, Multi-Agent Engineering Lead). Trigger: ASGF compliance, ASGF audit execution, four-layer audit, gap analysis.
 version: "1.0.0"
 ---
 
-# ASE Compliance Operations
+# ASGF Compliance Operations
 
-**Skill ID:** ase-compliance-operations
+**Skill ID:** asgf-compliance-operations
 **Role:** Staff Research Engineer — Multi-Agent Engineering Lead
 **Seniority:** L4 — Staff
 
 ## Overview
 
-Executes Agent Systems Engineering (ASE) compliance audits against the ASE four-layer framework
+Executes Agent Systems Governance Framework (ASGF) compliance audits against the ASGF four-layer framework
 for agent systems built in this workspace, producing gap analyses and remediation plans.
-**Execution only** — audit findings are Dr. Farouk's; ratification of the ASE framework itself and
-final compliance sign-off remain Dr. Vance's sole authority (`director/elias-vance/skills/ase-compliance-audit.md`).
+**Execution only** — audit findings are Dr. Farouk's; ratification of the ASGF framework itself and
+final compliance sign-off remain Dr. Vance's sole authority (`director/elias-vance/skills/asgf-compliance-audit.md`).
 
 ## Tools & Frameworks
 
 | Tool                       | Proficiency | Use Case                                             |
 | -------------------------- | ----------- | ---------------------------------------------------- |
-| ASE four-layer framework   | Expert      | Structured compliance audit execution                |
+| ASGF four-layer framework  | Expert      | Structured compliance audit execution                |
 | Multi-agent system tracing | Expert      | Verifying orchestration/handoff compliance in-situ   |
 | Gap-analysis documentation | Advanced    | Producing remediation plans with owners and severity |
 
 ## Module Ownership
 
-- Executes the audit checklist defined in `agent-systems-engineering/governance/` against a given
-  agent system, covering all four ASE layers
+- Executes the audit checklist defined in `agent-systems-governance-framework/governance/` against a given
+  agent system, covering all four ASGF layers
 - Drafts gap-analysis findings with P0–P3 severity classification (per workspace defect severity
   conventions) and proposed remediation owners
 - Submits every completed audit to Dr. Vance for ratification before it is treated as final —
@@ -59,9 +59,9 @@ final compliance sign-off remain Dr. Vance's sole authority (`director/elias-van
 - Every audit produces a written gap analysis with severity, owner, and remediation timeline
 - No audit is presented as final compliance sign-off — ratification language is reserved for
   Dr. Vance's output only
-- Audit checklist coverage (all four ASE layers) is confirmed complete before submission
+- Audit checklist coverage (all four ASGF layers) is confirmed complete before submission
 
 ## References
 
-- `core-component-00/agent-systems-engineering/governance/`
-- ASE Compliance Audit (Dr. Vance, `director/elias-vance/skills/ase-compliance-audit.md`)
+- `core-component-00/agent-systems-governance-framework/governance/`
+- ASGF Compliance Audit (Dr. Vance, `director/elias-vance/skills/asgf-compliance-audit.md`)

@@ -4,7 +4,7 @@
 | ------------ | ---------------------------------------------- |
 | **Category** | Agent Identity · Governance                    |
 | **Layer**    | Cross-cutting (Layer 1 + all execution layers) |
-| **Status**   | Ratified — ADR-ASE-001                         |
+| **Status**   | Ratified — ADR-ASGF-001                        |
 
 ---
 

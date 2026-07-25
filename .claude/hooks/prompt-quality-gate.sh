@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# H-P03: UserPromptSubmit — ASE Compliance Quality Gate (bash port)
+# H-P03: UserPromptSubmit — ASGF Compliance Quality Gate (bash port)
 # Runs FIRST in the UserPromptSubmit chain. Blocks prompts that would
-# instruct agents to violate ASE governance rules, skip pipeline gates,
+# instruct agents to violate ASGF governance rules, skip pipeline gates,
 # override P0/P1 severity, or access denied files.
 
 raw_input=$(cat)
@@ -32,13 +32,13 @@ for pat,rule in violations:
 
 [ -z "$detected" ] && exit 0
 
-reason="[PROMPT QUALITY GATE — H-P03] ASE Compliance Violation Detected
+reason="[PROMPT QUALITY GATE — H-P03] ASGF Compliance Violation Detected
 
 The following governance rules would be violated:
 $detected
 
-This prompt has been blocked. Please rephrase within the ASE governance framework.
-Reference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-engineering/governance/"
+This prompt has been blocked. Please rephrase within the ASGF governance framework.
+Reference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-governance-framework/governance/"
 
 REASON="$reason" python3 -c "import os,json; print(json.dumps({'decision':'block','reason':os.environ['REASON'],'hookSpecificOutput':{'hookEventName':'UserPromptSubmit'}}))"
 exit 0

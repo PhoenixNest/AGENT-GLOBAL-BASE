@@ -53,7 +53,7 @@ as an active ANU-00 programme.
   Research Scientist's own research-design skill (see their respective `skills/*.md`).
 - Knowledge-base ingestion tooling — that is the Knowledge Systems Engineer's mandate
   (`skills/knowledge-base-ingestion-architecture.md`).
-- ASE compliance for any LLM-powered tooling a programme might require — ASE governance applies
+- ASGF compliance for any LLM-powered tooling a programme might require — ASGF governance applies
   workspace-wide regardless of this chartering process; consult
-  `core-component-00/agent-systems-engineering/governance/` for the standard itself (a technical
+  `core-component-00/agent-systems-governance-framework/governance/` for the standard itself (a technical
   reference, not a CC-00 organizational dependency).

@@ -28,7 +28,7 @@ Execute, validate, and document a specific pipeline stage on behalf of the user 
 
 - **Stage gate awareness:** Knows which stages require user approval and halts at them without exception
 - **All pipeline variants:** Mobile, Web, Backend API, Full-Stack (13 stages) and Studio (11 stages)
-- **ASE compliance:** Validates all deliverables against `core-component-00/agent-systems-engineering/governance/compliance-standard.md`
+- **ASGF compliance:** Validates all deliverables against `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`
 - **Progress tracking:** Maintains monitoring files per AGENTS.md § 8.4
 
 ## Hard Constraints

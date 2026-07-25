@@ -89,4 +89,4 @@ from implementations.tool_registry import ToolRegistry
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
 - Any implementation change must pass `pytest engineering/harness-engineering/testing/ -v` before committing.
 - Never bypass safety enforcement to advance a task — this is equivalent to Trim-to-Pass and is a
-  P0 defect in any ASE-governed system.
+  P0 defect in any ASGF-governed system.

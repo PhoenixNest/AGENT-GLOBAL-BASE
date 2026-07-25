@@ -14,7 +14,7 @@ This is the authoritative entry point for every AI agent working in this workspa
 | ---------------------------------------- | --------- | -------------------------------------------------------------------- |
 | **I — Workspace Identity & Agent Model** | §1 – §3   | What this is, who you are, who's in charge                           |
 | **II — The Four Systems**                | §4 – §7   | Company, Studio, CC-00 Lab, ANU-00 — structure, pipelines, personnel |
-| **III — Governance**                     | §8        | ASE framework — mandatory multi-agent governance layer               |
+| **III — Governance**                     | §8        | ASGF framework — mandatory multi-agent governance layer              |
 | **IV — Operating Standards**             | §9 – §11  | Conventions, behaviour rules, hardware environment                   |
 | **V — Reference**                        | §12 – §13 | Navigation index, key personnel roster                               |
 
@@ -37,7 +37,7 @@ This repository is a **unified organizational simulation and LLM engineering bas
 | **CC-00 Lab**   | `core-component-00/`       | Applied LLM research laboratory — engineering stack                                                                     |
 | **ANU-00**      | `academic-neural-unit-00/` | Independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 |
 
-These four systems are architecturally independent but share governance through the **Agent Systems Engineering (ASE)** framework (§8).
+These four systems are architecturally independent but share governance through the **Agent Systems Governance Framework (ASGF)** framework (§8).
 
 This is a **Markdown-first, agent-native knowledge base**. There is no monolithic build system and no shell scripts to run at startup. The primary artifacts are documents, agent profiles, skill files, and Python reference implementations.
 
@@ -120,7 +120,7 @@ Pipeline stages marked **User Approval? ✅** are **hard stops**. The AI executo
 
 ### 3.3 Mandatory Governance
 
-The Agent Systems Engineering (ASE) framework is mandatory across all pipelines (§8). No agent may bypass it. All new LLM systems built in this workspace must be grounded in CC-00 engineering patterns (§6).
+The Agent Systems Governance Framework (ASGF) framework is mandatory across all pipelines (§8). No agent may bypass it. All new LLM systems built in this workspace must be grounded in CC-00 engineering patterns (§6).
 
 ---
 
@@ -298,13 +298,13 @@ Additional studios follow: `studio/<studio-name>/library/`, `pipeline/`, `projec
 
 ## 6. Core Component 00 — LLM Engineering Laboratory (`core-component-00/`)
 
-> **Start here:** `core-component-00/README.md` → then `core-component-00/agent-systems-engineering/` for governance → then the relevant engineering module folder.
+> **Start here:** `core-component-00/README.md` → then `core-component-00/agent-systems-governance-framework/` for governance → then the relevant engineering module folder.
 
 ### 6.1 Directory Structure
 
 ```
 core-component-00/
-├── agent-systems-engineering/       ← Governing Framework (meta-module, not a peer layer)
+├── agent-systems-governance-framework/       ← Governing Framework (meta-module, not a peer layer)
 ├── engineering/                     ← Layers 1, 2, 3, 5 (see below)
 │   ├── prompt-engineering/          ← Layer 1 — What to write
 │   ├── context-engineering/         ← Layer 2 — How to structure it
@@ -356,7 +356,7 @@ A co-founding researcher and principal engineer behind the **Claude family of la
 | 4 — Where to get content  | `retrieval-augmented-generation/`      | Production Framework  | Yes       |
 | 5 — How agents cooperate  | `engineering/multi-agent-engineering/` | Production Framework  | Yes       |
 
-Theoretical synthesis of how all five converge: `core-component-00/agent-systems-engineering/CONCEPTS.md`
+Theoretical synthesis of how all five converge: `core-component-00/agent-systems-governance-framework/CONCEPTS.md`
 
 ### 6.5 Key Production Implementations
 
@@ -454,11 +454,11 @@ authority — it has no separate hiring process of its own. Historical hiring re
 
 ---
 
-## 8. The Agent Systems Engineering (ASE) Framework
+## 8. The Agent Systems Governance Framework (ASGF) Framework
 
-ASE is the **mandatory governing framework** for all LLM-powered systems built in this organisation — ratified via ADR-ASE-001 and enforced across all company and studio pipelines. Every AI executor agent operating in this workspace is bound by it.
+ASGF is the **mandatory governing framework** for all LLM-powered systems built in this organisation — ratified via ADR-ASGF-001 and enforced across all company and studio pipelines. Every AI executor agent operating in this workspace is bound by it.
 
-ASE is not a sixth engineering discipline alongside the five CC-00 modules. It is the **meta-layer above them** — defining the compliance standards they must collectively satisfy, the cross-cutting patterns that span their boundaries, and the integration contracts between them.
+ASGF is not a sixth engineering discipline alongside the five CC-00 modules. It is the **meta-layer above them** — defining the compliance standards they must collectively satisfy, the cross-cutting patterns that span their boundaries, and the integration contracts between them.
 
 | Layer | Name                | Purpose                              | CC-00 Module                           |
 | ----- | ------------------- | ------------------------------------ | -------------------------------------- |
@@ -468,16 +468,16 @@ ASE is not a sixth engineering discipline alongside the five CC-00 modules. It i
 | 4     | RAG / Memory        | Institutional knowledge retention    | `retrieval-augmented-generation/`      |
 | 5     | Multi-Agent         | Swarm orchestration and isolation    | `engineering/multi-agent-engineering/` |
 
-**Governing documents** (all in `core-component-00/agent-systems-engineering/`):
+**Governing documents** (all in `core-component-00/agent-systems-governance-framework/`):
 
 | Document                                | Purpose                                                            |
 | --------------------------------------- | ------------------------------------------------------------------ |
-| `governance/adr-ase-001.md`             | The ratifying ADR — binding authority and rationale                |
+| `governance/adr-asgf-001.md`            | The ratifying ADR — binding authority and rationale                |
 | `governance/compliance-standard.md`     | Per-layer requirements every system must satisfy before production |
 | `governance/maturity-model.md`          | Levels 0–5 maturity model for assessing and evolving agent systems |
 | `integration/four-layer-composition.md` | Runtime integration contracts between all five CC-00 layers        |
 
-All four **company** development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved 100% ASE template parity. Templates live at `company/pipeline/<pipeline>/templates/monitoring/`.
+All four **company** development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved 100% ASGF template parity. Templates live at `company/pipeline/<pipeline>/templates/monitoring/`.
 
 ---
 
@@ -676,7 +676,7 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | Studio crew by division                                   | `studio/casual-games/team/README.md`                                                 |
 | **CC-00 Engineering Stack**                               |                                                                                      |
 | Full CC-00 overview and module index                      | `core-component-00/README.md`                                                        |
-| Synthesis of all five disciplines                         | `core-component-00/agent-systems-engineering/CONCEPTS.md`                            |
+| Synthesis of all five disciplines                         | `core-component-00/agent-systems-governance-framework/CONCEPTS.md`                   |
 | How to write effective prompts                            | `core-component-00/engineering/prompt-engineering/`                                  |
 | How to architect context windows                          | `core-component-00/engineering/context-engineering/`                                 |
 | How to execute model calls safely                         | `core-component-00/engineering/harness-engineering/`                                 |

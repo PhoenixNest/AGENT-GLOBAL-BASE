@@ -1,9 +1,9 @@
 # Harness Configuration Specification — Full-Stack Pipeline
 
-> **ASE Layer:** 3 — Harness Engineering (Mandatory)
+> **ASGF Layer:** 3 — Harness Engineering (Mandatory)
 > **Authority:** CTO Dr. Kenji Nakamura
 > **Reference implementations:** `core-component-00/engineering/harness-engineering/implementations/`
-> **Compliance standard:** `core-component-00/agent-systems-engineering/governance/compliance-standard.md` §Layer 3
+> **Compliance standard:** `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` §Layer 3
 
 This document defines the harness configuration that **every executor agent** operating in the Full-Stack Pipeline must apply. These are not suggestions — missing any Mandatory item is a P0 compliance gap that blocks production readiness.
 

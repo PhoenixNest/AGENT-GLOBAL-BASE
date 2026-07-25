@@ -1,4 +1,4 @@
-﻿# Stage Transition Schemas — JSON Contract Definitions (Backend API Pipeline)
+# Stage Transition Schemas — JSON Contract Definitions (Backend API Pipeline)
 
 ---
 
@@ -26,12 +26,8 @@ These schemas define the **mandatory structured output** that each pipeline stag
     "srd": { "version": "v1", "path": "string", "sec_req_count": 0 }
   },
   "api_type": "REST | GraphQL | gRPC | event_driven",
-  "constraints_forward": [
-    { "constraint": "string", "source": "PRD | SRD", "ref": "§X" }
-  ],
-  "open_questions": [
-    { "question": "string", "impact": "high | medium | low", "owner": "string" }
-  ]
+  "constraints_forward": [{ "constraint": "string", "source": "PRD | SRD", "ref": "§X" }],
+  "open_questions": [{ "question": "string", "impact": "high | medium | low", "owner": "string" }]
 }
 ```
 
@@ -140,9 +136,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
     },
     "sis": { "path": "string", "cso_signed": false }
   },
-  "technology_decision_registry": [
-    { "adr_id": "ADR-NNN", "compliant": true, "notes": "string" }
-  ],
+  "technology_decision_registry": [{ "adr_id": "ADR-NNN", "compliant": true, "notes": "string" }],
   "track_assignments": {
     "track_b_api": {
       "lead": "string",
@@ -248,7 +242,7 @@ These schemas define the **mandatory structured output** that each pipeline stag
   "constraints_forward": [
     {
       "constraint": "Stage 6 codebase tag is the integrity baseline for Stage 8",
-      "source": "ASE Red Team Protocol"
+      "source": "ASGF Red Team Protocol"
     }
   ]
 }

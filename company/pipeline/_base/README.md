@@ -29,7 +29,7 @@ company/pipeline/
 │   ├── incident-response.md                       ← Sev ladder + on-call + blameless postmortem (Stage 11 universal)
 │   ├── experimentation-spec-template.md           ← A/B test design template paired with Stage 1 PRDs
 │   ├── dogfood-telemetry-template.md              ← Stage 9.5 internal beta telemetry report shape
-│   ├── agent-behavioral-constraints.md            ← ASE L1: forbidden behaviours + required declarations (binding on all pipelines)
+│   ├── agent-behavioral-constraints.md            ← ASGF L1: forbidden behaviours + required declarations (binding on all pipelines)
 │   └── profile-template.md                        ← canonical agent profile authoring standard (frontmatter + body template)
 ├── mobile-development/
 │   └── delta.md                                   ← pipeline-type-specific overlay (mobile)
@@ -58,7 +58,7 @@ company/pipeline/
 | `incident-response.md`                | Universal Stage 11 incident-response model: Sev0–Sev3 ladder, on-call rotation rules, blameless postmortem template, rollback authority chain.                                                                                 |
 | `experimentation-spec-template.md`    | The A/B test design template paired with Stage 1 PRDs whenever a PRD-defined metric requires experimental validation.                                                                                                          |
 | `dogfood-telemetry-template.md`       | The Stage 9.5 internal beta telemetry report shape (crash rates, ANR rates, opt-out rates, qualitative bug telemetry).                                                                                                         |
-| `agent-behavioral-constraints.md`     | ASE Layer 1 — mandatory forbidden behaviours (P0 if violated) and required declarations (P1 if omitted) binding on all executor agents in every company pipeline. Referenced from each product pipeline.md.                    |
+| `agent-behavioral-constraints.md`     | ASGF Layer 1 — mandatory forbidden behaviours (P0 if violated) and required declarations (P1 if omitted) binding on all executor agents in every company pipeline. Referenced from each product pipeline.md.                   |
 | `profile-template.md`                 | The canonical agent profile authoring standard — required YAML frontmatter fields, body section order, path-to-tier mapping, and a completeness checklist for all new profiles.                                                |
 
 ### 2.1 Resolution rules
