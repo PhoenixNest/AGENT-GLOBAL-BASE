@@ -398,6 +398,10 @@ academic-neural-unit-00/
 ├── README.md                              ← Overview, charter, CC-00 boundary statement
 ├── formation/                             ← Formation record: charter, CEO decisions, final review
 │   └── 2026-07-23-formation-meeting/
+├── templates/                             ← 6 research templates (see templates/README.md)
+│   ├── programme-records/                 ← charter, open-question log, observation record, referral note
+│   └── knowledge-base/                    ← research report, taxonomy change record
+├── knowledge-base/                        ← Research output — dated YYYY-MM-DD-<slug>/ entries
 └── crew/                                  ← Personnel roster (10 FTEs)
     ├── lead/naledi-mokoena/
     ├── research-science/                  ← 7 Research Scientists (flat, plus one pod)
@@ -686,6 +690,7 @@ These rules apply to **all AI executor agents** operating in this workspace with
 | ANU-00 charter, crew, and boundary vs. CC-00              | `academic-neural-unit-00/CLAUDE.md`                                                  |
 | Full formation record and all CEO decisions               | `academic-neural-unit-00/formation/2026-07-23-formation-meeting/formation-report.md` |
 | ANU-00 roster and activation protocol                     | `academic-neural-unit-00/crew/README.md`                                             |
+| ANU-00 research templates and knowledge base              | `academic-neural-unit-00/templates/README.md`                                        |
 | **Cross-System**                                          |                                                                                      |
 | A reusable meeting-minutes or final-review template       | `templates/README.md`                                                                |
 

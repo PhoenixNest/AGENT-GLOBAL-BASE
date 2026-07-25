@@ -58,6 +58,10 @@ academic-neural-unit-00/
 ├── README.md                              ← entity overview, charter, boundary statement
 ├── formation/
 │   └── 2026-07-23-formation-meeting/      ← charter, CEO decisions, final review (canonical history)
+├── templates/                             ← ANU-00 research templates (see templates/README.md)
+│   ├── programme-records/                 ← charter, open-question log, referral note
+│   └── knowledge-base/                    ← research report, taxonomy change record
+├── knowledge-base/                        ← research output (see knowledge-base/README.md)
 └── crew/                                  ← personnel roster (10 FTEs)
     ├── README.md                          ← roster index + activation protocol
     ├── lead/naledi-mokoena/                ← ANU-00 Lead
@@ -90,6 +94,16 @@ ANU-00's research output follows the workspace's existing dated research-archive
 `studio/casual-games/telescope/`, and `core-component-00/telescope/` — for navigational
 consistency, not as a link to any one of those archives. No knowledge-base entries exist yet as of
 this file's authoring; the convention is established ahead of first use.
+
+**Templates (established 2026-07-24, CEO-delegated to Dr. Mokoena; observation record added
+2026-07-25).** Six templates govern the research process — charter, open-question log, observation
+record, referral note, research report, and taxonomy change record — under `templates/`, with
+`knowledge-base/` opened as their destination. Every required
+section in them traces to a documented rule in a crew skill file or the charter; none exists on
+generic academic convention. Read `templates/README.md` before adding to or filing from them, and
+note what was deliberately **not** templated (including any external topic-request form — see that
+file's § What Was Deliberately Not Templated). Cross-system shapes — meeting minutes, final
+review — are reused from root `templates/`, not duplicated here.
 
 ---
 
