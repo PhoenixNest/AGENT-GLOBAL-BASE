@@ -21,6 +21,14 @@ that category — nothing else.
 documents generalize cleanly (below); two don't and were deliberately left out — see § What Didn't
 Become a Template.
 
+**A system-specific research template does not belong here — it belongs in that system's own
+folder.** The worked example is `academic-neural-unit-00/templates/`, which holds ANU-00's six
+research templates (programme charter, open-question log, observation record, referral note,
+research report, taxonomy change record). Those encode one entity's charter fields and its crew's
+design rules, so filing them at root would misrepresent an entity instrument as a workspace-wide
+one — the same test this folder applies to itself, read in the other direction. ANU-00 reuses the
+two templates below rather than growing twins of them.
+
 ---
 
 ## Directory Structure
