@@ -1,4 +1,4 @@
-﻿# Full-Stack Cross-Platform Pipeline — Monitoring System
+# Full-Stack Cross-Platform Pipeline — Monitoring System
 
 **Pipeline:** Full-Stack Cross-Platform (P3)
 **Version:** 1.0
@@ -205,10 +205,7 @@ company/project/<project-name>/checkpoints/stage<N>-<status>.json
     "pass_rate": 91,
     "status": "pass",
     "platform_breakdown": { "web": 94, "ios": 90, "android": 89 },
-    "remediation_items": [
-      "Android navigation animation timing",
-      "iOS font weight rendering"
-    ]
+    "remediation_items": ["Android navigation animation timing", "iOS font weight rendering"]
   },
   "string_extraction_readiness": {
     "audit_completed": false,
@@ -283,11 +280,11 @@ Before Stage 6 entry, the Internationalization Specialist audits the codebase ac
 
 ---
 
-## Agent Systems Engineering (ASE) — Governance Layer
+## Agent Systems Governance Framework (ASGF) — Governance Layer
 
-In addition to the three-layer monitoring system above, all pipelines operate under the **ASE Framework** — a 4-layer governance methodology for multi-agent coordination. The ASE templates are co-located with the monitoring templates:
+In addition to the three-layer monitoring system above, all pipelines operate under the **ASGF Framework** — a 4-layer governance methodology for multi-agent coordination. The ASGF templates are co-located with the monitoring templates:
 
-| ASE Template                            | Layer               | Purpose                                                  |
+| ASGF Template                           | Layer               | Purpose                                                  |
 | --------------------------------------- | ------------------- | -------------------------------------------------------- |
 | `stage-transition-summary.md`           | Context Engineering | Cross-stage context handoff                              |
 | `stage-transition-schemas.md`           | Harness Engineering | JSON schema contracts (`V-FS-` prefix, multi-track sync) |
@@ -296,10 +293,10 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 | `mvc-context-profile.md`                | Context Engineering | Agent context window management                          |
 | `knowledge-transfer-protocol.md`        | RAG / Memory        | 3-tier learning loop                                     |
 | `rag-integration-blueprint.md`          | RAG / Memory        | Semantic retrieval architecture                          |
-| `adr-ase-001.md`                        | Governance          | ASE adoption decision record                             |
+| `adr-asgf-001.md`                       | Governance          | ASGF adoption decision record                            |
 
 > **Template location:** `company/pipeline/full-stack/templates/monitoring/` and `templates/stage-6-code-review/`
-> **Full ASE specification:** See `company/library/overview/pipeline.md` § Agent Systems Engineering (ASE) Framework.
+> **Full ASGF specification:** See `company/library/overview/pipeline.md` § Agent Systems Governance Framework (ASGF) Framework.
 
 ---
 
@@ -308,5 +305,5 @@ In addition to the three-layer monitoring system above, all pipelines operate un
 - **Pipeline Definition:** `company/pipeline/full-stack/pipeline.md`
 - **Progress Sync Protocol:** See "Progress Sync Protocol" section in pipeline.md
 - **Project Directory Structure:** Refer to project root documentation
-- **ASE Framework Templates:** `templates/monitoring/` (8 ASE templates + 3 base monitoring templates)
-- **ASE Governance ADR:** `templates/monitoring/adr-ase-001.md`
+- **ASGF Framework Templates:** `templates/monitoring/` (8 ASGF templates + 3 base monitoring templates)
+- **ASGF Governance ADR:** `templates/monitoring/adr-asgf-001.md`

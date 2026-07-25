@@ -1,4 +1,4 @@
-﻿# Development Pipeline Overview
+# Development Pipeline Overview
 
 The company's development workflow is a thirteen-stage state machine (Stages 0–11, with Stage 9.5 between Stage 9 and Stage 10) governing the full lifecycle of a mobile product — from problem validation through to live operations. Each stage has a designated responsible producer, explicit reviewers, defined artifacts in and out, and gate criteria that must be satisfied before advancing.
 
@@ -110,9 +110,9 @@ Active from Stage 4 onward.
 
 **Full system:** [`pipeline/mobile-development/monitoring.md`](company/pipeline/mobile-development/monitoring.md) — Progress Monitoring & Recovery System (mandatory for Stage 4+ projects). Uses three layers: `progress.md` (real-time state), `session-log.md` (audit trail), and `checkpoint.json` (machine-readable milestones).
 
-### Agent Systems Engineering (ASE) Framework
+### Agent Systems Governance Framework (ASGF) Framework
 
-The ASE framework is the company's **mandatory multi-agent governance layer** for all development pipelines. Ratified via [ADR-ASE-001](company/pipeline/mobile-development/templates/monitoring/adr-ase-001.md), it consists of four layers:
+The ASGF framework is the company's **mandatory multi-agent governance layer** for all development pipelines. Ratified via [ADR-ASGF-001](company/pipeline/mobile-development/templates/monitoring/adr-asgf-001.md), it consists of four layers:
 
 | Layer | Name                | Purpose                           | Key Artifacts                                          |
 | :---: | :------------------ | :-------------------------------- | :----------------------------------------------------- |
@@ -121,9 +121,9 @@ The ASE framework is the company's **mandatory multi-agent governance layer** fo
 |   3   | Harness Engineering | Automated gate enforcement        | Schema Validation Spec, Red Team Review                |
 |   4   | RAG / Memory        | Institutional knowledge retention | Knowledge Transfer Protocol, RAG Integration Blueprint |
 
-#### Cross-Pipeline ASE Coverage
+#### Cross-Pipeline ASGF Coverage
 
-All 4 development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved **100% ASE template parity**:
+All 4 development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved **100% ASGF template parity**:
 
 | Template                    | Mobile |     Web     |   Backend   | Full-Stack |
 | :-------------------------- | :----: | :---------: | :---------: | :--------: |
@@ -134,7 +134,7 @@ All 4 development pipelines (Mobile, Web, Backend API, Full-Stack) have achieved
 | Stage Transition Summary    |   ✅   |     ✅      |     ✅      |     ✅     |
 | Knowledge Transfer Protocol |   ✅   |     ✅      |     ✅      |     ✅     |
 | RAG Integration Blueprint   |   ✅   |     ✅      |     ✅      |     ✅     |
-| ADR-ASE-001                 |   ✅   |     ✅      |     ✅      |     ✅     |
+| ADR-ASGF-001                |   ✅   |     ✅      |     ✅      |     ✅     |
 | Red Team Review (Stage 6)   |   ✅   |     ✅      |     ✅      |     ✅     |
 
 > **Template locations:** `company/pipeline/<pipeline>/templates/monitoring/` and `company/pipeline/<pipeline>/templates/stage-6-code-review/`

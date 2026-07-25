@@ -1,4 +1,4 @@
-﻿# Stage Transition Schemas — JSON Contract Definitions (Full-Stack Pipeline)
+# Stage Transition Schemas — JSON Contract Definitions (Full-Stack Pipeline)
 
 ---
 
@@ -32,12 +32,8 @@ These schemas define the **mandatory structured output** for the full-stack pipe
     "backend_api": true,
     "shared_logic": true
   },
-  "constraints_forward": [
-    { "constraint": "string", "source": "PRD | SRD", "ref": "§X" }
-  ],
-  "open_questions": [
-    { "question": "string", "impact": "high | medium | low", "owner": "string" }
-  ]
+  "constraints_forward": [{ "constraint": "string", "source": "PRD | SRD", "ref": "§X" }],
+  "open_questions": [{ "question": "string", "impact": "high | medium | low", "owner": "string" }]
 }
 ```
 
@@ -247,7 +243,7 @@ These schemas define the **mandatory structured output** for the full-stack pipe
   "constraints_forward": [
     {
       "constraint": "Stage 6 codebase tags are the integrity baselines for Stage 8",
-      "source": "ASE Red Team Protocol"
+      "source": "ASGF Red Team Protocol"
     }
   ]
 }

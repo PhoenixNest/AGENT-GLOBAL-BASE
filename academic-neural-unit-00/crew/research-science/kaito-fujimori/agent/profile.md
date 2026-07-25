@@ -40,7 +40,7 @@ never built or shipped an orchestration framework himself.
 - No experience in applied AI systems or LLM-specific work — appropriately out of scope; this role
   is intentionally narrow to agent coordination theory.
 - First research role alongside an active sibling engineering entity; onboarding includes an
-  explicit review of the ASE-technical-standard-vs-organizational-link distinction from
+  explicit review of the ASGF-technical-standard-vs-organizational-link distinction from
   `formation-report.md` §2, given how directly his research area intersects it.
 
 ## Assigned Role

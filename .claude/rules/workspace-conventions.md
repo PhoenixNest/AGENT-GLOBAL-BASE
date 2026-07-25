@@ -125,4 +125,4 @@ Pipeline stages marked **User Approval? ✅** are **hard stops**. Present the co
 
 ## Mandatory Governance
 
-The Agent Systems Engineering (ASE) framework is mandatory across all pipelines. No agent may bypass it. All new LLM systems must be grounded in CC-00 engineering patterns.
+The Agent Systems Governance Framework (ASGF) framework is mandatory across all pipelines. No agent may bypass it. All new LLM systems must be grounded in CC-00 engineering patterns.

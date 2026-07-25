@@ -4,7 +4,7 @@
 | ------------ | ----------------------------------- |
 | **Category** | Pipeline Governance · Quality Gates |
 | **Layer**    | Cross-cutting (Layers 1 + 3)        |
-| **Status**   | Ratified — ADR-ASE-001              |
+| **Status**   | Ratified — ADR-ASGF-001             |
 
 ---
 
@@ -45,7 +45,7 @@ A **Paired Artifact** is a document that is:
 | Architecture Doc  | Threat Model                        | Attack surface of the proposed architecture  |
 | API Specification | Authentication & Authorisation Spec | Access control for every API endpoint        |
 | Agent Identity    | Forbidden Behaviours List           | Anti-pattern firewall for every agent role   |
-| Release Candidate | Compliance Audit Report             | ASE compliance status before production      |
+| Release Candidate | Compliance Audit Report             | ASGF compliance status before production     |
 
 ---
 

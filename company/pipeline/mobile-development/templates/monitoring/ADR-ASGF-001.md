@@ -1,4 +1,4 @@
-﻿# ADR-ASE-001: Adoption of Agent Systems Engineering as Permanent Methodology
+# ADR-ASGF-001: Adoption of Agent Systems Governance Framework as Permanent Methodology
 
 > **Author:** CTO Dr. Kenji Nakamura
 > **Co-Authors:** CPO Marcus Tran-Yoshida, CSO Dr. Sarah Chen
@@ -25,9 +25,9 @@ These gaps resulted in an estimated 15–20% information loss per stage transiti
 
 ## Decision
 
-**Adopt the Agent Systems Engineering (ASE) Framework** as the company's permanent engineering methodology for all multi-agent operations.
+**Adopt the Agent Systems Governance Framework (ASGF) Framework** as the company's permanent engineering methodology for all multi-agent operations.
 
-ASE is defined by four architectural layers:
+ASGF is defined by four architectural layers:
 
 | Layer | Name                    | Responsibility                                                    |
 | :---: | :---------------------- | :---------------------------------------------------------------- |
@@ -50,7 +50,7 @@ ASE is defined by four architectural layers:
 |   2   |  ⑥  | MVC Context Profile Template        | `templates/monitoring/mvc-context-profile.md`                     |
 |   3   |  ⑦  | Knowledge Transfer Protocol         | `templates/monitoring/knowledge-transfer-protocol.md`             |
 |   3   |  ⑧  | RAG Integration Blueprint           | `templates/monitoring/rag-integration-blueprint.md`               |
-|   3   |  ⑨  | ASE Adoption ADR (this document)    | `templates/monitoring/adr-ase-001.md`                             |
+|   3   |  ⑨  | ASGF Adoption ADR (this document)   | `templates/monitoring/adr-asgf-001.md`                            |
 |   3   |  ⑩  | Schema Validation Specification     | `templates/monitoring/schema-validation-spec.md`                  |
 |   3   |  ⑪  | MVC Profile Propagation (80 agents) | `company/departments/**/agent/profile.md` — appended MVC sections |
 
@@ -77,7 +77,7 @@ ASE is defined by four architectural layers:
 ### Risks
 
 1. **Schema drift** — If schemas evolve but agent profiles don't update, validation may produce false positives. Mitigated by versioned schemas.
-2. **Over-engineering** — Small projects may not benefit from full ASE overhead. Mitigated by allowing lightweight variants for sub-3-stage projects.
+2. **Over-engineering** — Small projects may not benefit from full ASGF overhead. Mitigated by allowing lightweight variants for sub-3-stage projects.
 
 ---
 
@@ -103,7 +103,7 @@ This ADR does not supersede any prior ADR. It establishes a new methodology doma
 
 - **Monthly:** CTO reviews schema usage and compliance metrics.
 - **Quarterly:** CTO + CPO + CSO review Tier 3 institutional memory entries.
-- **Annually:** Full ASE framework review — update schemas, retire stale heuristics, recalibrate estimation data.
+- **Annually:** Full ASGF framework review — update schemas, retire stale heuristics, recalibrate estimation data.
 
 ---
 

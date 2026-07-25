@@ -2,7 +2,7 @@
 name: llm-engineering
 description: >-
   LLM system engineering expertise covering context engineering, multi-agent
-  orchestration, prompt design, harness implementation, and ASE compliance
+  orchestration, prompt design, harness implementation, and ASGF compliance
   auditing. Use when building LLM-powered systems, designing agent architectures,
   or auditing CC-00 compliance.
 paths:
@@ -19,7 +19,7 @@ Router skill for the `llm-engineering` domain. Explore `references/` for specifi
 - LLM system design and architecture
 - Context engineering and memory management
 - Multi-agent orchestration and coordination
-- ASE (Agent Systems Engineering) compliance auditing
+- ASGF (Agent Systems Governance Framework) compliance auditing
 
 ## Available Sub-Skills
 
@@ -28,7 +28,7 @@ Router skill for the `llm-engineering` domain. Explore `references/` for specifi
 | `llm-system-design.md`                | LLM system architecture and design patterns  |
 | `context-engineering-design.md`       | Context window management and memory systems |
 | `multi-agent-orchestration-design.md` | Swarm orchestration and agent coordination   |
-| `ase-compliance-audit.md`             | ASE framework compliance and auditing        |
+| `asgf-compliance-audit.md`            | ASGF framework compliance and auditing       |
 
 ## Related Skills
 

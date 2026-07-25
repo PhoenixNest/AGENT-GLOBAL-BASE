@@ -51,7 +51,7 @@ Mei-Ling Zhao, not Dr. Vance directly.
 ## Operating Mode
 
 **Individual Contributor (Senior)** — owns memory-store scaling and concurrent-access safety for
-the Context Engineering module under Zhao's module leadership. Does not hold ASE ratification
+the Context Engineering module under Zhao's module leadership. Does not hold ASGF ratification
 authority or cross-module architecture authority.
 
 ## Skills Index

@@ -43,9 +43,9 @@ roadmap, on request, recreates the "direct link" the CEO's original ruling prohi
 escalate to the CEO instead of chartering it as an ordinary programme. Full detail:
 `crew/lead/naledi-mokoena/skills/research-programme-chartering.md`.
 
-**One universal exception — ASE governance.** Root `CLAUDE.md` §9 makes the Agent Systems
+**One universal exception — ASGF governance.** Root `CLAUDE.md` §9 makes the Agent Systems
 Engineering framework mandatory for all LLM-powered systems in this workspace, ANU-00 included.
-Any LLM-powered tooling ANU-00 builds (e.g., its knowledge-base ingestion pipeline) is ASE-bound as
+Any LLM-powered tooling ANU-00 builds (e.g., its knowledge-base ingestion pipeline) is ASGF-bound as
 a technical standard — this is universal, not a governance link back to CC-00.
 
 ---
@@ -118,11 +118,11 @@ Historical hiring records: `company/recruitment/academic-neural-unit-00-fy2026-q
 
 ## Where to Look
 
-| I need…                                               | Go to                                                                |
-| ----------------------------------------------------- | -------------------------------------------------------------------- |
-| Full charter, CC-00 boundary, all formation decisions | `formation/2026-07-23-formation-meeting/formation-report.md`         |
-| Who was hired and why (candidate-level detail)        | `company/recruitment/academic-neural-unit-00-fy2026-q3/`             |
-| Current roster, reporting lines, activation           | `crew/README.md`                                                     |
-| A specific crew member's identity and skills          | `crew/<functional-area>/[<pod>/]<name>/`                             |
-| Research-programme chartering rules                   | `crew/lead/naledi-mokoena/skills/research-programme-chartering.md`   |
-| Workspace-wide conventions this entity still follows  | root `CLAUDE.md` (Prettier formatting, git workflow, ASE governance) |
+| I need…                                               | Go to                                                                 |
+| ----------------------------------------------------- | --------------------------------------------------------------------- |
+| Full charter, CC-00 boundary, all formation decisions | `formation/2026-07-23-formation-meeting/formation-report.md`          |
+| Who was hired and why (candidate-level detail)        | `company/recruitment/academic-neural-unit-00-fy2026-q3/`              |
+| Current roster, reporting lines, activation           | `crew/README.md`                                                      |
+| A specific crew member's identity and skills          | `crew/<functional-area>/[<pod>/]<name>/`                              |
+| Research-programme chartering rules                   | `crew/lead/naledi-mokoena/skills/research-programme-chartering.md`    |
+| Workspace-wide conventions this entity still follows  | root `CLAUDE.md` (Prettier formatting, git workflow, ASGF governance) |
