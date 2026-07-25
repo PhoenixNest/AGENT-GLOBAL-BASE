@@ -1,15 +1,15 @@
-﻿# RAG Integration Blueprint — Casual Games Studio
+# RAG Integration Blueprint — Casual Games Studio
 
-> **ASE Layer:** 4 — RAG / Memory
+> **ASGF Layer:** 4 — RAG / Memory
 > **Status:** Intentional Scope Exception (documented rationale below)
 > **Authority:** Studio Director Dr. Marcus Vogel + CTO Dr. Kenji Nakamura
-> **Exception rationale required by:** `adr-ase-001.md` (studio) §Layer 4
+> **Exception rationale required by:** `adr-asgf-001.md` (studio) §Layer 4
 
 ---
 
 ## 1. Exception Statement
 
-The Casual Games Studio **intentionally operates without a live retrieval pipeline** at this time. This is a documented exception under ADR-ASE-001 §Exceptions — not an oversight.
+The Casual Games Studio **intentionally operates without a live retrieval pipeline** at this time. This is a documented exception under ADR-ASGF-001 §Exceptions — not an oversight.
 
 This document records the rationale, the alternative mechanisms used in place of RAG, and the conditions that would trigger L4 implementation.
 

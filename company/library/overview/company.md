@@ -1,4 +1,4 @@
-﻿# Company Overview
+# Company Overview
 
 A mobile product company organized around a structured, multi-stage development pipeline. The company specialises in building and shipping mobile applications for Android and iOS, with deep capability in cross-platform development (KMP, Flutter), internationalization, and platform security.
 
@@ -52,9 +52,9 @@ For the full personnel roster, see [`personnel.md`](personnel.md).
 
 ---
 
-## Agent Systems Engineering (ASE) Framework
+## Agent Systems Governance Framework (ASGF) Framework
 
-The company operates under the **Agent Systems Engineering (ASE)** methodology — a 4-layer governance framework for multi-agent coordination. It is mandatory across all development pipelines and ratified via ADR-ASE-001.
+The company operates under the **Agent Systems Governance Framework (ASGF)** methodology — a 4-layer governance framework for multi-agent coordination. It is mandatory across all development pipelines and ratified via ADR-ASGF-001.
 
 |        Layer        | Purpose                              | Examples                                |
 | :-----------------: | :----------------------------------- | :-------------------------------------- |
@@ -63,7 +63,7 @@ The company operates under the **Agent Systems Engineering (ASE)** methodology �
 | Harness Engineering | Automated gate enforcement           | Schema validation, red team review      |
 |    RAG / Memory     | Institutional knowledge retention    | KTP, RAG blueprint, embedding stores    |
 
-> **Full specification:** See [`pipeline.md`](pipeline.md) § Agent Systems Engineering (ASE) Framework.
+> **Full specification:** See [`pipeline.md`](pipeline.md) § Agent Systems Governance Framework (ASGF) Framework.
 
 ---
 
@@ -95,4 +95,4 @@ company/
 - **Agent profiles:** `departments/<dept>/supervisor/<role>/agent/profile.md` or `departments/<dept>/team/<tier>/<role>/agent/profile.md`
 - **Skill files:** `departments/<dept>/.../skills/<skill-name>.md`
 - **Pipeline definitions:** `pipeline/<pipeline-name>/pipeline.md`
-- **ASE templates:** `company/pipeline/<pipeline-name>/templates/monitoring/`
+- **ASGF templates:** `company/pipeline/<pipeline-name>/templates/monitoring/`

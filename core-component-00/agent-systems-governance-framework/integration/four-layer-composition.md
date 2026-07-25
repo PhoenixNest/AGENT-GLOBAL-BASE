@@ -1,6 +1,6 @@
-﻿# Four-Layer Composition — Runtime Integration Model
+# Four-Layer Composition — Runtime Integration Model
 
-> **Governing authority:** ADR-ASE-001 · Core Component 00 Laboratory
+> **Governing authority:** ADR-ASGF-001 · Core Component 00 Laboratory
 > **Version:** 1.0 · **Last Updated:** 2026-04-30
 
 This document specifies the runtime interaction model for the five CC-00 engineering
@@ -241,8 +241,8 @@ Each integration contract should be tested independently:
 
 ## References
 
-- [Foundational Paper](core-component-00/agent-systems-engineering/CONCEPTS.md) — Convergence thesis
-- [Compliance Standard](core-component-00/agent-systems-engineering/governance/compliance-standard.md) — Per-layer requirements
+- [Foundational Paper](core-component-00/agent-systems-governance-framework/CONCEPTS.md) — Convergence thesis
+- [Compliance Standard](core-component-00/agent-systems-governance-framework/governance/compliance-standard.md) — Per-layer requirements
 - [Context Assembler](core-component-00/engineering/context-engineering/implementations/context_assembler.py)
 - [Harness Error Boundary](core-component-00/engineering/harness-engineering/implementations/error_boundary.py)
 - [Token Budget Monitor](core-component-00/engineering/harness-engineering/implementations/context_monitor.py)

@@ -1,6 +1,6 @@
 """
 Typed exception-path coverage for the EX-001 remediation (see
-agent-systems-engineering/governance/adr-ase-001.md, "Exceptions Log").
+agent-systems-governance-framework/governance/adr-asgf-001.md, "Exceptions Log").
 
 _call_with_hard_timeout's call sites in
 engineering/context-engineering/implementations/memory_vector_store.py and

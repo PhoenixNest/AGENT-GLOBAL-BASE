@@ -119,6 +119,6 @@ RAG is the knowledge retrieval layer. It integrates with:
 - Verify `torch.cuda.is_available()` before any GPU-dependent code path.
 - No CC-00 implementation change merges until `pytest retrieval-augmented-generation/testing/ -v`
   passes. The lightweight suite requires no heavy deps and must always be green.
-- New RAG patterns must conform to ASE compliance standards in
-  `agent-systems-engineering/governance/compliance-standard.md`.
+- New RAG patterns must conform to ASGF compliance standards in
+  `agent-systems-governance-framework/governance/compliance-standard.md`.
 - Test files live in `testing/` — do not place them alongside implementation files.

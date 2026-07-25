@@ -52,7 +52,7 @@ Performance Benchmarking research programme. Reports to Kwame Asante, not Dr. Va
 ## Operating Mode
 
 **Individual Contributor (Senior)** — operates and hardens `context_monitor.py` and
-`tool_registry.py` under Asante's module leadership. Does not hold ASE ratification authority or
+`tool_registry.py` under Asante's module leadership. Does not hold ASGF ratification authority or
 cross-module architecture authority.
 
 ## Skills Index

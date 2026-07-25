@@ -1,4 +1,4 @@
-﻿# Pipeline Templates — Full-Stack Cross-Platform
+# Pipeline Templates — Full-Stack Cross-Platform
 
 Ready-to-use templates for the 10-stage full-stack pipeline and the Progress Monitoring & Recovery System. Templates are organized by pipeline stage.
 
@@ -35,52 +35,52 @@ templates/
     ├── progress.md                                    ← Pipeline Progress Dashboard (Layer 1)
     ├── session-log.md                                 ← Session Audit Trail (Layer 2)
     ├── checkpoint.json                                ← Machine-Readable Milestone (Layer 3)
-    ├── stage-transition-summary.md                    ← Cross-Stage Context Handoff (ASE Phase 1)
-    ├── stage-transition-schemas.md                    ← JSON Schema Contracts — Full-Stack Adapted (ASE Phase 2)
-    ├── inter-agent-communication-protocol.md          ← IACP — Cross-Track Routing (ASE Phase 2)
-    ├── mvc-context-profile.md                         ← MVC Profile Template (ASE Phase 2)
-    ├── knowledge-transfer-protocol.md                 ← 3-Tier Learning Loop (ASE Phase 3)
-    ├── rag-integration-blueprint.md                   ← Semantic Retrieval Architecture (ASE Phase 3)
-    ├── adr-ase-001.md                                 ← ASE Adoption Decision Record (ASE Phase 3)
-    └── schema-validation-spec.md                      ← Automated Gate Enforcement — V-FS- Rules (ASE Phase 3)
+    ├── stage-transition-summary.md                    ← Cross-Stage Context Handoff (ASGF Phase 1)
+    ├── stage-transition-schemas.md                    ← JSON Schema Contracts — Full-Stack Adapted (ASGF Phase 2)
+    ├── inter-agent-communication-protocol.md          ← IACP — Cross-Track Routing (ASGF Phase 2)
+    ├── mvc-context-profile.md                         ← MVC Profile Template (ASGF Phase 2)
+    ├── knowledge-transfer-protocol.md                 ← 3-Tier Learning Loop (ASGF Phase 3)
+    ├── rag-integration-blueprint.md                   ← Semantic Retrieval Architecture (ASGF Phase 3)
+    ├── adr-asgf-001.md                                 ← ASGF Adoption Decision Record (ASGF Phase 3)
+    └── schema-validation-spec.md                      ← Automated Gate Enforcement — V-FS- Rules (ASGF Phase 3)
 ```
 
 ---
 
 ## Quick Reference by Stage
 
-| Stage                   | Templates                                                                                                                                                                                                                                                                                            | Count |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 1 — Requirements        | `PRD.md`, `SRD.md`                                                                                                                                                                                                                                                                                   | 2     |
-| 2 — Design              | `IDS.md` (multi-platform responsive specs)                                                                                                                                                                                                                                                           | 1     |
-| 3 — Architecture        | ADR templates (cross-platform strategy, API contracts, shared modules), `TSD.md`                                                                                                                                                                                                                     | TBD   |
-| 4 — Implementation Plan | `IMPLEMENTATION-PLAN.md`, `RTM.md`                                                                                                                                                                                                                                                                   | 2     |
-| 5 — Development         | `DEVELOPMENT-LOG.md` (per track: Web, Mobile, API)                                                                                                                                                                                                                                                   | 3     |
-| 6 — Code Review         | `DEFECT-REPORT.md`, `RED-TEAM-REVIEW.md`, `STAGE-TRANSITION-SUMMARY.md`                                                                                                                                                                                               | 3     |
-| 7 — Testing             | `TEST-RESULTS-REPORT.md`, `DEVICE-MATRIX.md`, `E2E-TEST-REPORT.md`                                                                                                                                                                                                                                   | 3     |
-| 8 — Integrity           | `INTEGRITY-SIGNOFF.md`                                                                                                                                                                                                                                                                               | 1     |
-| 9 — i18n                | `STRING-EXTRACTION-HANDOFF.md`, `TRANSLATION-VERIFICATION-REPORT.md`                                                                                                                                                                                                                                 | 2     |
-| 10 — Release            | `RELEASE-CHECKLIST.md` (coordinated multi-platform)                                                                                                                                                                                                                                                  | 1     |
-| Monitoring (all stages) | `progress.md`, `session-log.md`, `checkpoint.json`, `stage-transition-summary.md`, `stage-transition-schemas.md`, `inter-agent-communication-protocol.md`, `mvc-context-profile.md`, `knowledge-transfer-protocol.md`, `rag-integration-blueprint.md`, `adr-ase-001.md`, `schema-validation-spec.md` | 11    |
+| Stage                   | Templates                                                                                                                                                                                                                                                                                             | Count |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| 1 — Requirements        | `PRD.md`, `SRD.md`                                                                                                                                                                                                                                                                                    | 2     |
+| 2 — Design              | `IDS.md` (multi-platform responsive specs)                                                                                                                                                                                                                                                            | 1     |
+| 3 — Architecture        | ADR templates (cross-platform strategy, API contracts, shared modules), `TSD.md`                                                                                                                                                                                                                      | TBD   |
+| 4 — Implementation Plan | `IMPLEMENTATION-PLAN.md`, `RTM.md`                                                                                                                                                                                                                                                                    | 2     |
+| 5 — Development         | `DEVELOPMENT-LOG.md` (per track: Web, Mobile, API)                                                                                                                                                                                                                                                    | 3     |
+| 6 — Code Review         | `DEFECT-REPORT.md`, `RED-TEAM-REVIEW.md`, `STAGE-TRANSITION-SUMMARY.md`                                                                                                                                                                                                                               | 3     |
+| 7 — Testing             | `TEST-RESULTS-REPORT.md`, `DEVICE-MATRIX.md`, `E2E-TEST-REPORT.md`                                                                                                                                                                                                                                    | 3     |
+| 8 — Integrity           | `INTEGRITY-SIGNOFF.md`                                                                                                                                                                                                                                                                                | 1     |
+| 9 — i18n                | `STRING-EXTRACTION-HANDOFF.md`, `TRANSLATION-VERIFICATION-REPORT.md`                                                                                                                                                                                                                                  | 2     |
+| 10 — Release            | `RELEASE-CHECKLIST.md` (coordinated multi-platform)                                                                                                                                                                                                                                                   | 1     |
+| Monitoring (all stages) | `progress.md`, `session-log.md`, `checkpoint.json`, `stage-transition-summary.md`, `stage-transition-schemas.md`, `inter-agent-communication-protocol.md`, `mvc-context-profile.md`, `knowledge-transfer-protocol.md`, `rag-integration-blueprint.md`, `adr-asgf-001.md`, `schema-validation-spec.md` | 11    |
 
 ---
 
 ## Monitoring Templates
 
-| Template                                | Layer      | ASE Phase |   Domain Adaptation    |
-| --------------------------------------- | ---------- | --------- | :--------------------: |
-| `progress.md`                           | Layer 1    | —         |      ✅ Inherited      |
-| `session-log.md`                        | Layer 2    | —         |      ✅ Inherited      |
-| `checkpoint.json`                       | Layer 3    | —         |      ✅ Inherited      |
-| `stage-transition-summary.md`           | ASE — L2   | Phase 1   |      ✅ Portable       |
-| `stage-transition-schemas.md`           | ASE — L2   | Phase 2   | 🔧 Full-Stack adapted  |
-| `inter-agent-communication-protocol.md` | ASE — L2/3 | Phase 2   | 🔧 Cross-track adapted |
-| `mvc-context-profile.md`                | ASE — L2   | Phase 2   |      ✅ Portable       |
-| `knowledge-transfer-protocol.md`        | ASE — L3   | Phase 3   |      ✅ Portable       |
-| `rag-integration-blueprint.md`          | ASE — L4   | Phase 3   |      ✅ Portable       |
-| `adr-ase-001.md`                        | ASE — Gov  | Phase 3   |      ✅ Portable       |
-| `schema-validation-spec.md`             | ASE — L3   | Phase 3   |   🔧 V-FS- prefixed    |
-| `RED-TEAM-REVIEW.md` (stage-6)          | ASE — L3   | Phase 3   |      ✅ Portable       |
+| Template                                | Layer       | ASGF Phase |   Domain Adaptation    |
+| --------------------------------------- | ----------- | ---------- | :--------------------: |
+| `progress.md`                           | Layer 1     | —          |      ✅ Inherited      |
+| `session-log.md`                        | Layer 2     | —          |      ✅ Inherited      |
+| `checkpoint.json`                       | Layer 3     | —          |      ✅ Inherited      |
+| `stage-transition-summary.md`           | ASGF — L2   | Phase 1    |      ✅ Portable       |
+| `stage-transition-schemas.md`           | ASGF — L2   | Phase 2    | 🔧 Full-Stack adapted  |
+| `inter-agent-communication-protocol.md` | ASGF — L2/3 | Phase 2    | 🔧 Cross-track adapted |
+| `mvc-context-profile.md`                | ASGF — L2   | Phase 2    |      ✅ Portable       |
+| `knowledge-transfer-protocol.md`        | ASGF — L3   | Phase 3    |      ✅ Portable       |
+| `rag-integration-blueprint.md`          | ASGF — L4   | Phase 3    |      ✅ Portable       |
+| `adr-asgf-001.md`                       | ASGF — Gov  | Phase 3    |      ✅ Portable       |
+| `schema-validation-spec.md`             | ASGF — L3   | Phase 3    |   🔧 V-FS- prefixed    |
+| `RED-TEAM-REVIEW.md` (stage-6)          | ASGF — L3   | Phase 3    |      ✅ Portable       |
 
 **Domain-adapted templates** contain full-stack-specific fields: multi-platform scope, cross-track synchronization protocol, integration milestones (IM-NNN), multiple codebase tags (mobile/web/api), and FS-MOBILE/FS-WEB/FS-API track assignments.
 

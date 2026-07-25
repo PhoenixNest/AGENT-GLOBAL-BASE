@@ -3,7 +3,7 @@
 > **Usage:** Append this section to each crew agent profile under
 > `studio/casual-games/team/crew/<division>/<role>/<name>/agent/profile.md`
 >
-> **ASE Compliance:** CC-00 Layer 2 — Context Engineering (Mandatory)
+> **ASGF Compliance:** CC-00 Layer 2 — Context Engineering (Mandatory)
 > **Reference:** `core-component-00/engineering/context-engineering/CONCEPTS.md`
 
 ---
@@ -18,7 +18,7 @@ When dispatching a task to a crew member, the orchestrating agent **must** consu
 
 ## Token Budget Allocation (CC-00 L2 Compliance)
 
-> Mandatory per `core-component-00/agent-systems-engineering/governance/compliance-standard.md` — Layer 2 Context Engineering.
+> Mandatory per `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` — Layer 2 Context Engineering.
 
 | CC-00 Slot       | Zone (this doc) | Contents                                                     | Budget Cap |       Sacred?        |
 | :--------------- | :-------------- | :----------------------------------------------------------- | :--------: | :------------------: |

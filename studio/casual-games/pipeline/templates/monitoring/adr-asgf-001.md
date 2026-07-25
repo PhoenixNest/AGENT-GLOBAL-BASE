@@ -1,9 +1,9 @@
-# ADR-ASE-001: Adoption of Agent Systems Engineering as Permanent Methodology — Casual Games Studio
+# ADR-ASGF-001: Adoption of Agent Systems Governance Framework as Permanent Methodology — Casual Games Studio
 
 > **Author:** Studio Director Dr. Marcus Vogel
 > **Co-Authors:** CTO Dr. Kenji Nakamura (parent company liaison), CSO Dr. Sarah Chen
 > **Date:** 2026-05-01
-> **Binding Authority:** ADR-ASE-001 (parent company, 2026-04-29) mandates ASE adoption
+> **Binding Authority:** ADR-ASGF-001 (parent company, 2026-04-29) mandates ASGF adoption
 > across all organisation units. This document is the studio-level implementation of that mandate.
 
 ---
@@ -30,10 +30,10 @@ applicable to the studio:
 
 ## Decision
 
-**Adopt the Agent Systems Engineering (ASE) Framework** as the Casual Games Studio's permanent
+**Adopt the Agent Systems Governance Framework (ASGF) Framework** as the Casual Games Studio's permanent
 engineering methodology for all multi-agent operations, effective immediately.
 
-ASE is defined by five architectural layers:
+ASGF is defined by five architectural layers:
 
 | Layer | Name                        | Responsibility                                     | Studio Applicability                            |
 | :---: | :-------------------------- | :------------------------------------------------- | :---------------------------------------------- |
@@ -48,7 +48,7 @@ ASE is defined by five architectural layers:
 ## Layer 4 — Intentional Scope Exception (RAG)
 
 > **Exception type:** Intentional absence with documented rationale
-> **Authority:** ADR-ASE-001 §Exceptions permits intentional absence of L4 when documented
+> **Authority:** ADR-ASGF-001 §Exceptions permits intentional absence of L4 when documented
 > **Approved by:** Studio Director + CTO (co-signatories, see §Sign-Off)
 
 **Rationale:** The Casual Games Studio does not require a live retrieval pipeline at this time for
@@ -102,14 +102,14 @@ multiple crew divisions operate concurrently. Specifically:
 |   2   |  ⑥  | Schema Validation Specification     | `templates/monitoring/schema-validation-spec.md`             |
 |   3   |  ⑦  | Knowledge Transfer Protocol         | `templates/monitoring/knowledge-transfer-protocol.md`        |
 |   3   |  ⑧  | RAG Integration Blueprint (scoped)  | `templates/monitoring/rag-integration-blueprint.md`          |
-|   3   |  ⑨  | ASE Adoption ADR (this document)    | `templates/monitoring/adr-ase-001.md`                        |
+|   3   |  ⑨  | ASGF Adoption ADR (this document)   | `templates/monitoring/adr-asgf-001.md`                       |
 |   4   |  ⑩  | Agent Behavioural Constraints       | `templates/AGENT-BEHAVIORAL-CONSTRAINTS.md`                  |
 
 ---
 
-## ASE Layer → Studio Stage Mapping
+## ASGF Layer → Studio Stage Mapping
 
-| ASE Layer        | When Active                     | Studio Stages | Key Artifact                                            |
+| ASGF Layer       | When Active                     | Studio Stages | Key Artifact                                            |
 | :--------------- | :------------------------------ | :------------ | :------------------------------------------------------ |
 | L1 — Prompt      | All stages                      | 0–10          | Crew `profile.md` + `skills/*.md`                       |
 | L2 — Context     | All stage transitions           | 0–10          | `mvc-context-profile.md`, `stage-transition-summary.md` |
@@ -126,7 +126,7 @@ multiple crew divisions operate concurrently. Specifically:
 1. **Structured stage transitions** — All kill gate handoffs now have JSON schema contracts.
 2. **Reduced information loss** — MVC profiles prevent context dumping between crew agents.
 3. **Safety** — Harness configuration prevents silent failures and budget overflows.
-4. **Alignment** — Studio is now formally ASE-compliant, satisfying parent company ADR-ASE-001.
+4. **Alignment** — Studio is now formally ASGF-compliant, satisfying parent company ADR-ASGF-001.
 5. **Crew clarity** — Behavioural constraints document protects against kill-gate manipulation.
 
 ### Negative
@@ -147,7 +147,7 @@ multiple crew divisions operate concurrently. Specifically:
 This ADR applies to all studio pipeline variants:
 
 - [x] Casual Games Studio — 11-stage pipeline (`studio/casual-games/pipeline/`)
-- [ ] Future studios — must produce their own ADR-ASE-001 equivalent upon formation
+- [ ] Future studios — must produce their own ADR-ASGF-001 equivalent upon formation
 
 ---
 
@@ -155,7 +155,7 @@ This ADR applies to all studio pipeline variants:
 
 - **Per Kill Gate:** Studio Director reviews harness and context compliance at each kill gate.
 - **Quarterly (QBR):** Studio Director + CTO review L4 exception status and maturity level.
-- **Annually:** Full ASE framework review — update schemas, retire stale constraints.
+- **Annually:** Full ASGF framework review — update schemas, retire stale constraints.
 
 ---
 

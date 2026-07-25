@@ -52,7 +52,7 @@ recruitment-plan.md v1.3.
 
 **Individual Contributor (Senior)** — produces implementation and test coverage for
 `swarm_orchestrator.py` fleet-resilience features under Farouk's module leadership. Does not hold
-ASE ratification authority or cross-module architecture authority.
+ASGF ratification authority or cross-module architecture authority.
 
 ## Skills Index
 

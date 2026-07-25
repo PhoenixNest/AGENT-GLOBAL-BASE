@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
-# H-P03: UserPromptSubmit — ASE Compliance Quality Gate
+# H-P03: UserPromptSubmit — ASGF Compliance Quality Gate
 # Runs FIRST in the UserPromptSubmit chain. Blocks prompts that would
-# instruct agents to violate ASE governance rules, skip pipeline gates,
+# instruct agents to violate ASGF governance rules, skip pipeline gates,
 # override P0/P1 severity, or access denied files.
 
 param()
@@ -53,7 +53,7 @@ $ruleList = ($detected | ForEach-Object { "  * $_" }) -join "`n"
 
 $output = [ordered]@{
     decision           = "block"
-    reason             = "[PROMPT QUALITY GATE — H-P03] ASE Compliance Violation Detected`n`nThe following governance rules would be violated:`n$ruleList`n`nThis prompt has been blocked. Please rephrase within the ASE governance framework.`nReference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-engineering/governance/"
+    reason             = "[PROMPT QUALITY GATE — H-P03] ASGF Compliance Violation Detected`n`nThe following governance rules would be violated:`n$ruleList`n`nThis prompt has been blocked. Please rephrase within the ASGF governance framework.`nReference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-governance-framework/governance/"
     hookSpecificOutput = @{
         hookEventName = "UserPromptSubmit"
     }
