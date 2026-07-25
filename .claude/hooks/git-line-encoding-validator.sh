@@ -2,7 +2,13 @@
 # H-GIT01: PreToolUse (Bash|PowerShell) — Pre-Commit Line Encoding Validator (bash port)
 # Detects git add / git commit commands and validates line-ending issues before the
 # command executes.
-#   - Advisory (non-blocking): git diff --check whitespace warnings, missing *.ps1 gitattributes rule.
+#   - Advisory (non-blocking): git diff --check whitespace warnings, missing *.ps1 gitattributes
+#     rule, and round-trip-unsafe working-tree endings (a file that is internally consistent but
+#     disagrees with what checkout would produce under the effective attributes + core.autocrlf —
+#     e.g. a pure-LF .md in a core.autocrlf=true repo, which makes every commit emit
+#     core.safecrlf warnings). The committed blob is correct in that case, so this is advisory:
+#     the Edit/Write/Prettier toolchain writes LF routinely and blocking it would deadlock
+#     ordinary work.
 #   - Blocking: mixed line endings within a staged file's WORKING-TREE content, or a CR
 #     byte in a staged *.ps1/*.sh file's working-tree content — a CRLF shebang breaks bash
 #     on Linux/macOS/WSL, so this is a correctness defect, not a style preference.
@@ -100,12 +106,58 @@ has_blocking_issues=0
 [ "$mixed_eol_count" -gt 0 ] 2>/dev/null && has_blocking_issues=1
 [ "$bad_cr_count" -gt 0 ] 2>/dev/null && has_blocking_issues=1
 
+# --- 5. Round-trip safety: working-tree endings vs what checkout would produce (advisory) ---
+# Uses git's own `ls-files --eol` rather than reimplementing attribute resolution, so explicit
+# `eol=` declarations are honoured for free — a pure-LF *.ps1/*.sh under `text eol=lf` is CORRECT
+# and must never be flagged here.
+autocrlf=$(git -C "$cwd" config --get core.autocrlf 2>/dev/null)
+[ -z "$autocrlf" ] && autocrlf=false
+autocrlf=$(echo "$autocrlf" | tr '[:upper:]' '[:lower:]')
+
+roundtrip_list=""
+roundtrip_count=0
+if [ -n "$staged_files" ]; then
+    eol_report=$(echo "$staged_files" | tr '\n' '\0' | xargs -0 -r git -C "$cwd" ls-files --eol -- 2>/dev/null)
+    roundtrip_list=$(AUTOCRLF="$autocrlf" REPORT="$eol_report" python3 -c "
+import os, re
+
+autocrlf = os.environ.get('AUTOCRLF', 'false')
+out = []
+for line in os.environ.get('REPORT', '').splitlines():
+    m = re.match(r'^i/(\S*)\s+w/(\S*)\s+attr/(.*?)\s*\t(.+)$', line)
+    if not m:
+        continue
+    w_eol, attr, path = m.group(2), m.group(3).strip(), m.group(4)
+    # Skip binaries, empty files, files with no terminators, and mixed
+    # (mixed is already a blocking finding above — do not double-report it).
+    if w_eol in ('', 'none', 'mixed', '-text'):
+        continue
+    if re.search(r'(^|\s)-text(\s|\$)', attr):
+        continue
+    if 'eol=lf' in attr:
+        expected = 'lf'
+    elif 'eol=crlf' in attr:
+        expected = 'crlf'
+    elif re.search(r'(^|\s)text', attr):
+        expected = 'crlf' if autocrlf == 'true' else 'lf'
+    else:
+        continue
+    if w_eol != expected:
+        out.append('    - %s  (working tree: %s, checkout would produce: %s)' % (path, w_eol, expected))
+print('\n'.join(out))
+")
+    [ -n "$(echo "$roundtrip_list" | tr -d '[:space:]')" ] && roundtrip_count=$(echo "$roundtrip_list" | grep -c '^' )
+fi
+
+has_roundtrip_issues=0
+[ "$roundtrip_count" -gt 0 ] 2>/dev/null && has_roundtrip_issues=1
+
 # Exit if nothing to report at all
-if [ "$has_diff_issues" -eq 0 ] && ! { [ "$has_staged_ps1" -eq 1 ] && [ "$ps1_rule_missing" -eq 1 ]; } && [ "$has_blocking_issues" -eq 0 ]; then
+if [ "$has_diff_issues" -eq 0 ] && ! { [ "$has_staged_ps1" -eq 1 ] && [ "$ps1_rule_missing" -eq 1 ]; } && [ "$has_blocking_issues" -eq 0 ] && [ "$has_roundtrip_issues" -eq 0 ]; then
     exit 0
 fi
 
-# --- 5. Build additionalContext ---
+# --- 6. Build additionalContext ---
 msg="[LINE ENCODING VALIDATOR — H-GIT01]
 Line-ending check triggered by git add/commit.
 "
@@ -141,6 +193,27 @@ Action: Review the flagged files and normalise line endings before committing.
   - For .ps1/.sh files: must be stored as LF (*.ps1/*.sh text eol=lf in .gitattributes).
   - For all other text files: left to \` * text=auto\` — normalised to the OS of whoever checks the repo out, not hardcoded.
   - Run: git add --renormalize . && git status to see the effect.
+"
+fi
+
+if [ "$has_roundtrip_issues" -eq 1 ]; then
+    msg="$msg
+ROUND-TRIP-UNSAFE WORKING-TREE ENDINGS (advisory):
+  These staged files are internally consistent, but their on-disk endings differ
+  from what checkout would write (core.autocrlf=$autocrlf + .gitattributes), so git
+  emits a core.safecrlf warning for each one on every add/commit:
+$roundtrip_list
+
+  Typical cause: a formatter or editor that always writes LF (Prettier, most agent
+  Edit/Write tools) touching a file in a core.autocrlf=true repo.
+  The COMMITTED CONTENT IS NOT AFFECTED — \`* text=auto\` normalises the blob to LF
+  either way. This is a working-copy consistency defect, not a content defect,
+  which is why it is advisory rather than blocking.
+
+  Action (representation only — changes no content):
+    git add --renormalize <path>
+    git checkout-index -f -- <path>   # rewrites the working copy in the expected form
+  Or re-save the file(s) with the expected endings before staging.
 "
 fi
 
