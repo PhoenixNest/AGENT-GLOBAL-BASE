@@ -102,6 +102,8 @@ AGENT-GLOBAL-BASE/
 ├── academic-neural-unit-00/              ← ANU-00 [→ academic-neural-unit-00/CLAUDE.md]
 │   ├── README.md                         ← Entity overview, charter, CC-00 boundary statement
 │   ├── formation/                        ← Formation record: charter, CEO decisions, final review
+│   ├── templates/                        ← 6 ANU-00 research templates (see templates/README.md)
+│   ├── knowledge-base/                   ← Research output — dated YYYY-MM-DD-<slug>/ entries
 │   └── crew/                             ← Personnel roster (10 FTEs, see crew/README.md)
 │
 └── telescope/                            ← Cross-department research index  [→ telescope/CLAUDE.md]
@@ -215,6 +217,7 @@ every folder that has one with `[→ CLAUDE.md]`.
 | Game/market research (Studio)                       | `studio/casual-games/telescope/CLAUDE.md`                       |
 | Engineering + LLM research (CC-00 Lab)              | `core-component-00/telescope/CLAUDE.md`                         |
 | ANU-00 charter, crew, and boundary vs. CC-00        | `academic-neural-unit-00/CLAUDE.md`                             |
+| ANU-00 research templates + knowledge base          | `academic-neural-unit-00/templates/README.md`                   |
 | A reusable meeting-minutes or final-review template | `templates/README.md`                                           |
 
 ---
