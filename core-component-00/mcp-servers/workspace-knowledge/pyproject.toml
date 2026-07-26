@@ -5,13 +5,42 @@ description = "RAG server for workspace documentation search and retrieval"
 authors = [{ name = "AGENT-GLOBAL-BASE Workspace", email = "workspace@example.com" }]
 readme = "README.md"
 requires-python = ">=3.10"
+
+# Must list every package server.py imports. An undeclared import resolves against
+# whatever is present in the ambient environment, which silently couples this server
+# to global site-packages.
 dependencies = [
-    "fastmcp>=0.1.0",
+    "fastmcp>=3.2.4",
     "qdrant-client>=1.7.0,<2.0.0",
+    "sentence-transformers>=5.6.0",
+    "rank-bm25>=0.2.2",
+    "numpy>=2.0",
+    # Backs the FAISS warm-standby search tier, used when Qdrant is unreachable.
+    # CPU build is sufficient: the tier is a fallback, and Qdrant serves the
+    # primary semantic path.
+    "faiss-cpu>=1.14.0",
+    # Requires a CUDA build: query embedding runs on the GPU, and a CPU-only wheel
+    # costs roughly 6.5x on query latency and 21x on batch indexing throughput.
+    #
+    # pip compares only the base version and ignores the +cpu / +cu130 local tag, so
+    # `pip install torch==2.13.0` is a no-op against an installed CPU wheel. Pin the
+    # local version to force the CUDA variant:
+    #   pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+    "torch>=2.13.0",
 ]
 
 [project.scripts]
 workspace-rag-server = "server:mcp.run"
+
+# Routes torch to the CUDA wheel index under uv. `explicit = true` confines this index
+# to torch alone, so every other dependency still resolves from PyPI.
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
 
 [build-system]
 requires = ["hatchling"]

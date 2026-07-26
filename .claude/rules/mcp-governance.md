@@ -133,6 +133,16 @@ non-error. `agent-memory` falls back to its pre-existing `embedder=None` → `de
 (unchanged from before `embedder-service` existed). `workspace-knowledge` falls back to loading
 its own private in-process copy of `all-mpnet-base-v2` from `embedding/model/`.
 
+**Python environment.** All three processes — both registered servers and `embedder-service` — run
+from **one shared venv** at `core-component-00/mcp-servers/.venv/`. These dependencies must not be
+installed globally. `embedder-service` inherits its interpreter from the spawning server via
+`sys.executable`, which is why a single shared venv is used rather than per-server ones: per-server
+venvs would make the shared service's environment depend on whichever server started it first. A
+bare `"python"` in `.mcp.json` or in `manage_embedder_service.ps1` is a defect — it resolves via
+`PATH` to the system interpreter and silently reintroduces both the global dependency and a
+possible CPU-only torch. Full rationale and the interpreter-resolution chain:
+`core-component-00/mcp-servers/CLAUDE.md` § Python Environment.
+
 **Config (env vars, all optional, sane localhost defaults):** `EMBEDDER_SERVICE_HOST`
 (`127.0.0.1`), `EMBEDDER_SERVICE_PORT` (`8791`), `EMBEDDER_SERVICE_IDLE_TIMEOUT_S` (`600`),
 `EMBEDDER_SERVICE_MAX_BODY_BYTES` (2 MB), `EMBEDDER_SERVICE_MAX_TEXTS` (256 texts/request),
