@@ -1,0 +1,9 @@
+[project]
+name = "cc00-wie-verification"
+version = "0.1.0"
+description = "Standalone test harness proving the runnable claims in workspace-integration-examples/01, 02, and 03 -- independent of supporting/enterprise-examples/."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
