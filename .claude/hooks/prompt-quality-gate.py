@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""H-P03: UserPromptSubmit — ASE Compliance Quality Gate (Python port).
+"""H-P03: UserPromptSubmit — ASGF Compliance Quality Gate (Python port).
 
 Runs FIRST in the UserPromptSubmit chain. Blocks prompts that would
-instruct agents to violate ASE governance rules, skip pipeline gates,
+instruct agents to violate ASGF governance rules, skip pipeline gates,
 override P0/P1 severity, or perform a Trim-to-Pass / force-push-to-master
 maneuver.
 
@@ -86,11 +86,11 @@ def main() -> int:
     rule_list = "\n".join(f"  * {rule}" for rule in detected)
 
     reason = (
-        "[PROMPT QUALITY GATE — H-P03] ASE Compliance Violation Detected\n\n"
+        "[PROMPT QUALITY GATE — H-P03] ASGF Compliance Violation Detected\n\n"
         "The following governance rules would be violated:\n"
         f"{rule_list}\n\n"
-        "This prompt has been blocked. Please rephrase within the ASE governance framework.\n"
-        "Reference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-engineering/governance/"
+        "This prompt has been blocked. Please rephrase within the ASGF governance framework.\n"
+        "Reference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-governance-framework/governance/"
     )
 
     output = {
