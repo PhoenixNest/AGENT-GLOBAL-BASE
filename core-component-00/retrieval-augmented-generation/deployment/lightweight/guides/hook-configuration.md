@@ -9,10 +9,12 @@
 
 > **Reference Implementation:** This guide describes one instantiation of the
 > [Phase-Adaptive Index Sync Hook pattern](core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md) —
-> specifically a post-write hook implemented in PowerShell for a Windows agent runtime using
-> Claude Code. The underlying pattern is runtime-agnostic. Engineers deploying on a different
-> runtime or OS should consult the pattern document for the portable specification and adapt
-> accordingly.
+> specifically a post-write hook implemented in Python (invoked via `uv run`, one implementation
+> for every OS since the Phase 3 hook-migration cutover) for Claude Code. Earlier versions of this
+> guide described separate PowerShell/bash implementations selected per platform; those were
+> retired in favor of the single cross-platform Python version documented here. The underlying
+> pattern is runtime-agnostic. Engineers deploying on a different runtime should consult the
+> pattern document for the portable specification and adapt accordingly.
 
 ---
 
@@ -23,7 +25,7 @@ them automatically during a running session. When an agent writes or edits a wor
 `.md` file mid-session, all subsequent `search_docs` queries return pre-edit content — a silent
 correctness failure with no error signal.
 
-**H-RAG02** (`rag-index-sync.ps1`) is a post-write hook that detects `.md` file writes to the
+**H-RAG02** (`rag-index-sync.py`) is a post-write hook that detects `.md` file writes to the
 four indexed directories and instructs the agent to call the appropriate index-update MCP tool:
 
 - **`SEARCH_BACKEND=faiss`** → instructs `rebuild_index` (full FAISS rebuild)
@@ -45,14 +47,14 @@ are scoped to the MCP server process and are not visible to hook processes).
 | **Trigger**     | File path matches a `.md` file under any KEY_DIR          |
 | **KEY_DIRS**    | `company/`, `studio/`, `core-component-00/`, `telescope/` |
 
-**Implementation-specific values** (Claude Code + PowerShell + Windows):
+**Implementation-specific values** (Claude Code + Python, cross-platform via `uv run`):
 
-| Property         | Value                                                                    |
-| ---------------- | ------------------------------------------------------------------------ |
-| **File**         | `.claude/hooks/rag-index-sync.ps1`                                       |
-| **Event name**   | `PostToolUse` on `Write` and `Edit` tool calls                           |
-| **Registration** | `.claude/settings.json` under `hooks` array for `PostToolUse` events     |
-| **State file**   | `core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json` |
+| Property         | Value                                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **File**         | `.claude/hooks/rag-index-sync.py`                                                                                                           |
+| **Event name**   | `PostToolUse` on `Write` and `Edit` tool calls                                                                                              |
+| **Registration** | `.claude/settings.json`, `PostToolUse` entry: `{"command": "uv", "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/rag-index-sync.py"]}` |
+| **State file**   | `core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json`                                                          |
 
 ---
 

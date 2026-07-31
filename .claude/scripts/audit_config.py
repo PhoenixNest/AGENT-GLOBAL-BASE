@@ -88,10 +88,11 @@ if local_path.exists():
         fail("settings.local.json parse error", str(e))
 
 effective_shell = local.get("defaultShell", settings.get("defaultShell"))
-if effective_shell == "powershell":
-    ok("defaultShell = powershell")
+if effective_shell in ("bash", "powershell"):
+    ok(f"defaultShell explicitly set to {effective_shell} (in settings.local.json)")
 else:
-    fail("defaultShell not set to powershell (checked settings.local.json, then settings.json)")
+    ok("defaultShell left unset — auto-detects per platform (bash where available, "
+       "else powershell), per CLAUDE.md §1 and the Phase 3 unified settings.json design")
 
 allow = settings.get("permissions", {}).get("allow", [])
 ps_rules = [r for r in allow if r.startswith("PowerShell(")]
@@ -105,7 +106,7 @@ else:
 
 mcp_enabled = local.get("enabledMcpjsonServers", settings.get("enabledMcpjsonServers", []))
 
-expected_servers = {"workspace-knowledge"}
+expected_servers = {"workspace-knowledge", "agent-memory"}
 if expected_servers.issubset(set(mcp_enabled)):
     ok(f"All MCP servers enabled: {sorted(mcp_enabled)}")
 else:
@@ -117,26 +118,30 @@ else:
 print("\n[3] Hooks")
 
 hooks = [
-    ".claude/hooks/prompt-quality-gate.ps1",
-    ".claude/hooks/prompt-optimizer.ps1",
-    ".claude/hooks/pipeline-context-injector.ps1",
-    ".claude/hooks/context-budget-alert.ps1",
-    ".claude/hooks/retrieval-augmented-generation-freshness-flag.ps1",
-    ".claude/hooks/harness-rate-limiter-turn-reset.ps1",
-    ".claude/hooks/prompt-gate-enforcer.ps1",
-    ".claude/hooks/harness-tool-rate-limiter.ps1",
-    ".claude/hooks/multi-agent-branch-naming-guard.ps1",
-    ".claude/hooks/multi-agent-commit-format-guard.ps1",
-    ".claude/hooks/system-shell-syntax-guard.ps1",
-    ".claude/hooks/git-line-encoding-validator.ps1",
-    ".claude/hooks/prompt-gate-clear.ps1",
-    ".claude/hooks/rag-index-sync.ps1",
-    ".claude/hooks/harness-error-boundary-monitor.ps1",
+    ".claude/hooks/prompt-quality-gate.py",
+    ".claude/hooks/prompt-optimizer.py",
+    ".claude/hooks/pipeline-context-injector.py",
+    ".claude/hooks/context-budget-alert.py",
+    ".claude/hooks/retrieval-augmented-generation-freshness-flag.py",
+    ".claude/hooks/harness-rate-limiter-turn-reset.py",
+    ".claude/hooks/prompt-gate-enforcer.py",
+    ".claude/hooks/harness-tool-rate-limiter.py",
+    ".claude/hooks/multi-agent-branch-naming-guard.py",
+    ".claude/hooks/multi-agent-commit-format-guard.py",
+    ".claude/hooks/system-shell-syntax-guard.py",
+    ".claude/hooks/git-line-encoding-validator.py",
+    ".claude/hooks/prompt-gate-clear.py",
+    ".claude/hooks/rag-index-sync.py",
+    ".claude/hooks/harness-error-boundary-monitor.py",
 ]
 for h in hooks:
     p = ROOT / h
     if p.exists():
-        ok(f"{p.name} exists")
+        try:
+            ast.parse(p.read_text(encoding="utf-8"))
+            ok(f"{p.name} exists and syntax OK")
+        except SyntaxError as e:
+            fail(f"{p.name} syntax error", str(e))
     else:
         fail(f"{p.name} missing")
 
@@ -146,6 +151,7 @@ print("\n[4] MCP servers (syntax)")
 
 servers = [
     "core-component-00/mcp-servers/workspace-knowledge/server.py",
+    "core-component-00/mcp-servers/agent-memory/server.py",
 ]
 for s in servers:
     p = ROOT / s
