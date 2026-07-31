@@ -32,10 +32,10 @@ Infrastructure Engineer, and 4 paired Research Engineer IIs). Total headcount 12
 User (CEO)
  │
  └── Dr. Elias Vance — Laboratory Director (L5)
-      │    owns: ASE governance · cross-module architecture · engineering/prompt-engineering/ (direct)
+      │    owns: ASGF governance · cross-module architecture · engineering/prompt-engineering/ (direct)
       │
       ├── Dr. Idris Farouk — Staff Research Engineer, MAE Lead (L4)
-      │    owns: engineering/multi-agent-engineering/ (lead) · ASE audit execution
+      │    owns: engineering/multi-agent-engineering/ (lead) · ASGF audit execution
       │    │
       │    └── Amina Yusuf — Senior Research Engineer II (L3)
       │         owns: engineering/multi-agent-engineering/ (fleet resilience, isolation)
@@ -87,7 +87,7 @@ Engineer IIs report to their paired module lead instead, per `recruitment-plan.m
 graph TB
     CC00(["core-component-00<br/>— LLM Engineering Laboratory —"])
     DIR["crew/<br/>Dr. Vance + 11 crew"]
-    ASE["agent-systems-engineering/<br/>«Governing Framework»"]
+    ASGF["agent-systems-governance-framework/<br/>«Governing Framework»"]
     ENG["engineering/<br/>Layers 1, 2, 3, 5"]
     PE["prompt-engineering/<br/>Layer 1 — What to write"]
     CE["context-engineering/<br/>Layer 2 — How to structure it"]
@@ -96,9 +96,9 @@ graph TB
     MAE["multi-agent-engineering/<br/>Layer 5 — How agents cooperate"]
 
     CC00 --- DIR
-    CC00 --> ASE
-    ASE --> ENG
-    ASE --> RAG
+    CC00 --> ASGF
+    ASGF --> ENG
+    ASGF --> RAG
     ENG --> PE
     ENG --> CE
     ENG --> HE
@@ -111,7 +111,7 @@ graph TB
     classDef dir fill:#515A5A,stroke:#2C3E50,color:#fff
 
     class CC00 lab
-    class ASE ase
+    class ASGF ase
     class ENG eng
     class PE,CE,HE,RAG,MAE mod
     class DIR dir
@@ -156,14 +156,14 @@ Full agent profile and skills: [`core-component-00/crew/director/elias-vance/age
 
 #### Selected Publications and Frameworks
 
-| Title                                                                                                       | Type               | Year |
-| ----------------------------------------------------------------------------------------------------------- | ------------------ | ---- |
-| _Constitutional AI: Harmlessness from AI Feedback_                                                          | Co-authored paper  | 2022 |
-| _The Six Pillars of Context Engineering_                                                                    | Internal framework | 2025 |
-| _Harness Engineering: Production Patterns for Reliable LLM Execution_                                       | Framework spec     | 2025 |
-| _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_                                 | Research note      | 2026 |
-| _Multi-Agent Context Handoff Protocols_                                                                     | Architecture spec  | 2026 |
-| [_Agent Systems Engineering: The Convergence of Four Disciplines_](./agent-systems-engineering/CONCEPTS.md) | Foundational paper | 2026 |
+| Title                                                                                                                         | Type               | Year |
+| ----------------------------------------------------------------------------------------------------------------------------- | ------------------ | ---- |
+| _Constitutional AI: Harmlessness from AI Feedback_                                                                            | Co-authored paper  | 2022 |
+| _The Six Pillars of Context Engineering_                                                                                      | Internal framework | 2025 |
+| _Harness Engineering: Production Patterns for Reliable LLM Execution_                                                         | Framework spec     | 2025 |
+| _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_                                                   | Research note      | 2026 |
+| _Multi-Agent Context Handoff Protocols_                                                                                       | Architecture spec  | 2026 |
+| [_Agent Systems Governance Framework: The Convergence of Four Disciplines_](./agent-systems-governance-framework/CONCEPTS.md) | Foundational paper | 2026 |
 
 #### Research Philosophy
 
@@ -203,7 +203,7 @@ CC-00 operates with a four-part mission:
 
 | Module                                                                                    | Layer                     | Type                             | Has Code |
 | ----------------------------------------------------------------------------------------- | ------------------------- | -------------------------------- | -------- |
-| [`agent-systems-engineering/`](./agent-systems-engineering/README.md)                     | Governing meta-layer      | Governance framework             | No       |
+| [`agent-systems-governance-framework/`](./agent-systems-governance-framework/README.md)   | Governing meta-layer      | Governance framework             | No       |
 | [`engineering/prompt-engineering/`](./engineering/prompt-engineering/README.md)           | 1 — What to write         | Knowledge base                   | No       |
 | [`engineering/context-engineering/`](./engineering/context-engineering/README.md)         | 2 — How to structure it   | Knowledge + Production framework | Yes      |
 | [`engineering/harness-engineering/`](./engineering/harness-engineering/README.md)         | 3 — How to execute safely | Production framework             | Yes      |
@@ -214,14 +214,14 @@ CC-00 operates with a four-part mission:
 
 ## The Governing Module
 
-### `agent-systems-engineering/` — Governance & Integration
+### `agent-systems-governance-framework/` — Governance & Integration
 
 The meta-module that sits above the five engineering pillars. It does not implement a
 single layer — it governs all five. It defines the compliance standard that every
 LLM-powered system must satisfy, the cross-cutting design patterns that span layer
 boundaries, and the runtime integration contracts between modules.
 
-Ratifying authority: [ADR-ASE-001](./agent-systems-engineering/governance/adr-ase-001.md) · Full module: [`agent-systems-engineering/README.md`](./agent-systems-engineering/README.md)
+Ratifying authority: [ADR-ASGF-001](./agent-systems-governance-framework/governance/adr-asgf-001.md) · Full module: [`agent-systems-governance-framework/README.md`](./agent-systems-governance-framework/README.md)
 
 ---
 
@@ -263,7 +263,7 @@ The discipline of designing, orchestrating, and operating coordinated systems of
 
 Multi-agent engineering is the orchestration layer that sits above context engineering and harness engineering — it consumes context assembly, delegates execution to the harness, and feeds knowledge back into RAG.
 
-Foundational paper: [Agent Systems Engineering: The Convergence of Four Disciplines](./agent-systems-engineering/CONCEPTS.md)
+Foundational paper: [Agent Systems Governance Framework: The Convergence of Four Disciplines](./agent-systems-governance-framework/CONCEPTS.md)
 
 ---
 
@@ -309,15 +309,15 @@ pytest engineering/multi-agent-engineering/testing/ -v
 
 ## Document Index
 
-| Module                                   | Files  | Last Updated |
-| ---------------------------------------- | ------ | ------------ |
-| `agent-systems-engineering/` (Governing) | 11     | 2026-04-30   |
-| `engineering/prompt-engineering/`        | 6      | 2026-04-24   |
-| `engineering/context-engineering/`       | 15     | 2026-04-28   |
-| `engineering/harness-engineering/`       | 11     | 2026-04-28   |
-| `retrieval-augmented-generation/`        | 25     | 2026-06-30   |
-| `engineering/multi-agent-engineering/`   | 11     | 2026-04-29   |
-| **Total**                                | **70** | —            |
+| Module                                            | Files  | Last Updated |
+| ------------------------------------------------- | ------ | ------------ |
+| `agent-systems-governance-framework/` (Governing) | 11     | 2026-04-30   |
+| `engineering/prompt-engineering/`                 | 6      | 2026-04-24   |
+| `engineering/context-engineering/`                | 15     | 2026-04-28   |
+| `engineering/harness-engineering/`                | 11     | 2026-04-28   |
+| `retrieval-augmented-generation/`                 | 25     | 2026-06-30   |
+| `engineering/multi-agent-engineering/`            | 11     | 2026-04-29   |
+| **Total**                                         | **70** | —            |
 
 ---
 

@@ -1,9 +1,9 @@
 # Inter-Agent Communication Protocol (IACP) — Casual Games Studio
 
-> **ASE Layer:** 5 — Multi-Agent Engineering + Layer 2 — Context Engineering
+> **ASGF Layer:** 5 — Multi-Agent Engineering + Layer 2 — Context Engineering
 > **Authority:** Studio Director Dr. Marcus Vogel
 > **Reference:** `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`
-> **Compliance:** `adr-ase-001.md` (studio), `core-component-00/agent-systems-engineering/governance/compliance-standard.md` §Layer 5
+> **Compliance:** `adr-asgf-001.md` (studio), `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` §Layer 5
 
 This protocol defines **how crew agents communicate** within the studio pipeline — message formats, routing rules, escalation paths, and error handling. It replaces ad-hoc coordination with a structured, predictable communication model.
 

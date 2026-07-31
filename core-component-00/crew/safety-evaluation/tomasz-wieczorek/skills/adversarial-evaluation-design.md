@@ -56,7 +56,7 @@ passively reviewing it.
 
 ## References
 
-- ASE Compliance Audit (Dr. Vance, `crew/director/elias-vance/skills/ase-compliance-audit.md`) —
+- ASGF Compliance Audit (Dr. Vance, `crew/director/elias-vance/skills/asgf-compliance-audit.md`) —
   ratification authority this role's findings feed into
-- ASE Compliance Operations (Dr. Farouk, `crew/multi-agent-engineering/idris-farouk/skills/ase-compliance-operations.md`) —
+- ASGF Compliance Operations (Dr. Farouk, `crew/multi-agent-engineering/idris-farouk/skills/asgf-compliance-operations.md`) —
   the execution role this function independently checks
