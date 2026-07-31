@@ -44,7 +44,7 @@ Query → Retrieval → Reranking → ACL Filtering → PII Masking
 
 ---
 
-## Security Controls (Mandatory for ASE Compliance)
+## Security Controls (Mandatory for ASGF Compliance)
 
 - **ACL Filtering:** Role-based access control for retrieved documents
 - **PII Masking:** Redact sensitive information before retrieval
@@ -55,7 +55,7 @@ Query → Retrieval → Reranking → ACL Filtering → PII Masking
 ## Behavior Rules
 
 1. Use hybrid retrieval in production
-2. Apply ACL filtering and PII masking (ASE compliance requirement)
+2. Apply ACL filtering and PII masking (ASGF compliance requirement)
 3. Choose appropriate chunking strategy for document type
 4. Evaluate retrieval quality using Precision@K, Recall@K, MRR, NDCG
 5. Feed agent-generated artifacts back into the knowledge base

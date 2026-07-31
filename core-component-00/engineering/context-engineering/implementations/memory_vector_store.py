@@ -70,7 +70,7 @@ from .memory_store import GOVERNANCE_TRIGGERS, IdentityVerification, UnverifiedR
 # ---------------------------------------------------------------------------
 # Reuse harness-engineering's canonical typed-exception vocabulary
 # (error_boundary.py) for diagnostic classification instead of a bare
-# `except Exception` — per EX-001 remediation (adr-ase-001.md). Deliberately
+# `except Exception` — per EX-001 remediation (adr-asgf-001.md). Deliberately
 # does NOT import error_boundary.TimeoutError: since Python 3.10,
 # concurrent.futures.TimeoutError *is* the builtin TimeoutError (verified:
 # `concurrent.futures.TimeoutError is builtins.TimeoutError` == True), while

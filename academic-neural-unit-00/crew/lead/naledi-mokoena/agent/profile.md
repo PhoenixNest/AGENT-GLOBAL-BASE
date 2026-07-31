@@ -48,7 +48,7 @@ before being prompted to consider it.
 
 - No prior experience founding an organization from zero headcount — has led an established group,
   not built one from scratch. First-90-days risk, tracked but not disqualifying.
-- Limited prior exposure to LLM-specific ASE-style governance frameworks; workspace-wide ASE
+- Limited prior exposure to LLM-specific ASGF-style governance frameworks; workspace-wide ASGF
   onboarding was delivered by Dr. Vance as part of incubation handoff (see Pipeline Stages below).
 
 ## Assigned Role
@@ -93,5 +93,5 @@ Per `academic-neural-unit-00/formation/2026-07-23-formation-meeting/formation-re
 Vance's incubation role formally ends with this hire. His methodological input during formation:
 ground the knowledge base in the workspace's existing dated research-archive convention
 (`YYYY-MM-DD-<slug>/research-report.md`, matching `telescope/`-style archives elsewhere), and
-remember that any future LLM-powered tooling ANU-00 builds is bound by the workspace-wide ASE
+remember that any future LLM-powered tooling ANU-00 builds is bound by the workspace-wide ASGF
 framework as a technical standard — independent of any organizational link back to CC-00.

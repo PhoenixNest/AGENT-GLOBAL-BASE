@@ -15,21 +15,21 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 ## The Five-Module Engineering Stack
 
-| Layer | Module                            | Type                  | Purpose                  |
-| ----- | --------------------------------- | --------------------- | ------------------------ |
+| Layer | Module                                 | Type                  | Purpose                  |
+| ----- | -------------------------------------- | --------------------- | ------------------------ |
 | 1     | `engineering/prompt-engineering/`      | Knowledge base        | What to write            |
 | 2     | `engineering/context-engineering/`     | Knowledge + Framework | How to structure it      |
 | 3     | `engineering/harness-engineering/`     | Production Framework  | How to execute safely    |
 | 4     | `retrieval-augmented-generation/`      | Production Framework  | Where to get content     |
 | 5     | `engineering/multi-agent-engineering/` | Production Framework  | How agents cooperate     |
-| Meta  | `agent-systems-engineering/`      | Governance            | Compliance & integration |
+| Meta  | `agent-systems-governance-framework/`  | Governance            | Compliance & integration |
 
 ---
 
 ## Key Production Implementations
 
-| File                                                            | Module | Purpose                                        |
-| --------------------------------------------------------------- | ------ | ---------------------------------------------- |
+| File                                                                        | Module | Purpose                                        |
+| --------------------------------------------------------------------------- | ------ | ---------------------------------------------- |
 | `engineering/context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly              |
 | `engineering/context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory |
 | `engineering/context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                       |
@@ -57,12 +57,12 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 ## Quick Navigation
 
-| I want to…                      | Go to                                                            |
-| ------------------------------- | ---------------------------------------------------------------- |
-| Understand the full laboratory  | `core-component-00/README.md`                                    |
-| Learn about ASE governance      | `core-component-00/agent-systems-engineering/README.md`          |
+| I want to…                      | Go to                                                                 |
+| ------------------------------- | --------------------------------------------------------------------- |
+| Understand the full laboratory  | `core-component-00/README.md`                                         |
+| Learn about ASGF governance     | `core-component-00/agent-systems-governance-framework/README.md`      |
 | Design context windows          | `core-component-00/engineering/context-engineering/fundamentals/`     |
 | Implement error boundaries      | `core-component-00/engineering/harness-engineering/implementations/`  |
 | Build RAG pipelines             | `core-component-00/retrieval-augmented-generation/architecture/`      |
 | Orchestrate multi-agent systems | `core-component-00/engineering/multi-agent-engineering/fundamentals/` |
-| Document research findings      | `core-component-00/telescope/README.md`                          |
+| Document research findings      | `core-component-00/telescope/README.md`                               |

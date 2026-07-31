@@ -8,7 +8,7 @@ Entry point for the Core Component 00 applied research laboratory. Read this bef
 
 CC-00 is the organisation's centralised LLM engineering laboratory and the foundational dependency
 for every agent-powered system built here. It houses five engineering modules plus a governing
-meta-layer (ASE), production-grade Python implementations, and active research programmes.
+meta-layer (ASGF), production-grade Python implementations, and active research programmes.
 
 The **only runnable code in this entire workspace** lives under `core-component-00/`. Everything
 else in the repository is Markdown documentation.
@@ -40,8 +40,8 @@ protocol: `crew/README.md` and `crew/CLAUDE.md`.
 | 4 — Where to get content  | `retrieval-augmented-generation/`      | Production Framework  | Yes        |
 | 5 — How agents cooperate  | `engineering/multi-agent-engineering/` | Production Framework  | Yes        |
 
-ASE (Agent Systems Engineering) is the **meta-layer above all five** — not a sixth module. See
-`agent-systems-engineering/`.
+ASGF (Agent Systems Governance Framework) is the **meta-layer above all five** — not a sixth module. See
+`agent-systems-governance-framework/`.
 
 ---
 
@@ -94,32 +94,32 @@ Parallel workers: `pytest -n <N>` — keep N ≤ 10 on this machine (i9-13900H, 
 
 ---
 
-## ASE Governance (Mandatory)
+## ASGF Governance (Mandatory)
 
-All LLM-powered systems built in this workspace are bound by the ASE framework — ratified via
-`ADR-ASE-001`. Build new systems on CC-00 patterns; do not invent ad-hoc approaches.
+All LLM-powered systems built in this workspace are bound by the ASGF framework — ratified via
+`ADR-ASGF-001`. Build new systems on CC-00 patterns; do not invent ad-hoc approaches.
 
-Governing documents: `agent-systems-engineering/governance/`
+Governing documents: `agent-systems-governance-framework/governance/`
 
 > **Note (2026-07-16):** `prompt-engineering/`, `context-engineering/`, `harness-engineering/`, and
 > `multi-agent-engineering/` were relocated under `engineering/` on this date.
-> `retrieval-augmented-generation/` and `agent-systems-engineering/` were not moved.
+> `retrieval-augmented-generation/` and `agent-systems-governance-framework/` were not moved.
 
 ---
 
 ## Where to Look
 
-| I need…                                             | Go to                                   |
-| --------------------------------------------------- | --------------------------------------- |
-| Full lab overview + researcher profile              | `README.md`                             |
-| Governing framework + compliance                    | `agent-systems-engineering/`            |
-| Synthesis of all five layers                        | `agent-systems-engineering/CONCEPTS.md` |
-| Prompt patterns                                     | `engineering/prompt-engineering/`       |
-| Context window architecture                         | `engineering/context-engineering/`      |
-| Safe model execution                                | `engineering/harness-engineering/`      |
-| RAG pipelines                                       | `retrieval-augmented-generation/`       |
-| Multi-agent / swarm systems                         | `engineering/multi-agent-engineering/`  |
-| MCP server implementations (deployment surface)     | `mcp-servers/`                          |
-| Lab Director persona + crew roster                  | `crew/`                                 |
-| Research reports (CC-00 engineering + LLM research) | `telescope/`                            |
-| Cross-cutting / workspace-wide research             | `../telescope/` (workspace root)        |
+| I need…                                             | Go to                                            |
+| --------------------------------------------------- | ------------------------------------------------ |
+| Full lab overview + researcher profile              | `README.md`                                      |
+| Governing framework + compliance                    | `agent-systems-governance-framework/`            |
+| Synthesis of all five layers                        | `agent-systems-governance-framework/CONCEPTS.md` |
+| Prompt patterns                                     | `engineering/prompt-engineering/`                |
+| Context window architecture                         | `engineering/context-engineering/`               |
+| Safe model execution                                | `engineering/harness-engineering/`               |
+| RAG pipelines                                       | `retrieval-augmented-generation/`                |
+| Multi-agent / swarm systems                         | `engineering/multi-agent-engineering/`           |
+| MCP server implementations (deployment surface)     | `mcp-servers/`                                   |
+| Lab Director persona + crew roster                  | `crew/`                                          |
+| Research reports (CC-00 engineering + LLM research) | `telescope/`                                     |
+| Cross-cutting / workspace-wide research             | `../telescope/` (workspace root)                 |

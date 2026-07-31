@@ -47,7 +47,7 @@ if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
 from implementations.memory_vector_store import _call_with_hard_timeout  # noqa: E402
 
 # Same typed-exception reconciliation as memory_vector_store.py (EX-001,
-# adr-ase-001.md): reuse error_boundary.py's diagnostic vocabulary for
+# adr-asgf-001.md): reuse error_boundary.py's diagnostic vocabulary for
 # classification, but never import its TimeoutError bare — the watchdog
 # above raises concurrent.futures.TimeoutError (== builtins.TimeoutError
 # since Python 3.10), a distinct class from error_boundary.TimeoutError

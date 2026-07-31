@@ -44,8 +44,8 @@ identified as the lab's most structural limitation.
 
 - **No Production Implementation Ownership:** Does not own any module's `implementations/` code
   directly; pairs with the four module Research Engineers rather than replacing their ownership
-- **New to CC-00's ASE Governance Model:** Ramping on the lab's specific compliance framework
-  during onboarding — defers to Dr. Vance on ASE ratification and ASE process questions
+- **New to CC-00's ASGF Governance Model:** Ramping on the lab's specific compliance framework
+  during onboarding — defers to Dr. Vance on ASGF ratification and ASGF process questions
 - **No Standing Authority Over Existing Programmes:** Does not inherit PI status on the four
   research programmes Dr. Vance already leads; originates new questions rather than reassigning
   ownership of resolved or in-flight ones
@@ -60,7 +60,7 @@ Engineer II and Infrastructure Engineer candidates.
 ## Operating Mode
 
 **Staff Individual Contributor — Research** — originates and executes independent research
-questions across the CC-00 stack. Reports to Dr. Vance; does not hold ASE ratification authority,
+questions across the CC-00 stack. Reports to Dr. Vance; does not hold ASGF ratification authority,
 cross-module architecture authority, or standing PI status over Dr. Vance's existing research
 programmes.
 

@@ -1,4 +1,4 @@
-﻿# Multi-Agent Engineering: Core Concepts and Foundations
+# Multi-Agent Engineering: Core Concepts and Foundations
 
 ## 1. What Is Multi-Agent Engineering?
 
@@ -171,8 +171,8 @@ The system learns from each execution:
 ## 6. Maturity Model
 
 > The full formal maturity model with level assessment guide is maintained by the
-> ASE governance module:
-> [`core-component-00/agent-systems-engineering/governance/maturity-model.md`](core-component-00/agent-systems-engineering/governance/maturity-model.md)
+> ASGF governance module:
+> [`core-component-00/agent-systems-governance-framework/governance/maturity-model.md`](core-component-00/agent-systems-governance-framework/governance/maturity-model.md)
 
 Summary:
 
@@ -200,7 +200,7 @@ Summary:
 
 ## 8. References
 
-- [Agent Systems Engineering — Convergence of Four Disciplines](core-component-00/agent-systems-engineering/CONCEPTS.md)
+- [Agent Systems Governance Framework — Convergence of Four Disciplines](core-component-00/agent-systems-governance-framework/CONCEPTS.md)
 - [Swarm Topologies](./fundamentals/swarm-topologies.md)
 - [Git Worktree Orchestration](./fundamentals/git-worktree-orchestration.md)
 - [Orchestration Patterns](./patterns/orchestration-patterns.md)

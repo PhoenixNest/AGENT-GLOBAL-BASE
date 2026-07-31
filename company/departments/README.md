@@ -1,4 +1,4 @@
-﻿# Departments
+# Departments
 
 This directory contains all company departments. Each department holds a `supervisor/` directory for its C-suite lead (placed before recruitment) and a `team/` directory for subsequently recruited personnel, split into `supervisors/` and `teammates/` by seniority tier.
 
@@ -357,7 +357,7 @@ Team Teammates: 45 individual contributors across Android, iOS, Cross-Platform, 
 
 **Mandatory rules for any agent creating, promoting, or relocating a profile.**
 
-This protocol exists to prevent structural drift — where a profile's filesystem tier diverges from its roster tier label. This class of defect escaped detection during the initial ASE audit and required a post-plan deep-check to surface.
+This protocol exists to prevent structural drift — where a profile's filesystem tier diverges from its roster tier label. This class of defect escaped detection during the initial ASGF audit and required a post-plan deep-check to surface.
 
 ### Canonical Path Rules
 

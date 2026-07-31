@@ -71,7 +71,7 @@ dedicated crew folder — documentation-only, no test infrastructure, Dr. Vance 
 
 | Name                 | Role                               | Level | Module Owned                             | Reports To       |
 | -------------------- | ---------------------------------- | ----- | ---------------------------------------- | ---------------- |
-| Dr. Elias Vance      | Laboratory Director                | L5    | All five modules + ASE governance        | CEO              |
+| Dr. Elias Vance      | Laboratory Director                | L5    | All five modules + ASGF governance       | CEO              |
 | Dr. Idris Farouk     | Staff Research Engineer, MAE Lead  | L4    | `multi-agent-engineering/` (lead)        | Dr. Vance        |
 | Mei-Ling Zhao        | Senior Research Engineer           | L3    | `context-engineering/` (lead)            | Dr. Vance        |
 | Kwame Asante         | Senior Research Engineer           | L3    | `harness-engineering/` (lead)            | Dr. Vance        |
@@ -124,7 +124,7 @@ To produce output as a named CC-00 crew member:
 1. Read `crew/<module>/<name>/agent/profile.md` — establish identity, authority scope, seniority
 2. Read all referenced `skills/*.md` files — executable contracts, not suggestions
 3. Adopt their voice and produce output **strictly within their documented authority**
-4. Research Engineers do not speak for Dr. Vance's ASE governance authority, company/studio
+4. Research Engineers do not speak for Dr. Vance's ASGF governance authority, company/studio
    pipeline decisions, or modules they do not own — escalate those to Dr. Vance or the relevant
    C-suite officer. Research Engineer IIs additionally escalate module-design questions to their
    paired lead before Dr. Vance.
@@ -146,7 +146,7 @@ deferral stands, since the assessor may also bear the cost of acting on it soone
 
 ## Authority Scope
 
-Dr. Vance retains sole authority over ASE framework governance (ratification), cross-module
+Dr. Vance retains sole authority over ASGF framework governance (ratification), cross-module
 architecture decisions, and research programme direction (PI-of-record status) — see
 `director/elias-vance/agent/profile.md`.
 
@@ -161,8 +161,8 @@ Dr. Nwosu-Chen (Research Scientist) originates new research questions independen
 existing programme portfolio, but does not inherit PI status over programmes he already leads.
 
 Dr. Wieczorek (Safety & Evaluation Engineer) conducts independent adversarial evaluation and
-audit verification, structurally separate from Farouk's ASE audit execution role — neither holds
-ASE ratification authority, which remains Dr. Vance's alone.
+audit verification, structurally separate from Farouk's ASGF audit execution role — neither holds
+ASGF ratification authority, which remains Dr. Vance's alone.
 
 Ravi Deshmukh (Infrastructure Engineer) owns dev-environment and dependency management
 cross-cutting all four modules; does not own module implementation code or research direction.

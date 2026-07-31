@@ -1,4 +1,4 @@
-﻿# Casual Games Studio
+# Casual Games Studio
 
 Dedicated mobile game studio within the organization — focused on casual mini-games using the Unity game engine.
 
@@ -13,21 +13,21 @@ casual-games/
 ├── pipeline/                   # Game studio development workflow
 │   ├── casual-games-pipeline.md  # 11-stage pipeline (Stage 0–10)
 │   └── templates/              # Stage and monitoring templates
-│       ├── agent-behavioral-constraints.md   # ASE L1: forbidden behaviours binding on all studio agents
-│       ├── monitoring/         # ASE compliance monitoring suite
+│       ├── agent-behavioral-constraints.md   # ASGF L1: forbidden behaviours binding on all studio agents
+│       ├── monitoring/         # ASGF compliance monitoring suite
 │       │   ├── progress.md                   # Real-time stage state
 │       │   ├── session-log.md                # Audit trail
 │       │   ├── checkpoint.json               # Machine-readable milestones
 │       │   ├── stage-transition-summary.md   # CC-00 handoff-tier-aware gate summary
 │       │   ├── kill-gate-report.md           # Kill gate decision package for User
-│       │   ├── mvc-context-profile.md        # ASE L2: four-slot token budget per stage
-│       │   ├── harness-config.md             # ASE L3: timeout, retry, PII, tool registry
-│       │   ├── adr-ase-001.md                # ASE governance adoption (L4 exception documented)
-│       │   ├── stage-transition-schemas.md   # ASE L5: JSON schema contracts for all kill gates
-│       │   ├── inter-agent-communication-protocol.md  # ASE L5: message formats, routing, git worktree
-│       │   ├── knowledge-transfer-protocol.md         # ASE L2/L4: 3-tier knowledge model
-│       │   ├── schema-validation-spec.md     # ASE L3: automated gate validation rules
-│       │   └── rag-integration-blueprint.md  # ASE L4: intentional-absence rationale + trigger conditions
+│       │   ├── mvc-context-profile.md        # ASGF L2: four-slot token budget per stage
+│       │   ├── harness-config.md             # ASGF L3: timeout, retry, PII, tool registry
+│       │   ├── adr-asgf-001.md                # ASGF governance adoption (L4 exception documented)
+│       │   ├── stage-transition-schemas.md   # ASGF L5: JSON schema contracts for all kill gates
+│       │   ├── inter-agent-communication-protocol.md  # ASGF L5: message formats, routing, git worktree
+│       │   ├── knowledge-transfer-protocol.md         # ASGF L2/L4: 3-tier knowledge model
+│       │   ├── schema-validation-spec.md     # ASGF L3: automated gate validation rules
+│       │   └── rag-integration-blueprint.md  # ASGF L4: intentional-absence rationale + trigger conditions
 │       ├── stage-1-concept/    # GDD-TEMPLATE · PRD-TEMPLATE · SRD-TEMPLATE
 │       ├── stage-2-prototype/  # PROTOTYPE-BUILD-CHECKLIST · GDS-TEMPLATE
 │       ├── stage-3-vertical-slice/  # ADR-GAME-ARCHITECTURE · TSD · VERTICAL-SLICE-CRITERIA
@@ -44,14 +44,14 @@ casual-games/
 
 ## Key Documents
 
-| Document            | Location                                                         | Description                                                                                                                                                                                                                                                                                                                                                                 |
-| ------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Strategic Brief** | `library/overview/casual-games-studio.md`                        | C-suite assessment — product, technical, design, security, and organizational perspectives                                                                                                                                                                                                                                                                                  |
-| **Asset Strategy**  | `library/topics/game-asset-strategy.md`                          | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence                                                                                                                                                                                                                                                                              |
-| **Pipeline**        | `pipeline/casual-games-pipeline.md`                              | Complete game studio workflow — 11 stages from art direction through live ops                                                                                                                                                                                                                                                                                               |
-| **Monitoring**      | `pipeline/templates/monitoring/`                                 | Full ASE compliance suite: `progress.md`, `session-log.md`, `checkpoint.json`, `stage-transition-summary.md`, `kill-gate-report.md`, `mvc-context-profile.md`, `harness-config.md`, `adr-ase-001.md`, `stage-transition-schemas.md`, `inter-agent-communication-protocol.md`, `knowledge-transfer-protocol.md`, `schema-validation-spec.md`, `rag-integration-blueprint.md` |
-| **Stage Templates** | `pipeline/templates/stage-1-concept/` → `stage-9-global-launch/` | 17 artifact templates covering all pipeline stages before Live Ops                                                                                                                                                                                                                                                                                                          |
-| **Live Ops**        | `pipeline/templates/stage-10-live-ops/`                          | `QBR-REPORT.md` — quarterly business review with sunset/maintenance/full-investment routing                                                                                                                                                                                                                                                                                 |
+| Document            | Location                                                         | Description                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Strategic Brief** | `library/overview/casual-games-studio.md`                        | C-suite assessment — product, technical, design, security, and organizational perspectives                                                                                                                                                                                                                                                                                    |
+| **Asset Strategy**  | `library/topics/game-asset-strategy.md`                          | Free, commercially-licensed asset sourcing framework — SBOM, security review, visual coherence                                                                                                                                                                                                                                                                                |
+| **Pipeline**        | `pipeline/casual-games-pipeline.md`                              | Complete game studio workflow — 11 stages from art direction through live ops                                                                                                                                                                                                                                                                                                 |
+| **Monitoring**      | `pipeline/templates/monitoring/`                                 | Full ASGF compliance suite: `progress.md`, `session-log.md`, `checkpoint.json`, `stage-transition-summary.md`, `kill-gate-report.md`, `mvc-context-profile.md`, `harness-config.md`, `adr-asgf-001.md`, `stage-transition-schemas.md`, `inter-agent-communication-protocol.md`, `knowledge-transfer-protocol.md`, `schema-validation-spec.md`, `rag-integration-blueprint.md` |
+| **Stage Templates** | `pipeline/templates/stage-1-concept/` → `stage-9-global-launch/` | 17 artifact templates covering all pipeline stages before Live Ops                                                                                                                                                                                                                                                                                                            |
+| **Live Ops**        | `pipeline/templates/stage-10-live-ops/`                          | `QBR-REPORT.md` — quarterly business review with sunset/maintenance/full-investment routing                                                                                                                                                                                                                                                                                   |
 
 ## Crew Hierarchy
 

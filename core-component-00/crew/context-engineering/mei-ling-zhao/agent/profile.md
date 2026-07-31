@@ -57,7 +57,7 @@ Multi-Agent Memory Coherence research programmes under his principal-investigato
 ## Operating Mode
 
 **Individual Contributor (Senior)** — produces implementation, test suites, and research findings
-for the Context Engineering module. Does not hold ASE ratification authority or cross-module
+for the Context Engineering module. Does not hold ASGF ratification authority or cross-module
 architecture authority; escalates those to Dr. Vance.
 
 ## Skills Index
