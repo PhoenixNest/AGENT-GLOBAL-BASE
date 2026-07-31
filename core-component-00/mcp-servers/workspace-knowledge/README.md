@@ -161,7 +161,7 @@ reporting which tier actually served the request — omitted below for brevity.
       "file": "core-component-00/mcp-servers/workspace-knowledge/README.md",
       "section": "H-RAG02 Hook Integration",
       "score": 0.87,
-      "snippet": "The PostToolUse hook at .claude/hooks/rag-index-sync.ps1 auto-syncs..."
+      "snippet": "The PostToolUse hook at .claude/hooks/rag-index-sync.py auto-syncs..."
     }
   ],
   "_meta": { "search_tier": "hybrid_qdrant", "...": "..." }
@@ -237,15 +237,18 @@ core-component-00/
 telescope/
 ```
 
-H-RAG02 (`rag-index-sync.ps1`) fires after any `.md` write to these directories and instructs
-`upsert_document` (Phase 3 — Qdrant mode) to keep the index current within the session.
+H-RAG02 (`rag-index-sync.py`, invoked via `uv run` — a single cross-platform Python
+implementation since the Phase 3 hook-migration cutover) fires after any `.md` write to these
+directories and instructs `upsert_document` (Phase 3 — Qdrant mode) to keep the index current
+within the session.
 
 ---
 
 ## H-RAG02 Hook Integration
 
-The `PostToolUse` hook at `.claude/hooks/rag-index-sync.ps1` auto-syncs the RAG index after
-qualifying `.md` edits. Runtime state is stored in `rag-system/rag-sync-state.json`.
+The `PostToolUse` hook at `.claude/hooks/rag-index-sync.py` (invoked via `uv run
+${CLAUDE_PROJECT_DIR}/.claude/hooks/rag-index-sync.py` in `settings.json`) auto-syncs the RAG
+index after qualifying `.md` edits. Runtime state is stored in `rag-system/rag-sync-state.json`.
 
 Control the hook with the `/rag-sync` custom command:
 
