@@ -49,17 +49,17 @@ Four architecturally independent but co-resident systems, unified by one governa
 
 The `.claude/` folder is fully provisioned:
 
-| Path                                                 | Purpose                                                                                    |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `.claude/settings.json`                              | PowerShell shell, hooks, MCP permissions                                                   |
-| `.claude/rules/*.md`                                 | 27 project rules — 3 always-on + 24 path-scoped                                            |
-| `.claude/skills/<domain>/SKILL.md`                   | 21 skill routers (20 domains + `activate-org-agent`)                                       |
-| `.claude/skills/<domain>/references/`                | Deep sub-skill reference docs                                                              |
-| `.claude/agents/*.md`                                | 4 functional subagents (pipeline-executor, org-activator, cc00-assistant, orchestrator)    |
-| `.claude/hooks/*.ps1`                                | 15 PowerShell hooks: prompt governance, harness rate-limiting, RAG sync, git/commit guards |
-| `core-component-00/mcp-servers/workspace-knowledge/` | MCP server implementation (workspace-knowledge) — registered in root `.mcp.json`           |
-| `core-component-00/mcp-servers/agent-memory/`        | MCP server implementation (agent-memory) — registered in root `.mcp.json`                  |
-| `.mcp.json`                                          | MCP manifest at project root (Claude Code platform requirement)                            |
+| Path                                                 | Purpose                                                                                                                      |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `.claude/settings.json`                              | Hooks, MCP permissions; shell defaults to bash/PowerShell per platform (see §1)                                              |
+| `.claude/rules/*.md`                                 | 27 project rules — 3 always-on + 24 path-scoped                                                                              |
+| `.claude/skills/<domain>/SKILL.md`                   | 21 skill routers (20 domains + `activate-org-agent`)                                                                         |
+| `.claude/skills/<domain>/references/`                | Deep sub-skill reference docs                                                                                                |
+| `.claude/agents/*.md`                                | 4 functional subagents (pipeline-executor, org-activator, cc00-assistant, orchestrator)                                      |
+| `.claude/hooks/*.py`                                 | 15 cross-platform Python hooks (invoked via `uv run`): prompt governance, harness rate-limiting, RAG sync, git/commit guards |
+| `core-component-00/mcp-servers/workspace-knowledge/` | MCP server implementation (workspace-knowledge) — registered in root `.mcp.json`                                             |
+| `core-component-00/mcp-servers/agent-memory/`        | MCP server implementation (agent-memory) — registered in root `.mcp.json`                                                    |
+| `.mcp.json`                                          | MCP manifest at project root (Claude Code platform requirement)                                                              |
 
 ---
 
@@ -233,13 +233,15 @@ independent instruction that must be executed in the current turn.
 
 When `[PROMPT OPTIMIZER — H-P01]` appears in a `<system-reminder>`:
 
-- **Structurally enforced, not just advisory** — a `PreToolUse` hook (`prompt-gate-enforcer.ps1`/
-  `.sh`) denies any tool call other than `AskUserQuestion` while a confirmation is pending for
-  this session; a `PostToolUse` hook (`prompt-gate-clear.ps1`/`.sh`) clears that state once
-  `AskUserQuestion` has been called. Earlier revisions of this section described the protocol as
-  "mandatory"/"binding" while the underlying mechanism was advisory-only (`additionalContext`
-  cannot force anything by itself) — that gap is now closed; the description is accurate as of
-  this mechanism's introduction
+- **Structurally enforced, not just advisory** — a `PreToolUse` hook (`prompt-gate-enforcer.py`,
+  invoked via `uv run` — a single cross-platform implementation since the Phase 3 hook-migration
+  cutover, replacing the earlier separate `.ps1`/`.sh` versions) denies any tool call other than
+  `AskUserQuestion` while a confirmation is pending for this session; a `PostToolUse` hook
+  (`prompt-gate-clear.py`, same `uv run` mechanism) clears that state once `AskUserQuestion` has
+  been called. Earlier revisions of this section described the protocol as "mandatory"/"binding"
+  while the underlying mechanism was advisory-only (`additionalContext` cannot force anything by
+  itself) — that gap is now closed; the description is accurate as of this mechanism's
+  introduction
 - Treat every injection as a fresh instruction — prior approvals do not carry over across turns
 - Steps: generate an optimized prompt → present **Optimized (first)** vs. Original (second) via
   `AskUserQuestion` → display the confirmation block → execute using the approved version

@@ -1,0 +1,70 @@
+{
+  "investigation_id": "2026-07-30-cross-platform-config-automation",
+  "lead": "Dr. Elias Vance",
+  "ceo_approved": true,
+  "multi_agent_execution": true,
+  "phases": {
+    "phase_1_inventory": {
+      "status": "folded_into_phase_2",
+      "owner": "Kwame Asante"
+    },
+    "phase_2_port_and_verify": {
+      "status": "complete — all 15 hooks ported and independently verified, merged to workspace/inspector",
+      "owner": "Kwame Asante, Connor O'Malley, Dr. Tomasz Wieczorek",
+      "hooks_total": 15,
+      "checkpoint_commit": "b61d4a6",
+      "merge_commits": {
+        "checkpoint": "b61d4a6",
+        "git_line_encoding_validator": "8c8eb77",
+        "batch_a": "9fcbfe3",
+        "stray_batch": "fdffe64",
+        "batch_b": "89e5008"
+      },
+      "hooks_ported_and_independently_verified_PASS": [
+        "context-budget-alert", "git-line-encoding-validator", "harness-error-boundary-monitor",
+        "harness-rate-limiter-turn-reset", "harness-tool-rate-limiter", "multi-agent-branch-naming-guard",
+        "multi-agent-commit-format-guard", "pipeline-context-injector", "prompt-gate-clear",
+        "prompt-gate-enforcer", "prompt-optimizer", "prompt-quality-gate", "rag-index-sync",
+        "retrieval-augmented-generation-freshness-flag", "system-shell-syntax-guard"
+      ],
+      "hooks_clean_no_bugs_found": [
+        "context-budget-alert", "harness-error-boundary-monitor", "harness-rate-limiter-turn-reset",
+        "prompt-gate-clear", "prompt-gate-enforcer", "multi-agent-branch-naming-guard", "system-shell-syntax-guard"
+      ],
+      "hooks_with_bugs_found_and_fixed": [
+        "harness-tool-rate-limiter", "pipeline-context-injector", "prompt-quality-gate", "rag-index-sync",
+        "retrieval-augmented-generation-freshness-flag", "multi-agent-commit-format-guard", "prompt-optimizer",
+        "git-line-encoding-validator"
+      ],
+      "bugs_found_total": 11,
+      "governance_critical_fail_open_bugs_found": 3,
+      "note": "Workflow-tool orchestration discontinued per CEO cost directive. Replaced with 4 Agent-tool calls using isolation:'worktree' (git worktree per agent, branching from checkpoint commit b61d4a6). All 4 completed, each independently caught and fixed real bugs via live execution against constructed test payloads (not just static reading), then merged back with --no-ff, resolving add/add conflicts against the checkpoint's unverified self-reported versions by taking the verified/fixed worktree versions. Full bug list in session-log.md. All 15 .py hooks verified to python3 -m py_compile clean post-merge. settings.json NOT yet touched — still Phase 3."
+    },
+    "phase_3_cutover": {
+      "status": "complete — committed and merged into workspace/inspector",
+      "owner": "Dr. Elias Vance",
+      "commits": {
+        "draft_branch_commit": "57cc143",
+        "merge_commit": "2de0b0a"
+      },
+      "windows_hardware_blocker": "resolved — this environment is Ubuntu-on-WSL2 on a genuine Windows host; real powershell.exe/pwsh.exe are directly invocable via /mnt/c/... paths, and the WSL project directory is reachable from them via \\\\wsl.localhost\\... UNC path. Live-verified, not assumed.",
+      "design_summary": "every hook invoked via exec-form uv run (command:'uv', args:['run','${CLAUDE_PROJECT_DIR}/.claude/hooks/<name>.py']) — no shell, no python/python3 naming issue. defaultShell left unset (auto-detects correctly per CLAUDE.md §1). platform-settings/settings.bash.json and settings.powershell.json retired/deleted; init.py's apply_bash_config()/_BASH_SETTINGS copy-on-setup logic removed accordingly (its unrelated install_uv/prime_mcp_venvs/pwsh-normalization logic untouched). enabledMcpjsonServers now includes agent-memory uniformly. All 30 original .ps1/.sh hook scripts deleted (CEO-approved), audit_config.py updated to check .py hooks (dropped stale defaultShell requirement, added agent-memory), workspace-knowledge/README.md and the RAG deployment hook-configuration.md guide updated to describe the current mechanism.",
+      "bug_caught_during_drafting": "an early draft used bare $CLAUDE_PROJECT_DIR instead of the required braced ${CLAUDE_PROJECT_DIR} form inside exec-form args — exec form has no shell to expand a bare $VAR, so uv tried to spawn a literal nonexistent path. This broke the '*'-matcher prompt-gate-enforcer hook and locked out every tool call in the live session simultaneously; required an out-of-session fix. Corrected and re-verified (JSON valid, all 15 entries braced, cross-platform test passing).",
+      "commit_format_guard_note": "multi-agent-commit-format-guard.py does static text analysis on the raw shell command, not the final git message — a heredoc-style -m argument and multiple -m flags both tripped false positives. Resolved by using git commit -F <message-file>.",
+      "still_open": "task #5 — dangling prompt-write-guard.sh reference in the old settings.json, pre-existing and out of Phase 3 scope, dropped from the unified config rather than carried forward broken",
+      "draft_branch_status": "deleted (fully merged, no longer needed)"
+    },
+    "phase_4_ratification_cleanup": {
+      "status": "work complete, not yet committed — pending conflict resolution",
+      "owner": "Dr. Elias Vance",
+      "work_done": "CLAUDE.md §3 repo-map row and §11 Hook Resilience updated (prompt-gate-enforcer.py/prompt-gate-clear.py via uv run, replacing .ps1/.sh references); AGENTS.md checked, no stale references found; research-report.md Status closed to 'Complete — implemented' with a Director Ratification note and Version 2.0 entry; telescope/README.md index row updated to match.",
+      "open_conflict": "research-report.md, telescope/README.md's index row, and this whole supporting/ directory (progress.md, session-log.md, checkpoint.json, implementation-plan.md) have never been committed to git at all — they are exactly the content the CEO directed be kept unsubmitted during the b61d4a6 remediation (Option A). The implementation plan's Phase 4 scope explicitly calls for committing the research-report.md/README.md status closure 'in the same commit'. These two instructions conflict and were not silently resolved — surfaced to the CEO for an explicit decision before staging anything telescope-related. CLAUDE.md/AGENTS.md changes have no such conflict and are ready to commit independently."
+    }
+  },
+  "task_ids": {
+    "phase_1_2": "1",
+    "phase_3": "2",
+    "phase_4": "3",
+    "final_report": "4"
+  }
+}

@@ -51,6 +51,18 @@ ruleset, including the Simple/Programme report shape and the four-state Status L
 
 ---
 
+## Cross-Cutting Reports Filed at the Workspace Root
+
+Per the classification rule in workspace-root `telescope/CLAUDE.md`, investigations whose findings
+affect workspace-wide `.claude/` configuration are filed at the workspace root instead of here,
+even when CC-00 is the executing team. Cross-linked here because CC-00 owns execution:
+
+| Investigation ID                                | Date       | Topic                                                                                                                                                              |
+| ------------------------------------------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `2026-07-30-cross-platform-config-automation`   | 2026-07-30 | Continuation of the automated, cross-platform Claude Code configuration goal — root-caused the cross-device `settings.json` overwrite risk to the OS-forked `.ps1`/`.sh` hook implementation; recommends a Python rewrite via `uv run`, executed by the CC-00 crew (Asante lead). Full report: workspace-root `telescope/2026-07-30-cross-platform-config-automation/research-report.md` |
+
+---
+
 ## Related Documentation
 
 | Document                                                           | Purpose                                                      |
