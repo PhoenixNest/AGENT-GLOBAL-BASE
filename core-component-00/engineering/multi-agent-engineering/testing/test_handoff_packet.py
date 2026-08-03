@@ -111,6 +111,81 @@ class TestValidation:
         issues = packet.validate()
         assert "Minimal tier should not include conversation_history" in issues
 
+    # -- Fleet-origin check for conversation_history (GSMSE remediation T15) --
+
+    def test_all_turns_matching_fleet_no_cross_fleet_issue(self):
+        packet = HandoffPacket(
+            tier=HandoffTier.SCOPED,
+            task="Build something",
+            conversation_history=[
+                {"role": "user", "content": "hi", "fleet_id": "fleet-a"},
+                {"role": "assistant", "content": "hello", "fleet_id": "fleet-a"},
+            ],
+        )
+        issues = packet.validate(expected_fleet_id="fleet-a")
+        assert issues == []
+
+    def test_single_cross_fleet_turn_flagged_with_index_and_ids(self):
+        packet = HandoffPacket(
+            tier=HandoffTier.SCOPED,
+            task="Build something",
+            conversation_history=[
+                {"role": "user", "content": "hi", "fleet_id": "fleet-a"},
+                {"role": "assistant", "content": "hello", "fleet_id": "fleet-b"},
+            ],
+        )
+        issues = packet.validate(expected_fleet_id="fleet-a")
+        assert len(issues) == 1
+        assert "conversation_history[1]" in issues[0]
+        assert "fleet='fleet-b'" in issues[0]
+        assert "expected='fleet-a'" in issues[0]
+
+    def test_multiple_cross_fleet_turns_each_flagged_separately(self):
+        packet = HandoffPacket(
+            tier=HandoffTier.SCOPED,
+            task="Build something",
+            conversation_history=[
+                {"role": "user", "content": "a", "fleet_id": "fleet-b"},
+                {"role": "assistant", "content": "b", "fleet_id": "fleet-a"},
+                {"role": "user", "content": "c", "fleet_id": "fleet-c"},
+            ],
+        )
+        issues = packet.validate(expected_fleet_id="fleet-a")
+        assert len(issues) == 2
+        assert "conversation_history[0]" in issues[0]
+        assert "fleet='fleet-b'" in issues[0]
+        assert "conversation_history[2]" in issues[1]
+        assert "fleet='fleet-c'" in issues[1]
+
+    def test_turn_missing_fleet_id_not_flagged(self):
+        # ACTUAL current behavior: validate()'s `if turn_fleet is not None` guard means a
+        # turn that omits the "fleet_id" key entirely (turn.get("fleet_id") -> None) is
+        # silently treated as compliant rather than as an unverified/suspect origin. This
+        # looks like a potential gap for separate triage (a turn could omit fleet_id to
+        # bypass the cross-fleet check), but per task instructions this test asserts the
+        # ACTUAL behavior rather than fixing or asserting the "safer" behavior.
+        packet = HandoffPacket(
+            tier=HandoffTier.SCOPED,
+            task="Build something",
+            conversation_history=[
+                {"role": "user", "content": "hi"},
+            ],
+        )
+        issues = packet.validate(expected_fleet_id="fleet-a")
+        assert issues == []
+
+    def test_expected_fleet_id_none_skips_cross_fleet_check(self):
+        packet = HandoffPacket(
+            tier=HandoffTier.SCOPED,
+            task="Build something",
+            conversation_history=[
+                {"role": "user", "content": "a", "fleet_id": "fleet-b"},
+                {"role": "assistant", "content": "b", "fleet_id": "fleet-c"},
+            ],
+        )
+        issues = packet.validate()
+        assert issues == []
+
 
 class TestTokenEstimation:
     def test_basic_estimate(self):
