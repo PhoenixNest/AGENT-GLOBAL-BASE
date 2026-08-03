@@ -1,0 +1,177 @@
+{
+  "investigation_id": "2026-07-28-reflexion-execute-monitor-evaluate-loop",
+  "record_status": "live progress record, maintained incrementally as each phase's gate is met",
+  "created_at": "2026-07-29",
+  "overall_status": "phases_1_2_done_phase4_scaffolding_done_pilot_and_phase5_not_started",
+  "blocking_precondition": null,
+  "milestones": [
+    {
+      "phase": "0",
+      "name": "Preconditions",
+      "owner": "Dr. Idris Farouk",
+      "status": "partially_green",
+      "commit": null,
+      "gate": "gate_criteria confirmed still unused before Phase 1. multi-agent-engineering suite green (46/46). harness-engineering (4 failures) and context-engineering (1 failure) had pre-existing, unrelated failures discovered during verification — flagged, not fixed, out of scope"
+    },
+    {
+      "phase": "1",
+      "name": "Evaluate step + default activation policy",
+      "owner": "Dr. Idris Farouk / Amina Yusuf",
+      "status": "done",
+      "commit": null,
+      "gate": "EvaluationVerdict, evaluate_subtask_result(), default_gate_criteria_tier() added; checkable-evidence grounding implemented (Wieczorek finding 1); 15 new tests passing"
+    },
+    {
+      "phase": "2",
+      "name": "Reflect step + bounded retry + GATE_FAILED aggregation",
+      "owner": "Dr. Idris Farouk / Amina Yusuf",
+      "status": "done",
+      "commit": null,
+      "gate": "max_reflection_retries, Reflect/retry loop, gate_failed count, rationale_history/retry_counts in SwarmResult.feedback all implemented; 73/73 multi-agent-engineering tests green"
+    },
+    {
+      "phase": "2-conformance",
+      "name": "Harness-conformance review + adversarial counter-independence test",
+      "owner": "Kwame Asante",
+      "status": "done",
+      "commit": null,
+      "gate": "TestFaultAndSemanticRetryCounterIndependence's two adversarial tests confirm no interaction (Wieczorek finding 3)"
+    },
+    {
+      "phase": "3",
+      "name": "Adversarial review",
+      "owner": "Dr. Tomasz Wieczorek",
+      "status": "pass",
+      "commit": null,
+      "gate": "Converted CONDITIONAL PASS -> PASS this session; post-implementation spot-check confirmed both required mitigations present in shipped code/tests"
+    },
+    {
+      "phase": "3-secondary",
+      "name": "Secondary adversarial review of D2/D8 modifications",
+      "owner": "Dr. Tomasz Wieczorek",
+      "status": "pass",
+      "commit": null,
+      "gate": "Per CEO directive; two real findings fixed same-day (uncapped long-running timeout multiplier, flaky 10ms test margin), one negative result documented (estimated_duration not agent-influenced), one non-blocking design observation logged (D8 reframing under D2's short-tier budget). 2 new tests; full suite green at 84/84"
+    },
+    {
+      "phase": "4",
+      "name": "Gradual enablement + benchmarking pilot",
+      "owner": "Dr. Idris Farouk / Dr. Amara Nwosu-Chen",
+      "status": "category_selected_methodology_drafted_real_traffic_not_started",
+      "commit": null,
+      "gate": "enable_reflective_loop: bool = False added, verified inert by default even with gate_criteria set. Per CEO approval 2026-07-30, pilot category selected (single-module backend test-verification SubTasks) and benchmarking methodology drafted -- see supporting/05-benchmarking-methodology.md. Real usage data and the actual benchmarking pass still require live traffic to accumulate -- not fabricated"
+    },
+    {
+      "phase": "5",
+      "name": "Pattern documentation",
+      "owner": "Dr. Idris Farouk",
+      "status": "not_started",
+      "commit": null,
+      "gate": "pattern doc added to multi-agent-engineering/patterns/ — deferred until Phases 1-4 (including the real pilot) are complete"
+    }
+  ],
+  "parallel_tracks": [
+    {
+      "id": "asante-counter-independence-harness",
+      "owner": "Kwame Asante",
+      "status": "done",
+      "note": "implemented as TestFaultAndSemanticRetryCounterIndependence in test_swarm_orchestrator.py, both tests passing"
+    },
+    {
+      "id": "nwosu-chen-benchmarking-methodology-note",
+      "owner": "Dr. Amara Nwosu-Chen",
+      "status": "done",
+      "note": "drafted 2026-07-30 as supporting/05-benchmarking-methodology.md -- what will be measured, comparison design, success criteria. No results yet; blocked on real pilot traffic, not on this note"
+    }
+  ],
+  "open_items": [
+    {
+      "id": "oq2-retry-cap-final-tuning",
+      "status": "open",
+      "owner": "Kwame Asante / Dr. Amara Nwosu-Chen",
+      "blocking": false
+    },
+    {
+      "id": "supervisor-worker-dispatch-gap",
+      "status": "open",
+      "owner": "Dr. Idris Farouk",
+      "blocking": false
+    },
+    {
+      "id": "pre-existing-harness-engineering-test-failures",
+      "status": "open",
+      "owner": "Kwame Asante",
+      "blocking": false,
+      "detail": "4 failures in test_error_boundary.py::TestSafeModelCall, _FakeClient fixture rejects a 'stream' kwarg the real code now passes. Discovered 2026-07-29, unrelated to this Programme, not fixed here."
+    },
+    {
+      "id": "pre-existing-context-engineering-test-failure",
+      "status": "open",
+      "owner": "Mei-Ling Zhao",
+      "blocking": false,
+      "detail": "test_acon_benchmark.py::test_acon_vs_context_compressor fails (ContextCompressor did not reduce tokens for coding_session). Discovered 2026-07-29, unrelated to this Programme, not fixed here."
+    },
+    {
+      "id": "phase4-real-pilot-and-benchmarking",
+      "status": "open",
+      "owner": "Dr. Idris Farouk / Dr. Amara Nwosu-Chen",
+      "blocking": false,
+      "detail": "Pilot category selected and methodology drafted 2026-07-30 (supporting/05-benchmarking-methodology.md). What remains is real usage: whichever caller dispatches the pilot category (single-module backend test-verification SubTasks) needs to actually run with enable_reflective_loop=True, and enough real dispatches need to accumulate before Dr. Nwosu-Chen's benchmarking pass has anything to measure."
+    },
+    {
+      "id": "phase5-pattern-documentation",
+      "status": "open",
+      "owner": "Dr. Idris Farouk",
+      "blocking": false
+    },
+    {
+      "id": "d2-monitor-budget-tiering-timeout-half",
+      "status": "closed",
+      "owner": "Dr. Idris Farouk",
+      "blocking": false,
+      "detail": "CEO rejected deferral 2026-07-30; implemented MonitorBudget/default_monitor_budget() (duration-tiered dispatch timeout: short/standard/long-running), wired into _dispatch()'s asyncio.wait_for. 6 new tests (5 unit + 1 dispatch-wiring)."
+    },
+    {
+      "id": "d2-monitor-budget-tiering-breaker-sensitivity-half",
+      "status": "open",
+      "owner": "Dr. Idris Farouk / harness engineering",
+      "blocking": false,
+      "detail": "Breaker-sensitivity-per-tier is out of swarm_orchestrator.py's control -- the circuit breaker is caller-injected via set_circuit_breaker(). Requires a change to whatever constructs that breaker (harness engineering), not this module. Explicitly scoped out, not fabricated, 2026-07-30."
+    },
+    {
+      "id": "d8-final-attempt-reframing",
+      "status": "closed",
+      "owner": "Dr. Nwosu-Chen",
+      "blocking": false,
+      "detail": "CEO rejected deferral 2026-07-30; implemented _reflection_note_for_attempt() -- final allowed retry's note now explicitly requests a genuinely different approach. 1 new test. Dr. Nwosu-Chen's benchmarking pass will assess measured effectiveness, not gate its existence."
+    },
+    {
+      "id": "d9-working-memory-clear-test-coverage-gap",
+      "status": "closed",
+      "owner": "Dr. Elias Vance",
+      "blocking": false,
+      "detail": "WorkingMemory.clear() had no direct test assertion despite correct implementation. Closed 2026-07-30 with two new tests (COMPLETED and GATE_FAILED exit paths) in TestReflectiveLoop; multi-agent-engineering suite re-verified 75/75 green."
+    },
+    {
+      "id": "wieczorek-finding-uncapped-long-running-timeout",
+      "status": "closed",
+      "owner": "Dr. Tomasz Wieczorek / Dr. Idris Farouk",
+      "blocking": false,
+      "detail": "default_monitor_budget()'s long-running tier had no upper ceiling -- a very large estimated_duration produced an unbounded timeout, defeating the Monitor budget's purpose. Fixed 2026-07-30 with _LONG_RUNNING_TIMEOUT_CEILING_SECONDS (3600s), which never pulls the timeout below the caller's configured base."
+    },
+    {
+      "id": "wieczorek-finding-flaky-dispatch-wiring-test",
+      "status": "closed",
+      "owner": "Dr. Tomasz Wieczorek",
+      "blocking": false,
+      "detail": "test_short_task_monitor_budget_actually_applied_in_dispatch used a 10ms margin between tiered timeout and execute_fn sleep -- a CI-flakiness risk. Widened to 160ms 2026-07-30."
+    },
+    {
+      "id": "d8-reframing-under-d2-short-tier-budget",
+      "status": "open",
+      "owner": "Dr. Amara Nwosu-Chen",
+      "blocking": false,
+      "detail": "Non-blocking design observation from Wieczorek's 2026-07-30 review: a short-tier task's final, reframed retry (D8) still runs under that same short tier's tight timeout (D2). A real tuning question for the benchmarking pass, not an invented threshold today."
+    }
+  ]
+}

@@ -7,7 +7,7 @@ variance detection, feedback loop, and error handling.
 
 import asyncio
 import pytest
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, MagicMock
 
 import sys
 from pathlib import Path
@@ -18,6 +18,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from implementations.handoff_packet import HandoffPacket, HandoffTier
 from implementations.swarm_orchestrator import (
     AgentProfile,
+    EvaluationVerdict,
+    MonitorBudget,
     SubTask,
     SwarmConfig,
     SwarmOrchestrator,
@@ -25,6 +27,9 @@ from implementations.swarm_orchestrator import (
     SwarmResult,
     SwarmTopology,
     TaskStatus,
+    default_gate_criteria_tier,
+    default_monitor_budget,
+    evaluate_subtask_result,
 )
 
 # ---------------------------------------------------------------------------
@@ -183,6 +188,25 @@ class TestExecution:
 
         assert result.success is False
         assert result.subtask_results[0]["status"] == "failed"
+
+    @pytest.mark.asyncio
+    async def test_short_task_monitor_budget_actually_applied_in_dispatch(self, agents):
+        """Confirms default_monitor_budget() is actually wired into
+        asyncio.wait_for's timeout, not just correct in isolation — a short
+        estimated_duration must produce a tighter timeout than the flat
+        config default, causing a slower-than-budget execute_fn to time out."""
+        async def slow_execute(task, handoff):
+            await asyncio.sleep(0.2)
+            return {"output": "done"}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="fork_join", timeout_seconds=300.0)
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=slow_execute)
+        subtasks = [SubTask(description="Quick task", domain="frontend", estimated_duration=0.01)]
+        plan = orch.plan("Short task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.FAILED
+        assert "error" in subtasks[0].result
 
 
 # ---------------------------------------------------------------------------
@@ -443,3 +467,413 @@ class TestSubTaskProperties:
             completed_at=120.0,
         )
         assert task.variance == pytest.approx(0.20)
+
+
+# ---------------------------------------------------------------------------
+# Execute-Monitor-Evaluate-Reflect cycle
+# ---------------------------------------------------------------------------
+
+
+class TestDefaultGateCriteriaTier:
+    """The default gate_criteria activation policy."""
+
+    @pytest.mark.parametrize("domain", ["backend", "Backend API", "security-audit", "release-train"])
+    def test_high_stakes_domains_enabled(self, domain):
+        assert default_gate_criteria_tier(domain) == "enabled"
+
+    @pytest.mark.parametrize("domain", ["frontend", "research", "content", ""])
+    def test_generic_domains_disabled(self, domain):
+        assert default_gate_criteria_tier(domain) == "disabled"
+
+    def test_none_domain_does_not_raise(self):
+        assert default_gate_criteria_tier(None) == "disabled"
+
+
+class TestDefaultMonitorBudget:
+    """Duration-tiered dispatch timeout."""
+
+    def test_long_running_task_gets_extended_timeout(self):
+        budget = default_monitor_budget("backend", 1800.0, base_timeout_seconds=300.0)
+        assert budget.tier == "long_running"
+        assert budget.timeout_seconds == 3600.0  # 1800 * 2.0 multiplier, exceeds base
+
+    def test_short_task_gets_reduced_timeout(self):
+        budget = default_monitor_budget("frontend", 10.0, base_timeout_seconds=300.0)
+        assert budget.tier == "short"
+        assert budget.timeout_seconds == 40.0  # 10 * 4.0 multiplier, below base
+
+    def test_standard_duration_task_gets_base_timeout(self):
+        budget = default_monitor_budget("backend", 120.0, base_timeout_seconds=300.0)
+        assert budget.tier == "standard"
+        assert budget.timeout_seconds == 300.0
+
+    def test_zero_duration_does_not_raise_or_zero_out_timeout(self):
+        budget = default_monitor_budget("backend", 0.0, base_timeout_seconds=300.0)
+        assert budget.timeout_seconds == 300.0
+
+    def test_long_running_never_reduces_below_base_timeout(self):
+        budget = default_monitor_budget("backend", 901.0, base_timeout_seconds=5000.0)
+        assert budget.timeout_seconds == 5000.0
+
+    def test_long_running_timeout_is_capped_by_a_ceiling(self):
+        """A Monitor budget exists to bound risk; an uncapped multiplier on a
+        very large estimated_duration (legitimate or a units mistake) would
+        defeat that purpose."""
+        budget = default_monitor_budget("backend", 1_000_000.0, base_timeout_seconds=300.0)
+        assert budget.timeout_seconds == 3600.0
+
+    def test_ceiling_never_pulls_timeout_below_a_large_base(self):
+        """The ceiling bounds the extension above base_timeout_seconds; it
+        must never make a long-running task's budget smaller than what the
+        standard tier would have given it."""
+        budget = default_monitor_budget("backend", 1_000_000.0, base_timeout_seconds=5000.0)
+        assert budget.timeout_seconds == 5000.0
+
+
+class TestEvaluateSubtaskResult:
+    """The Evaluate step itself."""
+
+    def test_empty_gate_criteria_passes_trivially(self):
+        task = SubTask(description="x", gate_criteria=None)
+        verdict = evaluate_subtask_result(task, {"output": "anything"})
+        assert verdict.passed is True
+
+    def test_malformed_result_does_not_raise(self):
+        task = SubTask(description="x", gate_criteria=["tests_pass"])
+        # result is not a dict at all — must not raise, must fail closed.
+        verdict = evaluate_subtask_result(task, "not a dict")
+        assert isinstance(verdict, EvaluationVerdict)
+        assert verdict.passed is False
+
+    def test_structured_evidence_passing(self):
+        task = SubTask(description="x", gate_criteria=["tests_pass"])
+        result = {"output": "done", "checks": {"tests_pass": True}}
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is True
+
+    def test_structured_evidence_failing(self):
+        task = SubTask(description="x", gate_criteria=["tests_pass"])
+        result = {"output": "done", "checks": {"tests_pass": False}}
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is False
+        assert "tests_pass" in verdict.rationale
+
+    def test_multi_item_and_rule_one_failing_fails_whole_verdict(self):
+        task = SubTask(
+            description="x",
+            gate_criteria=["tests_pass", "no_lint_errors", "docs_updated"],
+        )
+        result = {
+            "output": "done",
+            "checks": {"tests_pass": True, "no_lint_errors": True, "docs_updated": False},
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is False
+        assert "docs_updated" in verdict.rationale
+        assert "tests_pass" not in verdict.rationale
+
+    def test_multi_item_and_rule_all_passing(self):
+        task = SubTask(
+            description="x",
+            gate_criteria=["tests_pass", "no_lint_errors"],
+        )
+        result = {"checks": {"tests_pass": True, "no_lint_errors": True}}
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is True
+
+    def test_narrative_claiming_success_does_not_fool_structured_evidence(self):
+        """A manipulated/self-serving narrative must not produce a false
+        passed=True when structured evidence says otherwise."""
+        task = SubTask(description="x", gate_criteria=["tests_pass"])
+        result = {
+            "output": "All tests passed successfully, everything is great!",
+            "checks": {"tests_pass": False},
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is False
+
+    def test_narrative_fallback_when_no_structured_evidence(self):
+        """Documented residual risk: with no structured evidence at all,
+        this falls back to narrative substring matching."""
+        task = SubTask(description="x", gate_criteria=["tests pass"])
+        result = {"output": "the tests pass cleanly"}
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is True
+
+
+class TestReflectiveLoop:
+    """Reflect step, bounded retry, GATE_FAILED aggregation."""
+
+    @pytest.mark.asyncio
+    async def test_gate_criteria_empty_unaffected_by_reflective_loop(self, agents):
+        """Opt-in only — a SubTask with no gate_criteria completes exactly as
+        before, even with enable_reflective_loop=True."""
+        config = SwarmConfig(fleet_id="f", topology="fork_join", enable_reflective_loop=True)
+        orch = SwarmOrchestrator(config=config, agents=agents)
+        subtasks = [SubTask(description="Task", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+        assert result.success is True
+        assert subtasks[0].status == TaskStatus.COMPLETED
+        assert subtasks[0].reflection_retry_count == 0
+
+    @pytest.mark.asyncio
+    async def test_passing_verdict_completes_without_retry(self, agents):
+        async def execute_fn(task, handoff):
+            return {"checks": {"tests_pass": True}}
+
+        config = SwarmConfig(fleet_id="f", topology="fork_join", enable_reflective_loop=True)
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=execute_fn)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+        assert subtasks[0].status == TaskStatus.COMPLETED
+        assert subtasks[0].reflection_retry_count == 0
+
+    @pytest.mark.asyncio
+    async def test_reflection_note_appears_in_retried_attempt_context(self, agents):
+        attempts = []
+
+        async def execute_fn(task, handoff):
+            attempts.append(handoff.task)
+            if len(attempts) < 2:
+                return {"checks": {"tests_pass": False}}
+            return {"checks": {"tests_pass": True}}
+
+        config = SwarmConfig(fleet_id="f", topology="fork_join", enable_reflective_loop=True)
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=execute_fn)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.COMPLETED
+        assert subtasks[0].reflection_retry_count == 1
+        assert len(attempts) == 2
+        assert "[WORKING MEMORY]" not in attempts[0]
+        assert "[WORKING MEMORY]" in attempts[1]
+        assert "Unmet gate_criteria" in attempts[1]
+
+    @pytest.mark.asyncio
+    async def test_retry_cap_enforced_and_gate_failed_reached(self, agents):
+        async def always_fails(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f", topology="fork_join", enable_reflective_loop=True, max_reflection_retries=2
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_fails)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        assert subtasks[0].reflection_retry_count == 3  # initial + 2 retries, all failing
+        assert result.success is False
+
+    @pytest.mark.asyncio
+    async def test_final_attempt_reflection_note_requests_new_approach(self, agents):
+        """The last allowed retry's injected context must ask for a
+        genuinely different approach; earlier retries must not."""
+        attempts = []
+
+        async def always_fails(task, handoff):
+            attempts.append(handoff.task)
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f", topology="fork_join", enable_reflective_loop=True, max_reflection_retries=2
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_fails)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        assert len(attempts) == 3
+        assert "genuinely different approach" not in attempts[1]
+        assert "genuinely different approach" in attempts[2]
+
+    @pytest.mark.asyncio
+    async def test_working_memory_cleared_on_completed_exit_after_retry(self, agents, monkeypatch):
+        mock_memory = MagicMock()
+        mock_memory.to_context_string.return_value = "[WORKING MEMORY] prior note"
+        monkeypatch.setattr(
+            SwarmOrchestrator, "_get_working_memory_instance", staticmethod(lambda: mock_memory)
+        )
+
+        async def execute_fn(task, handoff):
+            if mock_memory.add_note.call_count == 0:
+                return {"checks": {"tests_pass": False}}
+            return {"checks": {"tests_pass": True}}
+
+        config = SwarmConfig(fleet_id="f", topology="fork_join", enable_reflective_loop=True)
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=execute_fn)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.COMPLETED
+        mock_memory.clear.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_working_memory_cleared_on_gate_failed_exit(self, agents, monkeypatch):
+        mock_memory = MagicMock()
+        mock_memory.to_context_string.return_value = "[WORKING MEMORY] prior note"
+        monkeypatch.setattr(
+            SwarmOrchestrator, "_get_working_memory_instance", staticmethod(lambda: mock_memory)
+        )
+
+        async def always_fails(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f", topology="fork_join", enable_reflective_loop=True, max_reflection_retries=1
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_fails)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        mock_memory.clear.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_gate_failed_feedback_carries_rationale_history_and_gate_failed_count(self, agents):
+        async def always_fails(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f",
+            topology="fork_join",
+            enable_reflective_loop=True,
+            enable_feedback_loop=True,
+            max_reflection_retries=1,
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_fails)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        assert result.feedback is not None
+        assert result.feedback["gate_failed"] == 1
+        assert subtasks[0].task_id in result.feedback["rationale_history"]
+        assert len(result.feedback["rationale_history"][subtasks[0].task_id]) == 2
+        assert result.feedback["retry_counts"][subtasks[0].task_id] == 2
+
+    @pytest.mark.asyncio
+    async def test_reflective_feedback_populated_even_when_feedback_loop_disabled(self, agents):
+        """'Flagged for review' must carry real reasons regardless of the
+        unrelated enable_feedback_loop opt-in."""
+        async def always_fails(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f",
+            topology="fork_join",
+            enable_reflective_loop=True,
+            enable_feedback_loop=False,
+            max_reflection_retries=0,
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_fails)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        assert result.feedback is not None
+        assert subtasks[0].task_id in result.feedback["rationale_history"]
+        assert "gate_failed" not in result.feedback  # that key lives in _gen_feedback, which is off here
+
+    @pytest.mark.asyncio
+    async def test_multi_subtask_plan_mixed_outcomes(self, agents):
+        async def execute_fn(task, handoff):
+            if task.task_id == "pass-me":
+                return {"checks": {"tests_pass": True}}
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f",
+            topology="fork_join",
+            enable_reflective_loop=True,
+            enable_feedback_loop=True,
+            max_reflection_retries=0,
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=execute_fn)
+        subtasks = [
+            SubTask(task_id="pass-me", description="A", domain="backend", gate_criteria=["tests_pass"]),
+            SubTask(task_id="fail-me", description="B", domain="backend", gate_criteria=["tests_pass"]),
+            SubTask(task_id="ungated", description="C", domain="backend"),
+        ]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        by_id = {t.task_id: t for t in subtasks}
+        assert by_id["pass-me"].status == TaskStatus.COMPLETED
+        assert by_id["fail-me"].status == TaskStatus.GATE_FAILED
+        assert by_id["ungated"].status == TaskStatus.COMPLETED
+        assert result.feedback["gate_failed"] == 1
+        assert "fail-me" in result.feedback["rationale_history"]
+        assert "pass-me" not in result.feedback["rationale_history"]
+
+
+class TestFaultAndSemanticRetryCounterIndependence:
+    """Adversarial case: driving one counter must not affect the other."""
+
+    @pytest.mark.asyncio
+    async def test_repeated_infra_faults_never_touch_semantic_retry_counter(self, agents):
+        async def always_raises(task, handoff):
+            raise RuntimeError("simulated infra fault")
+
+        config = SwarmConfig(
+            fleet_id="f", topology="fork_join", enable_reflective_loop=True, max_reflection_retries=2
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_raises)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.FAILED
+        assert subtasks[0].reflection_retry_count == 0
+        assert subtasks[0].reflection_rationale_history == []
+
+    @pytest.mark.asyncio
+    async def test_repeated_gate_failures_never_produce_failed_status(self, agents):
+        async def always_fails_gate(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(
+            fleet_id="f", topology="fork_join", enable_reflective_loop=True, max_reflection_retries=3
+        )
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=always_fails_gate)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        # Exhausting semantic retries must land on GATE_FAILED, never FAILED —
+        # proof the two paths/counters never interact.
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        assert subtasks[0].result != {"error": "circuit_breaker_open"}
+
+
+class TestGradualEnablementScaffolding:
+    """enable_reflective_loop ships off by default; setting gate_criteria
+    alone (without also flipping enable_reflective_loop) must not change
+    behavior."""
+
+    @pytest.mark.asyncio
+    async def test_disabled_by_default_even_with_gate_criteria_set(self, agents):
+        async def would_fail_gate_if_evaluated(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(fleet_id="f", topology="fork_join")  # enable_reflective_loop defaults False
+        assert config.enable_reflective_loop is False
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=would_fail_gate_if_evaluated)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Task", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        # Identical to pre-Phase-1 behavior: Evaluate never runs, task completes.
+        assert subtasks[0].status == TaskStatus.COMPLETED
+        assert subtasks[0].reflection_retry_count == 0
+        assert result.success is True

@@ -91,11 +91,21 @@ agent-memory/
     └── test_search_memory.py   ← Local eval harness (uncommitted, see file header)
 ```
 
-No dedicated `.venv/` is currently provisioned for this server (unlike `workspace-knowledge`,
-which has one) — `server.py`'s venv-bootstrap code falls back to system Python automatically if
-`.venv/` is absent, and the required packages currently happen to be present there. This is a
-gap against the workspace's own isolation convention, not a design choice; provisioning a proper
-`.venv/` is open follow-up work.
+This server has no dedicated `.venv/` **by design** — it runs from the shared environment at
+`core-component-00/mcp-servers/.venv/`, together with `workspace-knowledge` and
+`embedder-service`. `.mcp.json` points `"command"` directly at that venv's interpreter.
+
+The environment is shared rather than per-server because `embedder_client.py` spawns
+`embedder-service` with `sys.executable`: under per-server venvs the shared service's environment
+would depend on whichever server started it first. See `mcp-servers/CLAUDE.md` § Python Environment
+for the full rationale and the interpreter-resolution chain.
+
+Install/repair:
+
+```powershell
+# from the repo root
+core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install -e core-component-00\mcp-servers\agent-memory
+```
 
 ---
 
@@ -133,7 +143,7 @@ Registered in the project-root `.mcp.json`:
 {
   "mcpServers": {
     "agent-memory": {
-      "command": "python",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/.venv/Scripts/python.exe",
       "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/server.py"],
       "env": {
         "MEMORY_QDRANT_URL": "http://localhost:6335",

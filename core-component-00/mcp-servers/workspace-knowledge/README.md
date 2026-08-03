@@ -28,7 +28,6 @@ workspace-knowledge/
 ├── uv.lock                ← Dependency lock file
 ├── README.md              ← This file
 ├── .gitignore             ← Excludes embedding/, .venv/, __pycache__, *.pyc
-├── .venv/                 ← Virtual environment (gitignored)
 ├── embedding/             ← FAISS index artifacts (gitignored — rebuilt on demand)
 └── rag-system/            ← RAG subsystem utilities and runtime state
     ├── build_faiss.py     ← Builds FAISS index from scratch (run manually if index is missing)
@@ -40,9 +39,18 @@ workspace-knowledge/
 
 ## Installation
 
+Dependencies install into the **shared** environment at `core-component-00/mcp-servers/.venv/`,
+which this server, `agent-memory`, and `embedder-service` all run from. Do not create a per-server
+`.venv/` here — `server.py` no longer looks for one, and `.mcp.json` launches this server directly
+with the shared interpreter. See `mcp-servers/CLAUDE.md` § Python Environment for why.
+
 ```powershell
-# Install dependencies with uv (from this directory)
-uv pip install -e .
+# from the repo root — uv picks the CUDA torch index from pyproject.toml automatically
+uv pip install -e core-component-00\mcp-servers\workspace-knowledge
+
+# pip equivalent (must pin the local version tag explicitly, or torch stays CPU-only)
+core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install -e core-component-00\mcp-servers\workspace-knowledge
+core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
 ```
 
 Requires Docker Desktop (WSL2 backend) for Qdrant. Start the container before launching:
@@ -64,7 +72,7 @@ Registered in the project-root `.mcp.json`:
 {
   "mcpServers": {
     "workspace-knowledge": {
-      "command": "python",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/.venv/Scripts/python.exe",
       "args": [
         "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/workspace-knowledge/server.py"
       ],
