@@ -600,6 +600,136 @@ class TestEvaluateSubtaskResult:
         verdict = evaluate_subtask_result(task, result)
         assert verdict.passed is True
 
+    # -- Realistic, transcript-shaped narrative fallback coverage -----------
+    # These cover Open Question 2 from telescope/2026-07-28-reflexion-
+    # execute-monitor-evaluate-loop/research-report.md and telescope/
+    # 2026-08-01-reflexion-bridge-to-real-dispatch/research-report.md: the
+    # narrative fallback was previously only exercised against short, clean,
+    # synthetic one-liners. These exercise it against multi-sentence,
+    # mixed-signal, tool-transcript-shaped text closer to what a real
+    # subagent's tool-call output actually looks like. Some of these assert
+    # surprising ACTUAL behavior (documented in the comment above each), not
+    # a "correct" outcome — per instructions, the fallback logic itself is
+    # not modified here; surprising findings are flagged for separate triage.
+
+    def test_narrative_realistic_pytest_summary_paraphrase_not_literally_matched(self):
+        """Realistic multi-sentence pytest-style summary where the tests
+        genuinely passed (50 passed, 0 failed), but the exact criterion
+        phrase "tests pass" never appears verbatim — the summary paraphrases
+        it as "50 passed ... 0 failed" instead.
+
+        SURPRISING ACTUAL BEHAVIOR (flag for separate triage): this is a
+        false negative. A criterion that is semantically true of the
+        narrative is reported as unmet, purely because `_criterion_satisfied`
+        does literal substring matching with no paraphrase/synonym handling.
+        A real subagent transcript is far more likely to report results this
+        way (structured pass/fail counts) than to literally say "tests
+        pass" — so this gap is not an edge case, it's closer to the common
+        case for real tool output.
+        """
+        task = SubTask(description="x", gate_criteria=["tests pass"])
+        result = {
+            "output": (
+                "Ran the full test suite via pytest. Collected 52 tests across "
+                "8 files. 50 passed, 2 skipped due to missing optional "
+                "dependencies, 0 failed. Coverage report generated at "
+                "htmlcov/index.html. Build artifacts uploaded successfully."
+            )
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is False
+        assert "tests pass" in verdict.rationale
+
+    def test_narrative_mixed_pass_fail_test_names_matches_only_relevant_criterion(self):
+        """Realistic paragraph naming both a passing test and an unrelated
+        failing test in the same string. Only the passing test's name is the
+        actual gate_criteria text. Verify the fallback correctly reports
+        passed=True and is not thrown off by the failure-adjacent language
+        ("failed", "ConnectionResetError") describing the other test."""
+        task = SubTask(
+            description="x",
+            gate_criteria=["test_user_authentication_flow passed"],
+        )
+        result = {
+            "output": (
+                "test_user_authentication_flow passed after the token refresh "
+                "fix landed. In the same run, test_payment_gateway_retry failed "
+                "intermittently with a ConnectionResetError, seemingly unrelated "
+                "to this change and already tracked as a flaky test in issue #482."
+            )
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is True
+
+    def test_narrative_stack_trace_adjacent_text_does_not_mask_genuine_pass_statement(self):
+        """Transcript containing a Python traceback fragment (a non-fatal,
+        expected warning) alongside a genuine passing build statement.
+        Verify the fallback still correctly reads the passing statement
+        rather than being thrown off by exception-looking text nearby."""
+        task = SubTask(description="x", gate_criteria=["build succeeded"])
+        result = {
+            "output": (
+                "Running build...\n"
+                "Traceback (most recent call last):\n"
+                '  File "scripts/prebuild_check.py", line 17, in <module>\n'
+                "    warnings.warn('legacy config key detected, ignoring')\n"
+                "UserWarning: legacy config key detected, ignoring\n"
+                "(This is an expected, non-fatal warning from the linter shim.)\n"
+                "Build succeeded with 0 errors and 1 warning in 12.4s."
+            )
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is True
+
+    def test_narrative_realistic_lint_failure_transcript_correctly_reports_failed(self):
+        """Realistic transcript describing a genuine lint failure (not a
+        paraphrase gap this time — the tool output plainly says errors were
+        found). The exact criterion phrase never appears, and the underlying
+        state genuinely does not satisfy it, so passed=False here is the
+        legitimately correct outcome, not just a matching artifact."""
+        task = SubTask(description="x", gate_criteria=["no lint errors"])
+        result = {
+            "output": (
+                "Ran eslint across the changed files. Found 3 problems "
+                "(3 errors, 0 warnings): no-unused-vars in "
+                "src/utils/date.js:14, no-undef in src/components/Modal.jsx:52, "
+                "and prefer-const in src/hooks/useToggle.js:8. These must be "
+                "resolved before merge."
+            )
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is False
+        assert "no lint errors" in verdict.rationale
+
+    def test_narrative_negated_criterion_text_still_matches_as_substring(self):
+        """Adversarial-shaped but realistic transcript: the narrative
+        explicitly DENIES the criterion ("It would be incorrect to say the
+        authentication tests pass") and then explains three concrete
+        failures — but the denied clause still contains the criterion's
+        exact words as a contiguous substring.
+
+        SURPRISING ACTUAL BEHAVIOR (flag for separate triage): this is a
+        false positive caused by negation-blindness in the substring match.
+        `_criterion_satisfied` has no concept of negation, hedging, or
+        sentence structure — it only checks whether the criterion string
+        occurs anywhere in the narrative, so a sentence that explicitly
+        denies the criterion is scored identically to one that asserts it.
+        This is a materially worse failure mode than the false negative
+        above: it produces a confident passed=True on a subtask whose own
+        narrative says it failed.
+        """
+        task = SubTask(description="x", gate_criteria=["authentication tests pass"])
+        result = {
+            "output": (
+                "It would be incorrect to say the authentication tests pass "
+                "right now — three of them (test_login, test_mfa_challenge, "
+                "test_session_refresh) are failing intermittently under load "
+                "and need further investigation before this can be marked done."
+            )
+        }
+        verdict = evaluate_subtask_result(task, result)
+        assert verdict.passed is True
+
 
 class TestReflectiveLoop:
     """Reflect step, bounded retry, GATE_FAILED aggregation."""
