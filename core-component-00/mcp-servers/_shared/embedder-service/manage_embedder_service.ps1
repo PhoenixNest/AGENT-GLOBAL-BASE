@@ -35,6 +35,25 @@ $PidFile = Join-Path $RunDir "embedder-service.pid"
 $LockFile = Join-Path $RunDir "embedder-service.lock"
 $ServerScript = Join-Path $ServiceDir "server.py"
 
+# Resolves the interpreter the service is launched with, in order:
+#   1. $env:EMBEDDER_SERVICE_PYTHON  — explicit override
+#   2. mcp-servers/.venv             — the shared environment the MCP servers also use
+#   3. "python" from PATH            — fallback; warns, since it may resolve to an
+#                                      interpreter without the CUDA torch build
+#
+# The service must run under the same environment as its consumers: it is normally
+# spawned by a server via sys.executable, so a manual start on a different interpreter
+# would serve embeddings from a different torch installation than the one those servers
+# resolve against.
+$SharedVenvPython = Join-Path $ServiceDir "..\..\.venv\Scripts\python.exe"
+if ($env:EMBEDDER_SERVICE_PYTHON) {
+    $PythonExe = $env:EMBEDDER_SERVICE_PYTHON
+} elseif (Test-Path $SharedVenvPython) {
+    $PythonExe = (Resolve-Path $SharedVenvPython).Path
+} else {
+    $PythonExe = "python"
+}
+
 $Host_ = if ($env:EMBEDDER_SERVICE_HOST) { $env:EMBEDDER_SERVICE_HOST } else { "127.0.0.1" }
 $Port = if ($env:EMBEDDER_SERVICE_PORT) { $env:EMBEDDER_SERVICE_PORT } else { "8791" }
 $BaseUrl = "http://${Host_}:${Port}"
@@ -76,7 +95,12 @@ switch ($Action) {
             break
         }
         Write-Output "Starting embedder-service ($ServerScript)..."
-        $proc = Start-Process -FilePath "python" -ArgumentList "`"$ServerScript`"" `
+        if ($PythonExe -eq "python") {
+            Write-Warning "Shared venv not found at mcp-servers/.venv — falling back to PATH 'python'. The service may start on a CPU-only torch. See mcp-servers/CLAUDE.md."
+        } else {
+            Write-Output "  interpreter: $PythonExe"
+        }
+        $proc = Start-Process -FilePath $PythonExe -ArgumentList "`"$ServerScript`"" `
             -WindowStyle Hidden -PassThru
         $deadline = (Get-Date).AddSeconds(45)
         while ((Get-Date) -lt $deadline) {

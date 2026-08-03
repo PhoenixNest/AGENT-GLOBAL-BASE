@@ -30,6 +30,62 @@ between here and either README.
 
 ---
 
+## Python Environment — One Shared Venv
+
+**All three processes — `workspace-knowledge`, `agent-memory`, and `embedder-service` — run from
+a single shared virtual environment at `core-component-00/mcp-servers/.venv/`.** Do not install
+their dependencies globally, and do not add per-server `.venv/` directories.
+
+```
+mcp-servers/.venv/          ← the only Python environment these servers use (gitignored)
+```
+
+**Why shared rather than per-server.** `embedder_client.py` spawns `embedder-service` with
+`sys.executable`, so the service inherits the interpreter of whichever server started it first.
+Under per-server venvs that makes the shared service's environment **nondeterministic** — it could
+run under one server's torch on one boot and the other's on the next. A single venv makes it
+deterministic, and halves the disk cost of a ~2.7 GB CUDA torch.
+
+**How the interpreter is selected — three places must agree:**
+
+| Location                                       | Mechanism                                                                |
+| ---------------------------------------------- | ------------------------------------------------------------------------ |
+| `.mcp.json`                                    | `"command"` points at `.venv/Scripts/python.exe` (not bare `"python"`)   |
+| `embedder_client.py`                           | Inherits automatically via `sys.executable` — no configuration needed    |
+| `embedder-service/manage_embedder_service.ps1` | Resolves the shared venv explicitly; `EMBEDDER_SERVICE_PYTHON` overrides |
+
+> **A bare `"python"` anywhere in this chain is a defect.** It resolves via `PATH` to the system
+> interpreter, which silently (a) reintroduces a machine-wide dependency and (b) can start the
+> service on a CPU-only torch while everything else runs CUDA.
+
+**`sys.path` and `sys.executable` are not interchangeable.** Inserting a `site-packages` directory
+at `sys.path[0]` affects _imports in the current process only_ — it does not change
+`sys.executable`, so it cannot redirect a spawned subprocess. A server doing that would import one
+torch installation while the `embedder-service` it spawns imports a different one. Only the
+`"command"` in `.mcp.json` governs what a subprocess inherits, which is why the interpreter is
+pinned there rather than bootstrapped in code.
+
+Each `server.py` still inserts two paths — the `context-engineering` module root and the
+`_shared` root — so cross-module imports resolve. Those are import-path plumbing for first-party
+code, not environment selection; neither points at a `site-packages` directory.
+
+**CUDA is required, not optional.** The venv holds `torch==2.13.0+cu130`. A CPU-only build costs
+roughly **16–21× on batch embedding** and **~6.5× on the live query path** — measured on this
+machine against 512 real workspace chunks, with CPU and GPU output numerically identical (mean
+cosine similarity 1.000000), so the CUDA build carries no retrieval-quality risk. The two resident
+models occupy ~570 MB of VRAM. `pip install torch==2.13.0` is a
+**silent no-op** against an installed `+cpu` build because pip ignores the local version tag when
+base versions match; the local version must be pinned explicitly:
+
+```powershell
+core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+```
+
+Each server's `pyproject.toml` declares its real imports and carries `[tool.uv.sources]` so `uv`
+selects the CUDA index automatically.
+
+---
+
 ## Governance
 
 Every server registered here must pass the Three-Gate Inclusion Test (Capability, Governance,
