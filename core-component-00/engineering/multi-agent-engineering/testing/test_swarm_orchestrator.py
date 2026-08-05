@@ -702,21 +702,23 @@ class TestEvaluateSubtaskResult:
         assert "no lint errors" in verdict.rationale
 
     def test_narrative_negated_criterion_text_still_matches_as_substring(self):
-        """Adversarial-shaped but realistic transcript: the narrative
-        explicitly DENIES the criterion ("It would be incorrect to say the
-        authentication tests pass") and then explains three concrete
-        failures — but the denied clause still contains the criterion's
-        exact words as a contiguous substring.
+        """Regression guard for Wieczorek Finding 1 (pilot run 01,
+        telescope/2026-08-01-reflexion-bridge-to-real-dispatch/supporting/
+        wieczorek-triage-01.md), fixed 2026-08-03. Adversarial-shaped but
+        realistic transcript: the narrative explicitly DENIES the criterion
+        ("It would be incorrect to say the authentication tests pass") and
+        then explains three concrete failures — but the denied clause still
+        contains the criterion's exact words as a contiguous substring.
 
-        SURPRISING ACTUAL BEHAVIOR (flag for separate triage): this is a
-        false positive caused by negation-blindness in the substring match.
-        `_criterion_satisfied` has no concept of negation, hedging, or
-        sentence structure — it only checks whether the criterion string
-        occurs anywhere in the narrative, so a sentence that explicitly
-        denies the criterion is scored identically to one that asserts it.
-        This is a materially worse failure mode than the false negative
-        above: it produces a confident passed=True on a subtask whose own
-        narrative says it failed.
+        Before the fix, `_criterion_satisfied` had no concept of negation,
+        hedging, or sentence structure — it only checked whether the
+        criterion string occurred anywhere in the narrative, so this denial
+        sentence scored identically to an assertion and produced a
+        confident false-positive passed=True. `_phrase_asserted_in_narrative`
+        now applies a bounded negation check (a fixed-window scan for a
+        small negation-cue vocabulary immediately before each match) that
+        closes this specific reproduction. This test must keep failing
+        (i.e. keep asserting passed is False) if that check regresses.
         """
         task = SubTask(description="x", gate_criteria=["authentication tests pass"])
         result = {
@@ -728,7 +730,7 @@ class TestEvaluateSubtaskResult:
             )
         }
         verdict = evaluate_subtask_result(task, result)
-        assert verdict.passed is True
+        assert verdict.passed is False
 
 
 class TestReflectiveLoop:

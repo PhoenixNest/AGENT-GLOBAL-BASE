@@ -157,13 +157,18 @@ class TestValidation:
         assert "conversation_history[2]" in issues[1]
         assert "fleet='fleet-c'" in issues[1]
 
-    def test_turn_missing_fleet_id_not_flagged(self):
-        # ACTUAL current behavior: validate()'s `if turn_fleet is not None` guard means a
-        # turn that omits the "fleet_id" key entirely (turn.get("fleet_id") -> None) is
-        # silently treated as compliant rather than as an unverified/suspect origin. This
-        # looks like a potential gap for separate triage (a turn could omit fleet_id to
-        # bypass the cross-fleet check), but per task instructions this test asserts the
-        # ACTUAL behavior rather than fixing or asserting the "safer" behavior.
+    def test_turn_missing_fleet_id_flagged_as_unverified_origin(self):
+        # Regression guard for Wieczorek Finding 2 (pilot run 02, telescope/
+        # 2026-08-01-reflexion-bridge-to-real-dispatch/supporting/
+        # wieczorek-triage-01.md), fixed 2026-08-03. Before the fix,
+        # validate()'s `if turn_fleet is not None` guard meant a turn that
+        # omits the "fleet_id" key entirely (turn.get("fleet_id") -> None)
+        # was silently treated as compliant — a fail-open default that would
+        # let a turn bypass the cross-fleet check simply by omitting the
+        # key. validate() now flags a missing fleet_id as an unverified-
+        # origin issue in its own right. This test must keep failing (i.e.
+        # keep asserting the turn is flagged) if that fail-closed behavior
+        # regresses.
         packet = HandoffPacket(
             tier=HandoffTier.SCOPED,
             task="Build something",
@@ -172,7 +177,9 @@ class TestValidation:
             ],
         )
         issues = packet.validate(expected_fleet_id="fleet-a")
-        assert issues == []
+        assert len(issues) == 1
+        assert "conversation_history[0]" in issues[0]
+        assert "missing fleet_id" in issues[0]
 
     def test_expected_fleet_id_none_skips_cross_fleet_check(self):
         packet = HandoffPacket(
