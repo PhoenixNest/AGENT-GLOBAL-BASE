@@ -34,6 +34,22 @@ Plan and manage parallel multi-agent work following the git worktree isolation p
 | **4 — Resolve**   | Handle merge conflicts      | Manual resolution + commit                                  |
 | **5 — Clean up**  | Remove worktrees            | `git worktree remove ../agent-<name> && git worktree prune` |
 
+**Reflective loop (pilot domain only — single-module backend test-verification subtasks):**
+After a worker completes, before marking its subtask done, extract real checkable evidence
+(test/lint output — never the worker's own narrative) into a `checks` mapping and invoke:
+`uv run core-component-00/engineering/multi-agent-engineering/implementations/reflective_dispatch_helper.py`
+with the JSON contract documented in
+`core-component-00/telescope/2026-08-01-reflexion-bridge-to-real-dispatch/supporting/usage-cookbook.md`
+§ 2. On `passed: false` with `retries_remaining > 0`, re-dispatch the same worker with
+`reflection_note` appended to its task prompt, then repeat. On exhaustion, mark the subtask
+GATE_FAILED and surface `rationale` in the final report to the calling session — do not merge
+silently and do not drop the failure silently. Outside the pilot domain, do not invoke this loop.
+If the `uv run` invocation itself fails to produce a single well-formed JSON object on stdout
+(non-zero exit, no output, or unparseable output — as opposed to a well-formed `{"passed": ...}`
+response) treat that identically to a `passed: true, rationale: "helper unavailable: ..."`
+degrade: skip gating for that attempt and proceed, never treat it as a pass or fail signal in
+its own right and never block on it.
+
 ## Context Handoff Tiers
 
 | Tier        | Use When                                |

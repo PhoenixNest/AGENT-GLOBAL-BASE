@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import re
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -287,6 +288,43 @@ def _normalize_criterion(text: str) -> str:
     return "".join(normalized).strip("_")
 
 
+_NEGATION_CUES = frozenset(
+    {
+        "not", "n't", "cannot", "isn't", "aren't", "wasn't", "weren't",
+        "doesn't", "don't", "didn't", "won't", "wouldn't", "no", "false",
+        "incorrect", "fails", "failed", "fail", "unable", "never",
+    }
+)
+_NEGATION_WINDOW_CHARS = 60
+
+
+def _phrase_asserted_in_narrative(phrase: str, narrative: str) -> bool:
+    """True if `phrase` occurs in `narrative` at least once without an
+    immediately-preceding negation cue. Bounded heuristic, not real NLP: it
+    only inspects a fixed character window immediately before each match
+    against a small fixed negation-word vocabulary. It will miss negation
+    phrased outside that window, negation cues not in the list, and double
+    negation. Exists to close one concrete, reproduced false-positive (a
+    narrative that explicitly denies a criterion but still contains the
+    criterion's exact words as a substring) — not to generally understand
+    narrative text. See telescope/2026-08-01-reflexion-bridge-to-real-
+    dispatch/supporting/wieczorek-triage-01.md, Finding 1."""
+    if not phrase:
+        return False
+    lowered_narrative = narrative.lower()
+    lowered_phrase = phrase.lower()
+    start = 0
+    while True:
+        idx = lowered_narrative.find(lowered_phrase, start)
+        if idx == -1:
+            return False
+        window = lowered_narrative[max(0, idx - _NEGATION_WINDOW_CHARS) : idx]
+        window_words = re.findall(r"[a-z']+", window)
+        if not any(word in _NEGATION_CUES for word in window_words):
+            return True
+        start = idx + len(lowered_phrase)
+
+
 def _criterion_satisfied(criterion: str, checks: dict[str, Any], narrative: str) -> bool:
     """Judge one gate_criteria item. Structured evidence (result["checks"])
     is checked first and takes precedence; only when no matching structured
@@ -295,12 +333,17 @@ def _criterion_satisfied(criterion: str, checks: dict[str, Any], narrative: str)
     risk: a narrative string is exactly what a manipulated tool result
     could poison to fake a pass, and this function cannot close that on
     its own — it can only prefer checkable evidence over narrative
-    whenever checkable evidence exists."""
+    whenever checkable evidence exists. The fallback also applies a bounded
+    negation check (see `_phrase_asserted_in_narrative`) so a sentence that
+    explicitly denies the criterion is not scored the same as one that
+    asserts it."""
     key = _normalize_criterion(criterion)
     for check_key, check_value in checks.items():
         if _normalize_criterion(str(check_key)) == key:
             return bool(check_value)
-    return key.replace("_", " ") in narrative.lower() or criterion.lower() in narrative.lower()
+    return _phrase_asserted_in_narrative(
+        key.replace("_", " "), narrative
+    ) or _phrase_asserted_in_narrative(criterion, narrative)
 
 
 def evaluate_subtask_result(subtask: SubTask, result: Any) -> EvaluationVerdict:
