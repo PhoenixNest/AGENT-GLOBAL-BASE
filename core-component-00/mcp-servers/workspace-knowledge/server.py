@@ -49,17 +49,22 @@ def _diag(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# embedder-service integration (Phase 4) — same feature-flagged,
-# fallback-preserving pattern as agent-memory's Phase 2 integration
-# (mcp-servers/_shared/embedder_client.py). Scoped deliberately to the
-# QUERY-time embedding calls only (SearchEngine._search_semantic /
-# _search_qdrant, on the live search_docs hot path) — NOT the batch
-# index-build/reseed/upsert paths (_build_or_load_faiss_index,
-# _seed_qdrant_collection, _upsert_file_to_qdrant), which already run off
-# the critical MCP-handshake path (_init_faiss_background's own background
-# thread) and need a local SentenceTransformer instance for efficient
-# batch encoding regardless. Migrating those too would be a larger
-# architecture change than "the same client pattern as Phase 2" calls for.
+# embedder-service integration. Phase 4
+# (telescope/2026-07-13-mcp-embedder-service-redesign) migrated QUERY-time
+# embedding only (SearchEngine._search_semantic / _search_qdrant, on the live
+# search_docs hot path) via _encode_query_vector(), deliberately leaving the
+# batch index-build/reseed/upsert paths (_build_or_load_faiss_index,
+# _seed_qdrant_collection, _upsert_file_to_qdrant) on the local in-process
+# SentenceTransformer only, as scoped-out future work.
+#
+# Phase 6 (telescope/2026-08-06-workspace-knowledge-batch-encoding-migration)
+# is that future work: those three batch call sites now also prefer
+# embedder-service via _encode_batch_vectors(), chunked into
+# _BATCH_EMBED_GROUP_SIZE-sized groups with an explicit _BATCH_EMBED_TIMEOUT_S
+# timeout, falling back to the local in-process model for the entire batch on
+# any group failure. The local loader — and workspace-knowledge/embedding/model/
+# itself — remains the required, feature-flagged fallback throughout; it is
+# not removed until a future phase explicitly verifies it is safe to.
 # ---------------------------------------------------------------------------
 
 EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
@@ -68,6 +73,24 @@ EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip()
     "no",
 )
 _QUERY_EMBEDDER_SERVICE_MODEL = "all-mpnet-base-v2"  # matches this server's 768-dim collection
+
+# ---------------------------------------------------------------------------
+# Phase 6 (telescope/2026-08-06-workspace-knowledge-batch-encoding-migration):
+# batch-path embedding constants. Group size matches embedder-service's own
+# MAX_TEXTS_PER_REQUEST cap (EMBEDDER_SERVICE_MAX_TEXTS, default 256,
+# _shared/embedder-service/server.py) — chunking client-side to this size
+# keeps every /embed call within the service's own accepted request size
+# regardless of which side's env var is tuned. Timeout is an explicit 30.0s,
+# NOT embedder_client.embed()'s query-tuned EMBED_CALL_TIMEOUT_S (8.0s)
+# default: Phase 0's real full-corpus benchmark (1,570 files, 3,697 chunks)
+# measured a full 256-chunk batch's own server-side encode cost at ~7.4s —
+# already close to the 8.0s bound before HTTP/JSON overhead — which caused 7
+# of ~15 full batches to time out under the default. See
+# telescope/2026-08-06-workspace-knowledge-batch-encoding-migration/
+# supporting/implementation-plan.md §3.
+# ---------------------------------------------------------------------------
+_BATCH_EMBED_GROUP_SIZE = 256
+_BATCH_EMBED_TIMEOUT_S = 30.0
 
 _embedder_service_lock = threading.Lock()
 # "disabled" | "starting" | "ready" | "unavailable"
@@ -318,14 +341,14 @@ class SearchEngine:
             raise RuntimeError("BM25 chunks must be built before seeding Qdrant")
 
         from qdrant_client.models import PointStruct
-        import numpy as np
 
         BATCH_SIZE = 100
         texts = [c["text"][:512] for c in self._chunks]
         self._rebuild_progress["chunks_total"] = len(texts)
         self._rebuild_progress["chunks_embedded"] = 0
-        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
-        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+        embeddings = self._encode_batch_vectors(texts)
+        if embeddings is None:
+            raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
 
         for i in range(0, len(self._chunks), BATCH_SIZE):
             batch_chunks = self._chunks[i:i + BATCH_SIZE]
@@ -400,22 +423,27 @@ class SearchEngine:
         import torch
         _device = "cuda" if torch.cuda.is_available() else "cpu"
         model = SentenceTransformer(str(self._MODEL_DIR), device=_device)
+        # Assign self._model before any encoding happens, in both branches
+        # below — _encode_batch_vectors()'s local fallback path reads
+        # self._model (not a local variable), so it must be set here rather
+        # than only at the end of each branch as it was pre-Phase-6, when
+        # this function called model.encode() directly.
+        self._model = model
 
         if needs_rebuild:
             # Encode all chunks
             texts = [c["text"][:512] for c in self._chunks]
-            embeddings = model.encode(texts, show_progress_bar=False, batch_size=64)
-            embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+            embeddings = self._encode_batch_vectors(texts)
+            if embeddings is None:
+                raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
             dim = embeddings.shape[1]
             index = faiss.IndexFlatIP(dim)  # Inner product = cosine similarity after normalization
             index.add(embeddings.astype("float32"))
             faiss.write_index(index, str(index_file))
             state_file.write_text(json.dumps(current_mtimes))
             self._faiss_index = index
-            self._model = model
         else:
             self._faiss_index = faiss.read_index(str(index_file))
-            self._model = model
 
     def _search_bm25(self, query: str, top_k: int) -> list[dict]:
         scores = self._bm25.get_scores(query.lower().split())
@@ -463,6 +491,69 @@ class SearchEngine:
             raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
         q_emb = self._model.encode([query])
         return q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True)
+
+    def _encode_batch_vectors(self, texts: list[str]):
+        """
+        Returns L2-normalized embeddings for a batch of `texts` as an
+        (n, 768) np.ndarray, or None if no embedding path is available.
+
+        Batch-path counterpart to _encode_query_vector() — same
+        service-preferred, fallback-on-failure shape, but scoped to the
+        index-build/reseed/upsert call sites (_build_or_load_faiss_index,
+        _seed_qdrant_collection, _upsert_file_to_qdrant) per Phase 6
+        (telescope/2026-08-06-workspace-knowledge-batch-encoding-migration).
+
+        `texts` is chunked into groups of at most _BATCH_EMBED_GROUP_SIZE
+        (matching embedder-service's own MAX_TEXTS_PER_REQUEST cap) and each
+        group is sent as one embedder_client.embed() call with an explicit
+        timeout=_BATCH_EMBED_TIMEOUT_S (30.0s) — NOT the client's
+        query-tuned 8.0s default, which Phase 0's real full-corpus benchmark
+        proved too tight for a full 256-chunk batch's own server-side encode
+        cost.
+
+        On ANY group failure (embed() returns None for that group), the
+        ENTIRE batch falls back to the local self._model.encode() call —
+        never a mix of service-encoded and locally-encoded vectors within
+        one logical batch, to avoid subtle cross-source inconsistency.
+        Returns None only when local encoding is also unavailable
+        (self._model is None); callers are responsible for handling that
+        the same way existing call sites already handle a not-yet-ready
+        model.
+        """
+        import numpy as np
+
+        if not texts:
+            return np.empty((0, 768), dtype="float32")
+
+        if EMBEDDER_SERVICE_ENABLED and _embedder_service_ready():
+            service_vectors: list[list[float]] = []
+            service_ok = True
+            for start in range(0, len(texts), _BATCH_EMBED_GROUP_SIZE):
+                group = texts[start:start + _BATCH_EMBED_GROUP_SIZE]
+                group_vectors = embedder_client.embed(
+                    group,
+                    model=_QUERY_EMBEDDER_SERVICE_MODEL,
+                    timeout=_BATCH_EMBED_TIMEOUT_S,
+                    expected_dim=768,
+                )
+                if group_vectors is None:
+                    service_ok = False
+                    _diag(
+                        "embedder-service batch-embed call failed at runtime "
+                        f"(group starting at index {start}, size {len(group)}) — "
+                        "falling back to in-process model for the entire batch"
+                    )
+                    break
+                service_vectors.extend(group_vectors)
+
+            if service_ok:
+                arr = np.array(service_vectors, dtype="float32")
+                return arr / np.linalg.norm(arr, axis=1, keepdims=True)
+
+        if self._model is None:
+            return None
+        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
+        return embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
     def _search_semantic(self, query: str, top_k: int) -> list[dict]:
         """Dense vector search over the FAISS index using cosine similarity."""
@@ -611,9 +702,13 @@ class SearchEngine:
 
     def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
         """Re-chunk, re-embed, and upsert one file's points into Qdrant.
-        Deletes old points for this file first, then inserts updated ones."""
+        Encodes and validates the new points BEFORE deleting the old ones —
+        if encoding fails (e.g. embedder-service down and the local model not
+        yet ready), the file's existing points must survive untouched rather
+        than being deleted with nothing to replace them (found by Phase 3
+        fault injection: a delete-before-check ordering could otherwise drop
+        a file from the collection until a later successful upsert/rebuild)."""
         from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
-        import numpy as np
 
         file_path = Path(file_path_str)
         new_chunks = self._extract_chunks(file_path)
@@ -623,18 +718,19 @@ class SearchEngine:
 
         rel_path = new_chunks[0]["rel_path"]
 
-        # Delete all existing points for this file
+        # Encode new chunks FIRST — raises before any existing points are touched
+        texts = [c["text"][:512] for c in new_chunks]
+        embeddings = self._encode_batch_vectors(texts)
+        if embeddings is None:
+            raise RuntimeError("model not ready — cannot upsert without an embedding model")
+
+        # Only now delete the old points for this file
         self._qdrant_client.delete(
             collection_name=self._collection_name,
             points_selector=Filter(
                 must=[FieldCondition(key="rel_path", match=MatchValue(value=rel_path))]
             ),
         )
-
-        # Encode new chunks
-        texts = [c["text"][:512] for c in new_chunks]
-        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
-        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
         points = [
             PointStruct(
