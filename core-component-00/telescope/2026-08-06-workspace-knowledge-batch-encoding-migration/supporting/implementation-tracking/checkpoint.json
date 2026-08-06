@@ -1,0 +1,36 @@
+{
+  "investigation_id": "2026-08-06-workspace-knowledge-batch-encoding-migration",
+  "overall_status": "in_progress",
+  "last_updated": "2026-08-06",
+  "phases": {
+    "phase_0_benchmark": {
+      "status": "done",
+      "sample_chunks": 3697,
+      "sample_files": null,
+      "sampling": "full corpus, no sampling",
+      "total_corpus_md_files": 1570,
+      "local_cuda": {
+        "model_load_s": 1.25,
+        "encode_s": 107.28,
+        "chunks_per_sec": 34.5
+      },
+      "http_batched": {
+        "service_up": true,
+        "service_start_s": 0.09,
+        "encode_s": 108.87,
+        "chunks_per_sec": 34.0,
+        "failed_sub_batches": 7,
+        "total_sub_batches_approx": 15
+      },
+      "finding": "batch-path timeout must be raised above the client's 8.0s query-tuned default before Phase 2 client integration"
+    },
+    "phase_1_governance_decision": {
+      "status": "in_progress",
+      "decision": "Option B - track PII-scrubbing gap in parallel"
+    },
+    "phase_2_client_integration": { "status": "not_started" },
+    "phase_3_adversarial_review": { "status": "not_started" },
+    "phase_4_regression_gate": { "status": "not_started" },
+    "phase_5_closeout": { "status": "not_started" }
+  }
+}
