@@ -702,7 +702,12 @@ class SearchEngine:
 
     def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
         """Re-chunk, re-embed, and upsert one file's points into Qdrant.
-        Deletes old points for this file first, then inserts updated ones."""
+        Encodes and validates the new points BEFORE deleting the old ones —
+        if encoding fails (e.g. embedder-service down and the local model not
+        yet ready), the file's existing points must survive untouched rather
+        than being deleted with nothing to replace them (found by Phase 3
+        fault injection: a delete-before-check ordering could otherwise drop
+        a file from the collection until a later successful upsert/rebuild)."""
         from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
 
         file_path = Path(file_path_str)
@@ -713,19 +718,19 @@ class SearchEngine:
 
         rel_path = new_chunks[0]["rel_path"]
 
-        # Delete all existing points for this file
+        # Encode new chunks FIRST — raises before any existing points are touched
+        texts = [c["text"][:512] for c in new_chunks]
+        embeddings = self._encode_batch_vectors(texts)
+        if embeddings is None:
+            raise RuntimeError("model not ready — cannot upsert without an embedding model")
+
+        # Only now delete the old points for this file
         self._qdrant_client.delete(
             collection_name=self._collection_name,
             points_selector=Filter(
                 must=[FieldCondition(key="rel_path", match=MatchValue(value=rel_path))]
             ),
         )
-
-        # Encode new chunks
-        texts = [c["text"][:512] for c in new_chunks]
-        embeddings = self._encode_batch_vectors(texts)
-        if embeddings is None:
-            raise RuntimeError("model not ready — cannot upsert without an embedding model")
 
         points = [
             PointStruct(
