@@ -8,8 +8,8 @@
 | -------------------- | ------------------------------------------------------------------------------------------------------- |
 | **Investigation ID** | `2026-08-06-workspace-knowledge-batch-encoding-migration`                                               |
 | **Date Started**     | 2026-08-06                                                                                              |
-| **Date Completed**   | In Progress                                                                                             |
-| **Status**           | Proposed — pending CEO sign-off; see `supporting/implementation-plan.md`                                |
+| **Date Completed**   | 2026-08-06                                                                                              |
+| **Status**           | Implemented and closed 2026-08-06 — all 5 phases complete; see `supporting/implementation-plan.md` §10  |
 | **Investigator**     | Dr. Elias Vance, Laboratory Director                                                                    |
 | **Laboratory**       | Core Component 00                                                                                       |
 | **Module(s)**        | MCP server infrastructure (`workspace-knowledge`, `embedder-service`); `retrieval-augmented-generation` |

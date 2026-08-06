@@ -88,19 +88,28 @@ per-server cache. The slug convention (`<hf-model-id>` with `/` → `--`) matche
 cache has no `--activate`/single-active-slot step, since different servers may need different,
 incompatible-dimension models resident at once (`workspace-knowledge`: `all-mpnet-base-v2`,
 768-dim; `agent-memory`: `all-MiniLM-L6-v2`, 384-dim) — each server reads its own model directly
-out of its slug directory. `workspace-knowledge`'s existing private cache
-(`workspace-knowledge/embedding/model/` + `embedding/models/`) is untouched and out of scope for
-migration — this convention governs new/future provisioning, not a retrofit of what already
-works. Servers read the shared cache independently at call time; there is no shared init sequence,
-lock, or state file between servers.
+out of its slug directory. **`workspace-knowledge`'s former private cache
+(`workspace-knowledge/embedding/model/`) was retrofitted onto this convention 2026-08-06** as
+Phase 6 of `telescope/2026-08-06-workspace-knowledge-batch-encoding-migration/` — its fallback
+loader (`SearchEngine._MODEL_DIR`, used when `embedder-service` is unavailable, for both the
+query path and the newly-migrated batch index-build/reseed/upsert paths) now reads
+`all-mpnet-base-v2` directly from `_shared/models/sentence-transformers--all-mpnet-base-v2/`
+instead of a duplicated private copy — verified byte-identical output (cosine similarity 1.0)
+before the 418.4 MB private copy was deleted. The line below, "this convention governs
+new/future provisioning, not a retrofit of what already works," was the standing position on
+this specific gap until that date; it no longer describes `workspace-knowledge`'s embedding-model
+loading, though the general principle (don't retrofit working systems without cause) still holds
+for future cases. Servers read the shared cache independently at call time; there is no shared
+init sequence, lock, or state file between servers.
 
 **The shared cache has a third consumer beyond the two registered servers.** `embedder-service`
 (see "Shared Infrastructure" below) loads every model any of its consumers route through it
-directly from `_shared/models/<slug>/` — including a copy of `all-mpnet-base-v2`, even though
-`workspace-knowledge` also keeps its own separate private copy for its no-service fallback path.
-Do not assume a model present in the shared cache but "unused" by a registered server's own code
-is dead weight — check `embedder-service`'s `MODEL_ALIASES` table and each consumer's
-`EMBEDDER_SERVICE_ENABLED` wiring before deleting anything from `_shared/models/`.
+directly from `_shared/models/<slug>/` — including `all-mpnet-base-v2`, which `workspace-knowledge`
+now also reads directly from the same shared-cache slug for its no-service fallback path (see
+above; no longer a separate private copy). Do not assume a model present in the shared cache but
+"unused" by a registered server's own code is dead weight — check `embedder-service`'s
+`MODEL_ALIASES` table and each consumer's `EMBEDDER_SERVICE_ENABLED` wiring before deleting
+anything from `_shared/models/`.
 
 ---
 
@@ -131,7 +140,10 @@ was the root cause of the intermittent embedder-warmup stalls fixed 2026-07-17.
 **Graceful degradation.** Both consumers treat the service being down or slow to start as a
 non-error. `agent-memory` falls back to its pre-existing `embedder=None` → `degraded: true` path
 (unchanged from before `embedder-service` existed). `workspace-knowledge` falls back to loading
-its own private in-process copy of `all-mpnet-base-v2` from `embedding/model/`.
+`all-mpnet-base-v2` in-process directly from the shared cache
+(`_shared/models/sentence-transformers--all-mpnet-base-v2/` — no longer a private copy, see the
+model-provisioning-convention note above) — this fallback now covers both the query path (Phase 4,
+2026-07-14) and the batch index-build/reseed/upsert paths (Phase 6, 2026-08-06).
 
 **Python environment.** All three processes — both registered servers and `embedder-service` — run
 from **one shared venv** at `core-component-00/mcp-servers/.venv/`. These dependencies must not be

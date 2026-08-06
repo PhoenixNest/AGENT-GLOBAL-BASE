@@ -1,6 +1,6 @@
 {
   "investigation_id": "2026-08-06-workspace-knowledge-batch-encoding-migration",
-  "overall_status": "in_progress",
+  "overall_status": "complete",
   "last_updated": "2026-08-06",
   "phases": {
     "phase_0_benchmark": {
@@ -25,12 +25,39 @@
       "finding": "batch-path timeout must be raised above the client's 8.0s query-tuned default before Phase 2 client integration"
     },
     "phase_1_governance_decision": {
-      "status": "in_progress",
+      "status": "done",
       "decision": "Option B - track PII-scrubbing gap in parallel"
     },
-    "phase_2_client_integration": { "status": "not_started" },
-    "phase_3_adversarial_review": { "status": "not_started" },
-    "phase_4_regression_gate": { "status": "not_started" },
-    "phase_5_closeout": { "status": "not_started" }
+    "phase_2_client_integration": {
+      "status": "done",
+      "owner": "Sofia Almeida",
+      "branch": "agent/sofia/workspace-knowledge-batch-encoding-migration",
+      "commit": "d678b851"
+    },
+    "phase_3_adversarial_review": {
+      "status": "done",
+      "wieczorek_verdict": "PASS",
+      "omalley_verdict": "5/5 scenarios pass on _encode_batch_vectors; found 1 real defect one level up (delete-before-check ordering in _upsert_file_to_qdrant)",
+      "fix_commit": "7d17fb83",
+      "fix_owner": "Kwame Asante (persona-attributed by orchestrator)"
+    },
+    "phase_4_regression_gate": {
+      "status": "done",
+      "mean_cosine_similarity": 1.0,
+      "min_cosine_similarity": 0.9999998807907104,
+      "top3_exact_agreement": "20/20",
+      "sample_chunks": 92
+    },
+    "phase_5_closeout": {
+      "status": "done",
+      "design_gap_caught": "fallback loader hardcoded the private model path; repointed to shared cache before deletion, not after",
+      "disk_reclaimed_mb": 418.4,
+      "private_copy_deleted": true,
+      "post_deletion_sanity_check": "PASS"
+    }
+  },
+  "merge_commits": {
+    "docs": "76605bea",
+    "phase2_and_fix": "merge of agent/sofia/workspace-knowledge-batch-encoding-migration (--no-ff)"
   }
 }

@@ -26,3 +26,29 @@
 - Phase 0 marked complete on this real evidence. Design correction carried into Phase 2: batch
   calls must pass an explicit, longer timeout.
 - Phase 1 (governance-gap sequencing) begun: recording Option B as the executed decision.
+- Phase 2 dispatched to a worktree-isolated subagent as Sofia Almeida: implemented
+  `_encode_batch_vectors()`, redirected the three batch call sites, applied `timeout=30.0`. Found
+  and fixed one bug of her own during implementation (`self._model` assignment timing in
+  `_build_or_load_faiss_index`). Committed on `agent/sofia/workspace-knowledge-batch-encoding-migration`
+  (`d678b851`), not merged — awaiting Phase 3.
+- Phase 3 dispatched as two parallel worktree-isolated subagents: Dr. Wieczorek (adversarial
+  review) and Connor O'Malley (fault injection), both against the real committed branch.
+  Wieczorek: PASS. O'Malley: found a real, reachable defect — `_upsert_file_to_qdrant` deleted a
+  file's existing Qdrant points before checking whether re-encoding succeeded, so an encode
+  failure could silently drop the file from the index until a later repair.
+- Fix applied directly in the Sofia worktree (attributed to Kwame Asante, who owns client-side
+  robustness): swapped the encode-and-check/delete order, added a targeted regression test
+  covering both the failure path (no delete/upsert call) and the success path (unchanged
+  delete-then-upsert order), verified both pass. Committed (`7d17fb83`).
+- Docs (research-report.md, implementation-plan.md, tracking files, telescope/README.md) committed
+  to `core00/dev/engineering` (`76605bea`), then the reviewed Sofia branch merged in with `--no-ff`.
+- Phase 4: real regression check against the actual merged code (not a re-implementation) —
+  mean cosine similarity 1.000000, top-3 exact agreement 20/20 across 92 real chunks. Zero
+  retrieval-quality regression. Gate cleared.
+- Phase 5: before deleting the private model copy, caught a real gap the plan itself
+  under-specified — the fallback loader (`SearchEngine._MODEL_DIR`) hardcoded the private path,
+  so naive deletion would have broken the degrade-never-block contract Phases 3-4 had just
+  verified. Repointed `_MODEL_DIR` at the shared cache, verified byte-identical output (cosine
+  similarity 1.0) before deletion, deleted `workspace-knowledge/embedding/model/` (418.4 MB),
+  then re-verified the fallback still works with the private copy actually gone. Updated
+  `.claude/rules/mcp-governance.md` to reflect the retrofit. Investigation closed.

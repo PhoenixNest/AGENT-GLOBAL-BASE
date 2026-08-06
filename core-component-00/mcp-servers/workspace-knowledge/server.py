@@ -140,7 +140,15 @@ class SearchEngine:
 
     _EMBED_DIR = Path(__file__).parent / "embedding"
     _INDEX_DIR = _EMBED_DIR              # faiss.index + index_state.json
-    _MODEL_DIR = _EMBED_DIR / "model"    # local all-mpnet-base-v2 files
+    # Phase 6: the fallback loader now reads all-mpnet-base-v2 straight from the
+    # shared model cache instead of a private copy under embedding/model/ — same
+    # weights, same convention every other _shared/models/ consumer already uses
+    # (mcp-governance.md), freeing the private copy to be deleted without breaking
+    # the degrade-never-block fallback contract this path exists to serve.
+    _MODEL_DIR = (
+        Path(__file__).resolve().parents[1] / "_shared" / "models"
+        / "sentence-transformers--all-mpnet-base-v2"
+    )
 
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
