@@ -3,11 +3,9 @@
 **Parent report:** `../research-report.md`
 **Author:** Dr. Elias Vance, Laboratory Director
 **Date:** 2026-08-06
-**Status:** Approved 2026-08-06 — CEO delegated full responsibility for this migration to Dr.
-Vance and the relevant CC-00 team, applying Dr. Vance's non-binding recommendations on both §2
-blocker decisions, and directed use of git worktree isolation and multi-agent development
-technique for the implementation phases. Phase 0 complete (real, full-corpus benchmark); Phase 1
-in progress. See `implementation-tracking/` for live status.
+**Status:** Implemented and closed 2026-08-06 — all 5 phases complete, merged into
+`core00/dev/engineering`. See §10 Closeout Review below and `implementation-tracking/` for the
+full record.
 
 ---
 
@@ -208,3 +206,62 @@ graph TB
 This plan is presented for CEO review. Two open blocker decisions (§2.1, §2.2) require an explicit
 CEO ruling before Phase 0 begins. On approval and those rulings, Phase 0 begins immediately. No
 implementation work starts before that sign-off.
+
+---
+
+## 10. Closeout Review (Dr. Vance, 2026-08-06)
+
+CEO sign-off was granted, applying Dr. Vance's non-binding §2 recommendations, with a directive
+to use git worktree isolation and multi-agent development technique. All five phases executed and
+merged into `core00/dev/engineering` (commits `76605bea`, `d678b851`/`7d17fb83` via `--no-ff` merge,
+plus a direct Phase 5 commit — see below); worktrees `agent-a6abc8df8b9413a08` and
+`agent-a9ee5e290fd8f45fc` kept on disk, not removed, per this session's default (no explicit
+cleanup instruction given).
+
+### 10.1 Phase-by-phase result vs. plan
+
+| Phase | Planned gate (§4)                                                           | Result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ----- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0     | Benchmark completes with real numbers, not a substitute                     | **PASSED — exceeded.** Not a sample: the actual full real corpus (1,570 `.md` files, 3,697 chunks, production chunking algorithm). Local CUDA 34.5 chunks/sec vs. HTTP-batched 34.0 chunks/sec — throughput confirmed equivalent. Surfaced a real, actionable finding: the client's default 8.0s timeout (query-tuned) causes ~47% of full 256-chunk batches to spuriously fail: root-caused to a 256-chunk batch's own server-side cost (~7.4s) being inherently close to that bound. Carried into Phase 2 as a required `timeout=30.0` correction.                                                                                                                                                                                                                                                     |
+| 1     | CEO decision recorded; PII gap closed if Option A                           | **PASSED.** Option B (track in parallel) applied per Dr. Vance's recommendation, endorsed in the CEO's sign-off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 2     | Feature-flagged, fallback verified, zero diff to watchdog/DR paths          | **PASSED.** Sofia Almeida's `_encode_batch_vectors()` implemented exactly per the (Phase-0-corrected) architecture; found and fixed her own pre-existing-bug-adjacent issue (`self._model` assignment timing in `_build_or_load_faiss_index`) before it ever reached review.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 3     | No open critical finding                                                    | **PASSED, with a real defect found and fixed before merge.** Dr. Wieczorek's independent adversarial review (executed the real committed code under adversarial mocks, not a re-typed copy): **PASS**, two pre-existing non-blocking gaps logged. Connor O'Malley's fault-injection suite: all 5 scenarios on `_encode_batch_vectors()` itself passed, but found one real, reachable defect one level up — `_upsert_file_to_qdrant` deleted a file's existing Qdrant points _before_ checking whether re-encoding succeeded, so an encode failure could silently drop a file from the index. Fixed directly (delete-and-check order swapped), verified with a targeted regression test (both the failure-path and success-path orderings), committed as a second commit on the same branch before merge. |
+| 4     | No retrieval-quality regression vs. Phase 0 baseline                        | **PASSED — decisively.** Real regression check against the actual merged code, 92 real chunks from 40 real files: mean cosine similarity between the local and service embedding paths = **1.000000** (min 0.9999998807907104), top-3 nearest-neighbor exact agreement 20/20. Throughput already confirmed equivalent in Phase 0.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 5     | Private copy safely removed, 418.4 MB reclaim verified, ASGF verdict re-run | **PASSED, with a design gap caught and closed before deletion — not after.** The plan as originally written under-specified this phase: naive deletion of `workspace-knowledge/embedding/model/` would have broken the fallback contract Phases 3–4 had just verified, since the fallback loader (`SearchEngine._MODEL_DIR`) hardcoded that private path. Fixed by repointing `_MODEL_DIR` at the shared cache (`_shared/models/sentence-transformers--all-mpnet-base-v2/`) — verified byte-identical output (cosine similarity 1.0, both test sentences) _before_ deletion, then verified again with the private copy actually gone (not just in a dry run). 418.4 MB reclaimed and independently measured.                                                                                             |
+
+### 10.2 ASGF status — unchanged verdict, correctly not re-litigated
+
+This migration did not touch any of the code paths the original embedder-service build's ASGF
+verdict concerns (typed error-boundary exceptions, PII scrubbing, merge-integration-agent
+designation) — it extended usage of the same already-Conditional-rated embed path, a state
+explicitly accepted under Option B (§2.1). The overall `embedder-service` system verdict remains
+**Conditional**, per `agent-systems-governance-framework/governance/adr-asgf-001.md`, unchanged by
+this work. `.claude/rules/mcp-governance.md` was updated to reflect the model-provisioning-
+convention retrofit (workspace-knowledge no longer has a private cache) — a factual correction,
+not a new ASGF ruling.
+
+### 10.3 Deviations from the plan, disclosed
+
+1. **Phase 0 ran the literal full corpus, not a sample** — the plan allowed either; the numbers
+   showed a full run was cheap (~2 minutes), so it was preferred over extrapolation.
+2. **Phase 3 found and required a real fix** (§10.1, Phase 3) — the plan anticipated this
+   possibility structurally (a review phase exists to catch exactly this) but the specific defect
+   was not foreseen in the architecture write-up. Fixed within the same phase rather than treated
+   as a new blocker, consistent with "Trim-to-Pass is itself a P0" — the fix closed the gap, it did
+   not remove or weaken any functionality to get past review.
+3. **Phase 5's own gate criterion was under-specified in the original plan** (§10.1, Phase 5) —
+   "safely removed" implicitly required repointing the fallback loader first, which the plan text
+   did not call out explicitly. Caught before any file was deleted, not after.
+
+### 10.4 Overall assessment
+
+The core engineering claim — the 418.4 MB duplication was real, load-bearing (not dead weight),
+and specifically removable only by completing the batch-path migration — is now fully verified in
+both directions: the migration is real, tested under adversarial and fault-injection conditions by
+independent reviewers, shows zero retrieval-quality regression, and the disk space is genuinely
+reclaimed with the fallback contract intact and independently re-verified post-deletion.
+
+**Recommendation:** accept this as complete. No further action required. The two non-blocking
+gaps Dr. Wieczorek logged (unvalidated vector-count-length in `embedder_client.embed()`; unlocked
+`self._model` mutable state) are appropriate as future harness-engineering backlog items, not a
+condition of this closeout.
