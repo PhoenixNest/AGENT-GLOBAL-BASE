@@ -299,7 +299,7 @@ is genuinely finished — verified against the live repository, not by re-readin
    history-correction and cleanup requests, and never updated afterward. Corrected in this review
    pass; see each file's new "post-closeout" entry for the before/after mapping. No code or test
    content was affected — this was a documentation-currency gap only.
-2. **Local verification harnesses no longer exist on disk (found, not fixed — disclosed).** The
+2. **Local verification harnesses no longer exist on disk (found, disclosed, then resolved for the highest-value case).** The
    `tests/` directory under `workspace-knowledge/` is gitignored by explicit local convention
    ("Local evaluation harness — test scripts and generated outputs stay local"), so the regression
    tests written during Phases 2/3 (`test_batch_embedding.py`, 15/15;
@@ -309,13 +309,18 @@ is genuinely finished — verified against the live repository, not by re-readin
    with them — this was not flagged at the time. The commit messages and tracking docs correctly
    record that these tests passed, and the fixes they proved (delete-before-check ordering,
    `self._model` assignment timing) are visibly present and correct in the merged `server.py`, so
-   nothing shipped is unverified. But no reproducible regression test for either fix exists on
-   disk today; a future edit to `_upsert_file_to_qdrant` or `_encode_batch_vectors` could
-   reintroduce either bug without a local test catching it. Recommend, as a follow-up (not a
-   condition of this closeout, since it changes nothing about what's already shipped): recreate
-   `test_upsert_delete_ordering_fix.py` in the main workspace as a permanent addition, since it is
-   small, fast, and guards a real correctness property; leave the two larger harness files as
-   ephemeral per the existing convention.
+   nothing shipped is unverified. **Resolved same-day, per explicit CEO instruction:**
+   `tests/test_upsert_delete_ordering_fix.py` was recreated in the main workspace (commit
+   `27634c85`, attributed to Kwame Asante, who owns this fix) — constructed via
+   `SearchEngine.__new__` to skip the heavy BM25/FAISS/Qdrant init chain, covering both properties
+   Phase 3 required (encode failure raises before delete/upsert; success path still
+   deletes-then-upserts), both passing against the live `server.py`. A narrow `.gitignore`
+   exception (`tests/*` + a single `!tests/test_upsert_delete_ordering_fix.py` negation) makes this
+   one file permanently tracked while the rest of `tests/` stays local per the existing
+   "local evaluation harness" convention. The two larger harness files
+   (`test_batch_embedding.py`, `test_batch_encoding_fault_injection.py`) remain ephemeral by design
+   — not recreated, since their value was in one-time adversarial/fault-injection coverage at
+   merge time, not as a standing regression guard.
 3. **Everything else holds.** Code, tests-as-executed-at-the-time, disk reclaim, ASGF status (still
    correctly Conditional, unrelitigated), and the shared-cache fallback contract all check out
    against the live repository, not just against prior claims.
@@ -323,8 +328,8 @@ is genuinely finished — verified against the live repository, not by re-readin
 ### 11.3 Verdict
 
 **Accepted as complete**, with one documentation gap fixed during this review (stale hashes/
-worktree status, now corrected) and one disclosed, non-blocking follow-up recommendation (restore
-a permanent regression test for the delete-before-check fix). Neither finding indicates any
-required task was left undone — the underlying migration, its tests-as-run, and its governance
-posture are all sound. No further action is required to consider Phase 6 closed; the follow-up
-recommendation is optional hardening.
+worktree status, now corrected) and one disclosed follow-up (restore a permanent regression test
+for the delete-before-check fix) that has since also been resolved, per explicit CEO instruction
+(commit `27634c85`). Neither finding indicated any required task was left undone — the underlying
+migration, its tests-as-run, and its governance posture were sound throughout. No further action
+is required to consider Phase 6 closed.
