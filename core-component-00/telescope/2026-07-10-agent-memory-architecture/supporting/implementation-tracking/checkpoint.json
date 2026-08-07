@@ -1,0 +1,55 @@
+{
+  "build": "agent-memory-enterprise-readiness",
+  "authorized_by": "CEO via Dr. Elias Vance (Lab Director)",
+  "authorization_date": "2026-08-06",
+  "scope": {
+    "phase_0": "observability fix - full execution authorized",
+    "phase_1": "write-path threat model - scoping/design only authorized, no implementation",
+    "phase_2_plus": "not authorized - explicit stop-and-report boundary"
+  },
+  "milestones": [
+    {
+      "id": "tracking-artifacts-created",
+      "status": "done",
+      "owner": "orchestrator"
+    },
+    {
+      "id": "worktrees-provisioned",
+      "status": "pending",
+      "owner": "orchestrator",
+      "branches": [
+        "agent/observability/phase0-health-check",
+        "agent/security/phase1-write-threat-model"
+      ]
+    },
+    {
+      "id": "phase-0-worker-dispatched",
+      "status": "pending",
+      "owner": "worker-a"
+    },
+    {
+      "id": "phase-1-worker-dispatched",
+      "status": "pending",
+      "owner": "worker-b"
+    },
+    {
+      "id": "integration-merge",
+      "status": "pending",
+      "owner": "orchestrator"
+    },
+    {
+      "id": "governance-record-updated",
+      "status": "pending",
+      "owner": "orchestrator"
+    },
+    {
+      "id": "report-to-team-lead",
+      "status": "pending",
+      "owner": "orchestrator"
+    }
+  ],
+  "known_findings": [
+    "mcp-servers/agent-memory/tests/ referenced in mcp-governance.md and 09-mcp-architecture-decision.md does not exist in working tree or git history - test suite was never actually committed"
+  ],
+  "last_updated": "2026-08-06"
+}
