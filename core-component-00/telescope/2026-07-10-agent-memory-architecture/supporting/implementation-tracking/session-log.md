@@ -28,3 +28,39 @@
     doc 11 only, no code. Disjoint file ownership from Worker A — safe to run in parallel.
   - Orchestrator reserves the top-level `research-report.md` and `README.md` index updates for
     itself post-merge, to avoid both workers racing on the same file.
+
+## 2026-08-06 (Worker A)
+
+- Read all required grounding docs inside the `agent-observability` worktree: `agent-memory/
+server.py`, `workspace-knowledge/server.py` (`health_check`/`_document_kb_health_block`/
+  `_memory_instance_health_block`), `_shared/embedder_client.py`,
+  `2026-07-17-agent-memory-client-instability/research-report.md`,
+  `09-mcp-architecture-decision.md`, `.claude/rules/mcp-governance.md`'s `agent-memory` row,
+  and this folder's `progress.md`/`session-log.md`.
+- Implemented `_get_search_capability_snapshot()` and wired it into `health_check()`'s return
+  dict (`server.py`) — read-only, reuses existing embedder-state globals, never triggers the
+  lazy warmup thread, never raises.
+- Refactored `workspace-knowledge/server.py`'s `_memory_instance_health_block()` into a
+  DI-friendly `_memory_instance_health_block_impl(client)` + thin wrapper — the one
+  explicitly-permitted touch to that file, nothing else changed there.
+- Built `agent-memory/tests/` from scratch (`conftest.py`, `test_server.py`,
+  `health_comparison.py`, `test_cross_server_health_comparison.py`) — 43 tests, all passing,
+  including a live cross-server comparison test that actually exercised the real `qdrant-memory`
+  instance in this environment (reachable, not skipped) and found no divergence.
+- Investigated the stale-duplicate-process issue via static analysis (daemon-thread check, stdio
+  transport EOF-exit behavior) and one direct empirical test (thread-enumeration around
+  `QdrantClient` construction/first-call — zero new threads in the installed version, an open
+  discrepancy against `2026-07-17`'s Finding 4 `py-spy` evidence, recorded not resolved). Judged
+  the `embedder-service` idle-timeout pattern architecturally inapplicable to `agent-memory`
+  itself. No agent-memory-owned fix found; documented a concrete diagnosis plan for a future
+  live-reconnect session instead of guessing.
+- Ran regression suite (`context-engineering/testing/`): 283 passed, 1 pre-existing unrelated
+  failure (`test_acon_benchmark.py::test_acon_vs_context_compressor`), confirmed unchanged.
+- Wrote `supporting/10-observability-fix-phase0.md`; appended a dated update to
+  `.claude/rules/mcp-governance.md`'s `agent-memory` row; updated this folder's `progress.md`
+  and `checkpoint.json`.
+- Explicitly did not perform: any live MCP reconnect / live tool call over an actual MCP
+  connection (no mechanism available in this background/subagent context). Flagged as pending
+  in every artifact touched, not silently omitted.
+- Committed all changes on `agent/observability/phase0-health-check`; did not merge — leaves
+  integration to the orchestrator per this build's instructions.
