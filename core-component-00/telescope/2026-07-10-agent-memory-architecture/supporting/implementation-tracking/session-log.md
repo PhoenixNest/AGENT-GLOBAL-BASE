@@ -64,3 +64,22 @@ server.py`, `workspace-knowledge/server.py` (`health_check`/`_document_kb_health
   in every artifact touched, not silently omitted.
 - Committed all changes on `agent/observability/phase0-health-check`; did not merge — leaves
   integration to the orchestrator per this build's instructions.
+
+## 2026-08-06 (Worker B)
+
+- **Worker B (`agent/security/phase1-write-threat-model`) completed Phase 1.** Read in full:
+  `09-mcp-architecture-decision.md` (Decisions 2 and 3), `07-adversarial-evaluation-results.md`,
+  `memory_maintenance.py`'s `check_contradiction()` and `run_maintenance_pass()` gate pattern,
+  `agent-memory/server.py` (current state, read-only), and verified the `REFLECT-003` finding
+  directly against `reflection-log.jsonl` entry 3 rather than trusting the brief's paraphrase —
+  the paraphrase held up on its core claim but omitted two details (the finding was demonstrated
+  on a different, if analogous, mechanism — the Investigator-Authored Write Path's identity
+  layer, not `agent-memory`; and code-level checks were retained as defense-in-depth against
+  careless misuse, not discarded as worthless). Drafted
+  `supporting/11-write-path-threat-model-phase1.md`: enumerates five concrete prompt-injection
+  attack shapes against a hypothetical write tool, states the unforgeable-boundary tradeoff and a
+  reasoned position (blocked-until-reviewed for high-consequence/sacred writes,
+  write-then-quarantine-then-async-review for routine ones, using the `H-P01` hook-pair shape as
+  the structural-enforcement precedent), and issues an explicit **no-go recommendation for Phase
+  2** with six checkable conditions for reversal. Ran `prettier --write` on the new file. No code
+  written, no tool implemented or registered, `agent-memory/server.py` untouched (read-only).
