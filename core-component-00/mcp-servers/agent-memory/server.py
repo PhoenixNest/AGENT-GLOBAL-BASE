@@ -306,6 +306,59 @@ def _get_embedder_unavailable_reason() -> str:
     return "embedding model unavailable"  # unreachable in practice: "ready" implies embedder is not None
 
 
+def _get_search_capability_snapshot() -> Dict[str, Any]:
+    """
+    Read-only snapshot of what `_get_embedder()` would resolve to right now,
+    without triggering any side effect that a plain health check should not
+    cause — in particular, this must never call `_ensure_embedder_load_started()`,
+    since that would reintroduce exactly the kind of eager background work the
+    2026-07-17 fix (commit referenced in mcp-governance.md's agent-memory row)
+    deliberately made lazy-only. Every state read here goes through the same
+    module globals `_get_embedder()`/`_get_embedder_unavailable_reason()`
+    already use — this function does not introduce a second source of truth,
+    it only re-presents that existing state in a health_check-shaped block.
+
+    Never raises: each state read is a plain lock-guarded attribute read, and
+    any unexpected error degrades to a clearly-labeled "unavailable" reading
+    rather than propagating, consistent with every other code path in this
+    module.
+    """
+    try:
+        with _embedder_service_lock:
+            service_state = _embedder_service_state if EMBEDDER_SERVICE_ENABLED else "disabled"
+        with _embedder_lock:
+            in_process_state = _embedder_state
+            in_process_ready = _embedder_cache is not None
+
+        # Mirrors _get_embedder()'s precedence exactly, but read-only: a
+        # cached "ready" service state is trusted as-is (no re-probe — a
+        # network call is not something a health check should trigger), and
+        # the in-process fallback is only considered "ready" if it has
+        # already finished loading on its own, never started here.
+        service_effectively_ready = EMBEDDER_SERVICE_ENABLED and service_state == "ready"
+        if service_effectively_ready:
+            effective_path = "embedder-service"
+        elif in_process_ready:
+            effective_path = "in-process-fallback"
+        else:
+            effective_path = "unavailable"
+
+        return {
+            "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
+            "embedder_service_state": service_state,
+            "in_process_fallback_state": in_process_state,
+            "effective_path": effective_path,
+        }
+    except Exception as exc:
+        traceback.print_exc(file=sys.stderr)
+        return {
+            "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
+            "embedder_service_state": "unavailable",
+            "in_process_fallback_state": f"failed: snapshot error: {exc}",
+            "effective_path": "unavailable",
+        }
+
+
 _memory_client_cache: Any = None
 _memory_client_lock = threading.Lock()
 
@@ -560,7 +613,14 @@ def health_check() -> Dict[str, Any]:
     qdrant-memory is unreachable, matching search_memory's own
     graceful-degradation discipline. Same telemetry shape as
     workspace-knowledge's health_check's memory_instance block, so callers
-    can read either server's health_check for this data."""
+    can read either server's health_check for this data.
+
+    Also reports `search_capability` — embedder-service / in-process-fallback
+    state (see _get_search_capability_snapshot()) — the observability gap the
+    2026-08-06 P1 (embedder-service readiness was one-shot and invisible to
+    health_check; fixed as f655c21e) exposed: nothing in this tool's output
+    previously told a caller whether search_memory's embedding path was
+    actually usable right now."""
     try:
         _diag("health_check: start")
         client = _get_memory_client()
@@ -572,7 +632,8 @@ def health_check() -> Dict[str, Any]:
         result = {
             "memory_instance": compute_memory_instance_telemetry(
                 client=client, indices=indices, sync_state=_memory_sync_state
-            )
+            ),
+            "search_capability": _get_search_capability_snapshot(),
         }
         _diag("health_check: done")
         return result
@@ -588,7 +649,8 @@ def health_check() -> Dict[str, Any]:
                 "last_consolidation_at": None,
                 "dormant_ratio": 0.0,
                 "error": f"health_check failed: {exc}",
-            }
+            },
+            "search_capability": _get_search_capability_snapshot(),
         }
 
 

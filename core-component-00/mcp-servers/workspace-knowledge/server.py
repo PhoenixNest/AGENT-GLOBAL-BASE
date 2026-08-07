@@ -1029,23 +1029,42 @@ def _document_kb_health_block() -> dict[str, Any]:
     }
 
 
+def _memory_instance_health_block_impl(client: Any) -> dict[str, Any]:
+    """
+    Testable core of _memory_instance_health_block() — accepts an injected
+    Qdrant client (or None) instead of constructing one internally, mirroring
+    the same DI pattern agent-memory/server.py already uses for
+    _search_memory_impl (client/embedder as real parameters, not test-only).
+    This split is what makes core-component-00/mcp-servers/agent-memory/tests/
+    's cross-server health_check comparison test possible: it can call this
+    function directly against the same live (or mocked) client agent-memory's
+    own health_check path uses, without needing workspace-knowledge's full
+    FastMCP tool machinery or a second, independently-constructed client that
+    could itself introduce a divergence the test is trying to detect.
+    """
+    indices = {
+        memory_type: QdrantMemoryIndex(memory_type, client=client)
+        for memory_type in MEMORY_COLLECTION_BY_TYPE
+    }
+    return compute_memory_instance_telemetry(client=client, indices=indices, sync_state=_memory_sync_state)
+
+
 def _memory_instance_health_block() -> dict[str, Any]:
     """Best-effort telemetry against the dedicated qdrant-memory instance
     (http://localhost:6335), separate from the document knowledge base's own
     Qdrant instance. If qdrant-memory is unreachable, this degrades to
     reachable=False with zeroed counts via QdrantMemoryIndex's own graceful
-    degradation — it never raises."""
+    degradation — it never raises. Thin wrapper over
+    _memory_instance_health_block_impl(): constructs the real production
+    QdrantClient (or None on failure) and delegates — see that function's
+    docstring for why the split exists."""
     client = None
     try:
         from qdrant_client import QdrantClient
         client = QdrantClient(url=MEMORY_QDRANT_URL, timeout=5)
     except Exception:
         client = None
-    indices = {
-        memory_type: QdrantMemoryIndex(memory_type, client=client)
-        for memory_type in MEMORY_COLLECTION_BY_TYPE
-    }
-    return compute_memory_instance_telemetry(client=client, indices=indices, sync_state=_memory_sync_state)
+    return _memory_instance_health_block_impl(client)
 
 
 @mcp.tool()

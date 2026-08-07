@@ -9,15 +9,15 @@ scope/design only, no implementation). Phase 2+ explicitly not authorized.
 
 ## Status
 
-| Phase                                          | Status      | Owner                                                 |
-| ---------------------------------------------- | ----------- | ----------------------------------------------------- |
-| Tracking artifacts created                     | Done        | Orchestrator                                          |
-| Worktrees provisioned                          | In Progress | Orchestrator                                          |
-| Phase 0 — observability fix                    | Pending     | Worker A (`agent/observability/phase0-health-check`)  |
-| Phase 1 — write-path threat model (scope only) | Pending     | Worker B (`agent/security/phase1-write-threat-model`) |
-| Integration / merge / review                   | Pending     | Orchestrator                                          |
-| Governance record update                       | Pending     | Orchestrator                                          |
-| Report to team-lead                            | Pending     | Orchestrator                                          |
+| Phase                                          | Status                                   | Owner                                                 |
+| ---------------------------------------------- | ---------------------------------------- | ----------------------------------------------------- |
+| Tracking artifacts created                     | Done                                     | Orchestrator                                          |
+| Worktrees provisioned                          | In Progress                              | Orchestrator                                          |
+| Phase 0 — observability fix                    | Code complete, live-verification pending | Worker A (`agent/observability/phase0-health-check`)  |
+| Phase 1 — write-path threat model (scope only) | Pending                                  | Worker B (`agent/security/phase1-write-threat-model`) |
+| Integration / merge / review                   | Pending                                  | Orchestrator                                          |
+| Governance record update                       | Pending                                  | Orchestrator                                          |
+| Report to team-lead                            | Pending                                  | Orchestrator                                          |
 
 ---
 
@@ -49,3 +49,38 @@ scope/design only, no implementation). Phase 2+ explicitly not authorized.
 Phase 2 (write-capable tool implementation) is **not authorized**. Work stops at Phase 1
 deliverables; orchestrator reports back for separate human sign-off before any Phase 2 work
 begins.
+
+---
+
+## Worker A — Phase 0 completion note (2026-08-06)
+
+All four Phase 0 deliverables executed in the `agent/observability/phase0-health-check`
+worktree:
+
+1. `search_capability` block added to `agent-memory/server.py`'s `health_check()` via a new
+   read-only, never-raising `_get_search_capability_snapshot()` function.
+2. Automated cross-server `health_check` comparison test built (`agent-memory/tests/
+health_comparison.py` + `test_cross_server_health_comparison.py`), including the narrow,
+   explicitly-permitted `workspace-knowledge/server.py` DI refactor
+   (`_memory_instance_health_block_impl(client)`).
+3. Stale duplicate-process investigation: no agent-memory-owned defect found via static
+   analysis + direct empirical testing; root locus judged (reasoning, not direct observation)
+   to be MCP-host-side; concrete diagnosis plan documented rather than dropped.
+4. Real, committed `agent-memory/tests/` suite built (43 tests, closing the
+   previously-undocumented gap between `mcp-governance.md`/`09-mcp-architecture-decision.md`'s
+   citations and actual git history).
+
+Full detail: `10-observability-fix-phase0.md` (this folder's parent, `supporting/`).
+
+**Verification status:** code-level verification complete (compile clean, 43/43 new tests
+passed including one live-Qdrant test that actually ran — not skipped — 283/1-known-failure on
+the `context-engineering/testing/` regression suite, unchanged from before this build). **Live
+MCP-reconnect verification is NOT done** — this build ran in a background/subagent context with
+no mechanism to issue an MCP client reconnect. Flagged explicitly, not blurred, per this
+Programme's established "implemented" vs. "independently live-verified" distinction (see
+`.claude/rules/mcp-governance.md`'s `agent-memory` row history). Orchestrator/human
+verification of the live `health_check` output shape, and of the stale-duplicate-process
+diagnosis plan's first step, remains pending.
+
+No merge performed — worktree left for the orchestrator's integration step, per this build's
+instructions.
