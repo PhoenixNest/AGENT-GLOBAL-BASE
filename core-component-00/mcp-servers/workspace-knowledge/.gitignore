@@ -2,8 +2,7 @@
 embedding/
 
 # Local evaluation harness — test scripts and generated outputs stay local,
-# except permanent regression tests explicitly excepted below (Phase 6 review
-# follow-up, telescope/2026-08-06-workspace-knowledge-batch-encoding-migration)
+# except permanent regression tests explicitly excepted below
 tests/*
 !tests/test_upsert_delete_ordering_fix.py
 

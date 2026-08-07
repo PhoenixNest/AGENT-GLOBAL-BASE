@@ -30,7 +30,6 @@ from implementations.memory_vector_store import (  # noqa: E402
     compute_memory_instance_telemetry,
 )
 
-# embedder-service client (Phase 4, telescope/2026-07-13-mcp-embedder-service-redesign).
 # Same cross-module import pattern as memory_vector_store above.
 _MCP_SERVERS_SHARED_ROOT = Path(__file__).resolve().parents[1] / "_shared"
 if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
@@ -48,25 +47,6 @@ def _diag(msg: str) -> None:
     print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
 
 
-# ---------------------------------------------------------------------------
-# embedder-service integration. Phase 4
-# (telescope/2026-07-13-mcp-embedder-service-redesign) migrated QUERY-time
-# embedding only (SearchEngine._search_semantic / _search_qdrant, on the live
-# search_docs hot path) via _encode_query_vector(), deliberately leaving the
-# batch index-build/reseed/upsert paths (_build_or_load_faiss_index,
-# _seed_qdrant_collection, _upsert_file_to_qdrant) on the local in-process
-# SentenceTransformer only, as scoped-out future work.
-#
-# Phase 6 (telescope/2026-08-06-workspace-knowledge-batch-encoding-migration)
-# is that future work: those three batch call sites now also prefer
-# embedder-service via _encode_batch_vectors(), chunked into
-# _BATCH_EMBED_GROUP_SIZE-sized groups with an explicit _BATCH_EMBED_TIMEOUT_S
-# timeout, falling back to the local in-process model for the entire batch on
-# any group failure. The local loader — and workspace-knowledge/embedding/model/
-# itself — remains the required, feature-flagged fallback throughout; it is
-# not removed until a future phase explicitly verifies it is safe to.
-# ---------------------------------------------------------------------------
-
 EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
     "0",
     "false",
@@ -74,21 +54,9 @@ EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip()
 )
 _QUERY_EMBEDDER_SERVICE_MODEL = "all-mpnet-base-v2"  # matches this server's 768-dim collection
 
-# ---------------------------------------------------------------------------
-# Phase 6 (telescope/2026-08-06-workspace-knowledge-batch-encoding-migration):
-# batch-path embedding constants. Group size matches embedder-service's own
-# MAX_TEXTS_PER_REQUEST cap (EMBEDDER_SERVICE_MAX_TEXTS, default 256,
-# _shared/embedder-service/server.py) — chunking client-side to this size
-# keeps every /embed call within the service's own accepted request size
-# regardless of which side's env var is tuned. Timeout is an explicit 30.0s,
-# NOT embedder_client.embed()'s query-tuned EMBED_CALL_TIMEOUT_S (8.0s)
-# default: Phase 0's real full-corpus benchmark (1,570 files, 3,697 chunks)
-# measured a full 256-chunk batch's own server-side encode cost at ~7.4s —
-# already close to the 8.0s bound before HTTP/JSON overhead — which caused 7
-# of ~15 full batches to time out under the default. See
-# telescope/2026-08-06-workspace-knowledge-batch-encoding-migration/
-# supporting/implementation-plan.md §3.
-# ---------------------------------------------------------------------------
+# Group size caps at embedder-service's MAX_TEXTS_PER_REQUEST; timeout is 30s,
+# not the client's 8s query-tuned default, since a full 256-text batch's own
+# server-side encode cost alone is already close to 8s.
 _BATCH_EMBED_GROUP_SIZE = 256
 _BATCH_EMBED_TIMEOUT_S = 30.0
 
@@ -140,11 +108,8 @@ class SearchEngine:
 
     _EMBED_DIR = Path(__file__).parent / "embedding"
     _INDEX_DIR = _EMBED_DIR              # faiss.index + index_state.json
-    # Phase 6: the fallback loader now reads all-mpnet-base-v2 straight from the
-    # shared model cache instead of a private copy under embedding/model/ — same
-    # weights, same convention every other _shared/models/ consumer already uses
-    # (mcp-governance.md), freeing the private copy to be deleted without breaking
-    # the degrade-never-block fallback contract this path exists to serve.
+    # Reads the shared model cache (mcp-governance.md convention) rather than a
+    # private copy, so this fallback loader doesn't duplicate the model on disk.
     _MODEL_DIR = (
         Path(__file__).resolve().parents[1] / "_shared" / "models"
         / "sentence-transformers--all-mpnet-base-v2"
@@ -431,11 +396,8 @@ class SearchEngine:
         import torch
         _device = "cuda" if torch.cuda.is_available() else "cpu"
         model = SentenceTransformer(str(self._MODEL_DIR), device=_device)
-        # Assign self._model before any encoding happens, in both branches
-        # below — _encode_batch_vectors()'s local fallback path reads
-        # self._model (not a local variable), so it must be set here rather
-        # than only at the end of each branch as it was pre-Phase-6, when
-        # this function called model.encode() directly.
+        # Must be set before encoding: _encode_batch_vectors()'s local
+        # fallback reads self._model, not a local variable.
         self._model = model
 
         if needs_rebuild:
@@ -501,33 +463,9 @@ class SearchEngine:
         return q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True)
 
     def _encode_batch_vectors(self, texts: list[str]):
-        """
-        Returns L2-normalized embeddings for a batch of `texts` as an
-        (n, 768) np.ndarray, or None if no embedding path is available.
-
-        Batch-path counterpart to _encode_query_vector() — same
-        service-preferred, fallback-on-failure shape, but scoped to the
-        index-build/reseed/upsert call sites (_build_or_load_faiss_index,
-        _seed_qdrant_collection, _upsert_file_to_qdrant) per Phase 6
-        (telescope/2026-08-06-workspace-knowledge-batch-encoding-migration).
-
-        `texts` is chunked into groups of at most _BATCH_EMBED_GROUP_SIZE
-        (matching embedder-service's own MAX_TEXTS_PER_REQUEST cap) and each
-        group is sent as one embedder_client.embed() call with an explicit
-        timeout=_BATCH_EMBED_TIMEOUT_S (30.0s) — NOT the client's
-        query-tuned 8.0s default, which Phase 0's real full-corpus benchmark
-        proved too tight for a full 256-chunk batch's own server-side encode
-        cost.
-
-        On ANY group failure (embed() returns None for that group), the
-        ENTIRE batch falls back to the local self._model.encode() call —
-        never a mix of service-encoded and locally-encoded vectors within
-        one logical batch, to avoid subtle cross-source inconsistency.
-        Returns None only when local encoding is also unavailable
-        (self._model is None); callers are responsible for handling that
-        the same way existing call sites already handle a not-yet-ready
-        model.
-        """
+        """L2-normalized (n, 768) embeddings via embedder-service (chunked,
+        group failure falls back to the local model for the whole batch, never
+        a mix of both sources); returns None if neither path is available."""
         import numpy as np
 
         if not texts:
@@ -710,12 +648,9 @@ class SearchEngine:
 
     def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
         """Re-chunk, re-embed, and upsert one file's points into Qdrant.
-        Encodes and validates the new points BEFORE deleting the old ones —
-        if encoding fails (e.g. embedder-service down and the local model not
-        yet ready), the file's existing points must survive untouched rather
-        than being deleted with nothing to replace them (found by Phase 3
-        fault injection: a delete-before-check ordering could otherwise drop
-        a file from the collection until a later successful upsert/rebuild)."""
+        Encodes and validates the new points before deleting the old ones, so
+        a failed encode leaves existing points untouched instead of dropping
+        the file from the index."""
         from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
 
         file_path = Path(file_path_str)
@@ -726,13 +661,11 @@ class SearchEngine:
 
         rel_path = new_chunks[0]["rel_path"]
 
-        # Encode new chunks FIRST — raises before any existing points are touched
         texts = [c["text"][:512] for c in new_chunks]
         embeddings = self._encode_batch_vectors(texts)
         if embeddings is None:
             raise RuntimeError("model not ready — cannot upsert without an embedding model")
 
-        # Only now delete the old points for this file
         self._qdrant_client.delete(
             collection_name=self._collection_name,
             points_selector=Filter(

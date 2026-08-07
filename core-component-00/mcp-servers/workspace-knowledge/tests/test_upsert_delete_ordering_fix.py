@@ -1,11 +1,9 @@
-"""Regression test for the delete-before-check ordering fix in
-SearchEngine._upsert_file_to_qdrant (found by Phase 3 fault injection,
-telescope/2026-08-06-workspace-knowledge-batch-encoding-migration).
+"""Regression test for SearchEngine._upsert_file_to_qdrant's encode-before-delete
+ordering: an encode failure must never delete a file's existing Qdrant points
+before the replacement points are ready.
 
-Kept permanently (unlike the rest of this tests/ directory, which stays local
-per .gitignore) because it guards a real correctness property: an encode
-failure must never delete a file's existing Qdrant points before the
-replacement points are ready.
+Kept permanently, unlike the rest of this tests/ directory, which stays local
+per .gitignore.
 """
 import sys
 from pathlib import Path
