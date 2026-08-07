@@ -12,12 +12,12 @@ scope/design only, no implementation). Phase 2+ explicitly not authorized.
 | Phase                                          | Status                                   | Owner                                                 |
 | ---------------------------------------------- | ---------------------------------------- | ----------------------------------------------------- |
 | Tracking artifacts created                     | Done                                     | Orchestrator                                          |
-| Worktrees provisioned                          | In Progress                              | Orchestrator                                          |
-| Phase 0 — observability fix                    | Code complete, live-verification pending | Worker A (`agent/observability/phase0-health-check`)  |
-| Phase 1 — write-path threat model (scope only) | Pending                                  | Worker B (`agent/security/phase1-write-threat-model`) |
-| Integration / merge / review                   | Pending                                  | Orchestrator                                          |
-| Governance record update                       | Pending                                  | Orchestrator                                          |
-| Report to team-lead                            | Pending                                  | Orchestrator                                          |
+| Worktrees provisioned                          | Done                                     | Orchestrator                                          |
+| Phase 0 — observability fix                    | Code complete, merged, live-verification pending | Worker A (`agent/observability/phase0-health-check`)  |
+| Phase 1 — write-path threat model (scope only) | Done — merged, no-go verdict for Phase 2 | Worker B (`agent/security/phase1-write-threat-model`) |
+| Integration / merge / review                   | Done — both branches merged `--no-ff`    | Orchestrator                                          |
+| Governance record update                       | Done                                     | Orchestrator                                          |
+| Report to team-lead                            | Done                                     | Orchestrator                                          |
 
 ---
 
@@ -84,3 +84,42 @@ diagnosis plan's first step, remains pending.
 
 No merge performed — worktree left for the orchestrator's integration step, per this build's
 instructions.
+
+---
+
+## Worker B — Phase 1 completion note (2026-08-06)
+
+Deliverable executed in the `agent/security/phase1-write-threat-model` worktree: a design-only
+threat model against a hypothetical write-capable `agent-memory` tool
+(`supporting/11-write-path-threat-model-phase1.md`). No code touched or written;
+`agent-memory/server.py` confirmed untouched. Enumerates five concrete prompt-injection attack
+shapes at the MCP-tool-call layer and issues an explicit **no-go recommendation for Phase 2**,
+with six checkable reversal conditions in §4. `git status` in the worktree showed only its own
+two files (the doc plus a `session-log.md` append) — confirmed clean isolation from Worker A.
+
+No merge performed — worktree left for the orchestrator's integration step, per this build's
+instructions.
+
+---
+
+## Orchestrator — Integration completion note (2026-08-06)
+
+Both branches verified directly against their diffs before merging (not merged on the strength of
+the handoff briefing alone). Confirmed disjoint file ownership except `session-log.md`, which both
+workers appended to independently, exactly as anticipated by the build plan.
+
+- `agent/observability/phase0-health-check` merged `--no-ff` into `core00/dev/engineering`
+  (commit `8c5f4220`) — clean, no conflicts.
+- `agent/security/phase1-write-threat-model` merged `--no-ff` (commit `69796b31`) — one conflict
+  in `session-log.md` (both workers' independent appends at the same anchor point), resolved by
+  keeping both dated entries as separate sections; no other file touched during resolution.
+- Post-merge verification: `python -m py_compile` clean on all touched `server.py`/test files;
+  `agent-memory/tests/` 43/43 passed (including the live cross-server comparison test, run against
+  a reachable `qdrant-memory`); `context-engineering/testing/` regression suite 283 passed, 1
+  pre-existing unrelated failure (`test_acon_benchmark.py::test_acon_vs_context_compressor`),
+  confirmed unchanged from both workers' individually-reported baselines.
+- `.claude/rules/mcp-governance.md`'s `agent-memory` row and `telescope/README.md`'s
+  `2026-07-10-agent-memory-architecture` index row both updated to reflect both merged phases.
+- Both worktrees (`../agent-observability`, `../agent-security`) removed and pruned post-merge.
+- Phase 2 (a write-capable memory tool) remains **not authorized** — Phase 1's no-go verdict
+  stands; nothing in this integration step implements, sketches, or registers such a tool.

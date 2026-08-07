@@ -15,7 +15,7 @@
     },
     {
       "id": "worktrees-provisioned",
-      "status": "pending",
+      "status": "done",
       "owner": "orchestrator",
       "branches": [
         "agent/observability/phase0-health-check",
@@ -43,27 +43,50 @@
     },
     {
       "id": "phase-1-worker-dispatched",
-      "status": "pending",
-      "owner": "worker-b"
+      "status": "done",
+      "owner": "worker-b",
+      "branch": "agent/security/phase1-write-threat-model",
+      "deliverable": "supporting/11-write-path-threat-model-phase1.md - design-only, no code touched",
+      "verdict": "no-go for Phase 2 (write-capable tool) - six checkable reversal conditions in doc section 4",
+      "phase_2_status": "not authorized"
     },
     {
       "id": "integration-merge",
-      "status": "pending",
-      "owner": "orchestrator"
+      "status": "done",
+      "owner": "orchestrator",
+      "merges": [
+        {"branch": "agent/observability/phase0-health-check", "commit": "8c5f4220", "conflicts": "none"},
+        {"branch": "agent/security/phase1-write-threat-model", "commit": "69796b31", "conflicts": "session-log.md only, expected per build plan - resolved by keeping both workers' dated entries"}
+      ],
+      "post_merge_verification": {
+        "py_compile": "done - clean on all touched server.py/test files",
+        "agent_memory_tests": "done - 43/43 passed, including live cross-server comparison test",
+        "context_engineering_regression_suite": "done - 283 passed, 1 pre-existing unrelated failure (test_acon_vs_context_compressor), confirmed unchanged"
+      }
     },
     {
       "id": "governance-record-updated",
-      "status": "pending",
-      "owner": "orchestrator"
+      "status": "done",
+      "owner": "orchestrator",
+      "updated": [
+        ".claude/rules/mcp-governance.md - agent-memory row, Phase 1 update appended",
+        "core-component-00/telescope/README.md - 2026-07-10-agent-memory-architecture index row updated"
+      ]
+    },
+    {
+      "id": "worktrees-cleaned-up",
+      "status": "done",
+      "owner": "orchestrator",
+      "removed": ["../agent-observability", "../agent-security"]
     },
     {
       "id": "report-to-team-lead",
-      "status": "pending",
+      "status": "done",
       "owner": "orchestrator"
     }
   ],
   "known_findings": [
-    "mcp-servers/agent-memory/tests/ referenced in mcp-governance.md and 09-mcp-architecture-decision.md does not exist in working tree or git history - test suite was never actually committed"
+    "mcp-servers/agent-memory/tests/ referenced in mcp-governance.md and 09-mcp-architecture-decision.md does not exist in working tree or git history - test suite was never actually committed (RESOLVED by Worker A: root cause was a bare tests/ gitignore pattern; fixed and a real 43-test suite committed)"
   ],
   "last_updated": "2026-08-06"
 }
