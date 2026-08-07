@@ -191,11 +191,22 @@ EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip()
 _EMBEDDER_SERVICE_MODEL = "all-MiniLM-L6-v2"  # matches this server's collection dimension (384)
 
 _embedder_service_lock = threading.Lock()
+
 # "disabled" | "starting" | "ready" | "unavailable"
 _embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
+_embedder_service_last_probe_at: float = 0.0
+
+# Bounds how often _embedder_service_ready() re-probes a cached "unavailable"
+# state — see that function's docstring for why "unavailable" is re-checked
+# at all. Keeps a genuinely-down service from adding repeated probe latency
+# (up to embedder_client.HEALTH_PROBE_TIMEOUT_S + 2s) to every tool call.
+_EMBEDDER_SERVICE_REPROBE_COOLDOWN_S = 5.0
 
 
 def _start_embedder_service_background() -> None:
+    # Runs exactly once, at process startup. An "unavailable" result here is
+    # not final — _embedder_service_ready() re-probes and can overwrite it
+    # with "ready" later, without a process restart (P1 fix, 2026-08-06).
     global _embedder_service_state
     ok = embedder_client.ensure_service_running()
     with _embedder_service_lock:
@@ -210,8 +221,37 @@ if EMBEDDER_SERVICE_ENABLED:
 
 
 def _embedder_service_ready() -> bool:
+    """
+    Returns the cached embedder-service readiness state — but first
+    re-probes if that cache currently says "unavailable", instead of
+    trusting it forever. _start_embedder_service_background() runs its
+    check exactly once, in a background thread, at process startup; if that
+    single check loses the startup race against the shared embedder-service
+    still coming up in another process, "unavailable" was previously a
+    permanent, never-revisited verdict for the rest of this process's life
+    — even after the service became healthy seconds later (P1 fix, see
+    agent-memory live-validation findings, 2026-08-06). "starting" is left
+    alone here: the background thread's first check is still in flight, so
+    there is nothing stale to re-check yet.
+    """
+    global _embedder_service_state, _embedder_service_last_probe_at
     with _embedder_service_lock:
-        return _embedder_service_state == "ready"
+        state = _embedder_service_state
+    if state != "unavailable":
+        return state == "ready"
+
+    now = time.time()
+    with _embedder_service_lock:
+        if now - _embedder_service_last_probe_at < _EMBEDDER_SERVICE_REPROBE_COOLDOWN_S:
+            return False
+        _embedder_service_last_probe_at = now
+
+    ok = embedder_client.probe_health()
+    with _embedder_service_lock:
+        _embedder_service_state = "ready" if ok else "unavailable"
+    if ok:
+        _diag("embedder-service re-probe: now ready (was unavailable)")
+    return ok
 
 
 def _get_embedder() -> Optional[Callable[[str], List[float]]]:
