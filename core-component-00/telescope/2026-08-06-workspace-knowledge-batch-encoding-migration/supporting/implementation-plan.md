@@ -213,10 +213,17 @@ implementation work starts before that sign-off.
 
 CEO sign-off was granted, applying Dr. Vance's non-binding §2 recommendations, with a directive
 to use git worktree isolation and multi-agent development technique. All five phases executed and
-merged into `core00/dev/engineering` (commits `76605bea`, `d678b851`/`7d17fb83` via `--no-ff` merge,
-plus a direct Phase 5 commit — see below); worktrees `agent-a6abc8df8b9413a08` and
-`agent-a9ee5e290fd8f45fc` kept on disk, not removed, per this session's default (no explicit
-cleanup instruction given).
+merged into `core00/dev/engineering`: `c151e34e` → `2ad069b7` (agent/sofia) → `ddffce8c`
+(agent/kwame) → `b4257470` (agent/vance, docs) → `dff166af` (merge, `--no-ff`) → `dda9037e`
+(agent/vance, Phase 5 closeout). **Updated post-closeout:** the CEO subsequently identified that
+the Phase 2/3 worktrees had branched from `origin/master` rather than the true
+`core00/dev/engineering` tip (a side effect of the worktree-isolation tool's default base ref) and
+directed a non-interactive history correction — see `implementation-tracking/session-log.md`'s
+"CEO-directed history correction" entry for the full mapping and verification. Content parity was
+verified at every step; nothing about what was actually built or tested changed, only the commit
+hashes and messages. All investigation worktrees and branches (Sofia's, Connor's, and two stray
+auto-generated base branches) were subsequently removed per explicit CEO instruction — none remain
+on disk as of this review.
 
 ### 10.1 Phase-by-phase result vs. plan
 
@@ -265,3 +272,59 @@ reclaimed with the fallback contract intact and independently re-verified post-d
 gaps Dr. Wieczorek logged (unvalidated vector-count-length in `embedder_client.embed()`; unlocked
 `self._model` mutable state) are appropriate as future harness-engineering backlog items, not a
 condition of this closeout.
+
+---
+
+## 11. Independent Double-Check Review (Dr. Vance + CC-00 team, 2026-08-06, post-closeout)
+
+Requested by the CEO after the post-closeout git-history correction, to confirm all required work
+is genuinely finished — verified against the live repository, not by re-reading prior claims.
+
+### 11.1 What was independently re-verified
+
+| Area             | Method                                                                                                                                          | Result                                                                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Git state        | `git log`, `git status`, `git branch -vv`, `git worktree list` on `core00/dev/engineering`                                                      | Working tree clean, 5 commits ahead of `origin/core00/dev/engineering`, single worktree (main), no leftover branches                                                 |
+| Code correctness | Direct read of `server.py`: `_MODEL_DIR`, `_encode_batch_vectors`, `_BATCH_EMBED_GROUP_SIZE`/`_BATCH_EMBED_TIMEOUT_S`, `_upsert_file_to_qdrant` | Encode-before-delete ordering confirmed correct; `_MODEL_DIR` correctly points at `_shared/models/sentence-transformers--all-mpnet-base-v2/`; `timeout=30.0` present |
+| Compilation      | `py_compile` against `server.py` via the shared venv interpreter                                                                                | Clean, exit 0                                                                                                                                                        |
+| Disk reclaim     | `Test-Path` on `workspace-knowledge/embedding/model/` and on the shared cache                                                                   | Private copy confirmed absent; shared cache confirmed present and populated (`model.safetensors`, tokenizer, config)                                                 |
+| Docs consistency | Read `research-report.md`, `implementation-plan.md`, `mcp-governance.md`, `telescope/README.md`                                                 | Status fields, ASGF section, and provisioning-convention notes all consistent with the final code state                                                              |
+
+### 11.2 Findings
+
+1. **Stale commit-hash references (found and fixed).** `session-log.md`, `progress.md`,
+   `checkpoint.json`, and this plan's own §10.1 still cited the pre-rewrite commit hashes
+   (`d678b851`, `7d17fb83`, `76605bea`) and, in §10.1's case, stated the investigation's worktrees
+   were "kept on disk" — both true when originally written, both made stale by the CEO's later
+   history-correction and cleanup requests, and never updated afterward. Corrected in this review
+   pass; see each file's new "post-closeout" entry for the before/after mapping. No code or test
+   content was affected — this was a documentation-currency gap only.
+2. **Local verification harnesses no longer exist on disk (found, not fixed — disclosed).** The
+   `tests/` directory under `workspace-knowledge/` is gitignored by explicit local convention
+   ("Local evaluation harness — test scripts and generated outputs stay local"), so the regression
+   tests written during Phases 2/3 (`test_batch_embedding.py`, 15/15;
+   `test_batch_encoding_fault_injection.py`, 5/5; `test_upsert_delete_ordering_fix.py`, 2/2) lived
+   only inside the Phase 2/3 worktrees' own working directories, never the main workspace. When
+   those worktrees were removed per the CEO's explicit cleanup instruction, the test files went
+   with them — this was not flagged at the time. The commit messages and tracking docs correctly
+   record that these tests passed, and the fixes they proved (delete-before-check ordering,
+   `self._model` assignment timing) are visibly present and correct in the merged `server.py`, so
+   nothing shipped is unverified. But no reproducible regression test for either fix exists on
+   disk today; a future edit to `_upsert_file_to_qdrant` or `_encode_batch_vectors` could
+   reintroduce either bug without a local test catching it. Recommend, as a follow-up (not a
+   condition of this closeout, since it changes nothing about what's already shipped): recreate
+   `test_upsert_delete_ordering_fix.py` in the main workspace as a permanent addition, since it is
+   small, fast, and guards a real correctness property; leave the two larger harness files as
+   ephemeral per the existing convention.
+3. **Everything else holds.** Code, tests-as-executed-at-the-time, disk reclaim, ASGF status (still
+   correctly Conditional, unrelitigated), and the shared-cache fallback contract all check out
+   against the live repository, not just against prior claims.
+
+### 11.3 Verdict
+
+**Accepted as complete**, with one documentation gap fixed during this review (stale hashes/
+worktree status, now corrected) and one disclosed, non-blocking follow-up recommendation (restore
+a permanent regression test for the delete-before-check fix). Neither finding indicates any
+required task was left undone — the underlying migration, its tests-as-run, and its governance
+posture are all sound. No further action is required to consider Phase 6 closed; the follow-up
+recommendation is optional hardening.
