@@ -34,3 +34,13 @@ were reworded twice. All commit hashes in the table above are the final, current
 `session-log.md`'s "CEO-directed history correction" entry for the full before/after mapping and
 verification method. All investigation worktrees (Sofia's, Connor's, two stray base branches) have
 since been removed per explicit CEO instruction — none remain on disk.
+
+## 2026-08-06 (later) — Double-check review + restored regression test
+
+CEO-requested independent double-check (Dr. Vance + CC-00 team) confirmed all required tasks
+complete against the live repository; see `implementation-plan.md` §11 for the full method and
+findings. One follow-up it disclosed — the Phase 2/3 worktrees' local, gitignored regression tests
+were lost when those worktrees were removed — was resolved same-day, per explicit CEO instruction:
+`tests/test_upsert_delete_ordering_fix.py` was recreated permanently (commit `27634c85`,
+attributed to Kwame Asante), both tests passing against the live `server.py`, with a narrow
+`.gitignore` exception so this one file stays tracked. No open items remain.
