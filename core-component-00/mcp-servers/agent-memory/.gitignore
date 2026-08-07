@@ -3,5 +3,20 @@
 __pycache__/
 *.py[cod]
 
-# Local evaluation harness — test scripts and generated outputs stay local
-tests/
+# Local evaluation harness — test scripts and generated outputs stay local,
+# except permanent regression tests explicitly excepted below. Mirrors
+# workspace-knowledge/.gitignore's pattern exactly, including the `tests/*`
+# (not bare `tests/`) form: git cannot re-include individual files with `!`
+# inside a directory excluded via a bare `dir/` pattern, since it never
+# recurses into an already-excluded directory to evaluate per-file negations.
+# That bare-`tests/` form is what this file had until 2026-08-06, and is the
+# actual mechanical reason every previously-run agent-memory test suite
+# ("22 passed" per mcp-governance.md / 09-mcp-architecture-decision.md) was
+# never committed despite being real, working tests — not merely "forgotten,"
+# but structurally unignorable under the old pattern even if someone had
+# tried to except them.
+tests/*
+!tests/conftest.py
+!tests/test_server.py
+!tests/health_comparison.py
+!tests/test_cross_server_health_comparison.py
