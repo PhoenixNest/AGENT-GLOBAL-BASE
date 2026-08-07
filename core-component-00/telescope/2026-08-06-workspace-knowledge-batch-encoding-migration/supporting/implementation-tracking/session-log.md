@@ -52,3 +52,34 @@
   similarity 1.0) before deletion, deleted `workspace-knowledge/embedding/model/` (418.4 MB),
   then re-verified the fallback still works with the private copy actually gone. Updated
   `.claude/rules/mcp-governance.md` to reflect the retrofit. Investigation closed.
+
+## 2026-08-06 (later) — CEO-directed history correction, post-closeout
+
+- CEO identified that the worktree-isolated subagents for Phases 2/3 had branched from
+  `3b4718` (`origin/master`, the `Agent(isolation:"worktree")` default base) instead of
+  `c151e34` (the tip of `core00/dev/engineering` at the time work began) — a side effect of the
+  tool's default `baseRef` behavior, not a manual branching error. Investigated and explained with
+  direct git evidence (`merge-base`, `reflog`, `branch -vv`).
+- Per explicit CEO instruction, the Phase 2/3 commits were rebased onto the correct base
+  (`c151e34`) via `git rebase --onto` (not `git rebase -i`, which this workspace's git-workflow
+  rules prohibit): `d678b851` → `2ad069b7` (agent/sofia), `7d17fb83` → `ddffce8c` (agent/kwame).
+  Content verified identical pre/post-rebase before the branch pointer was moved.
+- Per further explicit CEO instruction, the docs commit and its dependent merge/closeout commits
+  were reworded twice (once for tone/level of detail, once to remove "Phase X" language),
+  non-interactively via detach → amend/recreate → content-diff verify → reset, per the same
+  no-`-i` constraint: `76605bea` → ... → final `b4257470` (docs), with the merge commit
+  (`dff166af`) and closeout commit (`dda9037e`) each necessarily receiving new hashes as a
+  mechanical consequence of their parent changing. Byte-for-byte content parity was verified at
+  every step (`git diff <old> <new>` empty).
+- The now-superseded hashes (`d678b851`, `7d17fb83`, `76605bea`, and intermediate reword hashes)
+  are orphaned — still present as dangling git objects pending eventual GC, but no longer
+  reachable from any branch. **`2ad069b7` / `ddffce8c` / `b4257470` / `dff166af` / `dda9037e` are
+  the current, authoritative hashes** for this work on `core00/dev/engineering`. This file's
+  narrative entries above are left as originally written (accurate as of when each event
+  happened); `checkpoint.json`, `progress.md`, and `implementation-plan.md` §10.1 have been
+  updated in place to the final hashes since those are current-state summaries, not narration.
+- Per explicit CEO instruction, all worktrees and their branches for this investigation (Sofia's,
+  Connor's, and two stray auto-generated `Agent(isolation:"worktree")` base branches) were removed
+  after the rebase/reword work completed. §10.1's original "worktrees kept on disk" statement is
+  now stale; no worktree for this investigation remains — see the 2026-08-06 double-check review
+  below for current-state confirmation.
