@@ -20,3 +20,4 @@ tests/*
 !tests/test_server.py
 !tests/health_comparison.py
 !tests/test_cross_server_health_comparison.py
+!tests/test_write_gate.py
