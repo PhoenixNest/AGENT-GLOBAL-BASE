@@ -21,3 +21,4 @@ tests/*
 !tests/health_comparison.py
 !tests/test_cross_server_health_comparison.py
 !tests/test_write_gate.py
+!tests/test_write_provenance.py
