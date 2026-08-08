@@ -35,6 +35,12 @@ if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
     sys.path.insert(0, str(_MCP_SERVERS_SHARED_ROOT))
 import embedder_client  # noqa: E402
 
+# write_memory (not yet a live MCP tool — see write_tool.py's module
+# docstring "ACTIVATION STATUS") and the shared write-rate-limiter telemetry
+# health_check() reports below regardless of activation state.
+import write_tool  # noqa: E402
+from write_provenance import get_default_rate_limiter  # noqa: E402
+
 
 def _diag(msg: str) -> None:
     """Unbuffered, timestamped stderr line. A blocking native call that never
@@ -620,7 +626,15 @@ def health_check() -> Dict[str, Any]:
     2026-08-06 P1 (embedder-service readiness was one-shot and invisible to
     health_check; fixed as f655c21e) exposed: nothing in this tool's output
     previously told a caller whether search_memory's embedding path was
-    actually usable right now."""
+    actually usable right now.
+
+    Also reports `write_rate_limiting` — WriteRateLimiter.get_telemetry()
+    (write_provenance.py), per the health_check telemetry convention
+    documented in .claude/rules/mcp-governance.md's agent-memory row. This is
+    live and read-only regardless of whether write_memory itself is
+    registered as a callable MCP tool (AGENT_MEMORY_WRITE_TOOL_ENABLED) —
+    the rate limiter's counters simply stay at zero until a write is ever
+    attempted."""
     try:
         _diag("health_check: start")
         client = _get_memory_client()
@@ -634,6 +648,7 @@ def health_check() -> Dict[str, Any]:
                 client=client, indices=indices, sync_state=_memory_sync_state
             ),
             "search_capability": _get_search_capability_snapshot(),
+            "write_rate_limiting": get_default_rate_limiter().get_telemetry(),
         }
         _diag("health_check: done")
         return result
@@ -651,7 +666,101 @@ def health_check() -> Dict[str, Any]:
                 "error": f"health_check failed: {exc}",
             },
             "search_capability": _get_search_capability_snapshot(),
+            "write_rate_limiting": get_default_rate_limiter().get_telemetry(),
         }
+
+
+def write_memory(
+    content: str,
+    memory_type: str,
+    session_id: str,
+    provenance_source: str,
+    provenance_triggering_context_excerpt: str,
+    provenance_from_external_content: bool,
+    provenance_confidence: float,
+) -> Dict[str, Any]:
+    """
+    Write-capable counterpart to search_memory — see
+    write_tool.py's module docstring for the full design rationale
+    (activation status, the no-production-judge gap, the confirmation-
+    tracker mechanism, and the collision-search precision gap) before relying
+    on this tool's behavior.
+
+    NOT registered as a live MCP tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED
+    is set truthy — see the bottom of this file and write_tool.py's
+    "ACTIVATION STATUS" section.
+
+    memory_type must be one of "episodic" | "semantic" | "procedural" —
+    "reflection" is rejected outright; that collection stays on its own
+    Investigator-Authored Write Path, never MCP-agent-callable (per
+    memory_store.py and write_gate.py's classify() docstring).
+
+    There is no `sacred`, `importance`, or `status` parameter, on purpose
+    (Decision 2, 09-mcp-architecture-decision.md) — every one of those is
+    derived internally: sacred is always False for this path, importance
+    comes from the internal compute_write_time_importance("general")
+    heuristic, and status ("active" | "quarantined") is determined entirely
+    by WriteConfirmationGate.classify()'s routine/high_consequence
+    classification plus the human-confirmation gate, never by the caller.
+
+    Every write requires non-optional provenance (WriteProvenance, enforced
+    via validate_provenance()) and is subject to per-session and
+    per-session-per-type rate limiting (WriteRateLimiter) before anything
+    else happens. Content is scanned for the same embedded-instruction
+    patterns production_judge.py already detects; flagged content is always
+    routed to the quarantine lane (never active, never silently dropped).
+    A found collision against an existing record of the same memory_type is
+    classified high_consequence and requires a human-facing confirmation
+    (via write_tool.ConfirmationRequestTracker + WriteConfirmationGate)
+    before it can land as status="active" — otherwise this call returns
+    status="confirmation_required" and performs no write.
+
+    Never raises — every failure mode (rejected input, rate limit, missing
+    client/embedder, degraded upsert, or any unexpected internal error)
+    returns a dict with written=False and a `reason`, matching this module's
+    existing graceful-degradation discipline (see search_memory/health_check).
+    """
+    try:
+        return write_tool._write_memory_impl(
+            content=content,
+            memory_type=memory_type,
+            session_id=session_id,
+            provenance_source=provenance_source,
+            provenance_triggering_context_excerpt=provenance_triggering_context_excerpt,
+            provenance_from_external_content=provenance_from_external_content,
+            provenance_confidence=provenance_confidence,
+            client=_get_memory_client(),
+            embedder=_get_embedder(),
+            embedder_unavailable_reason=_get_embedder_unavailable_reason(),
+            gate=write_tool.get_default_write_gate(),
+            rate_limiter=get_default_rate_limiter(),
+            confirmation_tracker=write_tool.get_default_confirmation_tracker(),
+            # No production LLM judge exists anywhere in this workspace yet
+            # (production_judge.py's own honest scope statement) — see
+            # write_tool.py's module docstring "GENUINE GAP #1" for exactly
+            # what this means for collision handling until one is wired in.
+            judge_callable=None,
+        )
+    except Exception as exc:
+        # No exception may escape a @mcp.tool()-shaped entry point — mirrors
+        # search_memory's/health_check's identical discipline.
+        traceback.print_exc(file=sys.stderr)
+        return {
+            "written": False,
+            "status": "error",
+            "reason": f"write_memory failed: {exc}",
+            "record_id": None,
+            "lane": None,
+        }
+
+
+# NOT a live MCP tool by default — see write_tool.py's module docstring
+# "ACTIVATION STATUS". A future, separately-authorized activation step
+# requires exactly one change: set AGENT_MEMORY_WRITE_TOOL_ENABLED=true (or
+# "1"/"yes") in the environment the agent-memory server process is launched
+# with. Nothing else needs to change.
+if write_tool.AGENT_MEMORY_WRITE_TOOL_ENABLED:
+    mcp.tool()(write_memory)
 
 
 if __name__ == "__main__":
