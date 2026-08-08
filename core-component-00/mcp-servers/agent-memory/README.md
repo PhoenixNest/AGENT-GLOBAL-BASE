@@ -5,9 +5,13 @@ procedural, and reflection memory backed by a dedicated `qdrant-memory` Qdrant i
 (`http://localhost:6335`), physically separate from `workspace-knowledge`'s document knowledge
 base instance (`qdrant-workspace`).
 
-**Status:** `search_memory` and `health_check` implemented and registered. Both tools are
+**Status:** `search_memory` and `health_check` are implemented and registered. Both tools are
 timeout-guarded (never hang, even if the underlying Qdrant call does) and degrade gracefully
-rather than raise. No write-capable tool yet (see [Tools](#tools)). Full current status,
+rather than raise. A write-capable `write_memory` tool also exists in this codebase (see
+[Tools](#tools)); its activation status, safeguard design, and independent adversarial evaluation
+are documented separately —
+`telescope/2026-07-10-agent-memory-architecture/supporting/13-write-path-implementation.md` is the
+source of truth for that tool's current state. Full current status for this server generally,
 including open caveats, is tracked in `.claude/rules/mcp-governance.md`'s Registered Servers
 table — treat that as the source of truth if it and this file ever disagree.
 
@@ -83,17 +87,25 @@ exposition layer over it.
 
 ```
 agent-memory/
-├── server.py          ← MCP server entry point (search_memory, health_check)
-├── pyproject.toml     ← Python project definition
-├── README.md          ← This file
+├── server.py             ← MCP server entry point (search_memory, health_check, write_memory)
+├── write_gate.py         ← WriteConfirmationGate + quarantine promote/reject primitives
+├── write_provenance.py   ← WriteProvenance/validate_provenance + WriteRateLimiter
+├── write_tool.py         ← Testable core of write_memory
+├── pyproject.toml        ← Python project definition
+├── README.md             ← This file
 ├── .gitignore
-├── scripts/           ← Disaster-recovery backup tooling for the JSONL memory log
+├── scripts/              ← Disaster-recovery backup tooling for the JSONL memory log
 │   ├── backup_memory_log.py
 │   ├── register_backup_task.ps1
 │   └── verify_backup_restore.py
 └── tests/
     ├── conftest.py
     ├── test_server.py
+    ├── test_write_gate.py
+    ├── test_write_provenance.py
+    ├── test_write_memory.py
+    ├── test_write_path_adversarial_evaluation.py
+    ├── test_read_constraints_reverification.py
     ├── health_comparison.py
     └── test_cross_server_health_comparison.py
 ```
@@ -259,14 +271,23 @@ Same shape and same `compute_memory_instance_telemetry()` call as
 underlying Qdrant call is timeout-guarded, so an unreachable or slow `qdrant-memory` reports
 `reachable: false` instead of hanging the call.
 
-### Write tool — not implemented
+### `write_memory`
 
-Explicitly **not planned yet**. Every memory write today happens through `PersistentMemorySink`,
-called by trusted internal runtime code, not through this MCP server. Exposing a write tool
-changes that threat model — anything that can get an agent to call a tool could write directly
-into persistent memory. Deferred until it has been through an adversarial evaluation targeting
-prompt-injected write attempts, matching the rigor already applied to the contradiction-check
-(`supporting/07-adversarial-evaluation-results.md`).
+A write-capable counterpart to `search_memory`, accepting new episodic, semantic, or procedural
+content plus non-optional provenance metadata (source, triggering-context excerpt, whether the
+triggering context included externally-read content, and a confidence value). Every write is
+rate-limited per session and per session-per-memory-type, scanned for embedded-instruction
+patterns, and — depending on whether it collides with an existing record — either lands
+immediately in a review-pending quarantine lane or requires a human-facing confirmation step
+before becoming retrievable. There is no `sacred`, `importance`, or `status` parameter: those
+fields are always derived internally, never caller-supplied.
+
+Every write today still goes through the same durable path described above
+(`PersistentMemorySink` and the JSONL log) for writes originating from trusted internal runtime
+code; `write_memory` is a second, MCP-agent-callable write surface with its own independent
+safeguard design. Full design rationale, safeguard mechanics, activation status, and an
+independent adversarial evaluation against the real implementation:
+`telescope/2026-07-10-agent-memory-architecture/supporting/13-write-path-implementation.md`.
 
 ---
 
