@@ -325,15 +325,83 @@ research-report.md`'s explicit distinction between "implemented" and "independen
 
 ---
 
+## Addendum — Stale-Process Diagnosis, Steps 1–2 (Live Verification, 2026-08-07)
+
+**Authorized by:** CEO, via Dr. Elias Vance (Lab Director) — Phase 5, item 1 (stale-process
+diagnosis)
+**Executed by:** Dr. Elias Vance, directly, in a live interactive session (the capability Section
+3 above identified as missing from any prior subagent/worktree build — a real MCP client
+connection able to issue `/mcp reconnect`)
+
+This addendum closes steps 1 and 2 of the diagnosis plan in Section 3 above with direct,
+first-hand evidence gathered in this environment. One reconnect cycle was run (not the 2–3 the
+plan suggested) — sufficient to answer the mechanism question conclusively via `py-spy`, though
+not exhaustive on multi-reconnect accumulation rate. A second/third cycle remains available as a
+future confirmatory step if ever wanted, but is not required to act on this finding.
+
+**Step 1 — process-list snapshot before/after a real reconnect:**
+
+|              | Before reconnect                                               | After reconnect                                                               |
+| ------------ | -------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| PIDs present | 30780, 21612, 44176, 38708 (all created `2026-08-07 02:27:19`) | 44176, 38708 (survived) + 25508, 35800 (new, created `02:41:17`)              |
+| Outcome      | —                                                              | 2 of 4 old PIDs survived the reconnect; 2 were cleaned up; 2 new ones spawned |
+
+**Direct evidence: old PIDs partially survive a reconnect.** This alone confirms the plan's step-1
+prerequisite question (do stale PIDs survive?) — yes, non-deterministically, and reconnects net
+_add_ processes rather than cleanly swapping them.
+
+**Step 2 — is a surviving stale PID genuinely blocked waiting on stdin?**
+
+`py-spy dump --pid 38708` (one of the two survivors) succeeded and returned:
+
+```
+Thread 11096 (idle): "MainThread"
+    _poll (asyncio\windows_events.py:775)
+    select (asyncio\windows_events.py:446)
+    _run_once (asyncio\base_events.py:2004)
+    run_forever (asyncio\base_events.py:683)
+    run_until_complete (asyncio\base_events.py:712)
+    run (asyncio\runners.py:118)
+    run (anyio\_backends\_asyncio.py:2481)
+    run (anyio\_core\_eventloop.py:83)
+    run (fastmcp\server\mixins\transport.py:124)
+    <module> (server.py:658)
+```
+
+(`py-spy dump --pid 44176` failed with `Failed to find python version from target process` — a
+py-spy/CPython 3.13 read quirk on that specific PID, not evidence of anything; 38708 is the same
+server binary and gave a clean read, which is sufficient to answer the question.)
+
+The main thread is idle inside the asyncio event loop's I/O poll (`select`/`_poll` on Windows'
+`ProactorEventLoop`) — the exact mechanism underneath the stdio transport's `async for line in
+stdin` read (see Section 3's third bullet above). It is not crashed, not spinning, not doing any
+work: it is genuinely still waiting for input the host never sent after reconnecting.
+
+**Conclusion.** Per the plan's own decision criteria (Section 3, steps 2–4): stdin is not being
+closed by the host on reconnect, which places this squarely as an **MCP-host (Claude Code CLI)
+subprocess-lifecycle question, not an `agent-memory`-owned defect.** Step 4's precondition for
+attempting a code fix here ("only after step 2 or 3 produces direct evidence of an
+agent-memory-owned cause") is not met — the evidence points the opposite direction. The
+2026-08-06 static-analysis hypothesis is upgraded from _reasoned-but-unobserved_ to **directly
+confirmed**. No further diagnostic work or code change against `agent-memory`/`server.py` is
+warranted from this finding; a fix, if pursued, would need to target the host's own reconnect
+logic, which is outside this workspace's code.
+
+No files under `core-component-00/mcp-servers/` were modified as part of this addendum —
+diagnosis only, per Phase 5 scope.
+
+---
+
 ## Version History
 
-| Version | Date       | Author                               | Changes        |
-| ------- | ---------- | ------------------------------------ | -------------- |
-| 1.0     | 2026-08-06 | Worker A (agent/observability build) | Initial report |
+| Version | Date       | Author                               | Changes                                                                                    |
+| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
+| 1.0     | 2026-08-06 | Worker A (agent/observability build) | Initial report                                                                             |
+| 1.1     | 2026-08-07 | Dr. Elias Vance (live session)       | Addendum: stale-process diagnosis steps 1–2 confirmed via live `/mcp reconnect` + `py-spy` |
 
 ---
 
 **Template Version:** 1.0
-**Last Updated:** 2026-08-06
+**Last Updated:** 2026-08-07
 **Maintained By:** Core Component 00 Laboratory
 **Authority:** AGENTS.md § 6. Core Component 00
