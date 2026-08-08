@@ -87,8 +87,15 @@ agent-memory/
 ├── pyproject.toml     ← Python project definition
 ├── README.md          ← This file
 ├── .gitignore
+├── scripts/           ← Disaster-recovery backup tooling for the JSONL memory log
+│   ├── backup_memory_log.py
+│   ├── register_backup_task.ps1
+│   └── verify_backup_restore.py
 └── tests/
-    └── test_search_memory.py   ← Local eval harness (uncommitted, see file header)
+    ├── conftest.py
+    ├── test_server.py
+    ├── health_comparison.py
+    └── test_cross_server_health_comparison.py
 ```
 
 This server has no dedicated `.venv/` **by design** — it runs from the shared environment at
@@ -260,6 +267,24 @@ changes that threat model — anything that can get an agent to call a tool coul
 into persistent memory. Deferred until it has been through an adversarial evaluation targeting
 prompt-injected write attempts, matching the rigor already applied to the contradiction-check
 (`supporting/07-adversarial-evaluation-results.md`).
+
+---
+
+## Disaster Recovery — Backup Scripts
+
+Three standalone scripts under `scripts/` back up the JSONL memory log itself — a different
+failure class from the Qdrant-outage resilience already covered by
+`telescope/2026-07-10-agent-memory-architecture/supporting/05-disaster-recovery-and-resilience.md`
+(that document's zero-RPO guarantee assumes the JSONL log survives; these scripts cover what
+happens if it doesn't — disk failure, accidental deletion, host loss).
+
+| Script                     | Purpose                                                                                                                       |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `backup_memory_log.py`     | Snapshots `engineering/context-engineering/memory/` to a dated directory, keeping a rolling window of recent snapshots        |
+| `register_backup_task.ps1` | Registers a daily Windows Task Scheduler job to run the backup script                                                         |
+| `verify_backup_restore.py` | Replays a snapshot into a disposable test Qdrant collection via `rebuild_from_log()` and checks record counts, then cleans up |
+
+Full design, proposed RTO/RPO, and current status: `supporting/12-dr-backup-design.md`.
 
 ---
 
