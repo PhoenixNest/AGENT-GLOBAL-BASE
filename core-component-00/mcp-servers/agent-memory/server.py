@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 import threading
 import time
@@ -52,6 +53,118 @@ def _diag(msg: str) -> None:
     print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
 
 
+_SELF_PID = os.getpid()
+_AGENT_MEMORY_SERVER_SCRIPT = str(Path(__file__).resolve())
+
+
+def _cleanup_stale_sibling_processes() -> None:
+    """
+    Terminates any other live process running this exact `server.py` before
+    this instance proceeds. Mirrors the orphan-cleanup pattern already
+    proven for embedder-service (manage_embedder_service.ps1 -Action
+    cleanup), applied here to agent-memory's own process.
+
+    Rationale (2026-08-09 live investigation, mcp-governance.md's
+    agent-memory row): the MCP host does not always cleanly terminate a
+    prior agent-memory process on `/mcp reconnect` -- four concurrent
+    instances were observed piling up in one session, each independently
+    racing to import the same heavy ML stack and/or spawn embedder-service.
+    That is real resource contention (CPU, disk I/O, the shared
+    embedder-service launch lock), not merely a theoretical duplicate, and
+    is a direct contributor to the cold-start stalls documented in that
+    row. This runs once, synchronously, at module-import time -- before
+    the embedder-service background thread starts further down -- so the
+    process count is already trimmed by the time that race begins.
+
+    On-demand only, per standing design: this function executes exactly
+    once per process, only when a real MCP connection spins up a new
+    agent-memory process. It adds no scheduled task, login trigger, or
+    standalone background process, and does nothing while the system is
+    not in use.
+
+    Matches this exact script's resolved path, not merely "agent-memory" as
+    a substring, so a user with more than one checkout of this workspace
+    never has one repo's cleanup kill another repo's live server.
+
+    Windows-only (this workspace's primary platform, see CLAUDE.md section 1)
+    -- a no-op elsewhere. Never raises: any failure here must not prevent
+    this server from starting and serving.
+
+    Gated by AGENT_MEMORY_ENABLE_SIBLING_CLEANUP (default true). Set to
+    false by tests/conftest.py before this module is imported -- this
+    module is imported for real (not mocked) by the test suite via
+    importlib.exec_module(), so without this gate a test run would scan for
+    and terminate any genuinely live agent-memory server process on the
+    machine, including the one powering an active Claude Code session. That
+    is real, unacceptable collateral damage from running `pytest`, mirroring
+    exactly why conftest.py already forces EMBEDDER_SERVICE_ENABLED=false
+    before import.
+    """
+    if os.getenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true").strip().lower() in (
+        "0", "false", "no",
+    ):
+        _diag("sibling-cleanup: skipped (AGENT_MEMORY_ENABLE_SIBLING_CLEANUP=false)")
+        return
+    if sys.platform != "win32":
+        _diag("sibling-cleanup: skipped (non-Windows platform)")
+        return
+
+    escaped_script = _AGENT_MEMORY_SERVER_SCRIPT.replace("'", "''")
+    scan_command = (
+        "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | "
+        f"Where-Object {{ $_.CommandLine -and $_.CommandLine.Contains('{escaped_script}') }} | "
+        "Select-Object -ExpandProperty ProcessId"
+    )
+    try:
+        proc = _call_with_hard_timeout(
+            lambda: subprocess.run(
+                ["powershell", "-NoProfile", "-NonInteractive", "-Command", scan_command],
+                capture_output=True,
+                text=True,
+                timeout=15,
+            ),
+            timeout=20.0,
+        )
+    except Exception as exc:
+        _diag(f"sibling-cleanup: process scan failed, skipping ({exc})")
+        return
+
+    if proc is None or proc.returncode != 0:
+        _diag(f"sibling-cleanup: process scan unusable (returncode={getattr(proc, 'returncode', None)})")
+        return
+
+    try:
+        sibling_pids = [
+            int(line.strip())
+            for line in proc.stdout.splitlines()
+            if line.strip().isdigit() and int(line.strip()) != _SELF_PID
+        ]
+    except Exception as exc:
+        _diag(f"sibling-cleanup: failed to parse scan output ({exc})")
+        return
+
+    if not sibling_pids:
+        _diag("sibling-cleanup: no stale sibling processes found")
+        return
+
+    for pid in sibling_pids:
+        try:
+            subprocess.run(
+                [
+                    "powershell", "-NoProfile", "-NonInteractive", "-Command",
+                    f"Stop-Process -Id {pid} -Force -ErrorAction SilentlyContinue",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+            _diag(f"sibling-cleanup: terminated stale agent-memory process pid={pid}")
+        except Exception as exc:
+            _diag(f"sibling-cleanup: failed to terminate pid={pid} ({exc})")
+
+
+_cleanup_stale_sibling_processes()
+
 MEMORY_QDRANT_URL = os.getenv("MEMORY_QDRANT_URL", "http://localhost:6335")
 # The memory collections were created with all-MiniLM-L6-v2 (384-dim), a
 # different, smaller model from workspace-knowledge's all-mpnet-base-v2
@@ -90,7 +203,13 @@ _SHARED_MODEL_SLUG = "sentence-transformers--all-MiniLM-L6-v2"
 # each attempt well above any observed successful load time, and a stalled
 # attempt is retried once in a fresh thread (the stalled thread itself is
 # abandoned — _call_with_hard_timeout never waits on it) before degrading.
-_EMBEDDER_LOAD_TIMEOUT_S = 60.0
+# Was 60.0. Raised 2026-08-09: a live run hit this exact bound on both
+# attempts (reported "failed: import did not complete within 60.0s across 2
+# attempts") under real multi-process contention, before a subsequent
+# process succeeded. 90s widens the on-demand budget to match what has
+# actually been observed rather than a synthetic estimate; it does not
+# claim to guarantee success.
+_EMBEDDER_LOAD_TIMEOUT_S = 90.0
 _EMBEDDER_LOAD_MAX_ATTEMPTS = 2
 
 _embedder_cache: Optional[Callable[[str], List[float]]] = None
@@ -201,12 +320,23 @@ _embedder_service_lock = threading.Lock()
 # "disabled" | "starting" | "ready" | "unavailable"
 _embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
 _embedder_service_last_probe_at: float = 0.0
+_embedder_service_process_started_at: float = time.time()
 
 # Bounds how often _embedder_service_ready() re-probes a cached "unavailable"
 # state — see that function's docstring for why "unavailable" is re-checked
 # at all. Keeps a genuinely-down service from adding repeated probe latency
 # (up to embedder_client.HEALTH_PROBE_TIMEOUT_S + 2s) to every tool call.
 _EMBEDDER_SERVICE_REPROBE_COOLDOWN_S = 5.0
+
+# Wording only, not a behavior change: _embedder_service_ready() already
+# re-probes an "unavailable" state on the cooldown above regardless of this
+# window, so recovery already works without it. This just keeps
+# _get_embedder_unavailable_reason()'s human-facing text from reading as a
+# flat, final failure while embedder-service (launched detached — it
+# outlives the call that started it, see embedder_client.ensure_service_running)
+# is plausibly still mid-launch. Matched to embedder_client.STARTUP_WAIT_TIMEOUT_S
+# plus headroom for the observed variance in mcp-governance.md's agent-memory row.
+_EMBEDDER_SERVICE_STARTING_GRACE_S = 150.0
 
 
 def _start_embedder_service_background() -> None:
@@ -299,6 +429,16 @@ def _get_embedder_unavailable_reason() -> str:
     if EMBEDDER_SERVICE_ENABLED:
         with _embedder_service_lock:
             service_state = _embedder_service_state
+        if (
+            service_state == "unavailable"
+            and time.time() - _embedder_service_process_started_at < _EMBEDDER_SERVICE_STARTING_GRACE_S
+        ):
+            # Not yet a confirmed failure: embedder-service launches detached
+            # (survives its launching call) and this process's own re-probe
+            # (see _embedder_service_ready()) keeps checking on a cooldown —
+            # recovery already happens automatically. This wording only keeps
+            # a plausibly-still-launching state from reading as final.
+            service_state = "starting (retry shortly)"
         return (
             f"embedding unavailable (embedder-service: {service_state}; "
             f"in-process fallback: {in_process_state})"

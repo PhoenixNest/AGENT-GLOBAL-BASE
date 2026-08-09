@@ -28,6 +28,12 @@ from pathlib import Path
 import pytest
 
 os.environ.setdefault("EMBEDDER_SERVICE_ENABLED", "false")
+# Prevents server.py's module-import-time _cleanup_stale_sibling_processes()
+# (2026-08-09) from scanning for and terminating real python.exe processes
+# during a test run -- see that function's docstring. Without this, a test
+# session run alongside a live Claude Code session pointed at this same repo
+# would kill that session's actual agent-memory MCP server process.
+os.environ.setdefault("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "false")
 
 _MCP_SERVERS_ROOT = Path(__file__).resolve().parents[2]
 _AGENT_MEMORY_SERVER_PATH = _MCP_SERVERS_ROOT / "agent-memory" / "server.py"
