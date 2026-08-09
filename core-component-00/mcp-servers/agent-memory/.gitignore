@@ -25,3 +25,4 @@ tests/*
 !tests/test_write_memory.py
 !tests/test_read_constraints_reverification.py
 !tests/test_write_path_adversarial_evaluation.py
+!tests/test_embedder_reliability_fixes.py

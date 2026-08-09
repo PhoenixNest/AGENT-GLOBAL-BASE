@@ -63,7 +63,13 @@ PORT = int(os.getenv("EMBEDDER_SERVICE_PORT", "8791"))
 BASE_URL = f"http://{HOST}:{PORT}"
 
 HEALTH_PROBE_TIMEOUT_S = 1.5
-STARTUP_WAIT_TIMEOUT_S = 45.0
+# Was 45.0. Raised 2026-08-09 after live observation (mcp-governance.md's
+# agent-memory row): under real contention from multiple concurrent
+# agent-memory processes, a cold embedder-service launch took longer than
+# 45s to answer /health at least once, before succeeding shortly after on a
+# retry. 90s is not a guarantee, only a wider on-demand budget matched to
+# what has actually been observed, not a synthetic estimate.
+STARTUP_WAIT_TIMEOUT_S = 90.0
 LOCK_STALE_AFTER_S = 60.0
 EMBED_CALL_TIMEOUT_S = 8.0  # matches QDRANT_CALL_TIMEOUT_S's bound in memory_vector_store.py
 
