@@ -55,6 +55,16 @@ def _diag(msg: str) -> None:
 
 _SELF_PID = os.getpid()
 _AGENT_MEMORY_SERVER_SCRIPT = str(Path(__file__).resolve())
+# core-component-00/mcp-servers/agent-memory/server.py -- a workspace-root-
+# relative, forward-slash-normalized suffix. Computed, not hardcoded, so it
+# stays correct if the workspace itself is renamed or relocated.
+_AGENT_MEMORY_RELATIVE_SUFFIX = (
+    Path(__file__).resolve().relative_to(Path(__file__).resolve().parents[3]).as_posix()
+)
+# Guards against two near-simultaneous sibling processes (e.g. a rapid
+# host-side double-spawn on reconnect) each treating the other as stale
+# and killing each other before either completes the MCP handshake.
+_SIBLING_CLEANUP_MIN_AGE_S = float(os.getenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "45"))
 
 
 def _cleanup_stale_sibling_processes() -> None:
@@ -82,9 +92,17 @@ def _cleanup_stale_sibling_processes() -> None:
     standalone background process, and does nothing while the system is
     not in use.
 
-    Matches this exact script's resolved path, not merely "agent-memory" as
-    a substring, so a user with more than one checkout of this workspace
-    never has one repo's cleanup kill another repo's live server.
+    Matches on this script's workspace-root-relative path suffix
+    (core-component-00/mcp-servers/agent-memory/server.py), normalized for
+    both forward and back slash separators -- not merely "agent-memory" as
+    a bare substring, so a user with more than one checkout of this
+    workspace never has one repo's cleanup kill another repo's live server,
+    and matches regardless of whether the launcher passed an absolute or
+    relative path.
+
+    Only terminates a sibling once it is older than
+    _SIBLING_CLEANUP_MIN_AGE_S, so two processes spawned seconds apart by
+    the same reconnect never treat each other as stale and kill each other.
 
     Windows-only (this workspace's primary platform, see CLAUDE.md section 1)
     -- a no-op elsewhere. Never raises: any failure here must not prevent
@@ -109,10 +127,14 @@ def _cleanup_stale_sibling_processes() -> None:
         _diag("sibling-cleanup: skipped (non-Windows platform)")
         return
 
-    escaped_script = _AGENT_MEMORY_SERVER_SCRIPT.replace("'", "''")
+    escaped_suffix = _AGENT_MEMORY_RELATIVE_SUFFIX.replace("'", "''")
+    # A float, not user input -- no quoting/escaping needed for interpolation.
+    min_age = _SIBLING_CLEANUP_MIN_AGE_S
     scan_command = (
         "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | "
-        f"Where-Object {{ $_.CommandLine -and $_.CommandLine.Contains('{escaped_script}') }} | "
+        "Where-Object { $_.CommandLine -and "
+        "($_.CommandLine -replace '\\\\','/').Contains('" + escaped_suffix + "') "
+        "-and ((Get-Date) - $_.CreationDate).TotalSeconds -gt " + repr(min_age) + " } | "
         "Select-Object -ExpandProperty ProcessId"
     )
     try:
@@ -144,7 +166,7 @@ def _cleanup_stale_sibling_processes() -> None:
         return
 
     if not sibling_pids:
-        _diag("sibling-cleanup: no stale sibling processes found")
+        _diag(f"sibling-cleanup: no sibling processes older than {min_age:g}s found")
         return
 
     for pid in sibling_pids:
