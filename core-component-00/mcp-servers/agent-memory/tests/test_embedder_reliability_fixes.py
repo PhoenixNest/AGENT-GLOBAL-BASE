@@ -100,6 +100,66 @@ class TestCleanupStaleSiblingProcesses:
         agent_memory_server._cleanup_stale_sibling_processes()
         assert stop_process_calls == []
 
+    def test_diagnostic_fires_when_siblings_exist_under_a_different_ppid(
+        self, agent_memory_server, monkeypatch, capsys
+    ):
+        """When the primary (PPID-scoped) scan finds nothing but a same-
+        suffix, old-enough process exists under a different
+        ParentProcessId, the diagnostic scan must say so -- otherwise this
+        is indistinguishable in the logs from "no stale siblings at all"."""
+        monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
+        monkeypatch.setattr(agent_memory_server.sys, "platform", "win32")
+        monkeypatch.setattr(agent_memory_server, "_SELF_PID", 111, raising=False)
+        stop_process_calls = []
+
+        def _fake_run(cmd, **kwargs):
+            joined = " ".join(cmd)
+            if "Stop-Process" in joined:
+                stop_process_calls.append(joined)
+                return subprocess.CompletedProcess(args=[], returncode=0, stdout="", stderr="")
+            if "ParentProcessId -eq" in joined:
+                # primary, PPID-scoped scan -- nothing matches
+                return subprocess.CompletedProcess(args=[], returncode=0, stdout="", stderr="")
+            # diagnostic, PPID-less scan -- one candidate under a different PPID
+            return subprocess.CompletedProcess(args=[], returncode=0, stdout="222\n", stderr="")
+
+        monkeypatch.setattr(agent_memory_server.subprocess, "run", _fake_run)
+        agent_memory_server._cleanup_stale_sibling_processes()
+
+        assert stop_process_calls == []  # never kills based on the diagnostic scan
+        captured = capsys.readouterr()
+        assert "DIFFERENT ParentProcessId" in captured.err
+
+    def test_diagnostic_silent_when_truly_no_siblings_exist(
+        self, agent_memory_server, monkeypatch, capsys
+    ):
+        monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
+        monkeypatch.setattr(agent_memory_server.sys, "platform", "win32")
+        monkeypatch.setattr(agent_memory_server, "_SELF_PID", 111, raising=False)
+
+        monkeypatch.setattr(
+            agent_memory_server.subprocess, "run",
+            lambda cmd, **kwargs: subprocess.CompletedProcess(args=[], returncode=0, stdout="", stderr=""),
+        )
+        agent_memory_server._cleanup_stale_sibling_processes()
+
+        captured = capsys.readouterr()
+        assert "DIFFERENT ParentProcessId" not in captured.err
+
+    def test_never_raises_when_diagnostic_scan_itself_fails(self, agent_memory_server, monkeypatch):
+        monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
+        monkeypatch.setattr(agent_memory_server.sys, "platform", "win32")
+
+        def _fake_run(cmd, **kwargs):
+            joined = " ".join(cmd)
+            if "ParentProcessId -eq" in joined:
+                return subprocess.CompletedProcess(args=[], returncode=0, stdout="", stderr="")
+            raise OSError("diagnostic scan failed")
+
+        monkeypatch.setattr(agent_memory_server.subprocess, "run", _fake_run)
+        # Must not raise even though the diagnostic (PPID-less) scan errors.
+        agent_memory_server._cleanup_stale_sibling_processes()
+
     def test_never_raises_when_scan_itself_fails(self, agent_memory_server, monkeypatch):
         monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
         monkeypatch.setattr(agent_memory_server.sys, "platform", "win32")
