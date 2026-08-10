@@ -105,23 +105,72 @@ def _resolve_sibling_cleanup_min_age_s() -> float:
 _SIBLING_CLEANUP_MIN_AGE_S = _resolve_sibling_cleanup_min_age_s()
 
 
-def _build_sibling_match_filter_clause(escaped_suffix: str, min_age: float, parent_pid: int) -> str:
+def _build_sibling_match_filter_clause(
+    escaped_suffix: str, min_age: float, parent_pid: Optional[int]
+) -> str:
     """The Where-Object filter clause used both by the real scan command and
     by tests, so tests exercise the exact expression production runs rather
-    than a hand-duplicated copy. Three independent conditions, all required:
-    (1) the (slash-normalized) CommandLine ENDS WITH the script suffix --
-    not merely contains it anywhere -- so a command line that references
-    this file as one argument among several (e.g. a pytest or lint
-    invocation covering multiple files) is never mistaken for a direct
-    `python server.py` launch; (2) old enough per min_age; (3) shares this
-    process's ParentProcessId, so a same-suffix process from a different
-    checkout or worktree (see _SELF_PARENT_PID) is never matched."""
-    return (
+    than a hand-duplicated copy. Conditions: (1) the (slash-normalized)
+    CommandLine ENDS WITH the script suffix -- not merely contains it
+    anywhere -- so a command line that references this file as one
+    argument among several (e.g. a pytest or lint invocation covering
+    multiple files) is never mistaken for a direct `python server.py`
+    launch; (2) old enough per min_age; (3) if parent_pid is not None,
+    shares this process's ParentProcessId, so a same-suffix process from a
+    different checkout or worktree (see _SELF_PARENT_PID) is never
+    matched. parent_pid=None omits condition (3) entirely -- used only by
+    the diagnostic count in _cleanup_stale_sibling_processes, never for
+    actual kill eligibility."""
+    clause = (
         "$_.CommandLine -and "
         "($_.CommandLine -replace '\\\\','/').TrimEnd().TrimEnd('\"').EndsWith('" + escaped_suffix + "') "
-        "-and ((Get-Date) - $_.CreationDate).TotalSeconds -gt " + repr(min_age) + " "
-        "-and $_.ParentProcessId -eq " + repr(int(parent_pid))
+        "-and ((Get-Date) - $_.CreationDate).TotalSeconds -gt " + repr(min_age)
     )
+    if parent_pid is not None:
+        clause += " -and $_.ParentProcessId -eq " + repr(int(parent_pid))
+    return clause
+
+
+def _diag_log_ppid_filtered_out_count(escaped_suffix: str, min_age: float) -> None:
+    """Only called when the full (suffix+age+ParentProcessId) scan finds
+    nothing. Without this, "no stale siblings exist" and "siblings exist
+    but no longer share this process's ParentProcessId" produce an
+    identical log line -- so a future regression to the ParentProcessId
+    scope silently matching nothing would be undetectable. Runs a second,
+    PPID-less scan purely for this diagnostic count; never affects which
+    processes get terminated, and never raises -- a failure here only
+    means the diagnostic count is skipped."""
+    try:
+        clause = _build_sibling_match_filter_clause(escaped_suffix, min_age, parent_pid=None)
+        command = (
+            "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | "
+            "Where-Object { " + clause + " } | "
+            "Select-Object -ExpandProperty ProcessId"
+        )
+        proc = _call_with_hard_timeout(
+            lambda: subprocess.run(
+                ["powershell", "-NoProfile", "-NonInteractive", "-Command", command],
+                capture_output=True,
+                text=True,
+                timeout=15,
+            ),
+            timeout=20.0,
+        )
+        if proc is None or proc.returncode != 0:
+            return
+        other_ppid_count = len([
+            line
+            for line in proc.stdout.splitlines()
+            if line.strip().isdigit() and int(line.strip()) != _SELF_PID
+        ])
+    except Exception:
+        return
+    if other_ppid_count:
+        _diag(
+            f"sibling-cleanup: {other_ppid_count} same-suffix process(es) old enough to match "
+            "exist under a DIFFERENT ParentProcessId (different checkout/worktree, or a host-spawn "
+            "behavior change) -- none terminated, verify this is expected"
+        )
 
 
 def _cleanup_stale_sibling_processes() -> None:
@@ -227,6 +276,7 @@ def _cleanup_stale_sibling_processes() -> None:
 
     if not sibling_pids:
         _diag(f"sibling-cleanup: no sibling processes older than {min_age:g}s found")
+        _diag_log_ppid_filtered_out_count(escaped_suffix, min_age)
         return
 
     for pid in sibling_pids:
