@@ -54,6 +54,16 @@ def _diag(msg: str) -> None:
 
 
 _SELF_PID = os.getpid()
+# Scopes sibling-cleanup matches to processes spawned by the SAME host
+# process as this one. Without this, the path-suffix match below is
+# identical across every checkout of this workspace -- including git
+# worktrees (CLAUDE.md section 6's own multi-agent isolation pattern) --
+# so a worktree's live agent-memory process could be killed by the main
+# checkout's cleanup, or vice versa, despite being unrelated servers. A
+# same-session `/mcp reconnect` double-spawn shares one host process
+# (the scenario this cleanup exists to fix); a separate checkout or
+# worktree is opened as its own host session with a different parent PID.
+_SELF_PARENT_PID = os.getppid()
 _AGENT_MEMORY_SERVER_SCRIPT = str(Path(__file__).resolve())
 # core-component-00/mcp-servers/agent-memory/server.py -- a workspace-root-
 # relative, forward-slash-normalized suffix. Computed, not hardcoded, so it
@@ -61,10 +71,57 @@ _AGENT_MEMORY_SERVER_SCRIPT = str(Path(__file__).resolve())
 _AGENT_MEMORY_RELATIVE_SUFFIX = (
     Path(__file__).resolve().relative_to(Path(__file__).resolve().parents[3]).as_posix()
 )
-# Guards against two near-simultaneous sibling processes (e.g. a rapid
-# host-side double-spawn on reconnect) each treating the other as stale
-# and killing each other before either completes the MCP handshake.
-_SIBLING_CLEANUP_MIN_AGE_S = float(os.getenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "45"))
+# Floor below which the min-age gate would no longer meaningfully guard
+# against a near-simultaneous double-spawn, regardless of override.
+_SIBLING_CLEANUP_MIN_AGE_FLOOR_S = 10.0
+
+
+def _resolve_sibling_cleanup_min_age_s() -> float:
+    """Guards against two near-simultaneous sibling processes (e.g. a rapid
+    host-side double-spawn on reconnect) each treating the other as stale
+    and killing each other before either completes the MCP handshake. Set
+    above the widest legitimate cold-start window this file allows for,
+    including a retried attempt: the in-process embedder fallback retries
+    once (_EMBEDDER_LOAD_MAX_ATTEMPTS = 2) at up to _EMBEDDER_LOAD_TIMEOUT_S
+    (90s) each, matching the documented 2026-07-13 incident where both
+    attempts stalled -- so a still-initializing legitimate process is never
+    mistaken for an orphan even in that worst case. Never raises and never
+    returns below the floor, even on a malformed or adversarial override
+    (including NaN, whose comparisons are always False and would otherwise
+    slip a plain `<` check) -- this computation runs at import time, where
+    an uncaught exception would take the whole server down."""
+    raw = os.getenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "200")
+    try:
+        value = float(raw)
+    except (TypeError, ValueError):
+        _diag(f"sibling-cleanup: invalid AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S={raw!r}, using default 200.0")
+        return 200.0
+    if not (value >= _SIBLING_CLEANUP_MIN_AGE_FLOOR_S):
+        _diag(f"sibling-cleanup: AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S={value!r} below floor, clamped to {_SIBLING_CLEANUP_MIN_AGE_FLOOR_S:g}")
+        return _SIBLING_CLEANUP_MIN_AGE_FLOOR_S
+    return value
+
+
+_SIBLING_CLEANUP_MIN_AGE_S = _resolve_sibling_cleanup_min_age_s()
+
+
+def _build_sibling_match_filter_clause(escaped_suffix: str, min_age: float, parent_pid: int) -> str:
+    """The Where-Object filter clause used both by the real scan command and
+    by tests, so tests exercise the exact expression production runs rather
+    than a hand-duplicated copy. Three independent conditions, all required:
+    (1) the (slash-normalized) CommandLine ENDS WITH the script suffix --
+    not merely contains it anywhere -- so a command line that references
+    this file as one argument among several (e.g. a pytest or lint
+    invocation covering multiple files) is never mistaken for a direct
+    `python server.py` launch; (2) old enough per min_age; (3) shares this
+    process's ParentProcessId, so a same-suffix process from a different
+    checkout or worktree (see _SELF_PARENT_PID) is never matched."""
+    return (
+        "$_.CommandLine -and "
+        "($_.CommandLine -replace '\\\\','/').TrimEnd().TrimEnd('\"').EndsWith('" + escaped_suffix + "') "
+        "-and ((Get-Date) - $_.CreationDate).TotalSeconds -gt " + repr(min_age) + " "
+        "-and $_.ParentProcessId -eq " + repr(int(parent_pid))
+    )
 
 
 def _cleanup_stale_sibling_processes() -> None:
@@ -94,11 +151,17 @@ def _cleanup_stale_sibling_processes() -> None:
 
     Matches on this script's workspace-root-relative path suffix
     (core-component-00/mcp-servers/agent-memory/server.py), normalized for
-    both forward and back slash separators -- not merely "agent-memory" as
-    a bare substring, so a user with more than one checkout of this
-    workspace never has one repo's cleanup kill another repo's live server,
-    and matches regardless of whether the launcher passed an absolute or
-    relative path.
+    both forward and back slash separators, as a trailing-position match
+    (see _build_sibling_match_filter_clause) -- not a bare substring
+    anywhere in the command line, and not merely "agent-memory" -- so a
+    command line that only references this file among other arguments
+    (e.g. a test or lint run) is never mistaken for a direct launch of it.
+    That suffix alone is identical across every checkout of this workspace,
+    including git worktrees (CLAUDE.md section 6), so the match also
+    requires the candidate to share this process's ParentProcessId
+    (_SELF_PARENT_PID) -- scoping cleanup to siblings spawned by the same
+    host session, so a different checkout's or worktree's live server is
+    never killed by this one's cleanup, or vice versa.
 
     Only terminates a sibling once it is older than
     _SIBLING_CLEANUP_MIN_AGE_S, so two processes spawned seconds apart by
@@ -128,13 +191,10 @@ def _cleanup_stale_sibling_processes() -> None:
         return
 
     escaped_suffix = _AGENT_MEMORY_RELATIVE_SUFFIX.replace("'", "''")
-    # A float, not user input -- no quoting/escaping needed for interpolation.
     min_age = _SIBLING_CLEANUP_MIN_AGE_S
     scan_command = (
         "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | "
-        "Where-Object { $_.CommandLine -and "
-        "($_.CommandLine -replace '\\\\','/').Contains('" + escaped_suffix + "') "
-        "-and ((Get-Date) - $_.CreationDate).TotalSeconds -gt " + repr(min_age) + " } | "
+        "Where-Object { " + _build_sibling_match_filter_clause(escaped_suffix, min_age, _SELF_PARENT_PID) + " } | "
         "Select-Object -ExpandProperty ProcessId"
     )
     try:
