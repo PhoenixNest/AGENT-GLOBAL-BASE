@@ -111,6 +111,20 @@ class TestCleanupStaleSiblingProcesses:
         # Must not raise.
         agent_memory_server._cleanup_stale_sibling_processes()
 
+    def test_never_raises_when_scan_itself_times_out(self, agent_memory_server, monkeypatch):
+        """_call_with_hard_timeout is specifically built to interrupt a hung
+        subprocess.run call -- exercise the exact exception type it's meant
+        to catch (subprocess.TimeoutExpired), not just a generic OSError."""
+        monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
+        monkeypatch.setattr(agent_memory_server.sys, "platform", "win32")
+
+        def _raise(cmd, **kwargs):
+            raise subprocess.TimeoutExpired(cmd=cmd, timeout=15)
+
+        monkeypatch.setattr(agent_memory_server.subprocess, "run", _raise)
+        # Must not raise.
+        agent_memory_server._cleanup_stale_sibling_processes()
+
     def test_never_raises_when_a_single_kill_fails(self, agent_memory_server, monkeypatch):
         monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
         monkeypatch.setattr(agent_memory_server.sys, "platform", "win32")
@@ -181,9 +195,34 @@ class TestSiblingCleanupMinAge:
     simultaneously by the host never treat each other as stale.
     """
 
-    def test_default_min_age_is_45_seconds(self, agent_memory_server, monkeypatch):
+    def test_default_min_age_is_200_seconds(self, agent_memory_server, monkeypatch):
         monkeypatch.delenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", raising=False)
-        assert agent_memory_server._SIBLING_CLEANUP_MIN_AGE_S == 45.0
+        assert agent_memory_server._resolve_sibling_cleanup_min_age_s() == 200.0
+
+    def test_invalid_override_falls_back_to_default(self, agent_memory_server, monkeypatch):
+        monkeypatch.setenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "not-a-number")
+        assert agent_memory_server._resolve_sibling_cleanup_min_age_s() == 200.0
+
+    def test_override_below_floor_is_clamped(self, agent_memory_server, monkeypatch):
+        monkeypatch.setenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "-5")
+        assert (
+            agent_memory_server._resolve_sibling_cleanup_min_age_s()
+            == agent_memory_server._SIBLING_CLEANUP_MIN_AGE_FLOOR_S
+        )
+
+    def test_nan_override_is_clamped_to_floor(self, agent_memory_server, monkeypatch):
+        """NaN comparisons are always False, so a plain `value < floor` check
+        would silently let NaN through uncaught -- regression for the
+        2026-08-09 adversarial finding. `float("nan")` parses without
+        raising, so this must be caught by the floor check, not the
+        except-ValueError branch."""
+        monkeypatch.setenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "nan")
+        result = agent_memory_server._resolve_sibling_cleanup_min_age_s()
+        assert result == agent_memory_server._SIBLING_CLEANUP_MIN_AGE_FLOOR_S
+
+    def test_valid_override_above_floor_is_respected(self, agent_memory_server, monkeypatch):
+        monkeypatch.setenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "60")
+        assert agent_memory_server._resolve_sibling_cleanup_min_age_s() == 60.0
 
     def test_scan_command_includes_age_filter(self, agent_memory_server, monkeypatch):
         monkeypatch.setenv("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "true")
@@ -205,24 +244,34 @@ class TestSiblingCleanupMinAge:
         assert str(agent_memory_server._SIBLING_CLEANUP_MIN_AGE_S) in scan_cmd
 
 
-class TestScanCommandRealPowerShellSemantics:
+class TestSiblingMatchFilterRealPowerShellSemantics:
     """
-    Actually invokes PowerShell (no live processes touched -- these tests
-    supply synthetic CommandLine strings and never query Win32_Process) to
-    verify the -replace/.Contains() expression itself has the matching
-    semantics the fix claims. A mocked subprocess.run cannot catch a
-    defect that lives in the PowerShell expression text. Skipped on
-    non-Windows platforms.
+    Actually invokes PowerShell against the exact filter clause production
+    builds (_build_sibling_match_filter_clause), substituting a synthetic
+    $_ object for the pipeline variable -- not a hand-duplicated copy of
+    the logic, so these tests cannot silently drift from what production
+    actually runs. A mocked subprocess.run cannot catch a defect living in
+    the PowerShell expression text itself. Skipped on non-Windows
+    platforms.
     """
 
     @staticmethod
-    def _run_match_expression(agent_memory_server, command_line: str) -> bool:
+    def _matches(
+        agent_memory_server,
+        command_line: str,
+        age_seconds: float,
+        min_age: float = 45.0,
+        self_parent_pid: int = 9999,
+        candidate_parent_pid: int = 9999,
+    ) -> bool:
         suffix = agent_memory_server._AGENT_MEMORY_RELATIVE_SUFFIX.replace("'", "''")
+        filter_clause = agent_memory_server._build_sibling_match_filter_clause(suffix, min_age, self_parent_pid)
         escaped_cmdline = command_line.replace("'", "''")
         ps_command = (
-            "$cmdline = '" + escaped_cmdline + "'; "
-            "if (($cmdline -replace '\\\\','/').Contains('" + suffix + "')) "
-            "{ Write-Output 'MATCH' } else { Write-Output 'NOMATCH' }"
+            "$_ = [PSCustomObject]@{ CommandLine = '" + escaped_cmdline + "'; "
+            "CreationDate = (Get-Date).AddSeconds(-" + repr(age_seconds) + "); "
+            "ParentProcessId = " + repr(int(candidate_parent_pid)) + " }; "
+            "if (" + filter_clause + ") { Write-Output 'MATCH' } else { Write-Output 'NOMATCH' }"
         )
         result = subprocess.run(
             ["powershell", "-NoProfile", "-NonInteractive", "-Command", ps_command],
@@ -230,21 +279,19 @@ class TestScanCommandRealPowerShellSemantics:
             text=True,
             timeout=15,
         )
-        # "MATCH" in "NOMATCH" is also True -- must compare the exact token,
-        # not substring-contains, or this helper can never actually report
-        # a negative.
+        # "MATCH" in "NOMATCH" is also True -- must compare the exact token.
         return result.stdout.strip() == "MATCH"
 
-    def test_relative_dot_slash_command_line_matches(self, agent_memory_server):
+    def test_direct_relative_launch_old_enough_matches(self, agent_memory_server):
         if sys.platform != "win32":
             pytest.skip("Windows-only scan expression")
         cmdline = (
             "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
             "./core-component-00/mcp-servers/agent-memory/server.py"
         )
-        assert self._run_match_expression(agent_memory_server, cmdline) is True
+        assert self._matches(agent_memory_server, cmdline, age_seconds=100.0) is True
 
-    def test_absolute_windows_backslash_command_line_matches(self, agent_memory_server):
+    def test_absolute_windows_backslash_launch_matches(self, agent_memory_server):
         if sys.platform != "win32":
             pytest.skip("Windows-only scan expression")
         cmdline = (
@@ -253,55 +300,95 @@ class TestScanCommandRealPowerShellSemantics:
             r"C:\Users\ASUS\Documents\Code\Local\AGENT-GLOBAL-BASE\core-component-00"
             r"\mcp-servers\agent-memory\server.py"
         )
-        assert self._run_match_expression(agent_memory_server, cmdline) is True
+        assert self._matches(agent_memory_server, cmdline, age_seconds=100.0) is True
 
-    def test_unrelated_command_line_does_not_match(self, agent_memory_server):
+    def test_unrelated_file_does_not_match(self, agent_memory_server):
         if sys.platform != "win32":
             pytest.skip("Windows-only scan expression")
         cmdline = (
             "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
             "./core-component-00/mcp-servers/workspace-knowledge/server.py"
         )
-        assert self._run_match_expression(agent_memory_server, cmdline) is False
+        assert self._matches(agent_memory_server, cmdline, age_seconds=100.0) is False
 
-
-class TestAgeFilterRealPowerShellSemantics:
-    """
-    Actually invokes PowerShell (synthetic timestamps only, no real
-    processes touched) to verify the ((Get-Date) - $_.CreationDate
-    ).TotalSeconds -gt <threshold> expression embedded in scan_command has
-    the comparison semantics the fix claims -- a mocked subprocess.run
-    cannot catch a defect living in the PowerShell expression text itself.
-    """
-
-    @staticmethod
-    def _is_old_enough(age_seconds: float, min_age: float) -> bool:
-        ps_command = (
-            f"$created = (Get-Date).AddSeconds(-{age_seconds}); "
-            f"if (((Get-Date) - $created).TotalSeconds -gt {min_age!r}) "
-            "{ Write-Output 'OLD' } else { Write-Output 'YOUNG' }"
-        )
-        result = subprocess.run(
-            ["powershell", "-NoProfile", "-NonInteractive", "-Command", ps_command],
-            capture_output=True,
-            text=True,
-            timeout=15,
-        )
-        return result.stdout.strip() == "OLD"
-
-    def test_process_younger_than_threshold_is_excluded(self):
+    def test_file_referenced_as_non_trailing_argument_does_not_match(self, agent_memory_server):
+        """A pytest/lint invocation that references this file among several
+        arguments (not as the launched script) must never be mistaken for
+        a direct launch of it."""
         if sys.platform != "win32":
             pytest.skip("Windows-only scan expression")
-        # A process born under a second ago must never be old enough to
-        # kill under the default 45s threshold.
-        assert self._is_old_enough(age_seconds=0.7, min_age=45.0) is False
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe -m pytest "
+            "agent-memory/tests/test_server.py agent-memory/server.py agent-memory/write_tool.py"
+        )
+        assert self._matches(agent_memory_server, cmdline, age_seconds=100.0) is False
 
-    def test_process_older_than_threshold_is_included(self):
+    def test_younger_than_threshold_does_not_match(self, agent_memory_server):
         if sys.platform != "win32":
             pytest.skip("Windows-only scan expression")
-        # A process born long before this session (genuinely orphaned, the
-        # case this cleanup exists to catch) must still be eligible.
-        assert self._is_old_enough(age_seconds=3600.0, min_age=45.0) is True
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
+            "./core-component-00/mcp-servers/agent-memory/server.py"
+        )
+        assert self._matches(agent_memory_server, cmdline, age_seconds=0.7, min_age=45.0) is False
+
+    def test_just_under_threshold_does_not_match(self, agent_memory_server):
+        # A literal exact-45.0s boundary isn't reliably testable via two
+        # separate Get-Date calls with intervening script execution time --
+        # this half-second margin approximates the boundary deterministically.
+        if sys.platform != "win32":
+            pytest.skip("Windows-only scan expression")
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
+            "./core-component-00/mcp-servers/agent-memory/server.py"
+        )
+        assert self._matches(agent_memory_server, cmdline, age_seconds=44.5, min_age=45.0) is False
+
+    def test_just_over_threshold_matches(self, agent_memory_server):
+        if sys.platform != "win32":
+            pytest.skip("Windows-only scan expression")
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
+            "./core-component-00/mcp-servers/agent-memory/server.py"
+        )
+        assert self._matches(agent_memory_server, cmdline, age_seconds=45.5, min_age=45.0) is True
+
+    def test_older_than_threshold_matches(self, agent_memory_server):
+        if sys.platform != "win32":
+            pytest.skip("Windows-only scan expression")
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
+            "./core-component-00/mcp-servers/agent-memory/server.py"
+        )
+        assert self._matches(agent_memory_server, cmdline, age_seconds=3600.0, min_age=45.0) is True
+
+    def test_different_parent_process_id_does_not_match(self, agent_memory_server):
+        """A same-suffix process spawned by a DIFFERENT host process (e.g. a
+        separate checkout or git worktree session, per CLAUDE.md section 6)
+        must never be matched, even when the path suffix and age both
+        qualify -- this is the 2026-08-09 cross-checkout finding."""
+        if sys.platform != "win32":
+            pytest.skip("Windows-only scan expression")
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
+            "./core-component-00/mcp-servers/agent-memory/server.py"
+        )
+        assert self._matches(
+            agent_memory_server, cmdline, age_seconds=3600.0, min_age=45.0,
+            self_parent_pid=9999, candidate_parent_pid=1234,
+        ) is False
+
+    def test_same_parent_process_id_matches(self, agent_memory_server):
+        if sys.platform != "win32":
+            pytest.skip("Windows-only scan expression")
+        cmdline = (
+            "./core-component-00/mcp-servers/.venv/Scripts/python.exe "
+            "./core-component-00/mcp-servers/agent-memory/server.py"
+        )
+        assert self._matches(
+            agent_memory_server, cmdline, age_seconds=3600.0, min_age=45.0,
+            self_parent_pid=9999, candidate_parent_pid=9999,
+        ) is True
 
 
 # ---------------------------------------------------------------------------
