@@ -9,7 +9,8 @@
     register and registers nothing. Pass -Activate to actually create the
     scheduled task. This split is deliberate: CEO approval (2026-08-08) covers
     writing this script, not activating it — see
-    core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/12-dr-backup-design.md.
+    core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
+    §9.
     Do not pass -Activate without a fresh, explicit authorization to activate.
 
 .PARAMETER Activate

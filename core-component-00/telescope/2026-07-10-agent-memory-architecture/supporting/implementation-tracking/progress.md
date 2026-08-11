@@ -1,125 +1,81 @@
-# Progress — agent-memory Enterprise-Readiness Build (Phase 0 / Phase 1)
+# Progress — agent-memory Persistent Memory System
 
-**Authorized by:** CEO, via Dr. Elias Vance (Lab Director), session of 2026-08-06
-**Orchestrator:** Multi-Agent Orchestrator (this build)
-**Scope:** Phase 0 (observability fix — execute fully), Phase 1 (write-path threat model —
-scope/design only, no implementation). Phase 2+ explicitly not authorized.
-
----
-
-## Status
-
-| Phase                                          | Status                                   | Owner                                                 |
-| ---------------------------------------------- | ---------------------------------------- | ----------------------------------------------------- |
-| Tracking artifacts created                     | Done                                     | Orchestrator                                          |
-| Worktrees provisioned                          | Done                                     | Orchestrator                                          |
-| Phase 0 — observability fix                    | Code complete, merged, live-verification pending | Worker A (`agent/observability/phase0-health-check`)  |
-| Phase 1 — write-path threat model (scope only) | Done — merged, no-go verdict for Phase 2 | Worker B (`agent/security/phase1-write-threat-model`) |
-| Integration / merge / review                   | Done — both branches merged `--no-ff`    | Orchestrator                                          |
-| Governance record update                       | Done                                     | Orchestrator                                          |
-| Report to team-lead                            | Done                                     | Orchestrator                                          |
+> Anchored to verified git commit history — every hash below was confirmed reachable from
+> `core00/dev/engineering` on 2026-08-10. Full narrative detail for every phase remains in
+> [session-log.md](session-log.md); this file is the short, current-status view.
 
 ---
 
-## Known findings carried into this build (from grounding pass)
+## Current Status (as of 2026-08-10)
 
-- **Test-suite discrepancy:** `mcp-governance.md` and
-  `supporting/09-mcp-architecture-decision.md` both cite a committed
-  `mcp-servers/agent-memory/tests/` suite ("22 passed", "17 original + 5 new"). No such
-  directory exists in the working tree or anywhere in git history
-  (`git log --follow` / `git log --diff-filter=D` both empty). The tests were evidently run
-  ad hoc in a prior session and never committed. Worker A creates a real, committed suite as
-  part of Phase 0 — this is not optional cleanup, it's closing a documentation-vs-reality gap
-  that governance sign-off has been resting on.
-- `agent-memory/server.py`'s `health_check` currently reports only Qdrant reachability/point
-  counts (`compute_memory_instance_telemetry`) — no embedder-service / in-process-fallback
-  state, which is exactly the blind spot today's (2026-08-06) incident (fixed as `f655c21e`)
-  exposed. `workspace-knowledge/server.py`'s own `health_check` has a precedent shape for this
-  kind of block (`_document_kb_health_block`'s `search_tier`/`degradation_reason` fields).
-- No automated cross-server `health_check` comparison test exists — flagged P2 in
-  `2026-07-17-agent-memory-client-instability/research-report.md`, Recommendations item 2,
-  never built.
-- Stale duplicate `agent-memory` processes on MCP reconnect: resource hygiene issue, not yet
-  investigated in this build.
+| Phase                                                                 | Status                                  | Key Commits                                                                        |
+| --------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------- |
+| Original architecture research + build                                | Done                                    | `e24bc9bd`, `fa80bd2b`, `d6b0d360`                                                 |
+| Reflection-memory addition (undocumented in 00–05 until this rewrite) | Done                                    | `f8fe937f`                                                                         |
+| Enterprise-readiness Phase 0 (observability)                          | Done, live-verified                     | `89c4bc0d`, `b2322b14`, `4e332eab`, `f655c21e`, `299a7d10`                         |
+| Enterprise-readiness Phase 1 (write-path threat model, scope only)    | Done, no-go verdict at the time         | `41a0a6ad`                                                                         |
+| Integration of Phase 0 + Phase 1                                      | Done                                    | `55fabbee`                                                                         |
+| Phase 2 (write-capable `write_memory` tool)                           | Built, conditional-go, later activated  | `1291f4da`, `3794e277`, `7d84c45c`, `ca717143`, `cc161c7e`, `f4f0ea6f`, `55c1cc0c` |
+| DR backup tooling (disk-level, JSONL log)                             | Built, **not activated** (dry-run only) | `39e1a01f`                                                                         |
+| Reconnect-reliability fixes                                           | Done                                    | `7c3c4477`, `80241e46`, `3d732e9c`, `72124537`                                     |
+| Write-confirmation-gate hooks wired live                              | Done                                    | `1ca57112`                                                                         |
+| `write_memory` tool activated                                         | **Done, live-verified 2026-08-10**      | `5c5ecde6`                                                                         |
+| Documentation consolidation (docs 06–14 → current form)               | Done                                    | `56f837f6`                                                                         |
+| This rewrite (docs 00–05 + tracking, general-audience pass)           | Done                                    | _(uncommitted at time of writing — see Note below)_                                |
 
----
-
-## Phase Gate
-
-Phase 2 (write-capable tool implementation) is **not authorized**. Work stops at Phase 1
-deliverables; orchestrator reports back for separate human sign-off before any Phase 2 work
-begins.
+**Note:** the rewrite that produced this file, `checkpoint.json`, and the six numbered documents
+00–05, has not yet been committed as of this writing — it will appear as a new commit on top of
+`56f837f6` once the working session concludes.
 
 ---
 
-## Worker A — Phase 0 completion note (2026-08-06)
+## What's Actually Running, In One Paragraph
 
-All four Phase 0 deliverables executed in the `agent/observability/phase0-health-check`
-worktree:
-
-1. `search_capability` block added to `agent-memory/server.py`'s `health_check()` via a new
-   read-only, never-raising `_get_search_capability_snapshot()` function.
-2. Automated cross-server `health_check` comparison test built (`agent-memory/tests/
-health_comparison.py` + `test_cross_server_health_comparison.py`), including the narrow,
-   explicitly-permitted `workspace-knowledge/server.py` DI refactor
-   (`_memory_instance_health_block_impl(client)`).
-3. Stale duplicate-process investigation: no agent-memory-owned defect found via static
-   analysis + direct empirical testing; root locus judged (reasoning, not direct observation)
-   to be MCP-host-side; concrete diagnosis plan documented rather than dropped.
-4. Real, committed `agent-memory/tests/` suite built (43 tests, closing the
-   previously-undocumented gap between `mcp-governance.md`/`09-mcp-architecture-decision.md`'s
-   citations and actual git history).
-
-Full detail: `10-observability-fix-phase0.md` (this folder's parent, `supporting/`).
-
-**Verification status:** code-level verification complete (compile clean, 43/43 new tests
-passed including one live-Qdrant test that actually ran — not skipped — 283/1-known-failure on
-the `context-engineering/testing/` regression suite, unchanged from before this build). **Live
-MCP-reconnect verification is NOT done** — this build ran in a background/subagent context with
-no mechanism to issue an MCP client reconnect. Flagged explicitly, not blurred, per this
-Programme's established "implemented" vs. "independently live-verified" distinction (see
-`.claude/rules/mcp-governance.md`'s `agent-memory` row history). Orchestrator/human
-verification of the live `health_check` output shape, and of the stale-duplicate-process
-diagnosis plan's first step, remains pending.
-
-No merge performed — worktree left for the orchestrator's integration step, per this build's
-instructions.
+The core memory system — four persisted types (episodic, semantic, procedural, and reflection),
+a dedicated Qdrant instance, the decay/importance/consolidation math, and the `health_check`
+observability block — is live and confirmed working directly against the code (see
+[00-sources-and-references.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/00-sources-and-references.md) § 6 for the full mechanism-by-mechanism audit). Two things are
+built but **not** currently active: the contradiction-check step (gated off after a 2026-07-12
+safety test found it flagged new facts as conflicts 100% of the time — see
+[03-forgetting-strategy.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md) § 5.1), and the automated disk-level backup schedule (written, but
+deliberately left as a dry run pending a separate activation decision — see
+[02-deployment-guidelines.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md) § 9.4). The write-capable `write_memory` tool is live, gated by a
+confirmation hook and rate limiter, with one acknowledged gap: no production AI-judge module
+exists yet to back its safety checks (`server.py` says so directly in its own code comments).
 
 ---
 
-## Worker B — Phase 1 completion note (2026-08-06)
+## Known Findings Still Open
 
-Deliverable executed in the `agent/security/phase1-write-threat-model` worktree: a design-only
-threat model against a hypothetical write-capable `agent-memory` tool
-(`supporting/11-write-path-threat-model-phase1.md`). No code touched or written;
-`agent-memory/server.py` confirmed untouched. Enumerates five concrete prompt-injection attack
-shapes at the MCP-tool-call layer and issues an explicit **no-go recommendation for Phase 2**,
-with six checkable reversal conditions in §4. `git status` in the worktree showed only its own
-two files (the doc plus a `session-log.md` append) — confirmed clean isolation from Worker A.
-
-No merge performed — worktree left for the orchestrator's integration step, per this build's
-instructions.
+- **Contradiction-check remediation:** the 2026-07-12 finding (100% false-positive rate, two
+  reproduced attack paths) has not been remediated or re-tested. No production caller may set the
+  confirmation flag that would re-enable it. Tracked in [03-forgetting-strategy.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md) § 5.1.
+- **Degradation-stack gap:** only 2 of the originally-designed 4 fallback tiers exist (Qdrant
+  primary, raw-log-rebuild last-resort). No in-process backup index or keyword-only fallback was
+  ever built. Tracked in [05-disaster-recovery-and-resilience.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/05-disaster-recovery-and-resilience.md) § 3.
+- **DR backup activation:** written but inert — no scheduled task exists, no snapshot has ever
+  been taken or verified. Tracked in [02-deployment-guidelines.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md) § 9.5.
+- **`production_judge.py` gap:** `write_memory`'s safety checks currently run without a production
+  AI-judge module — `server.py` documents this as an acknowledged, not-yet-built layer, passing
+  `judge_callable=None`. Tracked in `.claude/rules/mcp-governance.md`'s `agent-memory` row.
+- **Performance targets not re-measured:** the write/retrieval/maintenance-pass latency targets in
+  [02-deployment-guidelines.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md) § 7 are the original design targets, not measurements against live
+  production traffic.
 
 ---
 
-## Orchestrator — Integration completion note (2026-08-06)
+## Where to Find Full Detail
 
-Both branches verified directly against their diffs before merging (not merged on the strength of
-the handoff briefing alone). Confirmed disjoint file ownership except `session-log.md`, which both
-workers appended to independently, exactly as anticipated by the build plan.
+| Topic                                                          | Location                                                                                                                                                             |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full narrative history, dated, entry by entry                  | [session-log.md](session-log.md) (this folder) — unchanged, append-only                                                                                              |
+| Machine-readable milestone record                              | [checkpoint.json](checkpoint.json) (this folder)                                                                                                                     |
+| Full mechanism-by-mechanism implementation-status audit        | [00-sources-and-references.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/00-sources-and-references.md) § 6                         |
+| Write-path build, evaluation, and activation detail            | [2026-08-08-cc00-mcp-observability-stack/research-report.md](core-component-00/telescope/2026-08-08-cc00-mcp-observability-stack/research-report.md) § Related Build |
+| Adversarial evaluation that found the contradiction-check flaw | [research-report.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md) § Contradiction-Check Adversarial Evaluation               |
+| Governance record                                              | [.claude/rules/mcp-governance.md](.claude/rules/mcp-governance.md), `agent-memory` row                                                                               |
 
-- `agent/observability/phase0-health-check` merged `--no-ff` into `core00/dev/engineering`
-  (commit `8c5f4220`) — clean, no conflicts.
-- `agent/security/phase1-write-threat-model` merged `--no-ff` (commit `69796b31`) — one conflict
-  in `session-log.md` (both workers' independent appends at the same anchor point), resolved by
-  keeping both dated entries as separate sections; no other file touched during resolution.
-- Post-merge verification: `python -m py_compile` clean on all touched `server.py`/test files;
-  `agent-memory/tests/` 43/43 passed (including the live cross-server comparison test, run against
-  a reachable `qdrant-memory`); `context-engineering/testing/` regression suite 283 passed, 1
-  pre-existing unrelated failure (`test_acon_benchmark.py::test_acon_vs_context_compressor`),
-  confirmed unchanged from both workers' individually-reported baselines.
-- `.claude/rules/mcp-governance.md`'s `agent-memory` row and `telescope/README.md`'s
-  `2026-07-10-agent-memory-architecture` index row both updated to reflect both merged phases.
-- Both worktrees (`../agent-observability`, `../agent-security`) removed and pruned post-merge.
-- Phase 2 (a write-capable memory tool) remains **not authorized** — Phase 1's no-go verdict
-  stands; nothing in this integration step implements, sketches, or registers such a tool.
+---
+
+**Maintained by:** Core Component 00 Laboratory
+**Laboratory Director:** Dr. Elias Vance

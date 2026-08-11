@@ -239,7 +239,7 @@ across 2 attempts)"` — confirming both attempts ran and both stalled. The retr
    automatic, but ownership of shutdown is the hardest of the three to get right).
 4. **Decide blast-radius posture explicitly.** This workspace already separated `qdrant-memory`
    from `qdrant-workspace` specifically for isolation (`2026-07-10-agent-memory-architecture/
-supporting/09-mcp-architecture-decision.md`). Whether one shared embedder service or two
+research-report.md` § Architecture Decisions and Write-Path Security Posture). Whether one shared embedder service or two
    isolated ones is the right call given that precedent is a CEO decision, not an engineering
    default.
 
@@ -274,9 +274,9 @@ supporting/09-mcp-architecture-decision.md`). Whether one shared embedder servic
 - `core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/
 02-deployment-guidelines.md` §1.1 — the Windows `NO_PROXY` precedent to reapply in any new
   HTTP-based service
-- `core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/
-09-mcp-architecture-decision.md` — the blast-radius-isolation precedent referenced in
-  Recommendations
+- `core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md` §
+  Architecture Decisions and Write-Path Security Posture — the blast-radius-isolation precedent
+  referenced in Recommendations (formerly the standalone `supporting/09-mcp-architecture-decision.md`, retired)
 
 ### Related Work
 

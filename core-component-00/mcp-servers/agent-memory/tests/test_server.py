@@ -1,23 +1,9 @@
-"""
-Executable pytest suite for core-component-00/mcp-servers/agent-memory/server.py.
+"""Executable pytest suite for core-component-00/mcp-servers/agent-memory/server.py.
 
-No live Qdrant instance or live embedder-service is required for anything in
-this file — every Qdrant/embedder interaction is injected via
-unittest.mock.MagicMock, mirroring the dependency-injection pattern already
-used by
-core-component-00/engineering/context-engineering/testing/test_memory_vector_store.py.
-See conftest.py for how agent-memory/server.py is imported without attempting
-to reach the shared embedder-service.
+No live Qdrant instance or embedder-service is required — every interaction
+is injected via unittest.mock.MagicMock. See conftest.py for import setup.
 
-Run with (from this directory's mcp-servers/agent-memory venv):
-    python -m pytest core-component-00/mcp-servers/agent-memory/tests/ -v
-
-This suite closes a documentation-vs-reality gap: mcp-governance.md and
-telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md
-both cite a committed suite ("22 passed", "17 original + 5 new") that never
-actually existed in this repo (confirmed via `git log --follow` / `git log
---diff-filter=D`, both empty). This is that suite, built for real and
-committed.
+Run: python -m pytest core-component-00/mcp-servers/agent-memory/tests/ -v
 """
 import concurrent.futures
 import sys

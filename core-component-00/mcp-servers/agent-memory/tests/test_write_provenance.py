@@ -11,7 +11,7 @@ Covers:
   - validate_provenance: rejects each missing/malformed field individually,
     accepts a well-formed instance.
   - WriteRateLimiter: allows writes under threshold, rejects the exact
-    repeated-attempt pattern `07-adversarial-evaluation-results.md` §4's
+    repeated-attempt pattern test_contradiction_adversarial.py's
     `test_repeated_poisoning_attempts_are_not_rate_limited_or_flagged` found
     unguarded (50 identical attempts, same scale as that eval), and
     get_telemetry()'s output shape is stable and never raises.
@@ -223,7 +223,7 @@ class TestWriteRateLimiterAllowsUnderThreshold:
 class TestWriteRateLimiterCatchesRepeatedPoisoningPattern:
     def test_50_identical_attempts_are_rejected_well_before_50(self):
         """
-        Direct analog of `07-adversarial-evaluation-results.md` §4's
+        Direct analog of test_contradiction_adversarial.py's
         test_repeated_poisoning_attempts_are_not_rate_limited_or_flagged,
         which found 50 consecutive identical calls to check_contradiction()
         all succeeded with no counter, log, or flag. Fires the same 50-call

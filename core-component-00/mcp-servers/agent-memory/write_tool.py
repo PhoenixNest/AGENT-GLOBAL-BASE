@@ -1,153 +1,23 @@
-"""
-write_tool.py — testable core of `write_memory`, a write-capable tool for the
-`agent-memory` MCP server, built against the three reversal-condition
-primitives merged ahead of it:
+"""Testable core of `write_memory`, the write-capable tool for the agent-memory MCP server.
 
-    - write_gate.py (Worker A): WriteConfirmationGate, quarantine promote/reject
-    - production_judge.py (Worker B, context-engineering): evaluate_contradiction()
-    - write_provenance.py (Worker C): WriteProvenance/validate_provenance, WriteRateLimiter
+Not registered as a live MCP tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED is
+truthy (read once at import time). Two behavioral gaps worth knowing before
+relying on this module:
 
-Full design context:
-    core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/11-write-path-threat-model-phase1.md
-
----------------------------------------------------------------------------
-ACTIVATION STATUS — read this before assuming this tool is live
----------------------------------------------------------------------------
-`write_memory` (the `@mcp.tool()`-shaped wrapper, defined in server.py) is
-built here in full, always present and always directly testable by importing
-this module — but it is NOT registered as a live MCP tool by default. Its
-registration in server.py is gated behind an explicit opt-in environment
-flag:
-
-    AGENT_MEMORY_WRITE_TOOL_ENABLED   default: "false" (falsy)
-
-A future, separately-authorized activation step requires exactly one change:
-set `AGENT_MEMORY_WRITE_TOOL_ENABLED=true` (or "1"/"yes") in the environment
-the agent-memory server process is launched with. Nothing else needs to
-change — the implementation, tests, and wiring below are already complete.
-Per this same env-flag mechanism already established by
-`EMBEDDER_SERVICE_ENABLED` in server.py, the flag is read once at
-module-import time (see `AGENT_MEMORY_WRITE_TOOL_ENABLED` below), so a change
-takes effect on the next process start, not by mutating the module global at
-runtime.
-
----------------------------------------------------------------------------
-GENUINE GAP #1 — no production LLM judge exists yet (flagged, not hidden)
----------------------------------------------------------------------------
-`evaluate_contradiction()` (production_judge.py) requires an `llm_judge`
-callable. That module's own docstring states plainly: "No production LLM
-judge implementation exists anywhere in this workspace." This build does not
-invent one — doing so under this build's own scope would be exactly the kind
-of unreviewed, unadversarially-evaluated judge §7 item 1 explicitly warns
-against.
-
-Consequence: `_write_memory_impl` accepts `judge_callable` as an injectable,
-optional parameter (`None` in every real call server.py makes today, since no
-judge exists to inject). When collision-search below finds a candidate
-existing record of the same memory_type and `judge_callable is None`, this
-module CANNOT get a real ADD/UPDATE/NOOP verdict — and it does not pretend to.
-Per this entire programme's fail-loud-not-fail-open discipline (write_gate.py's
-`RepoRootUnresolvedError`, production_judge.py's own confidence-threshold and
-order-disagreement gates, REFLECT-003's "never let an unforgeable-looking
-code-level check silently pass a write through"), an un-adjudicable candidate
-collision is treated as `would_collide_with_existing=True` — i.e. routed to
-the human-confirmation lane rather than silently written as an unreviewed
-"routine" quarantine record. See `_resolve_collision()` below.
-
-PRACTICAL IMPLICATION, stated plainly: with no judge wired in (today's only
-real configuration), any write whose content semantically resembles ANY
-existing active record of the same memory_type — even one that is not
-actually contradictory — will route to `confirmation_required` rather than
-`quarantined`, because this module has no way to tell "genuinely conflicts"
-from "merely the closest existing match" without a judge. Only writes with NO
-existing candidate at all reach the quarantine lane today. This is a real,
-load-bearing limitation of the current build's actual runtime behavior once
-activated, not a hypothetical footnote — closing it requires a real judge
-being wired in as `judge_callable`, which is future work this module does not
-attempt.
-
----------------------------------------------------------------------------
-GENUINE GAP #2 (closed, not hidden) — WriteConfirmationGate's confirmation
-ambiguity, and why ConfirmationRequestTracker exists
----------------------------------------------------------------------------
-`WriteConfirmationGate.check_confirmation()` returns `allowed=True` in TWO
-states that are indistinguishable from its own return value alone: (a) no
-confirmation has EVER been requested for this session, and (b) a
-confirmation WAS requested and has since been cleared (a real
-`AskUserQuestion` answered, per write-memory-gate-clear.py) or gone stale.
-Trusting `allowed=True` on its face would let the FIRST-EVER high-consequence
-write for a session sail straight through to `status="active"` with no human
-ever having been asked anything — silently defeating the very mechanism this
-tool exists to enforce.
-
-`ConfirmationRequestTracker` (below) closes this by having `write_memory`
-remember, in-process, whether IT has already called `request_confirmation()`
-for a given session_id. The real per-write flow this produces:
-
-  1st call, lane=high_consequence: check_confirmation() -> allowed=True (no
-     marker) AND tracker says "never requested this session" -> call
-     request_confirmation(), mark the tracker, return
-     status="confirmation_required". The write does NOT happen on this call.
-  (Turn ends. Per write_gate.py's own documented harness-level contract, a
-   PreToolUse/PostToolUse hook pair — NOT wired into .claude/settings.json by
-   this build, see write_gate.py's own note — narrows the window for a normal
-   interactive session to skip asking the human. The calling agent is
-   expected to surface the pending confirmation to the human, e.g. via
-   AskUserQuestion, before retrying.)
-  2nd call, same session_id, lane=high_consequence again: check_confirmation()
-     -> allowed=True (marker was cleared, or went stale) AND tracker says
-     "yes, this session already went through a request" -> tracker is reset
-     for next time, write proceeds with status="active" directly (bypasses
-     quarantine — a confirmed high-consequence write is not "routine").
-
-KNOWN LIMITATION (same class as WriteRateLimiter's own, stated openly, not
-hidden): ConfirmationRequestTracker state is in-process only and resets to
-empty on server restart. This is the SAFE failure direction: after a
-restart, every session looks "never requested" again, so the very next
-high-consequence attempt for that session re-requests confirmation rather
-than silently skipping it. It fails toward MORE confirmation being required,
-never less.
-
----------------------------------------------------------------------------
-GENUINE GAP #3 (documented, not silently absorbed) — collision search has no
-similarity score to threshold on
----------------------------------------------------------------------------
-`QdrantMemoryIndex.search()` (memory_vector_store.py) discards each Qdrant
-point's `.score` when converting to `MemoryRecord` instances — it was built
-for search_memory's use case, which never needed a score. This module reuses
-that same method (per the build brief's explicit instruction to reuse the
-existing accessor/search pattern) rather than adding a parallel
-score-preserving query path, which would be new, unreviewed Qdrant-querying
-surface area. The practical effect: "a candidate was found" means "this is
-the single closest existing record of the same memory_type," not "this is
-plausibly related above some similarity threshold" — there is no way, with
-today's `search()` return shape, to distinguish a genuinely close match from
-a merely top-ranked-but-unrelated one. Combined with Gap #1 above (no judge
-to adjudicate what's found), this is why the practical rate of
-`confirmation_required` responses is high once any records exist in a
-collection. Not a bug — a documented, load-bearing consequence of two
-compounding, explicitly-flagged gaps.
-
----------------------------------------------------------------------------
-Quarantine-lane provenance storage — design choice
----------------------------------------------------------------------------
-`MemoryRecord` (memory_vector_store.py) is NOT modified by this module. A
-write's `WriteProvenance` fields, plus this module's own collision/injection
-diagnostics, are stashed as an ADDITIONAL top-level key
-(`"write_provenance"`, a nested dict) on the payload dict AFTER calling
-`record.to_payload()` — never by adding a field to the `MemoryRecord`
-dataclass itself. The record is then upserted via
-`QdrantMemoryIndex.upsert_payload(point_id, embed_text, payload)` (which
-accepts a raw payload dict and does not require it to be exactly
-`MemoryRecord.to_payload()`'s shape) rather than `upsert_record()` (which
-would silently drop any key not in `to_payload()`'s fixed shape).
-`MemoryRecord.from_payload()` parses via `payload.get(...)` for every field
-it reads — an unrecognized extra `"write_provenance"` key is simply ignored
-by any existing reader, verified by reading that method directly (no
-`KeyError` risk, no schema change required). This is a deliberate, additive-
-only choice: Worker E is re-verifying Decision 2's constraints against this
-exact code, and a wrapper-level design (never touching the shared dataclass)
-keeps that review surface minimal.
+- No production LLM judge exists yet, so `judge_callable` is None in every
+  real call. When collision search finds a candidate existing record with no
+  judge to adjudicate it, this treats it as would_collide_with_existing=True
+  (routes to human confirmation) rather than guessing — see
+  `_resolve_collision()`. Combined with `QdrantMemoryIndex.search()` not
+  returning a similarity score to threshold on, any write resembling an
+  existing record of the same type currently routes to
+  confirmation_required rather than quarantined, until a real judge is wired
+  in.
+- `WriteConfirmationGate.check_confirmation()` alone can't distinguish
+  "never requested" from "requested and since cleared" — `ConfirmationRequestTracker`
+  below resolves that ambiguity so a session's first high-consequence write
+  always requires an explicit confirmation round-trip, never sails through
+  on an absent marker.
 """
 
 from __future__ import annotations
@@ -160,13 +30,6 @@ import uuid
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
-# Sibling imports (write_gate.py / write_provenance.py live in this same
-# agent-memory/ directory). Works whether this module is imported via
-# server.py (which already runs from / has this directory on sys.path as the
-# entry script's own directory) or loaded directly/standalone by a test —
-# tests that import write_tool.py directly are expected to insert this
-# directory onto sys.path first, mirroring test_write_gate.py's own
-# established pattern.
 from write_gate import WriteConfirmationGate
 from write_provenance import (
     WriteProvenance,
@@ -175,11 +38,6 @@ from write_provenance import (
     get_default_rate_limiter,
 )
 
-# production_judge.py / memory_vector_store.py live under
-# engineering/context-engineering/implementations/. Defensive sys.path setup
-# mirrors server.py's own identical snippet exactly, so this module is
-# importable standalone (e.g. directly by a test) without depending on
-# import order relative to server.py.
 _CONTEXT_ENGINEERING_ROOT = Path(__file__).resolve().parents[2] / "engineering" / "context-engineering"
 if str(_CONTEXT_ENGINEERING_ROOT) not in sys.path:
     sys.path.insert(0, str(_CONTEXT_ENGINEERING_ROOT))
@@ -198,26 +56,15 @@ from implementations.memory_vector_store import (  # noqa: E402
 )
 
 
-# ---------------------------------------------------------------------------
-# Activation flag — see module docstring "ACTIVATION STATUS" above
-# ---------------------------------------------------------------------------
-
 AGENT_MEMORY_WRITE_TOOL_ENABLED = os.getenv(
     "AGENT_MEMORY_WRITE_TOOL_ENABLED", "false"
 ).strip().lower() in ("1", "true", "yes")
 
 
-# ---------------------------------------------------------------------------
-# ConfirmationRequestTracker — closes Gap #2 above
-# ---------------------------------------------------------------------------
-
-
 class ConfirmationRequestTracker:
     """Tracks, per session_id, whether write_memory has already called
-    `gate.request_confirmation()` at least once for a high-consequence write
-    in THIS session within this process's lifetime. See module docstring
-    "GENUINE GAP #2" for the full rationale and the exact two-call flow this
-    produces. Thread-safe; mirrors WriteRateLimiter's locking discipline."""
+    `gate.request_confirmation()` for a high-consequence write in this
+    session within this process's lifetime. Thread-safe."""
 
     def __init__(self) -> None:
         self._lock = threading.Lock()
@@ -272,22 +119,10 @@ def get_default_write_gate() -> WriteConfirmationGate:
         return _default_write_gate
 
 
-# ---------------------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------------------
-
-# "reflection" is deliberately excluded — that collection stays on its own
+# "reflection" is deliberately excluded — that collection stays on the
 # Investigator-Authored Write Path (memory_store.py's write_reflection()),
-# never MCP-agent-callable, per that module's own module-level comment and
-# write_gate.py's classify() docstring. This tool structurally cannot reach
-# it: the memory_type validation below rejects anything not in this tuple
-# before any other logic runs.
+# never MCP-agent-callable.
 ALLOWED_WRITE_MEMORY_TYPES = ("episodic", "semantic", "procedural")
-
-
-# ---------------------------------------------------------------------------
-# Collision resolution — Gap #1 / Gap #3
-# ---------------------------------------------------------------------------
 
 
 def _resolve_collision(
@@ -300,12 +135,9 @@ def _resolve_collision(
 ) -> "CollisionOutcome":
     """
     Searches for the single closest existing active record of `memory_type`
-    (session-scoped for episodic, matching search_memory's own scoping rule;
-    cross-session otherwise) and, if one is found, attempts to adjudicate it
-    via evaluate_contradiction() when a judge_callable is available.
-
-    See module docstring "GENUINE GAP #1" / "GENUINE GAP #3" for the exact,
-    honestly-stated limitations of what this can and cannot determine.
+    (session-scoped for episodic, cross-session otherwise) and, if one is
+    found, attempts to adjudicate it via evaluate_contradiction() when a
+    judge_callable is available.
     """
     index = QdrantMemoryIndex(memory_type, client=client, embedder=embedder)
     episodic_scope = session_id if memory_type == "episodic" else None
@@ -326,9 +158,8 @@ def _resolve_collision(
     existing = candidates[0]
 
     if judge_callable is None:
-        # No production judge exists yet (Gap #1) — conservative fail-safe:
-        # a candidate exists and nothing can rule out a genuine conflict, so
-        # this is NOT treated as safely routine.
+        # No judge available to rule out a genuine conflict — conservative
+        # fail-safe, not treated as safely routine.
         return CollisionOutcome(
             would_collide=True,
             note="existing_candidate_found_no_judge_configured_conservative_high_consequence",
@@ -360,11 +191,6 @@ class CollisionOutcome:
         self.judge_result = judge_result
 
 
-# ---------------------------------------------------------------------------
-# Testable core
-# ---------------------------------------------------------------------------
-
-
 def _write_memory_impl(
     content: str,
     memory_type: str,
@@ -381,14 +207,8 @@ def _write_memory_impl(
     confirmation_tracker: ConfirmationRequestTracker,
     judge_callable: Optional[JudgeCallable] = None,
 ) -> Dict[str, Any]:
-    """
-    Testable core of write_memory. See write_memory()'s docstring (server.py)
-    for the full flow narrative and this module's docstring for the honestly-
-    stated gaps in judge availability and collision-search precision.
-
-    Never raises — every rejection path returns a dict; the @mcp.tool()-
-    shaped wrapper in server.py additionally wraps this in try/except so no
-    unexpected internal error escapes either.
+    """Testable core of write_memory. Never raises — every rejection path
+    returns a dict.
 
     Return shape (always all five keys present):
         written        bool
@@ -491,15 +311,8 @@ def _write_memory_impl(
         collision_note = outcome.note
         judge_result = outcome.judge_result
 
-    # -----------------------------------------------------------------
-    # Classification + gate
-    # -----------------------------------------------------------------
     if injection_flagged:
-        # Per build brief: injected content is never routed through
-        # classify()/the high-consequence confirmation path at all — it
-        # always lands in quarantine, reviewable but never auto-active,
-        # regardless of what a (never-invoked, in this branch) judge might
-        # have said.
+        # Injected content always lands in quarantine, never auto-active.
         lane = "quarantine_forced_injection"
         status = "quarantined"
     else:
@@ -514,9 +327,6 @@ def _write_memory_impl(
                     "record_id": None,
                     "lane": lane,
                 }
-            # allowed == True: no pending marker right now. See module
-            # docstring "GENUINE GAP #2" for why this alone is ambiguous and
-            # why confirmation_tracker resolves it.
             if not confirmation_tracker.was_requested(session_id):
                 summary = (
                     f"write_memory high-consequence write pending confirmation: "
@@ -537,19 +347,13 @@ def _write_memory_impl(
                     "record_id": None,
                     "lane": lane,
                 }
-            # Already requested earlier in this process, and no marker is
-            # present now — treat as confirmed (or the 15-minute stale-marker
-            # fail-safe fired, which WriteConfirmationGate itself treats as
-            # "restore pre-gate behavior"). Reset the tracker so a FUTURE
-            # high-consequence write for this session starts fresh.
+            # Already requested earlier and no marker is pending — treat as
+            # confirmed; reset so a future write for this session starts fresh.
             confirmation_tracker.clear(session_id)
             status = "active"
         else:
             status = "quarantined"
 
-    # -----------------------------------------------------------------
-    # Build record + write
-    # -----------------------------------------------------------------
     now = time.time()
     record_id = str(uuid.uuid4())
     record = MemoryRecord(
@@ -559,18 +363,13 @@ def _write_memory_impl(
         created_at=now,
         last_accessed_at=now,
         access_count=0,
-        # Internal write-time heuristic only — never caller-supplied. This
-        # tool's signature carries no event_type/importance concept (unlike
-        # PersistentMemorySink.write_episodic's event_type), so the shared
-        # "general" heuristic (compute_write_time_importance's 0.2 default)
-        # is applied uniformly regardless of memory_type.
         importance=compute_write_time_importance("general"),
         confidence=1.0,
         decay_weight=1.0,
-        status=status,  # "active" | "quarantined" — never caller-settable
+        status=status,
         source_session_id=session_id,
         source_turn=0,
-        sacred=False,  # never caller-settable — Decision 2
+        sacred=False,  # never caller-settable
         tags=["write_memory"],
         consolidated_from=[],
         modality="text",

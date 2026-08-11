@@ -5,31 +5,20 @@ Adversarial evaluation of the LLM-judged contradiction check
     telescope/2026-07-10-agent-memory-architecture/research-report.md
         Open Question 2, Recommendation 3
     telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md §5
-    telescope/2026-07-10-agent-memory-architecture/supporting/06-self-review-and-evaluation.md §6
+    telescope/2026-07-10-agent-memory-architecture/research-report.md § Self-Review Findings
 
-Independent audit function: Dr. Tomasz Wieczorek, Staff Safety & Evaluation
-Engineer (`crew/safety-evaluation/tomasz-wieczorek/agent/profile.md`).
+This suite calls check_contradiction() directly as a unit under test. It
+never sets i_have_completed_adversarial_review=True and never wires the
+check into run_maintenance_pass()'s production path.
 
-This suite calls check_contradiction() DIRECTLY as a unit under test. It never
-sets i_have_completed_adversarial_review=True and never modifies
-run_maintenance_pass() to wire the check into the production path -- that
-activation is a separate decision, out of scope for this evaluation, and
-remains gated regardless of this suite's findings (see
-TestSameMaintenanceWindowRace::test_run_maintenance_pass_provides_no_sequencing_or_locking_for_contradiction_checks
-for a direct confirmation the gate is still inert).
-
-Central finding driving this suite's design: check_contradiction() has almost
-no logic of its own. It forwards new_record.content and existing_record.content
-verbatim, positionally, to an injected `llm_judge` callable and returns
-whatever verdict comes back, after only checking the verdict string is one of
-ADD/UPDATE/NOOP. No production llm_judge implementation exists yet in this
-workspace. That means this suite cannot benchmark a real model's judgment
-quality -- there isn't one to benchmark. What it CAN and does test is the
-wrapper's OWN safeguards, using synthetic judge stand-ins built to reproduce
+check_contradiction() forwards new_record.content and existing_record.content
+verbatim to an injected `llm_judge` callable and returns whatever verdict
+comes back, checking only that it's one of ADD/UPDATE/NOOP. No production
+llm_judge implementation exists in this workspace, so this suite tests the
+wrapper's own safeguards using synthetic judge stand-ins built to reproduce
 documented LLM-judge failure modes (lexical-overlap sensitivity, entity
-blindness, instruction-following on embedded text, order sensitivity). The
-synthetic judges are proxies for known failure classes, not predictions about
-any specific model's real accuracy.
+blindness, instruction-following on embedded text, order sensitivity) —
+proxies for known failure classes, not predictions about any real model.
 
 Run with:
     pytest testing/test_contradiction_adversarial.py -v

@@ -829,7 +829,8 @@ def search_memory(
     graceful-degradation discipline.
 
     Usage constraints enforced here, not left to caller discipline (per
-    telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md):
+    telescope/2026-07-10-agent-memory-architecture/research-report.md
+    § Architecture Decisions):
 
     - episodic search is session-scoped by default — a session_id is required
       unless the caller explicitly sets cross_session=True to opt into
@@ -952,15 +953,8 @@ def write_memory(
     provenance_confidence: float,
 ) -> Dict[str, Any]:
     """
-    Write-capable counterpart to search_memory — see
-    write_tool.py's module docstring for the full design rationale
-    (activation status, the no-production-judge gap, the confirmation-
-    tracker mechanism, and the collision-search precision gap) before relying
-    on this tool's behavior.
-
-    NOT registered as a live MCP tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED
-    is set truthy — see the bottom of this file and write_tool.py's
-    "ACTIVATION STATUS" section.
+    Write-capable counterpart to search_memory. Not registered as a live MCP
+    tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED is set truthy.
 
     memory_type must be one of "episodic" | "semantic" | "procedural" —
     "reflection" is rejected outright; that collection stays on its own
@@ -968,7 +962,7 @@ def write_memory(
     memory_store.py and write_gate.py's classify() docstring).
 
     There is no `sacred`, `importance`, or `status` parameter, on purpose
-    (Decision 2, 09-mcp-architecture-decision.md) — every one of those is
+    (Decision 2, research-report.md § Architecture Decisions) — every one of those is
     derived internally: sacred is always False for this path, importance
     comes from the internal compute_write_time_importance("general")
     heuristic, and status ("active" | "quarantined") is determined entirely
@@ -1007,10 +1001,7 @@ def write_memory(
             gate=write_tool.get_default_write_gate(),
             rate_limiter=get_default_rate_limiter(),
             confirmation_tracker=write_tool.get_default_confirmation_tracker(),
-            # No production LLM judge exists anywhere in this workspace yet
-            # (production_judge.py's own honest scope statement) — see
-            # write_tool.py's module docstring "GENUINE GAP #1" for exactly
-            # what this means for collision handling until one is wired in.
+            # No production LLM judge exists anywhere in this workspace yet.
             judge_callable=None,
         )
     except Exception as exc:
@@ -1026,11 +1017,7 @@ def write_memory(
         }
 
 
-# NOT a live MCP tool by default — see write_tool.py's module docstring
-# "ACTIVATION STATUS". A future, separately-authorized activation step
-# requires exactly one change: set AGENT_MEMORY_WRITE_TOOL_ENABLED=true (or
-# "1"/"yes") in the environment the agent-memory server process is launched
-# with. Nothing else needs to change.
+# NOT a live MCP tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED is truthy.
 if write_tool.AGENT_MEMORY_WRITE_TOOL_ENABLED:
     mcp.tool()(write_memory)
 
