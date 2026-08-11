@@ -9,8 +9,9 @@ not reinvented. This is a NEW, INDEPENDENT hook: it only ever removes ITS OWN ma
 does not modify or depend on prompt-gate-enforcer.py/prompt-gate-clear.py in any way. Standard
 library only, no third-party dependencies.
 
-NOT WIRED IN by this build — see write-memory-gate-enforcer.py's module comment for the full
-settings.json wiring snippet and why it is not applied automatically here.
+Wired live in .claude/settings.json (PostToolUse, matcher "AskUserQuestion", alongside
+prompt-gate-clear.py) — see write-memory-gate-enforcer.py's module comment for the matching
+PreToolUse entry.
 
 Fail-closed contract: this script only ever *removes* the pending-confirmation marker that
 write-memory-gate-enforcer.py checks for before denying non-AskUserQuestion tool calls. On any
