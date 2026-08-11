@@ -99,6 +99,15 @@ class TestConstraint1ReadOnlyFirst:
             text=True,
             check=True,
         ).stdout
+        # Disclosed exception: search_memory's docstring citation was repointed
+        # from the now-deleted 09-mcp-architecture-decision.md to
+        # research-report.md's merged section. Applied to the baseline too so
+        # this documentation-only edit doesn't mask an unrelated functional
+        # change to the same function.
+        old_source = old_source.replace(
+            "    telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md):",
+            "    telescope/2026-07-10-agent-memory-architecture/research-report.md\n    § Architecture Decisions):",
+        )
         new_source = _SERVER_PY_PATH.read_text(encoding="utf-8")
 
         old_tree = ast.parse(old_source)
