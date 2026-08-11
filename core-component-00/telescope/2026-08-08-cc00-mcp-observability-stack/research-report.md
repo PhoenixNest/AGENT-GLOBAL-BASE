@@ -45,8 +45,8 @@ freshness.
 
 Today, operational status is only observable by directly calling each server's `health_check`
 tool — a point-in-time snapshot with no history, no alerting, and no cross-server view. The
-`agent-memory` stale-process diagnosis (`2026-07-10-agent-memory-architecture/supporting/10-observability-fix-phase0.md`,
-addendum) also demonstrated that multiple instances of a server can be alive simultaneously after
+`agent-memory` stale-process diagnosis (§ Related Incident History below) also demonstrated that
+multiple instances of a server can be alive simultaneously after
 a host reconnect — a fleet-wide monitoring layer needs to reflect that reality correctly rather
 than assume one process per server.
 
@@ -65,11 +65,11 @@ than assume one process per server.
 
 ### 1. Scope of Coverage
 
-| Component             | Type                                               | Coverage in this design                                                                                     |
-| --------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `workspace-knowledge` | Registered MCP server                              | Full tool-level + backing-store instrumentation                                                             |
-| `agent-memory`        | Registered MCP server                              | Full tool-level + backing-store instrumentation, plus DR-backup freshness gauges (`12-dr-backup-design.md`) |
-| `embedder-service`    | Shared internal process (not an MCP server itself) | Request-level instrumentation; monitored because both registered servers depend on it                       |
+| Component             | Type                                               | Coverage in this design                                                                                             |
+| --------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `workspace-knowledge` | Registered MCP server                              | Full tool-level + backing-store instrumentation                                                                     |
+| `agent-memory`        | Registered MCP server                              | Full tool-level + backing-store instrumentation, plus DR-backup freshness gauges (`02-deployment-guidelines.md` §9) |
+| `embedder-service`    | Shared internal process (not an MCP server itself) | Request-level instrumentation; monitored because both registered servers depend on it                               |
 
 A future registered server picks up coverage automatically by importing the shared
 instrumentation library (§2) — this is not a per-server bespoke build.
@@ -93,7 +93,7 @@ New module: `core-component-00/mcp-servers/_shared/metrics.py`. Thin wrapper aro
 Every instrumentation call reuses values each server's `health_check`/tool implementations
 already compute — no second source of truth is introduced, the same design constraint the
 `agent-memory` Phase 0 `search_capability` block was built under
-(`10-observability-fix-phase0.md` § "No second source of truth"). Every call in this library is
+(§ Related Incident History below, "No second source of truth"). Every call in this library is
 non-blocking and never raises, matching every other design in this codebase (`search_memory`,
 `health_check`, `QdrantMemoryIndex`'s graceful-degradation contract).
 
@@ -102,7 +102,7 @@ non-blocking and never raises, matching every other design in this codebase (`se
 The obvious design — each server runs its own embedded `/metrics` HTTP endpoint, the pattern
 `embedder-service` already uses — does not fit `workspace-knowledge` or `agent-memory`. The
 `agent-memory` stale-process diagnosis directly confirmed (live PID snapshots + `py-spy`,
-`10-observability-fix-phase0.md` § Addendum) that multiple instances of the same server can be
+§ Related Incident History below) that multiple instances of the same server can be
 alive simultaneously after a host reconnect. A per-process HTTP endpoint on a fixed port either
 port-conflicts across those instances or silently exposes whichever stale instance happens to be
 listening — neither is a correct monitoring signal.
@@ -163,7 +163,7 @@ computed values):
 | `am_effective_search_path`              | Gauge (enum pattern) | `embedder-service` / `in-process-fallback` / `unavailable`                                                                                         |
 | `am_qdrant_reachable`                   | Gauge                |                                                                                                                                                    |
 | `am_point_count`                        | Gauge                | Per collection                                                                                                                                     |
-| `am_dr_backup_last_success_age_seconds` | Gauge                | Sourced once the Phase 5 DR-backup scripts (`12-dr-backup-design.md`) are activated; reports `NaN`/absent until then rather than a fabricated zero |
+| `am_dr_backup_last_success_age_seconds` | Gauge                | Sourced once the DR-backup scripts (`02-deployment-guidelines.md` §9) are activated; reports `NaN`/absent until then rather than a fabricated zero |
 | `am_dr_backup_last_verify_age_seconds`  | Gauge                | Same caveat                                                                                                                                        |
 
 **`embedder-service` specific:**
@@ -222,8 +222,8 @@ this specification.
 - `node-exporter`'s default collector set exposes host-level metrics (CPU, disk, etc.) beyond
   what this design needs; the textfile-only configuration in §4 should disable other default
   collectors explicitly, or a minimal purpose-built exporter should be used instead.
-- The DR-backup freshness gauges (§5) are only meaningful once the Phase 5 backup scripts
-  (`12-dr-backup-design.md`) are themselves activated — until then they correctly report
+- The DR-backup freshness gauges (§5) are only meaningful once the backup scripts
+  (`02-deployment-guidelines.md` §9) are themselves activated — until then they correctly report
   absent/`NaN`, not a misleading zero.
 
 ---
@@ -253,12 +253,190 @@ and the direct-HTTP-endpoint design for `embedder-service`, per the asymmetry ju
 
 ---
 
+## Related Build — `agent-memory` Write-Path Tool Status
+
+> **Moved here 2026-08-10** from the former standalone `2026-07-10-agent-memory-architecture/
+supporting/13-write-path-implementation.md`, per CEO direction that implementation-detail
+> content for a server's operational status belongs alongside that server's other monitoring
+> facts rather than as its own document. This section is the current source of truth for the
+> write-path tool's build, evaluation, and activation status; the original document's full
+> attack-by-attack methodology remains at that path for readers who need the complete detail
+> (Attack Shape write-ups, exact test names, full reversal-condition reasoning) — this section is
+> the condensed status record, not a duplicate of it.
+
+**What was built** (five parallel workers, independently reviewed by a sixth, the Final
+Integration Agent): `write_gate.py` + a `PreToolUse`/`PostToolUse` hook pair (confirmation gate,
+quarantine primitives) — Worker A; `production_judge.py` (`evaluate_contradiction()`, a hardened
+judge wrapper with an injection pre-check, symmetry/confidence gates, same-window sequencing) —
+Worker B; `write_provenance.py` (non-optional provenance validation, per-session rate limiting) —
+Worker C; `write_tool.py` + `server.py` wiring (the testable core and the `@mcp.tool()` wrapper,
+gated behind `AGENT_MEMORY_WRITE_TOOL_ENABLED`) — Worker D; an independent re-verification of the
+six read-only constraints from Decision 2 (`2026-07-10-agent-memory-architecture/research-report.md`
+§ Architecture Decisions) — Worker E.
+
+**Independent adversarial evaluation** (Final Integration Agent, against the real merged code, not
+a self-report) ran all five attack shapes enumerated in
+`2026-07-10-agent-memory-architecture/research-report.md` § Write-Path Security:
+
+| Attack shape                                          | Result                                                                                                                                                                                                                                                                               |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1. Direct instruction injection                       | **Partial success at the time of evaluation.** Obvious/regex-evading injections were caught and quarantined/gated. The confirmation hook pair existed but was not yet wired into `.claude/settings.json`, leaving a marker-deletion bypass reachable via ordinary shell tool access. |
+| 2. Engineered fake contradiction                      | **Full mitigation** — stronger than anticipated: the write tool has no code path that archives/mutates an existing record at all, so this attack cannot succeed against the current build regardless of judge quality.                                                               |
+| 3. Repeated/automated write attempts                  | **Full mitigation** — `WriteRateLimiter` rejects well before 50 calls, with telemetry reflecting the rejected burst.                                                                                                                                                                 |
+| 4. Cross-session/cross-user persistence amplification | **Full mitigation** — quarantined records are unreachable from `search_memory` under every filter combination; no signature parameter can self-promote a quarantined record.                                                                                                         |
+| 5. Metadata/parameter smuggling                       | **Full mitigation** — `sacred`/`importance`/`status`/`tags` are excluded from the tool signature and hardcoded server-side; runtime smuggling attempts raise `TypeError`.                                                                                                            |
+
+**Go/no-go verdict at evaluation time: conditional go.** Condition for activation: wire the
+confirmation hook pair into `.claude/settings.json` before setting
+`AGENT_MEMORY_WRITE_TOOL_ENABLED=true`. That condition was subsequently satisfied (2026-08-09/10):
+the hook pair was wired and independently re-audited, closing the marker-deletion bypass for
+sequential tool-call sessions. **One uncertainty remains open:** whether `PreToolUse` hooks fire
+strictly sequentially for a batched/parallel set of tool calls within one assistant turn was never
+directly tested — a dedicated concurrency test is recommended before treating this condition as
+unconditionally closed.
+
+**Current activation status (2026-08-10, live-verified):** `AGENT_MEMORY_WRITE_TOOL_ENABLED=true`
+in `.mcp.json`; `write_memory` confirmed registered as a live MCP tool via `ToolSearch` schema
+load and a live `health_check()` call (`reachable: true`, `search_capability.effective_path:
+"embedder-service"`, populated `write_rate_limiting` telemetry). The confirmation-hook pair and
+this workspace's H-P01 write-confirmation flow both still apply to any actual write attempt.
+
+**Regression suites at merge time:** `mcp-servers/agent-memory/tests/` — 205 passed (186
+pre-existing + 19 new adversarial tests). `engineering/context-engineering/testing/` — 308 passed,
+1 pre-existing unrelated failure (`test_acon_vs_context_compressor`, untouched by this build).
+
+**Monitoring implication for this report's own metrics catalog (§5):** the `write_rate_limiting`
+telemetry block `health_check()` now returns is not yet reflected in the `am_*` metrics table
+above — a future revision of this catalog should add `am_write_tool_enabled` (Gauge) and
+`am_write_rate_limit_rejections_total` (Counter) sourced from that block, following the same
+"reuse values the server already computes" constraint §2 establishes for every other metric here.
+
+Full detail on the threat model this build was evaluated against (exact attack-shape definitions,
+reversal-condition reasoning): `2026-07-10-agent-memory-architecture/research-report.md` §
+Write-Path Security (formerly the standalone `supporting/11-write-path-threat-model.md`, retired).
+The former standalone `13-write-path-implementation.md` (this section's source, before this move)
+is retired — its executable evidence (`test_write_path_adversarial_evaluation.py`) remains in
+place and is the authoritative record for anyone needing the exact per-test methodology this
+section condenses.
+
+---
+
+## Related Incident History — `agent-memory` Observability Fix and Issue Log
+
+> **Moved here 2026-08-10** from the former standalone `2026-07-10-agent-memory-architecture/
+supporting/10-observability-fix.md`, per CEO direction to consolidate agent-memory's monitoring
+> and incident history alongside this report's other operational facts rather than as its own
+> document. Content condensed from the original; no finding, timing figure, or root-cause
+> conclusion was altered.
+
+### The observability blind spot and its fix (2026-08-06)
+
+A same-day P1 fix (embedder-service readiness retry — one-shot startup probe that permanently
+recorded `_embedder_service_state = "unavailable"` if it lost the race against the shared
+`embedder-service` still starting) exposed a structural gap: nothing in `health_check`'s output
+would have told anyone the search path was degraded in the first place. **Fix:** a new
+`search_capability` block, sibling to `memory_instance`, reporting
+`embedder_service_enabled`/`embedder_service_state`/`in_process_fallback_state`/`effective_path`.
+Implemented as a pure function (`_get_search_capability_snapshot()`) reading the same module
+globals `_get_embedder()` already uses — no second source of truth — never triggering the lazy
+warmup thread, and never raising (degrades to a labeled `"unavailable"` state instead).
+
+**Cross-server `health_check` comparison test** (closing a P2 from
+`2026-07-17-agent-memory-client-instability/research-report.md`): a pure comparison function plus
+7 deterministic unit tests, plus one live integration test that calls both servers' real
+`health_check` construction paths independently (not a shared client, since the original incident's
+failure mode was one server's own construction path hanging while the other succeeded). Result in
+this environment: live and reachable, no divergence found.
+
+**Stale duplicate-process investigation:** static analysis (all background threads are
+`daemon=True`; no self-spawned subprocess; stdio transport's `async for line in stdin` is the
+standard clean-exit mechanism) plus a direct empirical test (zero new threads spawned by
+`QdrantClient` construction/first-call in the installed version, contradicting one detail of an
+earlier incident's `py-spy` evidence — recorded as an open discrepancy, not smoothed over).
+Conclusion at the time: no agent-memory-owned defect found; root locus reasoned (not yet
+empirically confirmed) to be MCP-host subprocess lifecycle. A concrete diagnosis plan was left for
+a future live-reconnect session — see the addendum below, where it was executed.
+
+**Test suite gap closed:** governance docs cited a committed `mcp-servers/agent-memory/tests/`
+suite that didn't exist in git history. Root cause: `agent-memory/.gitignore` had a bare `tests/`
+line — a bare directory pattern excludes the directory from Git's tree-walk entirely, so
+`!tests/<file>` negation exceptions after it can never re-include anything, regardless of intent.
+Fixed to the `tests/*` + explicit-exceptions form `workspace-knowledge/.gitignore` already used
+correctly. A real, committed suite followed: 43 tests (`conftest.py`, `test_server.py`,
+`health_comparison.py`, `test_cross_server_health_comparison.py`), all passing, including the live
+cross-server test actually exercising real Qdrant. Regression suite: 283 passed, 1 pre-existing
+unrelated failure, confirmed unchanged.
+
+### Addendum — stale-process diagnosis, live verification (2026-08-07)
+
+Executed directly by Dr. Elias Vance in a live interactive session (the real MCP client connection
+capability no subagent/worktree build had). One reconnect cycle: a process-list snapshot before
+(4 PIDs) and after (2 of 4 old PIDs survived, 2 cleaned up, 2 new spawned) confirmed stale PIDs
+_do_ survive reconnects, non-deterministically, and reconnects net _add_ processes. `py-spy dump`
+on a surviving PID showed the main thread idle inside the asyncio event loop's I/O poll — genuinely
+still waiting for input the host never sent after reconnecting, not crashed or spinning. **This
+upgraded the 2026-08-06 hypothesis from reasoned-but-unobserved to directly confirmed: stdin is not
+being closed by the host on reconnect, an MCP-host (Claude Code CLI) subprocess-lifecycle question,
+not an `agent-memory`-owned defect.** No code fix against `agent-memory`/`server.py` was warranted
+from this finding.
+
+### Addendum — sibling-process cleanup, built on this diagnosis, and its own bug history (2026-08-09/10)
+
+The diagnosis above didn't rule out an on-demand, best-effort mitigation running inside
+`agent-memory` itself, and one was built: `_cleanup_stale_sibling_processes()`, run at module-import
+time, terminating other live `python.exe` processes running the same script (gated by
+`AGENT_MEMORY_ENABLE_SIBLING_CLEANUP`, default on). Its own bug history, found and fixed same
+day/week:
+
+1. **Path-matching bug.** First version compared against a fully-resolved absolute path; `.mcp.json`
+   launches with a relative path, so the scan matched zero real processes on any run. Fixed to
+   match on a workspace-relative path suffix.
+2. **Mutual-kill race.** Once path-matching worked, it exposed that the host spawns two agent-memory
+   processes seconds apart on reconnect, each treating the other as stale and killing it before
+   either completed the MCP handshake — reconnects began failing outright. Fixed with a
+   minimum-age gate.
+3. **Three further gaps from independent deep review** (Kwame Asante, Connor O'Malley, Dr. Tomasz
+   Wieczorek): the age margin didn't cover the documented cold-start worst case; the path-suffix
+   match alone was identical across every git-worktree checkout, so a worktree's live server could
+   be killed by the main checkout's cleanup (fixed by additionally scoping to the same host process
+   via `ParentProcessId`); a NaN override could slip past the age-floor clamp (fails safe in
+   practice, but violated the code's own stated invariant — fixed).
+
+### Inherited incident — embedding-model gap closed, standing provisioning convention established (2026-07-12)
+
+An `all-MiniLM-L6-v2` availability gap flagged during `agent-memory`'s Assessment Protocol re-run
+was closed while simultaneously establishing a durable embedding-model provisioning convention for
+every CC-00 MCP server: a new shared cache (`mcp-servers/_shared/models/`, keyed by slug), a
+generalized `provision_model.py` (no single-active-slot promotion, since the shared cache holds
+multiple concurrently-needed, incompatible-dimension models), and a three-tier `_get_embedder()`
+fallback (shared cache → direct Hub download → graceful `None` degradation, unchanged safety net).
+Verified: `sentence-transformers/all-MiniLM-L6-v2` downloaded (87.3 MB, dim 384, idempotent re-run
+confirmed); `search_memory` re-verified end-to-end against live `qdrant-memory` with the real
+embedder (`degraded: False`); 180 context-engineering tests passed (1 pre-existing unrelated
+failure); 22 agent-memory tests passed (17 original + 5 new).
+
+### Inherited incident — `search_memory` hangs on cold MCP server start (2026-07-12)
+
+Live tool calls repeatedly failed to return after registration. Two hypotheses tested in order:
+(1) a real but not-the-cause permission/allowlist gap (fixed independently, hang persisted); (2)
+**cold-start import latency, confirmed root cause** — a genuinely cold process measured
+`import sentence_transformers` alone at 44.67s, total cold wall time 52.80s, because `_get_embedder()`
+loaded synchronously on the _first tool call_, blocking well past the MCP client's timeout. Earlier
+passes in the same session had measured ~10s because the process was already warm (OS file cache,
+compiled bytecode) — masking the real cold-start cost. **Fix:** `server.py` now starts loading the
+embedder in a background daemon thread at module-import time instead of lazily on first call;
+`_get_embedder()` is a non-blocking getter, returning `degraded: True` immediately if the load
+hasn't finished rather than blocking. Verified: an immediate call on a fresh process dropped from
+44+ seconds to 0.463s.
+
+---
+
 ## References
 
 ### Internal Documentation
 
-- `core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/10-observability-fix-phase0.md` — `search_capability` block design, stale-process diagnosis evidence this report's §3 argument depends on
-- `core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/12-dr-backup-design.md` — Phase 5 DR-backup scripts, source of the `am_dr_backup_*` gauges in §5
+- § Related Incident History above — `search_capability` block design, stale-process diagnosis evidence this report's §3 argument depends on (merged 2026-08-10 from the former standalone `2026-07-10-agent-memory-architecture/supporting/10-observability-fix.md`)
+- `core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md` §9 — DR-backup scripts (merged there 2026-08-10 from the former standalone `12-dr-backup-design.md`), source of the `am_dr_backup_*` gauges in §5
 - `core-component-00/mcp-servers/_shared/embedder_client.py` — `embedder-service` lifecycle (self-election lock file, idle self-termination) underlying the §3 asymmetry
 - `.claude/rules/mcp-governance.md` § Shared Infrastructure — `embedder-service` — existing HTTP-endpoint precedent this design's `embedder-service` branch follows
 - `core-component-00/mcp-servers/workspace-knowledge/server.py` — `_document_kb_health_block()`, `search_tier`/`degradation_reason` fields sourced in §5
@@ -267,9 +445,11 @@ and the direct-HTTP-endpoint design for `embedder-service`, per the asymmetry ju
 
 ## Version History
 
-| Version | Date       | Author                         | Changes                             |
-| ------- | ---------- | ------------------------------ | ----------------------------------- |
-| 1.0     | 2026-08-08 | Dr. Elias Vance (Lab Director) | Initial specification, CEO-endorsed |
+| Version | Date       | Author                               | Changes                                                                                                                                                                                                                                                                                     |
+| ------- | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | 2026-08-08 | Dr. Elias Vance (Lab Director)       | Initial specification, CEO-endorsed                                                                                                                                                                                                                                                         |
+| 1.1     | 2026-08-10 | Claude (CC-00 documentation steward) | Added "Related Build — `agent-memory` Write-Path Tool Status" section, moved from the former standalone `13-write-path-implementation.md` per CEO documentation-coherence direction; updated `12-dr-backup-design.md` references to point at its new home, `02-deployment-guidelines.md` §9 |
+| 1.2     | 2026-08-10 | Claude (CC-00 documentation steward) | Added "Related Incident History — `agent-memory` Observability Fix and Issue Log" section, moved from the former standalone `10-observability-fix.md` per CEO direction to remove documents 06–11 from that investigation's `supporting/` folder                                            |
 
 ---
 

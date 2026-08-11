@@ -2,14 +2,15 @@
 # Write-Memory-Confirmation-Gate enforcement — PreToolUse: denies any tool call other than
 # AskUserQuestion while a high-consequence agent-memory write confirmation is pending for this
 # session. Real enforcement companion to a future write-capable agent-memory MCP tool
-# (core-component-00/mcp-servers/agent-memory/write_gate.py's WriteConfirmationGate), built for
-# reversal condition 1 of
-# core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/
-# 11-write-path-threat-model-phase1.md.
+# (core-component-00/mcp-servers/agent-memory/write_gate.py's WriteConfirmationGate). The
+# write-path threat model required a genuinely human-facing, structurally-enforced confirmation
+# step for high-consequence writes, not an in-process flag or docstring warning — see
+# core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md
+# § Write-Path Security.
 #
 # Same PreToolUse/PostToolUse hook-pair shape this workspace already built and validated for
-# H-P01 (prompt-gate-enforcer.py / prompt-gate-clear.py) — deliberately reused, not reinvented,
-# per the threat model's own §3.2/§5 guidance. This is a NEW, INDEPENDENT pair: it checks its own
+# H-P01 (prompt-gate-enforcer.py / prompt-gate-clear.py) — deliberately reused, not reinvented.
+# This is a NEW, INDEPENDENT pair: it checks its own
 # marker file (see MARKER_PREFIX below), never H-P01's "h-p01-pending-<session_id>.json", and
 # does not modify or depend on prompt-gate-enforcer.py/prompt-gate-clear.py in any way.
 #

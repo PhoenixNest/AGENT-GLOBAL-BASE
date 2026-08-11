@@ -1,36 +1,17 @@
-"""
-Independent re-verification of Decision 2's six read-only architectural
-constraints (09-mcp-architecture-decision.md), now that a write-capable
-`write_memory` tool exists in the codebase (gated inactive by
-AGENT_MEMORY_WRITE_TOOL_ENABLED, default false).
+"""Independent re-verification of Decision 2's six read-only architectural
+constraints (research-report.md § Architecture Decisions), against the
+actual merged code, now that a write-capable `write_memory` tool exists
+(gated inactive by AGENT_MEMORY_WRITE_TOOL_ENABLED, default false).
 
-This is reversal condition 6 of
-core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/11-write-path-threat-model-phase1.md
-§4 item 6: "Decision 2's six existing constraints must all still hold for the
-write tool's read-side behavior, verified the same way search_memory's
-Completeness gate was verified (unit tests plus live verification against
-real qdrant-memory), not assumed to carry over by inheritance."
+Deliberately independent of the write-path test suite (test_write_memory.py,
+test_write_gate.py, test_write_provenance.py) — uses distinct verification
+mechanisms rather than restating those suites' assertions.
 
-Deliberately independent of the existing write-path test suite
-(test_write_memory.py, test_write_gate.py, test_write_provenance.py), which
-this file does not duplicate wholesale: those files verify the write tool's
-own behavior; this file's job is to re-verify Worker D/A/C's own claims about
-Decision 2 against the actual merged code, from an adversarial-review
-posture (Worker E, reversal condition 6), not to trust their docstrings.
-Where independent verification legitimately converges with an existing test
-in spirit (e.g. the quarantine-unreachability property), a new mechanism is
-used here rather than the same one (byte-for-byte source diffing, a live
-Qdrant round-trip, or an unexercised failure path) so the two suites are not
-merely restating each other.
+Run: python -m pytest core-component-00/mcp-servers/agent-memory/tests/test_read_constraints_reverification.py -v
 
-Run with (from this repo's shared mcp-servers venv):
-    python -m pytest core-component-00/mcp-servers/agent-memory/tests/test_read_constraints_reverification.py -v
-
-Live verification (TestConstraint3LiveQuarantineAndArchived,
-TestConstraint4LiveSacredCompleteness) requires a reachable qdrant-memory
-instance (http://localhost:6335 by default) and skips cleanly, per this
-workspace's own graceful-degradation discipline, if it is not reachable —
-never fabricated.
+Live-verification tests (TestConstraint3LiveQuarantineAndArchived,
+TestConstraint4LiveSacredCompleteness) require a reachable qdrant-memory
+instance (http://localhost:6335 by default) and skip cleanly if unreachable.
 """
 from __future__ import annotations
 

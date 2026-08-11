@@ -2,26 +2,18 @@
 Adversarial evaluation of the hardened contradiction-judge wrapper
 (implementations/production_judge.py::evaluate_contradiction /
 sequence_batch_against_existing), re-deriving the same attack shapes
-Dr. Tomasz Wieczorek's original adversarial evaluation of
-check_contradiction() used, against the new wrapper instead:
+the original check_contradiction() adversarial evaluation used
+(research-report.md § Contradiction-Check Adversarial Evaluation;
+core-component-00/engineering/context-engineering/testing/test_contradiction_adversarial.py is
+the suite this re-derives from), against the new wrapper instead.
 
-    telescope/2026-07-10-agent-memory-architecture/supporting/07-adversarial-evaluation-results.md
-    ../testing/test_contradiction_adversarial.py (the original suite this one re-derives from)
-
-SCOPE NOTE (same honesty bar as the original suite, see
-production_judge.py's module docstring for the full statement): no
-production LLM judge implementation exists in this workspace. This suite
-does not benchmark a real model. It exercises evaluate_contradiction() /
-sequence_batch_against_existing() with synthetic judge stand-ins built to
-reproduce the SAME documented failure modes the original suite used
-(lexical-overlap over-triggering, instruction-following on embedded text,
-order sensitivity, blindness to concurrent same-window writes) -- proxies
-for known failure classes, not predictions about any specific model's real
-accuracy. What this suite demonstrates is that the WRAPPER now provides
-independent mitigation against each of these failure modes even when the
-underlying judge callable is naive, miscalibrated, or actively poisoned --
-which is exactly the property check_contradiction() was found to lack
-(test_check_contradiction_applies_zero_independent_mitigation).
+No production LLM judge exists in this workspace — this suite exercises
+evaluate_contradiction() / sequence_batch_against_existing() with synthetic
+judge stand-ins reproducing the same documented failure modes (lexical-
+overlap over-triggering, instruction-following on embedded text, order
+sensitivity, blindness to concurrent same-window writes), demonstrating the
+wrapper now mitigates each even when the underlying judge is naive,
+miscalibrated, or actively poisoned.
 
 This suite does NOT call check_contradiction() and does not modify
 memory_maintenance.py in any way.
@@ -195,7 +187,7 @@ CONTROL_PAIRS = [
 
 class TestConfidenceThresholdMitigatesFalseUpdate:
     """
-    §7 item 2 / gap #1. The naive lexical-overlap judge still returns UPDATE
+    Confidence-threshold gap. The naive lexical-overlap judge still returns UPDATE
     for all 5 curated non-contradictory pairs (its own logic is unchanged --
     that is not this wrapper's job to fix), but now reports only moderate
     confidence (0.55) for those verdicts. evaluate_contradiction()'s default
@@ -299,7 +291,7 @@ class TestConfidenceThresholdMitigatesFalseUpdate:
 
 class TestInjectionPrecheckMitigatesMemoryPoisoning:
     """
-    §7 item 3 / gap #2. Directly re-derives
+    Injection-precheck gap. Directly re-derives
     test_embedded_instruction_forces_verdict_regardless_of_content and
     test_engineered_contradiction_archives_a_true_unrelated_fact from the
     original suite, against evaluate_contradiction() instead of
@@ -399,7 +391,7 @@ class TestInjectionPrecheckMitigatesMemoryPoisoning:
 
 class TestSymmetryCheckMitigatesOrderSensitivity:
     """
-    §7 item 3 (symmetry) / gap #3. Directly re-derives
+    Order-symmetry gap. Directly re-derives
     test_verdict_is_order_sensitive_no_symmetry_check.
     """
 
@@ -446,7 +438,7 @@ class TestSymmetryCheckMitigatesOrderSensitivity:
 
 class TestSequencingMitigatesSameWindowRace:
     """
-    §7 item 4 / gap #4. Directly re-derives
+    Same-window sequencing gap. Directly re-derives
     test_two_concurrent_new_facts_both_classified_update_against_same_stale_existing.
     """
 

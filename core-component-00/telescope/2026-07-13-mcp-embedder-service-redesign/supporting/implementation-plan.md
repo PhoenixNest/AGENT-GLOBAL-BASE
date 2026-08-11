@@ -1,6 +1,6 @@
 # Implementation Plan — Persistent Embedder Service
 
-**Parent report:** `../research-report.md`
+**Parent report:** `core-component-00/telescope/2026-07-13-mcp-embedder-service-redesign/research-report.md`
 **Author:** Dr. Elias Vance, Laboratory Director
 **Date:** 2026-07-13
 **Status:** Implementation complete (2026-07-14) — Conditional ASE verdict, see §10 Closeout Review
@@ -308,6 +308,16 @@ Neither blocks production use of the embedder-service; both are tracked, not sil
    which from inside a session, and killing a live connection on a guess is the wrong failure mode.
    Left untouched. Worth a look on your end, where you have visibility into how many sessions are
    actually open.
+
+   **Resolved same day (2026-07-14), per `session-log.md`/`checkpoint.json`:** investigated
+   further and confirmed as two legitimate concurrent live sessions, not orphans — closed. Note
+   this is a distinct finding from the reconnect-reliability mutual-kill-race root-caused and
+   fixed 2026-08-09/10 in `agent-memory/server.py`'s later on-demand sibling-process cleanup
+   (`2026-08-08-cc00-mcp-observability-stack/research-report.md` § Related Incident History,
+   formerly `2026-07-10-agent-memory-architecture/supporting/10-observability-fix.md`'s addendum)
+   — that mechanism didn't exist yet on 2026-07-14, and its ParentProcessId-scoping fix now
+   codifies the same legitimate-vs-orphan distinction this item resolved manually.
+
 2. **The Phase 4 full-corpus check never completed** (§10.1) — the isolated-test evidence is solid
    but is a smaller sample than originally planned. Not blocking, but noted so the record doesn't
    overstate what was verified.

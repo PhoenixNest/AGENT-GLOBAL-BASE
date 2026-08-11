@@ -11,7 +11,7 @@ __pycache__/
 # recurses into an already-excluded directory to evaluate per-file negations.
 # That bare-`tests/` form is what this file had until 2026-08-06, and is the
 # actual mechanical reason every previously-run agent-memory test suite
-# ("22 passed" per mcp-governance.md / 09-mcp-architecture-decision.md) was
+# ("22 passed" per mcp-governance.md / research-report.md § Architecture Decisions) was
 # never committed despite being real, working tests — not merely "forgotten,"
 # but structurally unignorable under the old pattern even if someone had
 # tried to except them.

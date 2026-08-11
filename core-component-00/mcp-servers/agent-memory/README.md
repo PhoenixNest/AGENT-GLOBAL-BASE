@@ -10,8 +10,10 @@ timeout-guarded (never hang, even if the underlying Qdrant call does) and degrad
 rather than raise. A write-capable `write_memory` tool also exists in this codebase (see
 [Tools](#tools)); its activation status, safeguard design, and independent adversarial evaluation
 are documented separately —
-`telescope/2026-07-10-agent-memory-architecture/supporting/13-write-path-implementation.md` is the
-source of truth for that tool's current state. Full current status for this server generally,
+`telescope/2026-08-08-cc00-mcp-observability-stack/research-report.md` § Related Build —
+`agent-memory` Write-Path Tool Status is the source of truth for that tool's current state (moved
+there 2026-08-10 from the former standalone `13-write-path-implementation.md`). Full current
+status for this server generally,
 including open caveats, is tracked in `.claude/rules/mcp-governance.md`'s Registered Servers
 table — treat that as the source of truth if it and this file ever disagree.
 
@@ -68,7 +70,8 @@ its `supporting/` folder.
 ## Why a separate server from `workspace-knowledge`
 
 Decided by the CEO on Laboratory Director recommendation — full rationale in
-`telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md`.
+`telescope/2026-07-10-agent-memory-architecture/research-report.md` § Architecture Decisions and
+Write-Path Security Posture.
 Short version: `workspace-knowledge` is a stable, load-bearing server; memory tooling is newer
 and carries more untested surface, so it gets its own process rather than risking the proven
 one — the same blast-radius reasoning that already gave `qdrant-memory` its own container
@@ -305,7 +308,9 @@ happens if it doesn't — disk failure, accidental deletion, host loss).
 | `register_backup_task.ps1` | Registers a daily Windows Task Scheduler job to run the backup script                                                         |
 | `verify_backup_restore.py` | Replays a snapshot into a disposable test Qdrant collection via `rebuild_from_log()` and checks record counts, then cleans up |
 
-Full design, proposed RTO/RPO, and current status: `supporting/12-dr-backup-design.md`.
+Full design, proposed RTO/RPO, and current status:
+`supporting/02-deployment-guidelines.md` §9 (merged there 2026-08-10 from the former standalone
+`12-dr-backup-design.md`).
 
 ---
 

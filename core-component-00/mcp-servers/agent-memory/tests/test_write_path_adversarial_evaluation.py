@@ -1,49 +1,15 @@
 """
 Independent adversarial evaluation of the real, merged write-capable
-`agent-memory` MCP tool — reversal condition 5 of
-`telescope/2026-07-10-agent-memory-architecture/supporting/11-write-path-threat-model-phase1.md`
-§4: "A fresh adversarial evaluation pass — run by an independent reviewer
-against the actual Phase 2 implementation, with synthetic attack inputs
-matching at minimum the five shapes enumerated in §2.2 — must complete and
-produce a clean or acceptably-mitigated result before any
-`i_have_completed_adversarial_review`-equivalent flag for a write tool is set
-to true anywhere in production code."
+`agent-memory` MCP tool, against its five enumerated attack shapes
+(research-report.md § Write-Path Security). Calls the real merged code
+directly (`write_tool._write_memory_impl`), not a re-implementation.
 
-**Independence statement.** This suite was written by the Final Integration
-Agent reviewing Workers A-E's merged output, not by any of A-E themselves. It
-deliberately does not reuse `test_write_memory.py`'s assertions verbatim —
-where it exercises the same code paths as that suite (which it does, since
-there is only one real implementation to test), it does so with adversarial
-framing and, in three places (Attack Shapes 1, 2, and 4 below), goes further
-than the merged suite already covers: a real out-of-band marker-deletion
-bypass, a real write-then-search round trip against an in-memory fake
-Qdrant store, and a direct verification that the "existing" record in a
-collision is never mutated by this write path at all.
+No production LLM judge exists in this workspace, so `judge_callable` below
+is always a synthetic stand-in (naive-shared-keyword, instruction-following)
+— this suite tests whether production_judge.py's wrapper and write_tool.py
+hold up against a poisoned or naive judge, independent of judge quality.
 
-**Rigor bar.** Matches `07-adversarial-evaluation-results.md`: state scope and
-method up front, call the REAL merged code as the unit under test (here,
-`write_tool._write_memory_impl`, imported directly — not a re-implementation
-or a description of expected behavior), report exact pass/partial/fail per
-attack shape, and do not soften a real finding to make the report read clean.
-Where this suite finds a partial-success attack path, it says so explicitly
-in the test name and docstring, matching the honesty norm the original
-evaluation set (`test_engineered_contradiction_archives_a_true_unrelated_fact`
-et al. are *positive* finding names, not passing-test names).
-
-**Scope note on what "the real merged code" means here.** `evaluate_contradiction()`
-(production_judge.py) requires an `llm_judge` callable and none exists in this
-workspace (write_tool.py's own "GENUINE GAP #1"). Per that gap, every
-`judge_callable` used below is a synthetic stand-in — the SAME KIND the
-original `07-adversarial-evaluation-results.md` and
-`test_production_judge_adversarial.py` used (naive-shared-keyword,
-instruction-following) — not a claim about any real LLM judge's behavior.
-This suite tests whether the WRAPPER (production_judge.py) and the WRITE TOOL
-(write_tool.py) built around it hold up against a poisoned or naive judge,
-independent of judge quality, exactly as the original evaluation's own scope
-statement described.
-
-Run with (from this directory's mcp-servers venv):
-    python -m pytest core-component-00/mcp-servers/agent-memory/tests/test_write_path_adversarial_evaluation.py -v
+Run: python -m pytest core-component-00/mcp-servers/agent-memory/tests/test_write_path_adversarial_evaluation.py -v
 """
 from __future__ import annotations
 
@@ -209,7 +175,7 @@ class _FakeQdrantClient:
 
 
 # ---------------------------------------------------------------------------
-# Attack Shape 1 (threat-model §2.2 item 1) — direct instruction injection
+# Attack Shape 1 — direct instruction injection
 # ---------------------------------------------------------------------------
 
 
@@ -380,14 +346,14 @@ class TestAttackShape1DirectInstructionInjection:
 
 
 # ---------------------------------------------------------------------------
-# Attack Shape 2 (threat-model §2.2 item 2) — engineered fake contradiction
+# Attack Shape 2 — engineered fake contradiction
 # ---------------------------------------------------------------------------
 
 
 class TestAttackShape2EngineeredFakeContradiction:
     """A poisoned new-write's content is designed to trigger a false UPDATE
     verdict against a real, unrelated, true existing record, per
-    `07-adversarial-evaluation-results.md` §4's
+    test_contradiction_adversarial.py's
     test_engineered_contradiction_archives_a_true_unrelated_fact. Confirm
     this cannot silently archive the true record end-to-end through
     write_memory, not just at the production_judge.py unit level."""
@@ -531,7 +497,7 @@ class TestAttackShape2EngineeredFakeContradiction:
 
 
 # ---------------------------------------------------------------------------
-# Attack Shape 3 (threat-model §2.2 item 3) — repeated/automated writes
+# Attack Shape 3 — repeated/automated writes
 # ---------------------------------------------------------------------------
 
 
@@ -587,7 +553,7 @@ class TestAttackShape3RepeatedAutomatedWrites:
 
 
 # ---------------------------------------------------------------------------
-# Attack Shape 4 (threat-model §2.2 item 4) — cross-session/persistence amplification
+# Attack Shape 4 — cross-session/persistence amplification
 # ---------------------------------------------------------------------------
 
 
@@ -699,7 +665,7 @@ class TestAttackShape4CrossSessionPersistenceAmplification:
 
 
 # ---------------------------------------------------------------------------
-# Attack Shape 5 (threat-model §2.2 item 5) — metadata/parameter smuggling
+# Attack Shape 5 — metadata/parameter smuggling
 # ---------------------------------------------------------------------------
 
 
