@@ -83,14 +83,34 @@ class TestConstraint1ReadOnlyFirst:
     despite the flag.
     """
 
-    def test_search_memory_and_search_reflection_source_byte_identical_to_pre_write_path_commit(self):
+    def test_search_memory_source_byte_identical_to_pre_write_path_commit(self):
         """
-        Direct, tool-independent proof that search_memory/_search_memory_impl/
-        _search_reflection were not touched by the write-tool build: extracts
-        each function's AST source segment from the last commit before Worker
-        D's build (4e332eab) and from the current worktree HEAD, and asserts
-        exact string equality. This does not trust any worker's changelog
-        claim — it re-derives the diff itself.
+        Direct, tool-independent proof that search_memory (the @mcp.tool()
+        entry point itself) was not touched by the write-tool build OR by the
+        later Tier 3 disaster-recovery build (below): extracts its AST source
+        segment from the last commit before Worker D's write-tool build
+        (4e332eab) and from the current worktree HEAD, and asserts exact
+        string equality. This does not trust any worker's changelog claim —
+        it re-derives the diff itself.
+
+        Narrowed 2026-08-12 from three functions to this one. The other two
+        (_search_memory_impl, _search_reflection) were deliberately modified
+        by the Tier 3 keyword-log-search build (see
+        test_tier3_keyword_search.py and
+        05-disaster-recovery-and-resilience.md § 3, CEO-delegated, Dr. Vance
+        leading) to add the degraded -> keyword_search_log/
+        keyword_search_reflection_log fallback path. A byte-identity
+        assertion pinned to one fixed historical commit forever cannot
+        accommodate a second, later, equally legitimate change to the same
+        functions without either (a) permanently blocking real feature work
+        on them or (b) being neutralized via an ever-growing pile of
+        string-replace exceptions that stop meaning anything. search_memory
+        itself is a narrower, still-meaningful thing to keep pinned: it is
+        the external tool contract, and it genuinely has not changed by
+        either build. The behavioral contract of the other two is instead
+        covered by TestTier3FallbackWiring below and the existing tests in
+        this file/test_server.py, which test what they actually do now
+        rather than pinning their bytes to the past.
         """
         old_source = subprocess.run(
             ["git", "show", f"{_PRE_WRITE_PATH_COMMIT}:core-component-00/mcp-servers/agent-memory/server.py"],
@@ -121,7 +141,7 @@ class TestConstraint1ReadOnlyFirst:
                     return segment
             raise AssertionError(f"function {name!r} not found in given source")
 
-        for fn_name in ("search_memory", "_search_memory_impl", "_search_reflection"):
+        for fn_name in ("search_memory",):
             old_fn = _function_source(old_tree, old_source, fn_name)
             new_fn = _function_source(new_tree, new_source, fn_name)
             assert old_fn == new_fn, (

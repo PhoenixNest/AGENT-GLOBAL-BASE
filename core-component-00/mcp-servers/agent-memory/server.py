@@ -20,8 +20,12 @@ from implementations.memory_vector_store import (  # noqa: E402
     COLLECTION_BY_TYPE,
     MemorySyncState,
     QdrantMemoryIndex,
+    SearchOutcome,
+    JSONLMemoryLog,
     _call_with_hard_timeout,
     compute_memory_instance_telemetry,
+    bm25_rank_ids,
+    keyword_search_log,
     Filter,
     FieldCondition,
     MatchAny,
@@ -670,17 +674,30 @@ def _get_memory_client() -> Any:
 
 mcp = FastMCP("agent-memory")
 _memory_sync_state = MemorySyncState()
+# Read-side handle onto the same on-disk log the write path
+# (write_tool.py -> PersistentMemorySink) appends to — DEFAULT_MEMORY_ROOT is
+# an absolute path derived from memory_vector_store.py's own file location,
+# not cwd, so this always resolves to the same directory regardless of which
+# process constructs it. Backs Tier 3 (keyword_search_log /
+# keyword_search_reflection_log below) — the JSONL log, not Qdrant.
+_memory_log = JSONLMemoryLog()
 
 
-def _search_reflection(
+def _search_reflection_impl(
     query: str,
     top_k: int,
     statuses: List[str],
     client: Any,
     embedder: Callable[[str], List[float]],
-) -> List[ReflectionRecord]:
+) -> SearchOutcome:
     """
-    Reflection-collection search, returning ReflectionRecord instances.
+    Reflection-collection search core, returning a SearchOutcome (records +
+    degraded/reason) rather than a bare list — see SearchOutcome's docstring
+    (memory_vector_store.py) for why a bare [] can't tell a caller whether
+    that means "no matches" or "Qdrant degraded." _search_reflection() below
+    wraps this for existing callers that only want the list; search_memory's
+    Tier 3 fallback wiring calls _search_reflection_with_status() to get the
+    degraded signal.
 
     Does not go through QdrantMemoryIndex.search() (memory_vector_store.py):
     that method unconditionally parses each point's payload via
@@ -696,10 +713,10 @@ def _search_reflection(
     wrapper) and parses the response via ReflectionRecord.from_dict()
     instead — same timeout-guarded, degrade-gracefully contract, no new
     failure-mode class: every except clause here mirrors
-    QdrantMemoryIndex.search()'s own exactly.
+    QdrantMemoryIndex._search_impl()'s own exactly.
     """
     if client is None:
-        return []
+        return SearchOutcome([], degraded=True, reason="qdrant-memory client unavailable")
     collection_name = COLLECTION_BY_TYPE["reflection"]
     try:
         vector = embedder(query)
@@ -714,19 +731,77 @@ def _search_reflection(
             )
         )
         points = getattr(response, "points", response)
-        return [ReflectionRecord.from_dict(p.payload) for p in points]
+        records = [ReflectionRecord.from_dict(p.payload) for p in points]
+        return SearchOutcome(records, degraded=False)
     except concurrent.futures.TimeoutError:
         _diag(f"search: TIMED OUT (collection={collection_name!r})")
-        return []
+        return SearchOutcome([], degraded=True, reason="timed out")
     except (ConnectionError, OSError) as exc:
         _diag(f"search: unreachable (collection={collection_name!r}): {exc}")
-        return []
+        return SearchOutcome([], degraded=True, reason=f"qdrant unreachable: {exc}")
     except (AttributeError, TypeError, KeyError, ValueError) as exc:
         _diag(f"search: malformed response or payload (collection={collection_name!r}): {exc}")
-        return []
+        return SearchOutcome([], degraded=True, reason=f"malformed qdrant response: {exc}")
     except Exception as exc:
         _diag(f"search: failed (collection={collection_name!r}): {exc}")
+        return SearchOutcome([], degraded=True, reason=f"qdrant search failed: {exc}")
+
+
+def _search_reflection(
+    query: str,
+    top_k: int,
+    statuses: List[str],
+    client: Any,
+    embedder: Callable[[str], List[float]],
+) -> List[ReflectionRecord]:
+    """Existing callers that only want the list, unchanged behavior — see
+    _search_reflection_impl()'s docstring."""
+    return _search_reflection_impl(query, top_k, statuses, client, embedder).records
+
+
+def _search_reflection_with_status(
+    query: str,
+    top_k: int,
+    statuses: List[str],
+    client: Any,
+    embedder: Callable[[str], List[float]],
+) -> SearchOutcome:
+    """search_memory's Tier 3 fallback wiring calls this to get the degraded
+    signal _search_reflection() drops. See _search_reflection_impl()."""
+    return _search_reflection_impl(query, top_k, statuses, client, embedder)
+
+
+def keyword_search_reflection_log(
+    log: JSONLMemoryLog,
+    query: str,
+    top_k: int,
+    statuses: List[str],
+) -> List[ReflectionRecord]:
+    """
+    Tier 3 keyword-only search for the reflection collection — the twin of
+    memory_vector_store.keyword_search_log() for the three MemoryRecord-shaped
+    collections, kept here rather than there for the same reason
+    _search_reflection lives here: a reflection point's payload is a
+    ReflectionRecord verbatim, not MemoryRecord-shaped, so it needs its own
+    log reader (JSONLMemoryLog.read_all_reflections()) and its own payload
+    parser (ReflectionRecord.from_dict()).
+
+    Scores against "{summary} {scope_of_applicability}" — the exact same text
+    QdrantMemoryIndex.rebuild_from_log()'s reflection branch embeds into
+    Qdrant (memory_vector_store.py), so Tier 3 ranks against the same content
+    Tier 1 would have, not a different text field.
+    """
+    payloads = log.read_all_reflections()
+    filtered = [p for p in payloads if p.get("status", "active") in statuses]
+    if not filtered:
         return []
+
+    by_id = {p["reflection_id"]: p for p in filtered}
+    id_text_pairs = [
+        (p["reflection_id"], f"{p['summary']} {p['scope_of_applicability']}") for p in filtered
+    ]
+    ranked_ids = bm25_rank_ids(query, id_text_pairs, top_k)
+    return [ReflectionRecord.from_dict(by_id[i]) for i in ranked_ids if i in by_id]
 
 
 def _search_memory_impl(
@@ -774,39 +849,80 @@ def _search_memory_impl(
     if include_archived:
         statuses.append("archived")
 
-    if embedder is None:
-        return {
-            "results": [],
-            "count": 0,
-            "degraded": True,
-            "reason": embedder_unavailable_reason,
-        }
+    # Deliberately NOT an early return on embedder is None: Tier 3
+    # (keyword_search_log / keyword_search_reflection_log) needs no embedder
+    # at all — it's pure BM25 over the JSONL log. An embedder-service outage
+    # with an unready in-process fallback (see this module's own
+    # graceful-degradation table in README.md) is, if anything, a more
+    # common real-world degradation than qdrant-memory itself being down.
+    # Returning empty here unconditionally would skip Tier 3 in exactly the
+    # case it's most likely to matter. Each branch below detects
+    # embedder is None on its own (via QdrantMemoryIndex.search_with_status /
+    # _search_reflection_with_status) and falls through to Tier 3 the same
+    # way a Qdrant-side failure does.
 
     if memory_type == "reflection":
-        reflection_records = _search_reflection(
+        outcome = _search_reflection_with_status(
             query=query, top_k=top_k, statuses=statuses, client=client, embedder=embedder
         )
+        if outcome.degraded and embedder is None:
+            # More specific than the generic reason _search_reflection_impl
+            # falls back to for a None embedder (it's built for the Qdrant
+            # exception paths, not this one) — callers of search_memory get
+            # the same diagnostic detail _get_embedder_unavailable_reason()
+            # already provides (e.g. "still loading" vs. "not started").
+            outcome = SearchOutcome(outcome.records, degraded=True, reason=embedder_unavailable_reason)
+        tier = 1
+        reflection_records = outcome.records
+        if outcome.degraded:
+            # Tier 1 (Qdrant) degraded — fall through to Tier 3 (keyword
+            # search over the reflection log) rather than returning an empty
+            # result outright. 05-disaster-recovery-and-resilience.md § 3.
+            reflection_records = keyword_search_reflection_log(
+                log=_memory_log, query=query, top_k=top_k, statuses=statuses
+            )
+            tier = 3
         return {
             "results": [r.to_dict() for r in reflection_records],
             "count": len(reflection_records),
-            "degraded": client is None,
-            "reason": None if client is not None else "qdrant-memory client unavailable",
+            "degraded": outcome.degraded,
+            "reason": outcome.reason,
+            "tier": tier,
         }
 
     index = QdrantMemoryIndex(memory_type, client=client, embedder=embedder)
     effective_session_id = session_id if (memory_type == "episodic" and not cross_session) else None
-    records = index.search(
+    outcome = index.search_with_status(
         query_text=query,
         top_k=top_k,
         status_in=tuple(statuses),
         session_id=effective_session_id,
     )
+    if outcome.degraded and embedder is None:
+        outcome = SearchOutcome(outcome.records, degraded=True, reason=embedder_unavailable_reason)
+    tier = 1
+    records = outcome.records
+    if outcome.degraded:
+        # Same Tier 1 -> Tier 3 fallback as the reflection branch above, for
+        # the three MemoryRecord-shaped collections (episodic/semantic/
+        # procedural). keyword_search_log lives in memory_vector_store.py
+        # since it operates on MemoryRecord, not ReflectionRecord.
+        records = keyword_search_log(
+            log=_memory_log,
+            memory_type=memory_type,
+            query=query,
+            top_k=top_k,
+            status_in=tuple(statuses),
+            session_id=effective_session_id,
+        )
+        tier = 3
 
     return {
         "results": [r.to_payload() for r in records],
         "count": len(records),
-        "degraded": client is None,
-        "reason": None if client is not None else "qdrant-memory client unavailable",
+        "degraded": outcome.degraded,
+        "reason": outcome.reason,
+        "tier": tier,
     }
 
 
