@@ -269,14 +269,23 @@
         "10-observability-fix.md",
         "11-write-path-threat-model.md"
       ]
+    },
+    {
+      "id": "tier3-keyword-log-search-build",
+      "status": "done",
+      "owner": "Dr. Elias Vance (CC-00 Laboratory Director) — CEO-delegated full leadership/decision authority for this build",
+      "date": "2026-08-12",
+      "commits": ["(lands on agent/cc00-lab/tier3-keyword-log-search, merged --no-ff into core00/dev/engineering)"],
+      "note": "CEO directive: implement the disaster-recovery Tier 3 gap (keyword-only search over the JSONL log) identified by the 2026-08-10 audit, scoped to Tier 3 only (Tier 2 and the contradiction-check backup logic explicitly out of scope, the latter remains deliberately disabled per standing CEO directive). Built in an isolated git worktree per CLAUDE.md § 6 / .claude/rules/git-workflow.md. Delivered: (1) QdrantMemoryIndex.search_with_status() (memory_vector_store.py) — exposes the degraded/reason signal search() always silently dropped, needed so a caller can know when to fall through to Tier 3 at all; (2) keyword_search_log() (memory_vector_store.py) and keyword_search_reflection_log() (agent-memory/server.py) — BM25 over the log, reusing retrieval-augmented-generation/implementations/retrieval.py's bm25_score() via a collision-safe importlib load rather than a second BM25 implementation; (3) _search_memory_impl wired to fall through to Tier 3 automatically on a degraded Tier 1, for both the three MemoryRecord collections and reflection, with a new `tier` field (1|3) on every search_memory response; (4) fixed a related pre-existing gap found during this build: embedder=None used to short-circuit to an empty result before Tier 1/3 dispatch ever ran, even though Tier 3 needs no embedder — now falls through correctly. Sacred-record completeness carries into Tier 3 for free (same status_in filter Tier 1 uses; apply_decay() already pins sacred=True at status=\"active\", no bypass needed). One existing test's historical byte-identity scope was narrowed (test_read_constraints_reverification.py) from three functions to one (search_memory itself, still unchanged) since the other two were legitimately, disclosedly modified by this build — see that test's updated docstring. 28 new tests added (19 unit in test_memory_vector_store.py, 9 integration in new test_tier3_keyword_search.py) plus 2 existing tests updated for the new degraded-reason wording; full context-engineering suite (309 tests, 1 pre-existing unrelated failure in test_acon_benchmark.py, confirmed present on the unmodified base branch too) and full agent-memory suite (248 tests, all passing) both re-run clean.",
+      "build_scope": "core-component-00/engineering/context-engineering/implementations/memory_vector_store.py, core-component-00/engineering/context-engineering/testing/test_memory_vector_store.py, core-component-00/mcp-servers/agent-memory/server.py, core-component-00/mcp-servers/agent-memory/tests/test_tier3_keyword_search.py, core-component-00/mcp-servers/agent-memory/tests/test_server.py, core-component-00/mcp-servers/agent-memory/tests/test_read_constraints_reverification.py, this file, 05-disaster-recovery-and-resilience.md, 00-sources-and-references.md"
     }
   ],
   "known_findings": [
-    "Contradiction-check mechanism (03-forgetting-strategy.md § 5.1): built, adversarially tested 2026-07-12 with a 100% false-positive rate and two reproduced attack paths, gated off pending remediation. Not resolved as of 2026-08-10.",
-    "Disaster-recovery degradation stack (05-disaster-recovery-and-resilience.md § 3): only Tiers 1 and 4 of the originally-designed 4-tier fallback exist. No automatic middle tier. Not resolved as of 2026-08-10.",
-    "DR backup schedule (02-deployment-guidelines.md § 9): written, not activated. No scheduled task, no snapshot taken or verified. Not resolved as of 2026-08-10.",
-    "production_judge.py: does not exist. write_memory's safety checks run with judge_callable=None, an acknowledged gap in server.py's own code comments. Not resolved as of 2026-08-10.",
-    "mcp-servers/agent-memory/tests/ historical discrepancy (RESOLVED 2026-08-06 by Worker A): root cause was a bare tests/ gitignore pattern; fixed, real test suite committed, since grown to 439 tests total (verified 2026-08-10)."
+    "Contradiction-check mechanism (03-forgetting-strategy.md § 5.1): built, adversarially tested 2026-07-12 with a 100% false-positive rate and two reproduced attack paths, gated off pending remediation. Not resolved as of 2026-08-10 — deliberately, per standing CEO directive re-confirmed 2026-08-11; out of scope for the 2026-08-12 Tier 3 build below.",
+    "Disaster-recovery degradation stack (05-disaster-recovery-and-resilience.md § 3): RESOLVED for Tier 3 (2026-08-12, see tier3-keyword-log-search-build above) — keyword-only log search now falls through automatically. Tier 2 (in-process backup index) remains not built; explicitly out of scope for the 2026-08-12 build, not yet scheduled.",
+    "DR backup schedule (02-deployment-guidelines.md § 9): written, not activated. No scheduled task, no snapshot taken or verified. Not resolved as of 2026-08-12 — unrelated to and untouched by the Tier 3 build (that's the Qdrant-outage case; this is the separate disk-level-backup case).",
+    "production_judge.py: does not exist. write_memory's safety checks run with judge_callable=None, an acknowledged gap in server.py's own code comments. Not resolved as of 2026-08-12.",
+    "mcp-servers/agent-memory/tests/ historical discrepancy (RESOLVED 2026-08-06 by Worker A): root cause was a bare tests/ gitignore pattern; fixed, real test suite committed, grown to 439 tests total as of 2026-08-10, 248 in this directory alone as of the 2026-08-12 Tier 3 build (the 439 figure spans additional test files elsewhere counted at the time)."
   ],
-  "last_updated": "2026-08-10"
+  "last_updated": "2026-08-12"
 }
