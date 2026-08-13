@@ -9,10 +9,6 @@ existing document-corpus RAG collection is a derived index over the Markdown
 corpus. This module never touches that existing collection or its retrieval
 pipeline (`retrieval-augmented-generation/implementations/`).
 
-Full design spec:
-    telescope/2026-07-10-agent-memory-architecture/supporting/01-technical-options.md
-    telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
-
 WorkingMemory is intentionally absent here — it is task-scoped, in-memory-only
 state that should never be persisted to Qdrant or JSONL.
 
@@ -167,8 +163,8 @@ def _new_id() -> str:
 # Reflections use a human-readable, investigator-chosen reflection_id
 # (e.g. "REFLECT-001") as their primary identifier throughout this module
 # and in reflection_authoring.py -- but Qdrant point IDs must be an unsigned
-# integer or a UUID (discovered live during the MISTAKE-2026-07-14-001
-# Phase 3 migration: a raw "REFLECT-001" point ID was rejected with a 400).
+# integer or a UUID -- a raw "REFLECT-001" string point ID is rejected by
+# Qdrant with a 400.
 # Deriving a deterministic UUID5 from reflection_id (fixed namespace) keeps
 # upserts idempotent -- the same reflection_id always maps to the same
 # point, matching the existing disaster-recovery contract for the other
@@ -1154,19 +1150,16 @@ class PersistentMemorySink:
         rejection of an MCP write tool (01-technical-options.md §4,
         "Option A" rejected).
 
-        Identity gate (MISTAKE-2026-07-16-001 remediation item 2, second
-        Wieczorek pass): requires the same IdentityVerification token
+        Identity gate: requires the same IdentityVerification token
         ReflectionMemory.record_reflection() requires, and independently
         re-checks it here rather than trusting that the caller already did
         — this is defense-in-depth against a caller who constructs a bare
         ReflectionRecord and calls this method directly, bypassing
         ReflectionMemory (and therefore record_reflection()'s own gate)
-        entirely, which is exactly the second live bypass Dr. Wieczorek
-        demonstrated. Honest limitation, same as everywhere else this token
+        entirely. Honest limitation, same as everywhere else this token
         is checked: this is not a floor. JSONLMemoryLog.append_reflection()
         and QdrantMemoryIndex.upsert_payload() remain directly callable
-        beneath this method with no check of any kind — per
-        03-deployment-guidelines.md's revised Phase 1 gate, the actual
+        beneath this method with no check of any kind — the actual
         security boundary for GOVERNANCE_TRIGGERS records is procedural
         (live human confirmation in the coordinating session), not this or
         any other code layer.

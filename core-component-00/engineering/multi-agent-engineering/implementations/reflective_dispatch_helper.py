@@ -3,12 +3,9 @@
 Reflective Dispatch Helper — the Evaluator, wrapping SwarmOrchestrator's
 already-shipped Evaluate/Reflect logic for real subagent dispatches.
 
-Built per `core-component-00/telescope/2026-08-01-reflexion-bridge-to-real-dispatch/
-supporting/implementation-plan.md` Phase 1-2 and `supporting/usage-cookbook.md` § 2
-(the invocation contract this module implements verbatim). This is Surface A: an
-advisory, opt-in helper the `multi-agent-orchestrator` subagent's own Execute-phase
-instructions call between dispatches — not a `.claude/hooks/*.py` structural gate
-(Surface B stays deferred, out of scope; see the cookbook's § 6).
+This is an advisory, opt-in helper the `multi-agent-orchestrator` subagent's own
+Execute-phase instructions call between dispatches — not a `.claude/hooks/*.py`
+structural gate.
 
 Deferred import of swarm_orchestrator's public functions, mirroring
 reflection_bridge.py's established shape: importing this module (e.g. for the CLI
@@ -23,33 +20,30 @@ turned into `{"passed": true, "rationale": "helper unavailable: ...", ...}` — 
 helper fault can only skip the Evaluate/Reflect step for that attempt, never block
 or fail a real dispatch. This mirrors reflection_bridge.py's own contract exactly.
 
-CLI shape: JSON on stdin, a single JSON object on stdout, always exit 0. Per
-`implementation-plan.md` Phase 3's review scope, the orchestrating subagent must
-judge outcome from the `passed` field of well-formed stdout JSON — never from exit
-code — so this entry point never signals failure via a non-zero exit; a malformed
-or unreadable stdin payload degrades to the same neutral response as any other
-internal fault, exactly like every other failure path in this module.
+CLI shape: JSON on stdin, a single JSON object on stdout, always exit 0. The
+orchestrating subagent must judge outcome from the `passed` field of well-formed
+stdout JSON — never from exit code — so this entry point never signals failure via
+a non-zero exit; a malformed or unreadable stdin payload degrades to the same
+neutral response as any other internal fault, exactly like every other failure
+path in this module.
 
 Structured stderr logging on every degrade path, mirroring error_boundary.py's own
-`log_warning`/`log_error` convention (Kwame Asante's harness-engineering
-convention, applied here per his Phase 3 conformance review of this module):
-stdout stays a pure, single JSON object for the orchestrating subagent to parse,
-while a one-line `[WARNING] ...` note goes to stderr so a degrade is
-incident-traceable without polluting the machine-readable stdout contract.
+`log_warning`/`log_error` convention: stdout stays a pure, single JSON object for
+the orchestrating subagent to parse, while a one-line `[WARNING] ...` note goes to
+stderr so a degrade is incident-traceable without polluting the machine-readable
+stdout contract.
 
-Invocation-counter telemetry (`implementation-plan.md` Phase 4 § 2, per
-`research-report.md` Recommendation 5): every real CLI invocation (`_main()`)
-appends one JSONL record to this pilot's own telemetry file, scoped to this
-Programme's `supporting/pilot/telemetry/` folder — not a permanent production
-metrics path, since the pilot's own gate (Phase 4) is explicitly a bounded
-exercise, not a decision to keep this telemetry indefinitely. This exists so
-"the Execute phase actually invoked the helper N times" is a checked fact for
-Dr. Vance's Phase 4 review, not an assumption — silent under-collection would
-otherwise be indistinguishable from "the helper wasn't needed." Telemetry
-writes never raise and never block the response (best-effort, same posture as
-`_log_warning`) and can be disabled — e.g. for this module's own test suite,
-so pytest/CLI-test runs don't pollute the pilot's real invocation count — by
-setting `REFLECTIVE_DISPATCH_HELPER_TELEMETRY=0` in the environment.
+Invocation-counter telemetry: every real CLI invocation (`_main()`) appends one
+JSONL record to this module's own telemetry file, scoped to a dedicated
+`supporting/pilot/telemetry/` folder — not a permanent production metrics path,
+this telemetry is bounded to observing real pilot usage, not kept indefinitely.
+This exists so "the Execute phase actually invoked the helper N times" is a
+checked fact, not an assumption — silent under-collection would otherwise be
+indistinguishable from "the helper wasn't needed." Telemetry writes never raise
+and never block the response (best-effort, same posture as `_log_warning`) and
+can be disabled — e.g. for this module's own test suite, so pytest/CLI-test runs
+don't pollute the real invocation count — by setting
+`REFLECTIVE_DISPATCH_HELPER_TELEMETRY=0` in the environment.
 """
 
 from __future__ import annotations
@@ -147,9 +141,9 @@ def evaluate_dispatch(
     `checks` must be real, checkable evidence the caller (the Supervisor —
     `multi-agent-orchestrator`) extracted from the Executor's actual output
     (a test exit code, a diff summary) — never the Executor's own narrative
-    claim of success. This function does not and cannot enforce that; it is
-    Dr. Wieczorek's Phase 3-required mitigation, restated here as a
-    docstring convention, exactly as usage-cookbook.md § 2.2 documents it.
+    claim of success. This function does not and cannot enforce that on its
+    own; the caller is responsible for only passing verified evidence, and
+    this docstring is the convention that makes the requirement explicit.
 
     `attempt_number` is 1-indexed and represents the dispatch attempt just
     evaluated. `retries_remaining` is computed the same way whether this

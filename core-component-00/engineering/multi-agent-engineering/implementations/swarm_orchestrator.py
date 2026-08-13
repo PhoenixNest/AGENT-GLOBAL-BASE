@@ -307,8 +307,7 @@ def _phrase_asserted_in_narrative(phrase: str, narrative: str) -> bool:
     negation. Exists to close one concrete, reproduced false-positive (a
     narrative that explicitly denies a criterion but still contains the
     criterion's exact words as a substring) — not to generally understand
-    narrative text. See telescope/2026-08-01-reflexion-bridge-to-real-
-    dispatch/supporting/wieczorek-triage-01.md, Finding 1."""
+    narrative text."""
     if not phrase:
         return False
     lowered_narrative = narrative.lower()
@@ -693,9 +692,9 @@ class SwarmOrchestrator:
 
     def _retrieve_reflections(self, task_description: str) -> list[str]:
         """Query memory_reflection for prior reflections relevant to this
-        brief, at brief-construction time — proactive retrieval per
-        telescope/2026-07-14-reflexion-memory-system/supporting/
-        01-technical-options.md §5.2.
+        brief, at brief-construction time — proactive retrieval so relevant
+        past reflections are surfaced before the brief is issued, rather
+        than only being discoverable via a later manual search.
 
         Never blocks or delays brief issuance and never raises: no injected
         fn, an empty/degraded response, or an exception from the fn itself

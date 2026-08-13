@@ -33,8 +33,8 @@ from implementations.memory_vector_store import (  # noqa: E402
 from implementations.memory_store import ReflectionRecord  # noqa: E402
 import concurrent.futures  # noqa: E402
 
-# embedder-service client (Phase 2, telescope/2026-07-13-mcp-embedder-service-redesign).
-# Same cross-module import pattern as memory_vector_store above.
+# embedder-service client import — same cross-module import pattern as
+# memory_vector_store above.
 _MCP_SERVERS_SHARED_ROOT = Path(__file__).resolve().parents[1] / "_shared"
 if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
     sys.path.insert(0, str(_MCP_SERVERS_SHARED_ROOT))
@@ -436,8 +436,8 @@ def _get_in_process_embedder() -> Optional[Callable[[str], List[float]]]:
 
 
 # ---------------------------------------------------------------------------
-# embedder-service integration (Phase 2) — feature-flagged primary path, with
-# the in-process loader above kept as an unmodified automatic fallback. The
+# embedder-service integration — feature-flagged primary path, with the
+# in-process loader above kept as an unmodified automatic fallback. The
 # degrade-never-block guarantee is not weakened at any point: every failure
 # mode below (flag off, service unreachable, service call fails mid-request)
 # falls through to the same in-process path/degradation this module already
@@ -1001,7 +1001,7 @@ def health_check() -> Dict[str, Any]:
     semantic, procedural, and reflection collections, plus dormant ratio and
     last consolidation time. point_counts is driven entirely by
     COLLECTION_BY_TYPE (memory_vector_store.py), so memory_reflection is
-    included automatically now that Phase 1 registered it there — no
+    included automatically since it is registered there — no
     reflection-specific logic needed here, since QdrantMemoryIndex.count_points()
     never parses point payload shape (unlike .search(), see _search_reflection
     above). Degrades to reachable=False with zeroed counts (never raises) if

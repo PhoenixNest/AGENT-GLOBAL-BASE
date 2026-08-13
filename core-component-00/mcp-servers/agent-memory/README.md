@@ -328,9 +328,10 @@ the first `search_memory` call is never blocked on it; `search_memory` degrades 
 a `reason` explaining whether the embedder is still loading, failed to load, or (if this code
 path is ever reached) is genuinely unavailable — it never raises. A background-load stall on one
 of the embedder's transitive imports was previously observed in some live server processes on
-this environment; it is now resolved via a lazy embedder warmup, per
-`core-component-00/telescope/2026-07-17-agent-memory-client-instability/` (root-caused and
-fixed). Full status, including prior investigation history, is tracked in
+this environment; it is now resolved via a lazy embedder warmup (root-caused and fixed —
+the telescope incident record was removed 2026-08-13 as a completed maintenance-operation, per
+`.claude/rules/mcp-governance.md`'s `agent-memory` row). Full status, including prior
+investigation history, is tracked in
 `.claude/rules/mcp-governance.md`. This server has no private per-server model cache and no
 dependency on `workspace-knowledge`'s process, state, or cache — the shared cache is a filesystem
 convention both read independently, not a coupling between the two servers.
@@ -346,7 +347,8 @@ end-to-end MCP calls). Open caveats, both tracked in `.claude/rules/mcp-governan
 than duplicated here to avoid drift:
 
 1. The embedder background-load stall described above is now resolved (root-caused and fixed —
-   see `core-component-00/telescope/2026-07-17-agent-memory-client-instability/`).
+   see `.claude/rules/mcp-governance.md`'s `agent-memory` row; the telescope incident record was
+   removed 2026-08-13 as a completed maintenance-operation).
 2. `memory_reflection` holds 4 real records (`REFLECT-001`–`004`, migrated 2026-07-15 from the
    retired mistake-log); `memory_episodic`/`memory_semantic`/`memory_procedural` still hold zero
    (no production memory writes exist yet), so retrieval _quality_ against real content remains

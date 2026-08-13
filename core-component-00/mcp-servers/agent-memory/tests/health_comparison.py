@@ -5,8 +5,7 @@ health_check blocks — test support code, not a registered MCP tool.
 This is Recommendation 2 ("Add a lightweight comparison test that calls both
 servers' health_check back-to-back ... so a future regression like Finding 3
 surfaces automatically instead of requiring a manual CEO-requested review to
-discover") from
-core-component-00/telescope/2026-07-17-agent-memory-client-instability/research-report.md.
+discover") from the 2026-07-17 agent-memory client-instability investigation.
 Finding 3 there was: agent-memory's health_check reported reachable=false
 with all-zero counts while workspace-knowledge, querying the *same*
 qdrant-memory instance in the same breath, reported correctly. This module is
