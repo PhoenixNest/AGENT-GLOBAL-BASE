@@ -195,7 +195,9 @@ CC-00 operates with a four-part mission:
 | **Prompt Stability Under Fine-Tuning** | **Resolved** (2026-06-30) | `engineering/prompt-engineering/`  | Fine-tuning is Haiku-via-Bedrock only; schema-constrained prompts are the most stable class; CoT degrades post-FT.                            |
 | **Harness Performance Benchmarking**   | **Resolved** (2026-06-30) | `engineering/harness-engineering/` | SDK default is 10-min timeout (30 min worst-case); override per tier: Haiku 15s / Sonnet 30s / Opus 90s. P0 fix in `error_boundary.py`.       |
 
-**Research Archive:** Completed investigations and research findings are permanently archived in this Laboratory's own [Telescope instance](./telescope/README.md) (engineering + LLM research); see the workspace-root [Telescope index](../telescope/README.md) for the other departments' archives.
+**Research Archive:** Completed investigations and research findings are permanently archived in this Laboratory's own [Telescope instance](./telescope/README.md) (engineering + LLM research); see the workspace-root `telescope/README.md` for the other departments' archives.
+
+**Maintenance Log:** Maintenance operations performed on CC-00 lab servers and engineering resources (dev environment, GPU/CUDA stack, dependency footprint, MCP server processes) are recorded in [`maintenance-records/`](./maintenance-records/README.md) — a separate, operational counterpart to the research-focused Telescope archive above.
 
 ---
 
