@@ -6,7 +6,7 @@
 
 ---
 
-## Current Status (as of 2026-08-10)
+## Current Status (as of 2026-08-12)
 
 | Phase                                                                 | Status                                  | Key Commits                                                                        |
 | --------------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -16,12 +16,13 @@
 | Enterprise-readiness Phase 1 (write-path threat model, scope only)    | Done, no-go verdict at the time         | `41a0a6ad`                                                                         |
 | Integration of Phase 0 + Phase 1                                      | Done                                    | `55fabbee`                                                                         |
 | Phase 2 (write-capable `write_memory` tool)                           | Built, conditional-go, later activated  | `1291f4da`, `3794e277`, `7d84c45c`, `ca717143`, `cc161c7e`, `f4f0ea6f`, `55c1cc0c` |
-| DR backup tooling (disk-level, JSONL log)                             | Built, **not activated** (dry-run only) | `39e1a01f`                                                                         |
+| DR backup tooling (disk-level, JSONL log)                             | Built, not activated (dry-run only)     | `39e1a01f`                                                                         |
 | Reconnect-reliability fixes                                           | Done                                    | `7c3c4477`, `80241e46`, `3d732e9c`, `72124537`                                     |
 | Write-confirmation-gate hooks wired live                              | Done                                    | `1ca57112`                                                                         |
-| `write_memory` tool activated                                         | **Done, live-verified 2026-08-10**      | `5c5ecde6`                                                                         |
+| `write_memory` tool activated                                         | Done, live-verified                     | `5c5ecde6`                                                                         |
 | Documentation consolidation (docs 06–14 → current form)               | Done                                    | `56f837f6`                                                                         |
 | This rewrite (docs 00–05 + tracking, general-audience pass)           | Done                                    | _(uncommitted at time of writing — see Note below)_                                |
+| Tier 3 disaster-recovery build (keyword-only log search)              | Done, live-verified                     | `88b6c112`, `744cbd74`                                                             |
 
 **Note:** the rewrite that produced this file, `checkpoint.json`, and the six numbered documents
 00–05, has not yet been committed as of this writing — it will appear as a new commit on top of
@@ -50,9 +51,7 @@ exists yet to back its safety checks (`server.py` says so directly in its own co
 - **Contradiction-check remediation:** the 2026-07-12 finding (100% false-positive rate, two
   reproduced attack paths) has not been remediated or re-tested. No production caller may set the
   confirmation flag that would re-enable it. Tracked in [03-forgetting-strategy.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md) § 5.1.
-- **Degradation-stack gap:** only 2 of the originally-designed 4 fallback tiers exist (Qdrant
-  primary, raw-log-rebuild last-resort). No in-process backup index or keyword-only fallback was
-  ever built. Tracked in [05-disaster-recovery-and-resilience.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/05-disaster-recovery-and-resilience.md) § 3.
+- **Degradation-stack gap:** 3 of 4 tiers built, Tier 2 not built. Tracked in [05-disaster-recovery-and-resilience.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/05-disaster-recovery-and-resilience.md) § 3.
 - **DR backup activation:** written but inert — no scheduled task exists, no snapshot has ever
   been taken or verified. Tracked in [02-deployment-guidelines.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md) § 9.5.
 - **`production_judge.py` gap:** `write_memory`'s safety checks currently run without a production

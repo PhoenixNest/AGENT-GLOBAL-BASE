@@ -162,23 +162,15 @@ set — see § 1 above and [03-forgetting-strategy.md](03-forgetting-strategy.md
 
 ```mermaid
 graph TD
-    Primary["Tier 1: Qdrant hybrid search\nSTATUS: live"] -->|Qdrant unreachable| Fallback["No automatic middle tier —\nsee note below"]
-    Fallback -->|manual trigger only| LastResort["Tier 4: rebuild_from_log()\nreplays the JSONL log directly\nSTATUS: live"]
+    Primary["Tier 1: Qdrant hybrid search\nSTATUS: live"] --> Tier3["Tier 3: keyword-only log search\nSTATUS: live"]
+    Tier3 --> LastResort["Tier 4: raw log rebuild\nSTATUS: live"]
 
-    NotBuilt1["Tier 2: in-process FAISS index\nSTATUS: NOT BUILT"]
-    NotBuilt2["Tier 3: BM25 keyword search over JSONL\nSTATUS: NOT BUILT"]
+    NotBuilt1["Tier 2: in-process backup index\nSTATUS: NOT BUILT"]
 
     style NotBuilt1 stroke-dasharray: 5 5
-    style NotBuilt2 stroke-dasharray: 5 5
 ```
 
-This diagram didn't exist in the original version of this document — it's added in this rewrite
-specifically because [05-disaster-recovery-and-resilience.md](05-disaster-recovery-and-resilience.md)'s original four-tier design implied
-a smooth, automatic step-down through four levels. In reality, only the top and bottom tiers exist:
-if the primary Qdrant search becomes unreachable, there is currently no automatic in-between
-fallback — recovery today means either waiting for Qdrant to come back, or manually triggering a
-full rebuild from the log file. See [05-disaster-recovery-and-resilience.md](05-disaster-recovery-and-resilience.md) § 3 for the corrected
-narrative.
+See [05-disaster-recovery-and-resilience.md](05-disaster-recovery-and-resilience.md) § 3 for the full narrative.
 
 ---
 

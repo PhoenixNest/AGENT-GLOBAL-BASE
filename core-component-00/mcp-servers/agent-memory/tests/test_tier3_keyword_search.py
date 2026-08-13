@@ -1,9 +1,7 @@
 """
 Integration tests for the Tier 3 (keyword-only log search) disaster-recovery
-fallback wiring in _search_memory_impl — the feature
-05-disaster-recovery-and-resilience.md § 3 flagged as designed but never
-built (audited 2026-08-10), implemented in this build (CEO-delegated to Dr.
-Vance, git worktree agent/cc00-lab/tier3-keyword-log-search).
+fallback wiring in _search_memory_impl — see
+05-disaster-recovery-and-resilience.md § 3 for the full design.
 
 Unit coverage for keyword_search_log()/search_with_status()/bm25_rank_ids()
 themselves lives in
@@ -150,9 +148,9 @@ class TestTier3FallbackWiring:
         assert result["count"] == 0
 
     def test_embedder_unavailable_falls_through_to_tier3(self, agent_memory_server, isolated_memory_log):
-        """The gap found and fixed in this build: embedder=None used to
-        short-circuit to an empty result before Tier 1/3 dispatch ever ran,
-        even though Tier 3 needs no embedder at all."""
+        """Tier 3 needs no embedder at all, so an unavailable embedder must
+        still fall through to it rather than short-circuiting to an empty
+        result before Tier 1/3 dispatch runs."""
         isolated_memory_log.append(
             _make_record(memory_type="semantic", id="r1", content="Kubernetes cluster autoscaling")
         )

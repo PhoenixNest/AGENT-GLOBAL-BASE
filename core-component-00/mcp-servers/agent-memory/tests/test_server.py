@@ -200,16 +200,13 @@ class TestSearchMemoryImpl:
             embedder=_embedder,
         )
         assert result["degraded"] is True
-        # Reason now comes from QdrantMemoryIndex.search_with_status()
+        # Reason comes from QdrantMemoryIndex.search_with_status()
         # (memory_vector_store.py), which covers client-None and
-        # embedder-None with one shared message, rather than
-        # _search_memory_impl constructing a client-only-specific string
-        # itself — part of the Tier 3 fallback wiring
-        # (05-disaster-recovery-and-resilience.md § 3), which needs a single
-        # degraded signal regardless of which of the two is missing.
+        # embedder-None with one shared message — the single degraded
+        # signal the Tier 3 fallback (05-disaster-recovery-and-resilience.md
+        # § 3) needs regardless of which of the two is missing.
         assert result["reason"] == "qdrant client/embedder not configured"
-        # Tier 3 (keyword_search_log) still ran despite the degraded Tier 1 —
-        # this is exactly the fallback the feature adds.
+        # Tier 3 (keyword_search_log) ran because Tier 1 reported degraded.
         assert result["tier"] == 3
 
     def test_status_filter_defaults_to_active_only(self, agent_memory_server):

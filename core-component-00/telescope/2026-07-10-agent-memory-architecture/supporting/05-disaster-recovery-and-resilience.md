@@ -7,8 +7,6 @@
 > **Coordinating leads:** Sofia Almeida / Diego Fontán (RAG — own the document-search fallback
 > design this extends), Kwame Asante (Harness Engineering — error-boundary patterns), Dr. Elias
 > Vance (Director).
-> **2026-08-12:** Tier 3 (keyword-only log search) implemented — CEO-delegated to Dr. Vance and
-> the CC-00 crew, git-worktree build on `agent/cc00-lab/tier3-keyword-log-search`. See § 3.
 
 ---
 
@@ -27,9 +25,8 @@ confirmed against the running code on 2026-08-10.
 
 **Stability if the underlying infrastructure fails — the honest picture is in this document,
 kept current.** What actually happens if the memory search database fails to start, crashes
-mid-session, or the machine loses power mid-write is laid out below. As of the 2026-08-10 audit
-this was a smaller safety net than the original design intended; as of the 2026-08-12 Tier 3 build
-(§ 3) it is closer to that original intent again, with one tier (Tier 2) still open.
+mid-session, or the machine loses power mid-write is laid out below: three of the four designed
+fallback tiers are live; one (Tier 2) is not built.
 
 ---
 
@@ -49,52 +46,44 @@ this was a smaller safety net than the original design intended; as of the 2026-
 
 The document-search system has a real, working four-level fallback — if its primary search fails,
 it steps down automatically through a backup index, then a keyword-only search, then a raw file
-scan. The original intent for memory was to mirror that exact structure. **As of 2026-08-12, one
-of the two missing middle tiers has been resolved:**
+scan. Memory mirrors three of those four levels:
 
 ```
 [Tier 1] Qdrant semantic search + keyword fusion         ← primary — LIVE
     ↓ (fallback if Qdrant is unreachable)
 [Tier 2] In-process backup search index                   ← NOT BUILT
     ↓ (fallback if that's unavailable)
-[Tier 3] Keyword-only search directly over the log files   ← LIVE (2026-08-12)
+[Tier 3] Keyword-only search directly over the log files   ← LIVE, automatic
     ↓ (fallback if all indexes are unavailable)
 [Tier 4] Read the raw log files directly / full rebuild     ← LIVE, via a manual or scripted replay
 ```
 
-**Tier 3 is now automatic, not manual.** `search_memory` detects a degraded Tier 1 — Qdrant
+**Tier 3 falls through automatically.** `search_memory` detects a degraded Tier 1 — Qdrant
 unreachable, timed out, or the embedder unavailable — via `QdrantMemoryIndex.search_with_status()`
 (episodic/semantic/procedural) or `_search_reflection_with_status()` (reflection), and falls
 through to `keyword_search_log()` / `keyword_search_reflection_log()`
 (`engineering/context-engineering/implementations/memory_vector_store.py`,
-`mcp-servers/agent-memory/server.py`) automatically, in the same call — no person or scheduled job
-has to notice the outage first. It reuses the RAG module's own `bm25_score()` reference
-implementation (`retrieval-augmented-generation/implementations/retrieval.py`) rather than a
-second BM25 implementation, and every response now carries a `tier` field (1 or 3) so a caller or
-operator can tell which one actually served a given result. Building it turned out to require no
-new retrieval logic — `bm25_score()` and the log-replay helpers behind Tier 4
-(`JSONLMemoryLog.read_all()` / `read_all_episodic_sessions()` / `read_all_reflections()`) already
-existed and were already tested; Tier 3 wires them together. Sacred (decision/commitment) record
-completeness carries over automatically too: Tier 3 applies the identical `status_in` filter Tier
-1 applies, and a sacred record is already permanently pinned at `status="active"` by
-`apply_decay()` (`memory_maintenance.py`) — there was no separate bypass to reimplement.
+`mcp-servers/agent-memory/server.py`) in the same call — no person or scheduled job has to notice
+the outage first. This reuses the RAG module's own `bm25_score()` reference implementation
+(`retrieval-augmented-generation/implementations/retrieval.py`) rather than a second BM25
+implementation, and every `search_memory` response carries a `tier` field (1 or 3) so a caller or
+operator can tell which one actually served a given result. Sacred (decision/commitment) record
+completeness carries over automatically: Tier 3 applies the identical `status_in` filter Tier 1
+applies, and a sacred record is already permanently pinned at `status="active"` by
+`apply_decay()` (`memory_maintenance.py`) — there is no separate bypass to maintain.
 
-One related, genuine gap this build also closed: `search_memory`'s `degraded` flag previously
-reflected only whether a Qdrant client had been injected at all (`client is None`) — a client that
-was injected but then hit a connection error, timeout, or malformed response mid-call still
-reported `degraded=False` with an empty result, indistinguishable from a real zero-match query.
-`search_with_status()`/`_search_reflection_with_status()` now report `degraded=True` with a
-`reason` for every one of those cases, which is also what makes an automatic Tier 3 handoff
-possible in the first place — without a real signal, nothing could know when to fall through.
+`search_memory`'s `degraded` flag reflects the true state of Tier 1, not just whether a Qdrant
+client was injected: `search_with_status()`/`_search_reflection_with_status()` report
+`degraded=True` with a `reason` for a missing client or embedder, a connection error, a timeout,
+or a malformed response alike — this is the signal Tier 3's automatic handoff depends on.
 
-Tier 2 (an in-process backup search index) remains not built. It is out of scope for this build,
-which was scoped to Tier 3 only.
+Tier 2 (an in-process backup search index) is not built.
 
 **Why the "always available" cold-fallback still holds:** Tier 4 (reading the log files directly)
 requires no extra engineering to exist, for the same reason it doesn't for the document-search
 system — the Memory-as-Corpus principle ([01-technical-options.md](01-technical-options.md) § 2) already guarantees the log
-files are plain text and are the actual source of truth. That's a genuine, real safety net, and as
-of this build it's no longer the only fallback below Tier 1 — Tier 3 sits between the two.
+files are plain text and are the actual source of truth. Tier 3 sits between Tier 1 and Tier 4 as
+a second, real safety net.
 
 **One thing that degrades gracefully without any extra work:** recency-filtered lookups (see
 [01-technical-options.md](01-technical-options.md) § 6 — "what happened recently in this session?") never actually needed
@@ -155,16 +144,12 @@ unnecessarily.
 
 ## 6. Recovery Objectives
 
-| Objective                                      | Target                                                                                                                                                                                                                      | Basis                                                                                                        |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Maximum data loss (against a search-DB outage) | Zero                                                                                                                                                                                                                        | The log write never depends on the search database being available (§ 4) — confirmed live                    |
-| Time to _some_ working search after an outage  | **Immediate — automatic, same call.** `search_memory` falls through to Tier 3 (keyword search over the log) the moment Tier 1 reports degraded; no reconnect wait, no manual rebuild needed just to keep answering queries. | Implemented 2026-08-12 (§ 3) — Tier 2 (in-process backup index) remains not built, out of this build's scope |
-| Time to full primary search restored           | Bounded by how long the resync batch takes — roughly proportional to how many records were written during the outage, not the full collection size                                                                          | Resync only replays records from the outage window, not the whole collection                                 |
-| How fast an outage is even noticed             | Bounded by how often `health_check` is polled — recommended at 60 seconds or less in production; a client of `search_memory` also sees it immediately via `degraded`/`tier` in every response                               | Workspace-specific recommendation; not drawn from external precedent                                         |
-
-The second row above was the most consequential finding of the 2026-08-10 audit: the original
-design document had claimed near-immediate degraded service via middle tiers that turned out not
-to be built. That gap is what the 2026-08-12 build (§ 3) closed for Tier 3; Tier 2 is still open.
+| Objective                                      | Target                                                                                                                                                                                                                      | Basis                                                                                     |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Maximum data loss (against a search-DB outage) | Zero                                                                                                                                                                                                                        | The log write never depends on the search database being available (§ 4) — confirmed live |
+| Time to _some_ working search after an outage  | **Immediate — automatic, same call.** `search_memory` falls through to Tier 3 (keyword search over the log) the moment Tier 1 reports degraded; no reconnect wait, no manual rebuild needed just to keep answering queries. | Tier 3 (§ 3) — Tier 2 (in-process backup index) remains not built                         |
+| Time to full primary search restored           | Bounded by how long the resync batch takes — roughly proportional to how many records were written during the outage, not the full collection size                                                                          | Resync only replays records from the outage window, not the whole collection              |
+| How fast an outage is even noticed             | Bounded by how often `health_check` is polled — recommended at 60 seconds or less in production; a client of `search_memory` also sees it immediately via `degraded`/`tier` in every response                               | Workspace-specific recommendation; not drawn from external precedent                      |
 
 ---
 
