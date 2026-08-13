@@ -577,9 +577,9 @@ class TestSearchWithStatus:
         assert index.search("query") == index.search_with_status("query").records
 
     def test_search_still_returns_bare_list_on_degradation_unchanged_contract(self):
-        """search() itself keeps returning a bare [] on degradation — its
-        signature/behavior is untouched by this build; only search_with_status()
-        is new."""
+        """search() returns a bare [] on degradation, with no signal
+        distinguishing "no matches" from "degraded" — search_with_status()
+        is the method that carries that signal."""
         index = QdrantMemoryIndex("semantic", client=None, embedder=_embedder)
         result = index.search("query")
         assert result == []
@@ -607,9 +607,9 @@ class TestBm25RankIds:
 
 class TestKeywordSearchLog:
     def test_finds_matching_semantic_record_when_qdrant_is_down(self, tmp_path):
-        """The exact scenario 05-disaster-recovery-and-resilience.md § 3
-        flagged as missing: Qdrant unreachable, and this is the fallback that
-        must still return real, ranked results rather than []."""
+        """The scenario Tier 3 exists for (05-disaster-recovery-and-resilience.md
+        § 3): Qdrant unreachable, and keyword_search_log must still return
+        real, ranked results rather than []."""
         log = JSONLMemoryLog(root_dir=tmp_path)
         log.append(_make_record(memory_type="semantic", id="r1", content="user prefers FastAPI and PostgreSQL"))
         log.append(_make_record(memory_type="semantic", id="r2", content="the office espresso machine is broken"))

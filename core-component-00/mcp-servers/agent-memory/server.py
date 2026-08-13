@@ -754,8 +754,8 @@ def _search_reflection(
     client: Any,
     embedder: Callable[[str], List[float]],
 ) -> List[ReflectionRecord]:
-    """Existing callers that only want the list, unchanged behavior — see
-    _search_reflection_impl()'s docstring."""
+    """Returns just the record list, dropping the degraded/reason signal —
+    see _search_reflection_impl()'s docstring."""
     return _search_reflection_impl(query, top_k, statuses, client, embedder).records
 
 

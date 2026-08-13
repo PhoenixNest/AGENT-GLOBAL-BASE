@@ -600,12 +600,10 @@ def bm25_rank_ids(query: str, id_text_pairs: List[Tuple[str, str]], top_k: int) 
 @dataclass
 class SearchOutcome:
     """
-    Same result shape search() has always returned, plus the signal it never
-    exposed: whether an empty result means "genuinely zero matches" or "Qdrant
-    is degraded." search() alone cannot distinguish these — both return [] —
-    which is exactly the gap 05-disaster-recovery-and-resilience.md § 3
-    flagged: without it, a caller has no signal telling it when to fall
-    through to Tier 3 (keyword_search_log below).
+    Carries whether an empty result means "genuinely zero matches" or "Qdrant
+    is degraded" — a bare list can't express that distinction. This is the
+    signal a caller uses to decide whether to fall through to Tier 3
+    (keyword_search_log below); see 05-disaster-recovery-and-resilience.md § 3.
     """
 
     records: List[MemoryRecord]
@@ -796,12 +794,11 @@ class QdrantMemoryIndex:
     ) -> List[MemoryRecord]:
         """
         Semantic similarity search over this collection. Returns [] on any
-        degradation rather than raising — callers that don't need to
-        distinguish "genuinely zero matches" from "Qdrant is degraded" (i.e.
-        every existing caller as of this method's original introduction) can
-        keep using this unchanged. A caller that DOES need that distinction —
-        to know when to fall through to Tier 3 (keyword_search_log above) —
-        should call search_with_status() instead, added alongside it below.
+        degradation rather than raising — for callers that don't need to
+        distinguish "genuinely zero matches" from "Qdrant is degraded". A
+        caller that does need that distinction, to know when to fall through
+        to Tier 3 (keyword_search_log above), calls search_with_status()
+        instead.
         """
         return self._search_impl(query_text, top_k, status_in, session_id).records
 
