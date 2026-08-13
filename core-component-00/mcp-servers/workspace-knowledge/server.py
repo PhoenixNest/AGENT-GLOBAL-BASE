@@ -442,7 +442,7 @@ class SearchEngine:
         np.ndarray — the shape _search_semantic/_search_qdrant already
         expect. Prefers the shared embedder-service; falls back to the
         in-process self._model (unchanged) on service-unavailable or a
-        runtime call failure. Mirrors agent-memory's Phase 2 composite
+        runtime call failure. Mirrors agent-memory's composite embedder
         resolver pattern (_get_embedder() in agent-memory/server.py) rather
         than inventing a new one.
         """

@@ -1,18 +1,18 @@
 """
-Automated cross-server health_check comparison — Recommendation 2 from
-core-component-00/telescope/2026-07-17-agent-memory-client-instability/research-report.md:
+Automated cross-server health_check comparison — Recommendation 2 from the
+2026-07-17 agent-memory client-instability investigation:
 
     "Add a lightweight comparison test that calls both servers' health_check
     back-to-back in CI-like conditions, so a future regression like Finding 3
     surfaces automatically instead of requiring a manual CEO-requested review
     to discover."
 
-Finding 3 in that report was: agent-memory's health_check reported
+Finding 3 in that investigation was: agent-memory's health_check reported
 reachable=false with all-zero point counts while workspace-knowledge,
 querying the *same* qdrant-memory instance in the same breath, reported
-correctly (root-caused and fixed in Findings 4/5 of that report — an
-always-on in-process embedder-warmup thread wedging on a scipy import and
-blocking QdrantClient's constructor process-wide). This file is structured in
+correctly (root-caused and fixed — an always-on in-process embedder-warmup
+thread wedging on a scipy import and blocking QdrantClient's constructor
+process-wide). This file is structured in
 two layers, per that design intent:
 
 1. TestCompareMemoryInstanceHealthLogic — pure, deterministic tests of the

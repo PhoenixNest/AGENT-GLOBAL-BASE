@@ -341,8 +341,10 @@ Implemented as a pure function (`_get_search_capability_snapshot()`) reading the
 globals `_get_embedder()` already uses — no second source of truth — never triggering the lazy
 warmup thread, and never raising (degrades to a labeled `"unavailable"` state instead).
 
-**Cross-server `health_check` comparison test** (closing a P2 from
-`2026-07-17-agent-memory-client-instability/research-report.md`): a pure comparison function plus
+**Cross-server `health_check` comparison test** (closing a P2 from the 2026-07-17
+agent-memory client-instability investigation — telescope record removed 2026-08-13 as a
+completed maintenance-operation, per this correction, dated 2026-08-13; summary preserved in
+`.claude/rules/mcp-governance.md`'s `agent-memory` row): a pure comparison function plus
 7 deterministic unit tests, plus one live integration test that calls both servers' real
 `health_check` construction paths independently (not a shared client, since the original incident's
 failure mode was one server's own construction path hanging while the other succeeded). Result in

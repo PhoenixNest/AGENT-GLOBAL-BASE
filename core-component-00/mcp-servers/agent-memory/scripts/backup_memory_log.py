@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 5 DR backup — snapshot the JSONL memory log.
+Disaster-recovery backup — snapshot the JSONL memory log.
 
 STATUS: implemented, INACTIVE. Nothing calls this script automatically — no
 scheduled task, no server code path invokes it. It only runs if someone runs

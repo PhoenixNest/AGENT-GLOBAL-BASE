@@ -1,9 +1,7 @@
 """
 Memory Maintenance — Decay, Consolidation, and Status-Transition Job
 
-Standalone, testable module implementing this workspace's forgetting strategy —
-full design spec:
-    telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md
+Standalone, testable module implementing this workspace's forgetting strategy.
 
 Deployed as a scheduled job (ScheduleWakeup or CronCreate), never as an inline
 per-turn computation, so its decay formula stays unit-testable against
@@ -61,10 +59,7 @@ def _new_id() -> str:
 # ---------------------------------------------------------------------------
 # Tunable constants — deployment defaults.
 # None of these are empirically validated against this workspace's actual
-# session data yet — recalibrate once real usage data exists (see
-# telescope/2026-07-10-agent-memory-architecture/research-report.md Open Question 1
-# for a synthetic bounds-check; folded there 2026-08-10 from the former standalone
-# supporting/08-threshold-sensitivity-check.md).
+# session data yet — recalibrate once real usage data exists.
 # ---------------------------------------------------------------------------
 
 BASE_STRENGTH_DAYS = 7.0

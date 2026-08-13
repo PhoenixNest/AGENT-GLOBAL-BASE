@@ -1,11 +1,6 @@
 """
 Adversarial evaluation of the LLM-judged contradiction check
-(implementations/memory_maintenance.py::check_contradiction), per:
-
-    telescope/2026-07-10-agent-memory-architecture/research-report.md
-        Open Question 2, Recommendation 3
-    telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md §5
-    telescope/2026-07-10-agent-memory-architecture/research-report.md § Self-Review Findings
+(implementations/memory_maintenance.py::check_contradiction).
 
 This suite calls check_contradiction() directly as a unit under test. It
 never sets i_have_completed_adversarial_review=True and never wires the

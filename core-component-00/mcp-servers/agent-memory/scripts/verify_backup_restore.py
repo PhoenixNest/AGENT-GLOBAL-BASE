@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 5 DR backup — restore verification.
+Disaster-recovery backup — restore verification.
 
 STATUS: implemented, INACTIVE. Not scheduled, not invoked by any running
 process, not yet executed against a live Qdrant instance. Run manually (or

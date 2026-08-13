@@ -265,10 +265,10 @@ class TestFeedback:
 
 
 class TestReflectionRetrievalHook:
-    """Phase 2 proactive orchestrator-brief-time retrieval hook — see
-    telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §5.2
-    and supporting/03-deployment-guidelines.md Phase 2's anti-pattern gate.
-    """
+    """Verifies the proactive reflection-retrieval hook fires exactly once
+    per subtask at brief-issuance time (not later, not on a delay), and that
+    an empty or degraded reflection-search result never blocks or delays the
+    handoff — the hook can only add context, never gate execution."""
 
     @pytest.mark.asyncio
     async def test_hook_fires_at_brief_issuance_time(self, agents):
@@ -601,10 +601,7 @@ class TestEvaluateSubtaskResult:
         assert verdict.passed is True
 
     # -- Realistic, transcript-shaped narrative fallback coverage -----------
-    # These cover Open Question 2 from telescope/2026-07-28-reflexion-
-    # execute-monitor-evaluate-loop/research-report.md and telescope/
-    # 2026-08-01-reflexion-bridge-to-real-dispatch/research-report.md: the
-    # narrative fallback was previously only exercised against short, clean,
+    # The narrative fallback was previously only exercised against short, clean,
     # synthetic one-liners. These exercise it against multi-sentence,
     # mixed-signal, tool-transcript-shaped text closer to what a real
     # subagent's tool-call output actually looks like. Some of these assert
@@ -702,10 +699,8 @@ class TestEvaluateSubtaskResult:
         assert "no lint errors" in verdict.rationale
 
     def test_narrative_negated_criterion_text_still_matches_as_substring(self):
-        """Regression guard for Wieczorek Finding 1 (pilot run 01,
-        telescope/2026-08-01-reflexion-bridge-to-real-dispatch/supporting/
-        wieczorek-triage-01.md), fixed 2026-08-03. Adversarial-shaped but
-        realistic transcript: the narrative explicitly DENIES the criterion
+        """Regression guard for a false-positive found in a real pilot run.
+        Adversarial-shaped but realistic transcript: the narrative explicitly DENIES the criterion
         ("It would be incorrect to say the authentication tests pass") and
         then explains three concrete failures — but the denied clause still
         contains the criterion's exact words as a contiguous substring.

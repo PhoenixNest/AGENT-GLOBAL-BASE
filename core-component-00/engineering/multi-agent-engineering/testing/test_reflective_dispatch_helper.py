@@ -1,16 +1,15 @@
 """
 Tests for reflective_dispatch_helper — the Evaluator wrapping SwarmOrchestrator's
 already-shipped evaluate_subtask_result()/_reflection_note_for_attempt() for real
-subagent dispatches, per `2026-08-01-reflexion-bridge-to-real-dispatch/supporting/
-implementation-plan.md` Phase 1 step 4.
+subagent dispatches.
 
-Covers, per that Phase 1 gate: passing verdict passthrough, failing verdict
-reflection-note formatting, retry-cap enforcement via retries_remaining,
-malformed/missing checks handled without raising, and the never-raises degrade
-path itself (simulated internal failure) returning passed: True. A second class,
-TestCLIInvocation, additionally exercises the real `uv run` subprocess contract
-from usage-cookbook.md § 2.1 — this is Phase 2 wiring-level verification, not a
-substitute for Kwame Asante's Phase 3 invocation-contract conformance review.
+Covers: passing verdict passthrough, failing verdict reflection-note formatting,
+retry-cap enforcement via retries_remaining, malformed/missing checks handled
+without raising, and the never-raises degrade path itself (simulated internal
+failure) returning passed: True. A second class, TestCLIInvocation,
+additionally exercises the real `uv run` subprocess contract — this is
+wiring-level verification of the CLI entry point, not a substitute for
+verifying the underlying evaluate_dispatch() logic covered above.
 """
 
 import json
@@ -28,8 +27,8 @@ from implementations import reflective_dispatch_helper as helper
 _HELPER_PATH = Path(__file__).parent.parent / "implementations" / "reflective_dispatch_helper.py"
 
 # Disables this module's own pilot-invocation telemetry for every CLI-level
-# subprocess test below, so repeated pytest runs don't inflate Phase 4's real
-# pilot invocation count (research-report.md Recommendation 5).
+# subprocess test below, so repeated pytest runs don't inflate the real
+# invocation count the telemetry is meant to track.
 _NO_TELEMETRY_ENV = {**os.environ, "REFLECTIVE_DISPATCH_HELPER_TELEMETRY": "0"}
 
 
@@ -195,10 +194,10 @@ class TestNeverRaisesDegradePath:
 
 
 class TestStructuredStderrLogging:
-    """Kwame Asante's Phase 3 conformance review requirement: every degrade
-    path logs a structured stderr note (matching error_boundary.py's own
-    log_warning shape) so a degrade is incident-traceable, without the log
-    line ever leaking into stdout's pure-JSON contract."""
+    """Verifies every degrade path logs a structured stderr note (matching
+    error_boundary.py's own log_warning shape) so a degrade is
+    incident-traceable, without the log line ever leaking into stdout's
+    pure-JSON contract."""
 
     def test_degrade_path_logs_warning_to_stderr(self, monkeypatch, capsys):
         monkeypatch.setattr(
@@ -244,8 +243,8 @@ class TestStructuredStderrLogging:
 
 
 class TestInvocationTelemetry:
-    """Phase 4 § 2 (implementation-plan.md): a simple invocation counter so
-    how often the Execute phase actually calls the helper is visible, not
+    """A simple invocation counter so how often the Execute phase actually
+    calls the helper is visible, not
     assumed. Covers: a record is appended per real call, the env-var opt-out
     this module's own CLI tests rely on, and that a write failure never
     raises or blocks the response — telemetry is best-effort, same posture
@@ -309,12 +308,11 @@ class TestReadRequest:
 
 
 class TestCLIInvocation:
-    """Real subprocess invocation via `uv run`, matching usage-cookbook.md § 2.1's
-    documented command shape exactly. Verifies the CLI wiring genuinely works end
-    to end (stdin JSON in, stdout JSON out, exit code always 0) — not a
-    substitute for Kwame Asante's Phase 3 invocation-contract conformance
-    review, which additionally covers argument/error-reporting conventions this
-    test does not scope-check."""
+    """Real subprocess invocation via `uv run`. Verifies the CLI wiring
+    genuinely works end to end (stdin JSON in, stdout JSON out, exit code
+    always 0) — not a substitute for the unit tests above, which cover the
+    underlying evaluate_dispatch() logic; this class only checks the process
+    boundary, not argument/error-reporting conventions."""
 
     def _run(self, stdin_text: str) -> subprocess.CompletedProcess:
         return subprocess.run(

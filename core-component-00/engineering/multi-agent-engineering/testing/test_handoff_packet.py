@@ -158,10 +158,8 @@ class TestValidation:
         assert "fleet='fleet-c'" in issues[1]
 
     def test_turn_missing_fleet_id_flagged_as_unverified_origin(self):
-        # Regression guard for Wieczorek Finding 2 (pilot run 02, telescope/
-        # 2026-08-01-reflexion-bridge-to-real-dispatch/supporting/
-        # wieczorek-triage-01.md), fixed 2026-08-03. Before the fix,
-        # validate()'s `if turn_fleet is not None` guard meant a turn that
+        # Regression guard for a fail-open default found in a real pilot
+        # run: validate()'s `if turn_fleet is not None` guard meant a turn that
         # omits the "fleet_id" key entirely (turn.get("fleet_id") -> None)
         # was silently treated as compliant — a fail-open default that would
         # let a turn bypass the cross-fleet check simply by omitting the

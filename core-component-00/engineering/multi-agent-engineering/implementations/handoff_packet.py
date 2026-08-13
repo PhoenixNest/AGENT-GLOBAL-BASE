@@ -96,13 +96,11 @@ class HandoffPacket:
             issues.append("Full tier requires conversation_history")
         if self.tier == HandoffTier.MINIMAL and self.conversation_history:
             issues.append("Minimal tier should not include conversation_history")
-        # Fleet-origin check for conversation_history (GSMSE remediation T15).
-        # Fixed 2026-08-03 per Wieczorek Finding 2 (telescope/2026-08-01-
-        # reflexion-bridge-to-real-dispatch/supporting/wieczorek-triage-01.md):
-        # a turn missing "fleet_id" entirely used to be silently treated as
+        # Fleet-origin check for conversation_history: a turn missing
+        # "fleet_id" entirely is treated as unverified origin, not silently
         # compliant. That is a fail-open default on a security-adjacent
         # check — absence of evidence is not evidence of compliance — so a
-        # turn with no fleet_id is now itself flagged as unverified origin.
+        # turn with no fleet_id is itself flagged as unverified origin.
         if expected_fleet_id and self.conversation_history:
             for i, turn in enumerate(self.conversation_history):
                 if "fleet_id" not in turn:

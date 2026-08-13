@@ -9,7 +9,6 @@ Usage:
 
 Author: Core Component 00 Laboratory
 Laboratory Director: Dr. Elias Vance
-Last Updated: 2026-05-05
 """
 
 import subprocess
