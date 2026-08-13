@@ -226,19 +226,29 @@ set a preview field — that triggers a dual-pane panel that can truncate long t
 <step id="3" name="branch">
   <if_optimized>
   Print this block first — before any other sentence, tool call, or commentary — then execute
-  using it as the working brief:
+  using it as the working brief. Leave a blank line before each `---` and between the two
+  bold lines — without it, Markdown's Setext-heading rule turns this block into an oversized
+  heading instead of normal bold text:
     ---
+
     **Prompt selected:** Optimized
+
     **Working brief:** <full optimized text>
+
     ---
   </if_optimized>
   <if_original>
   Print this block first — before any other sentence, tool call, or commentary — then ask
   {question_count} clarifying questions (one per missing dimension: {missing_str}), wait for
-  answers, and repeat from step 1:
+  answers, and repeat from step 1. Leave a blank line before each `---` and between the two
+  bold lines — without it, Markdown's Setext-heading rule turns this block into an oversized
+  heading instead of normal bold text:
     ---
+
     **Prompt selected:** Original
+
     **Working brief:** <full original text>
+
     ---
   </if_original>
 </step>
@@ -255,21 +265,38 @@ If the session resumes with a message that doesn't directly answer the step 2 qu
 any other work."""
 
 
-def _emit(additional_context: str) -> None:
+def _emit(additional_context: str, system_message: str = None) -> None:
     output = {
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
             "additionalContext": additional_context,
         }
     }
+    # systemMessage is rendered directly to the user by the Claude Code harness,
+    # independent of whether the model relays additionalContext — used on the pass
+    # path (see _process) so a passing gate evaluation is never silently
+    # indistinguishable from the gate not having run at all.
+    if system_message is not None:
+        output["systemMessage"] = system_message
     print(json.dumps(output))
 
 
 def _emit_gate_required(data, prompt_str, score, missing) -> None:
     """Fail-path / fail-closed-fallback output: write the marker (best-effort) and print
-    the full confirmation-required additionalContext block."""
+    the full confirmation-required additionalContext block.
+
+    Also sends a top-level systemMessage, in the same one-line bracketed format as the
+    pass-path fix, naming the specific missing dimensions — so users see immediately,
+    via the chat history, why the prompt fell short, independent of the model working
+    through the rest of the additionalContext confirmation flow.
+    """
     _write_marker_and_telemetry(data, prompt_str, score, missing)
-    _emit(_build_gate_message(score, missing))
+    missing_str = ", ".join(missing) if missing else "none — all 5 dimensions satisfied"
+    system_message = (
+        f"[H-P01: prompt did not meet quality threshold ({score}/5) — "
+        f"missing: {missing_str}]"
+    )
+    _emit(_build_gate_message(score, missing), system_message=system_message)
 
 
 def _process(data, prompt_str) -> None:
@@ -331,9 +358,17 @@ def _process(data, prompt_str) -> None:
     # --- Pass path: sh's authoritative behavior — passive advisory, no marker,
     # no telemetry, no confirmation required. See module docstring for why this port
     # follows .sh (not .ps1's "always confirm") on this specific divergence. ---------
+    #
+    # Visibility fix (2026-08-12): the advisory below is also sent as a top-level
+    # systemMessage, not just additionalContext. additionalContext alone made a passing
+    # evaluation indistinguishable from the gate never running — nothing instructed the
+    # model to relay it, so it silently went unseen. systemMessage is rendered directly
+    # to the user by the harness, independent of model behavior, without adding the
+    # confirmation friction the .ps1-era "confirm-and-append" pass-path treatment had
+    # (that approach is not being revived here — no marker, no AskUserQuestion on pass).
     if score >= THRESHOLD:
         msg = f"[H-P01: prompt met quality threshold ({score}/5), proceeding without confirmation]"
-        _emit(msg)
+        _emit(msg, system_message=msg)
         return
 
     # --- Fail path: below threshold — full confirmation gate. ------------------------
