@@ -34,27 +34,67 @@ incident-response.
 core-component-00/maintenance-records/
 ├── README.md                    ← Log index
 ├── CLAUDE.md                    ← This file
+├── pipeline.md                  ← Canonical stage definitions — read before opening a topic
 ├── template/
-│   └── maintenance-record.md    ← Copy this for every new maintenance operation
-└── <YYYY-MM-DD-slug>.md         ← Individual maintenance records
+│   ├── maintenance-record.md    ← Copy for every new topic's main record
+│   └── log-entry.md             ← Copy for every stage/development within a topic
+└── <YYYY-MM-DD-slug>/           ← One folder per maintenance topic
+    ├── maintenance-record.md    ← Short, always-current summary + status + open items
+    └── log/
+        ├── 01-<slug>.md         ← Full account of the first development
+        ├── 02-<slug>.md         ← Full account of the second development
+        └── ...
 ```
 
-Unlike `telescope/`'s dated-folder-per-investigation shape, a maintenance record is a single file
-per operation — it's a point-in-time snapshot, not a document that accumulates supporting files.
+**One folder per maintenance topic** (revised 2026-08-13, second same-day revision — see
+`README.md`'s Format Note for the full history: "new file per operation" → "one file per topic
+with inline dated sections" → this folder shape). This now matches
+`core-component-00/telescope/`'s directory structure exactly (dated folder per topic, per the
+`research-report.md` + `supporting/` Programme shape) rather than approximating it with a single
+growing file.
+
+The split within a topic folder follows Zhao's (`crew/context-engineering/mei-ling-zhao/`)
+memory-tier framing: `maintenance-record.md` is the **working-memory** summary — short, always
+current, never grows unboundedly — while `log/` holds the **episodic** detail, one numbered file
+per development, individually created (never a shared file two people edit at once) and never
+edited or deleted after the fact. This is how both of the CEO's concerns get satisfied at once: no
+single document becomes unreadably large (each `log/` entry is one development, not the whole
+topic's history), and no flat proliferation of near-duplicate top-level files (they're grouped
+under one folder per topic, same as `telescope/`).
+
+Stage definitions, gates, severity tagging, the topic-boundary test, and the staleness bound are
+all canonical in `pipeline.md` — read it before opening a topic, not just this file.
 
 ---
 
-## Creating a New Maintenance Record
+## Creating or Updating a Maintenance Record
 
-1. Copy `template/maintenance-record.md` → `YYYY-MM-DD-<slug>.md` in this folder (e.g.
-   `2026-08-13-embedder-service-idle-timeout-tune.md`).
-2. Complete every bracketed placeholder; delete the instructional HTML comments once each section
-   is filled in.
-3. A follow-up operation on the same resource gets a **new** file, not an edit to a prior one —
-   link back to the earlier record instead (same point-in-time-snapshot rule as
-   `templates/README.md`'s two cross-system templates).
+**New topic:**
+
+1. Create folder `YYYY-MM-DD-<slug>/` in this directory (e.g.
+   `2026-08-13-embedder-service-idle-timeout-tune/`), dated to when the topic first opened.
+2. Copy `template/maintenance-record.md` → `<slug>/maintenance-record.md`; fill in the header
+   fields including **Severity** (per `pipeline.md`'s severity table).
+3. Copy `template/log-entry.md` → `<slug>/log/01-<slug>.md` for the first development (typically
+   pipeline stage 1 — Investigation); fill it in and link it from the main record's Pipeline Stage
+   Log table.
 4. Add an entry to `README.md` (the log index).
-5. Run Prettier before finalizing: `prettier --write "<file-path>"` (root `CLAUDE.md` §1).
+5. Run Prettier before finalizing: `prettier --write "<file-path>"`.
+
+**Follow-up on an existing topic** (a later stage, an incident found during execution, a status
+change) — per `pipeline.md`'s topic-boundary test, not a new topic:
+
+1. Copy `template/log-entry.md` → `<slug>/log/NN-<slug>.md`, numbered sequentially — never edit
+   or delete a prior `log/` entry. If a later entry corrects an earlier claim, say so explicitly
+   in the new entry rather than rewriting the old one.
+2. Update `<slug>/maintenance-record.md`'s header **Status** field to the current truth (the
+   staleness bound in `pipeline.md` applies — this must happen in the same session, not later)
+   and add a row to its Pipeline Stage Log table linking the new entry.
+3. Run Prettier before finalizing.
+
+A genuinely different topic (different system, different root cause per `pipeline.md`'s
+topic-boundary test) gets its own new folder — this rule consolidates the _same_ topic's
+lifecycle, it does not merge unrelated maintenance work together.
 
 ---
 
