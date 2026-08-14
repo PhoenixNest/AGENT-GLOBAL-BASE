@@ -100,6 +100,7 @@ agent-memory/
 ├── scripts/              ← Disaster-recovery backup tooling for the JSONL memory log
 │   ├── backup_memory_log.py
 │   ├── register_backup_task.ps1
+│   ├── register_backup_task.py    ← Linux/macOS counterpart, unverified (2026-08-14)
 │   └── verify_backup_restore.py
 └── tests/
     ├── conftest.py
@@ -122,10 +123,16 @@ The environment is shared rather than per-server because `embedder_client.py` sp
 would depend on whichever server started it first. See `mcp-servers/CLAUDE.md` § Python Environment
 for the full rationale and the interpreter-resolution chain.
 
-Install/repair:
+Install/repair, from the repo root — the venv interpreter path differs by OS, everything else is
+identical:
+
+```bash
+# Linux/macOS
+core-component-00/mcp-servers/.venv/bin/python -m pip install -e core-component-00/mcp-servers/agent-memory
+```
 
 ```powershell
-# from the repo root
+# Windows
 core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install -e core-component-00\mcp-servers\agent-memory
 ```
 
@@ -133,14 +140,27 @@ core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install -e core-co
 
 ## Installation
 
+The `docker run` line continuation differs by shell (`` ` `` in PowerShell, `\` in bash/zsh) —
+everything else below is identical across platforms:
+
+```bash
+# Linux/macOS — start the dedicated qdrant-memory container (separate from qdrant-workspace)
+docker run -d --name qdrant-memory \
+  -p 6335:6333 -p 6336:6334 \
+  -v qdrant_memory_store:/qdrant/storage \
+  qdrant/qdrant
+```
+
 ```powershell
-# Start the dedicated qdrant-memory container (separate from qdrant-workspace)
+# Windows — start the dedicated qdrant-memory container (separate from qdrant-workspace)
 docker run -d --name qdrant-memory `
   -p 6335:6333 -p 6336:6334 `
   -v qdrant_memory_store:/qdrant/storage `
   qdrant/qdrant
+```
 
-# Or, if already created:
+```
+# Or, if already created (any OS):
 docker start qdrant-memory
 
 # Provision the embedding model into the shared cache (one-time; shared across CC-00 servers)
@@ -177,6 +197,16 @@ Registered in the project-root `.mcp.json`:
   }
 }
 ```
+
+`command` is a direct, absolute path to the shared venv's interpreter — not a bare command name
+resolved via `PATH`. A 2026-08-13 attempt to make this resolve automatically per-OS via
+`uv run` + `UV_PROJECT_ENVIRONMENT` broke live `/mcp reconnect` in production (the Claude Code host
+process resolves `PATH` from its own long-lived environment, which didn't include a `uv` installed
+after the host started) and was reverted — see
+`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`. **A
+Linux/macOS deployment must manually change this path's `Scripts/python.exe` to `bin/python`** —
+this is a documented one-line edit, not automatic; see
+`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
 
 The `NO_PROXY`/`no_proxy` pair works around a Windows-specific issue where `qdrant-client`'s
 HTTP transport can be intercepted by a system proxy invisible to the usual environment
@@ -302,11 +332,26 @@ failure class from the Qdrant-outage resilience already covered by
 (that document's zero-RPO guarantee assumes the JSONL log survives; these scripts cover what
 happens if it doesn't — disk failure, accidental deletion, host loss).
 
-| Script                     | Purpose                                                                                                                       |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `backup_memory_log.py`     | Snapshots `engineering/context-engineering/memory/` to a dated directory, keeping a rolling window of recent snapshots        |
-| `register_backup_task.ps1` | Registers a daily Windows Task Scheduler job to run the backup script                                                         |
-| `verify_backup_restore.py` | Replays a snapshot into a disposable test Qdrant collection via `rebuild_from_log()` and checks record counts, then cleans up |
+| Script                     | Purpose                                                                                                                                                                                                                                                     |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `backup_memory_log.py`     | Snapshots `engineering/context-engineering/memory/` to a dated directory, keeping a rolling window of recent snapshots                                                                                                                                      |
+| `register_backup_task.ps1` | Registers a daily Windows Task Scheduler job to run the backup script                                                                                                                                                                                       |
+| `register_backup_task.py`  | Linux/macOS counterpart — registers a systemd `--user` timer or crontab entry. **Written 2026-08-14, UNVERIFIED** — no non-Windows machine available to test against; see its own docstring and the maintenance-record log entry below before relying on it |
+| `verify_backup_restore.py` | Replays a snapshot into a disposable test Qdrant collection via `rebuild_from_log()` and checks record counts, then cleans up                                                                                                                               |
+
+`backup_memory_log.py` and `verify_backup_restore.py` are plain Python and already cross-platform.
+`register_backup_task.ps1` (Windows Task Scheduler) and `register_backup_task.py` (Linux systemd
+timer or crontab, macOS crontab only — launchd not implemented) are two separate scripts, not one
+ported implementation, since `Register-ScheduledTask`, `systemctl`, and `crontab` have no shared
+API to port between — see
+`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`
+for the full history of both.
+**Open gap, still not activated anywhere:** this whole DR-backup path is INACTIVE by default (see
+each script's own `STATUS` docstring) — nothing currently depends on either script running on any
+platform. `register_backup_task.py` exists now so the gap isn't indefinitely deferred, but it has
+never been run for real on Linux or macOS — confirm it actually registers and fires before treating
+it as DR-ready, and note the macOS launchd gap (cron is TCC-restricted on modern macOS) is still
+open.
 
 Full design, proposed RTO/RPO, and current status:
 `supporting/02-deployment-guidelines.md` §9 (merged there 2026-08-10 from the former standalone
