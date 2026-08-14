@@ -48,15 +48,34 @@ deterministic, and halves the disk cost of a ~2.7 GB CUDA torch.
 
 **How the interpreter is selected — three places must agree:**
 
-| Location                                       | Mechanism                                                                |
-| ---------------------------------------------- | ------------------------------------------------------------------------ |
-| `.mcp.json`                                    | `"command"` points at `.venv/Scripts/python.exe` (not bare `"python"`)   |
-| `embedder_client.py`                           | Inherits automatically via `sys.executable` — no configuration needed    |
-| `embedder-service/manage_embedder_service.ps1` | Resolves the shared venv explicitly; `EMBEDDER_SERVICE_PYTHON` overrides |
+| Location                                      | Mechanism                                                                                                                                                                                                                  |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.mcp.json`                                   | `"command"` points directly at the shared venv's interpreter — `.venv/Scripts/python.exe` on Windows, `.venv/bin/python` on Linux/macOS (not bare `"python"`, and not `"uv"` — see the 2026-08-13 incident note below)     |
+| `embedder_client.py`                          | Inherits automatically via `sys.executable` — no configuration needed                                                                                                                                                      |
+| `embedder-service/manage_embedder_service.py` | Resolves the shared venv explicitly, per-OS (`Scripts/python.exe` vs `bin/python`); `EMBEDDER_SERVICE_PYTHON` overrides. 2026-08-13 Python port of the former Windows-only `manage_embedder_service.ps1`, which is retired |
 
-> **A bare `"python"` anywhere in this chain is a defect.** It resolves via `PATH` to the system
-> interpreter, which silently (a) reintroduces a machine-wide dependency and (b) can start the
-> service on a CPU-only torch while everything else runs CUDA.
+> **A bare `"python"` — or `"uv"` — anywhere in this chain is a defect.** Both resolve via `PATH`
+> to whatever the spawning process's own environment happens to contain. `"python"` risks a
+> system-wide, possibly CPU-only interpreter. `"uv"` failed for a different reason on 2026-08-13:
+> the Claude Code host process spawns MCP servers using its own long-lived process environment,
+> which does not necessarily match a freshly-opened shell's `PATH` — a `uv` install added to the
+> user `PATH` after the host process started is invisible to it until the host itself restarts,
+> not just on `/mcp reconnect`. `.mcp.json`'s `"command"` must therefore be an absolute or
+> `${CLAUDE_PROJECT_DIR:-.}`-relative path to a concrete interpreter, never a bare command name
+> resolved via `PATH`. Full incident record:
+> `core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
+>
+> **Cross-platform consequence:** because `.mcp.json` cannot branch on OS, a single checked-in
+> file cannot auto-resolve both `Scripts/python.exe` (Windows) and `bin/python` (Linux/macOS)
+> without either a `PATH`-resolved indirection (proven unreliable above) or a hardcoded,
+> OS-specific literal (the current state). A Linux/macOS deployment of this workspace must edit
+> both `.mcp.json` entries' `"command"` to `${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/.venv/bin/python`
+> — a one-line, documented change per server, not an automatic one. This does not fully close the
+> original 2026-08-13 cross-platform finding
+> (`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`
+> item 1) — it downgrades it from "silently broken" to "requires one documented manual edit,"
+> which is the honest current state, not the "automatic" claim the same-day remediation record
+> made before this regression was found.
 
 **`sys.path` and `sys.executable` are not interchangeable.** Inserting a `site-packages` directory
 at `sys.path[0]` affects _imports in the current process only_ — it does not change
@@ -77,7 +96,13 @@ models occupy ~570 MB of VRAM. `pip install torch==2.13.0` is a
 **silent no-op** against an installed `+cpu` build because pip ignores the local version tag when
 base versions match; the local version must be pinned explicitly:
 
+```bash
+# Linux/macOS
+core-component-00/mcp-servers/.venv/bin/python -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+```
+
 ```powershell
+# Windows
 core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
 ```
 

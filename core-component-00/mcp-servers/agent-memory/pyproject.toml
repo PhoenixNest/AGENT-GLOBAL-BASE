@@ -13,6 +13,11 @@ dependencies = [
     "fastmcp>=3.2.4",
     "qdrant-client>=1.7.0,<2.0.0",
     "sentence-transformers>=5.6.0",
+    # Cross-platform process enumeration/termination for the sibling-cleanup
+    # scan in server.py (2026-08-13 psutil port, replacing a Windows-only
+    # powershell/Get-CimInstance/Stop-Process implementation) and for
+    # _shared/embedder-service/manage_embedder_service.py's orphan cleanup.
+    "psutil>=6.0.0",
     # Declared explicitly even though sentence-transformers depends on it, because the
     # wheel variant is what matters here and sentence-transformers does not select one.
     # This server embeds with all-MiniLM-L6-v2, which runs roughly 16x faster on batch

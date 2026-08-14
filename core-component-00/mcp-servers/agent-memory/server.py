@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 import threading
 import time
@@ -7,6 +6,7 @@ import traceback
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
+import psutil
 from fastmcp import FastMCP
 
 # Reuses the context-engineering module's memory implementation rather than
@@ -109,33 +109,82 @@ def _resolve_sibling_cleanup_min_age_s() -> float:
 _SIBLING_CLEANUP_MIN_AGE_S = _resolve_sibling_cleanup_min_age_s()
 
 
-def _build_sibling_match_filter_clause(
-    escaped_suffix: str, min_age: float, parent_pid: Optional[int]
-) -> str:
-    """The Where-Object filter clause used both by the real scan command and
-    by tests, so tests exercise the exact expression production runs rather
-    than a hand-duplicated copy. Conditions: (1) the (slash-normalized)
-    CommandLine ENDS WITH the script suffix -- not merely contains it
-    anywhere -- so a command line that references this file as one
-    argument among several (e.g. a pytest or lint invocation covering
-    multiple files) is never mistaken for a direct `python server.py`
-    launch; (2) old enough per min_age; (3) if parent_pid is not None,
-    shares this process's ParentProcessId, so a same-suffix process from a
-    different checkout or worktree (see _SELF_PARENT_PID) is never
-    matched. parent_pid=None omits condition (3) entirely -- used only by
-    the diagnostic count in _cleanup_stale_sibling_processes, never for
-    actual kill eligibility."""
-    clause = (
-        "$_.CommandLine -and "
-        "($_.CommandLine -replace '\\\\','/').TrimEnd().TrimEnd('\"').EndsWith('" + escaped_suffix + "') "
-        "-and ((Get-Date) - $_.CreationDate).TotalSeconds -gt " + repr(min_age)
-    )
-    if parent_pid is not None:
-        clause += " -and $_.ParentProcessId -eq " + repr(int(parent_pid))
-    return clause
+def _normalize_cmdline_arg(arg: str) -> str:
+    """Slash-unifies and trims a single cmdline argument so a Windows-style
+    absolute path and a POSIX-style relative one compare the same way --
+    the psutil-based equivalent of the former PowerShell scan's
+    `-replace '\\\\','/'` plus `.TrimEnd().TrimEnd('"')`."""
+    return arg.replace("\\", "/").strip().rstrip('"')
 
 
-def _diag_log_ppid_filtered_out_count(escaped_suffix: str, min_age: float) -> None:
+def _sibling_matches(
+    cmdline: List[str],
+    create_time: float,
+    ppid: int,
+    now: float,
+    relative_suffix: str,
+    min_age: float,
+    parent_pid: Optional[int],
+) -> bool:
+    """Cross-platform equivalent of the former PowerShell WHERE-clause
+    (_build_sibling_match_filter_clause). Conditions, unchanged from the
+    original: (1) the LAST cmdline argument (the launched script path) --
+    not a bare substring anywhere in the command line -- ends with the
+    workspace-relative server.py suffix, so a command line that references
+    this file as one argument among several (e.g. a pytest or lint
+    invocation covering multiple files) is never mistaken for a direct
+    `python server.py` launch; (2) old enough per min_age; (3) if
+    parent_pid is not None, shares this process's ParentProcessId, so a
+    same-suffix process from a different checkout or worktree (see
+    _SELF_PARENT_PID) is never matched. parent_pid=None omits condition
+    (3) entirely -- used only by the diagnostic count below, never for
+    actual kill eligibility. Pure Python, no subprocess -- testable on
+    every OS, unlike the PowerShell expression it replaces."""
+    if not cmdline:
+        return False
+    if not _normalize_cmdline_arg(cmdline[-1]).endswith(relative_suffix):
+        return False
+    if (now - create_time) <= min_age:
+        return False
+    if parent_pid is not None and ppid != parent_pid:
+        return False
+    return True
+
+
+def _iter_sibling_candidates():
+    """Isolated so tests can monkeypatch process iteration without reaching
+    into psutil internals. Skips any process psutil can't fully inspect
+    (already exited, permission-denied, zombie) rather than failing the
+    whole scan over one uninspectable process -- psutil.process_iter can
+    itself raise these mid-iteration, not just on individual .info access."""
+    for proc in psutil.process_iter(["pid", "ppid", "cmdline", "create_time"]):
+        try:
+            yield proc.info
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+
+
+def _scan_sibling_pids(relative_suffix: str, min_age: float, parent_pid: Optional[int]) -> List[int]:
+    """The actual scan, factored out so both the real kill-eligible scan and
+    the PPID-less diagnostic scan share one implementation."""
+    now = time.time()
+    return [
+        info["pid"]
+        for info in _iter_sibling_candidates()
+        if info["pid"] != _SELF_PID
+        and _sibling_matches(
+            info.get("cmdline") or [],
+            info.get("create_time") or 0.0,
+            info.get("ppid") if info.get("ppid") is not None else -1,
+            now,
+            relative_suffix,
+            min_age,
+            parent_pid,
+        )
+    ]
+
+
+def _diag_log_ppid_filtered_out_count(relative_suffix: str, min_age: float) -> None:
     """Only called when the full (suffix+age+ParentProcessId) scan finds
     nothing. Without this, "no stale siblings exist" and "siblings exist
     but no longer share this process's ParentProcessId" produce an
@@ -145,28 +194,13 @@ def _diag_log_ppid_filtered_out_count(escaped_suffix: str, min_age: float) -> No
     processes get terminated, and never raises -- a failure here only
     means the diagnostic count is skipped."""
     try:
-        clause = _build_sibling_match_filter_clause(escaped_suffix, min_age, parent_pid=None)
-        command = (
-            "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | "
-            "Where-Object { " + clause + " } | "
-            "Select-Object -ExpandProperty ProcessId"
+        other_ppid_count = len(
+            _call_with_hard_timeout(
+                lambda: _scan_sibling_pids(relative_suffix, min_age, parent_pid=None),
+                timeout=20.0,
+            )
+            or []
         )
-        proc = _call_with_hard_timeout(
-            lambda: subprocess.run(
-                ["powershell", "-NoProfile", "-NonInteractive", "-Command", command],
-                capture_output=True,
-                text=True,
-                timeout=15,
-            ),
-            timeout=20.0,
-        )
-        if proc is None or proc.returncode != 0:
-            return
-        other_ppid_count = len([
-            line
-            for line in proc.stdout.splitlines()
-            if line.strip().isdigit() and int(line.strip()) != _SELF_PID
-        ])
     except Exception:
         return
     if other_ppid_count:
@@ -182,7 +216,8 @@ def _cleanup_stale_sibling_processes() -> None:
     Terminates any other live process running this exact `server.py` before
     this instance proceeds. Mirrors the orphan-cleanup pattern already
     proven for embedder-service (manage_embedder_service.ps1 -Action
-    cleanup), applied here to agent-memory's own process.
+    cleanup / its 2026-08-13 manage_embedder_service.py port), applied here
+    to agent-memory's own process.
 
     Rationale (2026-08-09 live investigation, mcp-governance.md's
     agent-memory row): the MCP host does not always cleanly terminate a
@@ -204,25 +239,28 @@ def _cleanup_stale_sibling_processes() -> None:
 
     Matches on this script's workspace-root-relative path suffix
     (core-component-00/mcp-servers/agent-memory/server.py), normalized for
-    both forward and back slash separators, as a trailing-position match
-    (see _build_sibling_match_filter_clause) -- not a bare substring
-    anywhere in the command line, and not merely "agent-memory" -- so a
-    command line that only references this file among other arguments
-    (e.g. a test or lint run) is never mistaken for a direct launch of it.
-    That suffix alone is identical across every checkout of this workspace,
-    including git worktrees (CLAUDE.md section 6), so the match also
-    requires the candidate to share this process's ParentProcessId
-    (_SELF_PARENT_PID) -- scoping cleanup to siblings spawned by the same
-    host session, so a different checkout's or worktree's live server is
-    never killed by this one's cleanup, or vice versa.
+    both forward and back slash separators, as a trailing-position match on
+    the LAST cmdline argument (see _sibling_matches) -- not a bare
+    substring anywhere in the command line, and not merely "agent-memory"
+    -- so a command line that only references this file among other
+    arguments (e.g. a test or lint run) is never mistaken for a direct
+    launch of it. That suffix alone is identical across every checkout of
+    this workspace, including git worktrees (CLAUDE.md section 6), so the
+    match also requires the candidate to share this process's
+    ParentProcessId (_SELF_PARENT_PID) -- scoping cleanup to siblings
+    spawned by the same host session, so a different checkout's or
+    worktree's live server is never killed by this one's cleanup, or vice
+    versa.
 
     Only terminates a sibling once it is older than
     _SIBLING_CLEANUP_MIN_AGE_S, so two processes spawned seconds apart by
     the same reconnect never treat each other as stale and kill each other.
 
-    Windows-only (this workspace's primary platform, see CLAUDE.md section 1)
-    -- a no-op elsewhere. Never raises: any failure here must not prevent
-    this server from starting and serving.
+    Cross-platform via `psutil` (2026-08-13 -- previously Windows-only via
+    `powershell`/`Get-CimInstance`, a no-op elsewhere; see
+    core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md).
+    Never raises: any failure here must not prevent this server from
+    starting and serving.
 
     Gated by AGENT_MEMORY_ENABLE_SIBLING_CLEANUP (default true). Set to
     false by tests/conftest.py before this module is imported -- this
@@ -239,61 +277,31 @@ def _cleanup_stale_sibling_processes() -> None:
     ):
         _diag("sibling-cleanup: skipped (AGENT_MEMORY_ENABLE_SIBLING_CLEANUP=false)")
         return
-    if sys.platform != "win32":
-        _diag("sibling-cleanup: skipped (non-Windows platform)")
-        return
 
-    escaped_suffix = _AGENT_MEMORY_RELATIVE_SUFFIX.replace("'", "''")
+    relative_suffix = _AGENT_MEMORY_RELATIVE_SUFFIX
     min_age = _SIBLING_CLEANUP_MIN_AGE_S
-    scan_command = (
-        "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | "
-        "Where-Object { " + _build_sibling_match_filter_clause(escaped_suffix, min_age, _SELF_PARENT_PID) + " } | "
-        "Select-Object -ExpandProperty ProcessId"
-    )
+
     try:
-        proc = _call_with_hard_timeout(
-            lambda: subprocess.run(
-                ["powershell", "-NoProfile", "-NonInteractive", "-Command", scan_command],
-                capture_output=True,
-                text=True,
-                timeout=15,
-            ),
+        sibling_pids = _call_with_hard_timeout(
+            lambda: _scan_sibling_pids(relative_suffix, min_age, _SELF_PARENT_PID),
             timeout=20.0,
         )
     except Exception as exc:
         _diag(f"sibling-cleanup: process scan failed, skipping ({exc})")
         return
 
-    if proc is None or proc.returncode != 0:
-        _diag(f"sibling-cleanup: process scan unusable (returncode={getattr(proc, 'returncode', None)})")
-        return
-
-    try:
-        sibling_pids = [
-            int(line.strip())
-            for line in proc.stdout.splitlines()
-            if line.strip().isdigit() and int(line.strip()) != _SELF_PID
-        ]
-    except Exception as exc:
-        _diag(f"sibling-cleanup: failed to parse scan output ({exc})")
+    if sibling_pids is None:
+        _diag("sibling-cleanup: process scan unusable (timed out)")
         return
 
     if not sibling_pids:
         _diag(f"sibling-cleanup: no sibling processes older than {min_age:g}s found")
-        _diag_log_ppid_filtered_out_count(escaped_suffix, min_age)
+        _diag_log_ppid_filtered_out_count(relative_suffix, min_age)
         return
 
     for pid in sibling_pids:
         try:
-            subprocess.run(
-                [
-                    "powershell", "-NoProfile", "-NonInteractive", "-Command",
-                    f"Stop-Process -Id {pid} -Force -ErrorAction SilentlyContinue",
-                ],
-                capture_output=True,
-                text=True,
-                timeout=10,
-            )
+            psutil.Process(pid).kill()
             _diag(f"sibling-cleanup: terminated stale agent-memory process pid={pid}")
         except Exception as exc:
             _diag(f"sibling-cleanup: failed to terminate pid={pid} ({exc})")
