@@ -18,29 +18,63 @@ enforcer's own 15-minute stale-marker safety valve kicks in. It never takes the 
 
 import json
 import os
+import re
 import subprocess
 import sys
 
+# tool_response shape for AskUserQuestion isn't in the Claude Code hooks reference;
+# this matches the real shape observed in this workspace's own session transcripts.
+_QA_RE = re.compile(r'"([^"]+)"\s*=\s*"([^"]+)"')
 
-def _read_session_id():
+
+def _read_input():
     try:
         raw_input = sys.stdin.read()
     except Exception:
-        return ""
+        return None
 
     try:
         data = json.loads(raw_input)
     except Exception:
-        return ""
+        return None
 
     if not isinstance(data, dict):
-        return ""
+        return None
 
-    session_id = data.get("session_id", "")
-    if not session_id:
-        return ""
+    return data
 
-    return str(session_id)
+
+def _extract_selection_summary(data):
+    """Pull '<question> → <selected label>' pairs out of tool_response.
+    Returns None on any shape mismatch or error."""
+    try:
+        tool_response = data.get("tool_response")
+
+        text = None
+        if isinstance(tool_response, str):
+            text = tool_response
+        elif isinstance(tool_response, dict):
+            content = tool_response.get("content")
+            if isinstance(content, str):
+                text = content
+            elif isinstance(content, list):
+                parts = [
+                    block.get("text")
+                    for block in content
+                    if isinstance(block, dict) and isinstance(block.get("text"), str)
+                ]
+                text = "\n".join(parts) if parts else None
+
+        if not text:
+            return None
+
+        pairs = _QA_RE.findall(text)
+        if not pairs:
+            return None
+
+        return "; ".join(f"{question} → {answer}" for question, answer in pairs)
+    except Exception:
+        return None
 
 
 def _repo_root():
@@ -62,7 +96,11 @@ def _repo_root():
 
 
 def main():
-    session_id = _read_session_id()
+    data = _read_input()
+    if data is None:
+        sys.exit(0)
+
+    session_id = str(data.get("session_id") or "")
     if not session_id:
         sys.exit(0)
 
@@ -74,12 +112,27 @@ def main():
         repo_root, ".claude", "hooks", ".state", f"h-p01-pending-{session_id}.json"
     )
 
+    marker_existed = os.path.isfile(marker_path)
+
     try:
         os.remove(marker_path)
     except Exception:
         # Silent by design — mirrors `rm -f` / -ErrorAction SilentlyContinue: a missing
         # file, a permission error, etc. are all swallowed, never surfaced as a failure.
         pass
+
+    if marker_existed:
+        selection_summary = _extract_selection_summary(data)
+        if selection_summary:
+            try:
+                # hookSpecificOutput must be present alongside systemMessage on
+                # PostToolUse — some clients silently drop a bare systemMessage.
+                print(json.dumps({
+                    "systemMessage": f"[H-P01: {selection_summary}]",
+                    "hookSpecificOutput": {"hookEventName": "PostToolUse"},
+                }))
+            except Exception:
+                pass
 
     sys.exit(0)
 

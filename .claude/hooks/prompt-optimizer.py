@@ -226,31 +226,59 @@ set a preview field — that triggers a dual-pane panel that can truncate long t
 <step id="3" name="branch">
   <if_optimized>
   Print this block first — before any other sentence, tool call, or commentary — then execute
-  using it as the working brief. Leave a blank line before each `---` and between the two
-  bold lines — without it, Markdown's Setext-heading rule turns this block into an oversized
-  heading instead of normal bold text:
-    ---
+  using it as the working brief. Use an ATX header (`###`, not underlined text) for the title —
+  never end a paragraph with a bare `---` line, that triggers Markdown's Setext-heading rule
+  and produces an oversized heading. Leave a blank line between every element (header,
+  blockquote, table, closing rule):
+    ### Prompt Confirmed — Optimized
 
-    **Prompt selected:** Optimized
+    > <full optimized text>
 
-    **Working brief:** <full optimized text>
+    | Field | Detail |
+    |---|---|
+    | **Objective** | <one-line paraphrase of the task's goal> |
+    | **Constraint** | <key negations/must-haves carried over from the optimized text — omit this row entirely if none exist> |
+    | **Next** | <what happens now, e.g. "Producing the ranked findings list now"> |
 
     ---
   </if_optimized>
   <if_original>
   Print this block first — before any other sentence, tool call, or commentary — then ask
   {question_count} clarifying questions (one per missing dimension: {missing_str}), wait for
-  answers, and repeat from step 1. Leave a blank line before each `---` and between the two
-  bold lines — without it, Markdown's Setext-heading rule turns this block into an oversized
-  heading instead of normal bold text:
-    ---
+  answers, and repeat from step 1. Use an ATX header (`###`, not underlined text) for the title —
+  never end a paragraph with a bare `---` line, that triggers Markdown's Setext-heading rule
+  and produces an oversized heading. Leave a blank line between every element:
+    ### Prompt Confirmed — Original
 
-    **Prompt selected:** Original
+    > <full original text>
 
-    **Working brief:** <full original text>
+    | Field | Detail |
+    |---|---|
+    | **Objective** | <one-line paraphrase of the task's goal> |
+    | **Constraint** | <key negations/must-haves carried over from the original text — omit this row entirely if none exist> |
+    | **Next** | <what happens now, e.g. "Producing the ranked findings list now"> |
 
     ---
   </if_original>
+  <if_other>
+  If the user answered AskUserQuestion with custom typed text instead of picking either listed
+  option (its built-in "Other" choice), print this block first, then proceed using that typed
+  text as the working brief (no clarifying questions needed — it's a direct answer, not a
+  rejection of both options). Use an ATX header (`###`, not underlined text) for the title —
+  never end a paragraph with a bare `---` line, that triggers Markdown's Setext-heading rule
+  and produces an oversized heading. Leave a blank line between every element:
+    ### Prompt Confirmed — User Input
+
+    > <literal typed text>
+
+    | Field | Detail |
+    |---|---|
+    | **Objective** | <one-line paraphrase of the task's goal> |
+    | **Constraint** | <key negations/must-haves carried over from the typed text — omit this row entirely if none exist> |
+    | **Next** | <what happens now, e.g. "Producing the ranked findings list now"> |
+
+    ---
+  </if_other>
 </step>
 
 <example>
@@ -272,10 +300,7 @@ def _emit(additional_context: str, system_message: str = None) -> None:
             "additionalContext": additional_context,
         }
     }
-    # systemMessage is rendered directly to the user by the Claude Code harness,
-    # independent of whether the model relays additionalContext — used on the pass
-    # path (see _process) so a passing gate evaluation is never silently
-    # indistinguishable from the gate not having run at all.
+    # systemMessage is rendered directly to the user, independent of the model.
     if system_message is not None:
         output["systemMessage"] = system_message
     print(json.dumps(output))
@@ -283,13 +308,8 @@ def _emit(additional_context: str, system_message: str = None) -> None:
 
 def _emit_gate_required(data, prompt_str, score, missing) -> None:
     """Fail-path / fail-closed-fallback output: write the marker (best-effort) and print
-    the full confirmation-required additionalContext block.
-
-    Also sends a top-level systemMessage, in the same one-line bracketed format as the
-    pass-path fix, naming the specific missing dimensions — so users see immediately,
-    via the chat history, why the prompt fell short, independent of the model working
-    through the rest of the additionalContext confirmation flow.
-    """
+    the full confirmation-required additionalContext block, plus a systemMessage naming
+    the specific missing dimensions."""
     _write_marker_and_telemetry(data, prompt_str, score, missing)
     missing_str = ", ".join(missing) if missing else "none — all 5 dimensions satisfied"
     system_message = (
@@ -358,14 +378,6 @@ def _process(data, prompt_str) -> None:
     # --- Pass path: sh's authoritative behavior — passive advisory, no marker,
     # no telemetry, no confirmation required. See module docstring for why this port
     # follows .sh (not .ps1's "always confirm") on this specific divergence. ---------
-    #
-    # Visibility fix (2026-08-12): the advisory below is also sent as a top-level
-    # systemMessage, not just additionalContext. additionalContext alone made a passing
-    # evaluation indistinguishable from the gate never running — nothing instructed the
-    # model to relay it, so it silently went unseen. systemMessage is rendered directly
-    # to the user by the harness, independent of model behavior, without adding the
-    # confirmation friction the .ps1-era "confirm-and-append" pass-path treatment had
-    # (that approach is not being revived here — no marker, no AskUserQuestion on pass).
     if score >= THRESHOLD:
         msg = f"[H-P01: prompt met quality threshold ({score}/5), proceeding without confirmation]"
         _emit(msg, system_message=msg)
