@@ -1,13 +1,13 @@
 """
 Thin HTTP client for the shared embedder-service
 (core-component-00/mcp-servers/_shared/embedder-service/), used by both
-agent-memory and workspace-knowledge behind a feature flag (Phase 2 / Phase 4).
+agent-memory and workspace-knowledge behind a feature flag.
 
 Reuses the existing bounded-timeout-then-degrade pattern already established
 by `_call_with_hard_timeout` in
 context-engineering/implementations/memory_vector_store.py for Qdrant calls,
-rather than inventing a second timeout mechanism — per
-implementation-plan.md §3. `urllib.request.urlopen(timeout=...)` is generally
+rather than inventing a second timeout mechanism.
+`urllib.request.urlopen(timeout=...)` is generally
 reliable for plain HTTP, but the whole premise of this service is that even a
 library's own `timeout=` parameter has been observed not to be honored
 (memory_vector_store.py's QDRANT_CALL_TIMEOUT_S watchdog exists for exactly
@@ -63,7 +63,13 @@ PORT = int(os.getenv("EMBEDDER_SERVICE_PORT", "8791"))
 BASE_URL = f"http://{HOST}:{PORT}"
 
 HEALTH_PROBE_TIMEOUT_S = 1.5
-STARTUP_WAIT_TIMEOUT_S = 45.0
+# Was 45.0. Raised 2026-08-09 after live observation (mcp-governance.md's
+# agent-memory row): under real contention from multiple concurrent
+# agent-memory processes, a cold embedder-service launch took longer than
+# 45s to answer /health at least once, before succeeding shortly after on a
+# retry. 90s is not a guarantee, only a wider on-demand budget matched to
+# what has actually been observed, not a synthetic estimate.
+STARTUP_WAIT_TIMEOUT_S = 90.0
 LOCK_STALE_AFTER_S = 60.0
 EMBED_CALL_TIMEOUT_S = 8.0  # matches QDRANT_CALL_TIMEOUT_S's bound in memory_vector_store.py
 
@@ -100,9 +106,9 @@ def probe_health() -> bool:
 
 def _acquire_lock() -> bool:
     """Atomic first-consumer launch lock. os.O_CREAT|O_EXCL is atomic at the
-    OS level on both Windows and POSIX — the race Phase 0's review flagged
-    (two consumers probing the port simultaneously, both finding it free,
-    both spawning) is closed by this, not by the port-probe alone."""
+    OS level on both Windows and POSIX — the race where two consumers probe
+    the port simultaneously, both find it free, and both spawn a service is
+    closed by this, not by the port-probe alone."""
     _RUN_DIR.mkdir(parents=True, exist_ok=True)
     try:
         fd = os.open(str(_LOCK_FILE), os.O_CREAT | os.O_EXCL | os.O_WRONLY)

@@ -2,20 +2,14 @@
 Reflection Authoring — the Investigator-Authored Write Path
 
 The only sanctioned way to construct and persist a ReflectionRecord
-(implementations/memory_store.py). Per
-core-component-00/telescope/2026-07-14-reflexion-memory-system/supporting/
-01-technical-options.md §4, no MCP tool exists or should ever exist to let
-an agent call this write path directly ("Option A" was evaluated and
-rejected) — this module is a short, low-ceremony script a named human
-investigator runs directly, matching the "Investigator-Authored Write Path"
-("Option B") the CEO finalized.
+(implementations/memory_store.py). No MCP tool exists or should ever exist
+to let an agent call this write path directly — this module is a short,
+low-ceremony script a named human investigator runs directly.
 
-Identity enforcement — the actual security boundary, stated plainly (revised
-2026-07-16, after two rounds of implementation + adversarial review):
+Identity enforcement — the actual security boundary, stated plainly:
 
     FOR GOVERNANCE_TRIGGERS RECORDS (process_violation / defect_root_cause /
-    ase_exception_closure — the sacred=True-by-default category, and the
-    only category MISTAKE-001's Phase 3 migration will use), THE ACTUAL
+    ase_exception_closure — the sacred=True-by-default category), THE ACTUAL
     SECURITY BOUNDARY IS PROCEDURAL, NOT ANYTHING IN THIS FILE: genuine,
     live, in-transcript confirmation from the real human user (the CEO, or
     Dr. Vance under CEO-delegated authority, confirming directly in the
@@ -25,10 +19,7 @@ Identity enforcement — the actual security boundary, stated plainly (revised
     in this workspace for `.claude/hooks/` self-modification: a delegated
     agent was blocked from self-modifying hooks even with a relayed quote
     of the user's authorization, because consent must be present directly
-    in the transcript of whoever performs the action. See
-    supporting/03-deployment-guidelines.md's revised Phase 1 "done" gate and
-    REFLECT-003 (the memory_reflection collection's own MISTAKE-2026-07-16-001
-    record) for the full reasoning behind this pivot. Nothing below changes
+    in the transcript of whoever performs the action. Nothing below changes
     that.
 
     Why code alone cannot be the boundary: two full rounds of
@@ -94,13 +85,8 @@ Identity enforcement — the actual security boundary, stated plainly (revised
     any caller, not test-only in practice). Tests now monkeypatch the
     module-level constants directly (standard pytest pattern), matching how
     any other module-level policy constant in this codebase would be
-    tested.
-
-    Dr. Wieczorek's remaining role is scoped to confirming (a) these two
-    bounded fixes don't regress anything and (b) this docstring is honest —
-    not to further bypass-hunting, since code is no longer claimed as the
-    boundary (supporting/03-deployment-guidelines.md's revised Phase 1
-    "done" gate).
+    tested. Code is not claimed as the security boundary here — see
+    "Identity enforcement" above for what actually is.
 
 Usage (CLI):
     python reflection_authoring.py \\
@@ -347,9 +333,8 @@ def require_governance_confirmation(
     """
     For GOVERNANCE_TRIGGERS record types only (process_violation /
     defect_root_cause / ase_exception_closure — the sacred=True-by-default
-    category, and the only category MISTAKE-001's Phase 3 migration will
-    use): require the operator to type the literal reflection_id back at a
-    real interactive TTY prompt before authoring proceeds.
+    category): require the operator to type the literal reflection_id back
+    at a real interactive TTY prompt before authoring proceeds.
 
     Returns the confirmed reflection_id (not just None) so the caller
     (author_reflection()) can fold it into the IdentityVerification token's
@@ -406,9 +391,9 @@ def require_governance_confirmation(
     ask = prompt_fn if prompt_fn is not None else input
     typed = ask(
         f"This is a GOVERNANCE_TRIGGERS reflection ({trigger_type}) — sacred "
-        f"by default and will block Phase 3 migration gates. Type the "
-        f"reflection_id exactly to confirm you are a human operator "
-        f"authoring this record: "
+        f"by default and requires deliberate confirmation before it is "
+        f"authored. Type the reflection_id exactly to confirm you are a "
+        f"human operator authoring this record: "
     )
     if typed.strip() != reflection_id:
         raise HumanConfirmationRequiredError(

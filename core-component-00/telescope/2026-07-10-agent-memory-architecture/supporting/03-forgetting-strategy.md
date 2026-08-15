@@ -1,267 +1,268 @@
 # Forgetting Strategy — Human-Brain-Emulating Memory Decay for Qdrant-Backed Agent Memory
 
 > **Core Component 00 — Cross-Module Programme (Context Engineering × Retrieval-Augmented Generation)**
-> **Parent Report:** `../research-report.md`
-> **Audience:** Engineers implementing the memory maintenance/consolidation job.
-> **Last Updated:** 2026-07-10
-> **Knowledge basis:** Human-memory-science citations below were retrieved via live web search on
-> 2026-07-10 for this investigation (not solely from training-data recall); source URLs are
-> inline. See `research-report.md` § Methodology for the full source list.
+> **Parent Report:** [research-report.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md)
+> **Audience:** Written for a general audience, not just the engineers implementing this. If you
+> only want the short version, read § 1 and § 6.
+> **Last Updated:** 2026-08-10
+> **Knowledge basis:** every human-memory-science citation below was retrieved via live web search
+> on 2026-07-10 for this investigation, not from training-data recall. Source URLs are inline; the
+> full list is also in [00-sources-and-references.md](00-sources-and-references.md) § 3.
 
 ---
 
 ## 1. Why a Forgetting Strategy Is a Design Requirement, Not an Afterthought
 
-A memory store with no forgetting mechanism degrades in exactly the way Anthropic's own context
-engineering research warns against: as stored volume grows, retrieval precision falls even when
-storage capacity does not run out, because low-value records dilute the signal for every semantic
-query — the same "context rot" phenomenon Anthropic describes for context windows applies to a
-memory corpus at retrieval time (Anthropic Engineering, "Effective context engineering for AI
-agents," 2025-09-29, retrieved 2026-07-10). Anthropic's own memory-tool security guidance names
-this directly: developers should "periodically expire unaccessed memory files" (Claude Developer
-Platform, Memory tool docs, retrieved 2026-07-10). A CC-00 memory system without an explicit decay
-policy would violate that guidance by construction.
+Imagine a note-taking app that never let you delete or archive anything — every scrap you'd ever
+jotted down stayed pinned to the top, forever, with no way to tell important notes from clutter.
+Eventually you couldn't find anything, not because the notes were gone, but because there were too
+many of them competing for attention. A memory system for an AI agent has exactly the same
+problem: if it just accumulates everything forever with no sense of what matters more, search
+quality quietly gets worse over time even though nothing is technically "full." Anthropic's own
+engineering research calls this "context rot," and their own memory-tool guidance is blunt about
+the fix: developers should periodically expire memory that isn't being used. A memory system
+without an explicit forgetting policy would, by construction, ignore that advice.
 
-The brief additionally requires the strategy to **emulate the human brain**. This document
-therefore grounds every mechanism below in a specific, cited element of human memory science, and
-cross-validates each against how the benchmarked SOTA architectures already implement an analogous
-mechanism (`research-report.md` § Findings has the full comparison).
-
----
-
-## 2. The Governing Model: Multi-Store Decay With Rehearsal-Strengthened Retention
-
-**Human-memory basis:** the Atkinson–Shiffrin multi-store model separates sensory register,
-short-term/working memory, and long-term memory, with transfer between stores driven by attention
-and **rehearsal** (Wikipedia: Atkinson–Shiffrin memory model; SimplyPsychology, retrieved
-2026-07-10). The Ebbinghaus forgetting curve shows retention decaying exponentially — roughly 50%
-loss within 30 minutes, 70–80% within 24 hours absent reinforcement — and spaced repetition
-(review at increasing intervals) counteracts this, with a 254-study meta-analysis finding
-distributed practice outperforms massed practice by 10–30% (Whatfix; OmniSets, retrieved
-2026-07-10).
-
-**Direct system mapping:**
-
-| Human Memory Concept                      | CC-00 Memory System Equivalent                                                                                                                                                                           |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Sensory register                          | Not modeled — sub-turn signal has no persistence value                                                                                                                                                   |
-| Short-term / working memory               | `WorkingMemory` (in-process, cleared every turn — `memory_store.py`)                                                                                                                                     |
-| Long-term memory (attention + rehearsal)  | `memory_episodic` / `memory_semantic` Qdrant collections, entered via explicit `MemoryStore` writes (the "attention" step) and strengthened by retrieval (the "rehearsal" step, §3)                      |
-| Ebbinghaus exponential decay              | `decay_weight` recomputed on an exponential curve (§3), not linear                                                                                                                                       |
-| Spaced repetition strengthening retention | Each retrieval of a record resets/extends its decay curve (§3) — the "testing effect" analog already used by Generative Agents' recency-decay retrieval scoring (Park et al. 2023, retrieved 2026-07-10) |
+The original brief for this system also asked for something more specific than "add an expiry
+timer": it asked for a forgetting strategy that **emulates how a human brain actually works** —
+not because that's the only correct engineering choice, but because it was the explicit design
+goal. So every mechanism below is grounded in a specific, cited piece of human memory science, and
+cross-checked against how other well-known AI memory systems already implement something similar
+(the full comparison lives in `research-report.md` § Findings).
 
 ---
 
-## 3. Decay Formula
+## 2. The Governing Model: Memory Fades, But Reviewing It Slows the Fade
 
-Each memory record's `decay_weight` (schema in `01-technical-options.md` §3.1) is recomputed by the
-periodic maintenance job (`02-deployment-guidelines.md` §5), not on every read:
+**The human-memory basis:** psychology's classic "multi-store model" of memory (Atkinson &
+Shiffrin) describes information moving from a fleeting sensory impression, through short-term
+working memory, into long-term memory — and what actually makes that transfer happen is
+_attention_ and _rehearsal_ (repeated exposure). Separately, the well-known "Ebbinghaus forgetting
+curve" shows that unreinforced memories fade exponentially fast at first — roughly half of what
+you learn is gone within 30 minutes if you never revisit it, and 70–80% is gone within a day. But
+"spaced repetition" — reviewing something again at increasing intervals — dramatically slows that
+fade; a large body of research (a 254-study analysis) found spaced review outperforms cramming by
+10–30%.
+
+**How this maps onto the memory system:**
+
+| Human Memory Concept                                    | This System's Equivalent                                                                                                                                          |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A fleeting sensory impression                           | Not modeled — anything shorter than a full agent turn has no lasting value                                                                                        |
+| Short-term / working memory                             | `WorkingMemory` — exists only during the current turn, then is discarded                                                                                          |
+| Long-term memory (built through attention + repetition) | The durable memory collections, entered by an explicit write (the "attention" step) and reinforced every time they're retrieved again (the "rehearsal" step, § 3) |
+| Ebbinghaus's exponential fade                           | A record's "decay weight" is recalculated on an exponential curve (§ 3), not a straight-line countdown                                                            |
+| Spaced repetition slowing the fade                      | Every time a memory is retrieved, its resistance to future fading increases (§ 3) — directly modeled on how other AI memory systems already do this               |
+
+---
+
+## 3. The Decay Formula — How "Fading" Is Actually Calculated
+
+Once a day (by default — see [02-deployment-guidelines.md](02-deployment-guidelines.md) § 5), a scheduled job recalculates a
+"decay weight" for every memory record — a number from roughly 0 to 1 representing how strongly it
+should still count in search results:
 
 ```
 decay_weight(t) = importance × e^(-Δt / strength)
 
 where:
-  Δt       = time since last_accessed_at (or created_at if never accessed)
-  strength = base_strength × (1 + access_count × reinforcement_factor)
+  Δt       = time since the memory was last accessed (or created, if never accessed)
+  strength = a base value that grows the more often the memory has been retrieved
 ```
 
-- `importance` (0.0–1.0) is assigned at write time by a **lightweight heuristic keyed on
-  `event_type`/write context** — not an LLM call — so that assigning it adds no latency beyond the
-  embedding step already on the write path (`02-deployment-guidelines.md` §3, §7's <100ms p95
-  target). Starting mapping: `decision`/`commitment` → `1.0` (see §3.1, sacred and non-decaying
-  regardless); explicit user correction or stated preference → `0.7`; ordinary tool-result or
-  observation → `0.2`–`0.3`. This adapts Generative Agents' LLM-scored 1–10 importance rating (Park
-  et al. 2023, retrieved 2026-07-10) to a cheaper mechanism suited to a synchronous write path — the
-  _scoring method_ is borrowed in spirit (importance as a first-class signal), not the _scoring
-  cost_ (an LLM call per memory). A richer, LLM-judged importance reassessment is reserved for the
-  batch consolidation pass (§4), which already makes an LLM call and is not latency-sensitive in
-  the same way.
-- `strength` grows with `access_count` — every retrieval of a record extends how long it resists
-  decay before the next maintenance pass, directly implementing the spaced-repetition finding that
-  reinforcement through retrieval (not just elapsed time) governs retention (Whatfix; OmniSets,
-  retrieved 2026-07-10). This is the same principle Generative Agents encodes as an exponential
-  recency term recomputed relative to "game hours since last accessed" with decay factor 0.995
-  (Park et al. 2023, retrieved 2026-07-10); this system generalizes it with a per-record strength
-  parameter instead of a single global decay factor, so frequently-retrieved facts decay slower
-  than the global average rather than at a fixed population-wide rate.
-- `reinforcement_factor` and `base_strength` are deployment-tunable constants (§6); no single
-  correct value exists, mirroring the same "policy, not architectural invariant" conclusion the
-  Retrieval Freshness Guarantees programme reached for document staleness
-  (`patterns/index-sync-hooks.md`).
+- **`importance`** (a number from 0 to 1) is assigned the moment a memory is written, by a cheap,
+  rule-based check — not an AI judgment call, because that would add unwanted delay to every
+  single write. The starting rules: a decision or firm commitment → 1.0 (and, as § 3.1 explains,
+  exempt from fading entirely); an explicit correction or stated preference → 0.7; an ordinary
+  observation or tool result → 0.2–0.3. This borrows the _idea_ from a well-known AI-agent-memory
+  research project (Generative Agents, which scores importance with an AI call per memory) without
+  borrowing the _cost_ — a rule-based check adds essentially no delay, where an AI call per write
+  would. A richer, AI-judged reassessment of importance is possible in principle during the batch
+  maintenance pass, which already makes AI calls for other reasons (§ 4) and isn't time-sensitive
+  the way a live write is — see § 3.2 for why that hasn't been pursued yet.
+- **`strength`** grows every time a memory is retrieved — this is the literal implementation of
+  "reviewing something makes it stick," the spaced-repetition finding from § 2. A frequently-used
+  fact therefore fades slower than the population average, rather than everything fading at one
+  fixed, global rate.
+- The exact numbers (`reinforcement_factor`, `base_strength`) are deployment-tunable settings, not
+  fixed truths — there's no single "correct" value in the research literature; picking one is a
+  policy decision the workspace makes for itself, the same way it already treats similar tuning
+  choices elsewhere.
 
-### 3.1 Sacred Exemption — the "Flashbulb Memory" Analog
+**Implementation status (audited 2026-08-10): this formula and every one of its default constants
+are implemented exactly as designed** — confirmed directly against the running code. Nothing in
+this section describes aspirational behavior; this is what actually runs today.
 
-Records with `sacred = true` (decisions/commitments, per `EpisodicMemory.SACRED_EVENT_TYPES` in
-`memory_store.py`) are **exempt from this formula entirely** — `decay_weight` is pinned at `1.0`
-and `status` remains `"active"` indefinitely. This is not merely a carry-over of the existing
-sacred-context invariant; it has a direct human-memory analog: emotionally salient events undergo
-amygdala-mediated priority consolidation, producing memories that are unusually resistant to
-forgetting (the "flashbulb memory" effect) — mechanistically, amygdala activation via
-noradrenergic/adrenal signaling biases the hippocampus toward prioritizing that event for long-term
-consolidation and suppresses competing processing during the consolidation window (PNAS, "Making
-lasting memories"; PMC, "Amygdala and prioritization of declarative memories," retrieved
-2026-07-10). A user's explicit decision is this system's equivalent of a high-salience event —
-importance is not merely high, it is maximal and non-decaying by design.
+### 3.1 The Exception: Some Memories Never Fade
 
-### 3.2 Local LLM Options for a Richer Importance Reassessment — Reference Only, Not Adopted
+A memory marked as "sacred" (a decision or firm commitment — the exact same rule already used
+elsewhere in this workspace's memory code) is **completely exempt** from the formula above: its
+decay weight is permanently pinned at 1.0 and it's always treated as fully active.
 
-§3 notes that a richer, LLM-judged importance reassessment (beyond the write-time heuristic) was
-considered as a possible future enhancement. This subsection records that discussion and the
-resulting decision.
+This isn't just a convenience carve-out — it has a genuine basis in how human memory actually
+works. Emotionally significant events get a kind of VIP treatment in the brain: the amygdala (the
+brain's salience-detector) biases the hippocampus toward prioritizing that specific memory for
+long-term storage, and suppresses competing processing while it does — the mechanism behind
+so-called "flashbulb memories," the vivid, unusually durable memories people form of significant
+personal or historic moments. A user's explicit decision is this system's version of a
+high-salience event: not just _high_ importance, but _maximal and permanent_ importance, by
+design.
 
-**Decision: deferred.** Given this workspace's current hardware capability (single RTX 4060, 8GB
-VRAM, shared with the embedding model and document-RAG pipeline), the CEO has decided to forgo
-introducing local-LLM-based importance scoring for the time being. The write-time heuristic in §3
-remains the standing design — this subsection is reference material for if/when this decision is
-revisited, not a specification of current or planned behavior.
+### 3.2 A Possible Future Upgrade — Not Adopted, Recorded for Later
 
-**Options considered, for reference:**
+§ 3 mentions that a richer, AI-judged importance reassessment (beyond the cheap write-time rule)
+was considered. This is where that discussion, and the decision that came out of it, is recorded.
 
-| Option                                           | Fit for This Job                                                                                                                                                    | Note                                                                                                                   |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Kimi K2.6 14B (Q4_K_M, ~3.8GB VRAM)              | Already vetted for this hardware profile; lowest VRAM and fastest inference among models in the workspace's existing coding-model reference                         | Reuses already-validated infrastructure — no new model to vet — but sized for coding tasks, not classification/scoring |
-| Smaller ~3B-class general-purpose instruct model | Better task-fit for a lightweight classification/scoring job (not code generation); smaller VRAM footprint than any option in the existing coding-focused reference | Not currently vetted in this workspace — would need its own evaluation pass if pursued later                           |
+**Decision: not pursued for now.** Given this workspace's current hardware (a single consumer GPU,
+shared with the embedding model and the document-search pipeline), the CEO decided against adding
+a local-AI-model-based importance scorer for the time being. The write-time rule in § 3 remains
+the actual, current design — this subsection exists purely as a reference in case the decision is
+ever revisited, not as a plan or a promise.
 
-**Source and its limits:** these options were discussed against
-`retrieval-augmented-generation/deployment/full-stack/reference/model-comparison-2026.md`, this
-workspace's existing local-model reference for the RTX 4060 / i9-13900H hardware profile. That
-document is scoped to coding tasks (HumanEval, SWE-bench), not the classification/summarization
-jobs relevant here, and several of its named models/benchmarks fall outside independent
-verification at the time of this discussion — treat its specific figures with that caveat if this
-subsection is revisited.
+**What was actually discussed, for reference:** a small locally-run language model already vetted
+for this hardware in a different context (coding tasks) was considered, but is sized and tuned for
+code generation, not the very different job of classifying or scoring text. A smaller,
+general-purpose model would likely fit the job better but hasn't been evaluated in this workspace
+at all. Either way, this was a "someday, maybe" discussion, not a commitment.
 
-**What this does not change:** the contradiction check (§5) and consolidation summarization (§4)
-already make LLM calls in the batch maintenance pass — that was decided independently of this
-subsection and is unaffected by it. This subsection is specifically about the _optional, not yet
-adopted_ richer importance-reassessment enhancement, nothing else.
+**What this doesn't affect:** the contradiction check (§ 5) and the consolidation step (§ 4) below
+already make AI calls as part of the batch maintenance pass — that was decided independently and
+has nothing to do with this subsection.
 
 ---
 
-## 4. Consolidation — Episodic → Semantic Promotion
+## 4. Consolidation — Turning Repeated Experience Into a Durable Fact
 
-**Human-memory basis:** systems consolidation theory holds that hippocampally-dependent episodic
-traces are gradually transformed into hippocampus-independent, neocortical representations,
-substantially mediated by memory reactivation during sleep (slow-wave sleep, with coupled
-cortical slow oscillations, thalamocortical spindles, and hippocampal sharp-wave ripples). This
-transfer characteristically **strips contextual/episodic detail and yields gist-based, fact-like
-semantic representation** (PMC, "Sleep-dependent consolidation model"; PMC, "Memory Consolidation";
-Springer, "System consolidation during sleep," retrieved 2026-07-10).
+**The human-memory basis:** according to systems-consolidation theory, detailed episodic memories
+(the kind that remember a specific moment) gradually get transformed into more general,
+fact-like semantic memories (the kind that just remember "this is true," without the surrounding
+detail) — a transfer believed to happen substantially during sleep, through a specific
+neural replay process between the hippocampus and the cortex. Critically, this transfer
+**strips away the specific contextual detail and keeps only the generalizable gist.**
 
-**System mapping — the maintenance job's consolidation step:**
+**How this maps onto the memory system:**
 
-1. Scan `memory_episodic` records (scoped per session) with cumulative
-   `importance × access_count` exceeding a threshold — directly modeled on Generative Agents'
-   reflection trigger, which fires when the summed importance of recent records crosses 150,
-   occurring roughly 2–3 times per simulated day (Park et al. 2023, retrieved 2026-07-10).
-2. Synthesize the qualifying episodic cluster into a single distilled semantic fact via an LLM
-   summarization call (reusing `ContextCompressor`'s summarization path,
-   `context-engineering/implementations/context_compressor.py`), discarding session-specific detail
-   and retaining the generalizable conclusion — this is the direct implementation of the
-   detail-stripping, gist-forming episodic→semantic transformation cited above.
-3. Write the result to `memory_semantic` with `consolidated_from` populated with the source
-   episodic record IDs — preserving provenance exactly as Generative Agents' reflection objects
-   store pointers back to the evidence records that produced them (Park et al. 2023, retrieved
-   2026-07-10), and as this workspace's append-only telescope convention preserves history rather
-   than overwriting it.
-4. The source episodic records are **not deleted** at consolidation time — they transition toward
-   normal decay (§3) independently. Consolidation creates a new semantic record; it does not
-   destroy the episodic one. This mirrors standard consolidation theory's observation that some
-   remote episodic detail can remain independently retrievable even after semantic consolidation
-   (PMC, "Memory Consolidation," retrieved 2026-07-10) — consolidation is additive, not a
-   move-and-delete operation.
+1. The maintenance job scans a session's episodic memories for ones whose combined
+   "importance times how-often-retrieved" score crosses a threshold (150, by default) — a number
+   borrowed directly from the same Generative Agents research cited in § 3, where it triggers
+   roughly two to three times per simulated day.
+2. When that threshold is crossed, an AI summarization call condenses the qualifying cluster of
+   episodic memories into one new, distilled semantic fact — discarding session-specific detail
+   and keeping the generalizable conclusion. This is the direct software equivalent of the
+   detail-stripping, gist-forming transfer described above.
+3. The new fact records exactly which original episodic memories it was built from, so the
+   provenance is never lost — mirroring both the cited research (which does the same) and this
+   workspace's own general habit of preserving history rather than overwriting it.
+4. **The original episodic memories are not deleted** when this happens. They keep fading on their
+   own separate decay schedule (§ 3), independently of the new fact that was distilled from them.
+   Consolidation adds a new record; it never removes the old ones — this matches the observation
+   that some detailed episodic memory can remain independently recallable even after the gist has
+   been consolidated into semantic memory.
 
-Consolidation should run on the same maintenance cadence as decay recomputation (once per real-world
-day is the recommended default — `02-deployment-guidelines.md` §5 — echoing the sleep-consolidation
-cadence this mechanism is modeled on).
+**Implementation status (audited 2026-08-10): implemented exactly as designed**, including the
+150-point trigger threshold — confirmed directly against the running code.
 
 ---
 
-## 5. Forgetting — Status Transitions, Not Immediate Deletion
+## 5. Forgetting — A Change in Status, Not an Instant Deletion
 
-**Human-memory basis:** the better-supported account of everyday forgetting is **interference**,
-not mere time-based decay — specifically **retroactive interference**, where new information
-degrades retrieval of older, related memories (Wikipedia, "Interference theory"; SimplyPsychology,
-"Proactive & Retroactive Interference," retrieved 2026-07-10). Forgetting is therefore modeled here
-as something that happens _because new, conflicting information arrived_, not only because time
-passed.
+**The human-memory basis:** the best-supported explanation for everyday forgetting isn't simply
+"time passed" — it's **interference**: specifically, _retroactive_ interference, where new,
+related information makes it harder to recall something older. In other words, people tend to
+forget things _because something new came along and conflicted with it_, not just because a clock
+ran out.
 
-**System mapping — contradiction-driven invalidation before decay-driven archival:**
+**How this maps onto the memory system — two separate mechanisms:**
 
-1. **Check for contradiction during the maintenance pass, not synchronously at write time.** A new
-   `memory_semantic` fact is written immediately as `active` — the write path only embeds and
-   upserts (`02-deployment-guidelines.md` §3); it does not block on a contradiction check, because
-   that check requires an LLM judgment call and the write path's <100ms p95 target
-   (`02-deployment-guidelines.md` §7) assumes embedding latency only. At the next maintenance pass
-   (same cadence as decay recomputation and consolidation, §4), retrieve existing facts above a
-   similarity threshold for every fact written since the last pass, and use an LLM judgment step to
-   classify the relationship as one of `ADD` (genuinely new, no conflict) / `UPDATE` (supersedes an
-   existing fact) / `NOOP` (duplicate, no action) — the same three-way decision Mem0's "Updater"
-   makes over retrieved candidate memories (Dwarves Memo, "Mem0 breakdown," retrieved 2026-07-10).
-   Deferring this check to batch trades a short window — bounded by the maintenance cadence —
-   during which a newly-contradicted older fact may still be returned by retrieval, for a bounded
-   write path. This is the same latency-vs-freshness trade already made explicit for document
-   retrieval in this workspace (`patterns/index-sync-hooks.md` — staleness is "a policy decision,
-   not an architectural invariant"), applied here to write-time correctness instead of read-time
-   freshness.
-2. **On `UPDATE`, invalidate — do not delete.** The superseded record's `status` is set to
-   `"archived"` and it is excluded from active retrieval, but the record itself is retained in the
-   JSONL log (`01-technical-options.md` §2, Memory-as-Corpus). This directly follows Zep/Graphiti's
-   bi-temporal fact-invalidation model: rather than deleting a contradicted edge, its validity
-   interval is closed (`t_invalid` set) while the fact remains queryable for historical/audit
-   purposes, and only the currently-valid fact is returned for present-tense queries (Zep arXiv
-   paper, arXiv:2501.13956; Neo4j blog, "Graphiti," retrieved 2026-07-10). This is retroactive
-   interference implemented as an explicit, auditable state transition instead of silent
-   overwrite — consistent with this workspace's append-only archival ethos
-   (`telescope/CLAUDE.md` § Rules) and its git-safety convention against unconfirmed destructive
-   operations.
-3. **On decay alone (§3), transition through two soft states before any hard deletion is even
-   possible:** `active → dormant` when `decay_weight` falls below `0.5` (excluded from default
-   semantic retrieval but still directly queryable by ID — the "weakened synapse, not yet pruned"
-   state); `dormant → archived` when `decay_weight` falls below `0.15` **and** the record has had
-   no access for a configurable grace period (default 30 days) — fully excluded from all retrieval
-   tiers, though still present in the JSONL log and therefore still recoverable.
-4. **Hard deletion (physical removal from the JSONL log) is never automatic.** It requires an
-   explicit operator-confirmed garbage-collection pass, consistent with this workspace's standing
-   rule to escalate before irreversible operations. This is a deliberate, documented divergence
-   from a literal biological analog (synaptic pruning is not human-reversible) in favor of the
-   workspace's safety posture — noted explicitly in `06-self-review-and-evaluation.md` rather than
-   left as a silent inconsistency.
+### 5.1 Contradiction Checking (Built, Currently Switched Off)
+
+The idea: when a new durable fact is written, check whether it conflicts with something already
+stored, and if so, mark the older one as superseded rather than just letting two contradictory
+facts sit side by side. This is checked in a periodic batch pass, not at the moment of writing —
+a new fact is saved immediately and only classified against older facts later, because that
+classification needs an AI judgment call, and putting an AI call on the fast write path would slow
+down every single write for a check that doesn't need to happen instantly.
+
+The classification step sorts each new fact against similar existing ones into: genuinely new
+(no conflict), an update (it supersedes an existing fact), or a duplicate (no action needed) — the
+same three-way decision a well-known AI memory framework (Mem0) makes over its own retrieved
+candidates. When something is classified as an update, the older, superseded fact is marked
+**archived — never deleted.** It's simply excluded from normal search results going forward, while
+the record itself is kept, exactly the same "close the validity window, don't erase the fact"
+pattern another well-known system (Zep/Graphiti) uses for its own knowledge graph. This is
+retroactive interference, implemented as a visible, reviewable state change instead of a silent,
+untraceable overwrite.
+
+**Implementation status (audited 2026-08-10): built, but deliberately not active.** The
+classification code exists and works correctly in isolation. But a 2026-07-12 adversarial safety
+test found a serious problem: it flagged genuinely new, unrelated facts as "contradicting" existing
+ones **100% of the time** in testing — and confirmed two concrete ways someone could exploit that
+flaw to feed false information into memory (a "memory poisoning" attack) or exploit a timing race
+between two near-simultaneous writes. Because of that finding, the maintenance job's code requires
+a human to explicitly confirm "I have reviewed and accepted this mechanism is safe" before it will
+ever run this step — and that confirmation has deliberately not been given. In practice: **no
+contradiction checking happens in production today.** New facts are written and simply coexist,
+without automatic conflict detection, until this is remediated and re-tested. Full detail:
+[research-report.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md) § Contradiction-Check Adversarial Evaluation.
+
+### 5.2 Decay-Driven Status Changes (Built and Active)
+
+Separately from contradiction checking, every record moves through a status ladder purely based on
+how much it's faded (§ 3) — this part **is** live:
+
+- **Active → Dormant**, once decay weight drops below 0.5 — excluded from normal search, but still
+  directly retrievable if something specifically asks for it by ID. Think of it as "a weakened
+  connection, not yet pruned."
+- **Dormant → Archived**, once decay weight drops below 0.15 **and** the record hasn't been
+  accessed for a grace period (30 days by default) — now excluded from every search tier, though
+  it's still sitting in the underlying log file and could still be recovered.
+- **Archived → actually deleted**, is a step that **never happens automatically**, at any decay
+  level. Physically removing a record from the log file requires a human to explicitly confirm it.
+
+This is a deliberate, disclosed departure from strict biological realism — actual synaptic pruning
+in a real brain isn't reversible, but this system chooses safety and reversibility over a perfectly
+faithful analogy, because accidentally, permanently losing data is a much worse outcome here than
+being slightly less brain-like.
 
 ---
 
 ## 6. Tunable Constants (Deployment Defaults)
 
-| Constant                         | Default                                                    | Basis                                                                                                                                                                                                                           |
-| -------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base_strength`                  | 7 days                                                     | Order-of-magnitude anchor between Ebbinghaus's hours-scale initial decay and a persistent fact's intended cross-session lifespan                                                                                                |
-| `reinforcement_factor`           | 0.5 per access                                             | Each retrieval extends effective strength by 50% — tunable; no canonical value exists in the cited literature, this is a deployment policy choice                                                                               |
-| Dormant threshold                | `decay_weight < 0.5`                                       | Matches the "weakened, not gone" framing of interference-driven forgetting rather than a hard cliff                                                                                                                             |
-| Archival threshold               | `decay_weight < 0.15` AND 30-day access grace period       | Conservative — errs toward retaining borderline records, consistent with §5's bias against irreversible loss                                                                                                                    |
-| Reflection/consolidation trigger | cumulative `importance × access_count` ≥ 150 (per session) | Directly reused from Generative Agents' empirically-tuned threshold (Park et al. 2023, retrieved 2026-07-10) as a starting point; recalibrate against this workspace's actual session lengths after the first deployment period |
+| Setting                  | Default                                                    | Why This Value                                                                                                                                                              |
+| ------------------------ | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Base strength            | 7 days                                                     | A rough middle ground between the Ebbinghaus curve's hours-scale initial fade and how long a persistent fact is meant to stay useful across sessions                        |
+| Reinforcement per access | +50% strength each time retrieved                          | Tunable — there's no single canonical value in the cited research; this is a deployment policy choice                                                                       |
+| Dormant threshold        | Decay weight below 0.5                                     | Matches the "weakened, not gone" framing rather than a hard cutoff                                                                                                          |
+| Archive threshold        | Decay weight below 0.15, and unused for 30+ days           | Deliberately conservative — errs toward keeping borderline records rather than losing them                                                                                  |
+| Consolidation trigger    | Combined importance × access-count reaches 150 per session | Reused directly from the Generative Agents research as a starting point; worth recalibrating against this workspace's own real session lengths once enough real data exists |
 
-These are starting defaults, not validated thresholds — validating them against real session data
-is listed as an open question in `research-report.md` § Open Questions.
+**These are starting defaults, not validated thresholds.** Confirming they behave well against real
+usage data remains an open question tracked in `research-report.md` § Open Questions — this rewrite
+doesn't change that status, it just makes the numbers themselves easier to find and verify against
+the live code (§ 3, § 4).
 
 ---
 
 ## References
 
-| Resource                                                                                | Role                                                                                        |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `research-report.md` § Findings                                                         | Full architecture-by-architecture benchmark comparison                                      |
-| `01-technical-options.md` §2–3                                                          | Payload schema fields this document mutates (`decay_weight`, `status`, `consolidated_from`) |
-| `context-engineering/implementations/memory_store.py`                                   | `SACRED_EVENT_TYPES`, existing sacred-context exemption this document extends               |
-| `context-engineering/implementations/context_compressor.py`                             | Summarization primitive reused for consolidation (§4)                                       |
-| Anthropic Engineering, "Effective context engineering for AI agents" (2025-09-29)       | Context rot / attention budget framing (§1) — retrieved 2026-07-10                          |
-| Claude Developer Platform, Memory tool docs                                             | "Periodically expire unaccessed memory files" guidance (§1) — retrieved 2026-07-10          |
-| Park et al., "Generative Agents: Interactive Simulacra of Human Behavior" (2023, ar5iv) | Importance scoring, recency decay, reflection mechanism (§3–4) — retrieved 2026-07-10       |
-| Mem0 breakdown (Dwarves Memo)                                                           | ADD/UPDATE/DELETE/NOOP consolidation decision (§5) — retrieved 2026-07-10                   |
-| Zep temporal knowledge graph paper (arXiv:2501.13956) / Neo4j Graphiti blog             | Bi-temporal fact invalidation (§5) — retrieved 2026-07-10                                   |
-| Wikipedia, "Atkinson–Shiffrin memory model"; SimplyPsychology                           | Multi-store model (§2) — retrieved 2026-07-10                                               |
-| Whatfix; OmniSets — Ebbinghaus curve / spaced repetition                                | Exponential decay, rehearsal strengthening (§2–3) — retrieved 2026-07-10                    |
-| PMC, "Sleep-dependent consolidation model"; "Memory Consolidation"; Springer            | Episodic→semantic consolidation (§4) — retrieved 2026-07-10                                 |
-| Wikipedia, "Interference theory"; SimplyPsychology                                      | Retroactive/proactive interference (§5) — retrieved 2026-07-10                              |
-| PNAS, "Making lasting memories"; PMC, amygdala prioritization                           | Salience-weighted, non-decaying retention (§3.1) — retrieved 2026-07-10                     |
+| Resource                                                                                                                                               | Role                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `research-report.md` § Findings                                                                                                                        | Full architecture-by-architecture comparison against other AI memory systems                              |
+| [01-technical-options.md](01-technical-options.md) §§ 2–3                                                                                              | The record fields this document changes over time (`decay_weight`, `status`, `consolidated_from`)         |
+| [00-sources-and-references.md](00-sources-and-references.md) § 6                                                                                       | Full implementation-status audit for every mechanism in this document                                     |
+| [research-report.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md) § Contradiction-Check Adversarial Evaluation | The safety test that found the contradiction-check flaw described in § 5.1                                |
+| `context-engineering/implementations/memory_store.py`, `memory_maintenance.py`                                                                         | The actual code implementing everything in §§ 3–5                                                         |
+| `context-engineering/implementations/context_compressor.py`                                                                                            | The summarization tool reused for consolidation (§ 4)                                                     |
+| Anthropic Engineering, "Effective context engineering for AI agents" (2025-09-29)                                                                      | "Context rot" framing (§ 1) — retrieved 2026-07-10                                                        |
+| Claude Developer Platform, Memory tool docs                                                                                                            | "Periodically expire unaccessed memory files" guidance (§ 1) — retrieved 2026-07-10                       |
+| Park et al., "Generative Agents: Interactive Simulacra of Human Behavior" (2023, ar5iv)                                                                | Importance scoring, recency decay, the reflection/consolidation mechanism (§§ 3–4) — retrieved 2026-07-10 |
+| Mem0 architecture breakdown (Dwarves Memo)                                                                                                             | The new/update/duplicate consolidation decision (§ 5) — retrieved 2026-07-10                              |
+| Zep temporal knowledge graph paper (arXiv:2501.13956) / Neo4j Graphiti blog                                                                            | Mark-don't-delete fact invalidation (§ 5) — retrieved 2026-07-10                                          |
+| Wikipedia, "Atkinson–Shiffrin memory model"; SimplyPsychology                                                                                          | The multi-store model (§ 2) — retrieved 2026-07-10                                                        |
+| Whatfix; OmniSets — Ebbinghaus curve / spaced repetition                                                                                               | Exponential decay, rehearsal strengthening (§§ 2–3) — retrieved 2026-07-10                                |
+| PMC, "Sleep-dependent consolidation model"; "Memory Consolidation"; Springer                                                                           | Episodic-to-semantic consolidation (§ 4) — retrieved 2026-07-10                                           |
+| Wikipedia, "Interference theory"; SimplyPsychology                                                                                                     | Retroactive / proactive interference (§ 5) — retrieved 2026-07-10                                         |
+| PNAS, "Making lasting memories"; PMC, amygdala prioritization                                                                                          | Salience-weighted, non-fading retention (§ 3.1) — retrieved 2026-07-10                                    |
 
 ---
 

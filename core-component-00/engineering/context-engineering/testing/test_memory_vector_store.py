@@ -24,10 +24,13 @@ from implementations.memory_vector_store import (
     MemorySyncState,
     PersistentMemorySink,
     QdrantMemoryIndex,
+    SearchOutcome,
+    bm25_rank_ids,
     check_reachable,
     compute_dormant_ratio,
     compute_memory_instance_telemetry,
     compute_write_time_importance,
+    keyword_search_log,
 )
 
 
@@ -508,3 +511,204 @@ class TestComputeMemoryInstanceTelemetry:
         result = compute_memory_instance_telemetry(client=None, indices={})
         assert result["point_counts"] == {}
         assert result["dormant_ratio"] == 0.0
+
+
+# ---------------------------------------------------------------------------
+# Tier 3 — search_with_status() (the degraded-signal QdrantMemoryIndex.search()
+# never exposed) and keyword_search_log() (05-disaster-recovery-and-resilience.md § 3)
+# ---------------------------------------------------------------------------
+
+class TestSearchWithStatus:
+    def test_no_client_reports_degraded_true(self):
+        index = QdrantMemoryIndex("semantic", client=None, embedder=_embedder)
+        outcome = index.search_with_status("query")
+        assert outcome.degraded is True
+        assert outcome.records == []
+        assert "not configured" in outcome.reason
+
+    def test_no_embedder_reports_degraded_true(self):
+        index = QdrantMemoryIndex("semantic", client=MagicMock(), embedder=None)
+        outcome = index.search_with_status("query")
+        assert outcome.degraded is True
+
+    def test_success_reports_degraded_false(self):
+        client = MagicMock()
+        client.query_points.return_value = MagicMock(points=[])
+        index = QdrantMemoryIndex("semantic", client=client, embedder=_embedder)
+        outcome = index.search_with_status("query")
+        assert outcome.degraded is False
+        assert outcome.reason is None
+        assert outcome.records == []
+
+    def test_connection_error_reports_degraded_true_with_reason(self):
+        client = MagicMock()
+        client.query_points.side_effect = ConnectionError("qdrant-memory unreachable")
+        index = QdrantMemoryIndex("semantic", client=client, embedder=_embedder)
+        outcome = index.search_with_status("query")
+        assert outcome.degraded is True
+        assert "unreachable" in outcome.reason
+
+    def test_timeout_reports_degraded_true_with_reason(self, monkeypatch):
+        import implementations.memory_vector_store as mvs
+
+        def _raise_timeout(fn, timeout=None):
+            import concurrent.futures
+
+            raise concurrent.futures.TimeoutError("simulated timeout")
+
+        monkeypatch.setattr(mvs, "_call_with_hard_timeout", _raise_timeout)
+        index = QdrantMemoryIndex("semantic", client=MagicMock(), embedder=_embedder)
+        outcome = index.search_with_status("query")
+        assert outcome.degraded is True
+        assert "timed out" in outcome.reason
+
+    def test_malformed_response_reports_degraded_true(self):
+        client = MagicMock()
+        client.query_points.return_value = MagicMock(points=[MagicMock(payload={"unexpected": "shape"})])
+        index = QdrantMemoryIndex("semantic", client=client, embedder=_embedder)
+        outcome = index.search_with_status("query")
+        assert outcome.degraded is True
+
+    def test_search_and_search_with_status_agree_on_records_when_healthy(self):
+        client = MagicMock()
+        record = _make_record()
+        client.query_points.return_value = MagicMock(points=[MagicMock(payload=record.to_payload())])
+        index = QdrantMemoryIndex("semantic", client=client, embedder=_embedder)
+        assert index.search("query") == index.search_with_status("query").records
+
+    def test_search_still_returns_bare_list_on_degradation_unchanged_contract(self):
+        """search() returns a bare [] on degradation, with no signal
+        distinguishing "no matches" from "degraded" — search_with_status()
+        is the method that carries that signal."""
+        index = QdrantMemoryIndex("semantic", client=None, embedder=_embedder)
+        result = index.search("query")
+        assert result == []
+        assert isinstance(result, list)
+
+
+class TestBm25RankIds:
+    def test_ranks_by_relevance(self):
+        pairs = [
+            ("a", "the quick brown fox jumps over the lazy dog"),
+            ("b", "PostgreSQL database migration best practices"),
+            ("c", "database indexing and query performance tuning"),
+        ]
+        ranked = bm25_rank_ids("database performance", pairs, top_k=3)
+        assert ranked[0] == "c"
+
+    def test_top_k_limits_results(self):
+        pairs = [(str(i), f"document number {i} about testing") for i in range(10)]
+        ranked = bm25_rank_ids("testing", pairs, top_k=3)
+        assert len(ranked) == 3
+
+    def test_empty_input_returns_empty(self):
+        assert bm25_rank_ids("query", [], top_k=5) == []
+
+
+class TestKeywordSearchLog:
+    def test_finds_matching_semantic_record_when_qdrant_is_down(self, tmp_path):
+        """The scenario Tier 3 exists for (05-disaster-recovery-and-resilience.md
+        § 3): Qdrant unreachable, and keyword_search_log must still return
+        real, ranked results rather than []."""
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        log.append(_make_record(memory_type="semantic", id="r1", content="user prefers FastAPI and PostgreSQL"))
+        log.append(_make_record(memory_type="semantic", id="r2", content="the office espresso machine is broken"))
+
+        results = keyword_search_log(log, "semantic", "FastAPI PostgreSQL", top_k=5)
+        assert len(results) >= 1
+        assert results[0].id == "r1"
+
+    def test_status_filter_excludes_non_matching_status(self, tmp_path):
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        log.append(_make_record(memory_type="semantic", id="active-1", content="database migration", status="active"))
+        log.append(_make_record(memory_type="semantic", id="archived-1", content="database migration", status="archived"))
+
+        results = keyword_search_log(log, "semantic", "database migration", top_k=5, status_in=("active",))
+        ids = [r.id for r in results]
+        assert "active-1" in ids
+        assert "archived-1" not in ids
+
+    def test_sacred_record_survives_because_it_stays_active_not_via_a_bypass(self, tmp_path):
+        """Sacred completeness (a decision/commitment always visible) is
+        preserved here for free: apply_decay() pins sacred=True records at
+        status="active" permanently (memory_maintenance.py) — this function
+        applies the same status_in filter Tier 1 does, nothing more. This
+        test proves that mechanism, not a special-cased bypass that doesn't
+        exist in this function."""
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        log.append(
+            _make_record(
+                memory_type="semantic",
+                id="decision-1",
+                content="team decided to use PostgreSQL for the new service",
+                sacred=True,
+                status="active",
+            )
+        )
+        results = keyword_search_log(log, "semantic", "PostgreSQL", top_k=5, status_in=("active",))
+        assert any(r.id == "decision-1" and r.sacred for r in results)
+
+    def test_episodic_scoped_to_session_id(self, tmp_path):
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        log.append(
+            _make_record(
+                memory_type="episodic", id="e1", content="deployed the payments service",
+                source_session_id="session-a",
+            )
+        )
+        log.append(
+            _make_record(
+                memory_type="episodic", id="e2", content="deployed the payments service",
+                source_session_id="session-b",
+            )
+        )
+        results = keyword_search_log(log, "episodic", "deployed payments", top_k=5, session_id="session-a")
+        ids = [r.id for r in results]
+        assert ids == ["e1"]
+
+    def test_episodic_cross_session_when_no_session_id_given(self, tmp_path):
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        log.append(
+            _make_record(
+                memory_type="episodic", id="e1", content="deployed the payments service",
+                source_session_id="session-a",
+            )
+        )
+        log.append(
+            _make_record(
+                memory_type="episodic", id="e2", content="deployed the payments service",
+                source_session_id="session-b",
+            )
+        )
+        results = keyword_search_log(log, "episodic", "deployed payments", top_k=5, session_id=None)
+        ids = {r.id for r in results}
+        assert ids == {"e1", "e2"}
+
+    def test_empty_log_returns_empty_not_raises(self, tmp_path):
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        assert keyword_search_log(log, "semantic", "anything", top_k=5) == []
+
+    def test_unsupported_memory_type_returns_empty_not_raises(self, tmp_path):
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        assert keyword_search_log(log, "reflection", "anything", top_k=5) == []
+
+    def test_parity_with_tier1_on_same_fixture(self, tmp_path):
+        """Same corpus, same query: Tier 3's ranking should surface the same
+        best match Tier 1 (embedding similarity, mocked here as an exact-id
+        return) would — a coarse parity check, not bit-for-bit ranking
+        equivalence (BM25 and embedding similarity are different metrics by
+        design; this only asserts both find the obviously-relevant record)."""
+        log = JSONLMemoryLog(root_dir=tmp_path)
+        log.append(_make_record(memory_type="semantic", id="relevant", content="Kubernetes cluster autoscaling configuration"))
+        log.append(_make_record(memory_type="semantic", id="irrelevant", content="favorite lunch spot near the office"))
+
+        tier3_results = keyword_search_log(log, "semantic", "Kubernetes autoscaling", top_k=1)
+
+        client = MagicMock()
+        client.query_points.return_value = MagicMock(
+            points=[MagicMock(payload=_make_record(memory_type="semantic", id="relevant", content="Kubernetes cluster autoscaling configuration").to_payload())]
+        )
+        index = QdrantMemoryIndex("semantic", client=client, embedder=_embedder)
+        tier1_results = index.search("Kubernetes autoscaling", top_k=1)
+
+        assert tier3_results[0].id == tier1_results[0].id == "relevant"

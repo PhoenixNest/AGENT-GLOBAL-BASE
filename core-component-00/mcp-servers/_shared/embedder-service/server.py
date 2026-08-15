@@ -2,26 +2,25 @@
 embedder-service — persistent, localhost-only embedding server shared by
 every CC-00 MCP server that needs a sentence-transformers model.
 
-Built to remove the trigger identified in
-telescope/2026-07-13-mcp-embedder-service-redesign/research-report.md: a
-heavy compiled-extension import (sentence_transformers -> torch/scipy)
-happening inside a process the MCP host spawns and churns. This service is
-launched once, outside that host-spawned lifecycle, and loads both models a
-single time at startup; consumers talk to it over plain HTTP instead of
-importing the ML stack themselves.
+Built to remove a heavy compiled-extension import (sentence_transformers ->
+torch/scipy) happening inside a process the MCP host spawns and churns
+(root-caused in the 2026-07-13 embedder-service-redesign investigation).
+This service is launched once, outside that host-spawned lifecycle, and
+loads both models a single time at startup; consumers talk to it over plain
+HTTP instead of importing the ML stack themselves.
 
 Endpoints:
     GET  /health              -> {status, service, version, models_loaded, uptime_s, idle_timeout_s}
     POST /embed {model, texts} -> {vectors, dim, model}
     POST /shutdown             -> graceful stop (localhost-only, no auth needed —
-                                   see Phase 3 adversarial review for the threat model)
+                                   see the trust-boundary note on _handle_shutdown)
 
-Lifecycle (implementation-plan.md §8.3):
+Lifecycle:
     Stopped -> Starting -> Running -> Idle -> Stopped
-Idle-timeout self-shutdown lives here, not in the supervisor script, so no
-external process has to remember to stop it (per §2.1's resolved lifecycle
-decision). Never shuts down mid-request: shutdown only proceeds once the
-in-flight request counter is zero.
+Idle-timeout self-shutdown lives here, not in a separate supervisor script,
+so no external process has to remember to stop it. Never shuts down
+mid-request: shutdown only proceeds once the in-flight request counter is
+zero (see IdleTracker).
 
 Applies the NO_PROXY lesson from
 telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
@@ -40,8 +39,9 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
-# Apply the NO_PROXY lesson to this process's own environment, from day one —
-# not retrofitted after a failure (implementation-plan.md §3).
+# Set before any outbound call this process could ever make (there are none
+# today), so a future addition never routes through an invisible
+# Windows-side proxy by default.
 os.environ.setdefault("NO_PROXY", "localhost,127.0.0.1")
 os.environ.setdefault("no_proxy", "localhost,127.0.0.1")
 
@@ -53,16 +53,16 @@ PORT = int(os.getenv("EMBEDDER_SERVICE_PORT", "8791"))
 IDLE_TIMEOUT_S = float(os.getenv("EMBEDDER_SERVICE_IDLE_TIMEOUT_S", "600"))
 IDLE_CHECK_INTERVAL_S = float(os.getenv("EMBEDDER_SERVICE_IDLE_CHECK_INTERVAL_S", "15"))
 
-# Phase 3 adversarial-review hardening: the service is localhost-only and
-# unauthenticated (same trust boundary as the existing Qdrant-over-HTTP
-# precedent in this codebase — any local process can already read the same
-# files an embed request's text would come from, so auth does not raise the
-# ceiling of what a local attacker could already do). What auth would NOT
-# have prevented, and this does, is an unbounded-body / unbounded-batch
-# resource-exhaustion request from any local process, malicious or merely
-# buggy. These caps are generous relative to real call sites (agent-memory
-# and workspace-knowledge send at most one text and a batch of a few dozen
-# chunks respectively) while bounding worst-case memory/CPU per request.
+# The service is localhost-only and unauthenticated (same trust boundary as
+# the existing Qdrant-over-HTTP precedent in this codebase — any local
+# process can already read the same files an embed request's text would
+# come from, so auth does not raise the ceiling of what a local attacker
+# could already do). What auth would NOT prevent, and these caps do, is an
+# unbounded-body / unbounded-batch resource-exhaustion request from any
+# local process, malicious or merely buggy. These caps are generous
+# relative to real call sites (agent-memory and workspace-knowledge send at
+# most one text and a batch of a few dozen chunks respectively) while
+# bounding worst-case memory/CPU per request.
 MAX_REQUEST_BODY_BYTES = int(os.getenv("EMBEDDER_SERVICE_MAX_BODY_BYTES", str(2 * 1024 * 1024)))  # 2 MB
 MAX_TEXTS_PER_REQUEST = int(os.getenv("EMBEDDER_SERVICE_MAX_TEXTS", "256"))
 MAX_TEXT_LENGTH_CHARS = int(os.getenv("EMBEDDER_SERVICE_MAX_TEXT_CHARS", "20000"))
@@ -142,8 +142,8 @@ class ModelRegistry:
 class IdleTracker:
     """Tracks in-flight requests and last-activity time. Idle-timeout
     self-shutdown (checked by a background thread) only fires when the
-    in-flight counter is zero — this is the mechanism that satisfies the
-    Phase 0 gate requirement that shutdown never interrupts a live request."""
+    in-flight counter is zero, so shutdown never interrupts a live
+    request."""
 
     def __init__(self) -> None:
         self._lock = threading.Lock()
@@ -286,8 +286,10 @@ class Handler(BaseHTTPRequestHandler):
 
     def _handle_shutdown(self) -> None:
         # Localhost-only binding is the trust boundary here (matches the
-        # existing Qdrant-over-HTTP precedent in this codebase) — see Phase 3
-        # for the adversarial review of that assumption.
+        # existing Qdrant-over-HTTP precedent in this codebase): any local
+        # process could already reach this port, so no additional auth
+        # check would raise the ceiling of what a local attacker could
+        # already do.
         self._send_json(200, {"status": "shutting down"})
         threading.Thread(target=self.server_ref.shutdown, daemon=True).start()
 

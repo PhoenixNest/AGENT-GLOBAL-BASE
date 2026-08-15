@@ -1,17 +1,47 @@
 [project]
 name = "agent-memory-server"
 version = "0.1.0"
-description = "MCP server for the persistent agent memory system (episodic, semantic, procedural)"
+description = "MCP server for the persistent agent memory system (episodic, semantic, procedural, reflection)"
 authors = [{ name = "AGENT-GLOBAL-BASE Workspace", email = "workspace@example.com" }]
 readme = "README.md"
 requires-python = ">=3.10"
+
+# Must list every package server.py imports. An undeclared import resolves against
+# whatever is present in the ambient environment, which silently couples this server
+# to global site-packages.
 dependencies = [
-    "fastmcp>=0.1.0",
+    "fastmcp>=3.2.4",
     "qdrant-client>=1.7.0,<2.0.0",
+    "sentence-transformers>=5.6.0",
+    # Cross-platform process enumeration/termination for the sibling-cleanup
+    # scan in server.py (2026-08-13 psutil port, replacing a Windows-only
+    # powershell/Get-CimInstance/Stop-Process implementation) and for
+    # _shared/embedder-service/manage_embedder_service.py's orphan cleanup.
+    "psutil>=6.0.0",
+    # Declared explicitly even though sentence-transformers depends on it, because the
+    # wheel variant is what matters here and sentence-transformers does not select one.
+    # This server embeds with all-MiniLM-L6-v2, which runs roughly 16x faster on batch
+    # workloads under a CUDA build than a CPU-only one.
+    #
+    # pip compares only the base version and ignores the +cpu / +cu130 local tag, so
+    # `pip install torch==2.13.0` is a no-op against an installed CPU wheel. Pin the
+    # local version to force the CUDA variant:
+    #   pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+    "torch>=2.13.0",
 ]
 
 [project.scripts]
 agent-memory-server = "server:mcp.run"
+
+# Routes torch to the CUDA wheel index under uv. `explicit = true` confines this index
+# to torch alone, so every other dependency still resolves from PyPI.
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
 
 [build-system]
 requires = ["hatchling"]

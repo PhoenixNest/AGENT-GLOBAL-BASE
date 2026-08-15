@@ -45,6 +45,11 @@
             "type": "command",
             "command": "uv",
             "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/prompt-gate-enforcer.py"]
+          },
+          {
+            "type": "command",
+            "command": "uv",
+            "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/write-memory-gate-enforcer.py"]
           }
         ]
       },
@@ -87,6 +92,11 @@
             "type": "command",
             "command": "uv",
             "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/prompt-gate-clear.py"]
+          },
+          {
+            "type": "command",
+            "command": "uv",
+            "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/write-memory-gate-clear.py"]
           }
         ]
       },

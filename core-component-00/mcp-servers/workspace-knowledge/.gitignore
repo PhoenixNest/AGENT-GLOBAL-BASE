@@ -1,8 +1,10 @@
 # Runtime-generated artifacts — never commit these
 embedding/
 
-# Local evaluation harness — test scripts and generated outputs stay local
-tests/
+# Local evaluation harness — test scripts and generated outputs stay local,
+# except permanent regression tests explicitly excepted below
+tests/*
+!tests/test_upsert_delete_ordering_fix.py
 
 # Python environment
 .venv/

@@ -3,9 +3,6 @@ Executable pytest suite for the fourth memory type — ReflectionRecord /
 ReflectionMemory (implementations/memory_store.py) and its JSONL/Qdrant
 write-through wiring (implementations/memory_vector_store.py).
 
-Programme: core-component-00/telescope/2026-07-14-reflexion-memory-system
-Phase: 1 — see supporting/03-deployment-guidelines.md
-
 Run with:
     pytest testing/test_reflection_memory.py -v
 """

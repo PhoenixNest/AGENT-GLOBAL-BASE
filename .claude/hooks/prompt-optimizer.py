@@ -226,21 +226,59 @@ set a preview field — that triggers a dual-pane panel that can truncate long t
 <step id="3" name="branch">
   <if_optimized>
   Print this block first — before any other sentence, tool call, or commentary — then execute
-  using it as the working brief:
-    ---
-    **Prompt selected:** Optimized
-    **Working brief:** <full optimized text>
+  using it as the working brief. Use an ATX header (`###`, not underlined text) for the title —
+  never end a paragraph with a bare `---` line, that triggers Markdown's Setext-heading rule
+  and produces an oversized heading. Leave a blank line between every element (header,
+  blockquote, table, closing rule):
+    ### Prompt Confirmed — Optimized
+
+    > <full optimized text>
+
+    | Field | Detail |
+    |---|---|
+    | **Objective** | <one-line paraphrase of the task's goal> |
+    | **Constraint** | <key negations/must-haves carried over from the optimized text — omit this row entirely if none exist> |
+    | **Next** | <what happens now, e.g. "Producing the ranked findings list now"> |
+
     ---
   </if_optimized>
   <if_original>
   Print this block first — before any other sentence, tool call, or commentary — then ask
   {question_count} clarifying questions (one per missing dimension: {missing_str}), wait for
-  answers, and repeat from step 1:
-    ---
-    **Prompt selected:** Original
-    **Working brief:** <full original text>
+  answers, and repeat from step 1. Use an ATX header (`###`, not underlined text) for the title —
+  never end a paragraph with a bare `---` line, that triggers Markdown's Setext-heading rule
+  and produces an oversized heading. Leave a blank line between every element:
+    ### Prompt Confirmed — Original
+
+    > <full original text>
+
+    | Field | Detail |
+    |---|---|
+    | **Objective** | <one-line paraphrase of the task's goal> |
+    | **Constraint** | <key negations/must-haves carried over from the original text — omit this row entirely if none exist> |
+    | **Next** | <what happens now, e.g. "Producing the ranked findings list now"> |
+
     ---
   </if_original>
+  <if_other>
+  If the user answered AskUserQuestion with custom typed text instead of picking either listed
+  option (its built-in "Other" choice), print this block first, then proceed using that typed
+  text as the working brief (no clarifying questions needed — it's a direct answer, not a
+  rejection of both options). Use an ATX header (`###`, not underlined text) for the title —
+  never end a paragraph with a bare `---` line, that triggers Markdown's Setext-heading rule
+  and produces an oversized heading. Leave a blank line between every element:
+    ### Prompt Confirmed — User Input
+
+    > <literal typed text>
+
+    | Field | Detail |
+    |---|---|
+    | **Objective** | <one-line paraphrase of the task's goal> |
+    | **Constraint** | <key negations/must-haves carried over from the typed text — omit this row entirely if none exist> |
+    | **Next** | <what happens now, e.g. "Producing the ranked findings list now"> |
+
+    ---
+  </if_other>
 </step>
 
 <example>
@@ -255,21 +293,30 @@ If the session resumes with a message that doesn't directly answer the step 2 qu
 any other work."""
 
 
-def _emit(additional_context: str) -> None:
+def _emit(additional_context: str, system_message: str = None) -> None:
     output = {
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
             "additionalContext": additional_context,
         }
     }
+    # systemMessage is rendered directly to the user, independent of the model.
+    if system_message is not None:
+        output["systemMessage"] = system_message
     print(json.dumps(output))
 
 
 def _emit_gate_required(data, prompt_str, score, missing) -> None:
     """Fail-path / fail-closed-fallback output: write the marker (best-effort) and print
-    the full confirmation-required additionalContext block."""
+    the full confirmation-required additionalContext block, plus a systemMessage naming
+    the specific missing dimensions."""
     _write_marker_and_telemetry(data, prompt_str, score, missing)
-    _emit(_build_gate_message(score, missing))
+    missing_str = ", ".join(missing) if missing else "none — all 5 dimensions satisfied"
+    system_message = (
+        f"[H-P01: prompt did not meet quality threshold ({score}/5) — "
+        f"missing: {missing_str}]"
+    )
+    _emit(_build_gate_message(score, missing), system_message=system_message)
 
 
 def _process(data, prompt_str) -> None:
@@ -333,7 +380,7 @@ def _process(data, prompt_str) -> None:
     # follows .sh (not .ps1's "always confirm") on this specific divergence. ---------
     if score >= THRESHOLD:
         msg = f"[H-P01: prompt met quality threshold ({score}/5), proceeding without confirmation]"
-        _emit(msg)
+        _emit(msg, system_message=msg)
         return
 
     # --- Fail path: below threshold — full confirmation gate. ------------------------

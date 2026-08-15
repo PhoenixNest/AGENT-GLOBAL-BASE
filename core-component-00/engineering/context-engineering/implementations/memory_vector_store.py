@@ -9,10 +9,6 @@ existing document-corpus RAG collection is a derived index over the Markdown
 corpus. This module never touches that existing collection or its retrieval
 pipeline (`retrieval-augmented-generation/implementations/`).
 
-Full design spec:
-    telescope/2026-07-10-agent-memory-architecture/supporting/01-technical-options.md
-    telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
-
 WorkingMemory is intentionally absent here — it is task-scoped, in-memory-only
 state that should never be persisted to Qdrant or JSONL.
 
@@ -167,8 +163,8 @@ def _new_id() -> str:
 # Reflections use a human-readable, investigator-chosen reflection_id
 # (e.g. "REFLECT-001") as their primary identifier throughout this module
 # and in reflection_authoring.py -- but Qdrant point IDs must be an unsigned
-# integer or a UUID (discovered live during the MISTAKE-2026-07-14-001
-# Phase 3 migration: a raw "REFLECT-001" point ID was rejected with a 400).
+# integer or a UUID -- a raw "REFLECT-001" string point ID is rejected by
+# Qdrant with a 400.
 # Deriving a deterministic UUID5 from reflection_id (fixed namespace) keeps
 # upserts idempotent -- the same reflection_id always maps to the same
 # point, matching the existing disaster-recovery contract for the other
@@ -530,6 +526,138 @@ class MemorySyncState:
 
 
 # ---------------------------------------------------------------------------
+# Tier 3 of the disaster-recovery degradation stack
+# (05-disaster-recovery-and-resilience.md § 3): BM25 keyword search directly
+# over the JSONL log, with no Qdrant or embedder dependency. Reuses
+# retrieval-augmented-generation/implementations/retrieval.py's bm25_score()
+# rather than a second BM25 implementation, per this workspace's
+# check-implementations-first rule (core-component-00/CLAUDE.md).
+#
+# Loaded via importlib.util.spec_from_file_location under a private module
+# name — NOT via sys.path insertion + `import implementations.retrieval`,
+# the pattern used elsewhere in this file for harness-engineering. That
+# pattern is safe between context-engineering and harness-engineering
+# because neither's implementations/ directory has an __init__.py, so
+# Python merges them as one PEP 420 namespace package. RAG's
+# implementations/ DOES have an __init__.py (a regular package) — inserting
+# its root onto sys.path would make `import implementations.*` resolve to
+# whichever of the two is found first while scanning sys.path, silently
+# breaking the other's already-working imports (order-dependent, and this
+# module doesn't control import order across the whole process). Loading by
+# explicit file path under a unique name sidesteps that collision entirely.
+# ---------------------------------------------------------------------------
+
+def _load_rag_bm25():
+    import importlib.util as _importlib_util
+
+    module_name = "_cc00_rag_retrieval"
+    if module_name in sys.modules:
+        module = sys.modules[module_name]
+        return module.bm25_score, module.Document
+
+    rag_retrieval_path = (
+        Path(__file__).resolve().parents[3]
+        / "retrieval-augmented-generation" / "implementations" / "retrieval.py"
+    )
+    spec = _importlib_util.spec_from_file_location(module_name, rag_retrieval_path)
+    module = _importlib_util.module_from_spec(spec)
+    # Must register in sys.modules BEFORE exec_module(), not after — mirrors
+    # mcp-servers/agent-memory/tests/conftest.py's own _load_module() helper.
+    # dataclasses.dataclass (Python 3.10+) resolves forward-reference type
+    # annotations via sys.modules[cls.__module__].__dict__ at class-definition
+    # time; retrieval.py's Document/ScoredDocument dataclasses hit that path
+    # during exec_module() itself, so the registration has to happen first,
+    # not merely before this function returns.
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module.bm25_score, module.Document
+
+
+bm25_score, _RagDocument = _load_rag_bm25()
+
+
+def bm25_rank_ids(query: str, id_text_pairs: List[Tuple[str, str]], top_k: int) -> List[str]:
+    """
+    Rank (id, text) pairs by BM25 relevance to `query`, returning the top_k
+    ids in ranked order. The one call site both keyword_search_log below and
+    the reflection-collection Tier 3 twin (mcp-servers/agent-memory/server.py
+    — reflection has its own log reader, same reason _search_reflection has
+    its own Qdrant reader instead of going through QdrantMemoryIndex.search())
+    go through, so there is exactly one place BM25 scoring happens for the
+    whole memory system, not two independently-maintained copies.
+    """
+    if not id_text_pairs:
+        return []
+    docs = [_RagDocument(id=i, text=t) for i, t in id_text_pairs]
+    scored = bm25_score(query, docs)
+    return [sd.document.id for sd in scored[:top_k]]
+
+
+@dataclass
+class SearchOutcome:
+    """
+    Carries whether an empty result means "genuinely zero matches" or "Qdrant
+    is degraded" — a bare list can't express that distinction. This is the
+    signal a caller uses to decide whether to fall through to Tier 3
+    (keyword_search_log below); see 05-disaster-recovery-and-resilience.md § 3.
+    """
+
+    records: List[MemoryRecord]
+    degraded: bool
+    reason: Optional[str] = None
+
+
+def keyword_search_log(
+    log: "JSONLMemoryLog",
+    memory_type: str,
+    query: str,
+    top_k: int = 5,
+    status_in: Tuple[str, ...] = ("active",),
+    session_id: Optional[str] = None,
+) -> List[MemoryRecord]:
+    """
+    Tier 3 keyword-only search for the three MemoryRecord-shaped collections
+    (episodic/semantic/procedural) — see the reflection collection's own twin
+    in mcp-servers/agent-memory/server.py, which needs a separate log reader
+    since a reflection point's payload is not MemoryRecord-shaped (mirroring
+    the existing _search_reflection vs. QdrantMemoryIndex.search() split).
+
+    Applies the identical status_in filter search() applies to Qdrant
+    records — deliberately not a separate "sacred bypass," because there
+    isn't one to mirror: sacred (decision/commitment) records are never
+    excluded from search-time filtering in the first place. Their
+    completeness guarantee is enforced upstream, at decay time — apply_decay()
+    (memory_maintenance.py) permanently pins sacred=True records at
+    status="active" so they're never filtered out — not by a search-time
+    ranking bypass. Applying the same status filter to log records that
+    search() applies to Qdrant records reproduces that guarantee for free,
+    with no extra logic.
+
+    Never raises — an empty or missing log file, or a memory_type this
+    function doesn't handle, degrades to [] rather than propagating, matching
+    every other method's discipline in this module.
+    """
+    if memory_type == "episodic":
+        records = (
+            log.read_all("episodic", session_id)
+            if session_id is not None
+            else log.read_all_episodic_sessions()
+        )
+    elif memory_type in ("semantic", "procedural"):
+        records = log.read_all(memory_type)
+    else:
+        return []
+
+    filtered = [r for r in records if r.status in status_in]
+    if not filtered:
+        return []
+
+    by_id = {r.id: r for r in filtered}
+    ranked_ids = bm25_rank_ids(query, [(r.id, r.content) for r in filtered], top_k)
+    return [by_id[i] for i in ranked_ids if i in by_id]
+
+
+# ---------------------------------------------------------------------------
 # Qdrant-backed derived index — one instance per collection
 # ---------------------------------------------------------------------------
 
@@ -662,11 +790,38 @@ class QdrantMemoryIndex:
     ) -> List[MemoryRecord]:
         """
         Semantic similarity search over this collection. Returns [] on any
-        degradation rather than raising — callers should treat an empty result as
-        "fall back to BM25/raw-scan," per the existing four-tier degradation stack.
+        degradation rather than raising — for callers that don't need to
+        distinguish "genuinely zero matches" from "Qdrant is degraded". A
+        caller that does need that distinction, to know when to fall through
+        to Tier 3 (keyword_search_log above), calls search_with_status()
+        instead.
         """
+        return self._search_impl(query_text, top_k, status_in, session_id).records
+
+    def search_with_status(
+        self,
+        query_text: str,
+        top_k: int = 5,
+        status_in: Tuple[str, ...] = ("active",),
+        session_id: Optional[str] = None,
+    ) -> SearchOutcome:
+        """
+        Same query as search(), but returns a SearchOutcome carrying the
+        degraded/reason signal search() drops. This is the method Tier 3
+        wiring (mcp-servers/agent-memory/server.py) calls to decide whether
+        to fall through to keyword_search_log().
+        """
+        return self._search_impl(query_text, top_k, status_in, session_id)
+
+    def _search_impl(
+        self,
+        query_text: str,
+        top_k: int,
+        status_in: Tuple[str, ...],
+        session_id: Optional[str],
+    ) -> SearchOutcome:
         if self.client is None or self.embedder is None:
-            return []
+            return SearchOutcome([], degraded=True, reason="qdrant client/embedder not configured")
         try:
             _diag(f"search: embedding query (collection={self.collection_name!r})")
             vector = self.embedder(query_text)
@@ -685,10 +840,11 @@ class QdrantMemoryIndex:
             )
             _diag(f"search: query_points returned (collection={self.collection_name!r})")
             points = getattr(response, "points", response)
-            return [MemoryRecord.from_payload(p.payload) for p in points]
+            records = [MemoryRecord.from_payload(p.payload) for p in points]
+            return SearchOutcome(records, degraded=False)
         except concurrent.futures.TimeoutError:
             _diag(f"search: TIMED OUT after {QDRANT_CALL_TIMEOUT_S}s (collection={self.collection_name!r})")
-            return []
+            return SearchOutcome([], degraded=True, reason=f"timed out after {QDRANT_CALL_TIMEOUT_S}s")
         except (ConnectionError, OSError) as exc:
             _diag(f"search: unreachable (collection={self.collection_name!r}): {exc}")
             print(
@@ -696,7 +852,7 @@ class QdrantMemoryIndex:
                 f"for '{self.collection_name}': {exc}",
                 file=sys.stderr,
             )
-            return []
+            return SearchOutcome([], degraded=True, reason=f"qdrant unreachable: {exc}")
         except (AttributeError, TypeError, KeyError) as exc:
             _diag(f"search: malformed response (collection={self.collection_name!r}): {exc}")
             print(
@@ -704,11 +860,11 @@ class QdrantMemoryIndex:
                 f"for '{self.collection_name}': {exc}",
                 file=sys.stderr,
             )
-            return []
+            return SearchOutcome([], degraded=True, reason=f"malformed qdrant response: {exc}")
         except Exception as exc:
             _diag(f"search: failed (collection={self.collection_name!r}): {exc}")
             print(f"WARNING: Qdrant search failed for '{self.collection_name}': {exc}", file=sys.stderr)
-            return []
+            return SearchOutcome([], degraded=True, reason=f"qdrant search failed: {exc}")
 
     def count_points(self, status: Optional[str] = None) -> int:
         """
@@ -994,19 +1150,16 @@ class PersistentMemorySink:
         rejection of an MCP write tool (01-technical-options.md §4,
         "Option A" rejected).
 
-        Identity gate (MISTAKE-2026-07-16-001 remediation item 2, second
-        Wieczorek pass): requires the same IdentityVerification token
+        Identity gate: requires the same IdentityVerification token
         ReflectionMemory.record_reflection() requires, and independently
         re-checks it here rather than trusting that the caller already did
         — this is defense-in-depth against a caller who constructs a bare
         ReflectionRecord and calls this method directly, bypassing
         ReflectionMemory (and therefore record_reflection()'s own gate)
-        entirely, which is exactly the second live bypass Dr. Wieczorek
-        demonstrated. Honest limitation, same as everywhere else this token
+        entirely. Honest limitation, same as everywhere else this token
         is checked: this is not a floor. JSONLMemoryLog.append_reflection()
         and QdrantMemoryIndex.upsert_payload() remain directly callable
-        beneath this method with no check of any kind — per
-        03-deployment-guidelines.md's revised Phase 1 gate, the actual
+        beneath this method with no check of any kind — the actual
         security boundary for GOVERNANCE_TRIGGERS records is procedural
         (live human confirmation in the coordinating session), not this or
         any other code layer.

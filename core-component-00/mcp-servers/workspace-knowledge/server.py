@@ -1,22 +1,8 @@
-# ── venv bootstrap (MUST be first, before any other imports) ──────────────
-import sys
-import platform
-from pathlib import Path as _Path
-
-_venv = _Path(__file__).parent / ".venv"
-if platform.system() == "Windows":
-    _venv_sp = _venv / "Lib" / "site-packages"
-else:
-    _py = f"python{sys.version_info.major}.{sys.version_info.minor}"
-    _venv_sp = _venv / "lib" / _py / "site-packages"
-if _venv_sp.exists():
-    sys.path.insert(0, str(_venv_sp))
-# ─────────────────────────────────────────────────────────────────────────
-
 import hashlib
 import json
 import os
 import re
+import sys
 import threading
 import time
 from enum import Enum
@@ -44,7 +30,6 @@ from implementations.memory_vector_store import (  # noqa: E402
     compute_memory_instance_telemetry,
 )
 
-# embedder-service client (Phase 4, telescope/2026-07-13-mcp-embedder-service-redesign).
 # Same cross-module import pattern as memory_vector_store above.
 _MCP_SERVERS_SHARED_ROOT = Path(__file__).resolve().parents[1] / "_shared"
 if str(_MCP_SERVERS_SHARED_ROOT) not in sys.path:
@@ -62,26 +47,18 @@ def _diag(msg: str) -> None:
     print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
 
 
-# ---------------------------------------------------------------------------
-# embedder-service integration (Phase 4) — same feature-flagged,
-# fallback-preserving pattern as agent-memory's Phase 2 integration
-# (mcp-servers/_shared/embedder_client.py). Scoped deliberately to the
-# QUERY-time embedding calls only (SearchEngine._search_semantic /
-# _search_qdrant, on the live search_docs hot path) — NOT the batch
-# index-build/reseed/upsert paths (_build_or_load_faiss_index,
-# _seed_qdrant_collection, _upsert_file_to_qdrant), which already run off
-# the critical MCP-handshake path (_init_faiss_background's own background
-# thread) and need a local SentenceTransformer instance for efficient
-# batch encoding regardless. Migrating those too would be a larger
-# architecture change than "the same client pattern as Phase 2" calls for.
-# ---------------------------------------------------------------------------
-
 EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
     "0",
     "false",
     "no",
 )
 _QUERY_EMBEDDER_SERVICE_MODEL = "all-mpnet-base-v2"  # matches this server's 768-dim collection
+
+# Group size caps at embedder-service's MAX_TEXTS_PER_REQUEST; timeout is 30s,
+# not the client's 8s query-tuned default, since a full 256-text batch's own
+# server-side encode cost alone is already close to 8s.
+_BATCH_EMBED_GROUP_SIZE = 256
+_BATCH_EMBED_TIMEOUT_S = 30.0
 
 _embedder_service_lock = threading.Lock()
 # "disabled" | "starting" | "ready" | "unavailable"
@@ -131,7 +108,12 @@ class SearchEngine:
 
     _EMBED_DIR = Path(__file__).parent / "embedding"
     _INDEX_DIR = _EMBED_DIR              # faiss.index + index_state.json
-    _MODEL_DIR = _EMBED_DIR / "model"    # local all-mpnet-base-v2 files
+    # Reads the shared model cache (mcp-governance.md convention) rather than a
+    # private copy, so this fallback loader doesn't duplicate the model on disk.
+    _MODEL_DIR = (
+        Path(__file__).resolve().parents[1] / "_shared" / "models"
+        / "sentence-transformers--all-mpnet-base-v2"
+    )
 
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
@@ -332,14 +314,14 @@ class SearchEngine:
             raise RuntimeError("BM25 chunks must be built before seeding Qdrant")
 
         from qdrant_client.models import PointStruct
-        import numpy as np
 
         BATCH_SIZE = 100
         texts = [c["text"][:512] for c in self._chunks]
         self._rebuild_progress["chunks_total"] = len(texts)
         self._rebuild_progress["chunks_embedded"] = 0
-        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
-        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+        embeddings = self._encode_batch_vectors(texts)
+        if embeddings is None:
+            raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
 
         for i in range(0, len(self._chunks), BATCH_SIZE):
             batch_chunks = self._chunks[i:i + BATCH_SIZE]
@@ -414,22 +396,24 @@ class SearchEngine:
         import torch
         _device = "cuda" if torch.cuda.is_available() else "cpu"
         model = SentenceTransformer(str(self._MODEL_DIR), device=_device)
+        # Must be set before encoding: _encode_batch_vectors()'s local
+        # fallback reads self._model, not a local variable.
+        self._model = model
 
         if needs_rebuild:
             # Encode all chunks
             texts = [c["text"][:512] for c in self._chunks]
-            embeddings = model.encode(texts, show_progress_bar=False, batch_size=64)
-            embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+            embeddings = self._encode_batch_vectors(texts)
+            if embeddings is None:
+                raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
             dim = embeddings.shape[1]
             index = faiss.IndexFlatIP(dim)  # Inner product = cosine similarity after normalization
             index.add(embeddings.astype("float32"))
             faiss.write_index(index, str(index_file))
             state_file.write_text(json.dumps(current_mtimes))
             self._faiss_index = index
-            self._model = model
         else:
             self._faiss_index = faiss.read_index(str(index_file))
-            self._model = model
 
     def _search_bm25(self, query: str, top_k: int) -> list[dict]:
         scores = self._bm25.get_scores(query.lower().split())
@@ -458,7 +442,7 @@ class SearchEngine:
         np.ndarray — the shape _search_semantic/_search_qdrant already
         expect. Prefers the shared embedder-service; falls back to the
         in-process self._model (unchanged) on service-unavailable or a
-        runtime call failure. Mirrors agent-memory's Phase 2 composite
+        runtime call failure. Mirrors agent-memory's composite embedder
         resolver pattern (_get_embedder() in agent-memory/server.py) rather
         than inventing a new one.
         """
@@ -477,6 +461,45 @@ class SearchEngine:
             raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
         q_emb = self._model.encode([query])
         return q_emb / np.linalg.norm(q_emb, axis=1, keepdims=True)
+
+    def _encode_batch_vectors(self, texts: list[str]):
+        """L2-normalized (n, 768) embeddings via embedder-service (chunked,
+        group failure falls back to the local model for the whole batch, never
+        a mix of both sources); returns None if neither path is available."""
+        import numpy as np
+
+        if not texts:
+            return np.empty((0, 768), dtype="float32")
+
+        if EMBEDDER_SERVICE_ENABLED and _embedder_service_ready():
+            service_vectors: list[list[float]] = []
+            service_ok = True
+            for start in range(0, len(texts), _BATCH_EMBED_GROUP_SIZE):
+                group = texts[start:start + _BATCH_EMBED_GROUP_SIZE]
+                group_vectors = embedder_client.embed(
+                    group,
+                    model=_QUERY_EMBEDDER_SERVICE_MODEL,
+                    timeout=_BATCH_EMBED_TIMEOUT_S,
+                    expected_dim=768,
+                )
+                if group_vectors is None:
+                    service_ok = False
+                    _diag(
+                        "embedder-service batch-embed call failed at runtime "
+                        f"(group starting at index {start}, size {len(group)}) — "
+                        "falling back to in-process model for the entire batch"
+                    )
+                    break
+                service_vectors.extend(group_vectors)
+
+            if service_ok:
+                arr = np.array(service_vectors, dtype="float32")
+                return arr / np.linalg.norm(arr, axis=1, keepdims=True)
+
+        if self._model is None:
+            return None
+        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
+        return embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
     def _search_semantic(self, query: str, top_k: int) -> list[dict]:
         """Dense vector search over the FAISS index using cosine similarity."""
@@ -625,9 +648,10 @@ class SearchEngine:
 
     def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
         """Re-chunk, re-embed, and upsert one file's points into Qdrant.
-        Deletes old points for this file first, then inserts updated ones."""
+        Encodes and validates the new points before deleting the old ones, so
+        a failed encode leaves existing points untouched instead of dropping
+        the file from the index."""
         from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
-        import numpy as np
 
         file_path = Path(file_path_str)
         new_chunks = self._extract_chunks(file_path)
@@ -637,18 +661,17 @@ class SearchEngine:
 
         rel_path = new_chunks[0]["rel_path"]
 
-        # Delete all existing points for this file
+        texts = [c["text"][:512] for c in new_chunks]
+        embeddings = self._encode_batch_vectors(texts)
+        if embeddings is None:
+            raise RuntimeError("model not ready — cannot upsert without an embedding model")
+
         self._qdrant_client.delete(
             collection_name=self._collection_name,
             points_selector=Filter(
                 must=[FieldCondition(key="rel_path", match=MatchValue(value=rel_path))]
             ),
         )
-
-        # Encode new chunks
-        texts = [c["text"][:512] for c in new_chunks]
-        embeddings = self._model.encode(texts, show_progress_bar=False, batch_size=64)
-        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
         points = [
             PointStruct(
@@ -1006,23 +1029,42 @@ def _document_kb_health_block() -> dict[str, Any]:
     }
 
 
+def _memory_instance_health_block_impl(client: Any) -> dict[str, Any]:
+    """
+    Testable core of _memory_instance_health_block() — accepts an injected
+    Qdrant client (or None) instead of constructing one internally, mirroring
+    the same DI pattern agent-memory/server.py already uses for
+    _search_memory_impl (client/embedder as real parameters, not test-only).
+    This split is what makes core-component-00/mcp-servers/agent-memory/tests/
+    's cross-server health_check comparison test possible: it can call this
+    function directly against the same live (or mocked) client agent-memory's
+    own health_check path uses, without needing workspace-knowledge's full
+    FastMCP tool machinery or a second, independently-constructed client that
+    could itself introduce a divergence the test is trying to detect.
+    """
+    indices = {
+        memory_type: QdrantMemoryIndex(memory_type, client=client)
+        for memory_type in MEMORY_COLLECTION_BY_TYPE
+    }
+    return compute_memory_instance_telemetry(client=client, indices=indices, sync_state=_memory_sync_state)
+
+
 def _memory_instance_health_block() -> dict[str, Any]:
     """Best-effort telemetry against the dedicated qdrant-memory instance
     (http://localhost:6335), separate from the document knowledge base's own
     Qdrant instance. If qdrant-memory is unreachable, this degrades to
     reachable=False with zeroed counts via QdrantMemoryIndex's own graceful
-    degradation — it never raises."""
+    degradation — it never raises. Thin wrapper over
+    _memory_instance_health_block_impl(): constructs the real production
+    QdrantClient (or None on failure) and delegates — see that function's
+    docstring for why the split exists."""
     client = None
     try:
         from qdrant_client import QdrantClient
         client = QdrantClient(url=MEMORY_QDRANT_URL, timeout=5)
     except Exception:
         client = None
-    indices = {
-        memory_type: QdrantMemoryIndex(memory_type, client=client)
-        for memory_type in MEMORY_COLLECTION_BY_TYPE
-    }
-    return compute_memory_instance_telemetry(client=client, indices=indices, sync_state=_memory_sync_state)
+    return _memory_instance_health_block_impl(client)
 
 
 @mcp.tool()
