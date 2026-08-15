@@ -1,0 +1,17 @@
+# requirements.txt — workspace-integration-examples/verification
+#
+# Independent of supporting/enterprise-examples/requirements.txt by design: this
+# project proves the standalone claims in 01/02/03-*-examples.md and must not
+# import from, or share a venv with, enterprise-examples/. Duplicating the
+# version floors here (rather than referencing the other file) is deliberate.
+#
+# SECURITY FLOORS — do not resolve below these (LangGraph checkpointer CVE chain):
+#   langgraph                    >= 1.0.10
+#   langgraph-checkpoint-sqlite  >= 3.0.1
+
+langchain>=1.0
+langgraph>=1.0.10
+langgraph-checkpoint-sqlite>=3.0.1
+deepagents>=0.1
+
+pytest>=8.0

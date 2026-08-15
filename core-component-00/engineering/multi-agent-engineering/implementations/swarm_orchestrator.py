@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import re
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -52,6 +53,8 @@ class SwarmConfig:
     timeout_seconds: float = 300.0
     enable_feedback_loop: bool = True
     circuit_breaker_open_abort: bool = True
+    max_reflection_retries: int = 2
+    enable_reflective_loop: bool = False
 
 
 @dataclass
@@ -79,6 +82,8 @@ class SubTask:
     completed_at: Optional[float] = None
     estimated_duration: float = 60.0
     gate_criteria: Optional[list[str]] = None
+    reflection_retry_count: int = 0
+    reflection_rationale_history: list[str] = field(default_factory=list)
 
     @property
     def is_independent(self) -> bool:
@@ -133,6 +138,289 @@ class SwarmResult:
     agent_utilisation: float = 0.0
     feedback: Optional[dict[str, Any]] = None
     circuit_breaker_aborts: int = 0
+
+
+@dataclass
+class EvaluationVerdict:
+    """The Evaluate step's judgment of a SubTask's result against its own
+    gate_criteria.
+
+    `passed` requires every item in gate_criteria to check out — an AND,
+    not a threshold. `rationale` is a per-criterion account, not one
+    free-text paragraph, so it can be read back into a retry attempt's
+    WorkingMemory context meaningfully.
+    """
+
+    passed: bool
+    rationale: str
+
+
+# High-blast-radius domain keywords that default a SubTask's gate_criteria
+# activation tier to "enabled" — see default_gate_criteria_tier() below.
+# Deliberately a small, simple set; refining this taxonomy against real
+# usage data is future work, not a learned/continuous classifier built
+# ahead of that evidence.
+_HIGH_STAKES_DOMAIN_KEYWORDS = ("backend", "security", "release")
+
+# result dict keys treated as narrative text, not checkable evidence — see
+# evaluate_subtask_result()'s docstring for why this distinction matters.
+_NARRATIVE_RESULT_KEYS = frozenset({"output", "summary"})
+
+# Duration thresholds and multipliers for default_monitor_budget()'s three
+# tiers. Simple, documented-as-provisional constants — the same posture as
+# _HIGH_STAKES_DOMAIN_KEYWORDS above: a reasonable starting default, not a
+# learned/continuous allocator built ahead of real usage data.
+_LONG_RUNNING_DURATION_THRESHOLD_SECONDS = 900.0
+_SHORT_DURATION_THRESHOLD_SECONDS = 30.0
+_LONG_RUNNING_TIMEOUT_MULTIPLIER = 2.0
+_SHORT_DURATION_TIMEOUT_MULTIPLIER = 4.0
+
+# A Monitor budget exists to bound risk; an uncapped multiplier defeats that
+# purpose for any very large (legitimate or mistaken, e.g. a units error)
+# estimated_duration. This ceiling is a provisional safety backstop, not a
+# tuned value.
+_LONG_RUNNING_TIMEOUT_CEILING_SECONDS = 3600.0
+
+
+@dataclass
+class MonitorBudget:
+    """The timeout a single SubTask dispatch attempt gets, tiered off its
+    estimated_duration rather than one flat value for every task.
+
+    Deliberately timeout-only: circuit-breaker sensitivity would also
+    reasonably scale per tier, but the breaker is an opaque object injected
+    by the caller (SwarmOrchestrator.set_circuit_breaker) — tiering its
+    sensitivity belongs to whatever constructs that breaker, outside this
+    module's boundary, not here.
+    """
+
+    timeout_seconds: float
+    tier: str
+
+
+def default_monitor_budget(
+    domain: str, estimated_duration: float, base_timeout_seconds: float
+) -> MonitorBudget:
+    """Tiers a SubTask's dispatch timeout so a long-running task isn't cut
+    off by the same window as a short one, and a short task doesn't wait
+    out a timeout many multiples of its own expected length.
+
+    `domain` is accepted for forward compatibility with a future,
+    data-informed tiering scheme but does not affect the current rule,
+    which is duration-only.
+    """
+    if estimated_duration >= _LONG_RUNNING_DURATION_THRESHOLD_SECONDS:
+        # The ceiling bounds the extension above base_timeout_seconds; it
+        # never pulls the tiered timeout below the caller's own configured
+        # base — a long-running task must never get less time than the
+        # standard tier would have given it.
+        return MonitorBudget(
+            timeout_seconds=max(
+                base_timeout_seconds,
+                min(
+                    estimated_duration * _LONG_RUNNING_TIMEOUT_MULTIPLIER,
+                    _LONG_RUNNING_TIMEOUT_CEILING_SECONDS,
+                ),
+            ),
+            tier="long_running",
+        )
+    if 0 < estimated_duration <= _SHORT_DURATION_THRESHOLD_SECONDS:
+        return MonitorBudget(
+            timeout_seconds=min(
+                base_timeout_seconds, estimated_duration * _SHORT_DURATION_TIMEOUT_MULTIPLIER
+            ),
+            tier="short",
+        )
+    return MonitorBudget(timeout_seconds=base_timeout_seconds, tier="standard")
+
+
+def _reflection_note_for_attempt(rationale: str, is_final_attempt: bool) -> str:
+    """The note injected into WorkingMemory ahead of a retried dispatch.
+    Every retry but the last carries the bare per-criterion critique; the
+    final allowed attempt additionally asks for a genuinely different
+    approach rather than a small variation on what has already failed
+    twice — repeating the same fix on the last chance wastes it."""
+    if not is_final_attempt:
+        return rationale
+    return (
+        f"{rationale}\n\nThis is the final retry attempt. The prior approach has not worked — "
+        "try a genuinely different approach rather than a small variation on what was already "
+        "attempted."
+    )
+
+
+def default_gate_criteria_tier(domain: str) -> str:
+    """The default activation policy for whether a SubTask should get
+    gate_criteria at all: "enabled" for higher-stakes domains, "disabled"
+    for open-ended/generic work. This function is guidance for the caller
+    deciding whether to set SubTask.gate_criteria — it never mutates a
+    SubTask itself; that stays the caller's explicit choice.
+
+    A third tier, "skipped" (deterministic, infra-only tasks whose only
+    failure mode fault-retry already covers), exists in the design but has
+    no reliable signal on SubTask today — domain alone can't distinguish
+    "this task is inherently deterministic" from "this task's domain is
+    just unset/generic." Honestly returning only "enabled"/"disabled" here,
+    rather than guessing at a "skipped" heuristic the design docs don't
+    actually specify, is intentional; callers who know a task is
+    deterministic simply never set gate_criteria on it, achieving the same
+    effect without this function inventing an unfounded classifier.
+    """
+    normalized = (domain or "").lower()
+    if any(keyword in normalized for keyword in _HIGH_STAKES_DOMAIN_KEYWORDS):
+        return "enabled"
+    return "disabled"
+
+
+def _normalize_criterion(text: str) -> str:
+    """Normalize a gate_criteria string for forgiving comparison against
+    result["checks"] keys — lowercase, non-alphanumeric runs collapsed to
+    a single underscore, so "no lint errors" and "no_lint_errors" match."""
+    normalized = []
+    prev_was_sep = False
+    for ch in text.lower().strip():
+        if ch.isalnum():
+            normalized.append(ch)
+            prev_was_sep = False
+        elif not prev_was_sep:
+            normalized.append("_")
+            prev_was_sep = True
+    return "".join(normalized).strip("_")
+
+
+_NEGATION_CUES = frozenset(
+    {
+        "not", "n't", "cannot", "isn't", "aren't", "wasn't", "weren't",
+        "doesn't", "don't", "didn't", "won't", "wouldn't", "no", "false",
+        "incorrect", "fails", "failed", "fail", "unable", "never",
+    }
+)
+_NEGATION_WINDOW_CHARS = 60
+
+
+def _phrase_asserted_in_narrative(phrase: str, narrative: str) -> bool:
+    """True if `phrase` occurs in `narrative` at least once without an
+    immediately-preceding negation cue. Bounded heuristic, not real NLP: it
+    only inspects a fixed character window immediately before each match
+    against a small fixed negation-word vocabulary. It will miss negation
+    phrased outside that window, negation cues not in the list, and double
+    negation. Exists to close one concrete, reproduced false-positive (a
+    narrative that explicitly denies a criterion but still contains the
+    criterion's exact words as a substring) — not to generally understand
+    narrative text."""
+    if not phrase:
+        return False
+    lowered_narrative = narrative.lower()
+    lowered_phrase = phrase.lower()
+    start = 0
+    while True:
+        idx = lowered_narrative.find(lowered_phrase, start)
+        if idx == -1:
+            return False
+        window = lowered_narrative[max(0, idx - _NEGATION_WINDOW_CHARS) : idx]
+        window_words = re.findall(r"[a-z']+", window)
+        if not any(word in _NEGATION_CUES for word in window_words):
+            return True
+        start = idx + len(lowered_phrase)
+
+
+def _criterion_satisfied(criterion: str, checks: dict[str, Any], narrative: str) -> bool:
+    """Judge one gate_criteria item. Structured evidence (result["checks"])
+    is checked first and takes precedence; only when no matching structured
+    key exists does this fall back to a substring match against narrative
+    text. The fallback is an accepted, only-partially-closeable residual
+    risk: a narrative string is exactly what a manipulated tool result
+    could poison to fake a pass, and this function cannot close that on
+    its own — it can only prefer checkable evidence over narrative
+    whenever checkable evidence exists. The fallback also applies a bounded
+    negation check (see `_phrase_asserted_in_narrative`) so a sentence that
+    explicitly denies the criterion is not scored the same as one that
+    asserts it."""
+    key = _normalize_criterion(criterion)
+    for check_key, check_value in checks.items():
+        if _normalize_criterion(str(check_key)) == key:
+            return bool(check_value)
+    return _phrase_asserted_in_narrative(
+        key.replace("_", " "), narrative
+    ) or _phrase_asserted_in_narrative(criterion, narrative)
+
+
+def evaluate_subtask_result(subtask: SubTask, result: Any) -> EvaluationVerdict:
+    """The Evaluate step. Only meant to be called once a SubTask has
+    executed without an infra fault — the caller (SwarmOrchestrator._dispatch)
+    is responsible for that ordering.
+
+    gate_criteria authoring convention: each entry must be one
+    independently-checkable statement, not a compound sentence — this
+    function judges each entry independently and does not attempt to
+    split compound criteria itself.
+
+    Checkable-evidence grounding: when `result` is a dict carrying a
+    "checks" mapping (structured, caller-supplied evidence — e.g. real
+    test output, a diff summary, an explicit status flag), each criterion
+    is matched against that mapping first. Only a criterion with no
+    corresponding structured key falls back to a substring match against
+    `result`'s narrative fields ("output"/"summary") — a residual risk
+    this doesn't close, documented rather than pretended away.
+    """
+    criteria = subtask.gate_criteria or []
+    if not criteria:
+        return EvaluationVerdict(
+            passed=True, rationale="No gate_criteria set — Evaluate skipped, opt-in only."
+        )
+
+    checks: dict[str, Any] = {}
+    narrative_parts: list[str] = []
+    if isinstance(result, dict):
+        checks = dict(result.get("checks") or {})
+        for narrative_key in _NARRATIVE_RESULT_KEYS:
+            value = result.get(narrative_key)
+            if isinstance(value, str):
+                narrative_parts.append(value)
+    narrative = " ".join(narrative_parts)
+
+    unmet = [c for c in criteria if not _criterion_satisfied(c, checks, narrative)]
+    if unmet:
+        return EvaluationVerdict(
+            passed=False,
+            rationale="Unmet gate_criteria: " + "; ".join(unmet),
+        )
+    return EvaluationVerdict(
+        passed=True,
+        rationale="All gate_criteria satisfied: " + "; ".join(criteria),
+    )
+
+
+_working_memory_module = None
+
+
+def _get_working_memory_cls():
+    """Lazily import WorkingMemory from context-engineering/implementations
+    directly by file path (not via a package-qualified import) — this
+    workspace's four CC-00 module roots all name their code directory
+    `implementations`, so a package-qualified cross-module import
+    (`implementations.memory_store`) risks colliding with this very
+    module's own `implementations` namespace package once both module
+    roots are on sys.path at once (a known collision documented elsewhere
+    in this workspace's research archive). Importing memory_store.py as a
+    bare top-level module, from its own directory inserted directly onto
+    sys.path, sidesteps that collision entirely. Cached at module level so
+    the path insertion and import only happen once per process."""
+    global _working_memory_module
+    if _working_memory_module is None:
+        import sys
+        from pathlib import Path
+
+        memory_store_dir = (
+            Path(__file__).resolve().parents[2]
+            / "context-engineering"
+            / "implementations"
+        )
+        sys.path.insert(0, str(memory_store_dir))
+        import memory_store as _memory_store_module  # noqa: E402
+
+        _working_memory_module = _memory_store_module
+    return _working_memory_module.WorkingMemory
 
 
 class SwarmOrchestrator:
@@ -262,6 +550,13 @@ class SwarmOrchestrator:
         if self.config.enable_feedback_loop:
             result.feedback = self._gen_feedback(plan, result)
             self._execution_log.append(result.feedback)
+
+        reflective_feedback = self._gen_reflective_loop_feedback(plan)
+        if reflective_feedback:
+            if result.feedback is None:
+                result.feedback = {}
+            result.feedback.update(reflective_feedback)
+
         return result
 
     def synthesize(self, result: SwarmResult) -> str:
@@ -318,24 +613,78 @@ class SwarmOrchestrator:
             return
         task.status = TaskStatus.DISPATCHED
         task.started_at = time.time()
+        # The reflective (semantic-retry) loop below is entirely separate
+        # state from this method's own fault handling: any exception at any
+        # point still falls straight through to the `except` clause below
+        # and sets FAILED — this module tracks no fault-retry counter of its
+        # own (that lives, if used at all, inside the caller-supplied
+        # _execute_fn / error_boundary.py), so the two retry classes cannot
+        # share a budget by construction, not merely by convention.
+        working_memory = None
         try:
-            handoff = HandoffPacket(
-                tier=HandoffTier.SCOPED,
-                task=task.description,
-                acceptance_criteria=task.gate_criteria or [],
-                retrieved_reflections=self._retrieve_reflections(task.description),
-            )
-            result = await asyncio.wait_for(
-                self._execute_fn(task, handoff),
-                timeout=self.config.timeout_seconds,
-            )
-            task.result = result
-            task.status = TaskStatus.COMPLETED
+            while True:
+                handoff_task_text = task.description
+                if working_memory is not None:
+                    handoff_task_text = (
+                        f"{task.description}\n\n{working_memory.to_context_string()}"
+                    )
+                handoff = HandoffPacket(
+                    tier=HandoffTier.SCOPED,
+                    task=handoff_task_text,
+                    acceptance_criteria=task.gate_criteria or [],
+                    retrieved_reflections=self._retrieve_reflections(task.description),
+                )
+                budget = default_monitor_budget(
+                    task.domain, task.estimated_duration, self.config.timeout_seconds
+                )
+                result = await asyncio.wait_for(
+                    self._execute_fn(task, handoff),
+                    timeout=budget.timeout_seconds,
+                )
+                task.result = result
+
+                if not (self.config.enable_reflective_loop and task.gate_criteria):
+                    # Opt-in only: ungated tasks, or a SwarmConfig with the
+                    # reflective loop disabled, complete without evaluation.
+                    task.status = TaskStatus.COMPLETED
+                    break
+
+                verdict = evaluate_subtask_result(task, result)
+                if verdict.passed:
+                    task.status = TaskStatus.COMPLETED
+                    break
+
+                task.reflection_rationale_history.append(verdict.rationale)
+                task.reflection_retry_count += 1
+                if task.reflection_retry_count > self.config.max_reflection_retries:
+                    task.status = TaskStatus.GATE_FAILED
+                    break
+
+                is_final_attempt = task.reflection_retry_count == self.config.max_reflection_retries
+                working_memory = working_memory or self._get_working_memory_instance()
+                working_memory.set_task(task.description)
+                working_memory.add_note(
+                    _reflection_note_for_attempt(verdict.rationale, is_final_attempt)
+                )
+                # loop back and re-dispatch with the reflection note injected
         except Exception as exc:
             task.status = TaskStatus.FAILED
             task.result = {"error": str(exc)}
         finally:
             task.completed_at = time.time()
+            if working_memory is not None:
+                # Ephemeral by design: the reflection note never outlives
+                # this task's own retry loop. On GATE_FAILED, the rationale
+                # history is preserved separately in
+                # task.reflection_rationale_history (copied into
+                # SwarmResult.feedback by execute(), below) before this
+                # clear() runs — "flagged for review" must carry the actual
+                # reasons, not just the bare fact of failure.
+                working_memory.clear()
+
+    @staticmethod
+    def _get_working_memory_instance():
+        return _get_working_memory_cls()()
 
     @staticmethod
     async def _default_execute(task: SubTask, handoff: HandoffPacket) -> Any:
@@ -343,9 +692,9 @@ class SwarmOrchestrator:
 
     def _retrieve_reflections(self, task_description: str) -> list[str]:
         """Query memory_reflection for prior reflections relevant to this
-        brief, at brief-construction time — proactive retrieval per
-        telescope/2026-07-14-reflexion-memory-system/supporting/
-        01-technical-options.md §5.2.
+        brief, at brief-construction time — proactive retrieval so relevant
+        past reflections are surfaced before the brief is issued, rather
+        than only being discoverable via a later manual search.
 
         Never blocks or delays brief issuance and never raises: no injected
         fn, an empty/degraded response, or an exception from the fn itself
@@ -417,6 +766,39 @@ class SwarmOrchestrator:
                 1 for t in plan.subtasks if t.status == TaskStatus.COMPLETED
             ),
             "failed": sum(1 for t in plan.subtasks if t.status == TaskStatus.FAILED),
+            # Several operators hitting GATE_FAILED on the same criterion
+            # should read as one correlated signal on the SwarmResult, not
+            # scattered per-task messages.
+            "gate_failed": sum(
+                1 for t in plan.subtasks if t.status == TaskStatus.GATE_FAILED
+            ),
             "duration": result.total_duration,
             "utilisation": result.agent_utilisation,
         }
+
+    @staticmethod
+    def _gen_reflective_loop_feedback(plan: SwarmPlan) -> dict[str, Any]:
+        """Reflective-cycle data: the rationale history behind every
+        GATE_FAILED subtask, plus a per-subtask attempts-to-pass count for
+        every subtask that used the loop at all (whether it ultimately
+        passed, exhausted its retries, or is still mid-plan). Populated
+        independently of SwarmConfig.enable_feedback_loop (a different,
+        pre-existing opt-in for execution-health telemetry) — "flagged for
+        review" must carry its actual reasons regardless of whether that
+        unrelated flag happens to be on."""
+        rationale_history = {
+            t.task_id: list(t.reflection_rationale_history)
+            for t in plan.subtasks
+            if t.reflection_rationale_history
+        }
+        retry_counts = {
+            t.task_id: t.reflection_retry_count
+            for t in plan.subtasks
+            if t.reflection_retry_count > 0
+        }
+        feedback: dict[str, Any] = {}
+        if rationale_history:
+            feedback["rationale_history"] = rationale_history
+        if retry_counts:
+            feedback["retry_counts"] = retry_counts
+        return feedback

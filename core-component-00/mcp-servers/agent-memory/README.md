@@ -5,9 +5,15 @@ procedural, and reflection memory backed by a dedicated `qdrant-memory` Qdrant i
 (`http://localhost:6335`), physically separate from `workspace-knowledge`'s document knowledge
 base instance (`qdrant-workspace`).
 
-**Status:** `search_memory` and `health_check` implemented and registered. Both tools are
+**Status:** `search_memory` and `health_check` are implemented and registered. Both tools are
 timeout-guarded (never hang, even if the underlying Qdrant call does) and degrade gracefully
-rather than raise. No write-capable tool yet (see [Tools](#tools)). Full current status,
+rather than raise. A write-capable `write_memory` tool also exists in this codebase (see
+[Tools](#tools)); its activation status, safeguard design, and independent adversarial evaluation
+are documented separately —
+`telescope/2026-08-08-cc00-mcp-observability-stack/research-report.md` § Related Build —
+`agent-memory` Write-Path Tool Status is the source of truth for that tool's current state (moved
+there 2026-08-10 from the former standalone `13-write-path-implementation.md`). Full current
+status for this server generally,
 including open caveats, is tracked in `.claude/rules/mcp-governance.md`'s Registered Servers
 table — treat that as the source of truth if it and this file ever disagree.
 
@@ -64,7 +70,8 @@ its `supporting/` folder.
 ## Why a separate server from `workspace-knowledge`
 
 Decided by the CEO on Laboratory Director recommendation — full rationale in
-`telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md`.
+`telescope/2026-07-10-agent-memory-architecture/research-report.md` § Architecture Decisions and
+Write-Path Security Posture.
 Short version: `workspace-knowledge` is a stable, load-bearing server; memory tooling is newer
 and carries more untested surface, so it gets its own process rather than risking the proven
 one — the same blast-radius reasoning that already gave `qdrant-memory` its own container
@@ -83,32 +90,77 @@ exposition layer over it.
 
 ```
 agent-memory/
-├── server.py          ← MCP server entry point (search_memory, health_check)
-├── pyproject.toml     ← Python project definition
-├── README.md          ← This file
+├── server.py             ← MCP server entry point (search_memory, health_check, write_memory)
+├── write_gate.py         ← WriteConfirmationGate + quarantine promote/reject primitives
+├── write_provenance.py   ← WriteProvenance/validate_provenance + WriteRateLimiter
+├── write_tool.py         ← Testable core of write_memory
+├── pyproject.toml        ← Python project definition
+├── README.md             ← This file
 ├── .gitignore
+├── scripts/              ← Disaster-recovery backup tooling for the JSONL memory log
+│   ├── backup_memory_log.py
+│   ├── register_backup_task.ps1
+│   ├── register_backup_task.py    ← Linux/macOS counterpart, unverified (2026-08-14)
+│   └── verify_backup_restore.py
 └── tests/
-    └── test_search_memory.py   ← Local eval harness (uncommitted, see file header)
+    ├── conftest.py
+    ├── test_server.py
+    ├── test_write_gate.py
+    ├── test_write_provenance.py
+    ├── test_write_memory.py
+    ├── test_write_path_adversarial_evaluation.py
+    ├── test_read_constraints_reverification.py
+    ├── health_comparison.py
+    └── test_cross_server_health_comparison.py
 ```
 
-No dedicated `.venv/` is currently provisioned for this server (unlike `workspace-knowledge`,
-which has one) — `server.py`'s venv-bootstrap code falls back to system Python automatically if
-`.venv/` is absent, and the required packages currently happen to be present there. This is a
-gap against the workspace's own isolation convention, not a design choice; provisioning a proper
-`.venv/` is open follow-up work.
+This server has no dedicated `.venv/` **by design** — it runs from the shared environment at
+`core-component-00/mcp-servers/.venv/`, together with `workspace-knowledge` and
+`embedder-service`. `.mcp.json` points `"command"` directly at that venv's interpreter.
+
+The environment is shared rather than per-server because `embedder_client.py` spawns
+`embedder-service` with `sys.executable`: under per-server venvs the shared service's environment
+would depend on whichever server started it first. See `mcp-servers/CLAUDE.md` § Python Environment
+for the full rationale and the interpreter-resolution chain.
+
+Install/repair, from the repo root — the venv interpreter path differs by OS, everything else is
+identical:
+
+```bash
+# Linux/macOS
+core-component-00/mcp-servers/.venv/bin/python -m pip install -e core-component-00/mcp-servers/agent-memory
+```
+
+```powershell
+# Windows
+core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install -e core-component-00\mcp-servers\agent-memory
+```
 
 ---
 
 ## Installation
 
+The `docker run` line continuation differs by shell (`` ` `` in PowerShell, `\` in bash/zsh) —
+everything else below is identical across platforms:
+
+```bash
+# Linux/macOS — start the dedicated qdrant-memory container (separate from qdrant-workspace)
+docker run -d --name qdrant-memory \
+  -p 6335:6333 -p 6336:6334 \
+  -v qdrant_memory_store:/qdrant/storage \
+  qdrant/qdrant
+```
+
 ```powershell
-# Start the dedicated qdrant-memory container (separate from qdrant-workspace)
+# Windows — start the dedicated qdrant-memory container (separate from qdrant-workspace)
 docker run -d --name qdrant-memory `
   -p 6335:6333 -p 6336:6334 `
   -v qdrant_memory_store:/qdrant/storage `
   qdrant/qdrant
+```
 
-# Or, if already created:
+```
+# Or, if already created (any OS):
 docker start qdrant-memory
 
 # Provision the embedding model into the shared cache (one-time; shared across CC-00 servers)
@@ -133,7 +185,7 @@ Registered in the project-root `.mcp.json`:
 {
   "mcpServers": {
     "agent-memory": {
-      "command": "python",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/.venv/Scripts/python.exe",
       "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/server.py"],
       "env": {
         "MEMORY_QDRANT_URL": "http://localhost:6335",
@@ -145,6 +197,16 @@ Registered in the project-root `.mcp.json`:
   }
 }
 ```
+
+`command` is a direct, absolute path to the shared venv's interpreter — not a bare command name
+resolved via `PATH`. A 2026-08-13 attempt to make this resolve automatically per-OS via
+`uv run` + `UV_PROJECT_ENVIRONMENT` broke live `/mcp reconnect` in production (the Claude Code host
+process resolves `PATH` from its own long-lived environment, which didn't include a `uv` installed
+after the host started) and was reverted — see
+`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`. **A
+Linux/macOS deployment must manually change this path's `Scripts/python.exe` to `bin/python`** —
+this is a documented one-line edit, not automatic; see
+`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
 
 The `NO_PROXY`/`no_proxy` pair works around a Windows-specific issue where `qdrant-client`'s
 HTTP transport can be intercepted by a system proxy invisible to the usual environment
@@ -242,14 +304,58 @@ Same shape and same `compute_memory_instance_telemetry()` call as
 underlying Qdrant call is timeout-guarded, so an unreachable or slow `qdrant-memory` reports
 `reachable: false` instead of hanging the call.
 
-### Write tool — not implemented
+### `write_memory`
 
-Explicitly **not planned yet**. Every memory write today happens through `PersistentMemorySink`,
-called by trusted internal runtime code, not through this MCP server. Exposing a write tool
-changes that threat model — anything that can get an agent to call a tool could write directly
-into persistent memory. Deferred until it has been through an adversarial evaluation targeting
-prompt-injected write attempts, matching the rigor already applied to the contradiction-check
-(`supporting/07-adversarial-evaluation-results.md`).
+A write-capable counterpart to `search_memory`, accepting new episodic, semantic, or procedural
+content plus non-optional provenance metadata (source, triggering-context excerpt, whether the
+triggering context included externally-read content, and a confidence value). Every write is
+rate-limited per session and per session-per-memory-type, scanned for embedded-instruction
+patterns, and — depending on whether it collides with an existing record — either lands
+immediately in a review-pending quarantine lane or requires a human-facing confirmation step
+before becoming retrievable. There is no `sacred`, `importance`, or `status` parameter: those
+fields are always derived internally, never caller-supplied.
+
+Every write today still goes through the same durable path described above
+(`PersistentMemorySink` and the JSONL log) for writes originating from trusted internal runtime
+code; `write_memory` is a second, MCP-agent-callable write surface with its own independent
+safeguard design. Full design rationale, safeguard mechanics, activation status, and an
+independent adversarial evaluation against the real implementation:
+`telescope/2026-07-10-agent-memory-architecture/supporting/13-write-path-implementation.md`.
+
+---
+
+## Disaster Recovery — Backup Scripts
+
+Three standalone scripts under `scripts/` back up the JSONL memory log itself — a different
+failure class from the Qdrant-outage resilience already covered by
+`telescope/2026-07-10-agent-memory-architecture/supporting/05-disaster-recovery-and-resilience.md`
+(that document's zero-RPO guarantee assumes the JSONL log survives; these scripts cover what
+happens if it doesn't — disk failure, accidental deletion, host loss).
+
+| Script                     | Purpose                                                                                                                                                                                                                                                     |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `backup_memory_log.py`     | Snapshots `engineering/context-engineering/memory/` to a dated directory, keeping a rolling window of recent snapshots                                                                                                                                      |
+| `register_backup_task.ps1` | Registers a daily Windows Task Scheduler job to run the backup script                                                                                                                                                                                       |
+| `register_backup_task.py`  | Linux/macOS counterpart — registers a systemd `--user` timer or crontab entry. **Written 2026-08-14, UNVERIFIED** — no non-Windows machine available to test against; see its own docstring and the maintenance-record log entry below before relying on it |
+| `verify_backup_restore.py` | Replays a snapshot into a disposable test Qdrant collection via `rebuild_from_log()` and checks record counts, then cleans up                                                                                                                               |
+
+`backup_memory_log.py` and `verify_backup_restore.py` are plain Python and already cross-platform.
+`register_backup_task.ps1` (Windows Task Scheduler) and `register_backup_task.py` (Linux systemd
+timer or crontab, macOS crontab only — launchd not implemented) are two separate scripts, not one
+ported implementation, since `Register-ScheduledTask`, `systemctl`, and `crontab` have no shared
+API to port between — see
+`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`
+for the full history of both.
+**Open gap, still not activated anywhere:** this whole DR-backup path is INACTIVE by default (see
+each script's own `STATUS` docstring) — nothing currently depends on either script running on any
+platform. `register_backup_task.py` exists now so the gap isn't indefinitely deferred, but it has
+never been run for real on Linux or macOS — confirm it actually registers and fires before treating
+it as DR-ready, and note the macOS launchd gap (cron is TCC-restricted on modern macOS) is still
+open.
+
+Full design, proposed RTO/RPO, and current status:
+`supporting/02-deployment-guidelines.md` §9 (merged there 2026-08-10 from the former standalone
+`12-dr-backup-design.md`).
 
 ---
 
@@ -267,9 +373,10 @@ the first `search_memory` call is never blocked on it; `search_memory` degrades 
 a `reason` explaining whether the embedder is still loading, failed to load, or (if this code
 path is ever reached) is genuinely unavailable — it never raises. A background-load stall on one
 of the embedder's transitive imports was previously observed in some live server processes on
-this environment; it is now resolved via a lazy embedder warmup, per
-`core-component-00/telescope/2026-07-17-agent-memory-client-instability/` (root-caused and
-fixed). Full status, including prior investigation history, is tracked in
+this environment; it is now resolved via a lazy embedder warmup (root-caused and fixed —
+the telescope incident record was removed 2026-08-13 as a completed maintenance-operation, per
+`.claude/rules/mcp-governance.md`'s `agent-memory` row). Full status, including prior
+investigation history, is tracked in
 `.claude/rules/mcp-governance.md`. This server has no private per-server model cache and no
 dependency on `workspace-knowledge`'s process, state, or cache — the shared cache is a filesystem
 convention both read independently, not a coupling between the two servers.
@@ -285,7 +392,8 @@ end-to-end MCP calls). Open caveats, both tracked in `.claude/rules/mcp-governan
 than duplicated here to avoid drift:
 
 1. The embedder background-load stall described above is now resolved (root-caused and fixed —
-   see `core-component-00/telescope/2026-07-17-agent-memory-client-instability/`).
+   see `.claude/rules/mcp-governance.md`'s `agent-memory` row; the telescope incident record was
+   removed 2026-08-13 as a completed maintenance-operation).
 2. `memory_reflection` holds 4 real records (`REFLECT-001`–`004`, migrated 2026-07-15 from the
    retired mistake-log); `memory_episodic`/`memory_semantic`/`memory_procedural` still hold zero
    (no production memory writes exist yet), so retrieval _quality_ against real content remains

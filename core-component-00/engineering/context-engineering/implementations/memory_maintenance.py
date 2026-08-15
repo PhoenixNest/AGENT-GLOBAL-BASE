@@ -1,9 +1,7 @@
 """
 Memory Maintenance — Decay, Consolidation, and Status-Transition Job
 
-Standalone, testable module implementing this workspace's forgetting strategy —
-full design spec:
-    telescope/2026-07-10-agent-memory-architecture/supporting/03-forgetting-strategy.md
+Standalone, testable module implementing this workspace's forgetting strategy.
 
 Deployed as a scheduled job (ScheduleWakeup or CronCreate), never as an inline
 per-turn computation, so its decay formula stays unit-testable against
@@ -25,7 +23,8 @@ This module implements:
 Explicitly not done here:
     - The LLM-judged contradiction check's production activation. Dr. Tomasz
       Wieczorek's adversarial evaluation of its false-positive UPDATE risk has
-      run (telescope/2026-07-10-agent-memory-architecture/supporting/07-adversarial-evaluation-results.md)
+      run (telescope/2026-07-10-agent-memory-architecture/research-report.md
+      § Contradiction-Check Adversarial Evaluation)
       and found no independent safeguards against misclassification — the gate
       stays closed until the specific gaps that report lists are fixed.
       run_maintenance_pass() refuses to invoke check_contradiction() under any
@@ -60,8 +59,7 @@ def _new_id() -> str:
 # ---------------------------------------------------------------------------
 # Tunable constants — deployment defaults.
 # None of these are empirically validated against this workspace's actual
-# session data yet — recalibrate once real usage data exists (see
-# supporting/08-threshold-sensitivity-check.md for a synthetic bounds-check).
+# session data yet — recalibrate once real usage data exists.
 # ---------------------------------------------------------------------------
 
 BASE_STRENGTH_DAYS = 7.0
@@ -251,7 +249,8 @@ def check_contradiction(
 
     This function exists so consolidation's dependency graph is complete and
     this logic is unit-testable. Dr. Tomasz Wieczorek's adversarial evaluation
-    (telescope/2026-07-10-agent-memory-architecture/supporting/07-adversarial-evaluation-results.md)
+    (telescope/2026-07-10-agent-memory-architecture/research-report.md
+    § Contradiction-Check Adversarial Evaluation)
     has already run against it and found no independent safeguards: a
     representative naive judge misclassified 5/5 curated non-contradictory
     pairs as UPDATE, the verdict is order-sensitive, and an engineered
@@ -324,7 +323,8 @@ def run_maintenance_pass(
             "Contradiction-check activation requires "
             "i_have_completed_adversarial_review=True. Dr. Tomasz Wieczorek's "
             "adversarial evaluation has run and found this mechanism unsafe to "
-            "activate (see supporting/07-adversarial-evaluation-results.md) — "
+            "activate (see research-report.md's Contradiction-Check Adversarial "
+            "Evaluation section) — "
             "the gaps it lists must be fixed and re-evaluated first. Refusing "
             "to enable it."
         )

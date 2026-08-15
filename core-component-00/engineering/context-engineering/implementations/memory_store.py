@@ -451,17 +451,14 @@ class WorkingMemory:
 # Reflection Memory
 # ---------------------------------------------------------------------------
 #
-# The fourth memory type, added by the 2026-07-14-reflexion-memory-system
-# Programme (Phase 1). Full design: core-component-00/telescope/
-# 2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §1
-# and supporting/02-storage-specification.md.
+# The fourth memory type, distinct from episodic/semantic/procedural.
 #
 # Unlike episodic/semantic/procedural, a ReflectionRecord is never
 # constructed by application code from arbitrary agent output — only by the
 # Investigator-Authored Write Path (implementations/reflection_authoring.py),
 # which enforces a real, non-spoofable identity check before a record is
 # ever built. No MCP write tool exists or should ever be added for this
-# memory type (01-technical-options.md §4, "Option A" explicitly rejected).
+# memory type.
 
 TRIGGER_TYPES = {
     "process_violation",
@@ -487,7 +484,7 @@ class ReflectionRecord:
     reflection_id: str                 # e.g. "REFLECT-001"
     trigger_type: str                  # one of TRIGGER_TYPES — see 02-storage-specification.md §1.1
     source_event_ref: str              # pointer to the originating report/event, e.g.
-                                        # "core-component-00/telescope/2026-07-13-mcp-embedder-service-redesign/supporting/mistake-log.md#MISTAKE-001"
+                                        # "core-component-00/telescope/<slug>/supporting/mistake-log.md#MISTAKE-001"
     summary: str                       # synthesized verbal reflection (Reflexion-style) — not a copy of the source
     root_cause: str
     remediation: str
@@ -774,8 +771,8 @@ class ReflectionMemory:
         Production note: this in-memory keyword-overlap implementation is a
         development/test fallback, mirroring SemanticMemory.query()'s own
         documented limitation. Production retrieval goes through
-        agent-memory's search_memory tool with memory_type="reflection"
-        (Phase 2 — out of scope for this module).
+        agent-memory's search_memory tool with memory_type="reflection",
+        which this module does not implement.
 
         Args:
             scope_text: Natural language description of the current

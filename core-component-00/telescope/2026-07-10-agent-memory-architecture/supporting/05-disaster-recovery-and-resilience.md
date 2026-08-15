@@ -1,185 +1,196 @@
 # Disaster Recovery and Resilience — Persistent Agent Memory System
 
 > **Core Component 00 — Cross-Module Programme (Context Engineering × Retrieval-Augmented Generation × Harness Engineering)**
-> **Parent Report:** `../research-report.md`
-> **Audience:** Engineers implementing the memory system's availability and recovery behavior.
-> **Last Updated:** 2026-07-10
-> **Coordinating leads:** Sofia Almeida / Diego Fontán (RAG — own the document-RAG Graceful
-> Degradation Stack this design extends), Kwame Asante (Harness Engineering — error-boundary
-> patterns), Dr. Elias Vance (Director).
+> **Parent Report:** [research-report.md](core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md)
+> **Audience:** Written for a general audience, with implementation-level detail where it matters.
+> **Last Updated:** 2026-08-12
+> **Coordinating leads:** Sofia Almeida / Diego Fontán (RAG — own the document-search fallback
+> design this extends), Kwame Asante (Harness Engineering — error-boundary patterns), Dr. Elias
+> Vance (Director).
 
 ---
 
 ## 1. Direct Answer: Does the Current Design Already Account for Performance and Stability?
 
-**Performance — yes, already specified.** `02-deployment-guidelines.md` §7 sets explicit p95
-targets (write <100ms, retrieval <600ms, maintenance pass <5 min per 10,000 points), and the
-embedding model choice in `01-technical-options.md` §4 was made specifically for write-frequency
-performance, not just retrieval quality.
+**Performance — yes, already specified.** [02-deployment-guidelines.md](02-deployment-guidelines.md) § 7 sets explicit speed
+targets (write under 100ms, retrieval under 600ms, a full maintenance pass under 5 minutes per
+10,000 records), and the embedding model chosen in [01-technical-options.md](01-technical-options.md) § 4 was picked
+specifically for write speed, not just search quality.
 
-**Stability under normal operation — yes, already specified.** Sacred-record completeness (100%,
-never excluded by decay), never-automatic hard deletion, and the Memory-as-Corpus principle
-(JSONL as source of truth) all already protect against _data-integrity_ instability.
+**Stability under normal operation — yes, already specified and confirmed live.** A decision or
+commitment is never excluded from search, hard deletion never happens automatically, and every
+memory write is first saved to a plain-text log before anything else — all of this protects
+against data getting quietly lost or corrupted during ordinary use, and all of it was directly
+confirmed against the running code on 2026-08-10.
 
-**Stability under host/infrastructure failure — addressed in this document.** What happens if the
-`qdrant-memory` container fails to start, crashes mid-session, or the host machine loses power
-mid-write is specified below, extending the document knowledge base's existing answer to this
-class of failure (the Graceful Degradation Stack,
-`retrieval-augmented-generation/architecture/overview.md` §11) to the memory system as well.
+**Stability if the underlying infrastructure fails — the honest picture is in this document,
+kept current.** What actually happens if the memory search database fails to start, crashes
+mid-session, or the machine loses power mid-write is laid out below: three of the four designed
+fallback tiers are live; one (Tier 2) is not built.
 
 ---
 
 ## 2. Failure Mode Catalog
 
-| Failure Mode                                      | Trigger                                                                       | Blast Radius Without Mitigation                                                                                                                                                                         |
-| ------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Docker daemon fails to start on host/user machine | Windows update, resource exhaustion, WSL2 backend failure                     | Both `qdrant-workspace` and `qdrant-memory` unreachable — but they fail _independently_ per the dedicated-instance decision (`01-technical-options.md` §8), so one failing does not imply the other has |
-| `qdrant-memory` container crash mid-session       | OOM kill, disk-full on the named volume, unhandled exception in Qdrant itself | All memory retrieval (episodic + semantic + procedural) loses its semantic-search layer                                                                                                                 |
-| Corrupted named volume (`qdrant_memory_store`)    | Unclean shutdown, disk corruption                                             | Same as above, but persists across container restart until volume is rebuilt                                                                                                                            |
-| Host machine reboot mid-write                     | Power loss, forced restart                                                    | A single in-flight write may be lost from Qdrant, but not from the JSONL log (§4)                                                                                                                       |
-| Port conflict (`6335`/`6336` already bound)       | Another process claims the port before `qdrant-memory` starts                 | Container fails to start; identical failure mode to daemon failure from the memory system's perspective                                                                                                 |
+| Failure Mode                                               | What Triggers It                                                      | Impact Without Any Mitigation                                                                                                                                                                                                       |
+| ---------------------------------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Docker fails to start on the host machine                  | Windows update, resource exhaustion, a virtualization backend failure | Both the document-search database and the memory database become unreachable — but because they're deliberately separate instances ([01-technical-options.md](01-technical-options.md) § 8), one failing doesn't mean the other has |
+| The memory database crashes mid-session                    | Out-of-memory kill, disk full, an unhandled internal error            | All memory search (across every memory type) loses its ability to search by meaning                                                                                                                                                 |
+| The memory database's storage volume is corrupted          | An unclean shutdown, disk corruption                                  | Same as above, but persists across a restart until the storage volume is rebuilt                                                                                                                                                    |
+| The host machine reboots mid-write                         | Power loss, a forced restart                                          | A single in-flight write to the search index may be lost, but never from the plain-text log (§ 4)                                                                                                                                   |
+| A network port the memory database needs is already in use | Another process claims the port first                                 | The database container fails to start — the practical effect is identical to the Docker-failure row above                                                                                                                           |
 
 ---
 
-## 3. Availability Strategy: Extending the Graceful Degradation Stack to Memory
+## 3. Availability Strategy: What's Actually Built, Not Just Designed
 
-The document-RAG Graceful Degradation Stack (`architecture/overview.md` §11) is the direct
-precedent. Memory gets its own four-tier stack, running against the JSONL logs and the
-`qdrant-memory` instance rather than the document corpus and `qdrant-workspace`:
+The document-search system has a real, working four-level fallback — if its primary search fails,
+it steps down automatically through a backup index, then a keyword-only search, then a raw file
+scan. Memory mirrors three of those four levels:
 
 ```
-[Tier 1] qdrant-memory semantic search + BM25 fusion        ← primary
-    ↓ (fallback, qdrant-memory unreachable)
-[Tier 2] In-process FAISS index, rebuilt from JSONL logs     ← hot standby
-    ↓ (fallback, FAISS index not yet built or stale)
-[Tier 3] BM25 keyword-only search directly over JSONL logs  ← warm standby
-    ↓ (fallback, all indexes unavailable)
-[Tier 4] Raw JSONL scan — no index required                  ← cold fallback
+[Tier 1] Qdrant semantic search + keyword fusion         ← primary — LIVE
+    ↓ (fallback if Qdrant is unreachable)
+[Tier 2] In-process backup search index                   ← NOT BUILT
+    ↓ (fallback if that's unavailable)
+[Tier 3] Keyword-only search directly over the log files   ← LIVE, automatic
+    ↓ (fallback if all indexes are unavailable)
+[Tier 4] Read the raw log files directly / full rebuild     ← LIVE, via a manual or scripted replay
 ```
 
-Tier 4 is **always available** without any additional engineering, for the same reason it's always
-available for the document corpus: the Memory-as-Corpus principle (`01-technical-options.md` §2)
-already guarantees the JSONL logs are plain text and the actual source of truth. This is the single
-biggest advantage of that earlier design decision — it was made for rebuild/rollback reasons, but
-it also happens to be exactly what a disaster-recovery cold-fallback needs, at no extra cost.
+**Tier 3 falls through automatically.** `search_memory` detects a degraded Tier 1 — Qdrant
+unreachable, timed out, or the embedder unavailable — via `QdrantMemoryIndex.search_with_status()`
+(episodic/semantic/procedural) or `_search_reflection_with_status()` (reflection), and falls
+through to `keyword_search_log()` / `keyword_search_reflection_log()`
+(`engineering/context-engineering/implementations/memory_vector_store.py`,
+`mcp-servers/agent-memory/server.py`) in the same call — no person or scheduled job has to notice
+the outage first. This reuses the RAG module's own `bm25_score()` reference implementation
+(`retrieval-augmented-generation/implementations/retrieval.py`) rather than a second BM25
+implementation, and every `search_memory` response carries a `tier` field (1 or 3) so a caller or
+operator can tell which one actually served a given result. Sacred (decision/commitment) record
+completeness carries over automatically: Tier 3 applies the identical `status_in` filter Tier 1
+applies, and a sacred record is already permanently pinned at `status="active"` by
+`apply_decay()` (`memory_maintenance.py`) — there is no separate bypass to maintain.
 
-**Recency-filtered retrieval (`01-technical-options.md` §6) degrades trivially** — it never
-required Qdrant to begin with when filtering is by `session_id` + `created_at`; a JSONL scan
-satisfies it directly at any tier. Only semantic-similarity retrieval actually depends on which
-tier is active.
+`search_memory`'s `degraded` flag reflects the true state of Tier 1, not just whether a Qdrant
+client was injected: `search_with_status()`/`_search_reflection_with_status()` report
+`degraded=True` with a `reason` for a missing client or embedder, a connection error, a timeout,
+or a malformed response alike — this is the signal Tier 3's automatic handoff depends on.
+
+Tier 2 (an in-process backup search index) is not built.
+
+**Why the "always available" cold-fallback still holds:** Tier 4 (reading the log files directly)
+requires no extra engineering to exist, for the same reason it doesn't for the document-search
+system — the Memory-as-Corpus principle ([01-technical-options.md](01-technical-options.md) § 2) already guarantees the log
+files are plain text and are the actual source of truth. Tier 3 sits between Tier 1 and Tier 4 as
+a second, real safety net.
+
+**One thing that degrades gracefully without any extra work:** recency-filtered lookups (see
+[01-technical-options.md](01-technical-options.md) § 6 — "what happened recently in this session?") never actually needed
+Qdrant to begin with; they can always be satisfied by scanning the log files directly, at any
+tier.
 
 ---
 
-## 4. Write-Path Resilience: JSONL Append Is Never Blocked by Qdrant
+## 4. Write-Path Resilience: The Log Write Is Never Blocked by the Search Database
 
-The write path in `02-deployment-guidelines.md` §3 already appends to the JSONL log **before**
-embedding and upserting to Qdrant. This ordering, chosen originally for source-of-truth reasons, is
-also the correct disaster-recovery ordering: **the JSONL append must never be made conditional on
-Qdrant's availability.**
+**This part was confirmed fully built and working, unchanged from the original design.** The write
+path ([02-deployment-guidelines.md](02-deployment-guidelines.md) § 3) always appends to the plain-text log **before** it embeds
+and updates the search index. That ordering — chosen originally just to keep the log as the source
+of truth — turns out to be exactly the right ordering for disaster recovery too: **the log write
+must never depend on whether the search database happens to be available.**
 
-Revised write path under failure:
+Write path if the search database is down:
 
 ```
 MemoryStore call
-    → append JSONL line                              ← always succeeds (local disk write)
-    → attempt embed + Qdrant upsert
-        → success: done, fully synced
-        → failure (qdrant-memory unreachable):
-              mark record as pending in memory-sync-state.json
-              return to caller normally — no error surfaced to the agent
+    → append one line to the log file              ← always succeeds (this is a local disk write)
+    → attempt to embed + update the search index
+        → success: done, fully in sync
+        → failure (search database unreachable):
+              mark the record as pending in memory-sync-state.json
+              return to the caller normally — the agent sees no error
 ```
 
-**Result: RPO (recovery point objective) is zero.** No memory content is ever lost due to a
-`qdrant-memory` outage — only its searchability at Tier 1 is delayed until resync (§5). This is a
-direct, load-bearing consequence of the Memory-as-Corpus decision already made in
-`01-technical-options.md` §2, not a new mechanism bolted on afterward.
-
-`memory-sync-state.json` (`02-deployment-guidelines.md` §3) gains one additional field per
-collection to track this:
-
-```json
-{
-  "memory_episodic": {
-    "last_rebuild_at": 0,
-    "point_count": 0,
-    "pending_resync_ids": []
-  }
-}
-```
+**Result: zero data loss, guaranteed.** No memory content is ever lost because the search database
+happened to be down — only its _searchability_ is delayed until a resync happens (§ 5). This is a
+direct, load-bearing consequence of the Memory-as-Corpus decision made in
+[01-technical-options.md](01-technical-options.md) § 2, not a separate mechanism bolted on afterward.
 
 ---
 
-## 5. Self-Check and Resync Procedure (Runs Once Recovery Is Underway)
+## 5. Self-Check and Resync — What Happens When the Database Comes Back
 
-Directly modeled on the RAG module's existing **Orphaned Point Detection and Remediation**
-framework (`retrieval-augmented-generation/evaluation/reference-table.md` § Orphaned Point
-Detection), inverted: instead of detecting Qdrant points with no corresponding source (orphaned),
-memory's recovery check detects **JSONL records with no corresponding Qdrant point** (unsynced).
+Modeled on the document-search module's own existing "find records the index is missing" check,
+run in reverse: instead of finding search-index entries with no matching source document
+(orphaned), memory's version finds **log records with no matching search-index entry**
+(unsynced).
 
-| Step        | Action                                                                                                                                                                                                                                                                                                                |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1. Detect   | On `qdrant-memory` reconnect (health check succeeds after a prior failure), compare each collection's JSONL record count against its Qdrant `points_count`                                                                                                                                                            |
-| 2. Identify | Any JSONL record ID in `pending_resync_ids` (§4), plus any record whose `created_at` is newer than the collection's `last_rebuild_at`, is a resync candidate                                                                                                                                                          |
-| 3. Resync   | Batch embed + upsert all resync candidates — the same batch path already used for full rebuild-from-corpus (`02-deployment-guidelines.md` §4)                                                                                                                                                                         |
-| 4. Verify   | Re-run the parity check; if `points_count` still doesn't match JSONL record count after resync, escalate rather than retry silently (mirrors the RAG module's "not detected automatically" caution for orphaned points — an unresolved mismatch after one resync attempt is a signal worth surfacing, not looping on) |
-| 5. Clear    | Empty `pending_resync_ids` only after step 4 confirms parity                                                                                                                                                                                                                                                          |
+| Step        | What Happens                                                                                                                                                     |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Detect   | When the memory database reconnects successfully after a prior failure, compare each collection's log-file record count against its actual point count in Qdrant |
+| 2. Identify | Any record flagged pending during the outage, plus anything newer than the collection's last known rebuild time, is a candidate to resync                        |
+| 3. Resync   | Batch-embed and upload every candidate — the same batch process already used for a full rebuild                                                                  |
+| 4. Verify   | Recheck the counts; if they still don't match after one resync attempt, flag it for a person to look at rather than silently retrying forever                    |
+| 5. Clear    | Only clear the pending-record list once step 4 confirms everything matches                                                                                       |
 
-This procedure runs automatically on reconnect detection — it does not require an operator to
-notice the outage first, unlike the RAG module's parity check (which is currently triggered
-manually or via `health_check` inspection). Given memory's write frequency is much higher than
-document writes, waiting for an operator to notice would let the resync backlog grow
+This check runs automatically as soon as a reconnect is detected — it doesn't wait for a person to
+notice the outage first, unlike the equivalent document-search check (which today is triggered
+manually or by inspecting `health_check`). Given how much more often memory is written to than
+documents are, waiting for someone to notice would let the backlog of un-synced records grow
 unnecessarily.
 
 ---
 
 ## 6. Recovery Objectives
 
-| Objective                                 | Target                                                                                                                                                                                                                                                   | Basis                                                                                           |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| RPO (data loss)                           | Zero                                                                                                                                                                                                                                                     | JSONL append is unconditional on Qdrant availability (§4)                                       |
-| RTO — degraded retrieval capability       | Immediate (next query)                                                                                                                                                                                                                                   | Tier 2–4 fallback requires no manual intervention (§3)                                          |
-| RTO — full Tier-1 capability restored     | Bounded by resync batch duration — same order as the RAG module's 2–5 min corpus rebuild precedent (`architecture/overview.md` §11 Rollback Procedure), scaled to the pending-record count rather than full corpus size, so typically faster in practice | Resync only replays records written during the outage window, not the full collection           |
-| Detection latency (outage → resync start) | Bounded by `health_check` polling interval — recommend ≤60s in production                                                                                                                                                                                | No existing precedent specifies this; workspace-specific recommendation, not literature-derived |
+| Objective                                      | Target                                                                                                                                                                                                                      | Basis                                                                                     |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Maximum data loss (against a search-DB outage) | Zero                                                                                                                                                                                                                        | The log write never depends on the search database being available (§ 4) — confirmed live |
+| Time to _some_ working search after an outage  | **Immediate — automatic, same call.** `search_memory` falls through to Tier 3 (keyword search over the log) the moment Tier 1 reports degraded; no reconnect wait, no manual rebuild needed just to keep answering queries. | Tier 3 (§ 3) — Tier 2 (in-process backup index) remains not built                         |
+| Time to full primary search restored           | Bounded by how long the resync batch takes — roughly proportional to how many records were written during the outage, not the full collection size                                                                          | Resync only replays records from the outage window, not the whole collection              |
+| How fast an outage is even noticed             | Bounded by how often `health_check` is polled — recommended at 60 seconds or less in production; a client of `search_memory` also sees it immediately via `degraded`/`tier` in every response                               | Workspace-specific recommendation; not drawn from external precedent                      |
 
 ---
 
 ## 7. Operator Control Interface
 
-Extends the existing `health_check` MCP tool's `memory_instance` block (`02-deployment-guidelines.md` §6)
-with recovery-specific fields, and reuses the same five-operation control pattern already
-established for the RAG module's index-sync hook (`patterns/index-sync-hooks.md` § Operator
-Control Interface) rather than inventing a new interface shape:
+Extends the memory-specific section of the workspace's existing `health_check` tool
+([02-deployment-guidelines.md](02-deployment-guidelines.md) § 6) with recovery-specific fields, reusing the same operator
+command shape already established for the document-search module's own equivalent, rather than
+inventing a new one:
 
-| Operation                         | Effect                                                                                                                                             |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `status`                          | Report current tier, `pending_resync_ids` count per collection, last resync timestamp                                                              |
-| `force-resync`                    | Manually trigger the resync procedure (§5) without waiting for automatic reconnect detection                                                       |
-| `force-tier <N>`                  | Manually pin retrieval to a specific degradation tier — for testing the fallback stack without actually taking `qdrant-memory` down                |
-| `set-mode auto` / `set-mode warn` | Same semantics as the RAG module's H-RAG02 hook — `auto` resyncs automatically on reconnect, `warn` surfaces a notice and waits for `force-resync` |
+| Command                           | What It Does                                                                                                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `status`                          | Reports current tier, how many records are pending resync per collection, and when the last resync happened                                                                           |
+| `force-resync`                    | Manually starts the resync process (§ 5) without waiting for automatic reconnect detection                                                                                            |
+| `force-tier <N>`                  | Manually pins retrieval to a specific tier, for testing — **note: Tiers 1, 3, and 4 are built and live; pinning to Tier 2 (in-process backup index) still has no effect — not built** |
+| `set-mode auto` / `set-mode warn` | `auto` resyncs automatically on reconnect; `warn` raises a notice and waits for a manual `force-resync` instead                                                                       |
 
 ---
 
 ## 8. What This Document Does Not Change
 
-This document adds a resilience layer around the mechanisms already finalized and indexed in
-`00-sources-and-references.md` §6 (Design Mechanism Rationale) — it does not modify the memory
-scoring, decay, importance, consolidation, or contradiction-handling mechanisms. A `qdrant-memory`
-outage delays _when_ Tier-1 semantic scoring becomes available again; it does not change _how_
-scoring, decay, or importance are computed once it is.
+This document adds a resilience layer around the mechanisms already specified in
+[00-sources-and-references.md](00-sources-and-references.md) § 6 (the full design-mechanism index) — it doesn't change how
+memory is scored, decays, gains importance, consolidates, or (once re-enabled) checks for
+contradictions. A search-database outage only delays _when_ meaning-based search is available
+again; it doesn't change _how_ scoring, decay, or importance are calculated once it is.
 
 ---
 
 ## References
 
-| Resource                                                  | Location                                                                                                                    |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Graceful Degradation Stack (document RAG precedent)       | `core-component-00/retrieval-augmented-generation/architecture/overview.md` §11                                             |
-| Orphaned Point Detection (inverted precedent for §5)      | `core-component-00/retrieval-augmented-generation/evaluation/reference-table.md` § Orphaned Point Detection and Remediation |
-| Index Sync Hook operator interface (precedent for §7)     | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md` § Operator Control Interface                |
-| Memory-as-Corpus principle (basis for zero-RPO guarantee) | `01-technical-options.md` §2                                                                                                |
-| Write path and memory-sync-state.json                     | `02-deployment-guidelines.md` §3                                                                                            |
-| Deployment topology (dedicated `qdrant-memory` instance)  | `01-technical-options.md` §8; `02-deployment-guidelines.md` §1                                                              |
-| Design mechanism index                                    | `00-sources-and-references.md` §6                                                                                           |
+| Resource                                                                                             | Location                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Document-search fallback design (the precedent this extends)                                         | `core-component-00/retrieval-augmented-generation/architecture/overview.md` § 11                                            |
+| Orphaned-record detection (inverted precedent for § 5)                                               | `core-component-00/retrieval-augmented-generation/evaluation/reference-table.md` § Orphaned Point Detection and Remediation |
+| Operator command interface (precedent for § 7)                                                       | `core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md` § Operator Control Interface                |
+| Memory-as-Corpus principle (basis for the zero-data-loss guarantee)                                  | [01-technical-options.md](01-technical-options.md) § 2                                                                      |
+| Write path and the sync-state file                                                                   | [02-deployment-guidelines.md](02-deployment-guidelines.md) § 3                                                              |
+| Deployment topology (dedicated memory database instance)                                             | [01-technical-options.md](01-technical-options.md) § 8; [02-deployment-guidelines.md](02-deployment-guidelines.md) § 1      |
+| Full implementation-status audit (what's actually built, mechanism by mechanism)                     | [00-sources-and-references.md](00-sources-and-references.md) § 6                                                            |
+| Disk-level backup design (the JSONL-log-loss case, distinct from this document's Qdrant-outage case) | [02-deployment-guidelines.md](02-deployment-guidelines.md) § 9                                                              |
 
 ---
 

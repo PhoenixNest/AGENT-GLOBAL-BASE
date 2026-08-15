@@ -419,7 +419,9 @@ on-demand (an extension of `agent-memory`'s existing `search_memory` tool to
    tracking-file deliverable was ever included because no one checked for the corrected rule).
 3. **Route the reflection write path's schema validation through Dr. Wieczorek's evaluation
    function** before production activation, consistent with how the prior programme's
-   contradiction-check logic was gated (`2026-07-10-agent-memory-architecture/supporting/07-adversarial-evaluation-results.md`)
+   contradiction-check logic was gated (`2026-07-10-agent-memory-architecture/research-report.md`
+   § Contradiction-Check Adversarial Evaluation, formerly the standalone
+   `supporting/07-adversarial-evaluation-results.md`, retired 2026-08-10)
    — see § Audit History below for the applied review.
 
 ### Implementation Priority
