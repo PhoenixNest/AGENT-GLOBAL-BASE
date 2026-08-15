@@ -19,6 +19,8 @@ import os
 import re
 import sys
 
+from _hook_log import log_invocation
+
 # Ordered stage detection table -- (pattern, stage, label, hint).
 # First match wins. Identical pattern set/order to both originals.
 STAGE_SIGNALS = [
@@ -139,6 +141,8 @@ def main() -> int:
     if re.search(r"^\s*/", prompt_str, re.MULTILINE):
         return 0
 
+    session_id = data.get("session_id") if isinstance(data, dict) else None
+
     detected = None
     for pattern, stage, label, hint in STAGE_SIGNALS:
         if re.search(pattern, prompt_str, re.IGNORECASE):
@@ -146,9 +150,13 @@ def main() -> int:
             break
 
     if detected is None:
+        log_invocation("pipeline-context-injector", "UserPromptSubmit", decision="no_signal",
+                        session_id=session_id)
         return 0
 
     stage, label, hint = detected
+    log_invocation("pipeline-context-injector", "UserPromptSubmit", decision="stage_detected",
+                    reason=f"Stage {stage} — {label}", session_id=session_id)
 
     workspace_root = _workspace_root()
     existing_docs = []
@@ -177,6 +185,7 @@ Key reminders for Stage {stage}:
 - P0/P1 defects are non-overridable and block progression"""
 
     output = {
+        "systemMessage": f"[H-P02: Stage {stage} signal detected — {label} — pipeline context injected]",
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
             "additionalContext": context_note,
