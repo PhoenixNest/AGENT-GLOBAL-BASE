@@ -13,6 +13,8 @@ import json
 import os
 import sys
 
+from _hook_log import log_invocation
+
 
 def main() -> int:
     raw_input = sys.stdin.read()
@@ -52,8 +54,15 @@ def main() -> int:
     size_kb = (size_bytes + 512) // 1024
     threshold_kb = 500
 
+    session_id = data.get("session_id") if isinstance(data, dict) else None
+
     if size_kb < threshold_kb:
+        log_invocation("context-budget-alert", "UserPromptSubmit", decision="under_threshold",
+                        session_id=session_id, extra={"size_kb": size_kb})
         return 0
+
+    log_invocation("context-budget-alert", "UserPromptSubmit", decision="threshold_exceeded",
+                    session_id=session_id, extra={"size_kb": size_kb})
 
     msg = (
         "[CONTEXT BUDGET ALERT — H-CE01]\n"
@@ -68,6 +77,7 @@ def main() -> int:
     )
 
     output = {
+        "systemMessage": f"[H-CE01: context budget alert — transcript at {size_kb} KB (threshold {threshold_kb} KB)]",
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
             "additionalContext": msg,

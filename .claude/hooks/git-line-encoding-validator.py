@@ -54,6 +54,8 @@ import re
 import subprocess
 import sys
 
+from _hook_log import log_invocation
+
 GIT_ADD_COMMIT_RE = re.compile(r"\bgit\s+(add|commit)\b", re.IGNORECASE)
 PS1_ATTR_RULE_RE = re.compile(r"^\*\.ps1[ \t]+text", re.MULTILINE)
 EOL_LINE_RE = re.compile(r"^i/(\S*)\s+w/(\S*)\s+attr/(.*?)\s*\t(.+)$")
@@ -305,6 +307,7 @@ def main() -> int:
     msg = "\n".join(lines)
 
     hook_output = {"hookEventName": "PreToolUse"}
+    session_id = data.get("session_id")
 
     if has_blocking_issues:
         # Mirrors the .sh original's incremental string-append exactly: each clause gets
@@ -319,10 +322,18 @@ def main() -> int:
         reason += " See additionalContext for details."
         hook_output["permissionDecision"] = "deny"
         hook_output["permissionDecisionReason"] = reason
+        system_message = f"[H-GIT01: blocked git add/commit — {len(mixed_eol_files) + len(bad_cr_scripts)} line-ending defect(s)]"
+        log_invocation("git-line-encoding-validator", "PreToolUse", decision="deny",
+                        session_id=session_id,
+                        extra={"mixed_eol": len(mixed_eol_files), "bad_cr": len(bad_cr_scripts)})
+    else:
+        system_message = "[H-GIT01: line-ending advisory — see additionalContext]"
+        log_invocation("git-line-encoding-validator", "PreToolUse", decision="advisory",
+                        session_id=session_id)
 
     hook_output["additionalContext"] = msg
 
-    print(json.dumps({"hookSpecificOutput": hook_output}))
+    print(json.dumps({"systemMessage": system_message, "hookSpecificOutput": hook_output}))
     return 0
 
 
