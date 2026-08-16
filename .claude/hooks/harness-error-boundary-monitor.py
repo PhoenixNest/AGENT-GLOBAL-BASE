@@ -24,6 +24,8 @@ import json
 import re
 import sys
 
+from _hook_log import log_invocation
+
 # Same three detection patterns, same order, as both originals.
 ERROR_PATTERNS = [
     r"Traceback \(most recent call last\)",
@@ -90,6 +92,9 @@ def main() -> int:
     if not matched_line:
         return 0
 
+    log_invocation("harness-error-boundary-monitor", "PostToolUse", decision="error_detected",
+                    reason=matched_line, session_id=data.get("session_id") if isinstance(data, dict) else None)
+
     msg = (
         "[ERROR BOUNDARY MONITOR — H-HE02]\n"
         f"Python error detected: {matched_line}\n"
@@ -113,6 +118,7 @@ def main() -> int:
     )
 
     output = {
+        "systemMessage": f"[H-HE02: error detected in tool output — {matched_line[:120]}]",
         "hookSpecificOutput": {
             "hookEventName": "PostToolUse",
             "additionalContext": msg,

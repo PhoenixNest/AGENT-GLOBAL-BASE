@@ -22,6 +22,8 @@ import sys
 import time
 from pathlib import Path
 
+from _hook_log import log_invocation
+
 KEY_DIRS = ("company/", "studio/", "core-component-00/", "telescope/")
 
 
@@ -134,12 +136,15 @@ def main() -> int:
     )
 
     mode, debounce_seconds, last_rebuild_at, backend = _load_state(state_file)
+    session_id = data.get("session_id")
 
     # --- Select update tool for active migration phase ---
     update_tool = "upsert_document" if backend == "qdrant" else "rebuild_index"
 
     # --- Mode: off — exit silently ---
     if mode == "off":
+        log_invocation("rag-index-sync", "PostToolUse", decision="off",
+                        session_id=session_id, extra={"file_path": file_path})
         return 0
 
     # --- Mode: warn — passive notice only, no rebuild ---
@@ -154,9 +159,12 @@ def main() -> int:
             "summarize_context queries.\n"
             "To enable automatic rebuilds: /rag-sync auto"
         )
+        log_invocation("rag-index-sync", "PostToolUse", decision="warn",
+                        session_id=session_id, extra={"file_path": file_path})
         print(
             json.dumps(
                 {
+                    "systemMessage": f"[H-RAG02: index stale — {file_path} modified (WARN mode)]",
                     "hookSpecificOutput": {
                         "hookEventName": "PostToolUse",
                         "additionalContext": message,
@@ -169,6 +177,8 @@ def main() -> int:
     # --- Mode: auto — debounce check, then emit rebuild instruction ---
     now = int(time.time())
     if (now - last_rebuild_at) < debounce_seconds:
+        log_invocation("rag-index-sync", "PostToolUse", decision="debounced",
+                        session_id=session_id, extra={"file_path": file_path})
         return 0  # within debounce window — suppress
 
     # Update last_rebuild_at in state file
@@ -192,9 +202,12 @@ def main() -> int:
         "reflect your changes.\n"
         "To switch to passive mode: /rag-sync warn    To disable: /rag-sync off"
     )
+    log_invocation("rag-index-sync", "PostToolUse", decision="auto_rebuild",
+                    session_id=session_id, extra={"file_path": file_path, "update_tool": update_tool})
     print(
         json.dumps(
             {
+                "systemMessage": f"[H-RAG02: index rebuild required — {file_path} modified (AUTO mode)]",
                 "hookSpecificOutput": {
                     "hookEventName": "PostToolUse",
                     "additionalContext": message,

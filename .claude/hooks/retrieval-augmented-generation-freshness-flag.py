@@ -20,6 +20,8 @@ import json
 import re
 import sys
 
+from _hook_log import log_invocation
+
 FRESHNESS_PATTERNS = [
     r"\b(latest version|most recent version|current version)\b",
     r"\b(as of today|as of now|right now|currently|at the moment)\b",
@@ -84,13 +86,21 @@ def run() -> int:
     if re.search(r"^\s*/", prompt, re.MULTILINE):
         return 0
 
+    session_id = data.get("session_id") if isinstance(data, dict) else None
+
     detected = any(
         re.search(pattern, prompt, re.IGNORECASE) for pattern in FRESHNESS_PATTERNS
     )
     if not detected:
+        log_invocation("retrieval-augmented-generation-freshness-flag", "UserPromptSubmit",
+                        decision="no_signal", session_id=session_id)
         return 0
 
+    log_invocation("retrieval-augmented-generation-freshness-flag", "UserPromptSubmit",
+                    decision="freshness_flag", session_id=session_id)
+
     output = {
+        "systemMessage": "[H-RAG01: time-sensitive language detected — freshness protocol applied]",
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
             "additionalContext": ADDITIONAL_CONTEXT,
