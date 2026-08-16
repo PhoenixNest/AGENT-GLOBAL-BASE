@@ -37,6 +37,8 @@ import os
 import subprocess
 import sys
 
+from _hook_log import log_invocation
+
 MARKER_PREFIX = "mem-write-pending-"
 STALE_MARKER_SECONDS = 900  # mirrors H-P01's 15-minute stale-marker fail-safe exactly
 
@@ -102,6 +104,8 @@ def main() -> int:
             os.remove(marker_path)
         except OSError:
             pass
+        log_invocation("write-memory-gate-enforcer", "PreToolUse", decision="stale_marker_cleared",
+                        session_id=session_id, extra={"tool_name": tool_name}, repo_root=repo_root)
         return 0
 
     summary = ""
@@ -117,7 +121,12 @@ def main() -> int:
     if summary:
         reason += f" Pending write: {summary}"
 
+    log_invocation("write-memory-gate-enforcer", "PreToolUse", decision="deny",
+                    reason=summary or None, session_id=session_id,
+                    extra={"tool_name": tool_name}, repo_root=repo_root)
+
     output = {
+        "systemMessage": f"[Memory-write gate: blocked {tool_name} — write confirmation still pending]",
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
             "permissionDecision": "deny",

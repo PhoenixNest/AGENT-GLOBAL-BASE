@@ -22,6 +22,8 @@ import re
 import subprocess
 import sys
 
+from _hook_log import log_invocation
+
 # tool_response shape for AskUserQuestion isn't in the Claude Code hooks reference;
 # this matches the real shape observed in this workspace's own session transcripts.
 _QA_RE = re.compile(r'"([^"]+)"\s*=\s*"([^"]+)"')
@@ -123,6 +125,8 @@ def main():
 
     if marker_existed:
         selection_summary = _extract_selection_summary(data)
+        log_invocation("prompt-gate-clear", "PostToolUse", decision="cleared",
+                        reason=selection_summary, session_id=session_id, repo_root=repo_root)
         if selection_summary:
             try:
                 # hookSpecificOutput must be present alongside systemMessage on
