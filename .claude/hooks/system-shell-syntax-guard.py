@@ -39,6 +39,8 @@ import platform
 import re
 import sys
 
+from _hook_log import log_invocation
+
 # ─── Windows path: bash-only constructs → PowerShell equivalents ─────────────
 # (pattern, bash_label, powershell_label)
 WINDOWS_PATTERNS = [
@@ -136,8 +138,9 @@ POSIX_PATTERNS = [
 ]
 
 
-def emit(additional_context: str) -> None:
+def emit(additional_context: str, system_message: str) -> None:
     payload = {
+        "systemMessage": system_message,
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
             "additionalContext": additional_context,
@@ -177,6 +180,7 @@ def main() -> int:
     if not command:
         return 0
 
+    session_id = data.get("session_id") if isinstance(data, dict) else None
     system = platform.system()
 
     if system == "Windows":
@@ -199,7 +203,9 @@ def main() -> int:
             "If you are intentionally targeting Git Bash or WSL, confirm explicitly in your response.\n"
             "Reference: CLAUDE.md §1, .claude/rules/ (approved command set for this workspace)"
         )
-        emit(message)
+        log_invocation("system-shell-syntax-guard", "PreToolUse", decision="advisory_windows",
+                        session_id=session_id, extra={"matches": len(detected)})
+        emit(message, f"[H-SYS01: {len(detected)} bash-only construct(s) flagged for PowerShell]")
         return 0
 
     if system in ("Linux", "Darwin"):
@@ -222,7 +228,9 @@ def main() -> int:
             "If you are intentionally targeting pwsh on this POSIX system, confirm explicitly in your response.\n"
             "Reference: CLAUDE.md §1, .claude/rules/ (approved command set for this workspace)"
         )
-        emit(message)
+        log_invocation("system-shell-syntax-guard", "PreToolUse", decision="advisory_posix",
+                        session_id=session_id, extra={"matches": len(detected)})
+        emit(message, f"[H-SYS01: {len(detected)} PowerShell-only construct(s) flagged for POSIX]")
         return 0
 
     # Unknown platform — pass through silently

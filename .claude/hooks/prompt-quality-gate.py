@@ -36,6 +36,8 @@ import json
 import re
 import sys
 
+from _hook_log import log_invocation
+
 # (pattern, rule) — identical pattern text and order to both originals.
 VIOLATIONS = [
     (
@@ -75,12 +77,16 @@ def main() -> int:
 
     prompt_str = prompt if isinstance(prompt, str) else str(prompt)
 
+    session_id = data.get("session_id") if isinstance(data, dict) else None
+
     detected = []
     for pattern, rule in VIOLATIONS:
         if re.search(pattern, prompt_str, re.IGNORECASE):
             detected.append(rule)
 
     if not detected:
+        log_invocation("prompt-quality-gate", "UserPromptSubmit", decision="pass",
+                        session_id=session_id)
         return 0
 
     rule_list = "\n".join(f"  * {rule}" for rule in detected)
@@ -93,9 +99,13 @@ def main() -> int:
         "Reference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-governance-framework/governance/"
     )
 
+    log_invocation("prompt-quality-gate", "UserPromptSubmit", decision="block",
+                    reason="; ".join(detected), session_id=session_id)
+
     output = {
         "decision": "block",
         "reason": reason,
+        "systemMessage": f"[H-P03: prompt blocked — {len(detected)} ASGF governance violation(s) detected]",
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
         },

@@ -28,6 +28,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from _hook_log import log_invocation
+
 
 def main() -> int:
     raw_input = sys.stdin.read()
@@ -57,6 +59,9 @@ def main() -> int:
         (base / f"cc00-tool-limit-turn-{safe_id}.txt").unlink(missing_ok=True)
     except Exception:
         pass
+
+    log_invocation("harness-rate-limiter-turn-reset", "UserPromptSubmit", decision="reset",
+                    session_id=session_id)
 
     return 0
 
