@@ -16,6 +16,8 @@ import os
 import subprocess
 import sys
 
+from _hook_log import log_invocation
+
 
 def main() -> int:
     raw_input = sys.stdin.read()
@@ -83,9 +85,15 @@ def main() -> int:
             os.remove(marker_path)
         except OSError:
             pass
+        log_invocation("prompt-gate-enforcer", "PreToolUse", decision="stale_marker_cleared",
+                        session_id=session_id, extra={"tool_name": tool_name}, repo_root=repo_root)
         return 0
 
+    log_invocation("prompt-gate-enforcer", "PreToolUse", decision="deny",
+                    session_id=session_id, extra={"tool_name": tool_name}, repo_root=repo_root)
+
     output = {
+        "systemMessage": f"[H-P01: blocked {tool_name} — prompt-optimization confirmation still pending]",
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
             "permissionDecision": "deny",

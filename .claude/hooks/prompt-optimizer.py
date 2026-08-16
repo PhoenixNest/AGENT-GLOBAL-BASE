@@ -54,6 +54,8 @@ import re
 import subprocess
 import sys
 
+from _hook_log import log_invocation
+
 STATE_DIR_PARTS = (".claude", "hooks", ".state")
 
 ALL_MISSING_LABELS = [
@@ -332,10 +334,16 @@ def _process(data, prompt_str) -> None:
     # more conservative bypass here — the opposite direction from the Dimension 5 note
     # above, but the same underlying principle: pick whichever original's behavior is less
     # likely to let a prompt slip past the gate ungated.
+    session_id = data.get("session_id") if isinstance(data, dict) else None
+
     if re.match(r"\s*/", prompt_str):
+        log_invocation("prompt-optimizer", "UserPromptSubmit", decision="bypass",
+                        reason="slash command", session_id=session_id)
         return
 
     if len(prompt_str) < 20:
+        log_invocation("prompt-optimizer", "UserPromptSubmit", decision="bypass",
+                        reason="prompt too short", session_id=session_id)
         return
 
     confirmation_bypass_re = re.compile(
@@ -344,6 +352,8 @@ def _process(data, prompt_str) -> None:
         re.IGNORECASE,
     )
     if confirmation_bypass_re.match(prompt_str) and len(prompt_str) < 100:
+        log_invocation("prompt-optimizer", "UserPromptSubmit", decision="bypass",
+                        reason="confirmation reply", session_id=session_id)
         return
 
     # --- Quality scoring — 5 dimensions (CC-00 Layer 1 patterns) --------------------
@@ -380,10 +390,20 @@ def _process(data, prompt_str) -> None:
     # follows .sh (not .ps1's "always confirm") on this specific divergence. ---------
     if score >= THRESHOLD:
         msg = f"[H-P01: prompt met quality threshold ({score}/5), proceeding without confirmation]"
+        log_invocation(
+            "prompt-optimizer", "UserPromptSubmit", decision="pass",
+            session_id=data.get("session_id") if isinstance(data, dict) else None,
+            extra={"score": score},
+        )
         _emit(msg, system_message=msg)
         return
 
     # --- Fail path: below threshold — full confirmation gate. ------------------------
+    log_invocation(
+        "prompt-optimizer", "UserPromptSubmit", decision="gate_required",
+        session_id=data.get("session_id") if isinstance(data, dict) else None,
+        extra={"score": score, "missing": missing},
+    )
     _emit_gate_required(data, prompt_str, score, missing)
 
 

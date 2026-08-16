@@ -28,6 +28,8 @@ import os
 import subprocess
 import sys
 
+from _hook_log import log_invocation
+
 MARKER_PREFIX = "mem-write-pending-"
 
 
@@ -83,12 +85,33 @@ def main():
         repo_root, ".claude", "hooks", ".state", f"{MARKER_PREFIX}{session_id}.json"
     )
 
+    marker_existed = os.path.isfile(marker_path)
+    summary = ""
+    if marker_existed:
+        try:
+            with open(marker_path, "r", encoding="utf-8") as f:
+                summary = (json.load(f) or {}).get("summary") or ""
+        except Exception:
+            summary = ""
+
     try:
         os.remove(marker_path)
     except Exception:
         # Silent by design — mirrors prompt-gate-clear.py: a missing file, a permission
         # error, etc. are all swallowed, never surfaced as a failure.
         pass
+
+    if marker_existed:
+        log_invocation("write-memory-gate-clear", "PostToolUse", decision="cleared",
+                        reason=summary or None, session_id=session_id, repo_root=repo_root)
+        try:
+            print(json.dumps({
+                "systemMessage": f"[Memory-write gate cleared: {summary}]" if summary
+                                  else "[Memory-write gate cleared]",
+                "hookSpecificOutput": {"hookEventName": "PostToolUse"},
+            }))
+        except Exception:
+            pass
 
     sys.exit(0)
 
