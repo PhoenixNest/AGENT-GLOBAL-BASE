@@ -49,6 +49,8 @@ import re
 import sys
 import tempfile
 
+from _hook_log import log_invocation
+
 DEFAULT_TURN_LIMIT = 150
 DEFAULT_SESSION_LIMIT = 1000
 
@@ -173,7 +175,11 @@ Reference: core-component-00/engineering/harness-engineering/implementations/too
             f"{max_turn_calls}. See additionalContext for AskUserQuestion instructions."
         )
 
+        log_invocation("harness-tool-rate-limiter", "PreToolUse", decision="deny_turn_limit",
+                        session_id=session_id, extra={"turn_count": turn_count, "max_turn_calls": max_turn_calls})
+
         output = {
+            "systemMessage": f"[H-HE01: per-turn tool-call limit reached — {turn_count}/{max_turn_calls}]",
             "hookSpecificOutput": {
                 "hookEventName": "PreToolUse",
                 "permissionDecision": "deny",
@@ -218,7 +224,11 @@ Reference: core-component-00/engineering/harness-engineering/implementations/too
             f"{max_session_calls}. See additionalContext for AskUserQuestion instructions."
         )
 
+        log_invocation("harness-tool-rate-limiter", "PreToolUse", decision="deny_session_ceiling",
+                        session_id=session_id, extra={"session_count": session_count, "max_session_calls": max_session_calls})
+
         output = {
+            "systemMessage": f"[H-HE01: session tool-call ceiling reached — {session_count}/{max_session_calls}]",
             "hookSpecificOutput": {
                 "hookEventName": "PreToolUse",
                 "permissionDecision": "deny",

@@ -25,9 +25,14 @@ import re
 import subprocess
 import sys
 
+from _hook_log import log_invocation
 
-def _emit_deny(reason: str) -> None:
+
+def _emit_deny(reason: str, session_id=None, sub_decision="deny") -> None:
+    log_invocation("multi-agent-commit-format-guard", "PreToolUse", decision=sub_decision,
+                    session_id=session_id)
     output = {
+        "systemMessage": f"[H-MAE02: blocked commit — {sub_decision.replace('_', ' ')}]",
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
             "permissionDecision": "deny",
@@ -134,7 +139,8 @@ def main() -> int:
             + "' does not match required format 'agent/<name>: <verb-phrase>' (imperative, "
             "<=72 chars). This is a P2 defect per CLAUDE.md §6. Example: 'agent/backend: "
             "add authentication endpoint'. Reference: core-component-00/engineering/"
-            "multi-agent-engineering/fundamentals/git-worktree-orchestration.md."
+            "multi-agent-engineering/fundamentals/git-worktree-orchestration.md.",
+            session_id=data.get("session_id"), sub_decision="deny_subject_format",
         )
         return 0
 
@@ -151,7 +157,8 @@ def main() -> int:
         _emit_deny(
             "[COMMIT FORMAT GUARD — H-MAE02] Agent commit is missing a hyphen-bulleted body. "
             "Bodyless single-line commits are a P2 defect per CLAUDE.md §6. Add a blank line "
-            "then at least one '- <discrete change>' bullet after the subject line."
+            "then at least one '- <discrete change>' bullet after the subject line.",
+            session_id=data.get("session_id"), sub_decision="deny_missing_body",
         )
         return 0
 

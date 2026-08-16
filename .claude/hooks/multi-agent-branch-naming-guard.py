@@ -62,6 +62,8 @@ import json
 import re
 import sys
 
+from _hook_log import log_invocation
+
 # Branch-creating command patterns. Order matters: first match wins, mirroring
 # both originals' if/elif chain (ps1's if/elseif, sh's sequential `if not m:`).
 _BRANCH_EXTRACT_PATTERNS = [
@@ -81,7 +83,7 @@ _VALID_BRANCH_PATTERNS = [
 ]
 
 
-def _emit_deny(branch_name: str) -> None:
+def _emit_deny(branch_name: str, session_id=None) -> None:
     reason = (
         "[BRANCH NAMING GUARD — H-MAE01] Branch name '"
         + branch_name
@@ -91,7 +93,10 @@ def _emit_deny(branch_name: str) -> None:
         "studio/) are also accepted. Reference: core-component-00/engineering/"
         "multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
     )
+    log_invocation("multi-agent-branch-naming-guard", "PreToolUse", decision="deny",
+                    reason=branch_name, session_id=session_id)
     output = {
+        "systemMessage": f"[H-MAE01: blocked branch creation — '{branch_name}' does not follow naming convention]",
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
             "permissionDecision": "deny",
@@ -150,7 +155,7 @@ def main() -> int:
     if is_valid:
         return 0
 
-    _emit_deny(branch_name)
+    _emit_deny(branch_name, session_id=data.get("session_id"))
     return 0
 
 
