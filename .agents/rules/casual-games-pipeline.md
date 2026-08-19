@@ -1,0 +1,1 @@
+../../.claude/rules/casual-games-pipeline.md
