@@ -1,0 +1,1 @@
+../../.claude/rules/android-development.md
