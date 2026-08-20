@@ -185,7 +185,7 @@ Registered in the project-root `.mcp.json`:
 {
   "mcpServers": {
     "agent-memory": {
-      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/.venv/Scripts/python.exe",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/.venv/Scripts/python.exe",
       "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/server.py"],
       "env": {
         "MEMORY_QDRANT_URL": "http://localhost:6335",
@@ -198,14 +198,10 @@ Registered in the project-root `.mcp.json`:
 }
 ```
 
-`command` is a direct, absolute path to the shared venv's interpreter — not a bare command name
-resolved via `PATH`. A 2026-08-13 attempt to make this resolve automatically per-OS via
-`uv run` + `UV_PROJECT_ENVIRONMENT` broke live `/mcp reconnect` in production (the Claude Code host
-process resolves `PATH` from its own long-lived environment, which didn't include a `uv` installed
-after the host started) and was reverted — see
-`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`. **A
-Linux/macOS deployment must manually change this path's `Scripts/python.exe` to `bin/python`** —
-this is a documented one-line edit, not automatic; see
+`command` is a direct, absolute path to this server's own venv interpreter — not a bare command
+name resolved via `PATH` (see `core-component-00/mcp-servers/CLAUDE.md` § Python Environment for
+why). **A Linux/macOS deployment must manually change this path's `Scripts/python.exe` to
+`bin/python`** — this is a documented one-line edit, not automatic; see
 `core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
 
 The `NO_PROXY`/`no_proxy` pair works around a Windows-specific issue where `qdrant-client`'s
