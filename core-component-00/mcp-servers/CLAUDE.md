@@ -30,29 +30,34 @@ between here and either README.
 
 ---
 
-## Python Environment — One Shared Venv
+## Python Environment — Per-Server Venvs
 
-**All three processes — `workspace-knowledge`, `agent-memory`, and `embedder-service` — run from
-a single shared virtual environment at `core-component-00/mcp-servers/.venv/`.** Do not install
-their dependencies globally, and do not add per-server `.venv/` directories.
+**Each server runs from its own virtual environment** — `workspace-knowledge/.venv/` and
+`agent-memory/.venv/`, each with its own `pyproject.toml`/`uv.lock` — not a single shared venv.
 
 ```
-mcp-servers/.venv/          ← the only Python environment these servers use (gitignored)
+mcp-servers/
+├── workspace-knowledge/.venv/   ← workspace-knowledge's own environment (gitignored)
+└── agent-memory/.venv/          ← agent-memory's own environment (gitignored)
 ```
 
-**Why shared rather than per-server.** `embedder_client.py` spawns `embedder-service` with
-`sys.executable`, so the service inherits the interpreter of whichever server started it first.
-Under per-server venvs that makes the shared service's environment **nondeterministic** — it could
-run under one server's torch on one boot and the other's on the next. A single venv makes it
-deterministic, and halves the disk cost of a ~2.7 GB CUDA torch.
+`embedder-service` does not get its own venv — `embedder_client.py` spawns it with
+`sys.executable`, so it always runs under whichever server's venv started it.
+
+**The one invariant per-server venvs depend on:** `torch` and `sentence-transformers` version
+pins in `workspace-knowledge/pyproject.toml` and `agent-memory/pyproject.toml` **must stay
+identical**. This is what actually makes `embedder-service`'s behavior deterministic regardless of
+which server starts it first — not which venv layout is in use. Check both files whenever either
+pin is bumped; a silent drift here is the one failure mode a shared venv would have prevented for
+free.
 
 **How the interpreter is selected — three places must agree:**
 
-| Location                                      | Mechanism                                                                                                                                                                                                                  |
-| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.mcp.json`                                   | `"command"` points directly at the shared venv's interpreter — `.venv/Scripts/python.exe` on Windows, `.venv/bin/python` on Linux/macOS (not bare `"python"`, and not `"uv"` — see the 2026-08-13 incident note below)     |
-| `embedder_client.py`                          | Inherits automatically via `sys.executable` — no configuration needed                                                                                                                                                      |
-| `embedder-service/manage_embedder_service.py` | Resolves the shared venv explicitly, per-OS (`Scripts/python.exe` vs `bin/python`); `EMBEDDER_SERVICE_PYTHON` overrides. 2026-08-13 Python port of the former Windows-only `manage_embedder_service.ps1`, which is retired |
+| Location                                      | Mechanism                                                                                                                                                                                                                                     |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.mcp.json`                                   | `"command"` points directly at each server's own venv interpreter — `<server>/.venv/Scripts/python.exe` on Windows, `<server>/.venv/bin/python` on Linux/macOS (not bare `"python"`, and not `"uv"` — see the 2026-08-13 incident note below) |
+| `embedder_client.py`                          | Inherits automatically via `sys.executable` — no configuration needed                                                                                                                                                                         |
+| `embedder-service/manage_embedder_service.py` | Resolves whichever server's venv spawned it, via the inherited interpreter — no separate venv of its own; `EMBEDDER_SERVICE_PYTHON` overrides if ever needed                                                                                  |
 
 > **A bare `"python"` — or `"uv"` — anywhere in this chain is a defect.** Both resolve via `PATH`
 > to whatever the spawning process's own environment happens to contain. `"python"` risks a
@@ -69,13 +74,10 @@ deterministic, and halves the disk cost of a ~2.7 GB CUDA torch.
 > file cannot auto-resolve both `Scripts/python.exe` (Windows) and `bin/python` (Linux/macOS)
 > without either a `PATH`-resolved indirection (proven unreliable above) or a hardcoded,
 > OS-specific literal (the current state). A Linux/macOS deployment of this workspace must edit
-> both `.mcp.json` entries' `"command"` to `${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/.venv/bin/python`
-> — a one-line, documented change per server, not an automatic one. This does not fully close the
-> original 2026-08-13 cross-platform finding
-> (`core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`
-> item 1) — it downgrades it from "silently broken" to "requires one documented manual edit,"
-> which is the honest current state, not the "automatic" claim the same-day remediation record
-> made before this regression was found.
+> both `.mcp.json` entries' `"command"` to
+> `${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/<server>/.venv/bin/python` — a one-line,
+> documented change per server, not an automatic one. Full record:
+> `core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
 
 **`sys.path` and `sys.executable` are not interchangeable.** Inserting a `site-packages` directory
 at `sys.path[0]` affects _imports in the current process only_ — it does not change
@@ -88,26 +90,28 @@ Each `server.py` still inserts two paths — the `context-engineering` module ro
 `_shared` root — so cross-module imports resolve. Those are import-path plumbing for first-party
 code, not environment selection; neither points at a `site-packages` directory.
 
-**CUDA is required, not optional.** The venv holds `torch==2.13.0+cu130`. A CPU-only build costs
+**CUDA is required, not optional.** Each venv holds `torch==2.13.0+cu130`. A CPU-only build costs
 roughly **16–21× on batch embedding** and **~6.5× on the live query path** — measured on this
 machine against 512 real workspace chunks, with CPU and GPU output numerically identical (mean
 cosine similarity 1.000000), so the CUDA build carries no retrieval-quality risk. The two resident
 models occupy ~570 MB of VRAM. `pip install torch==2.13.0` is a
 **silent no-op** against an installed `+cpu` build because pip ignores the local version tag when
-base versions match; the local version must be pinned explicitly:
+base versions match; the local version must be pinned explicitly, per server:
 
 ```bash
-# Linux/macOS
-core-component-00/mcp-servers/.venv/bin/python -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+# Linux/macOS — repeat for each server directory
+core-component-00/mcp-servers/<server>/.venv/bin/python -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
 ```
 
 ```powershell
-# Windows
-core-component-00\mcp-servers\.venv\Scripts\python.exe -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+# Windows — repeat for each server directory
+core-component-00\mcp-servers\<server>\.venv\Scripts\python.exe -m pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
 ```
 
 Each server's `pyproject.toml` declares its real imports and carries `[tool.uv.sources]` so `uv`
-selects the CUDA index automatically.
+selects the CUDA index automatically — running `uv sync` from within `<server>/` is the normal
+path; the manual `pip install` above is only needed if a venv's torch build needs correcting
+after the fact.
 
 ---
 
