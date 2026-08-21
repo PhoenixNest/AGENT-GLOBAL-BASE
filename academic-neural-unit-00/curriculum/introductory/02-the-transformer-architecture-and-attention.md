@@ -34,7 +34,7 @@ to the trophy, not the suitcase, a relationship spanning several words. This cha
 Transformer (Transformer 架构), the architecture that made modern large language models possible
 by directly modeling relationships between every pair of positions in a sequence.
 
-`introductory/01` 介绍的是**前馈网络**——数据沿单一方向流动，从输入层经隐藏层直至输出层，对之前的输入没有记忆。当每个输入相互独立时（例如逐张分类图像），这种网络表现良好。而语言则不同：一个句子是一个 token（下文将解释）构成的**序列**，其含义严重依赖于顺序，也依赖于可能相距很远的 token 之间的关系——"The trophy didn't fit in the suitcase because _it_ was too big"（奖杯放不进手提箱，因为*它*太大了）这句话，要求读者知道"它"指的是奖杯而非手提箱，而这一关系横跨了好几个词。本章将介绍 Transformer（Transformer 架构）——这一直接对序列中每一对位置之间的关系进行建模的架构，正是它使当今的大型语言模型成为可能。
+`introductory/01` 介绍的是**前馈网络**——数据沿单一方向流动，从输入层经隐藏层直至输出层，对之前的输入没有记忆。当每个输入相互独立时（例如逐张分类图像），这种网络表现良好。而语言则不同：一个句子是一个 token（下文将解释）构成的**序列**，其含义严重依赖于顺序，也依赖于可能相距很远的 token 之间的关系——"The trophy didn't fit in the suitcase because _it_ was too big"（奖杯放不进手提箱，因为*它*太大了）这句话，要求读者知道“它”指的是奖杯而非手提箱，而这一关系横跨了好几个词。本章将介绍 Transformer（Transformer 架构）——这一直接对序列中每一对位置之间的关系进行建模的架构，正是它使当今的大型语言模型成为可能。
 
 Before any of this, text must be converted into numbers a network can process. This is done by
 **tokenization**: splitting text into small units called **tokens** — which
@@ -67,13 +67,13 @@ modern language modeling. Vaswani et al.'s 2017 paper introducing the Transforme
 both of these constraints as the motivation for an architecture that eliminates recurrence
 entirely (Vaswani et al., 2017).
 
-在 Transformer 出现之前，处理序列的主流方法是**循环神经网络**（RNN），它逐个 token 地处理序列，并携带一个固定大小的摘要向量（称为"隐藏状态"）在每一步不断更新。这种设计存在两个结构性弱点，正是它们促使人们去寻找替代方案。第一，由于早期 token 的信息只能通过每一个中间步骤被携带（并可能被稀释）之后才能传递到后面的 token，RNN 在长序列中难以保持相距较远的 token 之间的关系。第二，由于第 `t` 步的计算依赖于第 $t-1$ 步已完成的输出，这种计算本质上是**顺序性的**——无法在序列长度维度上并行化——这使得 RNN 在训练现代语言模型所需的长序列和大规模数据集时速度缓慢。Vaswani 等人 2017 年提出 Transformer 的论文明确将这两点局限性作为其设计动机，从而彻底摒弃了循环结构（Vaswani et al., 2017）。
+在 Transformer 出现之前，处理序列的主流方法是**循环神经网络**（RNN），它逐个 token 地处理序列，并携带一个固定大小的摘要向量（称为“隐藏状态”）在每一步不断更新。这种设计存在两个结构性弱点，正是它们促使人们去寻找替代方案。第一，由于早期 token 的信息只能通过每一个中间步骤被携带（并可能被稀释）之后才能传递到后面的 token，RNN 在长序列中难以保持相距较远的 token 之间的关系。第二，由于第 `t` 步的计算依赖于第 $t-1$ 步已完成的输出，这种计算本质上是**顺序性的**——无法在序列长度维度上并行化——这使得 RNN 在训练现代语言模型所需的长序列和大规模数据集时速度缓慢。Vaswani 等人 2017 年提出 Transformer 的论文明确将这两点局限性作为其设计动机，从而彻底摒弃了循环结构（Vaswani et al., 2017）。
 
 ---
 
 ## 3. The Core Idea of Attention: Letting Every Position Look at Every Other Position
 
-**注意力的核心思想：让每个位置都能"看到"其他所有位置**
+**注意力的核心思想：让每个位置都能“看到”其他所有位置**
 
 The **attention mechanism** replaces step-by-step recurrence with a direct
 computation: for every position in a sequence, compute how relevant every other position is to it,
@@ -85,14 +85,14 @@ of sequential updates. This direct, all-pairs computation is also fully parallel
 position's relevance to every other position can be computed simultaneously — which is the second
 major advantage attention has over recurrence.
 
-**注意力机制**用一种直接的计算方式取代了逐步的循环计算：对于序列中的每一个位置，计算其他每一个位置与它的相关程度，并将该位置的输出表示为所有位置信息按相关程度加权组合而成的结果。具体来说，回到第 1 节中奖杯/手提箱的例子，注意力机制可以让"它"这个词的表示直接融入"奖杯"一词的信息，无论二者相隔多远，只需一步计算即可完成，而不必经过一连串顺序更新。这种直接的、任意两两位置之间的计算方式还具有完全可并行化的特点——每个位置与其他所有位置的相关程度都可以同时计算——这正是注意力机制相较于循环结构的第二大优势。
+**注意力机制**用一种直接的计算方式取代了逐步的循环计算：对于序列中的每一个位置，计算其他每一个位置与它的相关程度，并将该位置的输出表示为所有位置信息按相关程度加权组合而成的结果。具体来说，回到第 1 节中奖杯/手提箱的例子，注意力机制可以让“它”这个词的表示直接融入“奖杯”一词的信息，无论二者相隔多远，只需一步计算即可完成，而不必经过一连串顺序更新。这种直接的、任意两两位置之间的计算方式还具有完全可并行化的特点——每个位置与其他所有位置的相关程度都可以同时计算——这正是注意力机制相较于循环结构的第二大优势。
 
 The remainder of this chapter builds up exactly how "relevance" is computed and how it is turned
 into a weighted combination. The full mathematical treatment — including multiple attention
 "heads" computed in parallel — is deferred to `intermediate/02`; this chapter covers the single
 -head mechanics in enough depth to fully understand what a Transformer computes.
 
-本章接下来的部分将具体讲解"相关程度"究竟是如何计算出来的，以及它又是如何被转化为加权组合的。完整的数学处理——包括并行计算的多个注意力"头"——将留待 `intermediate/02` 详细展开；本章将单头注意力的机制讲解到足以让读者完全理解 Transformer 究竟在计算什么的深度。
+本章接下来的部分将具体讲解“相关程度”究竟是如何计算出来的，以及它又是如何被转化为加权组合的。完整的数学处理——包括并行计算的多个注意力“头”——将留待 `intermediate/02` 详细展开；本章将单头注意力的机制讲解到足以让读者完全理解 Transformer 究竟在计算什么的深度。
 
 ---
 
@@ -103,15 +103,20 @@ into a weighted combination. The full mathematical treatment — including multi
 Attention computes relevance using three vectors derived from each token's embedding, via three
 separate learned weight matrices (recall from `introductory/01` §3 that a weight matrix is simply
 a collection of the same kind of weighted-sum parameters covered there, applied to a whole vector
-at once rather than to single numbers). For a token's embedding vector `x`, a **query** vector
-`q = xW_Q` represents "what this token is looking for" in other tokens; a **key**
-vector `k = xW_K` represents "what this token offers" as a match target for other
-tokens' queries; and a **value** vector `v = xW_V` represents "the actual content this
-token contributes" once it has been selected as relevant. `W_Q`, `W_K`, and `W_V` are learned
-parameter matrices — adjusted by backpropagation exactly as described in `introductory/01` §9 —
-shared across all positions in the sequence.
+at once rather than to single numbers). For a token's embedding vector `x`:
 
-注意力机制通过每个 token 的嵌入向量，经由三个独立的可学习权重矩阵，计算出三个向量来衡量相关程度（回顾 `introductory/01` 第 3 节可知，权重矩阵不过是该节所讲的同一类加权求和参数的集合，只是这里被整体应用于一个向量，而非单个数字）。对于某个 token 的嵌入向量 `x`，**查询向量**`q = xW_Q` 表示"这个 token 正在寻找什么"；**键向量**`k = xW_K` 表示"这个 token 能提供什么"，作为供其他 token 的查询进行匹配的目标；**值向量**`v = xW_V` 则表示"一旦这个 token 被判定为相关，它实际贡献的内容是什么"。`W_Q`、`W_K` 和 `W_V` 都是可学习的参数矩阵——其调整方式与 `introductory/01` 第 9 节所述的反向传播完全相同——并且在序列的所有位置上是共享的。
+注意力机制通过每个 token 的嵌入向量，经由三个独立的可学习权重矩阵，计算出三个向量来衡量相关程度（回顾 `introductory/01` 第 3 节可知，权重矩阵不过是该节所讲的同一类加权求和参数的集合，只是这里被整体应用于一个向量，而非单个数字）。对于某个 token 的嵌入向量 `x`：
+
+| Vector                          | EN                                                                                            | 中文                                                                 |
+| ------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Query**（查询向量）`q = xW_Q` | represents “what this token is looking for” in other tokens.                                  | 表示“这个 token 正在寻找什么”。                                      |
+| **Key**（键向量）`k = xW_K`     | represents “what this token offers” as a match target for other tokens' queries.              | 表示“这个 token 能提供什么”，作为供其他 token 的查询进行匹配的目标。 |
+| **Value**（值向量）`v = xW_V`   | represents “the actual content this token contributes” once it has been selected as relevant. | 表示“一旦这个 token 被判定为相关，它实际贡献的内容是什么”。          |
+
+`W_Q`, `W_K`, and `W_V` are learned parameter matrices — adjusted by backpropagation exactly as
+described in `introductory/01` §9 — shared across all positions in the sequence.
+
+`W_Q`、`W_K` 和 `W_V` 都是可学习的参数矩阵——其调整方式与 `introductory/01` 第 9 节所述的反向传播完全相同——并且在序列的所有位置上是共享的。
 
 An analogy: think of a library catalog search. The **query** is the search phrase you type in.
 Every book's **key** is the metadata that the search matches against (title, subject tags). Every
@@ -120,7 +125,7 @@ well. Attention performs exactly this match-then-retrieve operation, for every t
 other token, simultaneously, and does it with soft (weighted) rather than all-or-nothing matches —
 covered next in §5.
 
-打个比方：可以把它想象成图书馆目录检索。**查询**就是你输入的搜索词。每本书的**键**是用来与搜索词进行匹配的元数据（书名、主题标签）。每本书的**值**则是这本书的实际内容——一旦你的查询与它的键匹配良好，你就能获取这些内容。注意力机制对每一个 token 相对于其他所有 token，同时执行的正是这种"先匹配、后检索"的操作，并且采用的是软性（加权）匹配，而非非此即彼的硬匹配——这将在下面的第 5 节中介绍。
+打个比方：可以把它想象成图书馆目录检索。**查询**就是你输入的搜索词。每本书的**键**是用来与搜索词进行匹配的元数据（书名、主题标签）。每本书的**值**则是这本书的实际内容——一旦你的查询与它的键匹配良好，你就能获取这些内容。注意力机制对每一个 token 相对于其他所有 token，同时执行的正是这种“先匹配、后检索”的操作，并且采用的是软性（加权）匹配，而非非此即彼的硬匹配——这将在下面的第 5 节中介绍。
 
 ---
 
@@ -233,7 +238,7 @@ original sinusoidal scheme; newer schemes such as rotary position embedding, whi
 attention computation itself rather than adding a vector to the input, are covered in
 `intermediate/02`.
 
-第 5 节所给出的注意力公式有一个值得注意的性质：如果输入序列中两个 token 的位置被互换，而 token 本身保持不变，那么原始的注意力计算除了所处的行/列不同之外，会将它们一视同仁——$QK^T$ 本身并未编码某个 token 在序列中所处的*位置*。这一点至关重要，因为词序本身携带着意义（"狗咬人"和"人咬狗"使用的是相同的词，但含义截然不同）。Vaswani 等人（2017）通过在每个 token 的嵌入向量进入注意力层之前，加上一个**位置编码**向量来解决这一问题——这是一个对每个位置都独一无二的向量，由不同频率的正弦与余弦函数生成，从而使模型能够直接获取每个 token 的位置信息，以及任意两个位置之间的相对距离，并将其作为输入的一部分（Vaswani et al., 2017）。本章对位置编码的介绍止步于这一最初的正弦方案；诸如旋转位置编码等更新的方案——它们直接修改注意力计算本身，而非在输入上叠加向量——将在 `intermediate/02` 中介绍。
+第 5 节所给出的注意力公式有一个值得注意的性质：如果输入序列中两个 token 的位置被互换，而 token 本身保持不变，那么原始的注意力计算除了所处的行/列不同之外，会将它们一视同仁——$QK^T$ 本身并未编码某个 token 在序列中所处的*位置*。这一点至关重要，因为词序本身携带着意义（“狗咬人”和“人咬狗”使用的是相同的词，但含义截然不同）。Vaswani 等人（2017）通过在每个 token 的嵌入向量进入注意力层之前，加上一个**位置编码**向量来解决这一问题——这是一个对每个位置都独一无二的向量，由不同频率的正弦与余弦函数生成，从而使模型能够直接获取每个 token 的位置信息，以及任意两个位置之间的相对距离，并将其作为输入的一部分（Vaswani et al., 2017）。本章对位置编码的介绍止步于这一最初的正弦方案；诸如旋转位置编码等更新的方案——它们直接修改注意力计算本身，而非在输入上叠加向量——将在 `intermediate/02` 中介绍。
 
 ---
 
@@ -242,21 +247,22 @@ attention computation itself rather than adding a vector to the input, are cover
 **Transformer 块：注意力、前馈网络、残差连接与归一化**
 
 A single **Transformer block** (Transformer 块) combines several pieces into one repeatable unit,
-stacked many times to form a deep network (recall "deep" from `introductory/01` §12). First, a
-multi-head attention sub-layer (§7) lets every position gather relevant information from across
-the sequence. Second, a position-wise **feed-forward network** — an ordinary multi-layer
-perceptron of the kind built in `introductory/01` §5, applied independently to each position — adds
-further nonlinear processing capacity. Third, a **residual connection** adds each
-sub-layer's input directly to its output (`output = SubLayer(x) + x`), which helps gradients flow
-through very deep stacks of blocks during backpropagation, addressing a version of the
-vanishing-gradient difficulty first mentioned in `introductory/01` §4. Fourth, **layer
-normalization** rescales the values flowing between sub-layers to keep them in a
-stable numerical range, which stabilizes and speeds up training. Vaswani et al. (2017) specify
-this block structure, and it remains, with only minor variations (such as where normalization is
-placed relative to each sub-layer), the structural backbone of essentially every large language
-model built since.
+stacked many times to form a deep network (recall “deep” from `introductory/01` §12).
 
-一个完整的**Transformer 块**（Transformer block）将若干组件组合成一个可重复的单元，通过多次堆叠形成一个深层网络（回顾 `introductory/01` 第 12 节中"深度"的含义）。首先，一个多头注意力子层（第 7 节）让每个位置都能从整个序列中汇集相关信息。其次，一个逐位置的**前馈网络**——即 `introductory/01` 第 5 节所搭建的那种普通多层感知机，被独立地应用于每个位置——增加了进一步的非线性处理能力。第三，**残差连接**将每个子层的输入直接加到其输出上（`output = SubLayer(x) + x`），这有助于梯度在反向传播过程中顺利流经非常深的块堆叠结构，缓解了 `introductory/01` 第 4 节中首次提到的梯度消失难题的一种变体。第四，**层归一化**对子层之间流动的数值进行重新缩放，使其保持在稳定的数值范围内，从而使训练更加稳定和快速。Vaswani 等人（2017）明确规定了这一块结构，此后除了少量变体（例如归一化相对于各子层的放置位置）之外，它至今仍是几乎所有大型语言模型的结构骨架。
+一个完整的**Transformer 块**（Transformer block）将若干组件组合成一个可重复的单元，通过多次堆叠形成一个深层网络（回顾 `introductory/01` 第 12 节中“深度”的含义）。
+
+| #   | Component                                        | EN                                                                                                                                                                                                                                                                        | 中文                                                                                                                                                                                         |
+| --- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Multi-head attention sub-layer（多头注意力子层） | lets every position gather relevant information from across the sequence (§7).                                                                                                                                                                                            | 让每个位置都能从整个序列中汇集相关信息（第 7 节）。                                                                                                                                          |
+| 2   | **Feed-forward network**（前馈网络）             | a position-wise, ordinary multi-layer perceptron of the kind built in `introductory/01` §5, applied independently to each position — adds further nonlinear processing capacity.                                                                                          | 一个逐位置的网络——即 `introductory/01` 第 5 节所搭建的那种普通多层感知机，被独立地应用于每个位置——增加了进一步的非线性处理能力。                                                             |
+| 3   | **Residual connection**（残差连接）              | adds each sub-layer's input directly to its output (`output = SubLayer(x) + x`), which helps gradients flow through very deep stacks of blocks during backpropagation, addressing a version of the vanishing-gradient difficulty first mentioned in `introductory/01` §4. | 将每个子层的输入直接加到其输出上（`output = SubLayer(x) + x`），这有助于梯度在反向传播过程中顺利流经非常深的块堆叠结构，缓解了 `introductory/01` 第 4 节中首次提到的梯度消失难题的一种变体。 |
+| 4   | **Layer normalization**（层归一化）              | rescales the values flowing between sub-layers to keep them in a stable numerical range, which stabilizes and speeds up training.                                                                                                                                         | 对子层之间流动的数值进行重新缩放，使其保持在稳定的数值范围内，从而使训练更加稳定和快速。                                                                                                     |
+
+Vaswani et al. (2017) specify this block structure, and it remains, with only minor variations
+(such as where normalization is placed relative to each sub-layer), the structural backbone of
+essentially every large language model built since.
+
+Vaswani 等人（2017）明确规定了这一块结构，此后除了少量变体（例如归一化相对于各子层的放置位置）之外，它至今仍是几乎所有大型语言模型的结构骨架。
 
 ---
 
@@ -294,7 +300,7 @@ at a time, feeding each generated token back in as part of the input for the nex
 basic operating loop of essentially every GPT-style model — every mechanic in that loop was
 introduced across this chapter and `introductory/01`.
 
-一个现代的仅解码器语言模型，概括来说是这样工作的：输入文本先被分词（第 1 节）并转换为嵌入向量，随后加上位置编码（第 8 节），得到的向量依次经过多层堆叠的 Transformer 块（第 9 节），每个块都将带因果掩码的多头注意力（第 5 至第 7 节、第 10 节）与前馈网络、残差连接和归一化结合在一起，最后一个块的输出再经过一个权重矩阵和 softmax（`introductory/01` 第 4 节）的处理，转化为词表上关于"下一个 token 是什么"的概率分布。逐个 token 地生成文本，并将每个已生成的 token 反馈回输入中作为下一步的一部分，正是几乎所有 GPT 系列模型的基本运行循环——这一循环中的每一个机制，都已在本章与 `introductory/01` 中逐一介绍完毕。
+一个现代的仅解码器语言模型，概括来说是这样工作的：输入文本先被分词（第 1 节）并转换为嵌入向量，随后加上位置编码（第 8 节），得到的向量依次经过多层堆叠的 Transformer 块（第 9 节），每个块都将带因果掩码的多头注意力（第 5 至第 7 节、第 10 节）与前馈网络、残差连接和归一化结合在一起，最后一个块的输出再经过一个权重矩阵和 softmax（`introductory/01` 第 4 节）的处理，转化为词表上关于“下一个 token 是什么”的概率分布。逐个 token 地生成文本，并将每个已生成的 token 反馈回输入中作为下一步的一部分，正是几乎所有 GPT 系列模型的基本运行循环——这一循环中的每一个机制，都已在本章与 `introductory/01` 中逐一介绍完毕。
 
 ---
 
@@ -310,7 +316,7 @@ and normalization. Together with `introductory/01`, this chapter completes the i
 Foundations cluster: every subsequent module in this curriculum, at every level, assumes the
 vocabulary built across these two chapters.
 
-本章将 Transformer 引入为解决一个特定问题的方案——在不依赖循环结构所带来的顺序性瓶颈的前提下，并行地建模一整个序列中 token 之间的关系——具体通过查询、键、值、缩放点积注意力、位置编码，以及将注意力与前馈层、残差连接和归一化相结合的完整 Transformer 块来实现。本章与 `introductory/01` 一起，共同完成了入门级的"基础"（Foundations）主题群：本课程体系中此后所有层级的每一个模块，都将以这两章所建立的词汇为前提。
+本章将 Transformer 引入为解决一个特定问题的方案——在不依赖循环结构所带来的顺序性瓶颈的前提下，并行地建模一整个序列中 token 之间的关系——具体通过查询、键、值、缩放点积注意力、位置编码，以及将注意力与前馈层、残差连接和归一化相结合的完整 Transformer 块来实现。本章与 `introductory/01` 一起，共同完成了入门级的“基础”（Foundations）主题群：本课程体系中此后所有层级的每一个模块，都将以这两章所建立的词汇为前提。
 
 `intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md` returns to
 exactly the attention mechanism introduced here and works through it in full mathematical detail —

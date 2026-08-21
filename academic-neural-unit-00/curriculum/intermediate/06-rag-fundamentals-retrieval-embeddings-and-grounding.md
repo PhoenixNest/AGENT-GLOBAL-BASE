@@ -37,11 +37,11 @@ on the reader's prior exposure to the concept. This module does not re-derive an
 above; it names the module whenever it leans on it.
 
 本模块严格建立在此前五个课程模块的基础之上，除了这些模块已经确立的词汇，以及本模块首次给出定义的内容之外，不再引入其他任何新词汇。模块
-`introductory/01-neural-networks-and-deep-learning-foundations.md` 已经讲解了什么是神经网络、什么是参数，以及"模型将数值输入转换为数值输出"这一基本思想，本模块假定读者已掌握这些概念。模块
+`introductory/01-neural-networks-and-deep-learning-foundations.md` 已经讲解了什么是神经网络、什么是参数，以及“模型将数值输入转换为数值输出”这一基本思想，本模块假定读者已掌握这些概念。模块
 `introductory/02-the-transformer-architecture-and-attention.md`
 已经讲解了 Transformer 架构与注意力机制，本模块假定读者对此已经熟悉，因为本模块中用以生成嵌入向量的编码器模型，正是由这些组件构建而成的。模块
 `introductory/05-prompt-engineering-fundamentals.md`
-已经讲解了什么是提示词，特别是"指令、上下文、输入数据、输出指示"这四部分构成的组织良好的提示词结构，本模块假定读者对此已经熟悉——正如本模块将要说明的那样，检索从根本上说，就是一种自动填充提示词"上下文"部分的方式。模块
+已经讲解了什么是提示词，特别是“指令、上下文、输入数据、输出指示”这四部分构成的组织良好的提示词结构，本模块假定读者对此已经熟悉——正如本模块将要说明的那样，检索从根本上说，就是一种自动填充提示词“上下文”部分的方式。模块
 `introductory/06-context-windows-tokens-and-memory-basics.md`——同样出自本作者之手——已经讲解了什么是词元与上下文窗口，特别是该模块所区分的模型工作记忆（即上下文窗口）与存在于其之外的持久记忆，本模块假定读者已掌握这些概念。模块
 `intermediate/04-agent-memory-systems-short-term-long-term-episodic.md`
 已经在概要层面讲解了什么是向量数据库与嵌入向量，特别是该模块第 5
@@ -60,7 +60,7 @@ to address it.
 
 学完本模块后，你将能够：解释什么是嵌入向量，并在概要层面说明神经编码器是如何生成它的；在小型数值实例上手工计算余弦相似度、点积与欧几里得距离；解释稀疏检索（BM25）与密集检索（嵌入向量）之间的区别，并手工计算出一个
 BM25
-分数；描述 Lewis 等人（2020）所命名的"检索增强生成"（Retrieval-Augmented
+分数；描述 Lewis 等人（2020）所命名的“检索增强生成”（Retrieval-Augmented
 Generation）架构，该架构将参数化语言模型与非参数化检索索引结合在一起；解释为何精确最近邻搜索无法扩展到大规模语料库，以及近似最近邻搜索为解决这一问题而做出了怎样的取舍；完整走一遍从文档分块到最终生成的
 RAG
 流水线；并能够就检索系统在处理分块文档时一种具体的、有据可查的失效模式，以及为解决它而设计的技术进行推理。
@@ -87,7 +87,7 @@ definition, never part of what any pre-trained model's weights encode.
 
 `introductory/06` 已经指出，语言模型的工作记忆——即其上下文窗口——是有限的，模型在单次调用中能够据以行动的一切，都必须容纳在这个窗口之内。还有另一个同样重要的事实，源自
 LLM
-的训练方式而非上下文窗口本身：LLM 在提示词之外"知道"的一切，都是在训练过程中一次性习得、并固化进模型权重之中的，业界称之为参数化知识——即隐式编码在 `introductory/01`
+的训练方式而非上下文窗口本身：LLM 在提示词之外“知道”的一切，都是在训练过程中一次性习得、并固化进模型权重之中的，业界称之为参数化知识——即隐式编码在 `introductory/01`
 中所讲解的那些数值参数之中的知识，而非以某种可检索、可编辑的文本形式存放在任何地方。参数化知识存在两个结构性局限，是任何精妙的提示词技巧都无法弥补的。第一，它存在知识截止日期：模型无法知晓其训练数据收集截止之后发生的任何事情，因为那些数据从未进入过它的权重。第二，它无法被选择性地更新、修正或扩展，除非重新训练整个模型——一家公司的内部文档、某位用户的私人文件，或是昨天才发生变化的某个事实，按定义就从未被编码进任何预训练模型的权重之中。
 
 Anthropic's own developer glossary defines the technique this module is about in terms of exactly
@@ -104,10 +104,10 @@ on them. This connects directly to the working-memory-versus-persistent-memory d
 `introductory/06` introduced: RAG is the specific mechanism that decides which fragment of
 persistent memory is worth pulling into working memory, for a given request.
 
-Anthropic 官方的开发者术语表，正是围绕这一缺口来定义本模块所要讲解的这项技术的："检索增强生成是一种将信息检索与语言模型生成相结合的技术，用以提升生成文本的准确性与相关性，并让模型的回答更好地基于证据（evidence）……这使得模型能够访问和使用训练数据之外的信息，减少对死记硬背式记忆的依赖，从而提高生成文本的事实准确性。"检索增强生成是这样一种实践：将 LLM
+Anthropic 官方的开发者术语表，正是围绕这一缺口来定义本模块所要讲解的这项技术的：“检索增强生成是一种将信息检索与语言模型生成相结合的技术，用以提升生成文本的准确性与相关性，并让模型的回答更好地基于证据（evidence）……这使得模型能够访问和使用训练数据之外的信息，减少对死记硬背式记忆的依赖，从而提高生成文本的事实准确性。”检索增强生成是这样一种实践：将 LLM
 与一个独立于模型之外、可持续更新的外部信息存储配对——从这个意义上说，它是一种非参数化记忆，因为这个存储以可检索的普通文本形式存在于模型权重之外——并且在每次请求发起的那一刻，自动将该存储中最相关的片段拉取进模型的上下文窗口，从而使生成过程能够利用这些内容。这与
 `introductory/06`
-所引入的"工作记忆与持久记忆"这一区分直接相关：RAG
+所引入的“工作记忆与持久记忆”这一区分直接相关：RAG
 正是那种针对某次具体请求、决定持久记忆中哪个片段值得被拉入工作记忆的具体机制。
 
 The paper that gave this technique its name — Patrick Lewis and eleven co-authors' 2020 paper
@@ -124,7 +124,7 @@ meaning (§2–§3), how the most relevant fragments are found efficiently among
 首先为这项技术正式命名的论文——Patrick Lewis 与另外十一位合著者于 2020
 年发表的论文《面向知识密集型自然语言处理任务的检索增强生成》（"Retrieval-Augmented Generation for
 Knowledge-Intensive NLP
-Tasks"）——从研究的角度，用几乎完全一致的措辞界定了同一个问题：论文提出了"一种面向检索增强生成的通用微调方案——将预训练的参数化记忆与非参数化记忆相结合，用于语言生成"，其动机在于论文所指出的："具备可微分方式访问显式非参数化记忆能力的预训练模型，能够克服"纯参数化模型所面临的局限。本模块接下来的内容，将逐一构建这一思想所需要的各项机制：一段文本如何变成计算机可以据以比较语义的对象（第
+Tasks"）——从研究的角度，用几乎完全一致的措辞界定了同一个问题：论文提出了“一种面向检索增强生成的通用微调方案——将预训练的参数化记忆与非参数化记忆相结合，用于语言生成”，其动机在于论文所指出的：“具备可微分方式访问显式非参数化记忆能力的预训练模型，能够克服”纯参数化模型所面临的局限。本模块接下来的内容，将逐一构建这一思想所需要的各项机制：一段文本如何变成计算机可以据以比较语义的对象（第
 2 至第 3
 节）；如何在数百万个候选片段之中高效地找到最相关的那些（第4至第7节）；整个系统如何端到端地衔接在一起（第8至第9节）；以及它在实践中究竟带来了什么好处（第10节）。
 
@@ -145,7 +145,7 @@ that are far apart. The list of numbers itself carries no obvious human-readable
 coordinate corresponds to a clean concept like "is about refunds" — but the geometric relationships
 between vectors, which §3 makes precise, do carry meaning that a program can compute with.
 
-要为一次查询检索出"最相关"的文本片段，计算机需要某种方式来比较两段文本在语义上而非措辞上是否相似——一位问"我怎么才能把钱要回来？"的用户，理应能够检索到一份标题为《退款政策》的文档，即便这两段文字之间没有任何一个共同的词。嵌入向量正是该领域为解决这一问题所采用的机制：它是由一个训练好的神经网络从一段文本生成的、固定长度的数字列表（即一个向量），其构造方式使得语义相近的文本会被映射到所生成数值空间中彼此靠近的向量，而语义不同的文本则会被映射到彼此相距较远的向量。这一串数字本身并不携带任何人类可以直观读懂的含义——没有哪一个坐标单独对应着"是否与退款有关"这样一个清晰的概念——但向量之间的几何关系，正如第
+要为一次查询检索出“最相关”的文本片段，计算机需要某种方式来比较两段文本在语义上而非措辞上是否相似——一位问“我怎么才能把钱要回来？”的用户，理应能够检索到一份标题为《退款政策》的文档，即便这两段文字之间没有任何一个共同的词。嵌入向量正是该领域为解决这一问题所采用的机制：它是由一个训练好的神经网络从一段文本生成的、固定长度的数字列表（即一个向量），其构造方式使得语义相近的文本会被映射到所生成数值空间中彼此靠近的向量，而语义不同的文本则会被映射到彼此相距较远的向量。这一串数字本身并不携带任何人类可以直观读懂的含义——没有哪一个坐标单独对应着“是否与退款有关”这样一个清晰的概念——但向量之间的几何关系，正如第
 3 节将要精确阐明的那样，确实携带着程序可以据以计算的语义信息。
 
 The idea that a neural network could learn such a mapping for individual words, rather than for
@@ -169,7 +169,7 @@ Space"）大规模地加以证明，该论文提出了 word2vec
 最核心、如今也最广为人知的示范在于：所习得的向量空间捕捉到了能够以算术方式运作的关系——向量运算
 $\text{vector}(\text{King}) - \text{vector}(\text{Man}) + \text{vector}(\text{Woman})$
 的结果，在所学到的空间中会落在非常接近 $\text{vector}(\text{Queen})$
-的位置，这表明该模型仅仅通过统计一个大型文本语料库中哪些词倾向于出现在哪些词附近，就隐式地学会了将"王室身份"与"性别"作为两个独立、可组合的语义分量捕捉了出来——从未有任何人为这个模型标注过一条"性别轴"供其学习。word2vec
+的位置，这表明该模型仅仅通过统计一个大型文本语料库中哪些词倾向于出现在哪些词附近，就隐式地学会了将“王室身份”与“性别”作为两个独立、可组合的语义分量捕捉了出来——从未有任何人为这个模型标注过一条“性别轴”供其学习。word2vec
 生成的是单个词语的嵌入向量；它本身并未说明如何为一整句话或一整篇文档生成嵌入向量，而这才是检索场景中更直接有用的单位，也是接下来要讲解的内容。
 
 Producing a single, meaning-carrying vector for an entire sentence or passage — rather than one
@@ -203,11 +203,11 @@ BERT
 来比较句子之间的相似度，其计算开销在大规模场景下是不切实际的——用标准的基于 BERT
 的交叉编码器（即必须把两个句子联合、成对地一同输入模型进行处理）在一个包含 10,000
 个句子的集合中找出最相似的一对句子，大约需要 5000 万次推理计算。Sentence-BERT
-转而训练一个"孪生"网络（即同一编码器的两个完全相同、共享权重的副本，各自独立地处理一个句子），使得每一句话只需被编码一次，得到一个固定长度的向量，且这一编码过程完全独立于它日后可能要与之比较的任何其他句子；此后，比较两个已编码句子之间的相似度，就只是一次成本低廉的向量几何运算，而非一次全新的模型推理。论文对由此带来的效率提升给出了具体的数字："这将在
+转而训练一个“孪生”网络（即同一编码器的两个完全相同、共享权重的副本，各自独立地处理一个句子），使得每一句话只需被编码一次，得到一个固定长度的向量，且这一编码过程完全独立于它日后可能要与之比较的任何其他句子；此后，比较两个已编码句子之间的相似度，就只是一次成本低廉的向量几何运算，而非一次全新的模型推理。论文对由此带来的效率提升给出了具体的数字：“这将在
 BERT / RoBERTa 上找出最相似句子对所需的工作量，从 65 小时降低到使用 SBERT 约
 5
 秒，同时保持了与原生 BERT
-相当的准确率。"这种"一次编码、低成本比较"的特性，正是使得在大规模文档集合上进行检索在计算上可行的关键所在，本模块后续关于嵌入向量的全部讨论，都建立在这一设计之上。
+相当的准确率。”这种“一次编码、低成本比较”的特性，正是使得在大规模文档集合上进行检索在计算上可行的关键所在，本模块后续关于嵌入向量的全部讨论，都建立在这一设计之上。
 
 ---
 
@@ -218,43 +218,22 @@ BERT / RoBERTa 上找出最相似句子对所需的工作量，从 65 小时降�
 Once two pieces of text have each been turned into a vector, "how similar are they in meaning"
 becomes a purely geometric question: how similar are two vectors? Three metrics recur throughout
 retrieval systems, and it is worth defining all three precisely because they are not
-interchangeable. The Euclidean distance between two vectors `a` and `b`, each with `n`
-numeric components, is the ordinary straight-line distance formula generalized beyond two or three
-dimensions: $d(a, b) = \sqrt{\sum_i (a_i - b_i)^2}$. A small Euclidean distance means the two vectors are close
-together as points in space; it is sensitive to the raw length ("magnitude") of the vectors, not
-just their direction. The dot product of the same two vectors is $a \cdot b = \sum_i a_i b_i$ — multiply
-corresponding components and sum the results — which `intermediate/04` already used in the
-weighted-sum computation inside a single artificial neuron, and which grows larger both when two
-vectors point in a more similar direction and when either vector simply has a larger magnitude.
+interchangeable.
 
-一旦两段文本各自被转换为一个向量，"它们在语义上有多相似"这个问题，就变成了一个纯粹的几何问题：两个向量究竟有多相似？检索系统中反复出现的度量方式主要有三种，值得逐一给出精确定义，因为它们彼此并不可以随意互换。两个向量
-`a` 与 `b`（各有
-`n` 个数值分量）之间的欧几里得距离（Euclidean
-distance），是我们熟悉的直线距离公式向二维或三维以外的空间推广而来：$d(a, b) = \sqrt{\sum_i (a_i -
-b_i)^2}$。欧几里得距离较小，意味着两个向量作为空间中的点彼此靠得很近；它对向量的原始长度（"模长"）很敏感，而不仅仅取决于方向。同样这两个向量的点积为 $a \cdot b = \sum_i a_i b_i$——将对应分量两两相乘后求和——`intermediate/04`
-在单个人工神经元内部的加权求和计算中已经使用过这一运算；点积的数值会随两个向量方向更相近而增大，也会随任意一个向量本身的模长增大而增大。
+一旦两段文本各自被转换为一个向量，“它们在语义上有多相似”这个问题，就变成了一个纯粹的几何问题：两个向量究竟有多相似？检索系统中反复出现的度量方式主要有三种，值得逐一给出精确定义，因为它们彼此并不可以随意互换。
 
-Cosine similarity — already introduced in `intermediate/04`'s memory-retrieval scoring
-formula, and defined here from first principles — solves the magnitude-sensitivity problem that
-both of the metrics above share, by measuring only the angle between two vectors, ignoring their
-length entirely: $\cos(a, b) = \dfrac{a \cdot b}{\|a\| \cdot \|b\|}$, where $\|a\| = \sqrt{\sum_i a_i^2}$ is the Euclidean
-length (norm) of vector `a`. The result always falls in the range [−1, 1]: a value of 1 means the
-two vectors point in exactly the same direction (maximally similar), 0 means they are
-perpendicular (unrelated, in this geometric sense), and −1 means they point in exactly opposite
-directions. This magnitude-independence matters concretely for text retrieval: a long, detailed
-passage and a short, terse passage that both discuss the identical topic should not be judged "less
-similar" merely because one produced a numerically larger embedding vector than the other, and
-cosine similarity is the metric that avoids exactly that distortion.
+| Metric                                                                                 | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | 中文                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Euclidean distance**（欧几里得距离）$d(a, b) = \sqrt{\sum_i (a_i - b_i)^2}$          | between two vectors `a` and `b`, each with `n` numeric components, is the ordinary straight-line distance formula generalized beyond two or three dimensions. A small Euclidean distance means the two vectors are close together as points in space; it is sensitive to the raw length ("magnitude") of the vectors, not just their direction.                                                                                                                                                                                                                                                                                              | 指两个向量 `a` 与 `b`（各有 `n` 个数值分量）之间的欧几里得距离，是我们熟悉的直线距离公式向二维或三维以外的空间推广而来。欧几里得距离较小，意味着两个向量作为空间中的点彼此靠得很近；它对向量的原始长度（“模长”）很敏感，而不仅仅取决于方向。                                                                                                                                                                                               |
+| **Dot product**（点积）$a \cdot b = \sum_i a_i b_i$                                    | of the same two vectors — multiply corresponding components and sum the results — which `intermediate/04` already used in the weighted-sum computation inside a single artificial neuron, and which grows larger both when two vectors point in a more similar direction and when either vector simply has a larger magnitude.                                                                                                                                                                                                                                                                                                               | 是同样这两个向量对应分量两两相乘后求和——`intermediate/04` 在单个人工神经元内部的加权求和计算中已经使用过这一运算；点积的数值会随两个向量方向更相近而增大，也会随任意一个向量本身的模长增大而增大。                                                                                                                                                                                                                                         |
+| **Cosine similarity**（余弦相似度）$\cos(a, b) = \dfrac{a \cdot b}{\|a\| \cdot \|b\|}$ | already introduced in `intermediate/04`'s memory-retrieval scoring formula, and defined here from first principles, solves the magnitude-sensitivity problem that both of the metrics above share, by measuring only the angle between two vectors, ignoring their length entirely, where $\|a\| = \sqrt{\sum_i a_i^2}$ is the Euclidean length (norm) of vector `a`. The result always falls in the range [−1, 1]: a value of 1 means the two vectors point in exactly the same direction (maximally similar), 0 means they are perpendicular (unrelated, in this geometric sense), and −1 means they point in exactly opposite directions. | 已经在 `intermediate/04` 的记忆检索评分公式中出现过，此处将从第一性原理出发给出其定义——解决了上述两种度量方式共有的“对模长敏感”这一问题：它只衡量两个向量之间的夹角，而完全忽略其长度，其中 $\|a\| = \sqrt{\sum_i a_i^2}$ 是向量 `a` 的欧几里得长度（即“范数”）。计算结果总是落在 [−1, 1] 区间内：值为 1 意味着两个向量方向完全一致（相似度最高）；值为 0 意味着二者相互垂直（在这一几何意义上互不相关）；值为 −1 意味着二者方向完全相反。 |
 
-余弦相似度（cosine
-similarity）——已经在 `intermediate/04`
-的记忆检索评分公式中出现过，此处将从第一性原理出发给出其定义——解决了上述两种度量方式共有的"对模长敏感"这一问题：它只衡量两个向量之间的夹角，而完全忽略其长度：$\cos(a,
-b) = \dfrac{a \cdot b}{\|a\| \cdot \|b\|}$，其中 $\|a\| = \sqrt{\sum_i a_i^2}$ 是向量 `a`
-的欧几里得长度（即"范数"）。计算结果总是落在
-[−1, 1]
-区间内：值为 1 意味着两个向量方向完全一致（相似度最高）；值为 0
-意味着二者相互垂直（在这一几何意义上互不相关）；值为
-−1 意味着二者方向完全相反。这种"与模长无关"的特性，对文本检索而言具有具体的实际意义：一段冗长详尽的文字与一段简短精炼的文字，即便二者讨论的是完全相同的主题，也不应仅仅因为其中一段所生成的嵌入向量在数值上更大，就被判定为"相似度较低"，而余弦相似度正是能够避免这种失真的度量方式。
+This magnitude-independence matters concretely for text retrieval: a long, detailed passage and a
+short, terse passage that both discuss the identical topic should not be judged "less similar"
+merely because one produced a numerically larger embedding vector than the other, and cosine
+similarity is the metric that avoids exactly that distortion.
+
+这种“与模长无关”的特性，对文本检索而言具有具体的实际意义：一段冗长详尽的文字与一段简短精炼的文字，即便二者讨论的是完全相同的主题，也不应仅仅因为其中一段所生成的嵌入向量在数值上更大，就被判定为“相似度较低”，而余弦相似度正是能够避免这种失真的度量方式。
 
 A worked example makes this concrete using a small, illustrative 3-dimensional embedding space —
 real sentence embeddings from a model such as Sentence-BERT typically have several hundred
@@ -268,12 +247,12 @@ passage C, "Passwords must be at least 12 characters and include a number," as $
 0.4)$.
 
 下面用一个小型的、具有示意性的三维嵌入空间给出一个具体的算例——真实的句子嵌入向量（例如由 Sentence-BERT
-一类模型生成的）通常有数百个维度，且不存在任何单一维度像下面这个示例中的玩具维度那样对应着某个人类可以清晰命名的概念，但无论维度数量多少，其背后的算术机制是完全一致的。假设某个客服搜索系统已经将用户的查询"我该如何重置密码？"编码为
+一类模型生成的）通常有数百个维度，且不存在任何单一维度像下面这个示例中的玩具维度那样对应着某个人类可以清晰命名的概念，但无论维度数量多少，其背后的算术机制是完全一致的。假设某个客服搜索系统已经将用户的查询“我该如何重置密码？”编码为
 $q = (0.9, 0.1, 0.1)$，并且已经预先编码了三段候选文本：段落
-A，"要重置密码，请前往'设置'并点击'重置密码'"，编码为 $a = (0.85, 0.05,
+A，“要重置密码，请前往'设置'并点击'重置密码'”，编码为 $a = (0.85, 0.05,
 0.1)$；段落 B，"我们的退货政策允许在 30 天内退货"，编码为 $b = (0.05, 0.95,
-0.05)$；段落 C，"密码必须至少 12
-个字符，并包含一个数字"，编码为 $c = (0.6, 0.1, 0.4)$。
+0.05)$；段落 C，“密码必须至少 12
+个字符，并包含一个数字”，编码为 $c = (0.6, 0.1, 0.4)$。
 
 Computing cosine similarity between the query and each candidate: $\|q\| = \sqrt{0.81+0.01+0.01} \approx
 0.910$. For passage A, $q \cdot a = (0.9)(0.85)+(0.1)(0.05)+(0.1)(0.1) = 0.78$, $\|a\| \approx 0.857$, giving
@@ -298,7 +277,7 @@ $\cos(q,a) = 0.78 / (0.910 \times 0.857) \approx 0.999$。对于段落 C，$q \c
 0.167$。按相似度排序，段落 A（0.999）几乎是完全匹配；段落 C（0.890）与主题相关，但回答的是另一个问题（密码规则，而非重置步骤）；段落
 B（0.167）则基本无关。如果检索系统只被要求返回相似度最高的单一段落，它会正确地返回
 A；如果被要求返回前 2
-个段落，则会同时返回 A 与 C——这正是一种典型的"擦边"结果：一段"相关但具体答案不对"的文本，排名却高于一段完全无关的文本，而后续章节将要讨论的重排序技术，正是为进一步优化这类结果而存在的。
+个段落，则会同时返回 A 与 C——这正是一种典型的“擦边”结果：一段“相关但具体答案不对”的文本，排名却高于一段完全无关的文本，而后续章节将要讨论的重排序技术，正是为进一步优化这类结果而存在的。
 
 ---
 
@@ -317,7 +296,7 @@ Probabilistic Relevance Framework: BM25 and Beyond," which traces the framework'
 foundations to work by Robertson, Karen Spärck Jones, and collaborators beginning in the 1970s–80s.
 
 在嵌入向量在大规模场景下变得实用之前，信息检索长期依赖稀疏检索（sparse
-retrieval）；即便在今天，它依然与嵌入向量并肩活跃于生产系统之中。稀疏检索方法将一篇文档表示为一个维度极高的向量，词表中每一个独立词都占据一个维度——之所以称为"稀疏"，是因为对于任何一篇较短的文档而言，绝大多数维度的取值都是零——并通过统计文档与查询之间匹配词的出现情况、并按每个词的信息量加权，来给文档打分。在生产级搜索系统中占主导地位的稀疏评分算法是
+retrieval）；即便在今天，它依然与嵌入向量并肩活跃于生产系统之中。稀疏检索方法将一篇文档表示为一个维度极高的向量，词表中每一个独立词都占据一个维度——之所以称为“稀疏”，是因为对于任何一篇较短的文档而言，绝大多数维度的取值都是零——并通过统计文档与查询之间匹配词的出现情况、并按每个词的信息量加权，来给文档打分。在生产级搜索系统中占主导地位的稀疏评分算法是
 BM25（全称 "Best Matching
 25"），其现代、权威的论述见于 Stephen Robertson 与 Hugo Zaragoza 于 2009
 年发表的专著《概率相关性框架：BM25 及其延伸》（"The Probabilistic Relevance Framework: BM25 and
@@ -425,7 +404,7 @@ but it cannot bridge a vocabulary gap. A query for "how do I get my money back" 
 a document about "refund policy" if the two share no words, exactly the failure case §2 opened with
 and exactly the gap dense, embedding-based retrieval closes.
 
-BM25 的优势与局限，其实是同一个事实的两面：它依据字面上的词语重合来匹配（在真实实现中通常还会施加词干还原等轻量归一化处理），因此速度快、无需训练，并且对于一篇文档为何获得这样的分数完全透明可解释——但它无法跨越"用词鸿沟"。一条查询"我怎么才能把钱要回来"，若与一篇关于"退款政策"的文档没有任何共同用词，其得分就会为零，这正是第
+BM25 的优势与局限，其实是同一个事实的两面：它依据字面上的词语重合来匹配（在真实实现中通常还会施加词干还原等轻量归一化处理），因此速度快、无需训练，并且对于一篇文档为何获得这样的分数完全透明可解释——但它无法跨越“用词鸿沟”。一条查询“我怎么才能把钱要回来”，若与一篇关于“退款政策”的文档没有任何共同用词，其得分就会为零，这正是第
 2
 节开篇所举的那个失败案例，也正是密集的、基于嵌入向量的检索所要弥合的那道鸿沟。
 
@@ -454,10 +433,10 @@ retrieval）以第 2 节与第 3 节所构建的、每个维度都承载语义�
 Karpukhin 与另外七位合著者于 2020 年发表的论文《面向开放域问答的稠密段落检索》（"Dense Passage
 Retrieval for Open-Domain Question Answering"，简称
 DPR），正是证明这种方法能够彻底超越、而非仅仅补充一个强大且经过良好调优的
-BM25 基线的论文，其所采用的是论文中所称的"一个简单的双编码器框架"：一个神经编码器把查询转换为向量，另一个单独训练的编码器把每一段候选文本转换为向量，两个编码器在一个"问题／相关段落"配对数据集上联合训练，使得一个问题的向量最终在点积意义上，与真正能回答该问题的那段文本的向量彼此接近。论文自身给出的核心结果是："在一系列开放域问答基准测试中，就前
+BM25 基线的论文，其所采用的是论文中所称的“一个简单的双编码器框架”：一个神经编码器把查询转换为向量，另一个单独训练的编码器把每一段候选文本转换为向量，两个编码器在一个“问题／相关段落”配对数据集上联合训练，使得一个问题的向量最终在点积意义上，与真正能回答该问题的那段文本的向量彼此接近。论文自身给出的核心结果是：“在一系列开放域问答基准测试中，就前
 20 篇段落的检索准确率而言，我们的稠密检索器相较于一个强大的
 Lucene-BM25 系统，绝对提升幅度普遍达到 9% 到
-19%。"
+19%。”
 
 The reason this dual-encoder design matters architecturally, beyond the accuracy gain itself, is
 efficiency at retrieval time — the same design property Sentence-BERT exploited in §2. Because the
@@ -472,7 +451,7 @@ closest ones to a query vector by brute-force comparison becomes the new bottlen
 
 这种双编码器设计之所以在架构上意义重大，不仅仅在于准确率的提升，更在于检索阶段的效率——这与
 Sentence-BERT 在第 2
-节中所利用的正是同一种设计特性。由于段落编码器在编码时根本不需要用到查询，一个大型文档集合中的每一段文本都可以离线地、提前地、恰好编码一次并存储下来；只有查询本身需要在请求到达的那一刻才被编码，此后寻找与之最接近的段落向量，就变成了一个在预先计算好的向量之上进行的几何问题，而不再是让编码器对每一篇候选文档重新过一遍。这种"整个语料库只编码一次，每次请求只需编码查询"的分离方式，正是使密集检索在数百万篇文档规模上具备计算可行性的关键所在，也正是引出第
+节中所利用的正是同一种设计特性。由于段落编码器在编码时根本不需要用到查询，一个大型文档集合中的每一段文本都可以离线地、提前地、恰好编码一次并存储下来；只有查询本身需要在请求到达的那一刻才被编码，此后寻找与之最接近的段落向量，就变成了一个在预先计算好的向量之上进行的几何问题，而不再是让编码器对每一篇候选文档重新过一遍。这种“整个语料库只编码一次，每次请求只需编码查询”的分离方式，正是使密集检索在数百万篇文档规模上具备计算可行性的关键所在，也正是引出第
 7
 节接下来要处理的规模化问题的原因：一旦存在数百万个段落向量，用暴力比较的方式在其中找出与查询向量最接近的那些，本身就会成为新的瓶颈。
 
@@ -522,14 +501,14 @@ every possible baseline on every task, and this module states only that narrower
 rather than a broader one.
 
 论文比较了在这一联合架构内部使用检索段落的两种方式。在
-RAG-Sequence 方案中，系统选定单一一篇检索到的段落，并以其为条件生成整段输出序列，最终的概率是在被视为"整段答案"备选方案的前
+RAG-Sequence 方案中，系统选定单一一篇检索到的段落，并以其为条件生成整段输出序列，最终的概率是在被视为“整段答案”备选方案的前
 k
 篇检索段落上做边缘化处理（即按每篇段落的相关度加权求和）。与之相对，在
-RAG-Token 方案中，模型被允许在生成每一个输出词元时分别依据不同的检索段落，即在每一个生成步骤上都单独对各篇段落做边缘化处理——论文自身对此有直接的表述："我们比较了两种
+RAG-Token 方案中，模型被允许在生成每一个输出词元时分别依据不同的检索段落，即在每一个生成步骤上都单独对各篇段落做边缘化处理——论文自身对此有直接的表述：“我们比较了两种
 RAG
-表述方式，一种在整个生成序列中都以同一批检索到的段落为条件，另一种则可以在每个词元上使用不同的段落。"RAG-Token
+表述方式，一种在整个生成序列中都以同一批检索到的段落为条件，另一种则可以在每个词元上使用不同的段落。”RAG-Token
 更为灵活（当一个答案确实需要综合来自多篇不同段落的事实时尤为有用），但代价是计算过程更为复杂；RAG-Sequence
-则更为简单，在单篇段落即足以包含完整答案的情形下往往已经够用。在一系列知识密集型自然语言处理任务上进行微调与评测后，论文报告称其模型"在三个开放域问答任务上取得了当前最优的结果，超过了纯参数化的序列到序列模型以及针对特定任务设计的'检索-抽取'架构"——论文并未声称
+则更为简单，在单篇段落即足以包含完整答案的情形下往往已经够用。在一系列知识密集型自然语言处理任务上进行微调与评测后，论文报告称其模型“在三个开放域问答任务上取得了当前最优的结果，超过了纯参数化的序列到序列模型以及针对特定任务设计的'检索-抽取'架构”——论文并未声称
 RAG 在所有任务上都超越了一切可能的基线方法，本模块也仅陈述这一经过核实的、范围有限的具体结论，而非做出更宽泛的断言。
 
 ---
@@ -575,7 +554,7 @@ Johnson、Matthijs Douze 与 Hervé Jégou 于 2017
 GPUs"），提出了 FAISS（Facebook AI Similarity
 Search），这是实现这一思想、使用最广泛的开源库之一；论文报告称其 GPU
 上的 k
-选择设计"运行效率最高可达理论峰值性能的 55%"，并在多达 10
+选择设计“运行效率最高可达理论峰值性能的 55%”，并在多达 10
 亿个向量的集合上展示了相关结果——针对 9500 万个高维图像向量的
 k
 最近邻图构建，仅需数小时即可完成，远短于在同等规模下未经优化的暴力搜索所需的时间。正是
@@ -590,64 +569,28 @@ FAISS 及基于类似原理构建的其他库，把密集检索（第 5
 
 With embeddings (§2–§3), retrieval algorithms sparse and dense (§4–§6), and scalable search (§7)
 all in place, a complete RAG system can be described as four stages, the first performed once
-(or periodically) and the remaining three performed for every incoming request. Indexing
-happens offline and in advance: source documents are split into chunks — smaller pieces of
-text, since a whole document is usually both larger than useful for a single retrieved unit and
-larger than an embedding model can encode well in one pass — each chunk is passed through an
-embedding model such as the Sentence-BERT-style encoder from §2 to produce its vector, and the
-resulting (chunk text, embedding vector) pairs are stored in a vector database, backed by an ANN
-index such as FAISS (§7) for fast lookup later. Retrieval happens at request time: the
-incoming query is embedded with the same (or a matching) encoder used during indexing, and the ANN
-index returns the top-k chunks whose stored vectors are closest to the query vector by cosine
-similarity or dot product (§3).
+(or periodically) and the remaining three performed for every incoming request.
 
-有了嵌入向量（第 2 至第
-3 节）、稀疏与密集检索算法（第 4 至第 6
-节），以及可扩展的搜索机制（第 7 节）作为基础，一个完整的 RAG
-系统便可以描述为四个阶段：第一个阶段只需执行一次（或定期执行），其余三个阶段则需针对每一次到来的请求分别执行。索引化离线地、提前地进行：源文档被切分为若干文本块——即更小的文本片段，因为一整篇文档通常既过大、不适合作为单次检索的单元，也过大、不利于嵌入模型在一次前向传播中充分编码；每个文本块被送入某个嵌入模型（例如第
-2
-节中介绍的 Sentence-BERT 风格编码器）以生成其向量，随后所得到的（文本块正文，嵌入向量）配对被存入向量数据库，并由某种如
-FAISS（第 7
-节）一类的 ANN
-索引作为底层支撑，以便后续实现快速查找。检索则在请求发生时进行：到来的查询会用与索引化阶段相同（或匹配）的编码器进行编码，随后
-ANN
-索引会依据余弦相似度或点积（第 3
-节），返回其存储向量与查询向量最接近的前
-k 个文本块。
+有了嵌入向量（第 2 至第 3 节）、稀疏与密集检索算法（第 4 至第 6 节），以及可扩展的搜索机制（第 7 节）作为基础，一个完整的 RAG 系统便可以描述为四个阶段：第一个阶段只需执行一次（或定期执行），其余三个阶段则需针对每一次到来的请求分别执行。
 
-Augmentation is the step that connects this module back to `introductory/05`'s anatomy of a
-prompt: the retrieved chunks are inserted into the model's context window as the context part of a
-well-formed prompt, typically with the original user query placed alongside them as the instruction
-and input data, so that the LLM's final call receives both the question and the evidence needed to
-answer it, all inside one context window as covered in `introductory/06`. Generation is the
-final step, where the LLM produces its answer conditioned on both the query and the retrieved
-context now sitting in its working memory — mechanically the same generation step covered
-throughout `introductory/05`, but now grounded, in the sense §10 defines precisely, in retrieved
-evidence rather than parametric knowledge alone. Framed this way, the entire RAG pipeline is best
-understood not as a wholly new mechanism sitting apart from prompting, but as automated prompt
-construction: a piece of software, rather than a human, is deciding what belongs in the context
-part of the prompt, for every single request.
+| #   | Stage                    | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 中文                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | **Indexing**（索引化）   | happens offline and in advance: source documents are split into chunks — smaller pieces of text, since a whole document is usually both larger than useful for a single retrieved unit and larger than an embedding model can encode well in one pass — each chunk is passed through an embedding model such as the Sentence-BERT-style encoder from §2 to produce its vector, and the resulting (chunk text, embedding vector) pairs are stored in a vector database, backed by an ANN index such as FAISS (§7) for fast lookup later. | 离线地、提前地进行：源文档被切分为若干文本块——即更小的文本片段，因为一整篇文档通常既过大、不适合作为单次检索的单元，也过大、不利于嵌入模型在一次前向传播中充分编码；每个文本块被送入某个嵌入模型（例如第 2 节中介绍的 Sentence-BERT 风格编码器）以生成其向量，随后所得到的（文本块正文，嵌入向量）配对被存入向量数据库，并由某种如 FAISS（第 7 节）一类的 ANN 索引作为底层支撑，以便后续实现快速查找。 |
+| 2   | **Retrieval**（检索）    | happens at request time: the incoming query is embedded with the same (or a matching) encoder used during indexing, and the ANN index returns the top-k chunks whose stored vectors are closest to the query vector by cosine similarity or dot product (§3).                                                                                                                                                                                                                                                                           | 则在请求发生时进行：到来的查询会用与索引化阶段相同（或匹配）的编码器进行编码，随后 ANN 索引会依据余弦相似度或点积（第 3 节），返回其存储向量与查询向量最接近的前 k 个文本块。                                                                                                                                                                                                                          |
+| 3   | **Augmentation**（增强） | is the step that connects this module back to `introductory/05`'s anatomy of a prompt: the retrieved chunks are inserted into the model's context window as the context part of a well-formed prompt, typically with the original user query placed alongside them as the instruction and input data, so that the LLM's final call receives both the question and the evidence needed to answer it, all inside one context window as covered in `introductory/06`.                                                                      | 把本模块与 `introductory/05` 中所讲解的提示词构成部分重新联系了起来：检索到的文本块，会被作为一份组织良好的提示词中“上下文”这一部分插入到模型的上下文窗口之中，通常还会将用户原始查询与之并列放置，作为“指令”与“输入数据”，使 LLM 最终这次调用，能够在 `introductory/06` 所讲解的同一个上下文窗口之内，同时收到问题本身以及回答该问题所需的证据。                                                      |
+| 4   | **Generation**（生成）   | is the final step, where the LLM produces its answer conditioned on both the query and the retrieved context now sitting in its working memory — mechanically the same generation step covered throughout `introductory/05`, but now grounded, in the sense §10 defines precisely, in retrieved evidence rather than parametric knowledge alone.                                                                                                                                                                                        | 是最后一步，LLM 在此依据当前工作记忆中同时存在的查询与检索到的上下文来生成答案——从机制上说，这与 `introductory/05` 通篇所讲解的生成步骤完全相同，唯一的不同在于，此刻的生成过程已经具备了第 10 节将要精确界定的“事实基础”，即依托于检索到的证据，而非仅仅依赖参数化知识。                                                                                                                              |
 
-增强这一步骤，把本模块与
-`introductory/05`
-中所讲解的提示词构成部分重新联系了起来：检索到的文本块，会被作为一份组织良好的提示词中"上下文"这一部分插入到模型的上下文窗口之中，通常还会将用户原始查询与之并列放置，作为"指令"与"输入数据"，使
-LLM
-最终这次调用，能够在
-`introductory/06`
-所讲解的同一个上下文窗口之内，同时收到问题本身以及回答该问题所需的证据。生成是最后一步，LLM
-在此依据当前工作记忆中同时存在的查询与检索到的上下文来生成答案——从机制上说，这与
-`introductory/05`
-通篇所讲解的生成步骤完全相同，唯一的不同在于，此刻的生成过程已经具备了第
-10
-节将要精确界定的"事实基础"，即依托于检索到的证据，而非仅仅依赖参数化知识。以这种方式来理解，整条
-RAG
-流水线，与其说是一种与提示工程完全分离的全新机制，不如说是自动化的提示词构建：是一段软件、而非人类，在为每一次具体请求决定提示词的"上下文"部分应当填入什么内容。
+Framed this way, the entire RAG pipeline is best understood not as a wholly new mechanism sitting
+apart from prompting, but as automated prompt construction: a piece of software, rather than a
+human, is deciding what belongs in the context part of the prompt, for every single request.
+
+以这种方式来理解，整条 RAG 流水线，与其说是一种与提示工程完全分离的全新机制，不如说是自动化的提示词构建：是一段软件、而非人类，在为每一次具体请求决定提示词的“上下文”部分应当填入什么内容。
 
 ---
 
 ## 9. Chunking and the Context-Destruction Problem: Anthropic's Contextual Retrieval
 
-**分块与"上下文破坏"问题：Anthropic 的上下文检索方案**
+**分块与“上下文破坏”问题：Anthropic 的上下文检索方案**
 
 The chunking step inside indexing (§8) hides a real engineering problem worth naming explicitly,
 because it is a common and well-documented cause of retrieval failure in practice. Splitting a
@@ -661,8 +604,8 @@ does not resemble a well-formed query embedding closely enough) or, if it is ret
 the generator once it is out of its original context.
 
 索引化流程（第 8
-节）中的分块步骤，隐藏着一个值得明确点出的真实工程问题，因为它在实践中是导致检索失败的一个常见且有据可查的原因。将一篇文档切分成一个个相互独立的文本块，必然会剥离掉那些原本赋予其内容完整意义的周边上下文——一个文本块若读作"营收较上一季度增长了
-3%"，若取自某公司财报正文中段，单独来看，它根本无法说明这是哪家公司、哪个季度的数据，尽管一个通读整份财报的人绝不会遗漏这些信息。存在这一问题的文本块，可能会在本该被匹配到的查询下完全检索不出来（因为它基于内容贫乏的文本所计算出的嵌入向量，与一个组织良好的查询嵌入向量并不够相似），又或者即便被检索出来，一旦脱离原始语境，也可能误导生成器。
+节）中的分块步骤，隐藏着一个值得明确点出的真实工程问题，因为它在实践中是导致检索失败的一个常见且有据可查的原因。将一篇文档切分成一个个相互独立的文本块，必然会剥离掉那些原本赋予其内容完整意义的周边上下文——一个文本块若读作“营收较上一季度增长了
+3%”，若取自某公司财报正文中段，单独来看，它根本无法说明这是哪家公司、哪个季度的数据，尽管一个通读整份财报的人绝不会遗漏这些信息。存在这一问题的文本块，可能会在本该被匹配到的查询下完全检索不出来（因为它基于内容贫乏的文本所计算出的嵌入向量，与一个组织良好的查询嵌入向量并不够相似），又或者即便被检索出来，一旦脱离原始语境，也可能误导生成器。
 
 Anthropic's September 2024 engineering post, "Contextual Retrieval," names this failure mode
 directly — describing traditional RAG as tending to "destroy context" when documents are split into
@@ -685,7 +628,7 @@ retrieval's top candidates, developed further in `advanced/06`) on top of both r
 
 Anthropic 于 2024 年 9 月发布的工程博客文章《上下文检索》（"Contextual
 Retrieval"）直接点名了这一失效模式——将传统 RAG
-在把文档切分成文本块时的倾向，描述为会"破坏上下文"——并提出了一种修复方案，该方案并未取代第
+在把文档切分成文本块时的倾向，描述为会“破坏上下文”——并提出了一种修复方案，该方案并未取代第
 8
 节已经描述的流水线，而是与之紧密衔接：在某个文本块被用于生成嵌入向量（面向密集检索）或被建立索引（面向
 BM25
@@ -693,7 +636,7 @@ BM25
 LLM（该文章使用的是 Claude）为该文本块生成一段简短的、50 到 100
 个词元长度的解释性上下文——例如指明该文本块出自哪份文档、哪个章节、涉及什么主题——并将这段生成出来的上下文，添加在文本块正文之前，再据此构建嵌入向量或
 BM25
-索引，使得嵌入向量与稀疏索引这两者，此刻都能"看到"该文本块连同它原本所缺失的定位信息。由于这项技术是在文本块自身的文字上增补上下文，而不依赖于对检索器或生成器本身做任何改动，它因而可以同时应用于第
+索引，使得嵌入向量与稀疏索引这两者，此刻都能“看到”该文本块连同它原本所缺失的定位信息。由于这项技术是在文本块自身的文字上增补上下文，而不依赖于对检索器或生成器本身做任何改动，它因而可以同时应用于第
 5
 节的密集检索与第 4
 节的稀疏检索，文章也报告称二者可以结合使用。文章相对于一个 5.7%
@@ -723,11 +666,11 @@ of hallucination — fluent, confident-sounding output that is factually wrong, 
 failure mode of language models operating purely from parametric knowledge, particularly on facts
 that are obscure, recent, or specific to a private document the model never saw during training.
 
-"事实基础"一词在本模块中反复出现，却始终没有给出精确的定义；本节将补上这一定义。事实基础，在本课程所使用的意义上，是指将
+“事实基础”一词在本模块中反复出现，却始终没有给出精确的定义；本节将补上这一定义。事实基础，在本课程所使用的意义上，是指将
 LLM
 生成的输出，约束为与呈现在其上下文中的某一份具体的、可核实的证据保持一致——而不是仅仅依赖模型在预训练阶段无从核实地编码进权重中的那些内容。这正是
 Anthropic 官方术语表赋予 RAG
-的那种特性："这使得模型能够访问和使用训练数据之外的信息，减少对死记硬背式记忆的依赖，从而提高生成文本的事实准确性。"事实基础之所以重要，是因为存在幻觉——即那种表达流畅、语气自信，但事实上却是错误的输出，这是纯粹依赖参数化知识运作的语言模型一种广为人知的失效模式，在涉及冷僻、近期，或某份模型在训练时从未见过的私有文档中特有的事实时，尤为突出。
+的那种特性：“这使得模型能够访问和使用训练数据之外的信息，减少对死记硬背式记忆的依赖，从而提高生成文本的事实准确性。”事实基础之所以重要，是因为存在幻觉——即那种表达流畅、语气自信，但事实上却是错误的输出，这是纯粹依赖参数化知识运作的语言模型一种广为人知的失效模式，在涉及冷僻、近期，或某份模型在训练时从未见过的私有文档中特有的事实时，尤为突出。
 
 Kurt Shuster, Spencer Poff, Moya Chen, Douwe Kiela, and Jason Weston's 2021 paper "Retrieval
 Augmentation Reduces Hallucination in Conversation" studied this connection directly for
@@ -747,8 +690,8 @@ quality, ranking, and chunk context exists specifically to help an engineer impr
 
 Kurt Shuster、Spencer Poff、Moya Chen、Douwe Kiela 与 Jason Weston 于 2021
 年发表的论文《检索增强能够减少对话中的幻觉》（"Retrieval Augmentation Reduces Hallucination in
-Conversation"），针对对话智能体直接研究了这一关联，考察了用于知识落地对话的"检索环路中嵌入神经检索"架构，并报告称，与纯参数化的对话模型相比，这类检索增强模型能够"显著减少"这一广为人知的幻觉问题，同时对检索器自身训练中未曾见过的话题，也具备良好的泛化能力。有必要以本课程引用规则所要求的同等审慎程度，来陈述这一结论：检索增强生成能够减少幻觉，这是多项研究共同证实、有据可查的实证发现——但它并不能彻底消除幻觉。如果检索器返回了不相关或质量低劣的段落（第
-9 节中"文本块上下文缺失"问题正是这方面的一个典型案例），或者生成器尽管拿到了正确且相关的检索证据，却对其视而不见或理解有误，又或者底层文档集合本身就含有错误、并被原封不动地传递了下去，RAG
+Conversation"），针对对话智能体直接研究了这一关联，考察了用于知识落地对话的“检索环路中嵌入神经检索”架构，并报告称，与纯参数化的对话模型相比，这类检索增强模型能够“显著减少”这一广为人知的幻觉问题，同时对检索器自身训练中未曾见过的话题，也具备良好的泛化能力。有必要以本课程引用规则所要求的同等审慎程度，来陈述这一结论：检索增强生成能够减少幻觉，这是多项研究共同证实、有据可查的实证发现——但它并不能彻底消除幻觉。如果检索器返回了不相关或质量低劣的段落（第
+9 节中“文本块上下文缺失”问题正是这方面的一个典型案例），或者生成器尽管拿到了正确且相关的检索证据，却对其视而不见或理解有误，又或者底层文档集合本身就含有错误、并被原封不动地传递了下去，RAG
 系统依然可能出现幻觉。将某项主张的依据落实在检索到的文本之上，相较于毫无依据的生成，是一项真实的、可测量的改进，但并非正确性的保证——本模块第
 5 至第 9
 节关于检索质量、排序与文本块上下文的内容，正是为帮助工程师改进这一点而存在的。
@@ -774,8 +717,8 @@ in a vector database backed by a FAISS-style ANN index (§7).
 3 节中使用过的段落 A、B、C——每个文本块都用一个 Sentence-BERT
 风格的编码器（第 2
 节）生成了嵌入向量，并且都按照第 9
-节"上下文检索"技术的做法，添加了一段简短的上下文前缀（因此，例如段落
-A 实际存储的文本，读起来更接近"【出自：账户安全 > 密码帮助】要重置密码，请前往'设置'并点击'重置密码'"，而不是第 3
+节“上下文检索”技术的做法，添加了一段简短的上下文前缀（因此，例如段落
+A 实际存储的文本，读起来更接近“【出自：账户安全 > 密码帮助】要重置密码，请前往'设置'并点击'重置密码'”，而不是第 3
 节为了便于算术演算而使用的那句裸文本），全部内容都存放在一个由类 FAISS ANN
 索引（第 7 节）支撑的向量数据库中。
 
@@ -795,7 +738,7 @@ grounded in passage A's actual reset steps, while passage C's password-length re
 available to be mentioned as a secondary detail if relevant, rather than the model needing to
 recall (or worse, guess at) either fact from parametric memory alone.
 
-一位用户在客服聊天窗口中输入："我该如何重置密码？"检索阶段：该查询会用索引化阶段相同的编码器进行编码，生成第
+一位用户在客服聊天窗口中输入：“我该如何重置密码？”检索阶段：该查询会用索引化阶段相同的编码器进行编码，生成第
 3
 节中的向量
 $q = (0.9, 0.1, 0.1)$；ANN
@@ -806,9 +749,9 @@ $q = (0.9, 0.1, 0.1)$；ANN
 0.890），而段落 B（约
 0.167）被正确地排除在外，视为不相关。增强阶段：一段软件——而非某个人——严格依照
 `introductory/05`
-所定义的提示词构成，组装出一份提示词：一条指令（"仅使用所提供上下文中的信息来回答用户的问题；如果上下文中不包含答案，请如实说明"）、以检索到的段落
+所定义的提示词构成，组装出一份提示词：一条指令（“仅使用所提供上下文中的信息来回答用户的问题；如果上下文中不包含答案，请如实说明”）、以检索到的段落
 A 与 C
-作为上下文、以用户的原始消息作为输入数据，以及一条输出指示（"用不超过两句话作答"）。生成阶段：LLM
+作为上下文、以用户的原始消息作为输入数据，以及一条输出指示（“用不超过两句话作答”）。生成阶段：LLM
 接收这份组装完成的提示词——指令、上下文、输入数据与输出指示，全部一同存在于同一个上下文窗口之内，正如
 `introductory/06`
 所描述的词元累积机制那样——并生成一个以段落 A
@@ -821,38 +764,16 @@ A 与 C
 
 **失效模式与实践要点**
 
-Four practical habits follow directly from this module's material. First, a RAG system's answer
-quality is bounded above by its retrieval quality: no generator, however capable, can produce a
-well-grounded answer from passages that were never retrieved in the first place, which is why §7's
-scalable search and §9's chunk-context fix are not optional engineering polish but load-bearing
-parts of the pipeline. Second, chunk size is a real design decision with a genuine trade-off, not an
-arbitrary implementation detail: chunks that are too small (as in §9's stripped "revenue grew by
-3%" example) lose the surrounding context needed to be retrieved or interpreted correctly, while
-chunks that are too large dilute a passage's embedding with unrelated content and waste context-
-window tokens (`introductory/06`) on material irrelevant to any one query. Third, sparse (§4) and
-dense (§5) retrieval fail on different, complementary kinds of query — sparse retrieval fails on
-vocabulary mismatch, dense retrieval can fail on queries that hinge on an exact rare term or
-identifier an embedding model was never trained to weight heavily — which is exactly why §9's
-Contextual Retrieval findings favor combining both rather than picking one. Fourth, retrieval
-augmentation reduces hallucination as a matter of documented evidence (§10) but does not guarantee
-correctness, so a production RAG system still needs monitoring for retrieval failures, stale or
-incorrect source documents, and cases where the generator drifts from the retrieved evidence it was
-given.
+Four practical habits follow directly from this module's material.
 
-本模块的内容直接引出了四条实践习惯。第一，一个 RAG
-系统答案质量的上限，取决于其检索质量：无论生成器能力多强，都无法从一开始就未被检索出来的段落中，生成出一个具备扎实事实基础的答案——这正是为什么第
-7
-节的可扩展搜索与第 9
-节的文本块上下文修复方案，并非可有可无的工程打磨，而是这条流水线中具有支撑作用的关键环节。第二，文本块大小是一项真实存在、涉及实质取舍的设计决策，而非一个可以随意设定的实现细节：过小的文本块（如第
-9
-节中被剥离了上下文的"营收增长
-3%"示例）会失去被正确检索或正确解读所需的周边信息，而过大的文本块则会用无关内容稀释该段落的嵌入向量，并把上下文窗口（`introductory/06`）中的词元，浪费在与任何具体查询都无关的材料上。第三，稀疏检索（第
-4 节）与密集检索（第 5
-节）会在不同、且相互互补的查询类型上失效——稀疏检索败于用词不匹配，密集检索则可能败于那些高度依赖某个精确的稀有词或标识符的查询，因为嵌入模型从未在训练中学会赋予这类词以足够的权重——这正是第
-9
-节"上下文检索"的研究结论倾向于将二者结合使用、而非二选一的原因。第四，检索增强能够减少幻觉，这是有据可查的实证事实（第
-10 节），但并不能保证结果正确，因此一个生产级 RAG
-系统，依然需要对检索失败、陈旧或错误的源文档，以及生成器偏离其所获得的检索证据这类情形，持续加以监控。
+本模块的内容直接引出了四条实践习惯。
+
+| #   | Takeaway                                             | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                 | 中文                                                                                                                                                                                                                                                                                                                        |
+| --- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Retrieval quality bounds answer quality              | a RAG system's answer quality is bounded above by its retrieval quality: no generator, however capable, can produce a well-grounded answer from passages that were never retrieved in the first place, which is why §7's scalable search and §9's chunk-context fix are not optional engineering polish but load-bearing parts of the pipeline.                                                                                                    | 一个 RAG 系统答案质量的上限，取决于其检索质量：无论生成器能力多强，都无法从一开始就未被检索出来的段落中，生成出一个具备扎实事实基础的答案——这正是为什么第 7 节的可扩展搜索与第 9 节的文本块上下文修复方案，并非可有可无的工程打磨，而是这条流水线中具有支撑作用的关键环节。                                                 |
+| 2   | Chunk size is a real trade-off                       | chunk size is a real design decision with a genuine trade-off, not an arbitrary implementation detail: chunks that are too small (as in §9's stripped "revenue grew by 3%" example) lose the surrounding context needed to be retrieved or interpreted correctly, while chunks that are too large dilute a passage's embedding with unrelated content and waste context-window tokens (`introductory/06`) on material irrelevant to any one query. | 文本块大小是一项真实存在、涉及实质取舍的设计决策，而非一个可以随意设定的实现细节：过小的文本块（如第 9 节中被剥离了上下文的“营收增长 3%”示例）会失去被正确检索或正确解读所需的周边信息，而过大的文本块则会用无关内容稀释该段落的嵌入向量，并把上下文窗口（`introductory/06`）中的词元，浪费在与任何具体查询都无关的材料上。 |
+| 3   | Sparse and dense retrieval fail differently          | sparse (§4) and dense (§5) retrieval fail on different, complementary kinds of query — sparse retrieval fails on vocabulary mismatch, dense retrieval can fail on queries that hinge on an exact rare term or identifier an embedding model was never trained to weight heavily — which is exactly why §9's Contextual Retrieval findings favor combining both rather than picking one.                                                            | 稀疏检索（第 4 节）与密集检索（第 5 节）会在不同、且相互互补的查询类型上失效——稀疏检索败于用词不匹配，密集检索则可能败于那些高度依赖某个精确的稀有词或标识符的查询，因为嵌入模型从未在训练中学会赋予这类词以足够的权重——这正是第 9 节“上下文检索”的研究结论倾向于将二者结合使用、而非二选一的原因。                         |
+| 4   | Grounding reduces but does not guarantee correctness | retrieval augmentation reduces hallucination as a matter of documented evidence (§10) but does not guarantee correctness, so a production RAG system still needs monitoring for retrieval failures, stale or incorrect source documents, and cases where the generator drifts from the retrieved evidence it was given.                                                                                                                            | 检索增强能够减少幻觉，这是有据可查的实证事实（第 10 节），但并不能保证结果正确，因此一个生产级 RAG 系统，依然需要对检索失败、陈旧或错误的源文档，以及生成器偏离其所获得的检索证据这类情形，持续加以监控。                                                                                                                   |
 
 ---
 
@@ -887,15 +808,15 @@ performance.
 检索增强生成将
 LLM 的参数化知识，与一个外部的、可持续更新的非参数化信息存储配对，针对每一次请求，将该存储中最相关的片段检索进模型的上下文窗口，而不再仅仅依赖训练阶段固化进模型权重中的内容。嵌入向量——由
 Sentence-BERT
-一脉的神经编码器所生成的、稠密且承载语义的向量——把"这两段文本在语义上有多相似"这一问题，转化成了一个可以用余弦相似度、点积或欧几里得距离来回答的几何问题。检索本身分为两大互补的流派：稀疏检索（BM25），依据字面词语重合、并按词的稀有度与文档长度加权来匹配；以及密集检索（DPR
+一脉的神经编码器所生成的、稠密且承载语义的向量——把“这两段文本在语义上有多相似”这一问题，转化成了一个可以用余弦相似度、点积或欧几里得距离来回答的几何问题。检索本身分为两大互补的流派：稀疏检索（BM25），依据字面词语重合、并按词的稀有度与文档长度加权来匹配；以及密集检索（DPR
 及更广义的双编码器范式），依据习得的语义相似度来匹配，能够跨越用词鸿沟——而如 FAISS
 一类库中所实现的近似最近邻搜索，则使密集检索在数百万篇文档的规模下具备了计算上的可行性。Lewis
 等人命名的 RAG
 架构，将检索器与生成器端到端地耦合在一起，有两种变体（RAG-Sequence 与
 RAG-Token）；而完整的生产级流水线——索引、检索、增强、生成——最好被理解为对
 `introductory/05`
-所引入的那种组织良好的提示词的自动化构建过程。最后，为检索而对文档进行分块，存在破坏"赋予每个文本块以意义"的那层上下文的风险，这是一种有据可查的失效模式，Anthropic
-的"上下文检索"技术针对这一问题给出了经过实测、幅度可观的改进；而尽管检索增强能够减少幻觉，这一点已是有据可查的实证事实，它却并不能将幻觉彻底消除——事实基础相较于毫无依据的生成，是一项真实、可测量的改进，而非一种保证。本主题群的下一个模块
+所引入的那种组织良好的提示词的自动化构建过程。最后，为检索而对文档进行分块，存在破坏“赋予每个文本块以意义”的那层上下文的风险，这是一种有据可查的失效模式，Anthropic
+的“上下文检索”技术针对这一问题给出了经过实测、幅度可观的改进；而尽管检索增强能够减少幻觉，这一点已是有据可查的实证事实，它却并不能将幻觉彻底消除——事实基础相较于毫无依据的生成，是一项真实、可测量的改进，而非一种保证。本主题群的下一个模块
 `advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md`，将直接建立在本模块的基础之上，讲解结合稀疏检索与密集检索的混合搜索、更深层次的重排序技术，以及如何严谨地评估一个
 RAG 系统的性能。
 

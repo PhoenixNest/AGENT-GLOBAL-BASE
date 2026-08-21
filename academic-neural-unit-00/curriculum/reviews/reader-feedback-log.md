@@ -26,13 +26,17 @@ header note) — this log is only useful as a history if it stays one.
 Patterns worth watching for at authoring time, extracted from the entries below. These are the
 actionable takeaways for future module authors, not just a changelog.
 
-| Class                                                        | What it looks like                                                                                                                                                                       | Why it happens                                                                                                                                                                                                                                                                                                       | Prevention                                                                                                                                                                                    |
-| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Bilingual bold-text CommonMark break**                     | `**TERM（GLOSS）**紧跟中文` renders literally as `**...**` instead of bold                                                                                                               | A closing `**` immediately preceded by punctuation (`）`, quotes, etc.) and immediately followed by CJK text with no space fails CommonMark's right-flanking test — this is _not_ the same as ordinary bold-next-to-Chinese (which is fine when the character before the closer is a CJK ideograph, not punctuation) | When a bolded span ends in a parenthetical gloss like `（ACRONYM）`, always leave a space between the closing `**` and the Chinese text that follows                                          |
-| **Bilingual enumerated lists colliding in numbering**        | An English `1.–4.` ordered list immediately followed by a Chinese ordered list meant to restart at 1, rendering as `5.–8.` instead                                                       | Two adjacent Markdown ordered lists with no non-list content between them share one numbering namespace under CommonMark's loose-list rules                                                                                                                                                                          | Never present bilingual enumerated/parallel content as two adjacent ordered lists — use one bilingual table instead (also solves the next class)                                              |
-| **Prose bundling of parallel "type/stage/category" content** | 3–6 short, parallel items (bold term + ~1 paragraph each) bundled into one dense EN paragraph + one dense CN paragraph                                                                   | Natural first-draft shape for enumerable content; not caught by looking at any single paragraph in isolation                                                                                                                                                                                                         | Default to a table (`Term \| EN \| 中文`, `#` column only when order matters) whenever a passage names 3+ parallel items each with a short description                                        |
-| **Canonical-term drift**                                     | A module establishes a precise translation (e.g. `提示词` for "a prompt") but an earlier passage in the _same document_ (often the title) still uses a looser/ambiguous synonym (`提示`) | The canonical term is usually decided while drafting the body, and titles/intros written first or last aren't swept back over                                                                                                                                                                                        | Fix the canonical term once, early in the document (ideally in the title/§1), then grep the rest of the same document for looser synonyms before filing                                       |
-| **Half-width ASCII punctuation in Chinese prose**            | `?` `!` `,` `:` `;` `(` `)` used as sentence/heading punctuation in Chinese text, instead of `？` `！` `，` `：` `；` `（` `）`                                                          | Appears concentrated by author, not randomly — one contributor's four modules account for the large majority of instances found so far                                                                                                                                                                               | Needs a per-author style pass, not a blanket find-replace (ASCII punctuation is correct inside code spans, tool names, and genuine English/acronym text) — see the still-open item in Entry 2 |
+| Class                                                        | What it looks like                                                                                                                                                                                                                | Why it happens                                                                                                                                                                                                                                                                                                       | Prevention                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Bilingual bold-text CommonMark break**                     | `**TERM（GLOSS）**紧跟中文` renders literally as `**...**` instead of bold                                                                                                                                                        | A closing `**` immediately preceded by punctuation (`）`, quotes, etc.) and immediately followed by CJK text with no space fails CommonMark's right-flanking test — this is _not_ the same as ordinary bold-next-to-Chinese (which is fine when the character before the closer is a CJK ideograph, not punctuation) | When a bolded span ends in a parenthetical gloss like `（ACRONYM）`, always leave a space between the closing `**` and the Chinese text that follows                                                                                                                                                                                                                                                              |
+| **Bilingual enumerated lists colliding in numbering**        | An English `1.–4.` ordered list immediately followed by a Chinese ordered list meant to restart at 1, rendering as `5.–8.` instead                                                                                                | Two adjacent Markdown ordered lists with no non-list content between them share one numbering namespace under CommonMark's loose-list rules                                                                                                                                                                          | Never present bilingual enumerated/parallel content as two adjacent ordered lists — use one bilingual table instead (also solves the next class)                                                                                                                                                                                                                                                                  |
+| **Prose bundling of parallel "type/stage/category" content** | 3–6 short, parallel items (bold term + ~1 paragraph each) bundled into one dense EN paragraph + one dense CN paragraph                                                                                                            | Natural first-draft shape for enumerable content; not caught by looking at any single paragraph in isolation                                                                                                                                                                                                         | Default to a table (`Term \| EN \| 中文`, `#` column only when order matters) whenever a passage names 3+ parallel items each with a short description                                                                                                                                                                                                                                                            |
+| **Canonical-term drift**                                     | A module establishes a precise translation (e.g. `提示词` for "a prompt") but an earlier passage in the _same document_ (often the title) still uses a looser/ambiguous synonym (`提示`)                                          | The canonical term is usually decided while drafting the body, and titles/intros written first or last aren't swept back over                                                                                                                                                                                        | Fix the canonical term once, early in the document (ideally in the title/§1), then grep the rest of the same document for looser synonyms before filing                                                                                                                                                                                                                                                           |
+| **Half-width ASCII punctuation in Chinese prose**            | `?` `!` `,` `:` `;` `(` `)` used as sentence/heading punctuation in Chinese text, instead of `？` `！` `，` `：` `；` `（` `）`                                                                                                   | Appears concentrated by author, not randomly — one contributor's four modules account for the large majority of instances found so far                                                                                                                                                                               | Needs a per-author style pass, not a blanket find-replace (ASCII punctuation is correct inside code spans, tool names, and genuine English/acronym text) — see the still-open item in Entry 2                                                                                                                                                                                                                     |
+| **Straight quotation marks in Chinese prose**                | `"..."` (ASCII straight quotes) used inside Chinese-language text, instead of `“…”` (full-width curly, GB/T 15834)                                                                                                                | First-draft authoring habit carried over from English typing conventions; not visually obvious in a monospace editor since straight and curly quotes both look like "quotes"                                                                                                                                         | Convert a straight-quote pair to curly only when the quoted content contains a CJK character (mask code/math/link spans first); quotes wrapping genuine English words/acronyms/code stay straight — see Entry 4                                                                                                                                                                                                   |
+| **Mid-paragraph CJK-CJK line break**                         | A paragraph hard-wrapped mid-sentence where both the character before and after the line break are CJK ideographs; CommonMark renders the break as a literal space, visible as a stray gap between two Chinese characters         | Leftover hard wraps from before `proseWrap: preserve` was set in `.prettierrc` (2026-06-18) — the current config prevents new instances but never touched pre-existing ones                                                                                                                                          | Join only at CJK-CJK boundaries (no space); leave non-CJK boundaries alone since they render identically as a space either way — see Entry 4                                                                                                                                                                                                                                                                      |
+| **Hand-typed curly quote direction mismatch**                | A hand-authored edit types `”…”` (both characters the _closing_ glyph, U+201D) instead of `“…”` (opening U+201C, closing U+201D) — renders visually indistinguishable from correct curly quotes in most editors/terminals         | Copy-pasting or re-typing already-curly text from a prior Read/tool-output render can silently drop the open/close distinction, since both glyphs read as "a curly quote" to the eye                                                                                                                                 | After any hand-typed curly-quote edit, run a nesting-depth balance scan (`“` +1 / `”` −1, flag any point the count goes negative) rather than eyeballing the diff — see Entry 4                                                                                                                                                                                                                                   |
+| **Non-ordinal-marked prose bundling**                        | 2+ parallel bold-term definitions bundled into one paragraph with no "first/second/third" or "第一/第二/第三" marker at all — e.g. `introductory/02` §4's "a **query** vector...; a **key** vector...; and a **value** vector..." | A grep-based sweep for ordinal markers only finds enumerations that happen to use them — this shape is common even without markers, and earlier searches (`第一...第二` grep) structurally could not find it                                                                                                         | Full-text (non-grep) close-reads are required to close this gap; the teachable signal is 2+ occurrences of `a/an **BOLD_TERM** ... represents/means/is "..."` joined by semicolons in one paragraph, independent of numbering — see Entry 6. Guardrail: don't table a passage where the bold terms are bound by one continuous narrative metaphor rather than standing as independently substitutable definitions |
 
 ---
 
@@ -208,6 +212,242 @@ closer reading.
 
 **Status:** Both standing open items below are now closed. The Standing Open Items table has been
 cleared accordingly.
+
+---
+
+### Entry 4 — 2026-08-21 — Quote-mark convention, mid-paragraph CJK line breaks, temperature-parameter currency, bundled enumerations
+
+**Reported (7 items, this round):** (1) curly-quote/punctuation issues in Chinese content — readers
+specifically called out "curly braces" and straight double quotation marks — remain unresolved. (2)
+`提示注入` (should be `提示词注入`) still findable somewhere in the curriculum. (3) the newest Claude
+models no longer support adjusting `temperature`, but `introductory/05` doesn't mention this. (4)
+Prettier-formatted Markdown line breaks produce awkward spacing in Chinese text. (5) `Introductory
+06`'s "Memory Types" content should be a table, not one dense paragraph. (6) the corpus uses the
+English-style em dash (`——`) in Chinese text, reading like raw machine translation. (7)
+first/second/third-style enumerations should be lists or separate paragraphs, not bundled prose.
+The CEO authorized consulting the company's Chinese and English linguists (Localization
+Department) for the judgment calls this round required.
+
+**Investigation and resolution, item by item:**
+
+- **(1) Quote marks.** Consulted Wei-Chen Liu (Chinese Linguist) — full response recorded below.
+  Ruling: ZH-CN prose under GB/T 15834 uses full-width curly quotes `“…”` (U+201C/U+201D), not
+  corner brackets `「」` (a ZH-TW/HK convention). The entire curriculum — 1,513 straight-quote
+  characters across every file — used straight ASCII `"..."` even in Chinese content; zero curly
+  quotes or corner brackets existed anywhere in the corpus before this entry. Wrote a masked
+  conversion script (fenced/inline code, `$...$`/`$$...$$` math, Markdown link targets, and bare
+  URLs protected, mirroring Entry 3's masking approach) that converts a straight-quote pair to
+  curly only when the quoted content contains a CJK character, leaving quotes wrapping genuine
+  English words/acronyms/code untouched, per the linguist's boundary ruling. Converted 563 quote
+  pairs across 24 curriculum files + `README.md`; verified 0 remaining straight-CJK pairs after.
+  Also investigated the readers' "curly braces" wording literally: excluding fenced/inline code and
+  LaTeX math spans (which legitimately use `{}` for subscripts/superscripts), the corpus has zero
+  genuine stray `{}` in prose — concluded this was reader shorthand for "curly quotation marks,"
+  the defect actually addressed above, not a separate brace-glyph issue.
+- **(2) `提示注入` → `提示词注入`.** Found and fixed the one remaining instance
+  (`introductory/05:260`, inside the Common Pitfalls table's parenthetical gloss on prompt
+  injection). Re-swept the full corpus after: 0 remaining instances of the incorrect form, 9
+  (now correct) instances of `提示词注入`. Wei-Chen Liu independently confirmed both `提示词` (not
+  `提示`) and `提示词注入` (not `提示注入`) as the correct standing terms for this curriculum's
+  register.
+- **(3) Temperature-parameter currency.** Verified against current Anthropic documentation and the
+  Claude API migration guide (retrieved 2026-08-21): `temperature` remains a supported, adjustable
+  parameter for most current models, but Anthropic's newest releases — Claude Opus 4.7 and later,
+  and Claude Sonnet 5 — reject a non-default `temperature` (and `top_p`/`top_k`) with a request
+  error, on the stated rationale that prompting is now a more reliable behavior lever than
+  sampling-layer tuning for these models. Rewrote `introductory/05`'s temperature passage (both EN
+  and CN) to keep the underlying sampling-randomness concept intact (still universally applicable)
+  while adding an accurate, hedged, dated caveat that direct adjustability is model- and
+  provider-specific and changes over time, directing readers to check the current API reference for the model they're
+  actually calling rather than asserting a single fixed fact that will itself go stale.
+- **(4) Mid-paragraph CJK line breaks.** Root cause: 784 mid-paragraph line breaks where both the
+  character before and after the break are CJK ideographs, spread across 12 files — leftover hard
+  wraps from before this repo's `.prettierrc` set `proseWrap: preserve` (2026-06-18 per git
+  history); Prettier itself was not the ongoing cause; the current config already prevents new
+  instances. CommonMark renders a soft line break as a literal space in HTML, which is invisible
+  and correct between English words but reads as a stray gap between two Chinese characters that
+  have no natural word boundary. Considered and rejected a full paragraph-per-line unwrap (a dry
+  run found 6,229 non-CJK boundary breaks that render identically whether joined or not — unwrapping
+  those would have been a much larger, cosmetic-only diff, and would have touched historical
+  `reviews/` records that should never be edited per this log's own maintenance rule); scoped the
+  fix to exactly the CJK-CJK boundary joins that produce a visible rendering defect. Applied and
+  spot-checked; `prettier --check` clean afterward.
+- **(5) `introductory/06` Memory Types.** Confirmed §7 "Two Kinds of Memory" bundled 2 parallel
+  concepts (working memory / persistent memory, the latter itself naming a short-term/long-term
+  split) into one dense EN paragraph + one dense CN paragraph — the same "prose bundling of
+  parallel type/category content" defect class from Entry 1. Converted to a `Term | EN | 中文`
+  table, preserving the explanatory "why this distinction matters" paragraph as prose since it is
+  narrative, not enumerable.
+- **(6) Em dash.** Consulted Wei-Chen Liu jointly with Amelia Hartington (English Linguist) —
+  full response recorded below. Ruling: `——` (doubled U+2014) **is** the correct GB/T 15834 standard
+  for ZH-CN prose; the corpus's 968 doubled-dash instances are compliant, not a defect. No genuine
+  stray single `—` mid-Chinese-sentence was found; the earlier raw grep's ~3,959 "single dash"
+  count was an artifact of naive character counting on already-doubled dashes plus legitimate
+  single em dashes inside English-language table cells. **No mechanical fix applied** — this is a
+  closed non-defect, not a deferred item. The linguists' joint diagnosis of the actual "reads like
+  MT" signal: appositive clauses transplanted sentence-for-sentence from English via `——` instead of
+  being restructured into two shorter Chinese sentences — a sentence-construction/rhythm concern,
+  not a punctuation-mark defect, and out of scope for a mechanical pass (would require a
+  clause-by-clause native-flow rewrite across the corpus). Recorded as a new Defect Class below for
+  future authoring awareness, not as an action item.
+- **(7) Bundled first/second/third enumerations.** Grep for `第一...第二[...第三]` and
+  `First,...Second,` found 9 files with the pattern; most were false positives (`第一行`/`第二维` =
+  "first row"/"second dimension" in worked math examples, not enumerated lists). Of the genuine
+  enumerations, converted the four **3+-item** cases to tables, matching this log's established
+  convention (`intermediate/08`'s 4-item worked-example checklist, `advanced/06`'s 4-stage RAG
+  pipeline, `advanced/07`'s 3 worktree-lifecycle properties, `advanced/05`'s 3 foundational facts).
+  Left the **2-item** "first/second" instances as connected prose
+  (`intermediate/05`, `intermediate/06`, `advanced/05`'s YaRN passage) — a 2-item enumeration reads
+  naturally as one sentence in both languages and the reader's own example (First/Second/**Third**)
+  implies 3+ items as the actual pattern of concern; recording this boundary explicitly so a future
+  pass doesn't re-flag 2-item prose as a defect. One incidental finding: `advanced/07`'s 3-property
+  passage had **no English counterpart at all** in the source (Chinese-only prose, unlike the
+  rest of the file's strict paragraph-by-paragraph bilingual structure) — added a translated EN
+  column to complete the table rather than leaving one column empty, since every other table in the
+  curriculum is fully bilingual.
+
+**Linguist consultation (Localization Department, activated per CEO authorization):**
+
+> **Q1 — Quote marks: rule is `“ ”` (U+201C/U+201D), not `「」`.** `「」` corner brackets are the
+> Taiwan/Hong Kong (and classical vertical-text) convention, not Mainland. GB/T 15834 for ZH-CN
+> horizontal-text prose specifies full-width curly quotes as primary (`“…”`, nested `‘…’`). Since
+> this curriculum is ZH-CN only, that's a one-line rule: every straight `"..."` wrapping
+> Chinese-language content → `“…”`. Boundary: quotes wrapping genuine embedded English
+> words/acronyms/code stay straight ASCII — standard mixed-script practice.
+>
+> **Q2 — `——` is correct standard; don't mechanically "fix" singles.** The corpus has essentially
+> no genuine stray single `—` mid-Chinese-sentence acting as a parenthetical break — the scanner's
+> hits are English-language table cells (correct English style) and chain/sequence usage like
+> `感知—思考—行动—观察` (a linking dash, closer to a range-dash, which GB/T 15834 permits). The
+> "reads like MT" complaint isn't the dash glyph — it's sentence construction: long English-style
+> appositive clauses transplanted via `——` instead of being restructured into two shorter Chinese
+> sentences with 句号/分号. Flag any `——`-bounded clause over ~25 characters for a native-flow read;
+> don't touch the mark itself. (Amelia Hartington, English Linguist: agreed from the English side —
+> a reader trained on English prose pattern-matches `—` to "raw MT," but the actual signal to audit
+> is appositive-clause length, not dash presence.)
+>
+> **Q3 — Confirmed, both terms, corpus already compliant.** `提示词` (not `提示`) is correct —
+> `提示` alone reads as generic "hint," ambiguous with UI tooltips. `提示词注入` (not `提示注入`) is
+> the standard security-literature rendering. Grepped: 9/9 instances already use `提示词注入`
+> (after this entry's item (2) fix), zero use the bare incorrect form.
+>
+> — Wei-Chen Liu, Chinese Linguist (ZH-CN/ZH-TW), Localization Department
+
+**Self-caught defect during this entry (not reader-reported):** two of the hand-authored table
+edits for items (5) and (7) introduced curly quote pairs where both the opening and closing
+character were typed as U+201D (closing) instead of U+201C/U+201D — invisible in the editor,
+detectable only by scanning actual codepoints. Caught by a post-edit balance scan (tracking curly
+quote nesting depth across each file; a `”` at depth 0 flags a malformed pair) run specifically
+because manual quote-typing is more error-prone than the scripted conversion used for item (1).
+Found and fixed 2 instances (`introductory/05`, `advanced/05`). Added as a new Defect Class below.
+
+**Status:** Closed. Items (2), (3), (4), (5), (7) fixed and verified; item (1) fixed and verified
+corpus-wide; item (6) investigated and closed as a non-defect (correct standard punctuation, not a
+mechanical fix candidate). No standing open items from this entry.
+
+---
+
+### Entry 5 — 2026-08-21 — Non-curriculum ANU-00 documents audited for the same defect classes (null result)
+
+**Reported:** request to check whether the defect classes from Entry 4 also exist in ANU-00
+documents outside `curriculum/`.
+
+**Investigation:** scanned every ANU-00 document outside `curriculum/` — `formation/`, `crew/`,
+`knowledge-base/` (README only; no research entries filed yet), `templates/`, `plans/` — 26
+markdown files total, plus a workspace-wide sweep of `company/`, `studio/`, and
+`core-component-00/` as an FYI check beyond the confirmed scope.
+
+**Finding:** none of the catalogued defect classes exist anywhere outside `curriculum/`, because
+no other document set in this workspace is bilingual. The only CJK characters found anywhere
+outside `curriculum/` are 3 isolated mentions of **信达雅** (the classical Chinese
+translation-quality principle), used correctly as an embedded English-language citation term
+inside review-template prose — not bilingual paragraph content, so none of the quote/line-break/
+enumeration defect classes have any Chinese prose to occur in. A workspace-wide sweep for files
+with more than 20 CJK characters returned zero hits outside `curriculum/`.
+
+**Status:** Closed, no defect found, no files changed. `curriculum/` is confirmed as the entire
+bilingual surface area in this workspace.
+
+---
+
+### Entry 6 — 2026-08-21 — Bundled-prose-to-table sweep beyond ordinal markers (28 conversions)
+
+**Reported:** a reader found further readability candidates beyond the tables added in Entry 1–4 —
+specifically `introductory/02` §4 "Queries, Keys, and Values," which bundles three parallel
+term-definitions (query/key/value) into one dense paragraph per language with **no ordinal
+markers at all** ("first/second/third"), unlike every candidate the earlier entries' grep-based
+searches had found.
+
+**Investigation:** the earlier sweeps (Entry 1's two passes, Entry 2's structural scan) searched
+specifically for `第一...第二` / `First,...Second,` patterns. That methodology has a real blind
+spot: it misses (a) bundled definitions with no ordinal markers at all (the query/key/value
+shape), (b) ordinal enumerations written as 首先/其次/第三/第四 instead of 第一/第二/第三, and (c)
+English "First,...Second," pairs split across wrapped physical lines, invisible to single-line
+grep. Dispatched 6 parallel full-text (non-grep) reads across all 24 curriculum files to find
+every remaining instance of the underlying pattern — "2+ parallel items, each a bold term plus a
+short description, bundled into one paragraph" — regardless of marker style. Consulted Wei-Chen
+Liu (Chinese Linguist) and Amelia Hartington (English Linguist) to confirm the rule itself was
+sound and only the search method was too narrow, to get a general non-ordinal-dependent detection
+signal for future authoring, and to flag the over-application risk: a paragraph with 2-3 bold
+terms bound by one continuous narrative metaphor (e.g. the library-catalog analogy immediately
+after `introductory/02` §4) should **not** be tabled, since tabling breaks the connective tissue
+the metaphor depends on — the signal is whether clauses are independently substitutable, not raw
+bold-term count.
+
+**Result:** 25 confirmed candidates + 9 borderline cases across 18 files. Reported to the reader
+and CEO for scope sign-off before any edits, per instruction. Approved scope: 27 conversions to
+table (25 confirmed + 2 borderline 2-item cases matching an existing sibling-table precedent —
+`introductory/07` §6, `introductory/08` §3), 1 conversion to a bullet list instead of a table
+(`introductory/06` §1's unlabeled skill-objective list, which has no "Term" column to speak of),
+6 left as prose (each with a specific disqualifying reason — sequential rather than parallel
+build, argumentative definition-by-negation, independent binary pairs, technical content too long
+for table cells, glossary-shaped, or a clean 2-item case with no sibling-table precedent).
+
+**Resolution:** executed via 7 parallel editing passes (1 done directly, 6 dispatched agents) across
+15 files:
+
+| File              | Sections converted                                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `introductory/01` | §4 Activation Functions, §5 Layers and Forward Propagation                                                                           |
+| `introductory/02` | §4 Queries, Keys, and Values; §9 The Transformer Block                                                                               |
+| `introductory/04` | §2 What Is a Tool or Function; §3 The Function-Calling Contract; §8 Tool Use Across Providers                                        |
+| `introductory/05` | §3 Roles: System, User, and Assistant                                                                                                |
+| `introductory/06` | §9 Practical Takeaways (table); §1 Why This Module Exists (bullet list, not table)                                                   |
+| `introductory/07` | §6 Communication; §8 Risks Unique to Multi-Agent Systems                                                                             |
+| `introductory/08` | §2 Defining "Evaluate"; §3 Two Different Questions                                                                                   |
+| `intermediate/01` | §5 The Bias–Variance Tradeoff                                                                                                        |
+| `intermediate/05` | §6 Worked Example                                                                                                                    |
+| `intermediate/06` | §3 Measuring Meaning; §8 The Full RAG Pipeline; §12 Failure Modes and Practical Takeaways                                            |
+| `intermediate/07` | §6 Coordinator Role and Swarm Topologies (restates a passage `introductory/07` §4 already tabled in Entry 1 — this copy hadn't been) |
+| `intermediate/08` | §1 Informal Test Set → Formal Benchmark; §3 A Tour of Named Agent Benchmarks                                                         |
+| `advanced/03`     | §5 Circuit Breaker states                                                                                                            |
+| `advanced/04`     | §4 Harness-Level Guardrail Patterns; §7 Governance Frameworks (NIST AI RMF)                                                          |
+| `advanced/07`     | §2 Recap: Orchestration Topologies; §5 Foundations of Distributed Consensus; §6 Raft sub-problems                                    |
+
+All EN/中文 cell text is a near-verbatim split of the original prose — no paraphrasing, no content
+addition. `advanced/07`'s three new tables did not hit the "CN-only source, no EN counterpart"
+quirk found in a prior round's table there — all three had matching EN and CN prose to draw from.
+Centralized post-processing (masked curly-quote conversion, CJK-CJK line-join check, `prettier
+--write`) was re-run across every touched file afterward; two self-caught instances of the
+hand-typed curly-quote-direction defect (both quote characters typed as the closing glyph) were
+found via the balance-scan check from Entry 4 and fixed — both in `introductory/02`, in content
+this session authored directly rather than via a dispatched agent.
+
+**Linguist verification (per explicit instruction, run after all edits landed):** Wei-Chen Liu and
+Amelia Hartington sampled 8 of the 28 conversions across 5 files (including the bullet-list
+conversion and the densest tables — `intermediate/08` §3's 5-benchmark table and `advanced/07`
+§5–§6's consensus-theory tables) plus a targeted terminology grep across the newly-touched files.
+**Verdict: GO.** Translation fidelity clean across the sample (no drift, no silent omission, no
+compression that drops meaning); canonical terminology held correctly (提示词注入, 共识, 词元,
+自洽性, etc.); curly-quote convention correctly applied inside table cells; no case where
+tabularization forced meaning-losing terseness. One non-blocking style note: `intermediate/05` §6
+uses half-width parentheses for section references, matching the surrounding prose in that same
+document rather than introducing a new inconsistency — not a defect from this round, and a
+document-wide full-width-parens sweep (if ever wanted) would be a separate, deliberately scoped
+effort, not something to retrofit here.
+
+**Status:** Closed. All 28 approved conversions applied and linguist-verified. No standing open
+items from this entry.
 
 ---
 

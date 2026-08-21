@@ -25,9 +25,7 @@ and `introductory/03` (What Is an AI Agent? Concepts & the Agent Loop) — named
 this chapter relies on them, per the curriculum's citation rule for intermediate/advanced modules.
 
 本章严格建立在 `intermediate/07`（多智能体通信与协调协议）、`intermediate/03`（智能体设计模式：
-ReAct、计划-执行与 Reflexion）、`intermediate/04`（智能体记忆系统）、`introductory/07`（多智能体系统
-导论）以及 `introductory/03`（什么是人工智能智能体？概念与智能体循环）之上；凡本章依赖这些前置模块之
-处，均按课程对中高级模块的引用规则明确点名。
+ReAct、计划-执行与 Reflexion）、`intermediate/04`（智能体记忆系统）、`introductory/07`（多智能体系统导论）以及 `introductory/03`（什么是人工智能智能体？概念与智能体循环）之上；凡本章依赖这些前置模块之处，均按课程对中高级模块的引用规则明确点名。
 
 `intermediate/07` established how two or more agents exchange messages — request/response
 patterns, shared blackboards, and publish-subscribe channels — so that a coordinator can
@@ -45,14 +43,8 @@ concurrent execution from interfering with each other, and combining their outpu
 result the system can act on.
 
 `intermediate/07` 讨论了两个或多个智能体如何相互交换消息——请求/响应模式、共享黑板、发布-订阅通道——
-从而让协调者能够分配任务并收集结果。那一章回答的是"智能体之间如何交流？"这个问题。本章
-要回答一个更难、但与之紧密相关的问题：当一组智能体已经能够彼此通信之后，如果其中几个智能体需要**在同一
-时刻对同一份底层资源采取行动**——同一份代码库、同一份共享文档、同一个决策——会发生什么？我们既不希望某个
-智能体的工作悄无声息地覆盖了另一个智能体的成果，也不希望整个群体给出一个连任何单个智能体都不会真正认同
-的答案。这是两个彼此独立的工程问题，本章也将它们分开处理：**工作树隔离**解决第
-一个问题（对共享文件系统的并发访问），**共识**解决第二个问题（并发智能体如何收敛到一个
-可信的输出）。本章通篇所说的多智能体编排，指的是"把任务分配给多个智能体、
-防止它们的并发执行相互干扰、并将它们的输出合并为系统可以采纳的单一结果"这一整套综合性工作。
+从而让协调者能够分配任务并收集结果。那一章回答的是“智能体之间如何交流？”这个问题。本章要回答一个更难、但与之紧密相关的问题：当一组智能体已经能够彼此通信之后，如果其中几个智能体需要**在同一时刻对同一份底层资源采取行动**——同一份代码库、同一份共享文档、同一个决策——会发生什么？我们既不希望某个智能体的工作悄无声息地覆盖了另一个智能体的成果，也不希望整个群体给出一个连任何单个智能体都不会真正认同的答案。这是两个彼此独立的工程问题，本章也将它们分开处理：**工作树隔离**解决第一个问题（对共享文件系统的并发访问），**共识**解决第二个问题（并发智能体如何收敛到一个可信的输出）。本章通篇所说的多智能体编排，指的是“把任务分配给多个智能体、
+防止它们的并发执行相互干扰、并将它们的输出合并为系统可以采纳的单一结果”这一整套综合性工作。
 
 The two problems are related but not the same, and conflating them is a common design mistake.
 Isolating agents' filesystem access (worktree isolation) guarantees that Agent A's uncommitted
@@ -67,11 +59,7 @@ combines them in a single worked example in §8.
 
 这两个问题彼此相关，但并不是同一回事，把它们混为一谈是一种常见的设计错误。隔离智能体对文件系统的访问
 （工作树隔离）能保证智能体 A 尚未提交的修改不会破坏智能体 B 尚未提交的修改——但它并不能告诉我们，当 A 和
-B 各自"完成"的工作出现分歧时，应该保留哪一份。反过来说，一个只负责"保留 A 的答案、丢弃 B 的答案"的共识
-机制，如果 A 和 B 一开始就在同一份实时文件上编辑、并且在做出决策之前就已经互相破坏了对方的工作，那么这
-个共识机制也毫无意义。生产级的多智能体系统需要两者兼备，且顺序不能颠倒：先隔离，让每个智能体的候选输出
-都是一份干净、独立产出的成果；再达成共识，让整个群体收敛到应当保留的那一份成果上。本章将依次构建这两个
-部分，并在第 8 节的完整实例中将二者结合起来。
+B 各自“完成”的工作出现分歧时，应该保留哪一份。反过来说，一个只负责“保留 A 的答案、丢弃 B 的答案”的共识机制，如果 A 和 B 一开始就在同一份实时文件上编辑、并且在做出决策之前就已经互相破坏了对方的工作，那么这个共识机制也毫无意义。生产级的多智能体系统需要两者兼备，且顺序不能颠倒：先隔离，让每个智能体的候选输出都是一份干净、独立产出的成果；再达成共识，让整个群体收敛到应当保留的那一份成果上。本章将依次构建这两个部分，并在第 8 节的完整实例中将二者结合起来。
 
 ---
 
@@ -83,22 +71,17 @@ B 各自"完成"的工作出现分歧时，应该保留哪一份。反过来说�
 report status and results back to it. This section briefly recaps the shapes that coordination
 can take — the **swarm topology**, i.e. the graph structure describing which agents
 communicate with which — because the topology chosen determines where isolation and consensus
-need to be applied. In a **hierarchical topology**, a single coordinator dispatches
-work to subordinate agents and collects their results, mirroring a tree; in a **flat
-topology**, every agent reports to one orchestrator with no intermediate layer; in a
-**mesh topology**, agents communicate peer-to-peer without a central coordinator; in a
-**pipeline topology**, agents hand work to each other in sequence (A finishes, then
-B starts on A's output); and a **hybrid topology** combines these shapes for
-real-world systems that do not fit one pattern cleanly.
+need to be applied.
 
-`intermediate/07` 已经介绍了协调者角色，以及智能体用来向协调者汇报状态和结果的消息传递协议。本节先简要
-回顾一下协调可以采取的几种形态——**集群拓扑**，也就是描述"谁与谁通信"的图结构——因为
-选择哪种拓扑，决定了隔离与共识需要施加在系统的哪个环节。在**层级拓扑**中，单
-一协调者向下属智能体派发任务并收集结果，整体呈树状结构；在**扁平拓扑**中，每个智能体
-都直接向一个编排器汇报，中间不设分层；在**网状拓扑**中，智能体之间点对点通信，不存在
-中心协调者；在**流水线拓扑**中，智能体依次将工作交接给下一个智能体（A 完成后 B 才
-开始处理 A 的产出）；而**混合拓扑**则将上述几种形态组合起来，用于那些无法被单一模式
-完整描述的真实系统。
+`intermediate/07` 已经介绍了协调者角色，以及智能体用来向协调者汇报状态和结果的消息传递协议。本节先简要回顾一下协调可以采取的几种形态——**集群拓扑**，也就是描述“谁与谁通信”的图结构——因为选择哪种拓扑，决定了隔离与共识需要施加在系统的哪个环节。
+
+| Topology                              | EN                                                                                                       | 中文                                                                   |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Hierarchical topology**（层级拓扑） | a single coordinator dispatches work to subordinate agents and collects their results, mirroring a tree. | 单一协调者向下属智能体派发任务并收集结果，整体呈树状结构。             |
+| **Flat topology**（扁平拓扑）         | every agent reports to one orchestrator with no intermediate layer.                                      | 每个智能体都直接向一个编排器汇报，中间不设分层。                       |
+| **Mesh topology**（网状拓扑）         | agents communicate peer-to-peer without a central coordinator.                                           | 智能体之间点对点通信，不存在中心协调者。                               |
+| **Pipeline topology**（流水线拓扑）   | agents hand work to each other in sequence (A finishes, then B starts on A's output).                    | 智能体依次将工作交接给下一个智能体（A 完成后 B 才开始处理 A 的产出）。 |
+| **Hybrid topology**（混合拓扑）       | combines these shapes for real-world systems that do not fit one pattern cleanly.                        | 将上述几种形态组合起来，用于那些无法被单一模式完整描述的真实系统。     |
 
 Worktree isolation matters most in flat and hierarchical topologies where several agents are
 dispatched to work **concurrently and independently** on the same repository — the coordinator
@@ -113,14 +96,8 @@ nothing to isolate concurrently or reconcile by vote — which is precisely why 
 `intermediate/07`, narrows its focus to the flat/hierarchical and mesh cases where isolation and
 consensus actually do work.
 
-工作树隔离在扁平拓扑和层级拓扑中最为关键，因为在这两种拓扑里，多个智能体被派去**并发且独立地**处理同一
-个代码库——协调者把任务分发出去，智能体在各自工作期间并不需要相互交流，只有在汇报结果时才需要。共识则
-在协调者**有意**把同一个问题派发给多个智能体时最为关键——这是一种刻意的冗余策略，而不是意外情况——目的
-正是为了让它们各自的答案可以被比较、被综合，而不是盲目相信某一个来源。网状拓扑和辩论式拓扑（见第 7 节）
-从设计之初就是围绕共识构建的，因为让若干对等智能体互相评判对方的答案，本身就是一种共识机制。流水线拓扑
-通常两者都不太需要，因为每个阶段的输出就是下一阶段唯一的输入，既没有需要并发隔离的东西，也没有需要通过
-投票来调和的分歧——这也正是本章不同于 `intermediate/07` 之处：本章把讨论范围收窄到隔离与共识真正发挥
-作用的扁平/层级与网状场景。
+工作树隔离在扁平拓扑和层级拓扑中最为关键，因为在这两种拓扑里，多个智能体被派去**并发且独立地**处理同一个代码库——协调者把任务分发出去，智能体在各自工作期间并不需要相互交流，只有在汇报结果时才需要。共识则在协调者**有意**把同一个问题派发给多个智能体时最为关键——这是一种刻意的冗余策略，而不是意外情况——目的正是为了让它们各自的答案可以被比较、被综合，而不是盲目相信某一个来源。网状拓扑和辩论式拓扑（见第 7 节）
+从设计之初就是围绕共识构建的，因为让若干对等智能体互相评判对方的答案，本身就是一种共识机制。流水线拓扑通常两者都不太需要，因为每个阶段的输出就是下一阶段唯一的输入，既没有需要并发隔离的东西，也没有需要通过投票来调和的分歧——这也正是本章不同于 `intermediate/07` 之处：本章把讨论范围收窄到隔离与共识真正发挥作用的扁平/层级与网状场景。
 
 ---
 
@@ -140,14 +117,9 @@ is a **race condition**: an outcome that depends on the unpredictable relative t
 of two concurrent operations, and it is the single most common failure mode in naively-implemented
 multi-agent coding systems.
 
-设想一种最简单不过的失败情形：编排器把两个工作智能体派到同一份已检出的代码库副本上，一个负责添加后端
-接口，另一个负责添加对应的前端组件。两个智能体都把同一批文件读入各自的上下文窗口（这一机制
+设想一种最简单不过的失败情形：编排器把两个工作智能体派到同一份已检出的代码库副本上，一个负责添加后端接口，另一个负责添加对应的前端组件。两个智能体都把同一批文件读入各自的上下文窗口（这一机制
 `intermediate/07` 已经介绍过），并且都开始把修改写回磁盘。如果智能体 A 保存了它对 `config.py` 的修改，
-而智能体 B——它读取 `config.py` 的时刻**早于** A 保存之前——现在也把自己那份与之无关的修改保存到同一个
-文件，那么 B 的保存会悄无声息地丢弃 A 的修改，因为 B 内存中的副本从一开始就没有包含 A 的改动。两个智能体
-都不会收到任何错误提示，谁也不知道出了问题。编排器看到的是两份"成功"报告，以及一个已经损坏的文件。这就是
-所谓的**竞态条件**：结果取决于两个并发操作之间不可预测的相对时序，这也是设计简单粗
-糙的多智能体代码系统中最常见的失败模式。
+而智能体 B——它读取 `config.py` 的时刻**早于** A 保存之前——现在也把自己那份与之无关的修改保存到同一个文件，那么 B 的保存会悄无声息地丢弃 A 的修改，因为 B 内存中的副本从一开始就没有包含 A 的改动。两个智能体都不会收到任何错误提示，谁也不知道出了问题。编排器看到的是两份“成功”报告，以及一个已经损坏的文件。这就是所谓的**竞态条件**：结果取决于两个并发操作之间不可预测的相对时序，这也是设计简单粗糙的多智能体代码系统中最常见的失败模式。
 
 The naive fix — a single global lock so only one agent may write at a time — defeats the purpose
 of running agents in parallel: the whole system degrades to sequential execution, and a slow agent
@@ -158,12 +130,7 @@ into one shared result once each agent finishes. That is exactly the shape of th
 `core-component-00`'s engineering practice adopted for this workspace's own multi-agent work, and
 it is the subject of the next section.
 
-一种朴素的修复方式——设置一把全局锁，同一时刻只允许一个智能体写入——会让并行运行智能体的意义荡然无
-存：整个系统退化为串行执行，只要有一个智能体运行得慢，后面所有智能体都会被它卡住。真正需要的是一种机
-制，让每个智能体都拥有一份完全私有、可自由写入的工作状态副本，使得智能体之间完全观察不到彼此正在进行
-中的修改，同时再配合一套有原则的方法，在每个智能体完成工作之后，把这些私有副本重新调和为一份共享结
-果。这正是本工作区 `core-component-00` 工程实践中，为其自身多智能体工作所采用的解决方案的形态，也是
-下一节要讨论的主题。
+一种朴素的修复方式——设置一把全局锁，同一时刻只允许一个智能体写入——会让并行运行智能体的意义荡然无存：整个系统退化为串行执行，只要有一个智能体运行得慢，后面所有智能体都会被它卡住。真正需要的是一种机制，让每个智能体都拥有一份完全私有、可自由写入的工作状态副本，使得智能体之间完全观察不到彼此正在进行中的修改，同时再配合一套有原则的方法，在每个智能体完成工作之后，把这些私有副本重新调和为一份共享结果。这正是本工作区 `core-component-00` 工程实践中，为其自身多智能体工作所采用的解决方案的形态，也是下一节要讨论的主题。
 
 ---
 
@@ -188,17 +155,9 @@ data structure) — only the compressed object history in `.git/` is shared, and
 model is append-only and content-addressed, so concurrent writers cannot corrupt it by writing to
 their own worktrees.
 
-`intermediate/03` 在单个智能体发出工具调用的层面，讨论了智能体循环中"执行动作"这一步骤。本节把这个概
-念扩展到多智能体场景：当若干智能体并发地执行文件修改类工具调用时，可以利用底层的版本控制系统，为每个智
-能体提供一个相互隔离的执行环境。`git worktree` 是 Git——这一分布式版本控制系统——的一项特性，根据 Git 官
-方针对该命令的参考文档，它允许**一个仓库同时支持多个链接的工作目录，各自检出到不同的分支**，但底层共
-享同一份对象历史（即 `.git/` 数据库）。在实践中，这意味着编排器可以执行
-`git worktree add ../agent-backend -b agent/backend/dark-mode-api`，创建一个全新的目录——它是工作树
-的完整、独立副本，检出在自己新建的分支上——然后再把智能体 A 单独指派到这个目录中工作。第二次、第三次、
-第四次调用则可以为智能体 B、C、D 分别创建同样独立的目录。这些智能体谁也看不到、更不可能覆盖其他智能体
-尚未提交的修改，因为每个工作树都拥有自己独立的工作目录文件和自己独立的 Git 索引（Git 的暂存区数据结
-构）——真正共享的只有 `.git/` 中经过压缩的对象历史，而 Git 自身的对象模型是只追加、内容寻址的，因此并发
-的写入者各自写入自己的工作树时，不可能破坏这份共享历史。
+`intermediate/03` 在单个智能体发出工具调用的层面，讨论了智能体循环中“执行动作”这一步骤。本节把这个概念扩展到多智能体场景：当若干智能体并发地执行文件修改类工具调用时，可以利用底层的版本控制系统，为每个智能体提供一个相互隔离的执行环境。`git worktree` 是 Git——这一分布式版本控制系统——的一项特性，根据 Git 官方针对该命令的参考文档，它允许**一个仓库同时支持多个链接的工作目录，各自检出到不同的分支**，但底层共享同一份对象历史（即 `.git/` 数据库）。在实践中，这意味着编排器可以执行
+`git worktree add ../agent-backend -b agent/backend/dark-mode-api`，创建一个全新的目录——它是工作树的完整、独立副本，检出在自己新建的分支上——然后再把智能体 A 单独指派到这个目录中工作。第二次、第三次、
+第四次调用则可以为智能体 B、C、D 分别创建同样独立的目录。这些智能体谁也看不到、更不可能覆盖其他智能体尚未提交的修改，因为每个工作树都拥有自己独立的工作目录文件和自己独立的 Git 索引（Git 的暂存区数据结构）——真正共享的只有 `.git/` 中经过压缩的对象历史，而 Git 自身的对象模型是只追加、内容寻址的，因此并发的写入者各自写入自己的工作树时，不可能破坏这份共享历史。
 
 The full lifecycle this workspace's own multi-agent engineering practice specifies —
 `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
@@ -229,15 +188,13 @@ agents' branches touch the same lines of the same file, Git cannot resolve that 
 the orchestrator needs a principled way to decide which change wins. That decision problem is
 exactly what §5 through §7 formalize.
 
-这套生命周期中有三个特性值得特别指出，因为它们的意义超出了 Git 本身。第一，隔离是在执行**之前**就预先
-配置好的，而不是等两个智能体已经开始向同一个目录写入之后再事后补救——隔离是一个前提条件，而不是一种修
-复手段。第二，这套工作流中的提交信息带有特定的归属约定：主题行遵循 `agent/<name>: <动词短语>` 的格
-式，正文则是以连字符列出的具体改动清单，因为三个阶段之后如果出现合并冲突，如果每一次提交都能以
-`git log --author=<agent>` 可读的形式清楚说明是哪个智能体做了什么改动、为什么这么做，那么排查起来会容
-易得多——这正是共享锁机制永远无法提供的审计轨迹。第三点，也是与本章主题最相关的一点：**第 3 阶段（集
-成）正是隔离结束、必须做出决策的时刻**——如果两个智能体的分支修改了同一份文件的相同代码行，Git 无法自
-动解决这种冲突，编排器需要一套有原则的方法来判断应当采纳哪一方的改动。而这正是第 5 节到第 7 节要形式
-化处理的决策问题。
+这套生命周期中有三个特性值得特别指出，因为它们的意义超出了 Git 本身。
+
+| #   | Property                          | EN                                                                                                                                                                                                                                                                                                                                                                                                                                   | 中文                                                                                                                                                                                                                                                                                                                                     |
+| --- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Isolation is provisioned upfront  | isolation is configured **before** execution, not patched in after two agents have already started writing to the same directory — isolation is a precondition, not a remediation.                                                                                                                                                                                                                                                   | 隔离是在执行**之前**就预先配置好的，而不是等两个智能体已经开始向同一个目录写入之后再事后补救——隔离是一个前提条件，而不是一种修复手段。                                                                                                                                                                                                   |
+| 2   | Commit attribution convention     | this workflow's commit messages carry a specific attribution convention: subject lines follow `agent/<name>: <verb-phrase>`, and bodies are hyphen-bulleted lists of concrete changes — because when a merge conflict shows up after Stage 3, it is far easier to triage if every commit readable via `git log --author=<agent>` clearly states which agent changed what and why — an audit trail a shared lock could never provide. | 这套工作流中的提交信息带有特定的归属约定：主题行遵循 `agent/<name>: <动词短语>` 的格式，正文则是以连字符列出的具体改动清单，因为三个阶段之后如果出现合并冲突，如果每一次提交都能以 `git log --author=<agent>` 可读的形式清楚说明是哪个智能体做了什么改动、为什么这么做，那么排查起来会容易得多——这正是共享锁机制永远无法提供的审计轨迹。 |
+| 3   | Integration is the decision point | most relevant to this chapter's topic: **Stage 3 (integration) is exactly when isolation ends and a decision must be made** — if two agents' branches touch the same lines of the same file, Git cannot resolve that automatically, and the orchestrator needs a principled way to decide which change wins. That decision problem is exactly what §5 through §7 formalize.                                                          | 也是与本章主题最相关的一点：**第 3 阶段（集成）正是隔离结束、必须做出决策的时刻**——如果两个智能体的分支修改了同一份文件的相同代码行，Git 无法自动解决这种冲突，编排器需要一套有原则的方法来判断应当采纳哪一方的改动。而这正是第 5 节到第 7 节要形式化处理的决策问题。                                                                    |
 
 Worktree isolation has real operational failure modes of its own, and this workspace's own
 multi-agent engineering practice has an instructive, documented case: an agent once needed a new
@@ -253,16 +210,7 @@ large shared assets into a new worktree rather than symlinking or junctioning th
 direct, worked consequence of that incident, and a useful cautionary example of how an isolation
 mechanism can be quietly undermined by a shortcut that looks harmless in the moment it is taken.
 
-工作树隔离本身也存在真实的运维层面的失败模式，本工作区自身的多智能体工程实践中就有一个颇具启发性、且
-已被记录在案的案例：某个智能体曾经需要让一个新的工作树访问一个体积庞大、填充缓慢的共享缓存目录，为了
-避免重新下载，它没有直接复制这个目录，而是使用了 Windows 的目录**联接**——一种文件系统层
-面的别名——让工作树指向真实的共享目录。后来这个工作树被 `git worktree remove` 移除时，Git 的递归清理
-逻辑把这个联接当作了一个普通子目录来处理，结果删除的是主仓库中共享缓存的**真实内容**，而不是某份副
-本。这个教训的意义超出了 Git 本身：**用指向共享存储的别名来实现的"隔离"，根本不是真正的隔离**——它只是
-在共享的可变状态之上贴了一层标签，任何认为"这个目录可以随意丢弃"的工具，迟早也会把这个别名本身当作可
-以随意丢弃的东西。本工作区现在强制执行的规则——把大型共享资源复制进新的工作树，而不是用符号链接或联接
-的方式引入——正是这次事故所直接得出的、经过实践检验的结论，也是一个很好的警示案例，说明一种隔离机制是
-如何被一个当下看似无害的捷径悄悄破坏的。
+工作树隔离本身也存在真实的运维层面的失败模式，本工作区自身的多智能体工程实践中就有一个颇具启发性、且已被记录在案的案例：某个智能体曾经需要让一个新的工作树访问一个体积庞大、填充缓慢的共享缓存目录，为了避免重新下载，它没有直接复制这个目录，而是使用了 Windows 的目录**联接**——一种文件系统层面的别名——让工作树指向真实的共享目录。后来这个工作树被 `git worktree remove` 移除时，Git 的递归清理逻辑把这个联接当作了一个普通子目录来处理，结果删除的是主仓库中共享缓存的**真实内容**，而不是某份副本。这个教训的意义超出了 Git 本身：**用指向共享存储的别名来实现的“隔离”，根本不是真正的隔离**——它只是在共享的可变状态之上贴了一层标签，任何认为“这个目录可以随意丢弃”的工具，迟早也会把这个别名本身当作可以随意丢弃的东西。本工作区现在强制执行的规则——把大型共享资源复制进新的工作树，而不是用符号链接或联接的方式引入——正是这次事故所直接得出的、经过实践检验的结论，也是一个很好的警示案例，说明一种隔离机制是如何被一个当下看似无害的捷径悄悄破坏的。
 
 ---
 
@@ -282,19 +230,19 @@ processes rather than human generals — is a decades-old branch of distributed-
 it gives multi-agent LLM orchestration a rigorous vocabulary and a set of hard limits worth
 knowing before inventing an ad-hoc voting scheme.
 
-工作树隔离解决的是"智能体之间不干扰彼此进行中的工作"这一问题，但它并没有回答：当第 3 阶段（集
-成）中，两个智能体**已完成**的工作确实发生了冲突时应当怎么办；更进一步——也是本章真正想要引向的场
-景——当编排器有意把同一个问题发给多个智能体、并需要从若干独立产出的候选答案中挑出一个时，又应当怎么
-办。这就是**共识问题**：如何让一组独立的行动者就单一的值达成一致，即便每个行动
-者只掌握部分信息，也没有任何一个行动者能够简单地命令其他人服从。**分布式共识**这一领域——即针对计算机进程而非人类将军研究这一问题——是分布式系统理论中一个已有数十年历
-史的分支，它为多智能体大语言模型编排提供了一套严谨的词汇体系，以及一系列在着手设计任何临时投票方案之
-前就值得了解的硬性限制。
+工作树隔离解决的是“智能体之间不干扰彼此进行中的工作”这一问题，但它并没有回答：当第 3 阶段（集成）中，两个智能体**已完成**的工作确实发生了冲突时应当怎么办；更进一步——也是本章真正想要引向的场景——当编排器有意把同一个问题发给多个智能体、并需要从若干独立产出的候选答案中挑出一个时，又应当怎么办。这就是**共识问题**：如何让一组独立的行动者就单一的值达成一致，即便每个行动者只掌握部分信息，也没有任何一个行动者能够简单地命令其他人服从。**分布式共识**这一领域——即针对计算机进程而非人类将军研究这一问题——是分布式系统理论中一个已有数十年历史的分支，它为多智能体大语言模型编排提供了一套严谨的词汇体系，以及一系列在着手设计任何临时投票方案之前就值得了解的硬性限制。
 
-A consensus protocol is formally judged against three properties. **Agreement** requires that no
-two non-faulty participants decide on different final values. **Validity** requires that the
-decided value was actually proposed by some participant, not invented out of nowhere. And
-**termination** requires that every non-faulty participant eventually decides _something_ — the
-protocol cannot stall forever. It might seem obvious that a correct protocol satisfying all three
+A consensus protocol is formally judged against three properties.
+
+一个共识协议在形式上要接受三条性质的检验。
+
+| Property                  | EN                                                                                                             | 中文                                                                     |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Agreement**（一致性）   | requires that no two non-faulty participants decide on different final values.                                 | 要求任何两个非故障的参与者都不能各自选定不同的最终值。                   |
+| **Validity**（有效性）    | requires that the decided value was actually proposed by some participant, not invented out of nowhere.        | 要求最终选定的值确实是由某个参与者提出的，而不是凭空捏造出来的。         |
+| **Termination**（终止性） | requires that every non-faulty participant eventually decides _something_ — the protocol cannot stall forever. | 则要求每个非故障的参与者最终都能得出**某个**决定——协议不能永远悬而不决。 |
+
+It might seem obvious that a correct protocol satisfying all three
 should always be achievable, but Michael Fischer, Nancy Lynch, and Michael Paterson proved
 otherwise in a landmark 1985 result generally known as the **FLP impossibility
 result（FLP 不可能性结果）**: in a fully asynchronous system — one where there is no bound on how
@@ -306,17 +254,8 @@ worst case — in exchange for working reliably under realistic conditions, and 
 architect should know that "always converges, always agrees, always terminates" is not a
 combination any protocol can promise unconditionally.
 
-一个共识协议在形式上要接受三条性质的检验。**一致性**要求任何两个非故障的参与者都不能各
-自选定不同的最终值。**有效性**要求最终选定的值确实是由某个参与者提出的，而不是凭空捏造出
-来的。**终止性**则要求每个非故障的参与者最终都能得出**某个**决定——协议不能永远悬而不
-决。或许有人会觉得，一个同时满足这三条性质的正确协议理应总能实现，但 Michael Fischer、Nancy Lynch 与
-Michael Paterson 在 1985 年的一项里程碑式成果中证明了并非如此，这一结果通常被称为 **FLP 不可能性结
-果（FLP impossibility result）**：在一个完全异步的系统中——即消息到达所需时间没有任何上限的系统——哪
-怕只有一个参与者可能崩溃，也不存在任何确定性的共识协议能够同时保证这三条性质。这并不意味着真实系统在
-实践中无法达成共识；Paxos 和 Raft（见第 6 节）都在日常运行中做到了这一点。它真正的含义是：任何实用的
-共识协议都必须放弃**某种**理论上的保证——通常是最坏情况下的终止性保证——才能换取在现实条件下的可靠运
-行，任何一位多智能体架构师都应当明白，"永远收敛、永远一致、永远终止"这三者的组合，是没有任何协议能够
-无条件承诺的。
+或许有人会觉得，一个同时满足这三条性质的正确协议理应总能实现，但 Michael Fischer、Nancy Lynch 与
+Michael Paterson 在 1985 年的一项里程碑式成果中证明了并非如此，这一结果通常被称为 **FLP 不可能性结果（FLP impossibility result）**：在一个完全异步的系统中——即消息到达所需时间没有任何上限的系统——哪怕只有一个参与者可能崩溃，也不存在任何确定性的共识协议能够同时保证这三条性质。这并不意味着真实系统在实践中无法达成共识；Paxos 和 Raft（见第 6 节）都在日常运行中做到了这一点。它真正的含义是：任何实用的共识协议都必须放弃**某种**理论上的保证——通常是最坏情况下的终止性保证——才能换取在现实条件下的可靠运行，任何一位多智能体架构师都应当明白，“永远收敛、永远一致、永远终止”这三者的组合，是没有任何协议能够无条件承诺的。
 
 ---
 
@@ -337,43 +276,34 @@ at least one member, so a second, later proposal is guaranteed to encounter at l
 participant who already knows about the first — which is exactly the mechanism that prevents two
 different values from both being "chosen."
 
-**Paxos 算法（Paxos）** 由 Leslie Lamport 提出，通常被认为是针对崩溃故障（即参与者停止响应、但从不发
-送错误信息）情形下分布式共识问题最早的实用解法——Lamport 本人后来又写了一篇论文，因为他觉得最初的讲述
-方式不必要地难以理解，于是用"通俗英语"重新阐述了一遍，恰如其分地取名为《Paxos Made Simple》（Paxos
+**Paxos 算法（Paxos）** 由 Leslie Lamport 提出，通常被认为是针对崩溃故障（即参与者停止响应、但从不发送错误信息）情形下分布式共识问题最早的实用解法——Lamport 本人后来又写了一篇论文，因为他觉得最初的讲述方式不必要地难以理解，于是用“通俗英语”重新阐述了一遍，恰如其分地取名为《Paxos Made Simple》（Paxos
 其实很简单）。其核心思想是一个两阶段协议：想要提出某个值的参与者，首先向多数参与者发送带有提案编号的
-"准备"消息，只有当多数参与者都承诺不再接受任何更早的提案时，它才会进入"接受"阶
-段，同样需要多数参与者同意，该值才被视为已经"选定"。这里的"多数"要求正是整个机制的支撑所在：在一个固
-定的群体中，任意两个多数派集合必然至少有一名成员重叠，因此任何一个更晚提出的提案，都必然会遇到至少一
-位已经知晓前一个提案的参与者——而这正是防止两个不同的值同时被"选定"的关键机制。
+“准备”消息，只有当多数参与者都承诺不再接受任何更早的提案时，它才会进入“接受”阶段，同样需要多数参与者同意，该值才被视为已经“选定”。这里的“多数”要求正是整个机制的支撑所在：在一个固定的群体中，任意两个多数派集合必然至少有一名成员重叠，因此任何一个更晚提出的提案，都必然会遇到至少一位已经知晓前一个提案的参与者——而这正是防止两个不同的值同时被“选定”的关键机制。
 
 **Raft（Raft 算法）**, introduced by Diego Ongaro and John Ousterhout in a 2014 USENIX paper
 titled "In Search of an Understandable Consensus Algorithm," was designed explicitly to produce
 the same guarantees as Paxos while being easier for engineers to understand and implement
 correctly — the paper reports a user study in which Raft was measurably easier for students to
-learn. Raft decomposes consensus into three separable sub-problems: **leader
-election**, where participants vote to select a single leader for a fixed
-period called a **term**; **log replication**, where the elected leader
-appends new entries to a shared, ordered log and replicates them to the other participants; and
-safety, ensuring that once a log entry is replicated to a majority, it can never be overwritten,
-even across leader changes. Both Paxos and Raft rely on the same numerical threshold: with $n$
+learn. Raft decomposes consensus into three separable sub-problems:
+
+**Raft 算法（Raft）** 由 Diego Ongaro 与 John Ousterhout 在 2014 年 USENIX 会议上发表的论文《In
+Search of an Understandable Consensus Algorithm》（寻找一种易于理解的共识算法）中提出，其设计目标就是在保证与 Paxos 相同正确性的前提下，让工程师更容易正确理解和实现——论文中报告的一项用户研究显示，学生学习 Raft 的效果在可测量的意义上确实更好。Raft 把共识问题拆解为三个可以分开处理的子问题：
+
+| Sub-problem                       | EN                                                                                                                   | 中文                                                                             |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Leader election**（领导者选举） | where participants vote to select a single leader for a fixed period called a **term**.                              | 即参与者投票选出一位领导者，任期为一个固定的**任期**。                           |
+| **Log replication**（日志复制）   | where the elected leader appends new entries to a shared, ordered log and replicates them to the other participants. | 即当选的领导者把新的条目追加到一份共享的、有序的日志中，并将其复制给其他参与者。 |
+| Safety（安全性）                  | ensuring that once a log entry is replicated to a majority, it can never be overwritten, even across leader changes. | 确保一旦某条日志条目被复制到多数参与者，即便领导者发生更替，它也永远不会被覆盖。 |
+
+Both Paxos and Raft rely on the same numerical threshold: with $n$
 total participants, a **quorum** — the smallest set guaranteed to overlap with any
 other such set — is $\lfloor n/2 \rfloor + 1$. For a five-participant cluster ($n = 5$), the quorum
 is $\lfloor 5/2 \rfloor + 1 = 3$; for a seven-participant cluster, it is $4$. This single formula
 is the mathematical backbone of every majority-vote consensus mechanism this chapter discusses,
 including the semantic, LLM-output voting schemes in §7.
 
-**Raft 算法（Raft）** 由 Diego Ongaro 与 John Ousterhout 在 2014 年 USENIX 会议上发表的论文《In
-Search of an Understandable Consensus Algorithm》（寻找一种易于理解的共识算法）中提出，其设计目标就
-是在保证与 Paxos 相同正确性的前提下，让工程师更容易正确理解和实现——论文中报告的一项用户研究显示，学生
-学习 Raft 的效果在可测量的意义上确实更好。Raft 把共识问题拆解为三个可以分开处理的子问题：**领导者选
-举**，即参与者投票选出一位领导者，任期为一个固定的**任期**；**日志复
-制**，即当选的领导者把新的条目追加到一份共享的、有序的日志中，并将其复制给其他参
-与者；以及安全性，确保一旦某条日志条目被复制到多数参与者，即便领导者发生更替，它也永远不会被覆盖。
-Paxos 与 Raft 都依赖同一个数值门槛：在共有 $n$ 名参与者的情况下，**法定人数**——即能够保证
-与任何其他这样的集合发生重叠的最小集合——为 $\lfloor n/2 \rfloor + 1$。对于一个五参与者集群
-（$n = 5$），法定人数是 $\lfloor 5/2 \rfloor + 1 = 3$；对于一个七参与者集群，则是 $4$。这一个公式正
-是本章讨论的每一种多数投票共识机制的数学骨架，其中也包括第 7 节将要介绍的、针对大语言模型输出的语义投
-票方案。
+Paxos 与 Raft 都依赖同一个数值门槛：在共有 $n$ 名参与者的情况下，**法定人数**——即能够保证与任何其他这样的集合发生重叠的最小集合——为 $\lfloor n/2 \rfloor + 1$。对于一个五参与者集群
+（$n = 5$），法定人数是 $\lfloor 5/2 \rfloor + 1 = 3$；对于一个七参与者集群，则是 $4$。这一个公式正是本章讨论的每一种多数投票共识机制的数学骨架，其中也包括第 7 节将要介绍的、针对大语言模型输出的语义投票方案。
 
 Both Paxos and Raft assume **crash faults** only — a faulty participant simply stops
 responding, but never sends deliberately false or contradictory information to different peers.
@@ -393,19 +323,11 @@ wherever multi-agent LLM systems must decide how many independent agents to fiel
 majority vote can be trusted against one or two agents that hallucinate or are adversarially
 prompted — the subject of §7 and the failure modes in §9.
 
-Paxos 与 Raft 都只假设**崩溃故障**——出故障的参与者只是停止响应，而绝不会向不同的对
-等方故意发送虚假或自相矛盾的信息。这个假设对于存在恶意或功能失常参与者的场景并不成立，Leslie
+Paxos 与 Raft 都只假设**崩溃故障**——出故障的参与者只是停止响应，而绝不会向不同的对等方故意发送虚假或自相矛盾的信息。这个假设对于存在恶意或功能失常参与者的场景并不成立，Leslie
 Lamport、Robert Shostak 与 Marshall Pease 在 1982 年发表的论文《The Byzantine Generals
-Problem》（拜占庭将军问题）正是把这种更困难的情形形式化：若干将军必须通过信使就共同的作战计划达成一
-致，但其中一些将军是叛徒，可能向不同的对等方发送相互矛盾的消息，以阻止大家达成一致。这就是**拜占庭容
-错**——共识必须能够在存在主动撒谎的参与者、而不仅仅是沉默不响应的参与者
-的情况下依然成立——该论文的核心定量结论是：如果参与者之间只能交换口头（未签名、无法溯源）的消息，那么
-除非超过三分之二的参与者是忠诚的，否则任何协议都无法保证达成一致。用代数方式重新表述：在共有 $n$ 名参
-与者、其中 $f$ 名为叛徒的情况下，达成一致要求 $n > 3f$，即 $n \geq 3f + 1$。举一个具体例子：要容忍
+Problem》（拜占庭将军问题）正是把这种更困难的情形形式化：若干将军必须通过信使就共同的作战计划达成一致，但其中一些将军是叛徒，可能向不同的对等方发送相互矛盾的消息，以阻止大家达成一致。这就是**拜占庭容错**——共识必须能够在存在主动撒谎的参与者、而不仅仅是沉默不响应的参与者的情况下依然成立——该论文的核心定量结论是：如果参与者之间只能交换口头（未签名、无法溯源）的消息，那么除非超过三分之二的参与者是忠诚的，否则任何协议都无法保证达成一致。用代数方式重新表述：在共有 $n$ 名参与者、其中 $f$ 名为叛徒的情况下，达成一致要求 $n > 3f$，即 $n \geq 3f + 1$。举一个具体例子：要容忍
 $f = 1$ 个拜占庭（主动恶意或不可预测地出错）参与者，系统至少需要 $n = 4$ 名参与者；要容忍 $f = 2$
-个，则至少需要 $n = 7$ 名。每当多智能体大语言模型系统需要决定，在多数投票能够对抗一到两个产生幻觉或被
-对抗性提示操纵的智能体之前，应当部署多少个独立智能体时，这一门槛就会以一种近似、非正式的形式再次出
-现——这正是第 7 节以及第 9 节失败模式部分要讨论的主题。
+个，则至少需要 $n = 7$ 名。每当多智能体大语言模型系统需要决定，在多数投票能够对抗一到两个产生幻觉或被对抗性提示操纵的智能体之前，应当部署多少个独立智能体时，这一门槛就会以一种近似、非正式的形式再次出现——这正是第 7 节以及第 9 节失败模式部分要讨论的主题。
 
 ---
 
@@ -425,14 +347,9 @@ concrete, published mechanisms — building on `intermediate/03`'s coverage of t
 ReAct and Reflexion loops, since each mechanism below is best understood as running several
 instances of that loop and combining their outputs.
 
-Paxos、Raft 与拜占庭容错协议，设计的初衷都是让参与者就单一、离散、可以逐位精确比较的值进行投票——比如
-某一条具体的日志条目、某一笔具体的已提交事务，其中的"一致"意味着逐位相等。而多个大语言模型智能体在回
-答同一个开放式问题时，几乎从不会产生逐位相同的输出，即便它们在实质内容上是一致的：一个智能体可能写
-"答案是 42"，另一个写"42 是正确的"，如果像 Raft 处理两条不同日志条目那样，把这两者当作互相矛盾的值来
-处理，就完全偏离了问题的本质。因此，多智能体大语言模型编排需要的是**语义共识**：就答案的**含义**或**正确性**达成一致，而不是就其字面上的字符串表示达成一致。本节将介
-绍四种已在文献中发表的具体机制——它们建立在 `intermediate/03` 已经讲授的单智能体 ReAct 与 Reflexion
-循环之上，因为理解下面每一种机制的最佳方式，都是把它看作并行运行多个该循环的实例、再对其输出进行综
-合。
+Paxos、Raft 与拜占庭容错协议，设计的初衷都是让参与者就单一、离散、可以逐位精确比较的值进行投票——比如某一条具体的日志条目、某一笔具体的已提交事务，其中的“一致”意味着逐位相等。而多个大语言模型智能体在回答同一个开放式问题时，几乎从不会产生逐位相同的输出，即便它们在实质内容上是一致的：一个智能体可能写
+“答案是 42”，另一个写“42 是正确的”，如果像 Raft 处理两条不同日志条目那样，把这两者当作互相矛盾的值来处理，就完全偏离了问题的本质。因此，多智能体大语言模型编排需要的是**语义共识**：就答案的**含义**或**正确性**达成一致，而不是就其字面上的字符串表示达成一致。本节将介绍四种已在文献中发表的具体机制——它们建立在 `intermediate/03` 已经讲授的单智能体 ReAct 与 Reflexion
+循环之上，因为理解下面每一种机制的最佳方式，都是把它看作并行运行多个该循环的实例、再对其输出进行综合。
 
 The simplest mechanism is **self-consistency（自洽性）**, introduced by Xuezhi Wang and
 co-authors in a 2022 paper. Instead of generating one chain-of-thought reasoning path with greedy
@@ -447,11 +364,7 @@ tends to be reachable by multiple different lines of reasoning, while an incorre
 likely to be reached the same way twice by independent sampling.
 
 最简单的机制是 **自洽性（self-consistency）**，由 Xuezhi Wang 及其合著者在 2022 年的一篇论文中提出。
-它不再用贪婪解码只生成一条思维链推理路径，而是针对同一个问题采样若干条相互独立的推理路径——每一条实
-质上都相当于一次独立的"投票"——最终答案则通过对各条路径得出的最终结论进行**相对多数投票**来选出，同时边缘化（忽略）掉产生每个结论的具体推理过程。举一个具体例子：假设采样得到五条推理
-路径，分别得出结论"A"、"A"、"B"、"A"、"C"，自洽性方法会以 5 票中的 3 票选出"A"，即便得出"B"和"C"的那
-两条推理链单独看起来也可能颇为合理，也会被舍弃。正如原论文所说，其直觉在于：一个真正正确的答案往往能
-够通过多条不同的推理路径得到，而一个错误的答案，在独立采样下被同一结论重复命中的可能性则要低得多。
+它不再用贪婪解码只生成一条思维链推理路径，而是针对同一个问题采样若干条相互独立的推理路径——每一条实质上都相当于一次独立的“投票”——最终答案则通过对各条路径得出的最终结论进行**相对多数投票**来选出，同时边缘化（忽略）掉产生每个结论的具体推理过程。举一个具体例子：假设采样得到五条推理路径，分别得出结论"A"、"A"、"B"、"A"、"C"，自洽性方法会以 5 票中的 3 票选出"A"，即便得出"B"和"C"的那两条推理链单独看起来也可能颇为合理，也会被舍弃。正如原论文所说，其直觉在于：一个真正正确的答案往往能够通过多条不同的推理路径得到，而一个错误的答案，在独立采样下被同一结论重复命中的可能性则要低得多。
 
 Self-consistency samples one model repeatedly; **multiagent debate（多智能体辩论）**, introduced
 by Yilun Du and co-authors in a 2023 paper (published at ICML 2024), instead runs several separate
@@ -472,16 +385,9 @@ scores on the AlpacaEval 2.0, MT-Bench, and FLASK benchmarks, surpassing GPT-4 O
 2.0 (65.1% vs. 57.5%) at the time of publication.
 
 自洽性方法是对同一个模型反复采样；而**多智能体辩论（multiagent debate）**——由 Yilun Du 及其合著者在
-2023 年发表、并于 ICML 2024 上正式刊出的论文提出——采取的做法则不同：运行若干个各自独立的智能体实
-例，让它们各自独立地回答同一个问题，然后把每个智能体的答案和推理过程展示给其他所有智能体，请每个智能
-体重新考虑、并可能修正自己的答案，如此重复若干轮，最后再进行一次投票得出最终结果。该论文报告称，这种
-辩论过程能够可测量地提升数学/策略推理的准确率以及事实性准确率，相比单个智能体独立作答，能显著减少幻
-觉性论断的产生，并将这种效应称为一种"群体思维"：智能体各自的错误，是通过接触到彼
-此的分歧而得到纠正的，而不是依靠某一个智能体个体变得更加谨慎。在辩论机制之上，**智能体混合架构
+2023 年发表、并于 ICML 2024 上正式刊出的论文提出——采取的做法则不同：运行若干个各自独立的智能体实例，让它们各自独立地回答同一个问题，然后把每个智能体的答案和推理过程展示给其他所有智能体，请每个智能体重新考虑、并可能修正自己的答案，如此重复若干轮，最后再进行一次投票得出最终结果。该论文报告称，这种辩论过程能够可测量地提升数学/策略推理的准确率以及事实性准确率，相比单个智能体独立作答，能显著减少幻觉性论断的产生，并将这种效应称为一种“群体思维”：智能体各自的错误，是通过接触到彼此的分歧而得到纠正的，而不是依靠某一个智能体个体变得更加谨慎。在辩论机制之上，**智能体混合架构
 （Mixture-of-Agents）**——由 Junlin Wang 及其合著者在 2024 年的论文中提出——进一步将多层架构形式化：
-第一层由若干个"提议者"智能体各自独立生成一个答案，随后每一层的智能体都会接收**上一层全部
-的答案**作为额外上下文，并在此基础上综合出一个改进后的答案，最后一层由单个"聚合者"智能
-体产出系统的最终输出。该论文报告称，这种完全由开源模型构建的分层"提议者-聚合者"结构，在 AlpacaEval
+第一层由若干个“提议者”智能体各自独立生成一个答案，随后每一层的智能体都会接收**上一层全部的答案**作为额外上下文，并在此基础上综合出一个改进后的答案，最后一层由单个“聚合者”智能体产出系统的最终输出。该论文报告称，这种完全由开源模型构建的分层“提议者-聚合者”结构，在 AlpacaEval
 2.0、MT-Bench 与 FLASK 等基准测试上取得了当时最先进的成绩，在 AlpacaEval 2.0 上甚至超过了 GPT-4
 Omni（65.1% 对 57.5%）。
 
@@ -510,18 +416,8 @@ open-ended mesh-topology agent populations.
 
 上述三种机制都没有具体规定，这些独立的智能体实例究竟应当**如何**在系统层面被真正并发运行、如何通信、
 如何被编排——这是编排框架的职责，而不是共识算法本身的职责。**AutoGen（AutoGen 框架）**——由 Qingyun
-Wu 及其合著者在 2023 年的论文中提出——正是为此而生的一个开源框架：它提供了可定制、"可对话"的智能体，
-可以组合出灵活多样的多智能体对话模式——包括类似辩论、类似投票的模式——综合运用大语言模型调用、工具使
-用与人工输入，论文中还报告了涵盖数学、编程、问答等多个领域的实证案例研究。与之相关但又有所不同的另一
-条研究脉络，是 Joon Sung Park 及其合著者 2023 年发表的《Generative Agents》（生成式智能体）论文，该
-论文证明：给单个智能体配备一条持续的记忆流、一个能把原始记忆定期综合为更高层次洞见的反思步骤，以及一
-套用于回忆相关记忆的检索机制——这些概念 `intermediate/04` 已针对单个智能体做过深入讲解——就足以在一
-个智能体群体中产生**涌现式的**协同行为（例如，若干智能体各自独立地组织起一场共同的社交活动），而完全
-不需要任何显式的共识投票。这一对比对多智能体架构师而言意义重大：自洽性、辩论、智能体混合架构这类共识
-机制，是编排器按需运行、用来一次回答一个具体问题的**显式**协议；而生成式智能体的涌现式协同，则是拥有
-各自记忆、各自反思能力的智能体，在一段延展的模拟时间线上彼此观察、彼此回应而自然产生的一种**隐式**特
-性——二者与其说是相互竞争的技术，不如说是适用于不同编排拓扑（见第 2 节）的不同工具：面向有边界问题的
-扁平/层级式派发场景，适合用显式共识；面向开放式的网状拓扑智能体群体，则适合用涌现式协同。
+Wu 及其合著者在 2023 年的论文中提出——正是为此而生的一个开源框架：它提供了可定制、“可对话”的智能体，
+可以组合出灵活多样的多智能体对话模式——包括类似辩论、类似投票的模式——综合运用大语言模型调用、工具使用与人工输入，论文中还报告了涵盖数学、编程、问答等多个领域的实证案例研究。与之相关但又有所不同的另一条研究脉络，是 Joon Sung Park 及其合著者 2023 年发表的《Generative Agents》（生成式智能体）论文，该论文证明：给单个智能体配备一条持续的记忆流、一个能把原始记忆定期综合为更高层次洞见的反思步骤，以及一套用于回忆相关记忆的检索机制——这些概念 `intermediate/04` 已针对单个智能体做过深入讲解——就足以在一个智能体群体中产生**涌现式的**协同行为（例如，若干智能体各自独立地组织起一场共同的社交活动），而完全不需要任何显式的共识投票。这一对比对多智能体架构师而言意义重大：自洽性、辩论、智能体混合架构这类共识机制，是编排器按需运行、用来一次回答一个具体问题的**显式**协议；而生成式智能体的涌现式协同，则是拥有各自记忆、各自反思能力的智能体，在一段延展的模拟时间线上彼此观察、彼此回应而自然产生的一种**隐式**特性——二者与其说是相互竞争的技术，不如说是适用于不同编排拓扑（见第 2 节）的不同工具：面向有边界问题的扁平/层级式派发场景，适合用显式共识；面向开放式的网状拓扑智能体群体，则适合用涌现式协同。
 
 ---
 
@@ -535,15 +431,12 @@ confidence in the result than a single agent's first attempt would give, so it d
 dispatches the _same_ bug-fix task to three worker agents in parallel — this is the redundancy
 strategy referenced in §2, not an accident of scheduling.
 
-本节把第 4 节与第 7 节结合成一条具体的流程，遵循第 1 节所论证的"先隔离、后调和"顺序。假设编排器需要修
-复一个 bug，并且希望得到比单个智能体第一次尝试更高的置信度，于是它有意将**同一个**修复任务并行派发给
-三个工作智能体——这正是第 2 节所提到的冗余策略，而不是调度上的偶然巧合。
+本节把第 4 节与第 7 节结合成一条具体的流程，遵循第 1 节所论证的“先隔离、后调和”顺序。假设编排器需要修复一个 bug，并且希望得到比单个智能体第一次尝试更高的置信度，于是它有意将**同一个**修复任务并行派发给三个工作智能体——这正是第 2 节所提到的冗余策略，而不是调度上的偶然巧合。
 
 **Step 1 — Isolate (Phase 1–2 of §4's lifecycle).** The orchestrator provisions three worktrees,
 one per agent, each on its own branch, before any agent begins working:
 
-**第一步——隔离（对应第 4 节生命周期的第 1–2 阶段）。** 编排器在任何智能体开始工作之前，先为三个智能
-体各自配置一个独立的工作树，每个都检出在自己的分支上：
+**第一步——隔离（对应第 4 节生命周期的第 1–2 阶段）。** 编排器在任何智能体开始工作之前，先为三个智能体各自配置一个独立的工作树，每个都检出在自己的分支上：
 
 ```bash
 git worktree add ../agent-alpha -b agent/alpha/fix-null-pointer
@@ -556,9 +449,7 @@ candidate fix with an attributed commit message, exactly as §4 describes. Becau
 worktrees share no working-directory state, all three agents can genuinely run concurrently — none
 can observe, let alone disturb, either of the other two's in-progress edits.
 
-每个智能体读取 bug 报告，只在自己的目录中工作，并按照第 4 节所述的方式，用带有明确归属的提交信息提交
-自己的候选修复方案。由于这三个工作树不共享任何工作目录状态，三个智能体可以真正做到并发运行——谁也观
-察不到、更不可能干扰另外两个智能体正在进行中的修改。
+每个智能体读取 bug 报告，只在自己的目录中工作，并按照第 4 节所述的方式，用带有明确归属的提交信息提交自己的候选修复方案。由于这三个工作树不共享任何工作目录状态，三个智能体可以真正做到并发运行——谁也观察不到、更不可能干扰另外两个智能体正在进行中的修改。
 
 **Step 2 — Reconcile by semantic consensus (before Phase 3's merge).** The orchestrator now has
 three independently-produced diffs, not three votes on a single discrete value, so a naive
@@ -576,15 +467,9 @@ plurality vote remains the right tool for short, clusterable answers like the se
 example in §7.
 
 **第二步——通过语义共识进行调和（在第 3 阶段合并之前）。** 此时编排器手上有三份各自独立产出的差异，
-而不是针对单一离散值的三张选票，因此如果对原始 diff 文本做一次朴素的 `majority_merge` 多数
-匹配，几乎不会有任何用处（即便三个修复方案都是正确的，它们的文本内容也几乎不可能逐字相同）。因此，按
-照第 7 节介绍的辩论式方法，编排器把三份 diff 连同原始的 bug 报告一起，交给第四次独立的大语言模型调
-用——扮演聚合者的角色，对应智能体混合架构的最后一层——请它判断这三个候选修复方案中，哪一个正确而完整
-地解决了这个 bug；如果三者都不完全正确，则请它综合三者的信息，给出一个更好的修复方案。这里刻意**不**
+而不是针对单一离散值的三张选票，因此如果对原始 diff 文本做一次朴素的 `majority_merge` 多数匹配，几乎不会有任何用处（即便三个修复方案都是正确的，它们的文本内容也几乎不可能逐字相同）。因此，按照第 7 节介绍的辩论式方法，编排器把三份 diff 连同原始的 bug 报告一起，交给第四次独立的大语言模型调用——扮演聚合者的角色，对应智能体混合架构的最后一层——请它判断这三个候选修复方案中，哪一个正确而完整地解决了这个 bug；如果三者都不完全正确，则请它综合三者的信息，给出一个更好的修复方案。这里刻意**不**
 采用对三份近似相同补丁的相对多数投票，因为与自洽性方法中简短、易于聚类的最终答案（"A" 对 "B" 对
-"C"）不同，完整的代码 diff 即便在实质上一致，也很少会在独立智能体之间逐字重复——按照智能体混合架构中
-聚合层的思路，由大语言模型判定并综合，才是这里合适的工具；而对于第 7 节自洽性示例中那种简短、可聚类
-的答案，字面上的相对多数投票仍然是合适的工具。
+"C"）不同，完整的代码 diff 即便在实质上一致，也很少会在独立智能体之间逐字重复——按照智能体混合架构中聚合层的思路，由大语言模型判定并综合，才是这里合适的工具；而对于第 7 节自洽性示例中那种简短、可聚类的答案，字面上的相对多数投票仍然是合适的工具。
 
 **Step 3 — Integrate and clean up (Phases 3–5 of §4's lifecycle).** Once the aggregator selects
 (or synthesizes) a winning fix, the orchestrator merges only that branch into the main line, and
@@ -592,10 +477,7 @@ removes all three worktrees regardless of which one "won" — the losing agents'
 disposable precisely because they were isolated and their work was fully captured in a commit
 before being discarded, not lost mid-edit the way the race condition in §3 would have lost it.
 
-**第三步——集成与清理（对应第 4 节生命周期的第 3–5 阶段）。** 一旦聚合者选定（或综合）出获胜的修复方
-案，编排器就只将那一个分支合并回主线，并且**无论哪个智能体"获胜"**，都会移除全部三个工作树——落选智
-能体的工作树之所以可以被随意丢弃，正是因为它们始终处于隔离状态，其工作成果在被丢弃之前已经被完整地记
-录在一次提交之中，而不会像第 3 节所述的竞态条件那样，在编辑过程中就被悄悄丢失。
+**第三步——集成与清理（对应第 4 节生命周期的第 3–5 阶段）。** 一旦聚合者选定（或综合）出获胜的修复方案，编排器就只将那一个分支合并回主线，并且**无论哪个智能体“获胜”**，都会移除全部三个工作树——落选智能体的工作树之所以可以被随意丢弃，正是因为它们始终处于隔离状态，其工作成果在被丢弃之前已经被完整地记录在一次提交之中，而不会像第 3 节所述的竞态条件那样，在编辑过程中就被悄悄丢失。
 
 ---
 
@@ -612,12 +494,7 @@ resources into an isolated worktree rather than aliasing them in — and, more b
 "is this actually a private copy, or just a pointer to something shared?" as a standing question
 whenever an isolation mechanism is introduced.
 
-生产环境中的多智能体编排系统反复出现三类失败模式，每一类都能直接对应到本章前面介绍过的某个概念。第一
-类是**"以别名冒充隔离"**，即第 4 节中提到的目录联接事故：工程师实现的东西看起来像是隔离，实际上却只
-是指向共享可变状态的一个指针，而这种失败只有在某次清理操作把这个别名当作可丢弃对象处理时，才会真正暴
-露出来。通用的防范措施，就是第 4 节已经给出的规则——把共享资源复制进隔离的工作树中，而不是用别名指向
-它们——更广泛地说，是要养成一种习惯：每当引入某种隔离机制时，都要反复自问"这究竟是一份真正的私有副
-本，还是只是指向某个共享对象的指针？"
+生产环境中的多智能体编排系统反复出现三类失败模式，每一类都能直接对应到本章前面介绍过的某个概念。第一类是**“以别名冒充隔离”**，即第 4 节中提到的目录联接事故：工程师实现的东西看起来像是隔离，实际上却只是指向共享可变状态的一个指针，而这种失败只有在某次清理操作把这个别名当作可丢弃对象处理时，才会真正暴露出来。通用的防范措施，就是第 4 节已经给出的规则——把共享资源复制进隔离的工作树中，而不是用别名指向它们——更广泛地说，是要养成一种习惯：每当引入某种隔离机制时，都要反复自问“这究竟是一份真正的私有副本，还是只是指向某个共享对象的指针？”
 
 The second is treating a plurality vote as if it were Byzantine fault-tolerant when it is not. If
 an orchestrator dispatches a question to only three agents and takes a simple plurality vote, and
@@ -635,18 +512,9 @@ concern, or by using an aggregator's judgment (as §8 actually does) rather than
 an LLM aggregator reasoning over the content of each candidate is not subject to the same
 "one bad vote breaks a plurality" arithmetic as literal ballot-counting.
 
-第二类是把一个相对多数投票误当作具备拜占庭容错能力，而实际上并非如此。如果编排器只把问题派发给三个智
-能体、并进行简单的相对多数投票，而这三个智能体中有一个被攻陷、被对抗性提示词操纵、或只是以很高的置信度
-产生了幻觉，那么这一个出故障的智能体就足以把一次 2 比 1 的投票拉成平局，甚至更糟——还可能被第二个独立
-犯下同类错误的智能体"呼应"（大语言模型的错误并不总是相互独立的：如果几个智能体拿到的是同一个存在缺陷
-的提示词，或者同一份具有误导性的上下文，它们完全可能犯下完全相同的错误）。第 6 节中拜占庭将军问题给
-出的结论正是实际的门槛：要在一组智能体中容忍 $f$ 个拜占庭故障智能体，需要 $n \geq 3f + 1$ 个智能体，
+第二类是把一个相对多数投票误当作具备拜占庭容错能力，而实际上并非如此。如果编排器只把问题派发给三个智能体、并进行简单的相对多数投票，而这三个智能体中有一个被攻陷、被对抗性提示词操纵、或只是以很高的置信度产生了幻觉，那么这一个出故障的智能体就足以把一次 2 比 1 的投票拉成平局，甚至更糟——还可能被第二个独立犯下同类错误的智能体“呼应”（大语言模型的错误并不总是相互独立的：如果几个智能体拿到的是同一个存在缺陷的提示词，或者同一份具有误导性的上下文，它们完全可能犯下完全相同的错误）。第 6 节中拜占庭将军问题给出的结论正是实际的门槛：要在一组智能体中容忍 $f$ 个拜占庭故障智能体，需要 $n \geq 3f + 1$ 个智能体，
 而不是像简单的崩溃故障多数方案所暗示的那样只需要 $n = 2f + 1$——三个智能体的拜占庭容错能力实际上为零
-（当 $f \geq 1$ 时，$n \geq 3f+1$ 要求 $n \geq 4$），这正是第 8 节完整实例中那个简单三智能体版本存
-在的真实局限性；如果对抗性或相关性故障确实是一个需要认真考虑的问题，谨慎的编排器设计应当至少部署四个
-独立的智能体，或者像第 8 节实际所做的那样，采用聚合者的判断而非单纯计票，因为一个针对每份候选方案内
-容进行推理的大语言模型聚合者，并不会像逐票统计那样，受到"一票坏票就能打破多数"这种简单算术规则的支
-配。
+（当 $f \geq 1$ 时，$n \geq 3f+1$ 要求 $n \geq 4$），这正是第 8 节完整实例中那个简单三智能体版本存在的真实局限性；如果对抗性或相关性故障确实是一个需要认真考虑的问题，谨慎的编排器设计应当至少部署四个独立的智能体，或者像第 8 节实际所做的那样，采用聚合者的判断而非单纯计票，因为一个针对每份候选方案内容进行推理的大语言模型聚合者，并不会像逐票统计那样，受到“一票坏票就能打破多数”这种简单算术规则的支配。
 
 The third is skipping isolation entirely because consensus is being used, on the mistaken
 assumption that a later voting or judging step will "catch" any damage done by concurrent,
@@ -658,12 +526,7 @@ any agent begins working: consensus mechanisms adjudicate between _complete, ind
 produced_ candidates, and they cannot repair a candidate that was corrupted before it was ever
 finished.
 
-第三类是"因为用了共识机制，就干脆跳过隔离"，其错误假设在于：认为后续的投票或评判环节能够"兜住"并发的
-非隔离写入所造成的任何损害。事实并非如此：正如第 3 节所展示的，竞态条件完全可能在某个智能体产出任何
-可供投票的候选结果**之前**，就悄无声息地破坏了它的工作成果——到那时，根本没有东西可以留给共识机制去
-评判。这正是第 1 节坚持"先隔离、后调和"这一顺序的原因，也是第 8 节完整实例在任何智能体开始工作之前就
-先为全部三个智能体配置好工作树的原因：共识机制评判的是**完整、独立产出**的候选方案，它无法修复一个在
-尚未完成之前就已经被破坏的候选方案。
+第三类是“因为用了共识机制，就干脆跳过隔离”，其错误假设在于：认为后续的投票或评判环节能够“兜住”并发的非隔离写入所造成的任何损害。事实并非如此：正如第 3 节所展示的，竞态条件完全可能在某个智能体产出任何可供投票的候选结果**之前**，就悄无声息地破坏了它的工作成果——到那时，根本没有东西可以留给共识机制去评判。这正是第 1 节坚持“先隔离、后调和”这一顺序的原因，也是第 8 节完整实例在任何智能体开始工作之前就先为全部三个智能体配置好工作树的原因：共识机制评判的是**完整、独立产出**的候选方案，它无法修复一个在尚未完成之前就已经被破坏的候选方案。
 
 ---
 
@@ -683,13 +546,8 @@ worked three-agent code-review swarm in §8 showed both halves working together 
 order, and §9's three failure modes each showed what breaks when that order, or the underlying
 fault-tolerance arithmetic, is not respected.
 
-本章把多智能体编排系统中经常被混为一谈的两个问题分开处理：一是防止并发的智能体相互破坏彼此正在进行中
-的工作（工作树隔离，建立在 Git 的链接工作目录特性以及本工作区自身的五阶段生命周期之上），二是把多个智
-能体各自独立完成的输出综合为一个可信的结果（共识，涵盖从经典的崩溃故障与拜占庭故障分布式算法——
-Paxos、Raft 以及拜占庭将军问题的结论——到专为大语言模型智能体设计的语义共识机制——自洽性、多智能体辩
-论与智能体混合架构——再到配备记忆与反思能力的生成式智能体所展现出的涌现式、隐式协同）。第 8 节中三智
-能体代码评审集群的完整实例，展示了这两部分如何以正确的顺序协同发挥作用；第 9 节的三类失败模式，则分
-别展示了当这种顺序、或底层的容错算术未被遵守时，系统会如何出错。
+本章把多智能体编排系统中经常被混为一谈的两个问题分开处理：一是防止并发的智能体相互破坏彼此正在进行中的工作（工作树隔离，建立在 Git 的链接工作目录特性以及本工作区自身的五阶段生命周期之上），二是把多个智能体各自独立完成的输出综合为一个可信的结果（共识，涵盖从经典的崩溃故障与拜占庭故障分布式算法——
+Paxos、Raft 以及拜占庭将军问题的结论——到专为大语言模型智能体设计的语义共识机制——自洽性、多智能体辩论与智能体混合架构——再到配备记忆与反思能力的生成式智能体所展现出的涌现式、隐式协同）。第 8 节中三智能体代码评审集群的完整实例，展示了这两部分如何以正确的顺序协同发挥作用；第 9 节的三类失败模式，则分别展示了当这种顺序、或底层的容错算术未被遵守时，系统会如何出错。
 
 ---
 

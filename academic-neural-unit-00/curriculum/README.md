@@ -122,7 +122,7 @@ BILINGUAL FORMAT (mandatory, applies to every heading and every paragraph in the
   English first and all Chinese after.
 - Section headings: English heading on its own markdown heading line, e.g. "## 2. The Attention
   Mechanism", followed immediately on the next line by the Chinese translation of that heading
-  only, formatted as a bold line, e.g. "**注意力机制**", then a blank line, then the English body
+  only, formatted as a bold line, e.g. “**注意力机制**”, then a blank line, then the English body
   paragraph, then its Chinese translation paragraph, and so on through the section.
 - Chinese translation must be natural, idiomatic technical Chinese — faithful to meaning (信),
   fluent and clear (达), and well-crafted (雅). Never transliterate or produce stilted
@@ -133,16 +133,16 @@ BILINGUAL FORMAT (mandatory, applies to every heading and every paragraph in the
 - Keep technical terms consistent: settle on one Chinese rendering of a term and use that rendering
   for that term everywhere in the document — and across the whole curriculum wherever §4.2 has
   ratified one.
-- **Inline parenthetical glossing — the form "English term（中文）" — is reserved for proper nouns
+- **Inline parenthetical glossing — the form “English term（中文）” — is reserved for proper nouns
   and named entities, on first use only.** A proper noun here means a named model, framework,
-  benchmark, paper, or method that carries an established name: "ReAct（推理与行动协同）",
-  "Chinchilla（龙猫模型）", "Transformer（变换器）". Gloss such a name once, at its first
+  benchmark, paper, or method that carries an established name: “ReAct（推理与行动协同）”,
+  “Chinchilla（龙猫模型）”, “Transformer（变换器）”. Gloss such a name once, at its first
   appearance in the document, then use the name alone thereafter.
 - **Ordinary technical concepts must NOT receive an inline gloss.** Terms such as loss function,
   embedding vector, token, or context window are translated by the paired
   English-paragraph-then-Chinese-paragraph structure and by nothing else — the English paragraph
   names them in English, its Chinese translation names them in Chinese, and that pairing _is_ the
-  translation. Writing "loss function（损失函数）" duplicates work the structure already does and
+  translation. Writing “loss function（损失函数）” duplicates work the structure already does and
   clutters the line. If a concept genuinely needs more than a one-word rendering to land, define it
   in a sentence in both paragraphs; do not smuggle the definition into a parenthesis.
 
@@ -259,7 +259,7 @@ and internal reviewers are instructed to treat it as blocking.
 CITATIONS (mandatory):
 
 - End every document with a heading "## References" immediately followed by its Chinese translation
-  "**参考文献**", split into two subsections: "### External Sources" and "### Internal
+  “**参考文献**”, split into two subsections: "### External Sources" and "### Internal
   Cross-References".
 - Every formula, named result, or paper claim you state must trace to a real, verifiable external
   source (a real paper, textbook, or course) cited in External Sources as a markdown link:

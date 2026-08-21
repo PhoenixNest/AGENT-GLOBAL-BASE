@@ -60,7 +60,7 @@ networks are simplified mathematical abstractions, not biologically accurate bra
 What survives from the analogy, and what matters for this course, is the core computational
 pattern: combine several numeric inputs, weight them by importance, and produce an output.
 
-"神经网络"这一名称源自与生物大脑的一种松散类比：在大脑中，神经元接收来自其他神经元的电化学信号，将它们汇总，并在汇总后的输入足够强时向外发出信号。Frank Rosenblatt 于 1958 年提出的感知机（perceptron）——第一个被精确定义并以计算方式实现的人工神经元模型——正是直接受到这种生物信号汇总与阈值判断图景的启发（Rosenblatt, 1958）。但这一类比不应被过度字面化理解：现代人工神经网络是经过简化的数学抽象，而非对大脑的生物学精确模拟。这一类比中真正延续下来、并且与本课程相关的，是其核心计算模式：将若干数值输入按重要程度加权组合，并产生一个输出。
+“神经网络”这一名称源自与生物大脑的一种松散类比：在大脑中，神经元接收来自其他神经元的电化学信号，将它们汇总，并在汇总后的输入足够强时向外发出信号。Frank Rosenblatt 于 1958 年提出的感知机（perceptron）——第一个被精确定义并以计算方式实现的人工神经元模型——正是直接受到这种生物信号汇总与阈值判断图景的启发（Rosenblatt, 1958）。但这一类比不应被过度字面化理解：现代人工神经网络是经过简化的数学抽象，而非对大脑的生物学精确模拟。这一类比中真正延续下来、并且与本课程相关的，是其核心计算模式：将若干数值输入按重要程度加权组合，并产生一个输出。
 
 A neural network, stripped of biological metaphor, is a parameterized function — a function whose
 exact behavior is controlled by a large set of adjustable numbers called parameters,
@@ -71,7 +71,7 @@ word) by passing the input through a sequence of simple mathematical transformat
 a network means searching for parameter values that make the function's outputs match desired
 outputs on example data, using a procedure covered in §7–§9 of this chapter.
 
-抛开生物学隐喻，神经网络本质上是一个参数化函数——其具体行为由一大批可调节的数值控制，这些数值被称为参数，通常分为权重与偏置两类。给定一个输入（例如一张图像的像素值，或一个词的数值编码），网络会通过一系列简单的数学变换，计算出一个输出（例如图像中包含猫的概率，或下一个词的概率分布）。"训练"一个网络，就是利用示例数据搜索能使函数输出与期望输出相匹配的参数取值，其具体过程将在本章第 7 至第 9 节中介绍。
+抛开生物学隐喻，神经网络本质上是一个参数化函数——其具体行为由一大批可调节的数值控制，这些数值被称为参数，通常分为权重与偏置两类。给定一个输入（例如一张图像的像素值，或一个词的数值编码），网络会通过一系列简单的数学变换，计算出一个输出（例如图像中包含猫的概率，或下一个词的概率分布）。“训练”一个网络，就是利用示例数据搜索能使函数输出与期望输出相匹配的参数取值，其具体过程将在本章第 7 至第 9 节中介绍。
 
 ---
 
@@ -107,21 +107,15 @@ nonlinearity**.
 **激活函数：为何非线性至关重要**
 
 An activation function $f$ takes the weighted sum $z$ and squashes, reshapes, or gates it into the
-neuron's output $a$. Three activation functions recur throughout this curriculum. The **sigmoid**
-function, $\sigma(z) = \dfrac{1}{1 + e^{-z}}$, smoothly maps any real number into the open interval $(0, 1)$,
-making it a natural choice when an output should be interpreted as a probability; it was the
-default nonlinearity in the earliest multi-layer networks trained with backpropagation
-(Rumelhart, Hinton, and Williams, 1986). The **ReLU** (Rectified Linear Unit) function,
-$\mathrm{ReLU}(z) = \max(0, z)$, simply passes positive values through unchanged and clips negative values
-to zero; despite its simplicity, ReLU and its variants became the dominant activation function
-in deep networks because they are cheap to compute and avoid a problem called "vanishing
-gradients" that severely slows learning in very deep sigmoid-based networks (a problem that will
-make more concrete sense after §9). The **softmax** function turns a whole vector of numbers into
-a probability distribution — every entry becomes a value between 0 and 1, and all entries sum to
-1 — and is used when a network must choose among several discrete categories (for example, which
-of 10 digit classes an image shows, or which word in a vocabulary comes next).
+neuron's output $a$. Three activation functions recur throughout this curriculum.
 
-激活函数 $f$ 接收加权和 $z$，将其压缩、重塑或"门控"为神经元的输出 $a$。本课程体系中会反复出现三种激活函数。**Sigmoid** 函数 $\sigma(z) = \dfrac{1}{1 + e^{-z}}$ 能将任意实数平滑地映射到开区间 $(0, 1)$ 内，因此当输出需要被解释为概率时，它是自然的选择；在最早使用反向传播训练的多层网络中，它是默认的非线性函数（Rumelhart, Hinton, and Williams, 1986）。**ReLU** 函数 $\mathrm{ReLU}(z) = \max(0, z)$ 的做法则更为直接：正值原样通过，负值一律裁剪为零；尽管形式简单，ReLU 及其变体已成为深度网络中占主导地位的激活函数，因为它计算成本低廉，并且能够避免一种被称为"梯度消失"的问题——这一问题会严重拖慢基于 sigmoid 的深层网络的学习速度（在第 9 节之后，这一问题的含义会更加具体清晰）。**Softmax** 函数则将一整个数值向量转化为一个概率分布——每个元素都变为 0 到 1 之间的值，且所有元素之和为 1——常用于网络需要在若干个离散类别中做出选择的场合（例如判断一张图像属于 10 个数字类别中的哪一个，或判断词表中下一个词是什么）。
+激活函数 $f$ 接收加权和 $z$，将其压缩、重塑或“门控”为神经元的输出 $a$。本课程体系中会反复出现三种激活函数。
+
+| Activation Function                                                           | EN                                                                                                                                                                                                                                                                                                                                                                                                     | 中文                                                                                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sigmoid**（Sigmoid 函数）, $\sigma(z) = \dfrac{1}{1 + e^{-z}}$              | smoothly maps any real number into the open interval $(0, 1)$, making it a natural choice when an output should be interpreted as a probability; it was the default nonlinearity in the earliest multi-layer networks trained with backpropagation (Rumelhart, Hinton, and Williams, 1986).                                                                                                            | 能将任意实数平滑地映射到开区间 $(0, 1)$ 内，因此当输出需要被解释为概率时，它是自然的选择；在最早使用反向传播训练的多层网络中，它是默认的非线性函数（Rumelhart, Hinton, and Williams, 1986）。                                                                                       |
+| **ReLU**（ReLU 函数, Rectified Linear Unit）, $\mathrm{ReLU}(z) = \max(0, z)$ | simply passes positive values through unchanged and clips negative values to zero; despite its simplicity, ReLU and its variants became the dominant activation function in deep networks because they are cheap to compute and avoid a problem called "vanishing gradients" that severely slows learning in very deep sigmoid-based networks (a problem that will make more concrete sense after §9). | 的做法则更为直接：正值原样通过，负值一律裁剪为零；尽管形式简单，ReLU 及其变体已成为深度网络中占主导地位的激活函数，因为它计算成本低廉，并且能够避免一种被称为“梯度消失”的问题——这一问题会严重拖慢基于 sigmoid 的深层网络的学习速度（在第 9 节之后，这一问题的含义会更加具体清晰）。 |
+| **Softmax**（Softmax 函数）                                                   | turns a whole vector of numbers into a probability distribution — every entry becomes a value between 0 and 1, and all entries sum to 1 — and is used when a network must choose among several discrete categories (for example, which of 10 digit classes an image shows, or which word in a vocabulary comes next).                                                                                  | 则将一整个数值向量转化为一个概率分布——每个元素都变为 0 到 1 之间的值，且所有元素之和为 1——常用于网络需要在若干个离散类别中做出选择的场合（例如判断一张图像属于 10 个数字类别中的哪一个，或判断词表中下一个词是什么）。                                                              |
 
 ---
 
@@ -130,24 +124,23 @@ of 10 digit classes an image shows, or which word in a vocabulary comes next).
 **从单个神经元到网络：层与前向传播**
 
 A single neuron can only represent a narrow class of functions. Real capability comes from
-arranging many neurons into layers and stacking layers on top of each other. An **input
-layer** simply holds the raw input numbers (for example, pixel intensities). One or more
-**hidden layers** each contain several neurons; every neuron in a hidden layer typically receives
-the outputs of every neuron in the previous layer as its inputs — this is called a **fully
-connected** or **dense** layer. An **output layer** produces the network's final answer, shaped to
-match the task (a single probability for a yes/no question, or a vector of probabilities for a
-multi-way classification). The process of computing outputs by pushing an input through the input
-layer, then each hidden layer in order, then the output layer, is called the **forward pass**
-or forward propagation.
+arranging many neurons into layers and stacking layers on top of each other.
 
-单个神经元只能表达一类非常有限的函数。真正的表达能力来自于将大量神经元组织成层，并将多层依次堆叠起来。**输入层**仅仅承载原始输入数值（例如像素强度）。一个或多个**隐藏层**各自包含若干神经元；隐藏层中的每个神经元通常都以前一层所有神经元的输出作为自己的输入——这被称为**全连接层**或稠密层。**输出层**产生网络的最终答案，其形态取决于具体任务（对于是/否问题输出单个概率值，对于多分类问题输出一个概率向量）。将输入依次推送经过输入层、各个隐藏层、直至输出层来计算输出的过程，称为**前向传播**，也叫前向计算。
+单个神经元只能表达一类非常有限的函数。真正的表达能力来自于将大量神经元组织成层，并将多层依次堆叠起来。
+
+| #   | Layer / Stage                              | EN                                                                                                                                                                                                         | 中文                                                                                                                 |
+| --- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Input layer**（输入层）                  | simply holds the raw input numbers (for example, pixel intensities).                                                                                                                                       | 仅仅承载原始输入数值（例如像素强度）。                                                                               |
+| 2   | One or more **hidden layers**（隐藏层）    | each contain several neurons; every neuron in a hidden layer typically receives the outputs of every neuron in the previous layer as its inputs — this is called a **fully connected** or **dense** layer. | 各自包含若干神经元；隐藏层中的每个神经元通常都以前一层所有神经元的输出作为自己的输入——这被称为**全连接层**或稠密层。 |
+| 3   | **Output layer**（输出层）                 | produces the network's final answer, shaped to match the task (a single probability for a yes/no question, or a vector of probabilities for a multi-way classification).                                   | 产生网络的最终答案，其形态取决于具体任务（对于是/否问题输出单个概率值，对于多分类问题输出一个概率向量）。            |
+| 4   | **Forward pass**（前向传播，也叫前向计算） | the process of computing outputs by pushing an input through the input layer, then each hidden layer in order, then the output layer.                                                                      | 将输入依次推送经过输入层、各个隐藏层、直至输出层来计算输出的过程。                                                   |
 
 A network with at least one hidden layer between its input and output is often called a
 **multi-layer perceptron** (MLP), and a network with many hidden layers is called
 "deep" — this is the origin of the term **deep learning**: learning with networks
 that are deep, i.e., composed of many stacked layers, rather than just one layer of weights.
 
-在输入层和输出层之间至少包含一个隐藏层的网络，通常被称为**多层感知机**（MLP）；拥有很多隐藏层的网络则被称为"深层"网络——这正是**深度学习**这一术语的由来：使用"深"的网络进行学习，也就是由许多层堆叠而成的网络，而不仅仅是单层权重的网络。
+在输入层和输出层之间至少包含一个隐藏层的网络，通常被称为**多层感知机**（MLP）；拥有很多隐藏层的网络则被称为“深层”网络——这正是**深度学习**这一术语的由来：使用“深”的网络进行学习，也就是由许多层堆叠而成的网络，而不仅仅是单层权重的网络。
 
 ---
 
@@ -180,7 +173,7 @@ neuron were the entire network and the task were a yes/no classification, `0.549
 interpreted as "54.98% confident the answer is yes." §7 continues this exact example to show how
 the network's parameters get adjusted when this output is wrong.
 
-这个数字 $a \approx 0.5498$ 就是该神经元前向传播的输出——例如，如果这个神经元就是整个网络，任务是一个是/否分类问题，那么 `0.5498` 可以被解释为"有 54.98% 的把握认为答案是'是'"。第 7 节将继续沿用这个例子，说明当这一输出出现偏差时，网络的参数是如何被调整的。
+这个数字 $a \approx 0.5498$ 就是该神经元前向传播的输出——例如，如果这个神经元就是整个网络，任务是一个是/否分类问题，那么 `0.5498` 可以被解释为“有 54.98% 的把握认为答案是'是'”。第 7 节将继续沿用这个例子，说明当这一输出出现偏差时，网络的参数是如何被调整的。
 
 ---
 
@@ -197,7 +190,7 @@ direction, the network needs a single number that measures "how wrong" its curre
 number is produced by a **loss function**, also called a cost function or objective
 function.
 
-一个刚刚初始化的网络——即在训练开始之前，权重和偏置被设置为较小的随机数——所产生的输出基本上是无用的。学习就是不断调整权重和偏置，使网络在一组输入示例上的输出逐渐逼近已知的正确答案（这些正确答案被称为"标签"或"目标值"）的过程——这一批带有标签的示例集合被称为**训练数据**。为了以有原则的方式调整参数，网络需要一个单一的数值来衡量当前输出"错得有多离谱"；这个数值由**损失函数**产生，也称为代价函数或目标函数。
+一个刚刚初始化的网络——即在训练开始之前，权重和偏置被设置为较小的随机数——所产生的输出基本上是无用的。学习就是不断调整权重和偏置，使网络在一组输入示例上的输出逐渐逼近已知的正确答案（这些正确答案被称为“标签”或“目标值”）的过程——这一批带有标签的示例集合被称为**训练数据**。为了以有原则的方式调整参数，网络需要一个单一的数值来衡量当前输出“错得有多离谱”；这个数值由**损失函数**产生，也称为代价函数或目标函数。
 
 Continuing the worked example from §6: suppose the true target for this input is $y = 1$
 (meaning the correct answer is "yes"), but the network's output was $a \approx 0.5498$. A common loss
@@ -205,7 +198,7 @@ function for this kind of problem is the **squared error** loss, $L = \tfrac{1}{
 when $a$ is close to `y` and grows quadratically as $a$ moves away from `y`. Plugging in the
 numbers:
 
-延续第 6 节中的示例：假设该输入的真实目标为 $y = 1$（即正确答案是"是"），而网络的输出为 $a \approx 0.5498$。针对此类问题，常用的损失函数是**平方误差**损失 $L = \tfrac{1}{2}(y - a)^2$——当 $a$ 接近 `y` 时该值很小，而当 $a$ 偏离 `y` 时则以平方的速度增大。代入数值：
+延续第 6 节中的示例：假设该输入的真实目标为 $y = 1$（即正确答案是“是”），而网络的输出为 $a \approx 0.5498$。针对此类问题，常用的损失函数是**平方误差**损失 $L = \tfrac{1}{2}(y - a)^2$——当 $a$ 接近 `y` 时该值很小，而当 $a$ 偏离 `y` 时则以平方的速度增大。代入数值：
 
 $$L = \tfrac{1}{2}(1 - 0.5498)^2 = \tfrac{1}{2}(0.4502)^2 \approx 0.1014$$
 
@@ -213,7 +206,7 @@ A loss of `0.1014` is the network's "score" for this one example — the goal of
 adjust $w_1$, $w_2$, and $b$ so that this score gets smaller. §8 and §9 explain exactly how that
 adjustment is computed.
 
-`0.1014` 这个损失值就是网络在这一个示例上的"得分"——训练的目标就是不断调整 $w_1$、$w_2$ 和 $b$，使这个得分不断减小。第 8 节与第 9 节将具体说明这一调整过程是如何计算出来的。
+`0.1014` 这个损失值就是网络在这一个示例上的“得分”——训练的目标就是不断调整 $w_1$、$w_2$ 和 $b$，使这个得分不断减小。第 8 节与第 9 节将具体说明这一调整过程是如何计算出来的。
 
 ---
 
@@ -259,7 +252,7 @@ networks and showed that it lets hidden layers automatically discover useful int
 representations of the task, rather than requiring a human to hand-design them (Rumelhart, Hinton,
 and Williams, 1986).
 
-对于一个参数分布在众多层中、数量可达数百万乃至数十亿的网络而言，若要逐个从头计算每个参数的梯度 $\partial L/\partial \theta$，在计算上是不可行的。**反向传播**（"误差反向传播"的简称）正是使这一计算变得高效的算法。它系统性地运用微积分中的**链式法则**（即对由若干函数复合而成的函数求导的法则），从输出层开始，逐层向输入层方向反向推进——这也是该算法名称的由来。Rumelhart、Hinton 和 Williams 于 1986 年发表的论文推广了这一用于训练多层网络的算法，并证明了它能让隐藏层自动发现对任务有用的内部表示，而无需人工手动设计这些表示（Rumelhart, Hinton, and Williams, 1986）。
+对于一个参数分布在众多层中、数量可达数百万乃至数十亿的网络而言，若要逐个从头计算每个参数的梯度 $\partial L/\partial \theta$，在计算上是不可行的。**反向传播**（“误差反向传播”的简称）正是使这一计算变得高效的算法。它系统性地运用微积分中的**链式法则**（即对由若干函数复合而成的函数求导的法则），从输出层开始，逐层向输入层方向反向推进——这也是该算法名称的由来。Rumelhart、Hinton 和 Williams 于 1986 年发表的论文推广了这一用于训练多层网络的算法，并证明了它能让隐藏层自动发现对任务有用的内部表示，而无需人工手动设计这些表示（Rumelhart, Hinton, and Williams, 1986）。
 
 Continuing the worked example from §6–§7: to update weight $w_1$, backpropagation applies the
 chain rule to decompose $\partial L/\partial w_1$ into three factors — how the loss changes with the output $a$,
@@ -352,7 +345,7 @@ data.
 
 ## 12. Deep Learning: Why "Deep"?
 
-**深度学习：为何是"深"**
+**深度学习：为何是“深”**
 
 A landmark theoretical result — often called the **universal approximation theorem** — shows
 that even a network with just a single hidden layer can, in principle, approximate any
@@ -367,7 +360,7 @@ Goodfellow, Bengio, and Courville's textbook, treats depth itself — not just r
 as a resource that shapes what a network can efficiently learn (Goodfellow, Bengio, and Courville,
 2016).
 
-一项具有里程碑意义的理论结果——通常被称为**通用逼近定理**（universal approximation theorem）——表明，只要隐藏层中神经元数量足够多，即便是仅含单个隐藏层的网络，原则上也能以任意精度逼近任何连续函数。这似乎意味着深度（即多层结构）并非必要。然而在实践中，深层网络——由许多层构成，每一层都在前一层特征的基础上学习更加抽象的特征——往往能够以远为紧凑的方式（即使用远少得多的参数总量）表示复杂函数，其从数据中学习的效果也往往优于试图用单个极大的隐藏层达到同等精度的"浅而宽"的网络，这正是该领域被称为"深度"学习而非仅仅是"神经网络"学习的核心原因之一。Goodfellow、Bengio 与 Courville 所著教材对深度学习实践有详细论述，该书将深度本身——而不仅仅是参数总量——视为一种决定网络能够高效学到什么的资源（Goodfellow, Bengio, and Courville, 2016）。
+一项具有里程碑意义的理论结果——通常被称为**通用逼近定理**（universal approximation theorem）——表明，只要隐藏层中神经元数量足够多，即便是仅含单个隐藏层的网络，原则上也能以任意精度逼近任何连续函数。这似乎意味着深度（即多层结构）并非必要。然而在实践中，深层网络——由许多层构成，每一层都在前一层特征的基础上学习更加抽象的特征——往往能够以远为紧凑的方式（即使用远少得多的参数总量）表示复杂函数，其从数据中学习的效果也往往优于试图用单个极大的隐藏层达到同等精度的“浅而宽”的网络，这正是该领域被称为“深度”学习而非仅仅是“神经网络”学习的核心原因之一。Goodfellow、Bengio 与 Courville 所著教材对深度学习实践有详细论述，该书将深度本身——而不仅仅是参数总量——视为一种决定网络能够高效学到什么的资源（Goodfellow, Bengio, and Courville, 2016）。
 
 ---
 

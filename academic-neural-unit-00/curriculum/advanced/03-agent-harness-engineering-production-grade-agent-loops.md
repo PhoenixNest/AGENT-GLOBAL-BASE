@@ -60,7 +60,7 @@ every time.
 `intermediate/03`
 中所讲解的 ReAct
 这类智能体设计模式，描述的是一种认知层面的循环：LLM
-如何交替进行推理与行动，以决定下一步该做什么。而智能体运行框架则完全是另一回事——它是围绕在这一认知循环之外、将其转变为一种能够在无人值守情况下安全、可重复、大规模运转的生产级软件。设计模式回答的问题是"智能体接下来应当思考并做什么"，而运行框架要回答的，则是一份该模式本身完全没有涉及的更长问题清单：一次工具调用究竟是如何被实际执行的？如果调用失败会发生什么？如何在循环无限运转下去、或耗费无上限的资金之前将其停止？哪些内容会被记录日志，谁可以查看这些日志？智能体被允许触碰什么，又被沙箱化隔离在什么之外？在一次运行时间远超单个上下文窗口所能容纳的会话中，如何让有限的上下文窗口始终保持可用？运行框架正是对所有这些问题的解答，它只需实现一次，其内部的认知模式便无需在每次运转时重新发明这些答案。
+如何交替进行推理与行动，以决定下一步该做什么。而智能体运行框架则完全是另一回事——它是围绕在这一认知循环之外、将其转变为一种能够在无人值守情况下安全、可重复、大规模运转的生产级软件。设计模式回答的问题是“智能体接下来应当思考并做什么”，而运行框架要回答的，则是一份该模式本身完全没有涉及的更长问题清单：一次工具调用究竟是如何被实际执行的？如果调用失败会发生什么？如何在循环无限运转下去、或耗费无上限的资金之前将其停止？哪些内容会被记录日志，谁可以查看这些日志？智能体被允许触碰什么，又被沙箱化隔离在什么之外？在一次运行时间远超单个上下文窗口所能容纳的会话中，如何让有限的上下文窗口始终保持可用？运行框架正是对所有这些问题的解答，它只需实现一次，其内部的认知模式便无需在每次运转时重新发明这些答案。
 
 The distinction matters because a naive implementation conflates the two. A tutorial-grade agent
 loop — call the model, parse a tool call out of its text output, run the tool, append the result,
@@ -98,13 +98,13 @@ code deciding the sequence and the LLM filling in the content at each step.
 于 2024 年 12
 月发布的工程博客文章《构建高效的智能体》（"Building Effective
 Agents"，作者 Erik Schluntz 与 Barry
-Zhang），正是这样一份被广泛引用的词汇来源，它是从观察大量真实客户部署案例中提炼而来。文章从其所称的"增强型
-LLM"出发——"一个被检索、工具与记忆等增强手段强化的
-LLM"——将其作为构建一切更大系统的基本模块，并在此基础之上，划出了两种形态之间一条具有支撑意义的区分：工作流，"LLM
-与工具通过预先定义好的代码路径进行编排的系统"；以及智能体，"LLM
-动态地主导自身流程与工具使用、并对如何完成任务保持自主掌控的系统"。按照这套词汇，`intermediate/03`
+Zhang），正是这样一份被广泛引用的词汇来源，它是从观察大量真实客户部署案例中提炼而来。文章从其所称的“增强型
+LLM”出发——“一个被检索、工具与记忆等增强手段强化的
+LLM”——将其作为构建一切更大系统的基本模块，并在此基础之上，划出了两种形态之间一条具有支撑意义的区分：工作流，“LLM
+与工具通过预先定义好的代码路径进行编排的系统”；以及智能体，“LLM
+动态地主导自身流程与工具使用、并对如何完成任务保持自主掌控的系统”。按照这套词汇，`intermediate/03`
 中的 ReAct
-循环，在严格意义上属于智能体——由模型自身逐轮决定接下来发生什么——而许多被人们随口称作"智能体"的生产系统，实际上是工作流：由固定的代码决定执行顺序，LLM
+循环，在严格意义上属于智能体——由模型自身逐轮决定接下来发生什么——而许多被人们随口称作“智能体”的生产系统，实际上是工作流：由固定的代码决定执行顺序，LLM
 只是在每一步填充具体内容。
 
 The same post names five composable patterns that, in the authors' account, cover most production
@@ -126,7 +126,7 @@ conservative: "you should consider adding complexity only when it demonstrably i
 meaning a fixed workflow should be preferred over an open-ended agent loop whenever the task's steps
 are actually predictable in advance, reserving full agentic autonomy for tasks where they are not.
 
-运行框架工程师所要做的第一个设计决策，正是针对手头的任务，在这些形态——或是一个真正的智能体循环——之间做出选择，而文章本身在这一取舍上给出的建议是保守的："只有在能够切实证明会改善结果时，才应当考虑增加复杂度"，也就是说，只要任务的各个步骤事实上是可以提前预测的，就应当优先选用固定的工作流，而非开放式的智能体循环，把完全的智能体自主权留给那些步骤确实无法提前预测的任务。
+运行框架工程师所要做的第一个设计决策，正是针对手头的任务，在这些形态——或是一个真正的智能体循环——之间做出选择，而文章本身在这一取舍上给出的建议是保守的：“只有在能够切实证明会改善结果时，才应当考虑增加复杂度”，也就是说，只要任务的各个步骤事实上是可以提前预测的，就应当优先选用固定的工作流，而非开放式的智能体循环，把完全的智能体自主权留给那些步骤确实无法提前预测的任务。
 
 ---
 
@@ -145,7 +145,7 @@ rather than a single hang. Each of the next four sections works through one of t
 a named, citable pattern for each.
 
 将 §1
-中列出的朴素循环失效情形映射到这套词汇上，可以更清楚地看出运行框架必须补上哪些内容。解析器无法处理的格式错误的工具调用，属于动作空间问题——智能体表达"用这些参数调用这个工具"的方式，需要对模型自身输出的不确定性具备足够的鲁棒性。一个挂起的工具，属于韧性问题——运行框架需要具备超时与故障隔离机制，且这一机制应独立于认知模式本身的运作。一个没有停止条件的循环，属于控制问题——迭代或成本预算应当由运行框架来掌控，而不能仅仅依赖模型自身。对某个外部
+中列出的朴素循环失效情形映射到这套词汇上，可以更清楚地看出运行框架必须补上哪些内容。解析器无法处理的格式错误的工具调用，属于动作空间问题——智能体表达“用这些参数调用这个工具”的方式，需要对模型自身输出的不确定性具备足够的鲁棒性。一个挂起的工具，属于韧性问题——运行框架需要具备超时与故障隔离机制，且这一机制应独立于认知模式本身的运作。一个没有停止条件的循环，属于控制问题——迭代或成本预算应当由运行框架来掌控，而不能仅仅依赖模型自身。对某个外部
 API
 的无限重试风暴，同样属于韧性问题，但它针对的是反复失败，而非单次挂起。接下来的四节将依次讲解这四类问题中的每一类，并各自给出一种有名可考的模式。
 
@@ -178,13 +178,13 @@ JSON
 John Yang、Carlos Jimenez、Alexander Wettig、Kilian Lieret、Shunyu
 Yao、Karthik Narasimhan 与 Ofir Press 于 2024
 年发表的 SWE-agent
-论文提出了一个运行框架工程师应当认真对待的论点：语言模型智能体"构成了一类新的终端用户"，正如人类终端用户一样，它们也需要一种为其量身定制的接口，而不仅仅是一种从面向人类的工具改造而来的接口。SWE-agent
+论文提出了一个运行框架工程师应当认真对待的论点：语言模型智能体“构成了一类新的终端用户”，正如人类终端用户一样，它们也需要一种为其量身定制的接口，而不仅仅是一种从面向人类的工具改造而来的接口。SWE-agent
 定制的智能体-计算机接口（agent-computer interface，简称
 ACI）显著提升了智能体创建与编辑文件、遍历整个代码仓库、以及运行测试的能力，其原因正在于该接口的命令、输出格式与错误信息，是围绕
 LLM
 实际阅读与推理文本的方式来设计的，而非围绕人类终端用户觉得便利的方式来设计的。对运行框架而言，这一普遍教训——与
 Anthropic
-自身"在工具设计上投入的精力，应当不亚于设计一个优秀的人机界面"这一建议相呼应——在于：一个工具的模式、错误信息、乃至输出的详略程度，都不是可有可无的实现细节，它们都是运行框架动作空间设计的一部分，并直接影响模型正确调用该工具的频率。
+自身“在工具设计上投入的精力，应当不亚于设计一个优秀的人机界面”这一建议相呼应——在于：一个工具的模式、错误信息、乃至输出的详略程度，都不是可有可无的实现细节，它们都是运行框架动作空间设计的一部分，并直接影响模型正确调用该工具的频率。
 
 A second, more radical option for the action space is to abandon JSON tool calls altogether in
 favor of executable code. Xingyao Wang, Yangyi Chen, Lifan Yuan, Yizhe Zhang, Yunzhu Li, Hao Peng,
@@ -269,27 +269,22 @@ because blind retries against a dead dependency waste time and resources without
 and can make the outage worse by piling load onto a system that is already failing. The circuit
 breaker pattern, described in Martin Fowler's widely read bliki entry "CircuitBreaker"
 and originally popularized in Michael Nygard's book "Release It!", addresses exactly this case by
-wrapping a protected call in an object that tracks failures and moves through three states: closed,
-where calls pass through normally; open, where, once failures exceed a threshold, the breaker stops
-forwarding calls immediately — typically failing fast or falling back to a default — for a cooldown
-period rather than letting each one time out individually; and half-open, where after the cooldown
-the breaker allows a small number of test calls through to check whether the dependency has
-recovered, returning to closed if they succeed and back to open if they do not. In a harness, this
-pattern is naturally applied around a tool call to an unreliable external API or around the call to
-the LLM provider itself, and it composes directly with the bounded-retry mechanism above — retries
-handle brief transient failures inside the closed state, while the breaker handles the case where
-the dependency has stopped working altogether.
+wrapping a protected call in an object that tracks failures and moves through three states:
 
-当某个下游依赖不仅是响应缓慢、而是确实已经宕机时，仅靠重试是不够的，因为对一个已经失效的依赖进行盲目重试，只会浪费时间与资源却始终无法成功，甚至可能因为向一个本已出现故障的系统持续施加负载，而使故障进一步恶化。熔断器模式（circuit
-breaker
-pattern），记载于 Martin Fowler
-广为传阅的
-bliki
-词条"CircuitBreaker"，并最早由 Michael Nygard
-在其著作《Release
-It!》中推广开来，正是针对这一情形而提出的：它将受保护的调用包裹在一个对象之中，由该对象追踪失败情况，并在三种状态之间切换——闭合（closed）状态下，调用正常通过；一旦失败次数超过阈值，便进入开启（open）状态，熔断器会在一段冷却期内立即停止转发调用（通常表现为快速失败或回退到默认值），而不是让每次调用各自等待超时；冷却期结束后进入半开（half-open）状态，熔断器允许少量测试调用通过，以检测该依赖是否已经恢复——若测试调用成功，则回到闭合状态，若仍然失败，则重新回到开启状态。在运行框架中，这一模式通常应用于对不可靠外部
-API 的工具调用、或对 LLM
-提供方自身的调用之上，并可直接与上文的有限重试机制组合使用——重试机制处理闭合状态下的短暂瞬时故障，而熔断器则处理该依赖已彻底停止工作的情形。
+当某个下游依赖不仅是响应缓慢、而是确实已经宕机时，仅靠重试是不够的，因为对一个已经失效的依赖进行盲目重试，只会浪费时间与资源却始终无法成功，甚至可能因为向一个本已出现故障的系统持续施加负载，而使故障进一步恶化。熔断器模式（circuit breaker pattern），记载于 Martin Fowler 广为传阅的 bliki 词条“CircuitBreaker”，并最早由 Michael Nygard 在其著作《Release It!》中推广开来，正是针对这一情形而提出的：它将受保护的调用包裹在一个对象之中，由该对象追踪失败情况，并在三种状态之间切换——
+
+| State                 | EN                                                                                                                                                                                                                        | 中文                                                                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Closed**（闭合）    | where calls pass through normally.                                                                                                                                                                                        | 状态下，调用正常通过。                                                                                                                         |
+| **Open**（开启）      | where, once failures exceed a threshold, the breaker stops forwarding calls immediately — typically failing fast or falling back to a default — for a cooldown period rather than letting each one time out individually. | 一旦失败次数超过阈值，便进入该状态，熔断器会在一段冷却期内立即停止转发调用（通常表现为快速失败或回退到默认值），而不是让每次调用各自等待超时。 |
+| **Half-open**（半开） | where after the cooldown the breaker allows a small number of test calls through to check whether the dependency has recovered, returning to closed if they succeed and back to open if they do not.                      | 冷却期结束后进入该状态，熔断器允许少量测试调用通过，以检测该依赖是否已经恢复——若测试调用成功，则回到闭合状态，若仍然失败，则重新回到开启状态。 |
+
+In a harness, this pattern is naturally applied around a tool call to an unreliable external API or
+around the call to the LLM provider itself, and it composes directly with the bounded-retry
+mechanism above — retries handle brief transient failures inside the closed state, while the
+breaker handles the case where the dependency has stopped working altogether.
+
+在运行框架中，这一模式通常应用于对不可靠外部 API 的工具调用、或对 LLM 提供方自身的调用之上，并可直接与上文的有限重试机制组合使用——重试机制处理闭合状态下的短暂瞬时故障，而熔断器则处理该依赖已彻底停止工作的情形。
 
 ---
 
@@ -311,7 +306,7 @@ to compound into a large one before any human notices.
 
 正如 `intermediate/03`
 中所讲解的，ReAct 风格的循环在设计上是开放式的——由模型自身在每一轮判断任务是否已经完成——而正是这种开放性，使得运行框架中的控制层不再是可有可无，而是必需的。一个生产级运行框架会强制执行一个独立于模型自身判断的硬性迭代上限，使得一个永远无法收敛的循环仍会被终止，而不是无限期地运转下去；它还会在整个会话过程中追踪累计的成本或词元预算，因为即便循环停留在迭代上限之内，只要每一轮的规模足够大，其开销仍可能高得没有上限。Anthropic
-自身的建议明确指出，随着自主性的提升，这一点非但不会变得不那么重要，反而变得愈发重要："对于具有开放式解决方案的任务……在沙箱化环境中进行充分的测试，并配以相应的护栏机制，是必不可少的"——原因正在于，一个被赋予更多自主权、可运转更多轮次的智能体，也相应地拥有更多机会，让一个微小的单步错误在被人类察觉之前，累积演变为一个重大错误。
+自身的建议明确指出，随着自主性的提升，这一点非但不会变得不那么重要，反而变得愈发重要：“对于具有开放式解决方案的任务……在沙箱化环境中进行充分的测试，并配以相应的护栏机制，是必不可少的”——原因正在于，一个被赋予更多自主权、可运转更多轮次的智能体，也相应地拥有更多机会，让一个微小的单步错误在被人类察觉之前，累积演变为一个重大错误。
 
 A well-engineered control layer also distinguishes between an agent stopping because it decided the
 task is done and an agent being stopped by the harness because a budget was exceeded, and surfaces
@@ -339,7 +334,7 @@ constrain what the agent can do to a repository to operations the harness explic
 can undo, rather than handing the agent an unrestricted shell.
 
 Anthropic
-关于自主智能体的建议，将"在沙箱化环境中进行充分测试"与"配以相应的护栏机制"作为一项统一的、联合的要求提出，而运行框架中的沙箱化层，正是让这一要求落地为具体实践的关键：文件系统访问被限定在某个工作目录之内，而非整台机器；网络访问采用白名单机制，而非默认开放；而对于
+关于自主智能体的建议，将“在沙箱化环境中进行充分测试”与“配以相应的护栏机制”作为一项统一的、联合的要求提出，而运行框架中的沙箱化层，正是让这一要求落地为具体实践的关键：文件系统访问被限定在某个工作目录之内，而非整台机器；网络访问采用白名单机制，而非默认开放；而对于
 §4
 中所讲的 CodeAct
 风格的代码执行动作空间而言，代码应在一个隔离的解释器进程中运行，而非运行框架自身的进程之中，从而使得一个缺陷或一个恶意提示词无法突破沙箱的边界。同样在
@@ -396,7 +391,7 @@ new to find.
 中所讲的新近度/重要性/相关性评分检索到的任何长期记忆——然后调用模型，该调用被熔断器与带指数退避的有限次重试所包裹，以应对模型提供方自身出现服务降级的情形。模型要么返回最终答案，要么返回一个动作——该动作既可以表示为
 JSON
 工具调用，也可以在采用 CodeAct
-风格的运行框架中表示为可执行代码。如果是一个动作，运行框架会将其分派到一个限定在当前工作目录范围内的沙箱化执行环境中运行，该环境拥有独立于模型调用超时的自身超时设置，而以上每一个步骤——发送的提示词、模型的原始输出、解析出的动作、工具的执行结果，以及所执行的记忆操作——都会被写入一份结构化的追踪记录。在开始下一轮之前，控制层会将迭代计数器与成本预算与各自的上限进行核对；若任一项超出上限，循环便会以一个明确区别于正常完成的"预算超出"状态终止，而不是被悄无声息地截断。反之，若模型自身的输出表明任务已经完成，循环则会正常终止——此时呼应回
+风格的运行框架中表示为可执行代码。如果是一个动作，运行框架会将其分派到一个限定在当前工作目录范围内的沙箱化执行环境中运行，该环境拥有独立于模型调用超时的自身超时设置，而以上每一个步骤——发送的提示词、模型的原始输出、解析出的动作、工具的执行结果，以及所执行的记忆操作——都会被写入一份结构化的追踪记录。在开始下一轮之前，控制层会将迭代计数器与成本预算与各自的上限进行核对；若任一项超出上限，循环便会以一个明确区别于正常完成的“预算超出”状态终止，而不是被悄无声息地截断。反之，若模型自身的输出表明任务已经完成，循环则会正常终止——此时呼应回
 `intermediate/04`——运行框架会写入一条关于本次会话经过的情景记忆，使得未来某次会话在检索时，能够找到一些新的内容。
 
 ---
