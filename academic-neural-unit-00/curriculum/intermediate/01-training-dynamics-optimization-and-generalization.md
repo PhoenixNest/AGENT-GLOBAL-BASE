@@ -59,7 +59,7 @@ approximation showed that an iterative procedure using noisy estimates of a grad
 the same root as the noise-free procedure, provided the step sizes satisfy certain decay conditions
 — the mathematical ancestor of every learning-rate schedule discussed in §4 below.
 
-**随机梯度下降（SGD）**用单个随机抽取的训练样本上计算出的梯度，取代了全数据集梯度；而在如今几乎普遍使用的形式中，是用一个小的**小批量**样本（常见取值在 32 到几千之间，取决于硬件与模型规模）来计算梯度。这一思想的理论根基比深度学习早了几十年：Robbins 与 Monro 在 1951 年关于随机近似的论文中证明，只要步长满足一定的衰减条件，使用带噪声梯度估计的迭代过程会收敛到与无噪声过程相同的根——这正是下文第 4 节将讨论的每一种学习率调度策略的数学源头。
+**随机梯度下降（SGD）** 用单个随机抽取的训练样本上计算出的梯度，取代了全数据集梯度；而在如今几乎普遍使用的形式中，是用一个小的**小批量**样本（常见取值在 32 到几千之间，取决于硬件与模型规模）来计算梯度。这一思想的理论根基比深度学习早了几十年：Robbins 与 Monro 在 1951 年关于随机近似的论文中证明，只要步长满足一定的衰减条件，使用带噪声梯度估计的迭代过程会收敛到与无噪声过程相同的根——这正是下文第 4 节将讨论的每一种学习率调度策略的数学源头。
 
 Mini-batch SGD has a second, empirically crucial property beyond speed: the noise in each
 mini-batch's gradient estimate acts as an implicit regularizer. Because each step is
@@ -212,32 +212,16 @@ Zhang、Bengio、Hardt、Recht 与 Vinyals（2017）的一项相关且引人注�
 
 **Regularization** is the general name for any technique that constrains a model during
 training to reduce the generalization gap, typically by discouraging it from fitting training-set
-noise too closely. **L2 regularization** — also called weight decay when applied as a
-direct multiplicative shrinkage — adds a penalty term proportional to the sum of squared parameter
-values to the loss, encouraging the model to prefer smaller weights unless the data strongly
-justifies larger ones — smaller weights typically correspond to smoother, less erratic learned
-functions.
+noise too closely. Four techniques recur throughout deep learning practice:
 
-**正则化**是对训练过程中任何用来约束模型、以缩小泛化差距的技术的统称，其做法通常是阻止模型过度贴合训练集中的噪声。**L2
-正则化**——当以直接的乘性收缩方式施加时也称为权重衰减——在损失函数中加入一个与参数值平方和成正比的惩罚项，鼓励模型在没有数据强有力支持的情况下倾向于使用更小的权重——更小的权重通常对应着更平滑、波动更小的学习到的函数。
+**正则化**是对训练过程中任何用来约束模型、以缩小泛化差距的技术的统称，其做法通常是阻止模型过度贴合训练集中的噪声。深度学习实践中反复出现的技术共有四种：
 
-**Dropout**（随机失活）, introduced by Srivastava, Hinton, Krizhevsky, Sutskever, and
-Salakhutdinov (2014), takes a different approach: during each training step, it randomly sets a
-fraction of the network's activations (commonly 20–50%) to zero, forcing the remaining units to
-produce useful outputs without being able to rely on any specific other unit always being present.
-This can be understood as training an enormous ensemble of overlapping, thinned sub-networks that
-share weights, and at test time all units are used together with their outputs scaled down to
-compensate. **Early stopping** is a third, procedurally simple technique: monitor loss
-on a held-out validation set during training and stop once that validation loss begins to rise even
-as training loss continues to fall — the point past which the model is beginning to overfit.
-**Data augmentation** — generating synthetic training variations (rotations, crops,
-paraphrases, and so on, depending on the data modality) — reduces overfitting by effectively
-enlarging the training distribution the model sees, so that memorizing the augmented set no longer
-means memorizing the underlying distribution.
-
-**随机失活（Dropout）**由 Srivastava、Hinton、Krizhevsky、Sutskever 与 Salakhutdinov（2014）提出，采用了一种不同的思路：在每一次训练步骤中，随机将网络中一部分激活值（通常是
-20% 到
-50%）置零，迫使剩下的单元在不能依赖任何特定的其他单元始终存在的情况下，也能产生有用的输出。这可以理解为在训练一个由大量相互重叠、共享权重的"变瘦"子网络组成的庞大集成；而在测试阶段，所有单元一起参与计算，输出值按比例缩小以做补偿。**提前停止**是第三种、流程上更简单的技术：在训练过程中持续监控模型在留出验证集上的损失，一旦验证损失开始上升——即便训练损失仍在继续下降——就停止训练，这个转折点正是模型开始过拟合的地方。**数据增强**——即生成训练数据的合成变体（依据数据模态的不同，可以是旋转、裁剪、改写等）——通过有效扩大模型所见的训练分布来减少过拟合，使得"记住增强后的数据集"不再等同于"记住底层的真实分布"。
+| Technique               | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 中文                                                                                                                                                                                                                                                                                                                                                                                               |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **L2 regularization**   | also called weight decay when applied as a direct multiplicative shrinkage — adds a penalty term proportional to the sum of squared parameter values to the loss, encouraging the model to prefer smaller weights unless the data strongly justifies larger ones — smaller weights typically correspond to smoother, less erratic learned functions.                                                                                                                                                                                                                        | 当以直接的乘性收缩方式施加时也称为权重衰减——在损失函数中加入一个与参数值平方和成正比的惩罚项，鼓励模型在没有数据强有力支持的情况下倾向于使用更小的权重——更小的权重通常对应着更平滑、波动更小的学习到的函数。                                                                                                                                                                                       |
+| **Dropout**（随机失活） | introduced by Srivastava, Hinton, Krizhevsky, Sutskever, and Salakhutdinov (2014), takes a different approach: during each training step, it randomly sets a fraction of the network's activations (commonly 20–50%) to zero, forcing the remaining units to produce useful outputs without being able to rely on any specific other unit always being present. This can be understood as training an enormous ensemble of overlapping, thinned sub-networks that share weights, and at test time all units are used together with their outputs scaled down to compensate. | 由 Srivastava、Hinton、Krizhevsky、Sutskever 与 Salakhutdinov（2014）提出，采用了一种不同的思路：在每一次训练步骤中，随机将网络中一部分激活值（通常是 20% 到 50%）置零，迫使剩下的单元在不能依赖任何特定的其他单元始终存在的情况下，也能产生有用的输出。这可以理解为在训练一个由大量相互重叠、共享权重的"变瘦"子网络组成的庞大集成；而在测试阶段，所有单元一起参与计算，输出值按比例缩小以做补偿。 |
+| **Early stopping**      | a third, procedurally simple technique: monitor loss on a held-out validation set during training and stop once that validation loss begins to rise even as training loss continues to fall — the point past which the model is beginning to overfit.                                                                                                                                                                                                                                                                                                                       | 第三种、流程上更简单的技术：在训练过程中持续监控模型在留出验证集上的损失，一旦验证损失开始上升——即便训练损失仍在继续下降——就停止训练，这个转折点正是模型开始过拟合的地方。                                                                                                                                                                                                                         |
+| **Data augmentation**   | generating synthetic training variations (rotations, crops, paraphrases, and so on, depending on the data modality) — reduces overfitting by effectively enlarging the training distribution the model sees, so that memorizing the augmented set no longer means memorizing the underlying distribution.                                                                                                                                                                                                                                                                   | 即生成训练数据的合成变体（依据数据模态的不同，可以是旋转、裁剪、改写等）——通过有效扩大模型所见的训练分布来减少过拟合，使得"记住增强后的数据集"不再等同于"记住底层的真实分布"。                                                                                                                                                                                                                     |
 
 ---
 

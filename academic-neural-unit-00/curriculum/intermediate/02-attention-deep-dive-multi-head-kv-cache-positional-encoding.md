@@ -228,7 +228,7 @@ et al., 2023). As a numeric illustration continuing §7's example: reducing $H$ 
 $G = 8$ groups shrinks the roughly 1.07 GB cache to roughly $1.07\text{ GB} \times (8/32) \approx 268$ MB per
 sequence.
 
-有三种被命名的技术，通过改变模型所使用的独立键/值头投影数量来降低第 7 节所计算的内存开销，同时不牺牲多头注意力在查询侧所具有的多样性。**多查询注意力（MQA）**由 Shazeer（2019）提出，为每个头保留独立的查询投影（从而保留每个头各自"我在寻找什么"的独特行为），但在所有头之间共享*单一*的键投影和单一的值投影——将第 7 节公式中键/值所对应的 $H$ 项缩减为 $1$，从而将缓存直接缩小至接近头数分之一的规模，代价是论文中报告的轻微质量下降（Shazeer, 2019）。**分组查询注意力（GQA）**由 Ainslie 等人（2023）提出，是一种折中设计：将查询头划分为 $G$ 个组，同一组内的所有查询头共享一个键/值投影，因此缓存公式中的 $H$ 变为 $G$，而非完整的头数或 $1$——论文表明，这种方法在保留 MQA 大部分推理速度与内存节省优势的同时，能够恢复完整多头注意力的大部分质量，此外还给出了一套将现有的多头检查点低成本"升级训练"（uptrain）为 GQA 模型的方法（Ainslie et al., 2023）。作为延续第 7 节示例的数值说明：将 $H$ 从 32 个头缩减为 $G = 8$ 个组，会使约 1.07 GB 的缓存缩小为每个序列约 $1.07\text{ GB} \times (8/32) \approx 268$ MB。
+有三种被命名的技术，通过改变模型所使用的独立键/值头投影数量来降低第 7 节所计算的内存开销，同时不牺牲多头注意力在查询侧所具有的多样性。**多查询注意力（MQA）** 由 Shazeer（2019）提出，为每个头保留独立的查询投影（从而保留每个头各自"我在寻找什么"的独特行为），但在所有头之间共享*单一*的键投影和单一的值投影——将第 7 节公式中键/值所对应的 $H$ 项缩减为 $1$，从而将缓存直接缩小至接近头数分之一的规模，代价是论文中报告的轻微质量下降（Shazeer, 2019）。**分组查询注意力（GQA）** 由 Ainslie 等人（2023）提出，是一种折中设计：将查询头划分为 $G$ 个组，同一组内的所有查询头共享一个键/值投影，因此缓存公式中的 $H$ 变为 $G$，而非完整的头数或 $1$——论文表明，这种方法在保留 MQA 大部分推理速度与内存节省优势的同时，能够恢复完整多头注意力的大部分质量，此外还给出了一套将现有的多头检查点低成本"升级训练"（uptrain）为 GQA 模型的方法（Ainslie et al., 2023）。作为延续第 7 节示例的数值说明：将 $H$ 从 32 个头缩减为 $G = 8$ 个组，会使约 1.07 GB 的缓存缩小为每个序列约 $1.07\text{ GB} \times (8/32) \approx 268$ MB。
 
 A different, more recent approach, **multi-head latent attention (MLA)** (多头潜在注意力),
 introduced as part of DeepSeek-V2, compresses the keys and values into a lower-dimensional latent
@@ -268,7 +268,7 @@ grows, and gives the mechanism flexibility to be applied to sequences of varying
 al., 2021). RoPE has been adopted by many widely used open large language model families as their
 default positional scheme since publication.
 
-**旋转位置编码（RoPE）**由 Su 等人在 RoFormer 论文中提出，它通过在计算注意力得分中的点积之前，对查询向量和键向量进行旋转——将成对的维度视为二维坐标，并施加一个角度取决于 token 位置的旋转——来编码 token 的绝对位置。Su 等人证明了一个关键性质：位置 $m$ 处经过旋转的查询与位置 $n$ 处经过旋转的键之间的点积，只取决于二者的*相对*距离 $m - n$，而与它们的绝对位置无关；论文表明，这一性质有助于所得的注意力得分随相对距离增大而自然衰减，并使该机制具备灵活适用于不同长度序列的能力（Su et al., 2021）。自发表以来，RoPE 已被众多广泛使用的开放大型语言模型系列采纳为其默认的位置编码方案。
+**旋转位置编码（RoPE）** 由 Su 等人在 RoFormer 论文中提出，它通过在计算注意力得分中的点积之前，对查询向量和键向量进行旋转——将成对的维度视为二维坐标，并施加一个角度取决于 token 位置的旋转——来编码 token 的绝对位置。Su 等人证明了一个关键性质：位置 $m$ 处经过旋转的查询与位置 $n$ 处经过旋转的键之间的点积，只取决于二者的*相对*距离 $m - n$，而与它们的绝对位置无关；论文表明，这一性质有助于所得的注意力得分随相对距离增大而自然衰减，并使该机制具备灵活适用于不同长度序列的能力（Su et al., 2021）。自发表以来，RoPE 已被众多广泛使用的开放大型语言模型系列采纳为其默认的位置编码方案。
 
 **Attention with Linear Biases (ALiBi)** (线性偏置注意力), introduced by Press, Smith, and Lewis,
 takes an even simpler approach: rather than modifying query/key vectors at all, it adds a fixed,
@@ -281,7 +281,7 @@ sequences at inference time with no loss in quality relative to a sinusoidally-e
 trained directly on the longer length, while training faster and using less memory (Press, Smith,
 and Lewis, 2021).
 
-**线性偏置注意力（ALiBi）**由 Press、Smith 和 Lewis 提出，采用了更为简洁的方法：它完全不对查询/键向量做任何修改，而是在 softmax 步骤*之前*，直接在原始注意力得分上加上一个固定的、依赖于位置的惩罚项——该惩罚项与查询和键位置之间的距离成正比，并按特定于每个头的常数进行缩放——从而使模型对距离较远 token 的关注程度随距离成比例地受到抑制，且该位置机制本身不涉及任何可学习参数。Press 等人报告称，一个在较短序列上使用 ALiBi 训练的模型，在推理时能够外推到显著更长的序列，且相较于直接在该更长长度上训练的正弦编码模型，质量没有损失，同时训练速度更快、内存占用更低（Press, Smith, and Lewis, 2021）。
+**线性偏置注意力（ALiBi）** 由 Press、Smith 和 Lewis 提出，采用了更为简洁的方法：它完全不对查询/键向量做任何修改，而是在 softmax 步骤*之前*，直接在原始注意力得分上加上一个固定的、依赖于位置的惩罚项——该惩罚项与查询和键位置之间的距离成正比，并按特定于每个头的常数进行缩放——从而使模型对距离较远 token 的关注程度随距离成比例地受到抑制，且该位置机制本身不涉及任何可学习参数。Press 等人报告称，一个在较短序列上使用 ALiBi 训练的模型，在推理时能够外推到显著更长的序列，且相较于直接在该更长长度上训练的正弦编码模型，质量没有损失，同时训练速度更快、内存占用更低（Press, Smith, and Lewis, 2021）。
 
 ---
 

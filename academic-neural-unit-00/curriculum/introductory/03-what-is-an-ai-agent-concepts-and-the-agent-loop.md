@@ -101,25 +101,12 @@ first:
 智能体循环是把一个静态 LLM 转变为动态智能体的重复周期。在其最简单的形式中，它由四个依次执行的阶段
 组成，最后一个阶段又反馈回第一个阶段：
 
-1. **Perceive** — the agent receives new information: the user's request, the result of a
-   previous action, or a change in its environment. This information is called an
-   **observation**.
-2. **Think** — the LLM core is given the observation plus its accumulated history (its
-   **context**, covered fully in `introductory/06`) and produces a decision: either a
-   final answer, or the next action to take.
-3. **Act** — if the LLM chose an action, the agent's surrounding software (the
-   **harness** — the non-LLM code that wires the loop together) executes it:
-   calling an API, running code, querying a database, and so on.
-4. **Observe** — the result of that action becomes a new observation, and the loop
-   returns to step 1.
-
-5. **感知**——智能体接收新信息：用户的请求、上一次行动的结果，或环境中的某个变化。这类
-   信息称为**观察**。
-6. **思考**——LLM 核心接收该观察以及其累积的历史信息（即**上下文**，将在
-   `introductory/06`中完整介绍），并产出一个决策：要么给出最终答案，要么决定下一步要采取的行动。
-7. **行动**——如果 LLM 选择了某个行动，智能体周围的软件（**运行框架**，即把整个
-   循环连接起来的非 LLM 代码）会执行该行动：调用 API、运行代码、查询数据库等等。
-8. **观察结果**——该行动的结果成为一条新的观察，循环回到第一步。
+| #   | Stage                      | EN                                                                                                                                                                                                        | 中文                                                                                                                                                     |
+| --- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Perceive** / **感知**    | the agent receives new information: the user's request, the result of a previous action, or a change in its environment. This information is called an **observation**.                                   | 智能体接收新信息：用户的请求、上一次行动的结果，或环境中的某个变化。这类信息称为**观察**。                                                               |
+| 2   | **Think** / **思考**       | the LLM core is given the observation plus its accumulated history (its **context**, covered fully in `introductory/06`) and produces a decision: either a final answer, or the next action to take.      | LLM 核心接收该观察以及其累积的历史信息（即**上下文**，将在 `introductory/06`中完整介绍），并产出一个决策：要么给出最终答案，要么决定下一步要采取的行动。 |
+| 3   | **Act** / **行动**         | if the LLM chose an action, the agent's surrounding software (the **harness** — the non-LLM code that wires the loop together) executes it: calling an API, running code, querying a database, and so on. | 如果 LLM 选择了某个行动，智能体周围的软件（**运行框架**，即把整个循环连接起来的非 LLM 代码）会执行该行动：调用 API、运行代码、查询数据库等等。           |
+| 4   | **Observe** / **观察结果** | the result of that action becomes a new observation, and the loop returns to step 1.                                                                                                                      | 该行动的结果成为一条新的观察，循环回到第一步。                                                                                                           |
 
 The loop terminates when the LLM's decision in the "think" step is not an action but a final
 answer — or when the harness enforces a stopping condition, such as a maximum number of steps, to
@@ -273,29 +260,23 @@ guardrail patterns, in `advanced/04`.
 
 Understanding the loop's mechanics also means understanding how it breaks. Three failure modes
 recur across nearly all agent systems and are worth naming precisely here, since later modules
-(especially `intermediate/03` and `advanced/04`) build directly on this vocabulary. **Infinite
-looping** happens when the LLM repeatedly chooses an action, observes a result, and
-fails to recognize that the task is either complete or unsolvable, so it never reaches a final
-answer — harnesses guard against this with a maximum-step limit. **Hallucinated actions**
-happen when the LLM's "think" step produces a call to a tool that does not exist, or with arguments
-that do not match the tool's real schema — the harness must validate every proposed action before
-executing it, never trust the LLM's output blindly. **Context loss** happens when the
-accumulated history from earlier loop iterations grows too large or gets truncated, so the LLM
-"forgets" an earlier observation it needs — this is explored fully in `introductory/06`'s
-treatment of context windows. None of these failure modes are solved by a bigger or smarter LLM
-alone; they are solved by harness-level engineering around the loop, which is why the loop's
-structure, not just the model inside it, is the proper unit of study for agent systems.
+(especially `intermediate/03` and `advanced/04`) build directly on this vocabulary:
 
 理解循环的机制，也意味着理解它是如何失效的。几乎所有智能体系统中都会反复出现三种失效模式，值得在此
-精确命名，因为后续模块（尤其是`intermediate/03`与`advanced/04`）会直接沿用这套词汇。**无限循环**
-发生在 LLM 反复选择行动、观察结果，却始终未能识别任务已完成或已无法解决，因而
-永远无法给出最终答案——运行框架通常以最大步数限制来防范此问题。**幻觉行动**
-发生在 LLM 的"思考"步骤生成了一次调用不存在的工具、或参数与该工具真实模式不符的行动——运行
-框架必须在执行任何提议行动之前对其进行校验，绝不能盲目信任 LLM 的输出。**上下文丢失**
-发生在此前循环迭代所累积的历史信息变得过大或被截断，导致 LLM"遗忘"了它仍需要的某条早期观察
-——这一问题将在`introductory/06`关于上下文窗口的讨论中得到完整探讨。这些失效模式无一能单靠一个更大
-或更聪明的 LLM 来解决；它们要靠围绕循环所做的运行框架层面的工程来解决，这也正是为什么循环本身的结构、
-而不仅仅是其中的模型，才是研究智能体系统的恰当基本单位。
+精确命名，因为后续模块（尤其是`intermediate/03`与`advanced/04`）会直接沿用这套词汇：
+
+| Failure mode                            | EN                                                                                                                                                                                                                                                        | 中文                                                                                                                                                             |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Infinite looping** / **无限循环**     | happens when the LLM repeatedly chooses an action, observes a result, and fails to recognize that the task is either complete or unsolvable, so it never reaches a final answer — harnesses guard against this with a maximum-step limit.                 | 发生在 LLM 反复选择行动、观察结果，却始终未能识别任务已完成或已无法解决，因而永远无法给出最终答案——运行框架通常以最大步数限制来防范此问题。                      |
+| **Hallucinated actions** / **幻觉行动** | happen when the LLM's "think" step produces a call to a tool that does not exist, or with arguments that do not match the tool's real schema — the harness must validate every proposed action before executing it, never trust the LLM's output blindly. | 发生在 LLM 的"思考"步骤生成了一次调用不存在的工具、或参数与该工具真实模式不符的行动——运行框架必须在执行任何提议行动之前对其进行校验，绝不能盲目信任 LLM 的输出。 |
+| **Context loss** / **上下文丢失**       | happens when the accumulated history from earlier loop iterations grows too large or gets truncated, so the LLM "forgets" an earlier observation it needs — this is explored fully in `introductory/06`'s treatment of context windows.                   | 发生在此前循环迭代所累积的历史信息变得过大或被截断，导致 LLM"遗忘"了它仍需要的某条早期观察——这一问题将在`introductory/06`关于上下文窗口的讨论中得到完整探讨。    |
+
+None of these failure modes are solved by a bigger or smarter LLM alone; they are solved by
+harness-level engineering around the loop, which is why the loop's structure, not just the model
+inside it, is the proper unit of study for agent systems.
+
+这些失效模式无一能单靠一个更大或更聪明的 LLM 来解决；它们要靠围绕循环所做的运行框架层面的工程来解决，
+这也正是为什么循环本身的结构、而不仅仅是其中的模型，才是研究智能体系统的恰当基本单位。
 
 ---
 

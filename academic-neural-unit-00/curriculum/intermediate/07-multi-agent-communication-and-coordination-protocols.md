@@ -79,7 +79,7 @@ arguments.
 加上符合某种模式的参数——同样的原则也适用于智能体之间的消息：一条只是无结构字符串（例如"告诉智能体
 B 去检查数据库"）的消息，远比一条带有明确、可解析的**施为动词**的消息脆弱得多。
 "施为动词"是言语行为理论中的经典术语，指的是一条消息所执行的通信行为的*类型*，与其具体内容相互独立。
-**智能物理智能体基金会（Foundation for Intelligent Physical Agents，FIPA）**将这一思路正式化为
+**智能物理智能体基金会（Foundation for Intelligent Physical Agents，FIPA）** 将这一思路正式化为
 **FIPA 智能体通信语言（FIPA Agent Communication Language，FIPA ACL）**，其消息结构规范定义了一组
 必选与可选参数——其中最重要的是 `performative`，此外还有 `sender`、
 `receiver` 与 `content`——施为动词取自一套固定的通信行为类型词汇表，例如
@@ -376,31 +376,23 @@ through the coordinator even when two workers could exchange it more directly.
 
 Multi-agent coordination introduces failure modes that do not exist for a single agent running the
 loop from `introductory/03` alone, and naming them precisely here matters because `advanced/07`
-builds its treatment of consensus and isolation directly on this vocabulary. **Message
-storms** occur when a topology with too much interconnection (a mesh with many peers,
-or a poorly-scoped publish-subscribe channel) causes agents to exchange far more messages than the
-task requires, burning cost and context-window budget (`introductory/06`) without adding
-information. **Race conditions on shared state** occur, as flagged in §4,
-when two agents write to overlapping parts of a blackboard concurrently and one write silently
-overwrites the other. **Coordinator bottlenecks** occur in a strictly hierarchical
-topology when every piece of information must flow through a single coordinator even when two
-workers could more efficiently exchange it directly — the tension the worked example in §7
-deliberately relieved with a blackboard hybrid. None of these failure modes is solved by choosing a
-"correct" topology in the abstract; each topology in §6 trades one failure mode's likelihood against
-another's, which is why `advanced/07` treats worktree isolation and consensus as engineering
-disciplines layered on top of, not a replacement for, the topology and messaging choices covered
-here.
+builds its treatment of consensus and isolation directly on this vocabulary.
 
 多智能体协调会引入一些单个智能体独自运行 `introductory/03` 中所述循环时并不存在的失效模式，在此
 精确点名这些模式很重要，因为 `advanced/07` 关于共识与隔离的论述，正是直接建立在这套词汇之上的。
-**消息风暴**发生在互联程度过高的拓扑（例如对等方众多的网状拓扑，或范围界定不当的
-发布-订阅频道）导致智能体交换的消息数量远超任务实际所需时，这会消耗成本与上下文窗口预算
-（`introductory/06`），却并未带来任何有效信息的增加。**共享状态上的竞态条件**
-如第 4 节所警示的那样，发生在两个智能体并发写入黑板上重叠的部分、而其中一次写入
-悄无声息地覆盖了另一次写入之时。**协调者瓶颈**发生在一种严格的层级拓扑
-中，即便两个工作者本可以更高效地直接交换某条信息，该信息也必须经由单一协调者流转——这正是第 7 节
-的算例特意通过引入黑板混合方案来缓解的张力。这些失效模式都无法仅凭在抽象层面选择一种"正确"的拓扑
-来一劳永逸地解决；第 6 节中的每一种拓扑，都是在某种失效模式的发生概率与另一种之间做出权衡——这正是
+
+| Failure mode                        | EN                                                                                                                                                                                                                                                                                    | 中文                                                                                                                                                                                                             |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Message storms**                  | occur when a topology with too much interconnection (a mesh with many peers, or a poorly-scoped publish-subscribe channel) causes agents to exchange far more messages than the task requires, burning cost and context-window budget (`introductory/06`) without adding information. | 发生在互联程度过高的拓扑（例如对等方众多的网状拓扑，或范围界定不当的发布-订阅频道）导致智能体交换的消息数量远超任务实际所需时，这会消耗成本与上下文窗口预算（`introductory/06`），却并未带来任何有效信息的增加。 |
+| **Race conditions on shared state** | occur, as flagged in §4, when two agents write to overlapping parts of a blackboard concurrently and one write silently overwrites the other.                                                                                                                                         | 如第 4 节所警示的那样，发生在两个智能体并发写入黑板上重叠的部分、而其中一次写入悄无声息地覆盖了另一次写入之时。                                                                                                  |
+| **Coordinator bottlenecks**         | occur in a strictly hierarchical topology when every piece of information must flow through a single coordinator even when two workers could more efficiently exchange it directly — the tension the worked example in §7 deliberately relieved with a blackboard hybrid.             | 发生在一种严格的层级拓扑中，即便两个工作者本可以更高效地直接交换某条信息，该信息也必须经由单一协调者流转——这正是第 7 节的算例特意通过引入黑板混合方案来缓解的张力。                                              |
+
+None of these failure modes is solved by choosing a "correct" topology in the abstract; each
+topology in §6 trades one failure mode's likelihood against another's, which is why `advanced/07`
+treats worktree isolation and consensus as engineering disciplines layered on top of, not a
+replacement for, the topology and messaging choices covered here.
+
+这些失效模式都无法仅凭在抽象层面选择一种"正确"的拓扑来一劳永逸地解决；第 6 节中的每一种拓扑，都是在某种失效模式的发生概率与另一种之间做出权衡——这正是
 为什么 `advanced/07` 将工作树隔离与共识视为叠加在本章所讲的拓扑与消息传递选择之上的工程学科，而非
 对它们的替代。
 

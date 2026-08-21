@@ -196,7 +196,7 @@ k 值重新运行智能体——这一效率考量与第 2 节所提出的成本
 
 ## 5. LLM-as-Judge Methodology in Full: Prompting, Bias, and Calibration
 
-**LLM 评判方法论全解：提示设计、偏差与校准**
+**LLM 评判方法论全解：提示词设计、偏差与校准**
 
 `introductory/08` §5 introduced LLM-as-judge and named two of its known weaknesses; the source
 study deserves fuller treatment here, since it is now a standard evaluation tool in agent research.
@@ -209,31 +209,16 @@ human preference judgments over 80% of the time, matching the agreement rate typ
 two independent human judges on the same task — evidence that a well-designed LLM judge is not
 simply noise, but a genuinely useful proxy for expensive human evaluation at scale. The same paper,
 however, documents three specific bias patterns any practitioner using this method must guard
-against. **Position bias**: when a judge is shown two candidate answers side by side and
-asked which is better, the verdict can shift depending on which position (first or second) an
-answer is placed in — the standard mitigation is to run the comparison twice with positions
-swapped and treat a verdict that flips as a tie rather than a real preference. **Verbosity bias**:
-judges tend to rate longer answers as better independent of actual quality,
-requiring evaluators to either control for length explicitly or accept this as a genuine limitation
-of the method. **Self-enhancement bias**: a model used as its own judge tends to
-rate its own outputs more favorably than an independent judge would, which is why rigorous
-evaluation practice avoids using the same model family as both the system under test and the judge
-wherever practical.
+against.
 
-`introductory/08`第 5 节介绍了 LLM 评判，并指出了其两项已知弱点；该方法的原始研究值得在此更全面
-地展开，因为它如今已是智能体研究中一项标准的评估工具。Lianmin Zheng 及其合作者 2023 年的论文
-《Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena》，正是研究一个强大的 LLM 评判者的判决
-究竟在多大程度上能够追踪人类的偏好判断，采用了两种互补的评测设置：MT-Bench，一套由人类标注者
-与 LLM 评判者共同评分的精选多轮问题集；以及 Chatbot Arena，一个众包平台，真实用户在其中比较成对
-的模型回答。论文的核心发现是：作为评判者的 GPT-4 与人类偏好判断的一致率超过 80%，与同一任务上
-两位独立人类评判者之间通常观察到的一致率相当——这证明一个设计良好的 LLM 评判者并非单纯的噪声，
 而是能够在大规模场景下真正替代昂贵人类评估的有用代理。然而，同一篇论文也记录了三种特定的偏差
-模式，任何使用这一方法的实践者都必须加以防范。**位置偏差**：当评判者被并排展示
-两份候选答案、并被要求判断哪一份更好时，其判决可能会随着答案所处位置（第一位或第二位）的不同而
-发生变化——标准的缓解方法是交换位置再比较一次，若判决发生翻转，则视为平局而非真实偏好。**冗长
-偏差**：评判者倾向于将较长的答案评为更好，而与其实际质量无关，这要求评估者要
-么明确控制篇幅这一变量，要么将其作为该方法的一项真实局限性加以接受。**自我偏好偏差**：当一个模型被用来评判自己的输出时，往往会比独立评判者给出更有利的评价，
-这正是严谨的评估实践在条件允许时，会避免让被测系统与评判者出自同一模型系列的原因。
+模式，任何使用这一方法的实践者都必须加以防范。
+
+| Bias                      | EN                                                                                                                                                                                                                                                                                                                                    | 中文                                                                                                                                                                                                   |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Position bias**         | when a judge is shown two candidate answers side by side and asked which is better, the verdict can shift depending on which position (first or second) an answer is placed in — the standard mitigation is to run the comparison twice with positions swapped and treat a verdict that flips as a tie rather than a real preference. | 当评判者被并排展示两份候选答案、并被要求判断哪一份更好时，其判决可能会随着答案所处位置（第一位或第二位）的不同而发生变化——标准的缓解方法是交换位置再比较一次，若判决发生翻转，则视为平局而非真实偏好。 |
+| **Verbosity bias**        | judges tend to rate longer answers as better independent of actual quality, requiring evaluators to either control for length explicitly or accept this as a genuine limitation of the method.                                                                                                                                        | 评判者倾向于将较长的答案评为更好，而与其实际质量无关，这要求评估者要么明确控制篇幅这一变量，要么将其作为该方法的一项真实局限性加以接受。                                                               |
+| **Self-enhancement bias** | a model used as its own judge tends to rate its own outputs more favorably than an independent judge would, which is why rigorous evaluation practice avoids using the same model family as both the system under test and the judge wherever practical.                                                                              | 当一个模型被用来评判自己的输出时，往往会比独立评判者给出更有利的评价，这正是严谨的评估实践在条件允许时，会避免让被测系统与评判者出自同一模型系列的原因。                                               |
 
 ---
 

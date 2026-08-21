@@ -16,6 +16,7 @@ remediation re-review — gets its own subfolder here:
 ```
 reviews/
 ├── README.md                       ← this file
+├── reader-feedback-log.md          ← continuous log, not a dated round — see below
 ├── YYYY-MM-DD-<round-slug>/        ← one round
 │   ├── internal/                   ← if the round includes internal cluster review
 │   ├── external/                   ← if the round includes external blind review
@@ -23,6 +24,14 @@ reviews/
 └── YYYY-MM-DD-<round-slug>/        ← the next round, independent of the first
     └── ...
 ```
+
+**One exception to the dated-round rule:** `reader-feedback-log.md` sits directly in `reviews/`,
+not inside a dated folder. Unlike a review round — a point-in-time, named-reviewer verdict — it is
+a single append-only document that accumulates reader-reported issues and their resolutions
+continuously across many sessions and dates. Giving it its own dated folder per entry would
+fragment a document whose entire value is being one continuous, greppable history; it dates each
+entry internally instead. It cross-references round folders where an entry overlaps with a
+tracked finding, but is not itself a round.
 
 - **Date** = the date the round's reports were filed (matching the date already on the reports
   themselves — do not invent a different one).

@@ -61,38 +61,33 @@ an action it should never have taken in the first place.
 A precise threat model is the prerequisite for any guardrail design, and the **OWASP Top 10 for
 LLM Applications (2025)**, maintained by the Open Worldwide Application Security Project's GenAI
 Security Project, is a widely used, community-maintained enumeration of the risk categories most
-relevant to agentic systems specifically. Three entries matter most for this module. **Prompt
-injection (LLM01:2025)** is ranked the top risk for the second consecutive edition, and
-covers any content that manipulates an LLM's behavior by embedding instructions the model treats as
-legitimate — whether typed directly by a user (**direct injection**) or hidden inside data the agent
-retrieves, such as a web page or an email (**indirect injection**, covered in depth in §3). **Excessive
-agency (LLM06:2025)** occurs when an agent is "granted excessive functionality,
-permissions, or autonomy," and OWASP breaks this into three distinct root causes worth naming
-individually: **excessive functionality**, where an agent has access to tools beyond what its
-actual task requires; **excessive permissions**, where a tool it legitimately needs operates with
-broader privileges than the task requires (a tool for reading email that can also send it, when
-only reading was needed); and **excessive autonomy**, where a high-impact action proceeds without a
-human checkpoint even though the autonomy spectrum from `introductory/03` §7 would call for one
-(OWASP, 2025). **Sensitive information disclosure (LLM02:2025)** covers an agent
-leaking data it had legitimate access to — through its final output, or through an action like an
-outbound web request — to a party that should not have received it. These three categories, taken
-together, define the attack surface the rest of this module builds guardrails against.
+relevant to agentic systems specifically. Three entries matter most for this module:
 
 一个精确的威胁模型，是任何护栏设计的前提条件，而由开放式全球应用安全项目（Open Worldwide Application
 Security Project）旗下生成式 AI 安全项目所维护的 **OWASP LLM 应用十大风险（2025 版）**，正是一份被
 广泛使用、由社区维护的风险类别清单，其中列出的风险类别与智能体系统尤其相关。有三项条目与本模块关系
-最为密切。**提示词注入（LLM01:2025）**连续第二个版本被列为头号风险，
-涵盖了任何通过嵌入模型将其视为合法指令的内容、从而操纵 LLM 行为的手段——无论是用户直接输入的
-（**直接注入**），还是隐藏在智能体所检索的数据（例如一个网页或一封邮件）之中的（**间接注入**，将在
-第 3 节深入讨论）。**过度代理权（LLM06:2025）**发生在智能体被"授予
-了超出所需的功能、权限或自主权"之时，OWASP 将其拆解为三个值得分别点名的独立根源：**功能过度**，
-即智能体所拥有的工具访问权超出了其实际任务所需；**权限过度**，即智能体确实需要使用的某个工具，其
-运行权限却超出了任务所需（一个只需要读取邮件的工具，却同时具备发送邮件的能力）；以及**自主权过度**，
-即某个高影响行动在没有人工检查点的情况下就径直发生，而 `introductory/03` 第 7 节所述的自主性光谱
-本应要求设置这样一个检查点（OWASP, 2025）。**敏感信息泄露（LLM02:2025）**涵盖了智能体将其本有
-合法访问权的数据——通过最终输出，或通过某个诸如
-对外发起网络请求之类的行动——泄露给本不应收到这些数据的一方。这三个类别合在一起，共同界定了本模块
-其余部分所要构建护栏来防御的攻击面。
+最为密切：
+
+| Risk                                                                 | EN                                                                                                                                                                                                                                                                                                                                                               | 中文                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Prompt injection (LLM01:2025)** / **提示词注入**                   | ranked the top risk for the second consecutive edition, and covers any content that manipulates an LLM's behavior by embedding instructions the model treats as legitimate — whether typed directly by a user (**direct injection**) or hidden inside data the agent retrieves, such as a web page or an email (**indirect injection**, covered in depth in §3). | 连续第二个版本被列为头号风险，涵盖了任何通过嵌入模型将其视为合法指令的内容、从而操纵 LLM 行为的手段——无论是用户直接输入的（**直接注入**），还是隐藏在智能体所检索的数据（例如一个网页或一封邮件）之中的（**间接注入**，将在第 3 节深入讨论）。 |
+| **Excessive agency (LLM06:2025)** / **过度代理权**                   | occurs when an agent is "granted excessive functionality, permissions, or autonomy" (OWASP, 2025) — see the sub-table below for the three root causes.                                                                                                                                                                                                           | 发生在智能体被"授予了超出所需的功能、权限或自主权"之时（OWASP, 2025）——三个根源见下方子表。                                                                                                                                                    |
+| **Sensitive information disclosure (LLM02:2025)** / **敏感信息泄露** | covers an agent leaking data it had legitimate access to — through its final output, or through an action like an outbound web request — to a party that should not have received it.                                                                                                                                                                            | 涵盖了智能体将其本有合法访问权的数据——通过最终输出，或通过某个诸如对外发起网络请求之类的行动——泄露给本不应收到这些数据的一方。                                                                                                                 |
+
+OWASP breaks **excessive agency** into three distinct root causes worth naming individually:
+
+OWASP 将**过度代理权**拆解为三个值得分别点名的独立根源：
+
+| Root cause                                 | EN                                                                                                                                                                   | 中文                                                                                                                       |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Excessive functionality** / **功能过度** | an agent has access to tools beyond what its actual task requires.                                                                                                   | 智能体所拥有的工具访问权超出了其实际任务所需。                                                                             |
+| **Excessive permissions** / **权限过度**   | a tool it legitimately needs operates with broader privileges than the task requires (a tool for reading email that can also send it, when only reading was needed). | 智能体确实需要使用的某个工具，其运行权限却超出了任务所需（一个只需要读取邮件的工具，却同时具备发送邮件的能力）。           |
+| **Excessive autonomy** / **自主权过度**    | a high-impact action proceeds without a human checkpoint even though the autonomy spectrum from `introductory/03` §7 would call for one.                             | 某个高影响行动在没有人工检查点的情况下就径直发生，而 `introductory/03` 第 7 节所述的自主性光谱本应要求设置这样一个检查点。 |
+
+These three categories, taken together, define the attack surface the rest of this module builds
+guardrails against.
+
+这三个类别合在一起，共同界定了本模块其余部分所要构建护栏来防御的攻击面。
 
 ---
 

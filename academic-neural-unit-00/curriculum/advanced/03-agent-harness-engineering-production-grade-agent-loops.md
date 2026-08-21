@@ -108,29 +108,25 @@ LLM"——将其作为构建一切更大系统的基本模块，并在此基础�
 只是在每一步填充具体内容。
 
 The same post names five composable patterns that, in the authors' account, cover most production
-agent designs: prompt chaining, which decomposes a task into a fixed sequence of LLM calls with
-programmatic checks between steps; routing, which classifies an input and sends it down one of
-several specialized paths; parallelization, which runs multiple LLM calls at once, either by
-splitting a task into independent sections or by running the same task several times and voting on
-the results; orchestrator-workers, where a central LLM breaks a complex task into subtasks and
-delegates them to worker LLM calls, then synthesizes their results; and evaluator-optimizer, where
-one LLM call generates a candidate answer and a second LLM call evaluates it, feeding critique back
-for another round. A harness engineer's first design decision is choosing among these shapes — or a
+agent designs:
+
+同一篇文章还给出了五种可组合模式，在作者看来，这五种模式覆盖了大多数生产级智能体设计：
+
+| Pattern                                   | EN                                                                                                                                                         | 中文                                                                                                                              |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Prompt chaining**（提示词链）           | decomposes a task into a fixed sequence of LLM calls with programmatic checks between steps.                                                               | 将一项任务拆分为一串固定顺序的 LLM 调用，并在各步骤之间插入程序化检查。                                                           |
+| **Routing**（路由）                       | classifies an input and sends it down one of several specialized paths.                                                                                    | 对输入进行分类，并将其导向若干专门路径中的一条。                                                                                  |
+| **Parallelization**（并行化）             | runs multiple LLM calls at once, either by splitting a task into independent sections or by running the same task several times and voting on the results. | 同时运行多次 LLM 调用，既可以将任务拆分为若干独立部分并行处理（分段式），也可以对同一任务重复运行多次并对结果进行投票（投票式）。 |
+| **Orchestrator-workers**（编排者-工作者） | a central LLM breaks a complex task into subtasks and delegates them to worker LLM calls, then synthesizes their results.                                  | 由一个中枢 LLM 将复杂任务拆解为若干子任务，分派给若干工作者 LLM 调用去完成，再对其结果进行综合。                                  |
+| **Evaluator-optimizer**（评估者-优化者）  | one LLM call generates a candidate answer and a second LLM call evaluates it, feeding critique back for another round.                                     | 由一次 LLM 调用生成候选答案，再由另一次调用对其进行评估，并将反馈意见带回下一轮迭代。                                             |
+
+A harness engineer's first design decision is choosing among these shapes — or a
 genuine agent loop — for the task at hand, and the post's own guidance on that choice is
 conservative: "you should consider adding complexity only when it demonstrably improves outcomes,"
 meaning a fixed workflow should be preferred over an open-ended agent loop whenever the task's steps
 are actually predictable in advance, reserving full agentic autonomy for tasks where they are not.
 
-同一篇文章还给出了五种可组合模式，在作者看来，这五种模式覆盖了大多数生产级智能体设计：提示词链（prompt
-chaining），将一项任务拆分为一串固定顺序的 LLM
-调用，并在各步骤之间插入程序化检查；路由（routing），对输入进行分类，并将其导向若干专门路径中的一条；并行化（parallelization），同时运行多次
-LLM
-调用，既可以将任务拆分为若干独立部分并行处理（分段式），也可以对同一任务重复运行多次并对结果进行投票（投票式）；编排者-工作者（orchestrator-workers），由一个中枢
-LLM 将复杂任务拆解为若干子任务，分派给若干工作者
-LLM
-调用去完成，再对其结果进行综合；以及评估者-优化者（evaluator-optimizer），由一次
-LLM
-调用生成候选答案，再由另一次调用对其进行评估，并将反馈意见带回下一轮迭代。运行框架工程师所要做的第一个设计决策，正是针对手头的任务，在这些形态——或是一个真正的智能体循环——之间做出选择，而文章本身在这一取舍上给出的建议是保守的："只有在能够切实证明会改善结果时，才应当考虑增加复杂度"，也就是说，只要任务的各个步骤事实上是可以提前预测的，就应当优先选用固定的工作流，而非开放式的智能体循环，把完全的智能体自主权留给那些步骤确实无法提前预测的任务。
+运行框架工程师所要做的第一个设计决策，正是针对手头的任务，在这些形态——或是一个真正的智能体循环——之间做出选择，而文章本身在这一取舍上给出的建议是保守的："只有在能够切实证明会改善结果时，才应当考虑增加复杂度"，也就是说，只要任务的各个步骤事实上是可以提前预测的，就应当优先选用固定的工作流，而非开放式的智能体循环，把完全的智能体自主权留给那些步骤确实无法提前预测的任务。
 
 ---
 
@@ -346,7 +342,7 @@ Anthropic
 关于自主智能体的建议，将"在沙箱化环境中进行充分测试"与"配以相应的护栏机制"作为一项统一的、联合的要求提出，而运行框架中的沙箱化层，正是让这一要求落地为具体实践的关键：文件系统访问被限定在某个工作目录之内，而非整台机器；网络访问采用白名单机制，而非默认开放；而对于
 §4
 中所讲的 CodeAct
-风格的代码执行动作空间而言，代码应在一个隔离的解释器进程中运行，而非运行框架自身的进程之中，从而使得一个缺陷或一个恶意提示无法突破沙箱的边界。同样在
+风格的代码执行动作空间而言，代码应在一个隔离的解释器进程中运行，而非运行框架自身的进程之中，从而使得一个缺陷或一个恶意提示词无法突破沙箱的边界。同样在
 §4 中讲到的 SWE-agent 的
 ACI，与其说是一项接口设计决策，不如说同样也是一项沙箱化决策：其定制的文件查看器与编辑器命令，将智能体对代码仓库所能执行的操作，限定在运行框架明确支持、且可以撤销的操作范围之内，而不是直接赋予智能体一个不受限制的
 shell。

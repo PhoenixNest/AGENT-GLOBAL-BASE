@@ -132,11 +132,9 @@ Vaswani et al. (2017) define **scaled dot-product attention** with the formula:
 
 Vaswani 等人（2017）给出了**缩放点积注意力**（scaled dot-product attention）的公式：
 
-```
 $$
 \text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 $$
-```
 
 Here `Q`, `K`, and `V` are matrices stacking the query, key, and value vectors for every position
 in the sequence (one row per token). $QK^T$ computes the dot product between every query and every
@@ -169,21 +167,17 @@ First, compute raw scores $QK^T = XX^T$:
 
 首先计算原始得分 $QK^T = XX^T$：
 
-```
 $$
 XX^T = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \quad (x_1 \cdot x_1 = 1,\ x_1 \cdot x_2 = 0,\ x_2 \cdot x_1 = 0,\ x_2 \cdot x_2 = 1)
 $$
-```
 
 Scale by $\sqrt{d_k} = \sqrt{2} \approx 1.414$:
 
 按 $\sqrt{d_k} = \sqrt{2} \approx 1.414$ 进行缩放：
 
-```
 $$
 \text{scores} = \begin{bmatrix} 0.707 & 0 \\ 0 & 0.707 \end{bmatrix}
 $$
-```
 
 Apply softmax to each row. For row 1, `[0.707, 0]`: $e^{0.707} \approx 2.028$, `e^0 = 1`, sum $\approx 3.028$,
 giving attention weights `[0.670, 0.330]`. By symmetry, row 2 gives `[0.330, 0.670]`.

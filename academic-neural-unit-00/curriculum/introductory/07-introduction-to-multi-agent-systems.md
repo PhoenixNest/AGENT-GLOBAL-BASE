@@ -72,27 +72,22 @@ of context and decision-making is what makes it "multi."
 **智能体交互的类型：协作、协调与竞争**
 
 Agents in a MAS can relate to each other in different ways, and it helps to name the three most
-common patterns precisely. **Cooperation** is when agents share a common goal and actively
-help each other reach it — a research agent handing its findings to a writing agent is cooperating.
-**Coordination** is a narrower, more mechanical relationship: agents may not share every
-goal, but they must still avoid interfering with each other's actions — two agents both editing
-different parts of the same shared file need to coordinate which sections each may touch, even if
-neither cares about the other's specific subtask. **Competition** is when agents have
-conflicting goals, such as one agent proposing a plan and a second agent explicitly tasked with
-trying to find flaws in it (a pattern sometimes called adversarial or "red-team/blue-team" design,
-covered further from a safety angle in `advanced/04`). Most practical LLM-based multi-agent systems
-in production use combine cooperation and coordination — agents genuinely working toward one shared
-outcome, while a coordination layer (covered in §6) keeps their actions from clashing.
+common patterns precisely.
 
-MAS 中的智能体彼此之间可以有不同的关系类型，值得精确地为三种最常见的模式命名。**协作**是指智能体
-共享一个共同目标，并积极互相帮助以实现该目标——一个研究智能体把发现交给一个写作智能体，就是在协作。
-**协调**是一种更狭窄、更机械化的关系：智能体未必共享全部目标，但仍必须避免相互干扰彼此的行动——两个
-智能体分别编辑同一份共享文件的不同部分，即便彼此都不关心对方具体的子任务，也仍需协调各自可以触及
-哪些部分。**竞争**是指智能体
-拥有相互冲突的目标，例如一个智能体提出一项计划，另一个智能体则被明确赋予寻找其缺陷的任务（这种模式
-有时被称为对抗式或"红队/蓝队"设计，`advanced/04`会从安全角度进一步展开）。绝大多数生产环境中实际
-使用的基于 LLM 的多智能体系统，都是协作与协调的结合——各智能体真正朝着同一个共享结果努力，同时由
-一个协调层（见第 6 节）确保它们的行动不会相互冲突。
+MAS 中的智能体彼此之间可以有不同的关系类型，值得精确地为三种最常见的模式命名。
+
+| Pattern                     | EN                                                                                                                                                                                                                                                                                                                       | 中文                                                                                                                                                                                               |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cooperation** / **协作**  | agents share a common goal and actively help each other reach it — a research agent handing its findings to a writing agent is cooperating.                                                                                                                                                                              | 智能体共享一个共同目标，并积极互相帮助以实现该目标——一个研究智能体把发现交给一个写作智能体，就是在协作。                                                                                           |
+| **Coordination** / **协调** | a narrower, more mechanical relationship: agents may not share every goal, but they must still avoid interfering with each other's actions — two agents both editing different parts of the same shared file need to coordinate which sections each may touch, even if neither cares about the other's specific subtask. | 一种更狭窄、更机械化的关系：智能体未必共享全部目标，但仍必须避免相互干扰彼此的行动——两个智能体分别编辑同一份共享文件的不同部分，即便彼此都不关心对方具体的子任务，也仍需协调各自可以触及哪些部分。 |
+| **Competition** / **竞争**  | agents have conflicting goals, such as one agent proposing a plan and a second agent explicitly tasked with trying to find flaws in it (a pattern sometimes called adversarial or "red-team/blue-team" design, covered further from a safety angle in `advanced/04`).                                                    | 智能体拥有相互冲突的目标，例如一个智能体提出一项计划，另一个智能体则被明确赋予寻找其缺陷的任务（这种模式有时被称为对抗式或"红队/蓝队"设计，`advanced/04`会从安全角度进一步展开）。                 |
+
+Most practical LLM-based multi-agent systems in production use combine cooperation and
+coordination — agents genuinely working toward one shared outcome, while a coordination layer
+(covered in §6) keeps their actions from clashing.
+
+绝大多数生产环境中实际使用的基于 LLM 的多智能体系统，都是协作与协调的结合——各智能体真正朝着同一个
+共享结果努力，同时由一个协调层（见第 6 节）确保它们的行动不会相互冲突。
 
 ---
 
@@ -101,30 +96,21 @@ MAS 中的智能体彼此之间可以有不同的关系类型，值得精确地�
 **架构：集中式、去中心式与层级式**
 
 How agents are wired together — who talks to whom — is called the system's **coordination
-architecture**. Three basic shapes cover most practical designs. In a **centralized
-architecture**, one agent (often called an **orchestrator** or a
-**manager agent**) receives the task, decides which other agent should handle each
-part, and collects their results — every message passes through this central agent, which makes the
-system easy to reason about but creates a single point of slowdown or failure. In a **decentralized
-architecture**, agents communicate directly with whichever peer they need, with no
-single agent in overall control — more resilient to any one agent failing, but harder to predict and
-debug. A **hierarchical architecture** is a middle ground: a top-level orchestrator
-delegates broad sub-tasks to mid-level agents, each of which may in turn coordinate its own small
-team of specialist agents, so control is distributed across levels rather than concentrated in one
-agent or spread flatly across all of them. This module names these architectures at an introductory
-level; `intermediate/07` and `advanced/07` develop the concrete protocols and topologies that
-implement them.
+architecture**. Three basic shapes cover most practical designs.
 
-智能体之间如何相互连接——谁与谁通信——被称为系统的**协调架构**。三种
-基本形态涵盖了大多数实际设计。在**集中式架构**中，一个智能体（通常称为
-**编排器**或**管理智能体**）接收任务，决定应由哪个其他智能体
-处理哪一部分，并收集它们的结果——所有消息都经过这个中心智能体，这使系统易于推理分析，但也造成了单点
-瓶颈或单点故障的风险。在**去中心式架构**中，智能体直接与所需的对等
-智能体通信，没有任何一个智能体掌握全局控制权——对任何单个智能体的失败更具韧性，但更难预测与调试。
-**层级式架构**则是一种折中：顶层编排器把较大的子任务委派给中层智能体，
-而每个中层智能体又可能协调自己手下一小队专家智能体，因此控制权分布在多个层级之上，而非集中于单个
-智能体，也非平铺分散在所有智能体之间。本模块在入门层面为这些架构命名；`intermediate/07`与
-`advanced/07`将进一步展开实现这些架构的具体协议与拓扑结构。
+智能体之间如何相互连接——谁与谁通信——被称为系统的**协调架构**。三种基本形态涵盖了大多数实际设计。
+
+| Architecture                     | EN                                                                                                                                                                                                                                                                                                                     | 中文                                                                                                                                                                                                     |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Centralized** / **集中式**     | one agent (often called an **orchestrator** or a **manager agent**) receives the task, decides which other agent should handle each part, and collects their results — every message passes through this central agent, which makes the system easy to reason about but creates a single point of slowdown or failure. | 一个智能体（通常称为**编排器**或**管理智能体**）接收任务，决定应由哪个其他智能体处理哪一部分，并收集它们的结果——所有消息都经过这个中心智能体，这使系统易于推理分析，但也造成了单点瓶颈或单点故障的风险。 |
+| **Decentralized** / **去中心式** | agents communicate directly with whichever peer they need, with no single agent in overall control — more resilient to any one agent failing, but harder to predict and debug.                                                                                                                                         | 智能体直接与所需的对等智能体通信，没有任何一个智能体掌握全局控制权——对任何单个智能体的失败更具韧性，但更难预测与调试。                                                                                   |
+| **Hierarchical** / **层级式**    | a middle ground: a top-level orchestrator delegates broad sub-tasks to mid-level agents, each of which may in turn coordinate its own small team of specialist agents, so control is distributed across levels rather than concentrated in one agent or spread flatly across all of them.                              | 一种折中：顶层编排器把较大的子任务委派给中层智能体，而每个中层智能体又可能协调自己手下一小队专家智能体，因此控制权分布在多个层级之上，而非集中于单个智能体，也非平铺分散在所有智能体之间。               |
+
+This module names these architectures at an introductory level; `intermediate/07` and
+`advanced/07` develop the concrete protocols and topologies that implement them.
+
+本模块在入门层面为这些架构命名；`intermediate/07`与`advanced/07`将进一步展开实现这些架构的具体
+协议与拓扑结构。
 
 ---
 
