@@ -235,6 +235,18 @@ Binding details:
   change what a formula says. A converted formula is checked against the citation it traces to
   (§5), not against the pre-conversion Unicode text — the old notation is not kept as a shadow copy
   anywhere once a module is converted.
+- **Three structural patterns silently break rendering — checked mechanically on every module, not
+  by eye (Amendment 4).** All three were found live in the corpus after the Amendment 3 conversion
+  and are now binding review checks (`templates/curriculum/internal-review-report.md` Check 5):
+  1. **Never wrap a `$$...$$` display block inside a triple-backtick code fence.** A fenced block
+     renders as literal preformatted text — no renderer looks inside one for `$`. If a formula was
+     inherited from a pre-LaTeX worked example that used a fence to align plain-text output, remove
+     the fence; `\begin{bmatrix}`/`\begin{cases}` do their own alignment.
+  2. **A `$$...$$` line must contain nothing else** — no leading or trailing prose on the same line,
+     not even a short parenthetical. Give the explanation its own lead-in sentence, bilingual-paired
+     like any other sentence, immediately before the equation.
+  3. **Never let a `$...$` span fall inside a single backtick code span** (`` `$x$` ``) — a backtick
+     code span suppresses math rendering for exactly the same reason a fence does.
 
 ---
 
@@ -433,3 +445,15 @@ Unicode symbols, and one that renders correctly wherever the corpus is read on G
 13 formula-bearing modules were converted to LaTeX in the same pass that ratified this amendment,
 each formula checked against its original for meaning-preservation, not left as a follow-up
 remediation item.
+
+**Amendment 4 — 2026-08-20, Dr. Naledi Mokoena, ANU-00 Lead.** Two readers hit live KaTeX render
+failures the Amendment 3 conversion pass did not catch: a `$$...$$` block in
+`introductory/01-neural-networks-and-deep-learning-foundations.md` with a nested `$...$` span
+trailing on the same line (parser error), and three `$$...$$` blocks in
+`introductory/02-the-transformer-architecture-and-attention.md` left inside a triple-backtick code
+fence inherited from the pre-conversion worked example (rendered as literal text, not math). Both
+are now §4.3 binding rules, and a corpus-wide sweep across all 24 modules — code-fence-trapped math,
+trailing-content-after-`$$`, `$` inside a single backtick span, and paragraph-level delimiter
+balance — found no further instances after the two fixes. `templates/curriculum/internal-review-report.md`
+Check 5 (Structural completeness) now names all three patterns explicitly, so every future cluster
+reviewer checks for them on every formula-bearing document, not only the structural specialist.

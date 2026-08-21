@@ -43,35 +43,22 @@ module learns to quantify. Every formula below traces to a verified, cited sourc
 
 `intermediate/08` §7 named the core problem for multi-agent evaluation: repeated runs of the exact
 same task can produce different outcomes. It is worth being precise about where this variance
-actually comes from, because different sources call for different statistical treatment. First,
-**sampling variance in the LLM's own output**: at any non-zero
-temperature, the same prompt produces a different token sequence each time, the same mechanism
-`intermediate/05` §3 exploited deliberately for self-consistency and `advanced/07` §7 built on for
-multiagent debate — this is randomness by design, not a bug, but it means a single sample is a
-single draw from a distribution, not the distribution itself. Second, **sampling variance in the
-task set**: the benchmark's own tasks are themselves a finite sample from a
-much larger space of possible tasks (`intermediate/08` §1's task-diversity requirement), so even a
-deterministic agent's measured success rate on, say, 50 tasks is an estimate of its true success
-rate on the full population of tasks it might encounter, not that true rate itself. Third,
-**environment nondeterminism**: a live tool, a flaky network call, or another
-agent's own sampling variance in a MAS (`introductory/03` §6's stochastic-environment concept,
-extended to the multi-agent case) can change outcomes independent of anything the agent under test
-did differently. All three sources point to the same conclusion: a single number from a single run
+actually comes from, because different sources call for different statistical treatment.
+
+`intermediate/08`第 7 节指出了多智能体评估的核心问题：同一任务的重复运行可能产生不同的结果。有
+必要精确说明这种方差究竟源自何处，因为不同的来源需要不同的统计处理方式。
+
+| #   | Source                                        | EN                                                                                                                                                                                                                                                                                                                                                                             | 中文                                                                                                                                                                                                                                                                   |
+| --- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Sampling variance in the LLM's own output** | at any non-zero temperature, the same prompt produces a different token sequence each time, the same mechanism `intermediate/05` §3 exploited deliberately for self-consistency and `advanced/07` §7 built on for multiagent debate — this is randomness by design, not a bug, but it means a single sample is a single draw from a distribution, not the distribution itself. | 在任何非零温度下，同一提示词每次都会产生不同的词元序列——`intermediate/05`第 3 节正是刻意利用了这一机制来实现自洽性，`advanced/07`第 7 节的多智能体辩论也建立在此机制之上——这是设计使然的随机性，而非缺陷，但这意味着单一样本只是对某个分布的一次抽取，而非该分布本身。 |
+| 2   | **Sampling variance in the task set**         | the benchmark's own tasks are themselves a finite sample from a much larger space of possible tasks (`intermediate/08` §1's task-diversity requirement), so even a deterministic agent's measured success rate on, say, 50 tasks is an estimate of its true success rate on the full population of tasks it might encounter, not that true rate itself.                        | 基准测试自身的任务，本就是从一个远为庞大的可能任务空间中抽取的有限样本（见`intermediate/08`第 1 节的任务多样性要求），因此即便是一个确定性智能体，其在比如 50 项任务上测得的成功率，也只是对其在可能遇到的全部任务总体上真实成功率的一个估计，而非真实成功率本身。     |
+| 3   | **Environment nondeterminism**                | a live tool, a flaky network call, or another agent's own sampling variance in a MAS (`introductory/03` §6's stochastic-environment concept, extended to the multi-agent case) can change outcomes independent of anything the agent under test did differently.                                                                                                               | 某个实时工具、一次不稳定的网络调用，或 MAS 中另一个智能体自身的采样方差（`introductory/03`第 6 节随机性环境的概念，在此被扩展到多智能体情形），都可能在被测智能体本身没有任何不同做法的情况下改变结果。                                                                |
+
+All three sources point to the same conclusion: a single number from a single run
 is a point estimate, and every point estimate needs an accompanying statement of how much it might
 be wrong by.
 
-`intermediate/08`第 7 节指出了多智能体评估的核心问题：同一任务的重复运行可能产生不同的结果。有
-必要精确说明这种方差究竟源自何处，因为不同的来源需要不同的统计处理方式。第一，**LLM 输出本身的
-采样方差**：在任何非零温度下，同一提示词每次都会
-产生不同的词元序列——`intermediate/05`第 3 节正是刻意利用了这一机制来实现自洽性，
-`advanced/07`第 7 节的多智能体辩论也建立在此机制之上——这是设计使然的随机性，而非缺陷，但这
-意味着单一样本只是对某个分布的一次抽取，而非该分布本身。第二，**任务集的采样方差**：基准测试自身的任务，本就是从一个远为庞大的可能任务空间中抽取的
-有限样本（见`intermediate/08`第 1 节的任务多样性要求），因此即便是一个确定性智能体，其在比如
-50 项任务上测得的成功率，也只是对其在可能遇到的全部任务总体上真实成功率的一个估计，而非真实
-成功率本身。第三，**环境的非确定性**：某个实时工具、一次不稳定的
-网络调用，或 MAS 中另一个智能体自身的采样方差（`introductory/03`第 6 节随机性环境的概念，在此
-被扩展到多智能体情形），都可能在被测智能体本身没有任何不同做法的情况下改变结果。这三种来源都
-指向同一个结论：单次运行得出的单一数字只是一个点估计，而每一个点估计都需要附带一份关于它可能偏差
+这三种来源都指向同一个结论：单次运行得出的单一数字只是一个点估计，而每一个点估计都需要附带一份关于它可能偏差
 多大的说明。
 
 ---
@@ -520,33 +507,22 @@ for in concrete, numeric form.
 **常见的统计学不当做法及其防范**
 
 Three specific malpractices recur in agent-evaluation reporting, each a concrete, numeric version of
-a pitfall `intermediate/08` §9 already named informally. **Cherry-picking runs**:
-running a stochastic evaluation multiple times and reporting only the best-performing run as "the"
-result, rather than the mean and confidence interval (§2–§5) across all runs — a direct numeric
-instance of the cherry-picking pitfall `introductory/08` §7 first named for single hand-picked
-examples, now applied to entire repeated benchmark runs. **Reporting point estimates with no error
-bars**: presenting a bare success-rate percentage with no Wilson or
-bootstrap interval at all invites exactly the overconfident A-beats-B misreading §3 walked through
-concretely. **p-hacking across benchmarks**: testing many benchmarks or
-many metric variants and reporting only the subset that reached significance at the uncorrected
-$\alpha = 0.05$ threshold, silently skipping the Bonferroni-style correction §7 and §11 demonstrated is
-necessary once more than one comparison is run — this is the single most direct numeric descendant
-of Goodhart's law (`intermediate/08` §9): treating "reached p < 0.05 somewhere" as the target,
-rather than treating each individual test's threshold as something that must itself account for how
-many tests were run. None of these three requires deliberate dishonesty to occur — each is what
+a pitfall `intermediate/08` §9 already named informally.
+
+三种具体的不当做法在智能体评估报告中反复出现，每一种都是`intermediate/08`第 9 节此前已非正式
+命名的某种陷阱的具体数字化版本。
+
+| Malpractice                                      | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | 中文                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cherry-picking runs**                          | running a stochastic evaluation multiple times and reporting only the best-performing run as "the" result, rather than the mean and confidence interval (§2–§5) across all runs — a direct numeric instance of the cherry-picking pitfall `introductory/08` §7 first named for single hand-picked examples, now applied to entire repeated benchmark runs.                                                                                                                                                                                                    | 对一次随机性评估多次运行，却只把表现最好的那一次报告为"该"结果，而不是报告全部运行的均值与置信区间（第 2–5 节）——这正是`introductory/08`第 7 节最初针对少数精挑细选样例所命名的挑选样本陷阱，在整批重复基准测试运行层面上的直接数字化版本。                                                                                                                               |
+| **Reporting point estimates with no error bars** | presenting a bare success-rate percentage with no Wilson or bootstrap interval at all invites exactly the overconfident A-beats-B misreading §3 walked through concretely.                                                                                                                                                                                                                                                                                                                                                                                    | 仅呈现一个赤裸裸的成功率百分比、完全不附带 Wilson 区间或自助法区间，恰恰会招致第 3 节所具体演示过的那种过度自信的"A 胜过 B"式误读。                                                                                                                                                                                                                                       |
+| **p-hacking across benchmarks**                  | testing many benchmarks or many metric variants and reporting only the subset that reached significance at the uncorrected $\alpha = 0.05$ threshold, silently skipping the Bonferroni-style correction §7 and §11 demonstrated is necessary once more than one comparison is run — this is the single most direct numeric descendant of Goodhart's law (`intermediate/08` §9): treating "reached p < 0.05 somewhere" as the target, rather than treating each individual test's threshold as something that must itself account for how many tests were run. | 测试许多个基准测试或许多种指标变体，却只报告在未经校正的 $\alpha = 0.05$ 阈值下达到显著的那一部分，悄悄跳过第 7 节与第 11 节所证明的、一旦运行不止一次比较就必需的 Bonferroni 式校正——这是古德哈特定律（`intermediate/08`第 9 节）最直接的数字化后裔：把"在某处达到了 p < 0.05"当作目标本身，而不是把每一次单独检验的阈值，当作本就必须考虑到究竟运行了多少次检验的东西。 |
+
+None of these three requires deliberate dishonesty to occur — each is what
 happens by default when statistical rigor is treated as optional polish rather than as part of what
 "the agent works" is actually claiming.
 
-三种具体的不当做法在智能体评估报告中反复出现，每一种都是`intermediate/08`第 9 节此前已非正式
-命名的某种陷阱的具体数字化版本。**挑选运行结果**：对一次随机性评估多次
-运行，却只把表现最好的那一次报告为"该"结果，而不是报告全部运行的均值与置信区间（第 2–5 节）
-——这正是`introductory/08`第 7 节最初针对少数精挑细选样例所命名的挑选样本陷阱，在整批重复
-基准测试运行层面上的直接数字化版本。**只报告点估计、不给误差范围**：仅呈现一个赤裸裸的成功率百分比、完全不附带 Wilson 区间或自助法区间，
-恰恰会招致第 3 节所具体演示过的那种过度自信的"A 胜过 B"式误读。**跨基准测试的 p 值操纵**：测试许多个基准测试或许多种指标变体，却只报告在未经校正的
-$\alpha = 0.05$ 阈值下达到显著的那一部分，悄悄跳过第 7 节与第 11 节所证明的、一旦运行不止一次比较就
-必需的 Bonferroni 式校正——这是古德哈特定律（`intermediate/08`第 9 节）最直接的数字化后裔：
-把"在某处达到了 p < 0.05"当作目标本身，而不是把每一次单独检验的阈值，当作本就必须考虑到究竟
-运行了多少次检验的东西。这三种做法都无需刻意的不诚实即可发生——每一种都是当统计学严谨性被当作
+这三种做法都无需刻意的不诚实即可发生——每一种都是当统计学严谨性被当作
 可有可无的装饰、而非"智能体确实有效"这一断言本身所要求的一部分时，默认就会发生的结果。
 
 ---

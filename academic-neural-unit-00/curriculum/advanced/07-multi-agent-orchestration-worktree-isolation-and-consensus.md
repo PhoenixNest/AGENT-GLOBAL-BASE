@@ -337,7 +337,7 @@ at least one member, so a second, later proposal is guaranteed to encounter at l
 participant who already knows about the first — which is exactly the mechanism that prevents two
 different values from both being "chosen."
 
-**Paxos 算法（Paxos）**由 Leslie Lamport 提出，通常被认为是针对崩溃故障（即参与者停止响应、但从不发
+**Paxos 算法（Paxos）** 由 Leslie Lamport 提出，通常被认为是针对崩溃故障（即参与者停止响应、但从不发
 送错误信息）情形下分布式共识问题最早的实用解法——Lamport 本人后来又写了一篇论文，因为他觉得最初的讲述
 方式不必要地难以理解，于是用"通俗英语"重新阐述了一遍，恰如其分地取名为《Paxos Made Simple》（Paxos
 其实很简单）。其核心思想是一个两阶段协议：想要提出某个值的参与者，首先向多数参与者发送带有提案编号的
@@ -362,7 +362,7 @@ is $\lfloor 5/2 \rfloor + 1 = 3$; for a seven-participant cluster, it is $4$. Th
 is the mathematical backbone of every majority-vote consensus mechanism this chapter discusses,
 including the semantic, LLM-output voting schemes in §7.
 
-**Raft 算法（Raft）**由 Diego Ongaro 与 John Ousterhout 在 2014 年 USENIX 会议上发表的论文《In
+**Raft 算法（Raft）** 由 Diego Ongaro 与 John Ousterhout 在 2014 年 USENIX 会议上发表的论文《In
 Search of an Understandable Consensus Algorithm》（寻找一种易于理解的共识算法）中提出，其设计目标就
 是在保证与 Paxos 相同正确性的前提下，让工程师更容易正确理解和实现——论文中报告的一项用户研究显示，学生
 学习 Raft 的效果在可测量的意义上确实更好。Raft 把共识问题拆解为三个可以分开处理的子问题：**领导者选
@@ -636,7 +636,7 @@ an LLM aggregator reasoning over the content of each candidate is not subject to
 "one bad vote breaks a plurality" arithmetic as literal ballot-counting.
 
 第二类是把一个相对多数投票误当作具备拜占庭容错能力，而实际上并非如此。如果编排器只把问题派发给三个智
-能体、并进行简单的相对多数投票，而这三个智能体中有一个被攻陷、被对抗性提示操纵、或只是以很高的置信度
+能体、并进行简单的相对多数投票，而这三个智能体中有一个被攻陷、被对抗性提示词操纵、或只是以很高的置信度
 产生了幻觉，那么这一个出故障的智能体就足以把一次 2 比 1 的投票拉成平局，甚至更糟——还可能被第二个独立
 犯下同类错误的智能体"呼应"（大语言模型的错误并不总是相互独立的：如果几个智能体拿到的是同一个存在缺陷
 的提示词，或者同一份具有误导性的上下文，它们完全可能犯下完全相同的错误）。第 6 节中拜占庭将军问题给

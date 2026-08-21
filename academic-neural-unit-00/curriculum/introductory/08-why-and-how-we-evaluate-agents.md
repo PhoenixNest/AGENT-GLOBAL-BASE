@@ -224,28 +224,21 @@ different code, not just that one time.
 **首次评估中的常见陷阱**
 
 Three mistakes recur often enough among people new to evaluation that they are worth naming
-plainly. **Cherry-picking** is presenting only the successful runs
-while quietly discarding failures — whether done deliberately or, more often, by unconsciously
-remembering the wins better than the losses. **Testing on the tuning set** is
-the overfitting problem from §4: judging the agent by its performance on the very examples you
-used to write or adjust its prompt. **Benchmark leakage / contamination**
-is a related but distinct problem specific to LLM-based systems: because the underlying LLM was
-trained on a huge amount of text, it is possible that a benchmark's exact questions and answers
-appeared somewhere in that training data, so a high score reflects memorization rather than genuine
-capability — Shahriar Golchin and Mihai Surdeanu's 2023 research developed concrete methods for
-detecting this kind of contamination in an LLM, confirming it is a real, measurable risk and not
-just a theoretical worry. None of these three pitfalls require bad intentions to happen; they are
-easy to fall into by default, which is exactly why evaluation needs deliberate discipline rather
-than being left to instinct.
+plainly.
 
-在评估初学者中反复出现的三种错误，值得在此明确指出。**挑选样本**是指只展示
-成功的运行结果，而悄悄丢弃失败的结果——无论是有意为之，还是（更常见地）因为人们无意中对成功的记忆
-比对失败的记忆更深刻。**在调优集上测试**就是第 4 节所述的过拟合
-问题：用你曾经用来撰写或调整提示词的那些例子来评判智能体的表现。**基准污染 / 数据污染**是一个相关但不同的问题，为基于 LLM 的系统所特有：由于底层 LLM 是在
-海量文本上训练而成的，某个基准测试的确切题目与答案有可能恰好出现在那些训练数据之中，于是高分反映
-的其实是记忆而非真正的能力——Shahriar Golchin 与 Mihai Surdeanu 在 2023 年的研究开发出了检测 LLM
-中此类污染的具体方法，证实这是一种真实、可测量的风险，而非仅仅是理论上的担忧。这三种陷阱都无需
-恶意即可发生；它们很容易在不知不觉中被踏入，这正是评估需要刻意的纪律、而不能仅凭直觉行事的原因。
+在评估初学者中反复出现的三种错误，值得在此明确指出。
+
+| #   | Pitfall                               | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 中文                                                                                                                                                                                                                                                                                                                                             |
+| --- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | **Cherry-picking**                    | presenting only the successful runs while quietly discarding failures — whether done deliberately or, more often, by unconsciously remembering the wins better than the losses.                                                                                                                                                                                                                                                                                                                                             | 是指只展示成功的运行结果，而悄悄丢弃失败的结果——无论是有意为之，还是（更常见地）因为人们无意中对成功的记忆比对失败的记忆更深刻。                                                                                                                                                                                                                 |
+| 2   | **Testing on the tuning set**         | the overfitting problem from §4: judging the agent by its performance on the very examples you used to write or adjust its prompt.                                                                                                                                                                                                                                                                                                                                                                                          | 就是第 4 节所述的过拟合问题：用你曾经用来撰写或调整提示词的那些例子来评判智能体的表现。                                                                                                                                                                                                                                                          |
+| 3   | **Benchmark leakage / contamination** | a related but distinct problem specific to LLM-based systems: because the underlying LLM was trained on a huge amount of text, it is possible that a benchmark's exact questions and answers appeared somewhere in that training data, so a high score reflects memorization rather than genuine capability — Shahriar Golchin and Mihai Surdeanu's 2023 research developed concrete methods for detecting this kind of contamination in an LLM, confirming it is a real, measurable risk and not just a theoretical worry. | 是一个相关但不同的问题，为基于 LLM 的系统所特有：由于底层 LLM 是在海量文本上训练而成的，某个基准测试的确切题目与答案有可能恰好出现在那些训练数据之中，于是高分反映的其实是记忆而非真正的能力——Shahriar Golchin 与 Mihai Surdeanu 在 2023 年的研究开发出了检测 LLM 中此类污染的具体方法，证实这是一种真实、可测量的风险，而非仅仅是理论上的担忧。 |
+
+None of these three pitfalls require bad intentions to happen; they are easy to fall into by
+default, which is exactly why evaluation needs deliberate discipline rather than being left to
+instinct.
+
+这三种陷阱都无需恶意即可发生；它们很容易在不知不觉中被踏入，这正是评估需要刻意的纪律、而不能仅凭直觉行事的原因。
 
 ---
 

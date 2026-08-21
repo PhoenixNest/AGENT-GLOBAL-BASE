@@ -19,7 +19,7 @@ defined before it is used.
 
 ## 1. What Is a Large Language Model, and What Is a Prompt?
 
-**什么是大语言模型?什么是提示?**
+**什么是大语言模型？什么是提示词？**
 
 A large language model (LLM) is a computer program trained on enormous amounts of
 text — books, websites, code, conversations — so that, given some text as input, it can predict
@@ -38,7 +38,7 @@ seemingly cosmetic changes to a prompt's wording, structure, or ordering can pro
 measurable differences in output quality — the same disciplined, testable mindset used in other
 kinds of engineering.
 
-提示词是你提供给模型作为输入的文字——你希望模型据以行动的指令、问题或素材。提示工程就是有意识地设计这段输入文字，使模型的输出准确、有用，并且符合你所需要的形式。之所以称为"工程"而非"写作",是因为本章将会展示：提示词措辞、结构或顺序上看似微小的改动，往往会在输出质量上带来巨大且可测量的差异——这正是其他工程学科所共有的那种严谨、可验证的思维方式。
+提示词是你提供给模型作为输入的文字——你希望模型据以行动的指令、问题或素材。提示工程就是有意识地设计这段输入文字，使模型的输出准确、有用，并且符合你所需要的形式。之所以称为"工程"而非"写作"，是因为本章将会展示：提示词措辞、结构或顺序上看似微小的改动，往往会在输出质量上带来巨大且可测量的差异——这正是其他工程学科所共有的那种严谨、可验证的思维方式。
 
 It is worth being explicit about what prompt engineering is _not_. It is not training or
 fine-tuning the model — that is, it does not change the model's internal parameters (the numbers
@@ -61,22 +61,12 @@ prompt is doing and to fix it when it fails.
 
 一个组织良好的提示词很少只是一句孤零零的问题。它通常由最多四个可以区分开来的部分组成，把它们分别命名出来，能让我们更容易分析提示词在做什么、并在它失效时加以修正。
 
-- **Instruction** — the task itself, stated as an imperative: "Summarize the following
-  article in three sentences," "Translate this paragraph into French," "Classify this email as
-  spam or not spam."
-- **Context** — background information the model needs but was not trained specifically
-  to know: a company's style guide, a customer's order history, the rules of a game you have
-  invented.
-- **Input data** — the actual material the instruction should be applied to: the
-  article to summarize, the paragraph to translate, the email to classify.
-- **Output indicator** — a description of the form the answer should take: "Answer in
-  a single word," "Return valid JSON with keys `label` and `confidence`," "Write no more than 100
-  words."
-
-- **指令**——任务本身，以祈使句给出："用三句话概括下面这篇文章""把这段文字翻译成法语""判断这封邮件是否属于垃圾邮件"。
-- **上下文**——模型完成任务所需、但并非专门在训练中学到的背景信息：某公司的风格指南、某位顾客的历史订单、你自己发明的一套游戏规则。
-- **输入数据**——指令实际要作用的材料：待概括的文章、待翻译的段落、待判断的邮件正文。
-- **输出指示**——对答案应呈现形式的说明："只用一个词回答""返回带有 `label` 和 `confidence` 两个字段的有效 JSON""字数不超过 100 字"。
+| #   | Part                             | EN                                                                                                                                                                                 | 中文                                                                                                                 |
+| --- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Instruction**（指令）          | the task itself, stated as an imperative: "Summarize the following article in three sentences," "Translate this paragraph into French," "Classify this email as spam or not spam." | 任务本身，以祈使句给出："用三句话概括下面这篇文章""把这段文字翻译成法语""判断这封邮件是否属于垃圾邮件"。             |
+| 2   | **Context**（上下文）            | background information the model needs but was not trained specifically to know: a company's style guide, a customer's order history, the rules of a game you have invented.       | 模型完成任务所需、但并非专门在训练中学到的背景信息：某公司的风格指南、某位顾客的历史订单、你自己发明的一套游戏规则。 |
+| 3   | **Input data**（输入数据）       | the actual material the instruction should be applied to: the article to summarize, the paragraph to translate, the email to classify.                                             | 指令实际要作用的材料：待概括的文章、待翻译的段落、待判断的邮件正文。                                                 |
+| 4   | **Output indicator**（输出指示） | a description of the form the answer should take: "Answer in a single word," "Return valid JSON with keys `label` and `confidence`," "Write no more than 100 words."               | 对答案应呈现形式的说明："只用一个词回答""返回带有 `label` 和 `confidence` 两个字段的有效 JSON""字数不超过 100 字"。  |
 
 Not every prompt needs all four parts — a casual question needs only an instruction — but as tasks
 become more specific, leaving a part out is the single most common cause of a disappointing
@@ -138,7 +128,7 @@ Brown et al.'s 2020 paper introducing GPT-3, "Language Models are Few-Shot Learn
 paper that first documented this capability at scale and gave the field the vocabulary of
 "zero-shot," "one-shot," and "few-shot" evaluation that is now standard (see References).
 
-零样本提示是指仅用文字描述任务，让模型据此执行任务，而不向模型展示任何"任务应如何正确完成"的示例。比如"这条评论的情感是正面还是负面?"后面直接跟着一条评论正文，前面不给出任何带标签的示例评论——这就是一个零样本提示。大语言模型之所以能够做到这一点——遵循一段它此前从未以完全相同措辞见过的任务描述——依赖于一种被称为"上下文学习"的特性：一个规模足够大的模型，仅凭当前提示词本身的文字，就能推断出用户想要什么，而无需对其参数做任何更新。Brown 等人于 2020 年发表的论文《Language Models are Few-Shot Learners》(该论文首次公开了 GPT-3)最早在大规模上记录了这种能力，并为这一领域确立了"零样本""单样本""少样本"评测这套如今已成为标准的术语(见"参考文献")。
+零样本提示是指仅用文字描述任务，让模型据此执行任务，而不向模型展示任何"任务应如何正确完成"的示例。比如"这条评论的情感是正面还是负面？"后面直接跟着一条评论正文，前面不给出任何带标签的示例评论——这就是一个零样本提示。大语言模型之所以能够做到这一点——遵循一段它此前从未以完全相同措辞见过的任务描述——依赖于一种被称为"上下文学习"的特性：一个规模足够大的模型，仅凭当前提示词本身的文字，就能推断出用户想要什么，而无需对其参数做任何更新。Brown 等人于 2020 年发表的论文《Language Models are Few-Shot Learners》(该论文首次公开了 GPT-3)最早在大规模上记录了这种能力，并为这一领域确立了"零样本""单样本""少样本"评测这套如今已成为标准的术语(见"参考文献")。
 
 Zero-shot prompting is the natural starting point for almost any task because it requires the
 least prompt-construction effort, and modern instruction-tuned models — models specifically
@@ -174,7 +164,7 @@ house-trained." OpenAI's and Anthropic's official prompt engineering guides both
 and descriptive" and "give the model the context it needs" among their first recommended
 techniques for exactly this reason (see References).
 
-以指令"写点关于狗的东西"为例，它至少在四个相互独立的维度上是含糊不清的：篇幅(是一条推文，还是一整章教材?)、语气(俏皮还是严肃?)、受众(儿童还是兽医?)以及目的(娱乐、科普，还是劝说别人领养一只狗?)。每一个未被明确的维度，都是模型必须靠猜测来填补的空白，而一旦猜测的结果与提问者真正想要的不一致，从外部看就像是模型"失败"了——但实际上，问题出在提示词本身对任务的界定不足。一个更好的版本会把每个维度都明确交代清楚："请写一段约150字、语气积极的段落，面向普通成年读者，鼓励他们考虑领养一只收容所里的狗。请提及收容所的狗通常已经完成了如厕训练。"OpenAI 和 Anthropic 各自官方的提示工程指南，都把"具体而详尽"以及"为模型提供它所需要的背景信息"列为最优先推荐的技巧之一，原因正在于此(见"参考文献")。
+以指令"写点关于狗的东西"为例，它至少在四个相互独立的维度上是含糊不清的：篇幅(是一条推文，还是一整章教材？)、语气(俏皮还是严肃？)、受众(儿童还是兽医？)以及目的(娱乐、科普，还是劝说别人领养一只狗？)。每一个未被明确的维度，都是模型必须靠猜测来填补的空白，而一旦猜测的结果与提问者真正想要的不一致，从外部看就像是模型"失败"了——但实际上，问题出在提示词本身对任务的界定不足。一个更好的版本会把每个维度都明确交代清楚："请写一段约150字、语气积极的段落，面向普通成年读者，鼓励他们考虑领养一只收容所里的狗。请提及收容所的狗通常已经完成了如厕训练。"OpenAI 和 Anthropic 各自官方的提示工程指南，都把"具体而详尽"以及"为模型提供它所需要的背景信息"列为最优先推荐的技巧之一，原因正在于此(见"参考文献")。
 
 Specificity also means telling the model what _not_ to do when a failure mode is predictable. If a
 customer-support prompt has previously produced answers that promise refunds the company cannot
@@ -194,7 +184,7 @@ say it. This matters enormously once a prompt's output is meant to be read by an
 software rather than a person: a program that expects a number cannot handle "The answer is
 approximately forty-two, though it could be a bit higher."
 
-除了告诉模型"要说什么",提示词还可以——而且往往应该——告诉模型"该怎么说"。一旦提示词的输出是要交给另一段软件读取，而不是给人看的，这一点就变得极其重要：一个期望拿到一个数字的程序，是无法处理"答案大约是四十二左右，不过也可能略高一些"这样的表述的。
+除了告诉模型"要说什么"，提示词还可以——而且往往应该——告诉模型"该怎么说"。一旦提示词的输出是要交给另一段软件读取，而不是给人看的，这一点就变得极其重要：一个期望拿到一个数字的程序，是无法处理"答案大约是四十二左右，不过也可能略高一些"这样的表述的。
 
 The simplest format controls are direct instructions: "Answer with only the number, no other
 text," "Respond in exactly one sentence," "Use a numbered list." A more structured technique,
@@ -213,7 +203,7 @@ this foundation is in place.
 
 ## 7. Iteration: Prompting as a Design Process
 
-**迭代：把提示写作当作一个设计过程**
+**迭代：把提示词写作当作一个设计过程**
 
 A prompt that works well is very rarely the first draft. Prompt engineering, practiced seriously,
 looks less like writing a single sentence and more like an iterative design loop: write a prompt,
@@ -223,7 +213,7 @@ run it again. This loop matters because language models are not fully determinis
 settings — see the note on temperature below) and because a prompt that works on one example may
 silently fail on a slightly different one.
 
-一个效果良好的提示词，几乎从来都不是一稿而就的。认真实践提示工程，与其说是在写一句话，不如说更像是一个迭代式的设计循环：写出提示词、运行它、检查输出结果、准确找出哪里出了问题或存在歧义、修改、再次运行。这个循环之所以重要，是因为大语言模型在一般使用场景下并非完全确定性的(即便输入完全相同，不同运行之间的输出也可能有所差异，尤其是在随机性设置较高的情况下——参见下文关于"温度"参数的说明),也因为一个在某个例子上表现良好的提示词，换到一个略有不同的例子上，可能会悄无声息地失效。
+一个效果良好的提示词，几乎从来都不是一稿而就的。认真实践提示工程，与其说是在写一句话，不如说更像是一个迭代式的设计循环：写出提示词、运行它、检查输出结果、准确找出哪里出了问题或存在歧义、修改、再次运行。这个循环之所以重要，是因为大语言模型在一般使用场景下并非完全确定性的(即便输入完全相同，不同运行之间的输出也可能有所差异，尤其是在随机性设置较高的情况下——参见下文关于"温度"参数的说明)，也因为一个在某个例子上表现良好的提示词，换到一个略有不同的例子上，可能会悄无声息地失效。
 
 A practical iteration workflow for a beginner looks like this: (1) write a first-draft prompt
 covering instruction, context, input, and output indicator; (2) test it against several different
@@ -249,7 +239,7 @@ tasks where consistency matters (classification, data extraction, following a st
 low temperature is usually preferable; for open-ended creative writing, a higher temperature is
 often desirable.
 
-这里有一个值得专门定义的参数，因为它直接影响我们该如何看待"迭代"这件事，那就是"温度"。温度是一个设置项，通常取值从 0 起往上，用来控制模型在选择下一个词时所使用的随机程度：温度接近 0 时，模型会稳定地选择它认为最可能出现的下一个词，因而在同一提示词下反复运行时，输出会非常相似；温度较高时，一些原本可能性较低的词被选中的概率会提高，输出因此更加多样、有时也更具创造性——但也相应地更难预测。OpenAI 和 Anthropic 各自的 API 文档都把温度作为一个请求参数开放给使用者。对于需要一致性的任务(分类、数据抽取、遵循严格格式),通常更适合使用较低的温度；而对于开放式的创意写作任务，较高的温度往往更受欢迎。
+这里有一个值得专门定义的参数，因为它直接影响我们该如何看待"迭代"这件事，那就是"温度"。温度是一个设置项，通常取值从 0 起往上，用来控制模型在选择下一个词时所使用的随机程度：温度接近 0 时，模型会稳定地选择它认为最可能出现的下一个词，因而在同一提示词下反复运行时，输出会非常相似；温度较高时，一些原本可能性较低的词被选中的概率会提高，输出因此更加多样、有时也更具创造性——但也相应地更难预测。OpenAI 和 Anthropic 各自的 API 文档都把温度作为一个请求参数开放给使用者。对于需要一致性的任务(分类、数据抽取、遵循严格格式)，通常更适合使用较低的温度；而对于开放式的创意写作任务，较高的温度往往更受欢迎。
 
 ## 8. Common Pitfalls for Beginners
 
@@ -261,21 +251,13 @@ rewriting.
 
 初学者在遇到模型输出"莫名其妙就是不对"时所感到的挫败，大多可以归因于以下五种错误，识别出这些错误，往往比漫无目的地反复重写整段提示词要快得多。
 
-First, **conflating what you meant with what you wrote** — assuming the model shares context that
-only exists in your head, such as an unstated house style, an abbreviation specific to your team,
-or an implicit assumption about the reader. Second, **overloading a single prompt with too many
-unrelated instructions at once**, which increases the odds that the model satisfies some
-instructions at the expense of others; breaking a complex request into smaller, sequential prompts
-is often more reliable than one dense paragraph trying to do everything. Third, **omitting the
-output format entirely** when the answer will be consumed by code, leading to responses that are
-individually reasonable but impossible to parse reliably. Fourth, **treating a single good or bad
-run as representative**, when a handful of test inputs across plausible edge cases is needed
-before trusting a prompt. Fifth, **not separating instructions from data** — pasting user-supplied
-text directly into an instruction without a clear delimiter, which can cause the model to interpret
-part of the data as an instruction; this is also the root of a security concern (prompt injection)
-that later modules in the Agent Architecture cluster examine in more depth.
-
-第一，**把"你心里想的"和"你写下来的"混为一谈**——误以为模型和你共享着只存在于你脑海中的背景信息，比如未曾言明的行文风格、团队内部专用的缩写，或是关于读者是谁的隐含假设。第二，**在一个提示词里一次塞入过多互不相关的指令**,这会增加模型顾此失彼、满足了某些指令却牺牲了另一些指令的概率；把一个复杂的请求拆分成多个更小、按顺序执行的提示词，往往比写一大段试图面面俱到的密集文字更为可靠。第三，**当答案要交给代码处理时，却完全没有规定输出格式**,导致每一次单独看都还算合理的回应，却无法被稳定地解析。第四，**把单次运行的好坏结果当作具有代表性**,而实际上在信任一个提示词之前，需要用若干个覆盖各种可能边界情形的测试输入来加以验证。第五，**没有把指令和数据区分开来**——把用户提供的文本不加清晰分隔地直接粘贴进指令中，这可能导致模型把数据的一部分误当作指令来执行；这也是"提示注入"这一安全隐患的根源所在，该主题将在"智能体架构"主题群的后续模块中作更深入的探讨。
+| #   | Pitfall                                                                      | EN                                                                                                                                                                                                                                                                                                       | 中文                                                                                                                                                                                           |
+| --- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Conflating what you meant with what you wrote**                            | assuming the model shares context that only exists in your head, such as an unstated house style, an abbreviation specific to your team, or an implicit assumption about the reader.                                                                                                                     | 误以为模型和你共享着只存在于你脑海中的背景信息，比如未曾言明的行文风格、团队内部专用的缩写，或是关于读者是谁的隐含假设。                                                                       |
+| 2   | **Overloading a single prompt with too many unrelated instructions at once** | this increases the odds that the model satisfies some instructions at the expense of others; breaking a complex request into smaller, sequential prompts is often more reliable than one dense paragraph trying to do everything.                                                                        | 这会增加模型顾此失彼、满足了某些指令却牺牲了另一些指令的概率；把一个复杂的请求拆分成多个更小、按顺序执行的提示词，往往比写一大段试图面面俱到的密集文字更为可靠。                               |
+| 3   | **Omitting the output format entirely**                                      | when the answer will be consumed by code, leading to responses that are individually reasonable but impossible to parse reliably.                                                                                                                                                                        | 当答案要交给代码处理时，却完全没有规定输出格式，导致每一次单独看都还算合理的回应，却无法被稳定地解析。                                                                                         |
+| 4   | **Treating a single good or bad run as representative**                      | when a handful of test inputs across plausible edge cases is needed before trusting a prompt.                                                                                                                                                                                                            | 而实际上在信任一个提示词之前，需要用若干个覆盖各种可能边界情形的测试输入来加以验证。                                                                                                           |
+| 5   | **Not separating instructions from data**                                    | pasting user-supplied text directly into an instruction without a clear delimiter, which can cause the model to interpret part of the data as an instruction; this is also the root of a security concern (prompt injection) that later modules in the Agent Architecture cluster examine in more depth. | 把用户提供的文本不加清晰分隔地直接粘贴进指令中，这可能导致模型把数据的一部分误当作指令来执行；这也是"提示注入"这一安全隐患的根源所在，该主题将在"智能体架构"主题群的后续模块中作更深入的探讨。 |
 
 ## 9. Worked Example: Building a Prompt from Scratch
 
@@ -291,7 +273,7 @@ This section walks through four successive drafts to show the iteration process 
 not ask for sentiment or a feature, and gives the model no output format, so the answer will be an
 unstructured paraphrase of unpredictable length.
 
-**草稿一(裸指令)**:"这条评论说了什么?"——这个版本一开始就会失败：它既没有要求判断情感，也没有要求抽取特征，更没有给模型任何输出格式，因此得到的答案只会是一段长度难以预料、结构混乱的复述。
+**草稿一(裸指令)**:"这条评论说了什么？"——这个版本一开始就会失败：它既没有要求判断情感，也没有要求抽取特征，更没有给模型任何输出格式，因此得到的答案只会是一段长度难以预料、结构混乱的复述。
 
 **Draft 2 (adds instruction and output indicator, still zero-shot).** "Instruction: Read the
 following product review. Determine whether its overall sentiment is Positive, Negative, or Mixed.
@@ -309,7 +291,7 @@ guessing Positive or Negative. If two features are mentioned an equal number of 
 one mentioned first." This closes two specific ambiguities the author noticed while testing Draft
 2 against real reviews — exactly the iteration process described in Section 7.
 
-**草稿三(加入否定约束与明确的平局判定规则)**:在草稿二的基础上补充："如果评论中褒扬与批评的分量大致相当，请判定为'褒贬不一',而不要在正面与负面之间随意猜测。如果有两个特征被提及的次数相同，则选择先被提及的那一个。"这补上了作者在用真实评论测试草稿二时发现的两处具体歧义——正是第7节所描述的那种迭代过程。
+**草稿三(加入否定约束与明确的平局判定规则)**：在草稿二的基础上补充："如果评论中褒扬与批评的分量大致相当，请判定为'褒贬不一'，而不要在正面与负面之间随意猜测。如果有两个特征被提及的次数相同，则选择先被提及的那一个。"这补上了作者在用真实评论测试草稿二时发现的两处具体歧义——正是第7节所描述的那种迭代过程。
 
 **Draft 4 (final, for machine consumption).** For a prompt whose output will be read by code
 rather than a person, the format is tightened further: "Output indicator: respond with only a
@@ -318,7 +300,7 @@ single line of valid JSON in the exact form `{"sentiment": "positive"|"negative"
 about content, format, and edge cases — the three axes that Sections 5, 6, and 8 introduced
 separately are now working together in one finished prompt.
 
-**草稿四(定稿，供程序读取)**:如果提示词的输出要交给代码而非人来读取，格式还需要进一步收紧："输出指示：只用一行合法的 JSON 作答，格式严格为 `{"sentiment": "positive"|"negative"|"mixed", "feature": "<简短短语>"}`,前后不得有任何其他文字。"至此，这份草稿在内容、格式和边界情形三个方面都已经不再含糊——第5、6、8节分别引入的这三个维度，如今在这一份完成的提示词中协同发挥了作用。
+**草稿四(定稿，供程序读取)**：如果提示词的输出要交给代码而非人来读取，格式还需要进一步收紧："输出指示：只用一行合法的 JSON 作答，格式严格为 `{"sentiment": "positive"|"negative"|"mixed", "feature": "<简短短语>"}`，前后不得有任何其他文字。"至此，这份草稿在内容、格式和边界情形三个方面都已经不再含糊——第5、6、8节分别引入的这三个维度，如今在这一份完成的提示词中协同发挥了作用。
 
 ## 10. Summary and What Comes Next
 
