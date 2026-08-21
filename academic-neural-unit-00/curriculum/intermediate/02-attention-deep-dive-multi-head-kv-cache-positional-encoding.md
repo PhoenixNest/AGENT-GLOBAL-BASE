@@ -153,7 +153,7 @@ after $i$, which is exactly the constraint required for training a model to pred
 from only what precedes it, and for that same trained model to generate text one token at a time
 at inference.
 
-`introductory/02` 第 10 节引入了**因果掩码**，作为阻止仅解码器模型关注未来位置的机制。从机制上讲，在 $\text{Attention}(Q,K,V) = \text{softmax}(QK^T/\sqrt{d_k})V$ 的 softmax 步骤之前，对于位置 $j$ 位于位置 $i$ 之后的每一个得分 $(QK^T)_{ij}$，都会被设置为 $-\infty$（负无穷），而非保留其原本计算出的点积值；经过 softmax 之后，$e^{-\infty} = 0$，因此这些位置将获得恰好为零的注意力权重，且无需改变任何计算的形状。这正是"掩码"一词的含义：在每一层都统一施加一个固定的三角形允许/禁止位置模式，从而确保为位置 $i$ 计算出的表示永远无法获取位置 $i$ 之后的信息——这恰恰是训练模型仅依据前文预测下一个 token 所需的约束条件，也是同一个训练好的模型在推理时逐个 token 生成文本所需的约束条件。
+`introductory/02` 第 10 节引入了**因果掩码**，作为阻止仅解码器模型关注未来位置的机制。从机制上讲，在 $\text{Attention}(Q,K,V) = \text{softmax}(QK^T/\sqrt{d_k})V$ 的 softmax 步骤之前，对于位置 $j$ 位于位置 $i$ 之后的每一个得分 $(QK^T)_{ij}$，都会被设置为 $-\infty$（负无穷），而非保留其原本计算出的点积值；经过 softmax 之后，$e^{-\infty} = 0$，因此这些位置将获得恰好为零的注意力权重，且无需改变任何计算的形状。这正是“掩码”一词的含义：在每一层都统一施加一个固定的三角形允许/禁止位置模式，从而确保为位置 $i$ 计算出的表示永远无法获取位置 $i$ 之后的信息——这恰恰是训练模型仅依据前文预测下一个 token 所需的约束条件，也是同一个训练好的模型在推理时逐个 token 生成文本所需的约束条件。
 
 ---
 
@@ -203,7 +203,7 @@ memory _per sequence being generated_, before accounting for the model's own wei
 memory cost, multiplied across every sequence a server is generating simultaneously, is what
 motivates the head-reduction techniques in §8.
 
-KV 缓存的内存开销可以直接计算：对于一个拥有 $L$ 层、每层 $H$ 个键值头、头维度为 $d_h$ 的模型，同时存储键和值（因此有系数 2），并以每个数值占用 $p$ 字节的数值精度存储，那么长度为 $n$ 的一个序列所需的缓存大约为 $2 \times L \times H \times d_h \times n \times p$ 字节。举一个具体的例子：一个拥有 $L = 32$ 层、$H = 32$ 个头、$d_h = 128$、序列长度 $n = 2048$ 的模型，以 16 位浮点数存储（$p = 2$ 字节），所需内存约为 $2 \times 32 \times 32 \times 128 \times 2048 \times 2 \approx 1.07 \times 10^9$ 字节——即在尚未计入模型自身权重的情况下，*每个正在生成的序列*大约需要 1 GB 内存。将这一内存开销乘以服务器同时生成的所有序列数量，正是第 8 节所述"头数缩减"技术的动机所在。
+KV 缓存的内存开销可以直接计算：对于一个拥有 $L$ 层、每层 $H$ 个键值头、头维度为 $d_h$ 的模型，同时存储键和值（因此有系数 2），并以每个数值占用 $p$ 字节的数值精度存储，那么长度为 $n$ 的一个序列所需的缓存大约为 $2 \times L \times H \times d_h \times n \times p$ 字节。举一个具体的例子：一个拥有 $L = 32$ 层、$H = 32$ 个头、$d_h = 128$、序列长度 $n = 2048$ 的模型，以 16 位浮点数存储（$p = 2$ 字节），所需内存约为 $2 \times 32 \times 32 \times 128 \times 2048 \times 2 \approx 1.07 \times 10^9$ 字节——即在尚未计入模型自身权重的情况下，*每个正在生成的序列*大约需要 1 GB 内存。将这一内存开销乘以服务器同时生成的所有序列数量，正是第 8 节所述“头数缩减”技术的动机所在。
 
 ---
 
@@ -228,7 +228,7 @@ et al., 2023). As a numeric illustration continuing §7's example: reducing $H$ 
 $G = 8$ groups shrinks the roughly 1.07 GB cache to roughly $1.07\text{ GB} \times (8/32) \approx 268$ MB per
 sequence.
 
-有三种被命名的技术，通过改变模型所使用的独立键/值头投影数量来降低第 7 节所计算的内存开销，同时不牺牲多头注意力在查询侧所具有的多样性。**多查询注意力（MQA）** 由 Shazeer（2019）提出，为每个头保留独立的查询投影（从而保留每个头各自"我在寻找什么"的独特行为），但在所有头之间共享*单一*的键投影和单一的值投影——将第 7 节公式中键/值所对应的 $H$ 项缩减为 $1$，从而将缓存直接缩小至接近头数分之一的规模，代价是论文中报告的轻微质量下降（Shazeer, 2019）。**分组查询注意力（GQA）** 由 Ainslie 等人（2023）提出，是一种折中设计：将查询头划分为 $G$ 个组，同一组内的所有查询头共享一个键/值投影，因此缓存公式中的 $H$ 变为 $G$，而非完整的头数或 $1$——论文表明，这种方法在保留 MQA 大部分推理速度与内存节省优势的同时，能够恢复完整多头注意力的大部分质量，此外还给出了一套将现有的多头检查点低成本"升级训练"（uptrain）为 GQA 模型的方法（Ainslie et al., 2023）。作为延续第 7 节示例的数值说明：将 $H$ 从 32 个头缩减为 $G = 8$ 个组，会使约 1.07 GB 的缓存缩小为每个序列约 $1.07\text{ GB} \times (8/32) \approx 268$ MB。
+有三种被命名的技术，通过改变模型所使用的独立键/值头投影数量来降低第 7 节所计算的内存开销，同时不牺牲多头注意力在查询侧所具有的多样性。**多查询注意力（MQA）** 由 Shazeer（2019）提出，为每个头保留独立的查询投影（从而保留每个头各自“我在寻找什么”的独特行为），但在所有头之间共享*单一*的键投影和单一的值投影——将第 7 节公式中键/值所对应的 $H$ 项缩减为 $1$，从而将缓存直接缩小至接近头数分之一的规模，代价是论文中报告的轻微质量下降（Shazeer, 2019）。**分组查询注意力（GQA）** 由 Ainslie 等人（2023）提出，是一种折中设计：将查询头划分为 $G$ 个组，同一组内的所有查询头共享一个键/值投影，因此缓存公式中的 $H$ 变为 $G$，而非完整的头数或 $1$——论文表明，这种方法在保留 MQA 大部分推理速度与内存节省优势的同时，能够恢复完整多头注意力的大部分质量，此外还给出了一套将现有的多头检查点低成本“升级训练”（uptrain）为 GQA 模型的方法（Ainslie et al., 2023）。作为延续第 7 节示例的数值说明：将 $H$ 从 32 个头缩减为 $G = 8$ 个组，会使约 1.07 GB 的缓存缩小为每个序列约 $1.07\text{ GB} \times (8/32) \approx 268$ MB。
 
 A different, more recent approach, **multi-head latent attention (MLA)** (多头潜在注意力),
 introduced as part of DeepSeek-V2, compresses the keys and values into a lower-dimensional latent

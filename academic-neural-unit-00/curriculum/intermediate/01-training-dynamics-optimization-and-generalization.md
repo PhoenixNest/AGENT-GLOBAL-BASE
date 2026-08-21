@@ -22,7 +22,7 @@ picks up exactly where that stopped and asks a different question — not "what 
 step," but "what happens over the thousands or millions of steps it actually takes to train a real
 model, and why does the resulting network work well on data it has never seen."
 
-`introductory/01` 已经把神经网络定义为一个带参数的函数，将输入映射到输出；把损失函数定义为衡量网络预测有多"错"的标量值；把反向传播定义为计算该损失相对于每个参数的梯度的算法。那份材料止步于单步更新规则：把每个参数沿着能降低损失的方向调整一小步。本模块正是从这里接着讲下去，但问的是另一个问题——不是"一步训练做了什么"，而是"训练实际进行的成千上万步里究竟发生了什么，为什么训练出来的网络能在它从未见过的数据上表现良好"。
+`introductory/01` 已经把神经网络定义为一个带参数的函数，将输入映射到输出；把损失函数定义为衡量网络预测有多“错”的标量值；把反向传播定义为计算该损失相对于每个参数的梯度的算法。那份材料止步于单步更新规则：把每个参数沿着能降低损失的方向调整一小步。本模块正是从这里接着讲下去，但问的是另一个问题——不是“一步训练做了什么”，而是“训练实际进行的成千上万步里究竟发生了什么，为什么训练出来的网络能在它从未见过的数据上表现良好”。
 
 This is the difference between **optimization** and **generalization**, and the two
 are not the same problem even though a single training run touches both. Optimization asks whether
@@ -48,7 +48,7 @@ computing the gradient over millions of examples before taking a single step is 
 because — as we will see — the noise introduced by not doing this turns out to help generalization
 rather than only hurting it.
 
-回忆一下 `introductory/01` 中的更新规则：给定参数 $\theta$ 与损失函数 $L(\theta)$，梯度下降步骤为 $\theta \leftarrow \theta - \eta \nabla L(\theta)$，其中 $\eta$（eta，读作"伊塔"）是学习率，$\nabla L(\theta)$ 是损失相对于每个参数的梯度，由反向传播计算得出。那份材料在每一步都用*整个*训练集来计算 $\nabla L(\theta)$——这被称为**批量梯度下降**。而在实践中，几乎没有真实系统会这样训练，因为在迈出一步之前就要在数百万个样本上计算梯度，速度实在太慢；而且——正如我们接下来会看到的——不这样做所引入的噪声，事实证明反而有助于泛化，而不仅仅是有害的。
+回忆一下 `introductory/01` 中的更新规则：给定参数 $\theta$ 与损失函数 $L(\theta)$，梯度下降步骤为 $\theta \leftarrow \theta - \eta \nabla L(\theta)$，其中 $\eta$（eta，读作“伊塔”）是学习率，$\nabla L(\theta)$ 是损失相对于每个参数的梯度，由反向传播计算得出。那份材料在每一步都用*整个*训练集来计算 $\nabla L(\theta)$——这被称为**批量梯度下降**。而在实践中，几乎没有真实系统会这样训练，因为在迈出一步之前就要在数百万个样本上计算梯度，速度实在太慢；而且——正如我们接下来会看到的——不这样做所引入的噪声，事实证明反而有助于泛化，而不仅仅是有害的。
 
 **Stochastic gradient descent** (SGD) replaces the full-dataset gradient with the
 gradient computed on a single randomly sampled training example, or — in the form almost
@@ -70,7 +70,7 @@ which empirical and theoretical work has repeatedly connected to better generali
 return to this connection between the sharpness of a minimum and generalization when discussing
 double descent in §8.
 
-小批量 SGD 除了速度之外，还有第二个在实践中至关重要的性质：每个小批量梯度估计中的噪声，起到了一种隐式正则化的作用。由于每一步都是在数据的一个不同随机子集上计算的，优化轨迹不会像批量梯度下降那样走一条平滑的路径——它会抖动，而这种抖动往往会把参数推离损失曲面中那些尖锐、狭窄的极小值，推向更平坦的区域；大量实证与理论工作反复发现，这种平坦区域与更好的泛化能力相关联。在第 8 节讨论双下降现象时，我们会再次回到"极小值的尖锐程度"与"泛化能力"之间的这层联系。
+小批量 SGD 除了速度之外，还有第二个在实践中至关重要的性质：每个小批量梯度估计中的噪声，起到了一种隐式正则化的作用。由于每一步都是在数据的一个不同随机子集上计算的，优化轨迹不会像批量梯度下降那样走一条平滑的路径——它会抖动，而这种抖动往往会把参数推离损失曲面中那些尖锐、狭窄的极小值，推向更平坦的区域；大量实证与理论工作反复发现，这种平坦区域与更好的泛化能力相关联。在第 8 节讨论双下降现象时，我们会再次回到“极小值的尖锐程度”与“泛化能力”之间的这层联系。
 
 ---
 
@@ -119,7 +119,7 @@ update entirely, applying it as a separate multiplicative shrinkage of the weigh
 and is now the default optimizer for training most large transformer models.
 
 不过，Adam 在生成模型上并不能在每种情形下都严格优于带动量的 SGD——大量实证研究发现，在某些视觉任务上，配合精心调优的调度策略的普通
-SGD 反而泛化得更好，这也是"优化器的选择本身就是一个需要实证验证的决策，而非已有定论"的部分原因。原始 Adam
+SGD 反而泛化得更好，这也是“优化器的选择本身就是一个需要实证验证的决策，而非已有定论”的部分原因。原始 Adam
 公式中一个具体的缺陷由 Loshchilov 与 Hutter（2017）诊断并修复：朴素的 L2
 正则化（直接加到损失函数中，这在普通 SGD 下在数学上等价于权重衰减）一旦经过 Adam 的按参数缩放，就*不再*等价于权重衰减了，因为这种缩放会扭曲每个参数实际的衰减速率。他们提出的修复方案
 **AdamW** 将权重衰减项与基于梯度的更新完全解耦，把它作为每一步中对权重的一次独立的乘性收缩来施加，如今它已成为训练大多数大型
@@ -139,7 +139,7 @@ to bounce around that solution rather than settling into it, since each step ove
 typically starting relatively high and decreasing it — through a linear decay, a step decay, or,
 very commonly, a smooth cosine decay.
 
-在整个训练过程中使用固定的学习率很少是最优的：训练早期，参数离任何好的解都还很远，较大的学习率能让网络快速取得进展；训练后期，参数已经接近一个好的解，较大的学习率会导致参数在这个解附近来回震荡而无法真正落定，因为每一步都会"迈过头"。**学习率调度**正是为了解决这个问题，在训练过程中改变 $\eta$
+在整个训练过程中使用固定的学习率很少是最优的：训练早期，参数离任何好的解都还很远，较大的学习率能让网络快速取得进展；训练后期，参数已经接近一个好的解，较大的学习率会导致参数在这个解附近来回震荡而无法真正落定，因为每一步都会“迈过头”。**学习率调度**正是为了解决这个问题，在训练过程中改变 $\eta$
 的取值，通常一开始取相对较大的值，随后逐渐降低——可以是线性衰减、阶梯式衰减，或者非常常见的、平滑的余弦衰减。
 
 Loshchilov and Hutter's earlier 2016 paper introduced **SGDR** (Stochastic Gradient Descent with
@@ -156,7 +156,7 @@ it struggles to recover; ramping the learning rate up slowly gives those moment 
 stabilize first.
 
 Loshchilov 与 Hutter 更早在 2016 年的论文中提出了 **SGDR**（Stochastic Gradient Descent with Warm
-Restarts，带热重启的随机梯度下降），其学习率沿余弦曲线衰减，并在训练进行到一定阶段后周期性地将其重置为一个较高的值——即所谓的"重启"；作者证明这能让优化器跳出已经陷入的一个局部极小值，去寻找另一个、有时更优的极小值。如今，这种余弦衰减的思路（无论是否带重启）已成为训练大型模型最常用的调度形状之一。另一项独立的技术——**学习率预热**——让学习率从接近零开始，在最初的几百到几千步内逐步爬升，然后再进入主衰减调度；之所以需要它，是因为在初始化阶段，Adam
+Restarts，带热重启的随机梯度下降），其学习率沿余弦曲线衰减，并在训练进行到一定阶段后周期性地将其重置为一个较高的值——即所谓的“重启”；作者证明这能让优化器跳出已经陷入的一个局部极小值，去寻找另一个、有时更优的极小值。如今，这种余弦衰减的思路（无论是否带重启）已成为训练大型模型最常用的调度形状之一。另一项独立的技术——**学习率预热**——让学习率从接近零开始，在最初的几百到几千步内逐步爬升，然后再进入主衰减调度；之所以需要它，是因为在初始化阶段，Adam
 的二阶矩估计还没有积累足够的梯度历史来变得可靠，此时迈出较大的一步可能把网络推入损失曲面中一个条件数很差的区域，难以从中恢复；让学习率缓慢爬升，能给这些矩估计留出时间先稳定下来。
 
 ---
@@ -172,23 +172,30 @@ than learning patterns that hold across the whole distribution — this is calle
 **overfitting**. A model that fails to drive even its training error down, typically
 because it is not expressive enough for the task, is **underfitting**.
 
-现在我们把话题从优化直接转向泛化。定义**泛化差距**为模型在训练集上的误差与它在一个留出的测试集上的误差之差——测试集来自与训练集相同的分布，但从未用于训练。泛化差距很大，通俗地说，意味着模型"记住"了训练样本中特有的模式，而不是学到了在整个分布上都成立的规律——这被称为**过拟合**。而一个连训练误差都无法降低的模型，通常是因为它对这个任务而言表达能力不足，这被称为**欠拟合**。
+现在我们把话题从优化直接转向泛化。定义**泛化差距**为模型在训练集上的误差与它在一个留出的测试集上的误差之差——测试集来自与训练集相同的分布，但从未用于训练。泛化差距很大，通俗地说，意味着模型“记住”了训练样本中特有的模式，而不是学到了在整个分布上都成立的规律——这被称为**过拟合**。而一个连训练误差都无法降低的模型，通常是因为它对这个任务而言表达能力不足，这被称为**欠拟合**。
 
 The classical framework for understanding this tradeoff is the **bias–variance
 decomposition**, formalized for neural networks in a widely cited 1992 paper by
 Geman, Bienenstock, and Doursat. For a model trained to predict a target from noisy data, the
-expected squared error on new data decomposes into three terms: **bias**, the error from
-the model's hypothesis class being too simple to represent the true underlying pattern; **variance**, the error from the model being highly sensitive to which particular training examples it
-happened to see, so that a different training set of the same size would have produced a
-meaningfully different model; and irreducible noise inherent to the data itself. A model that is
+expected squared error on new data decomposes into three terms:
+
+理解这一权衡的经典框架是**偏差–方差分解**，Geman、Bienenstock 与 Doursat
+在 1992 年一篇被广泛引用的论文中将其形式化并应用于神经网络。对于一个从带噪声数据中学习预测目标的模型，它在新数据上的期望平方误差可以分解为三项：
+
+| Term              | EN                                                                                                                                                                                                              | 中文                                                                                                                               |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Bias**          | the error from the model's hypothesis class being too simple to represent the true underlying pattern.                                                                                                          | 由于模型的假设类过于简单、无法表示真实的底层规律而产生的误差。                                                                     |
+| **Variance**      | the error from the model being highly sensitive to which particular training examples it happened to see, so that a different training set of the same size would have produced a meaningfully different model. | 由于模型对它恰好见过的那批特定训练样本高度敏感，以至于换一个规模相同但样本不同的训练集就会得到一个明显不同的模型，由此产生的误差。 |
+| Irreducible noise | inherent to the data itself.                                                                                                                                                                                    | 数据本身固有的、不可消除的噪声。                                                                                                   |
+
+A model that is
 too simple (underfit) has high bias and low variance; a model that is too flexible (overfit
 relative to classical theory) has low bias and high variance. The classical prescription was
 therefore to find a "sweet spot" of model capacity in the middle — which, as §8 below describes,
 turns out to be an incomplete picture for the very large, heavily overparameterized models used in
 modern deep learning.
 
-理解这一权衡的经典框架是**偏差–方差分解**，Geman、Bienenstock 与 Doursat
-在 1992 年一篇被广泛引用的论文中将其形式化并应用于神经网络。对于一个从带噪声数据中学习预测目标的模型，它在新数据上的期望平方误差可以分解为三项：**偏差**——由于模型的假设类过于简单、无法表示真实的底层规律而产生的误差；**方差**——由于模型对它恰好见过的那批特定训练样本高度敏感，以至于换一个规模相同但样本不同的训练集就会得到一个明显不同的模型，由此产生的误差；以及数据本身固有的、不可消除的噪声。一个过于简单（欠拟合）的模型具有高偏差、低方差；一个过于灵活（相对于经典理论而言过拟合）的模型则具有低偏差、高方差。因此，经典的处方是在模型容量的两端之间找到一个"甜蜜点"——但正如下文第
+一个过于简单（欠拟合）的模型具有高偏差、低方差；一个过于灵活（相对于经典理论而言过拟合）的模型则具有低偏差、高方差。因此，经典的处方是在模型容量的两端之间找到一个“甜蜜点”——但正如下文第
 8 节所述，这对于现代深度学习中使用的、极大且严重过参数化的模型而言，是一幅并不完整的图景。
 
 A related and striking empirical finding, due to Zhang, Bengio, Hardt, Recht, and Vinyals (2017),
@@ -219,9 +226,9 @@ noise too closely. Four techniques recur throughout deep learning practice:
 | Technique               | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 中文                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **L2 regularization**   | also called weight decay when applied as a direct multiplicative shrinkage — adds a penalty term proportional to the sum of squared parameter values to the loss, encouraging the model to prefer smaller weights unless the data strongly justifies larger ones — smaller weights typically correspond to smoother, less erratic learned functions.                                                                                                                                                                                                                        | 当以直接的乘性收缩方式施加时也称为权重衰减——在损失函数中加入一个与参数值平方和成正比的惩罚项，鼓励模型在没有数据强有力支持的情况下倾向于使用更小的权重——更小的权重通常对应着更平滑、波动更小的学习到的函数。                                                                                                                                                                                       |
-| **Dropout**（随机失活） | introduced by Srivastava, Hinton, Krizhevsky, Sutskever, and Salakhutdinov (2014), takes a different approach: during each training step, it randomly sets a fraction of the network's activations (commonly 20–50%) to zero, forcing the remaining units to produce useful outputs without being able to rely on any specific other unit always being present. This can be understood as training an enormous ensemble of overlapping, thinned sub-networks that share weights, and at test time all units are used together with their outputs scaled down to compensate. | 由 Srivastava、Hinton、Krizhevsky、Sutskever 与 Salakhutdinov（2014）提出，采用了一种不同的思路：在每一次训练步骤中，随机将网络中一部分激活值（通常是 20% 到 50%）置零，迫使剩下的单元在不能依赖任何特定的其他单元始终存在的情况下，也能产生有用的输出。这可以理解为在训练一个由大量相互重叠、共享权重的"变瘦"子网络组成的庞大集成；而在测试阶段，所有单元一起参与计算，输出值按比例缩小以做补偿。 |
+| **Dropout**（随机失活） | introduced by Srivastava, Hinton, Krizhevsky, Sutskever, and Salakhutdinov (2014), takes a different approach: during each training step, it randomly sets a fraction of the network's activations (commonly 20–50%) to zero, forcing the remaining units to produce useful outputs without being able to rely on any specific other unit always being present. This can be understood as training an enormous ensemble of overlapping, thinned sub-networks that share weights, and at test time all units are used together with their outputs scaled down to compensate. | 由 Srivastava、Hinton、Krizhevsky、Sutskever 与 Salakhutdinov（2014）提出，采用了一种不同的思路：在每一次训练步骤中，随机将网络中一部分激活值（通常是 20% 到 50%）置零，迫使剩下的单元在不能依赖任何特定的其他单元始终存在的情况下，也能产生有用的输出。这可以理解为在训练一个由大量相互重叠、共享权重的“变瘦”子网络组成的庞大集成；而在测试阶段，所有单元一起参与计算，输出值按比例缩小以做补偿。 |
 | **Early stopping**      | a third, procedurally simple technique: monitor loss on a held-out validation set during training and stop once that validation loss begins to rise even as training loss continues to fall — the point past which the model is beginning to overfit.                                                                                                                                                                                                                                                                                                                       | 第三种、流程上更简单的技术：在训练过程中持续监控模型在留出验证集上的损失，一旦验证损失开始上升——即便训练损失仍在继续下降——就停止训练，这个转折点正是模型开始过拟合的地方。                                                                                                                                                                                                                         |
-| **Data augmentation**   | generating synthetic training variations (rotations, crops, paraphrases, and so on, depending on the data modality) — reduces overfitting by effectively enlarging the training distribution the model sees, so that memorizing the augmented set no longer means memorizing the underlying distribution.                                                                                                                                                                                                                                                                   | 即生成训练数据的合成变体（依据数据模态的不同，可以是旋转、裁剪、改写等）——通过有效扩大模型所见的训练分布来减少过拟合，使得"记住增强后的数据集"不再等同于"记住底层的真实分布"。                                                                                                                                                                                                                     |
+| **Data augmentation**   | generating synthetic training variations (rotations, crops, paraphrases, and so on, depending on the data modality) — reduces overfitting by effectively enlarging the training distribution the model sees, so that memorizing the augmented set no longer means memorizing the underlying distribution.                                                                                                                                                                                                                                                                   | 即生成训练数据的合成变体（依据数据模态的不同，可以是旋转、裁剪、改写等）——通过有效扩大模型所见的训练分布来减少过拟合，使得“记住增强后的数据集”不再等同于“记住底层的真实分布”。                                                                                                                                                                                                                     |
 
 ---
 
@@ -261,10 +268,10 @@ described in §2, in miniature.
 
 损失在最初几步中迅速下降，随后在 $w \approx 2.07$ 附近趋于平坦，这非常接近真实的底层斜率
 2——剩余的这一点差距，正是这三个数据点中固有的、不可消除的噪声，任何 w 的取值都无法将其完全拟合掉。现在把学习率从 0.05
-换成 0.6 重新计算：第一步就会"迈过头"，跳到 $w_1 = 17.56$，损失非但没有缩小反而急剧膨胀，整个序列发散——这正好直观地说明了第 4
+换成 0.6 重新计算：第一步就会“迈过头”，跳到 $w_1 = 17.56$，损失非但没有缩小反而急剧膨胀，整个序列发散——这正好直观地说明了第 4
 节中预热与衰减调度为何重要：学习率太大，不仅仅是收敛得慢，甚至可能根本无法收敛。而如果换用**随机**梯度下降——每一步只用随机抽到的一个样本来计算
 $\nabla L$，而不是全部三个样本——w 的变化轨迹就不会像上表那样平滑下降，而会在 $w \approx 2$ 附近的同一个邻域内来回抖动，这正是第 2
-节所描述的"噪声作为隐式正则化"效应的一个微缩演示。
+节所描述的“噪声作为隐式正则化”效应的一个微缩演示。
 
 ---
 
@@ -286,7 +293,7 @@ two descending regions separated by a spike, rather than the single classical U-
 
 第 5 节所描述的关于泛化的经典 U
 形图景——测试误差随容量从欠拟合增长到某个甜蜜点而下降，随后随着模型过拟合而再度上升——确实描述了小模型中的真实行为，但
-Belkin 等人以及 Nakkiran、Kaplun、Bansal、Yang、Barak 与 Sutskever（2019）在一项被广泛引用的大规模研究中发现：当模型训练到恰好能刚好精确拟合训练数据的边界附近（即**插值阈值**）时，测试误差会急剧飙升——然后，令人惊讶的是，当模型容量进一步超过这个阈值时，测试误差竟会*再次下降*，有时甚至能降到比经典曲线"甜蜜点"一侧最优点还要低的水平。这就是**双下降**：测试误差曲线——作为模型规模的函数（或者训练时长、数据集规模的函数——作者发现在这三个轴上都存在类似的效应，可以统一在"有效模型复杂度"这一单一概念之下）——呈现的是被一个尖峰隔开的两段下降区间，而不是经典理论中单一的
+Belkin 等人以及 Nakkiran、Kaplun、Bansal、Yang、Barak 与 Sutskever（2019）在一项被广泛引用的大规模研究中发现：当模型训练到恰好能刚好精确拟合训练数据的边界附近（即**插值阈值**）时，测试误差会急剧飙升——然后，令人惊讶的是，当模型容量进一步超过这个阈值时，测试误差竟会*再次下降*，有时甚至能降到比经典曲线“甜蜜点”一侧最优点还要低的水平。这就是**双下降**：测试误差曲线——作为模型规模的函数（或者训练时长、数据集规模的函数——作者发现在这三个轴上都存在类似的效应，可以统一在“有效模型复杂度”这一单一概念之下）——呈现的是被一个尖峰隔开的两段下降区间，而不是经典理论中单一的
 U 形曲线。
 
 Why this happens is still an area of active research rather than settled theory, but one
@@ -301,8 +308,8 @@ learning theory would suggest, and practitioners training very large models rout
 behavior rather than working against it.
 
 为什么会发生这种现象，目前仍是一个活跃的研究方向，而非已有定论的理论，但一种颇具影响力的直觉与第 2
-节中"平坦极小值与尖锐极小值"的观察联系了起来：在插值阈值处，通常恰好只有一种方式能精确拟合训练数据，而这种方式往往是一个尖锐、条件数很差的解；一旦模型的容量足够大，能够找到*许多种*不同的方式来精确拟合训练数据，SGD
-的隐式偏好就倾向于在这众多可行解中选择更平坦、在某种意义上更"简单"的解，而这类解往往泛化得更好。这对我们该如何理解第
+节中“平坦极小值与尖锐极小值”的观察联系了起来：在插值阈值处，通常恰好只有一种方式能精确拟合训练数据，而这种方式往往是一个尖锐、条件数很差的解；一旦模型的容量足够大，能够找到*许多种*不同的方式来精确拟合训练数据，SGD
+的隐式偏好就倾向于在这众多可行解中选择更平坦、在某种意义上更“简单”的解，而这类解往往泛化得更好。这对我们该如何理解第
 5
 节，是一条真正重要的提醒：在现代、严重过参数化的深度网络中，单纯的参数数量并不能像经典统计学习理论所暗示的那样预测过拟合的发生，训练超大模型的实践者通常是在依赖这一行为，而不是在与之对抗。
 
@@ -321,7 +328,7 @@ with a larger VC dimension is more expressive but requires proportionally more t
 its empirical error reliably tracks its true error on the full distribution.
 
 将第 5 节中的直觉精确化的经典理论工具，根植于 Vapnik 与 Chervonenkis 的工作，并在 Vapnik 1995 年的著作《The Nature of
-Statistical Learning Theory》中被系统地形式化。其中的核心概念是一个假设类的 **VC 维**——通俗地说，就是该假设类中某个模型能够以所有可能的方式完美分开的最多点数（这种性质被称为"打散"这些点）。VC
+Statistical Learning Theory》中被系统地形式化。其中的核心概念是一个假设类的 **VC 维**——通俗地说，就是该假设类中某个模型能够以所有可能的方式完美分开的最多点数（这种性质被称为“打散”这些点）。VC
 维越大的假设类，表达能力越强，但也需要成比例地更多的训练数据，其经验误差才能可靠地反映它在完整分布上的真实误差。
 
 A textbook treatment such as Mohri, Rostamizadeh, and Talwalkar's _Foundations of Machine

@@ -23,7 +23,7 @@ curriculum, any term not already defined in a prerequisite module is defined her
 已经讲授的全部内容为前提——神经元、层、反向传播（`introductory/01`）；Transformer
 块及其前馈子层、残差与归一化结构（`introductory/02` 第 9
 节）；多头注意力、KV 缓存，以及一系列以牺牲精确计算换取效率的技术（MQA、GQA、MLA，见
-`intermediate/02`）；以及"模型规模、数据量与算力同性能之间存在可预测的规模关系"这一观察（`advanced/01`）。除这四个模块与中学代数知识外，本章不假设读者具备任何其他背景。与本课程体系中的每个模块一致，凡是尚未在某个前置模块中定义过的术语，均会在本章首次出现时给出定义。
+`intermediate/02`）；以及“模型规模、数据量与算力同性能之间存在可预测的规模关系”这一观察（`advanced/01`）。除这四个模块与中学代数知识外，本章不假设读者具备任何其他背景。与本课程体系中的每个模块一致，凡是尚未在某个前置模块中定义过的术语，均会在本章首次出现时给出定义。
 
 ---
 
@@ -43,9 +43,9 @@ language model" actually looks like in 2026, as distinct from the original 2017 
 
 `introductory/02` 第 9 节介绍了 Transformer
 块的组成方式：一个多头注意力子层，加上一个逐位置的**前馈网络**（FFN）——一个普通的多层感知机，被独立且完全相同地应用于序列中的每一个位置。`intermediate/02`
-随后用整整一章的篇幅深化了该模块中"注意力"这一半的内容：完整的多头数学推导、KV
+随后用整整一章的篇幅深化了该模块中“注意力”这一半的内容：完整的多头数学推导、KV
 缓存，以及在不牺牲质量的前提下降低注意力计算与内存开销的技术（MQA、GQA、MLA）。本章转而聚焦该模块*另一半*——前馈子层，以及一系列进一步的结构性设计选择（归一化、门控），这些选择连同注意力变体一起，共同定义了 2026
-年"现代大型语言模型"与 2017 年最初的 Transformer 相比究竟有何不同。
+年“现代大型语言模型”与 2017 年最初的 Transformer 相比究竟有何不同。
 
 This chapter covers four families of change, in order: sparse **Mixture-of-Experts** (MoE,
 专家混合) architectures, which replace the FFN's single dense computation with a large bank of
@@ -97,7 +97,7 @@ experts themselves are sparse in any other sense. §3–§4 build up exactly how
 makes this decision.
 
 Shazeer 等人将条件计算具体应用为：用许多规模较小的前馈网络——称为**专家**——取代单一的前馈网络，并配以一个小型的**门控网络**，针对每个 token 决定应将其路由到哪几个专家。这一结构被称为**稀疏门控专家混合层**（sparsely-gated
-mixture-of-experts layer）——之所以叫"稀疏门控"，是因为门控网络针对每个 token
+mixture-of-experts layer）——之所以叫“稀疏门控”，是因为门控网络针对每个 token
 只激活一小部分专家，而不是因为专家本身在其他意义上是稀疏的。第 3 至第 4
 节将具体展开门控网络究竟是如何做出这一决策的。
 
@@ -212,9 +212,9 @@ Lepikhin 等人 2020
 模型，并在此过程中，在第 4 节所述门控公式之外，引入了两个具有实践意义的机制（Lepikhin
 et al., 2020）。第一，GShard
 采用**top-2 路由**（$k = 2$），而非此前一些条件计算工作所使用的更大 $k$
-值，刻意在"每个 token 使用较多专家（质量更好但算力开销更大）"与"每个
+值，刻意在“每个 token 使用较多专家（质量更好但算力开销更大）”与“每个
 token 只使用一个专家（成本最低，但正如第 6
-节将讨论的那样，会带来其自身的困难）"之间选取了一个折中点。第二，由于一个批次中的
+节将讨论的那样，会带来其自身的困难）”之间选取了一个折中点。第二，由于一个批次中的
 token 并不会碰巧均匀地分布到各个专家，GShard 强制施加了**专家容量**——即在给定批次中，任何单个专家所能处理的 token
 数量上限——任何被路由到已满专家名额的 token 都会**溢出**：它根本不会被该专家处理，只能由其所选专家中仍有余量的那一个来处理。此外，GShard
 只以与门控权重成比例的概率将 token 路由给其次优选择的专家，其考量在于：一个权重较低的次要专家，在最终的加权输出中本来贡献就很小（Lepikhin
@@ -243,7 +243,7 @@ Fedus、Zoph 与 Shazeer 于 2021
 路由保持模型质量的同时，降低了路由计算与通信开销，并将该方法扩展到了总参数量超过一万亿的模型（Fedus,
 Zoph, and Shazeer, 2021）。然而，$k = 1$ 的设计，会使第 5
 节中已经存在的一个问题变得更加尖锐：如果不对门控网络的原始偏好加以约束，训练往往会坍缩为把大多数
-token 都路由给少数几个"热门"专家，使其余专家得不到足够的训练信号，浪费了使用
+token 都路由给少数几个“热门”专家，使其余专家得不到足够的训练信号，浪费了使用
 MoE 本来想要获得的容量优势。
 
 To counter this, Fedus, Zoph, and Shazeer add a **differentiable load-balancing loss** to the
@@ -281,7 +281,7 @@ network back toward balance during training.
 $N \cdot$ 这一系数使得该损失的量级大致不随专家数量而变化；而任何*偏离*均匀路由的情况，都会使
 $\sum_i f_i P_i$ 超过 $1/N$，从而增大损失。Fedus、Zoph 与 Shazeer
 报告称，在从 $10^{-1}$ 到 $10^{-5}$
-扫描了多个取值之后，他们在全部实验中都使用 $\alpha = 10^{-2}$，认为这个取值"足够大，能够确保负载均衡，同时又足够小，不至于……压过主要的交叉熵目标"（Fedus,
+扫描了多个取值之后，他们在全部实验中都使用 $\alpha = 10^{-2}$，认为这个取值“足够大，能够确保负载均衡，同时又足够小，不至于……压过主要的交叉熵目标”（Fedus,
 Zoph, and Shazeer, 2021）。作为一个 $N = 4$
 个专家的手算示例：若路由完全均匀，$f = P = [0.25, 0.25, 0.25, 0.25]$，则
 $\sum f_i P_i = 4 \times 0.0625 = 0.25 = 1/N$，$\text{loss} = 0.01 \times 4 \times 0.25 = 0.01$。若路由不均衡——例如
@@ -344,7 +344,7 @@ benchmarks evaluated, while its ~13B active-parameter compute cost per token is 
 sparse-MoE design introduced in §2 (Jiang et al., 2024).
 
 Jiang 等人 2024
-年提出的 Mixtral 8x7B，是第 3 节"总参数量与激活参数量"这一区分在生产级规模上的一个具体、有公开文档记录的例证。模型中每个
+年提出的 Mixtral 8x7B，是第 3 节“总参数量与激活参数量”这一区分在生产级规模上的一个具体、有公开文档记录的例证。模型中每个
 Transformer 块的前馈子层都被替换为 8 个专家，一个 top-2
 路由器（即第 5 节 GShard 意义上的路由，$k = 2$）为每个 token
 选出 8 个专家中的 2 个进行处理，并按路由器仅在这 2
@@ -428,7 +428,7 @@ $g_i$, RMSNorm computes:
 `introductory/02` 第 9 节介绍了**层归一化**（layer
 normalization），作为使流经各子层之间的数值保持在稳定范围内的一种方法。标准的层归一化会同时计算一层激活值的均值与方差，既做重新居中，也做重新缩放。Zhang
 与 Sennrich 于 2019
-年提出的**均方根层归一化**（root mean square layer normalization，RMSNorm）论文假设，这一计算中"重新居中"（即减去均值）的部分并非层归一化真正发挥作用的来源——只有"重新缩放"的部分才是——因此提议完全去掉重新居中这一步。对于激活向量
+年提出的**均方根层归一化**（root mean square layer normalization，RMSNorm）论文假设，这一计算中“重新居中”（即减去均值）的部分并非层归一化真正发挥作用的来源——只有“重新缩放”的部分才是——因此提议完全去掉重新居中这一步。对于激活向量
 $a = (a_1, \ldots, a_n)$ 与一个可学习的、按维度设置的增益 $g_i$，RMSNorm 的计算方式为：
 
 $$\mathrm{RMS}(a) = \sqrt{\frac{1}{n} \sum_i a_i^2}$$
@@ -449,7 +449,7 @@ $\bar{a} = [3/3.536, 4/3.536] \approx [0.849, 1.131]$。Zhang 与 Sennrich
 报告称，在他们所评估的任务上，RMSNorm 的质量能够匹配标准层归一化，同时计算上更为简洁——无需计算或减去均值——这直接转化为更快的训练与推理速度（Zhang
 and Sennrich, 2019）。与第 9 节中的 SwiGLU 类似，RMSNorm 如今已与本章及
 `intermediate/02` 中所讲的 MoE、GQA/MLA 与 RoPE
-变体一样，成为"现代 Transformer"的标准构件之一。
+变体一样，成为“现代 Transformer”的标准构件之一。
 
 ---
 
@@ -488,8 +488,8 @@ outperform either alone, are active, ongoing research questions rather than sett
 this curriculum's standing rule, this module presents Mamba as a real, verified architectural
 direction without asserting a resolved comparison it cannot cite.
 
-在此收录这一内容，是为了介绍一个真实存在、有据可查的替代架构家族，而非断言"无注意力模型已经取代了
-Transformer"是一个已成定论的结果。状态空间模型能否在前沿生产系统所使用的最大规模上，匹配基于
+在此收录这一内容，是为了介绍一个真实存在、有据可查的替代架构家族，而非断言“无注意力模型已经取代了
+Transformer”是一个已成定论的结果。状态空间模型能否在前沿生产系统所使用的最大规模上，匹配基于
 Transformer（包括基于 MoE）的架构的质量，以及结合两种方法的混合设计是否会优于单独使用其中任何一种，这些都仍是活跃的、悬而未决的研究问题，而非已经定论的事实——依据本课程体系的一贯规则，本模块将
 Mamba 作为一个真实、经过核实的架构方向加以介绍，而不对一个无法引证的比较结论妄下断言。
 
@@ -510,7 +510,7 @@ accounting, §8); gated feed-forward variants like SwiGLU that change the FFN's 
 independent of sparsity (§9); RMSNorm as a simplified alternative to layer normalization (§10);
 and, briefly, the state-space-model alternative to attention itself (§11).
 
-本章通过将视角从注意力机制（`intermediate/02`）转向定义现代大型语言模型架构的其余部分，完成了"基础"（Foundations）主题群的收尾：稀疏专家混合层将总参数量与每
+本章通过将视角从注意力机制（`intermediate/02`）转向定义现代大型语言模型架构的其余部分，完成了“基础”（Foundations）主题群的收尾：稀疏专家混合层将总参数量与每
 token 的计算成本相解耦，从其最初的条件计算动机出发（第 2 至第 3
 节），到使路由变得稀疏且可训练的门控机制（第 4
 节），再到使 MoE 在生产环境中变得切实可行的各个系统（GShard 的 top-2
@@ -531,8 +531,8 @@ cluster described.
 
 本模块与 `introductory/01`、`introductory/02`、`intermediate/01`、`intermediate/02`
 以及 `advanced/01`
-一起，共同完成了"基础"主题群：从单个神经元到稀疏的万亿参数架构，读者理解现代大型语言模型是如何构建、训练与扩展所需的每一个机制，如今都已配以手算示例与经过核实的引文加以介绍。"智能体架构"（Agent
-Architecture）、"提示与上下文工程"（Prompt & Context Engineering）以及"多智能体系统与评估"（Multi-Agent
+一起，共同完成了“基础”主题群：从单个神经元到稀疏的万亿参数架构，读者理解现代大型语言模型是如何构建、训练与扩展所需的每一个机制，如今都已配以手算示例与经过核实的引文加以介绍。“智能体架构”（Agent
+Architecture）、“提示与上下文工程”（Prompt & Context Engineering）以及“多智能体系统与评估”（Multi-Agent
 Systems & Evaluation）这几个主题群，都将建立在这一基础之上，介绍构建于本主题群所描述的模型*之上*的内容。
 
 ---
