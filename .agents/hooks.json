@@ -1,0 +1,36 @@
+{
+  "prompt-governance": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python3 hooks/antigravity_hook_adapter.py --event PreInvocation"
+      }
+    ]
+  },
+  "tool-safety-guards": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 hooks/antigravity_hook_adapter.py --event PreToolUse"
+          }
+        ]
+      }
+    ]
+  },
+  "post-tool-handlers": {
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 hooks/antigravity_hook_adapter.py --event PostToolUse"
+          }
+        ]
+      }
+    ]
+  }
+}
