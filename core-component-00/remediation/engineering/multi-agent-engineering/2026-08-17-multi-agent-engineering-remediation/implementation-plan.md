@@ -39,10 +39,10 @@ land safely — without it, I1's "no silent fallthrough" claim is unverifiable b
 
 ## Gate Log
 
-| Stage        | Entry                                                                                                                                 | Summary                                                                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| 0 — Trigger  | `core-component-00/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/01-drafting.md` | Topic opened from the signed-off MAE benchmark's 1 in-scope P1 row plus its P2 prerequisite |
-| 2 — Approval | `core-component-00/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/02-approval.md` | Dr. Vance signed off as Reviewer on I1 and I2's Approach                                    |
+| Stage        | Entry                                                                                                                                                | Summary                                                                                     |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| 0 — Trigger  | `core-component-00/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/01-drafting-i1-i2-opened.md`   | Topic opened from the signed-off MAE benchmark's 1 in-scope P1 row plus its P2 prerequisite |
+| 2 — Approval | `core-component-00/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/02-approval-i1-i2-approved.md` | Dr. Vance signed off as Reviewer on I1 and I2's Approach                                    |
 
 ---
 
