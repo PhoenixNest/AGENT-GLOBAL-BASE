@@ -10,7 +10,14 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from implementations.retrieval import Document, ScoredDocument, acl_filter, bm25_score, rrf_fusion
+from implementations.retrieval import (
+    Document,
+    ScoredDocument,
+    acl_filter,
+    bm25_score,
+    filter_by_role,
+    rrf_fusion,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -194,3 +201,49 @@ class TestACLFilter:
         ]
         filtered = acl_filter(self._make_results(docs), "public")
         assert filtered == []
+
+
+# ---------------------------------------------------------------------------
+# filter_by_role — query-level ACL predicate (RAG R1 remediation, I1)
+# ---------------------------------------------------------------------------
+
+class TestFilterByRole:
+    def test_public_role_sees_only_public_documents(self):
+        docs = [
+            Document(id="pub", text="public", acl_roles=["public"]),
+            Document(id="eng", text="eng-only", acl_roles=["engineering"]),
+        ]
+        filtered = filter_by_role(docs, "public")
+        ids = [d.id for d in filtered]
+        assert ids == ["pub"]
+
+    def test_engineering_role_sees_engineering_and_public(self):
+        docs = [
+            Document(id="pub", text="public", acl_roles=["public"]),
+            Document(id="eng", text="eng-only", acl_roles=["engineering"]),
+            Document(id="res", text="research-only", acl_roles=["research"]),
+        ]
+        filtered = filter_by_role(docs, "engineering")
+        ids = {d.id for d in filtered}
+        assert ids == {"pub", "eng"}
+
+    def test_empty_documents_returns_empty(self):
+        assert filter_by_role([], "public") == []
+
+    def test_out_of_role_documents_never_appear_as_candidates(self):
+        """
+        This is the query-level guarantee I1 requires: unlike acl_filter()
+        (which trims a ScoredDocument list after ranking), filter_by_role()
+        must be usable to shrink the raw Document candidate set itself,
+        before any scoring function ever runs against it.
+        """
+        docs = [
+            Document(id="admin-doc", text="classified", acl_roles=["admin"]),
+            Document(id="pub-doc", text="public", acl_roles=["public"]),
+        ]
+        candidates = filter_by_role(docs, "public")
+        assert all(d.id != "admin-doc" for d in candidates)
+        # bm25_score run against the pre-filtered candidates can never
+        # surface the admin-only document, regardless of query terms.
+        results = bm25_score("classified", candidates)
+        assert all(r.document.id != "admin-doc" for r in results)
