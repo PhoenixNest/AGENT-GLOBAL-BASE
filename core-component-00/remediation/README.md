@@ -59,10 +59,15 @@ Scoping Rule the P1 qualifies for its own tracked plan on severity alone. The ne
 is token-aware (`token_cost` parameter, tokens/minute bucket, an oversized-single-call fix), 5
 new/updated tests, full module suite 83 passed; Dr. Vance independently re-read the diff,
 re-derived the test arithmetic, and re-ran the suite himself before signing off
-(`log/04-verification-i1-verified.md`). This closes Harness R9. The P2 has no dependency-closure
-link to it and stays in the Remediation Backlog below as Harness R10. Remaining P2/P3 findings
-with no dependency link to a closed or open item stay in the Backlog, revisited at each layer's
-next benchmark refresh.
+(`log/04-verification-i1-verified.md`). This closes Harness R9.
+
+**A seventh plan opened 2026-08-25** for Harness R10 (the refresh's P2 finding — H-CE01's
+compaction trigger uses transcript byte-size, not a token count). Because the fix touches
+`.claude/hooks/context-budget-alert.py`, this plan's `Hook-Change Gate` field is
+**Pending User sign-off** — a separate, explicit approval `pipeline.md` requires before Execution
+may begin, not satisfiable by the CEO authorization that opened this plan. The plan is `Open` at
+Drafting only; no hook file has been touched. Remaining P2/P3 findings with no dependency link to
+a closed or open item stay in the Backlog below, revisited at each layer's next benchmark refresh.
 
 ---
 
@@ -92,16 +97,17 @@ findings become a tracked plan vs. the Remediation Backlog below): `pipeline.md`
 ## Plan Index
 
 One row per layer. The original five plans opened 2026-08-17 and all cleared Stage 2 (Approval)
-the same day. A sixth plan opened 2026-08-25 from the Harness benchmark refresh.
+the same day. Two more plans opened 2026-08-25 from the Harness benchmark refresh.
 
-| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                              |
-| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | ----------------------------------- |
-| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Verified — all 5 items (2026-08-25) |
-| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Verified — both items (2026-08-25)  |
-| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Verified — all 5 items (2026-08-24) |
-| 3     | `engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/implementation-plan.md`          | Kwame Asante     | Dr. Elias Vance                    | R9 (token-aware rate limiting, from the 2026-08-25 benchmark refresh) | Verified (2026-08-25)               |
-| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Verified — both items (2026-08-25)  |
-| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Verified — both items (2026-08-25)  |
+| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                              | Status                                                           |
+| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                      | Verified — all 5 items (2026-08-25)                              |
+| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                                    | Verified — both items (2026-08-25)                               |
+| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated)       | Verified — all 5 items (2026-08-24)                              |
+| 3     | `engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/implementation-plan.md`          | Kwame Asante     | Dr. Elias Vance                    | R9 (token-aware rate limiting, from the 2026-08-25 benchmark refresh)       | Verified (2026-08-25)                                            |
+| 3     | `engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/implementation-plan.md`    | Kwame Asante     | Dr. Elias Vance                    | R10 (token-count compaction trigger, from the 2026-08-25 benchmark refresh) | Open — Hook-Change Gate pending (`log/01-drafting-i1-opened.md`) |
+| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                                   | Verified — both items (2026-08-25)                               |
+| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)              | Verified — both items (2026-08-25)                               |
 
 ---
 
@@ -124,7 +130,6 @@ next benchmark refresh.
 | Harness       | R6  | Allowlisting is global rather than per agent role                                       | Kwame Asante    |
 | Harness       | R7  | No execution isolation behind the tool boundary                                         | Kwame Asante    |
 | Harness       | R8  | `ToolRegistry.execute_tool()` produces no audit record on any branch                    | Connor O'Malley |
-| Harness       | R10 | H-CE01's compaction trigger uses transcript byte-size, not a token count                | Kwame Asante    |
 | RAG           | R3  | No reranking stage, contradicting the module's own README                               | Sofia Almeida   |
 | RAG           | R4  | Zero-argument chunker default is the weaker arm of the module's own measured comparison | Diego Fontán    |
 | RAG           | R5  | No staleness monitoring/alerting on top of the write-time debounce hook                 | Sofia Almeida   |
