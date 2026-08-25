@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "workspace-knowledge": {
+      "command": "python3",
+      "args": ["core-component-00/mcp-servers/workspace-knowledge/server.py"],
+      "env": {
+        "WORKSPACE_ROOT": ".",
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "SEARCH_BACKEND": "qdrant",
+        "NO_PROXY": "localhost,127.0.0.1",
+        "no_proxy": "localhost,127.0.0.1"
+      }
+    },
+    "agent-memory": {
+      "command": "python3",
+      "args": ["core-component-00/mcp-servers/agent-memory/server.py"],
+      "env": {
+        "MEMORY_QDRANT_URL": "http://localhost:6335",
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "NO_PROXY": "localhost,127.0.0.1",
+        "no_proxy": "localhost,127.0.0.1",
+        "AGENT_MEMORY_WRITE_TOOL_ENABLED": "true"
+      }
+    }
+  }
+}
