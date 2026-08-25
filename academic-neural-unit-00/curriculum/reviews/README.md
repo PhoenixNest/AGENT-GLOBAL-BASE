@@ -42,7 +42,7 @@ tracked finding, but is not itself a round.
 - Not every round needs all three subfolders — a full cycle has `internal/`, `external/`, and
   `comprehensive-review.md`; a narrower follow-up (like a remediation re-review) may have only its
   own report files directly in the round folder, as `2026-08-19-remediation-review/` does.
-- Cross-references between rounds use relative paths through the dated folders
+- Cross-references between rounds use absolute paths through the dated folders
   (`academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md`), never a bare `reviews/...` path
   that assumes a flat structure.
 
