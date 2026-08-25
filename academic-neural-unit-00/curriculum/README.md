@@ -2,7 +2,7 @@
 
 Standing bilingual (EN/ZH) training textbook series on agent development, produced by ANU-00 crew.
 Chartered 2026-08-17 by Dr. Naledi Mokoena, ANU-00 Lead, under CEO approval of
-`../plans/2026-08-17-curriculum-first-production-run/curriculum-development-plan.md`.
+`academic-neural-unit-00/plans/2026-08-17-curriculum-first-production-run/curriculum-development-plan.md`.
 
 Read this file before authoring, reviewing, or filing anything under `curriculum/`. It is the
 canonical statement of the audience, the bilingual convention, the citation convention, the review
@@ -96,7 +96,7 @@ Filenames are level-prefixed, two-digit ordered, kebab-case. The `#` column of t
 The CEO-approved plan that authorized this production run lives at
 `academic-neural-unit-00/plans/2026-08-17-curriculum-first-production-run/curriculum-development-plan.md`
 — not inside this folder. Plans and the deliverables they authorize are filed separately; see
-`../plans/README.md` for the convention and why.
+`academic-neural-unit-00/plans/README.md` for the convention and why.
 
 Review reports are **point-in-time records**, following the same rule as
 `knowledge-base/research-report.md`: a re-review after a revision pass is a new file with a
@@ -189,7 +189,7 @@ Binding details:
   heading is — a table row with only the English or only the Chinese cell filled in does not
   conform.
 - **Author is the full roster identity** — name, roster role, and `ANU-00` — matching
-  `../crew/README.md`, not a bare surname.
+  `academic-neural-unit-00/crew/README.md`, not a bare surname.
 - **No other format is permitted.** This supersedes the bold key-value-line format (Amendment 1's
   "Format B"), which is itself now deprecated — see Amendment 2 below for why. Pipe-tables,
   italicized or plain narrative paragraphs, partial two-field lines, the bold key-value line, and
@@ -247,6 +247,14 @@ Binding details:
      like any other sentence, immediately before the equation.
   3. **Never let a `$...$` span fall inside a single backtick code span** (`` `$x$` ``) — a backtick
      code span suppresses math rendering for exactly the same reason a fence does.
+
+### 4.4 Section Citation & Academic Range Notation (§ vs §§)
+
+In accordance with international academic publishing standards (Chicago Manual of Style §10.42, Bluebook Rule 3.3) and CEO ratification (2026-08-24, Entry 14):
+
+- **Singular Section Citations:** Reference a single section using the singular section sign `§X` in English (e.g., `[§4](#...)` or `Section 4`) and `[第 X 节](#...)` in Chinese.
+- **Plural Section & Range Citations:** Reference a range or multiple sections using the academic plural double section sign `§§X–Y` in English (e.g., `[§§2–5](#...)` representing _"Sections 2 through 5"_) and `[第 X–Y 节](#...)` in Chinese.
+- **Interactive Hyperlinks:** All intra-document section citations are rendered as clickable markdown anchor links (`[§X](#...)`, `[§§X–Y](#...)`) targeting the corresponding section heading ID.
 
 ---
 
@@ -375,7 +383,7 @@ deliverable rather than a research programme, and it is not delegable.
 ### 7.2 Assignment Rationale and Roster Confirmation
 
 Every author above is a current ANU-00 crew member, and every assignment matches that member's
-documented specialty on the roster (`../crew/README.md`). Confirmed at ratification:
+documented specialty on the roster (`academic-neural-unit-00/crew/README.md`). Confirmed at ratification:
 
 | Author                  | Roster role (`crew/README.md`)                  | Modules | Why this author                               |
 | ----------------------- | ----------------------------------------------- | ------- | --------------------------------------------- |
@@ -409,7 +417,7 @@ Ibarra-Costa reviews Multi-Agent & Evaluation (Fujimori, Dubois, Bhandari).
    not open is a citation you did not verify.
 3. **A clean result must be stated plainly.** A reviewer who found nothing wrong with a document
    says so explicitly — silence reads as an unfinished review, and ANU-00 templates are built so a
-   null result never looks like an incomplete one (`../templates/README.md` § Design Rules, rule 3).
+   null result never looks like an incomplete one (`academic-neural-unit-00/templates/README.md` § Design Rules, rule 3).
 4. **Point-in-time discipline for reviews.** A re-review is a new file with a cross-reference to
    the report it supersedes, never an edit to it.
 5. **Run Prettier before finalizing** any file created or modified here, per root `CLAUDE.md` §1:
@@ -418,8 +426,8 @@ Ibarra-Costa reviews Multi-Agent & Evaluation (Fujimori, Dubois, Bhandari).
 ---
 
 **Ratified by:** Dr. Naledi Mokoena, ANU-00 Lead — 2026-08-17
-**Under:** CEO approval of `../plans/2026-08-17-curriculum-first-production-run/curriculum-development-plan.md`
-**Roster cross-check:** `../crew/README.md`, confirmed consistent 2026-08-17 (§7.2)
+**Under:** CEO approval of `academic-neural-unit-00/plans/2026-08-17-curriculum-first-production-run/curriculum-development-plan.md`
+**Roster cross-check:** `academic-neural-unit-00/crew/README.md`, confirmed consistent 2026-08-17 (§7.2)
 
 **Amendment 1 — 2026-08-18, Dr. Naledi Mokoena, ANU-00 Lead.** Resolves the three corpus-wide
 convention items raised by `reviews/2026-08-18-first-review-cycle/comprehensive-review.md`: C-2 (§4.1 — one canonical metadata

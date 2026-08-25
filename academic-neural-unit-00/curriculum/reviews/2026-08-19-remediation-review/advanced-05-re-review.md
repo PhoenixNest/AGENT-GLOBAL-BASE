@@ -8,9 +8,9 @@
 **Document author:** Dr. Wei-Ling Tan, Research Scientist — Applied AI Systems, ANU-00
 **Prior records cross-referenced:**
 
-- `../2026-08-18-first-review-cycle/internal/prompt-context-cluster-review.md` — my own Pass 1 review, Problems Found #1
+- `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/internal/prompt-context-cluster-review.md` — my own Pass 1 review, Problems Found #1
   (the original P0 against this document)
-- `../2026-08-18-first-review-cycle/comprehensive-review.md` — Pass 3 synthesis, per-document table row 21 and the
+- `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` — Pass 3 synthesis, per-document table row 21 and the
   "Dr. Yuna Baek — Prompt & Context Engineering Cluster" section
 
 **Review date:** 2026-08-19

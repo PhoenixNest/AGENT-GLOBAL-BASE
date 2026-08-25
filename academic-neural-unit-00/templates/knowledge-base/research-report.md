@@ -194,7 +194,7 @@ does not deliver a production pattern, module, or reusable framework.]
 
 | #   | What is being referred | Why it is out of ANU-00 charter       | Referral note path   |
 | --- | ---------------------- | ------------------------------------- | -------------------- |
-| 1   | [Tooling / pattern]    | [Post-validation implementation work] | [`../referrals/...`] |
+| 1   | [Tooling / pattern]    | [Post-validation implementation work] | [`academic-neural-unit-00/referrals/...`] |
 
 <!-- A referral is a record that a need exists. It is not an assignment, a commitment, or a
      handshake — ANU-00 does not take delivery dates from it and does not track it to completion. -->

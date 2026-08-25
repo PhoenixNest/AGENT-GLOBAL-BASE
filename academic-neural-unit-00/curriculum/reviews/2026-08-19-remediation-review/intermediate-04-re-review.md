@@ -5,7 +5,7 @@
 **Author:** Dr. Inés Roldán, Research Scientist — Software Engineering / Computer Science, ANU-00
 **Review date:** 2026-08-19
 **Review pass:** Pass 4 re-review, targeted — verifying the fix for the single blocking finding
-recorded against this document in `../2026-08-18-first-review-cycle/comprehensive-review.md` (row 12: "Chinese gloss states
+recorded against this document in `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (row 12: "Chinese gloss states
 '5 天（200 小时）'; 200 h is 8.33 days — false numeric claim in a worked example"), originally
 surfaced by External Reviewer A and independently confirmed by Dr. Mokoena at (then) line 280.
 
@@ -31,16 +31,16 @@ I did not trust the Pass 4 label as evidence the fix was made. I opened the curr
 (all 472 lines) and checked the specific defect location directly, then read the rest of the
 document for consistency and new-error risk.
 
-| What I did                      | Detail                                                                                                                                                                                               |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Independent recomputation       | 200 hours ÷ 24 = 8.333… days, computed directly (not read off any prior report) and cross-checked against the original Pass 3 finding's own suggested figure ("approximately 8.3 天")                |
-| Location of the original defect | Located by content search (`grep -n "天"` and `grep -n "（"` across the full file), not by trusting the old line number — line numbers shift when other passes edit the same file                    |
-| English/Chinese consistency     | Compared the English worked-example paragraph (§5, "Memory A … was accessed 200 hours ago") against its Chinese counterpart word for word                                                            |
-| Surrounding math re-derived     | Independently recomputed the three recency values in the same worked example: 0.995⁵, 0.995², 0.995²⁰⁰                                                                                               |
-| Chinese-language read           | Read in full (all ZH paragraphs, not sampled) — bilingual pairing is structural per README §4, and a targeted fix is exactly where an editor is likeliest to touch one language and miss the other   |
-| Metadata block                  | Diffed the document's opening block against README §4.1's canonical Format B example, field by field                                                                                                 |
-| Inline-gloss spot check         | Searched every `（…）` occurrence in the document (18 hits) and classified each against README §4's proper-noun-only rule                                                                            |
-| C-1 term check                  | Searched for the deprecated `执行框架` rendering (0 hits) and the canonical `运行框架` (3 hits), against the corpus-wide count in `../2026-08-18-first-review-cycle/comprehensive-review.md` line 61 |
+| What I did                      | Detail                                                                                                                                                                                                                                       |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Independent recomputation       | 200 hours ÷ 24 = 8.333… days, computed directly (not read off any prior report) and cross-checked against the original Pass 3 finding's own suggested figure ("approximately 8.3 天")                                                        |
+| Location of the original defect | Located by content search (`grep -n "天"` and `grep -n "（"` across the full file), not by trusting the old line number — line numbers shift when other passes edit the same file                                                            |
+| English/Chinese consistency     | Compared the English worked-example paragraph (§5, "Memory A … was accessed 200 hours ago") against its Chinese counterpart word for word                                                                                                    |
+| Surrounding math re-derived     | Independently recomputed the three recency values in the same worked example: 0.995⁵, 0.995², 0.995²⁰⁰                                                                                                                                       |
+| Chinese-language read           | Read in full (all ZH paragraphs, not sampled) — bilingual pairing is structural per README §4, and a targeted fix is exactly where an editor is likeliest to touch one language and miss the other                                           |
+| Metadata block                  | Diffed the document's opening block against README §4.1's canonical Format B example, field by field                                                                                                                                         |
+| Inline-gloss spot check         | Searched every `（…）` occurrence in the document (18 hits) and classified each against README §4's proper-noun-only rule                                                                                                                    |
+| C-1 term check                  | Searched for the deprecated `执行框架` rendering (0 hits) and the canonical `运行框架` (3 hits), against the corpus-wide count in `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` line 61 |
 
 ---
 
@@ -85,7 +85,7 @@ no day conversion attached, so there was nothing else to be wrong.
 recording rather than assuming.** The English paragraph (l. 251) never asserted a day-count for
 Memory A at all — it states only "200 hours ago." The false claim was Chinese-only, exactly as
 the original finding said ("The English at line 267 says only '200 hours ago' and makes no day
-claim — the error exists solely in the Chinese," per `../2026-08-18-first-review-cycle/comprehensive-review.md` line 63). So
+claim — the error exists solely in the Chinese," per `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` line 63). So
 "consistency" here does not mean the two languages must state the same day figure — it means the
 Chinese must not assert something the English doesn't and that is also false. It no longer does:
 the Chinese states a correctly-computed approximation, hedged with 约, and the English states the
@@ -157,7 +157,7 @@ document and classified each:
 
 **C-1 term check (harness):** 0 occurrences of the deprecated `执行框架`; 3 occurrences of the
 canonical `运行框架` (l. 199, 416, 448 in this reading). This matches the corpus-wide audit in
-`../2026-08-18-first-review-cycle/comprehensive-review.md` (l. 61: "intermediate/04 (0 / 3)") — this document was already
+`academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (l. 61: "intermediate/04 (0 / 3)") — this document was already
 compliant before Pass 4 and remains so; no regression.
 
 This was a spot check, not the exhaustive corpus-wide C-2/C-3 audit — that is explicitly
