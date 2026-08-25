@@ -43,14 +43,14 @@ own claim from `log/04` through `log/08`.
 
 **Verification:**
 
-| Check performed                                                                              | Result                                             |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| Independent re-read of `tool_registry.py`'s `_is_dangerous_task` (I1)                          | Pass — no vacuous empty-pattern fallback present    |
-| Independent re-read of `error_boundary.py`'s classifier + registry + removed `stream=` (I2/I3) | Pass — matches Execution's described diff           |
+| Check performed                                                                                | Result                                                                  |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Independent re-read of `tool_registry.py`'s `_is_dangerous_task` (I1)                          | Pass — no vacuous empty-pattern fallback present                        |
+| Independent re-read of `error_boundary.py`'s classifier + registry + removed `stream=` (I2/I3) | Pass — matches Execution's described diff                               |
 | Independent re-read of `harness-error-boundary-monitor.py`'s header comment (I4)               | Pass — accurately states the PostToolUse constraint; no behavior change |
-| Independent re-read of `context-budget-alert.py`'s enforcement branch (I5)                     | Pass — enforcement path and fail-safe degrade both present |
-| `pytest engineering/harness-engineering/testing/ -v` (run by Reviewer, not reused)              | Pass — 80 passed, 1 pre-existing unrelated warning, 0 failed |
-| `pytest .claude/hooks/test_context_budget_alert.py -v` (run by Reviewer, not reused)            | Pass — 4 passed, 0 failed                           |
+| Independent re-read of `context-budget-alert.py`'s enforcement branch (I5)                     | Pass — enforcement path and fail-safe degrade both present              |
+| `pytest engineering/harness-engineering/testing/ -v` (run by Reviewer, not reused)             | Pass — 80 passed, 1 pre-existing unrelated warning, 0 failed            |
+| `pytest .claude/hooks/test_context_budget_alert.py -v` (run by Reviewer, not reused)           | Pass — 4 passed, 0 failed                                               |
 
 **Outcome:** All 5 items (I1–I5) independently verified. No discrepancy found between Execution's
 claims (`log/04` through `log/08`) and the Reviewer's own re-inspection and re-run. `Status` moves
