@@ -638,6 +638,26 @@ ANU-00 Lead (Dr. Naledi Mokoena) conducted a curriculum-wide audit and academic 
 
 ---
 
+### Entry 15 — 2026-08-24 — Curriculum bilingual body table single-line collapse restoration
+
+**Reported:** Readers discovered that bilingual (English-Chinese) content tables embedded within textbook modules (e.g., line 126 in `introductory/01-neural-networks-and-deep-learning-foundations.md`) failed to render as HTML tables, displaying as a single continuous line of concatenated cells delimited by `||`.
+
+**Investigation & Diagnostic Findings:**
+ANU-00 Lead (Dr. Naledi Mokoena) conducted a curriculum-wide body table census:
+
+- **Scan Results:** Detected **54 collapsed body tables across 20 of the 24 curriculum modules** (21 in Introductory tier, 14 in Intermediate tier, 19 in Advanced tier).
+- **Root Cause:** A prior automated paragraph reflow/joining pass stripped the physical newline (`\n`) delimiters separating table rows, concatenating rows with `||`. Without row-level `\n` boundaries, Markdown table parsers (in VSCode, GitHub, and browser renderers) cannot construct the `<table>` AST and render the block as raw prose text.
+
+**Resolution / Execution:**
+
+- **(1) Full Body Table Reconstruction:** Built and executed `reconstruct_body_tables.py` across all curriculum modules, converting all 54 collapsed table blocks into clean multi-line GFM tables (Header row $\rightarrow$ Divider row $\rightarrow$ Body rows).
+- **(2) Prettier Table Alignment:** Formatted all 20 updated modules using `npx prettier --write`, ensuring column width alignment and clean delimiter spacing.
+- **(3) Zero-Defect Audit:** Scanned all markdown files in the repository to confirm that **0 collapsed tables (`||`) remain** and all 1,535 hyperlinks resolve with zero 404s.
+
+**Status:** Closed. All 54 body tables reconstructed and formatted. Zero table defects remain.
+
+---
+
 ## Standing Open Items
 
 Carried forward across entries until resolved — check this list before filing a new entry, in

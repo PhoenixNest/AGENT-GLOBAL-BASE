@@ -304,7 +304,13 @@ require either weight updates or a persistent, cross-task memory system of the k
 | What happens on failure?                     | Model reasons about it at the next step, no dedicated mechanism         | Plan may need regeneration                 | Explicit self-reflection stored and reused                   |
 | Primary citation                             | Yao et al., 2022                                                        | Wang et al., 2023; LangChain, 2023         | Shinn et al., 2023                                           |
 
-| 维度 | ReAct | 计划-执行 | Reflexion || -------------------------------- | ---------------------------------------------- | ---------------------------------- | ------------------------------------------- || “思考”步骤的产出何时被确定下来？ | 每次一个行动 | 整份计划，提前确定 | 整次尝试，随后在多次重试间不断修订 || 最适用场景 | 下一步高度依赖上一次观察结果的任务 | 可拆解为已知子任务的任务 | 具备可检验成功/失败信号、且有重试空间的任务 || 人工审阅点 | 难以在某个行动执行前插入，因为行动是逐一选定的 | 天然存在——可在执行前审阅计划 | 在一次失败尝试之后、下一次重试之前 || 失败后会发生什么？ | 模型在下一步中对此进行推理，没有专门机制 | 计划可能需要重新生成 | 显式的自我反思被存储并复用 || 主要引用来源 | Yao et al., 2022 | Wang et al., 2023；LangChain, 2023 | Shinn et al., 2023 |
+| 维度                             | ReAct                                          | 计划-执行                          | Reflexion                                   |
+| -------------------------------- | ---------------------------------------------- | ---------------------------------- | ------------------------------------------- |
+| “思考”步骤的产出何时被确定下来？ | 每次一个行动                                   | 整份计划，提前确定                 | 整次尝试，随后在多次重试间不断修订          |
+| 最适用场景                       | 下一步高度依赖上一次观察结果的任务             | 可拆解为已知子任务的任务           | 具备可检验成功/失败信号、且有重试空间的任务 |
+| 人工审阅点                       | 难以在某个行动执行前插入，因为行动是逐一选定的 | 天然存在——可在执行前审阅计划       | 在一次失败尝试之后、下一次重试之前          |
+| 失败后会发生什么？               | 模型在下一步中对此进行推理，没有专门机制       | 计划可能需要重新生成               | 显式的自我反思被存储并复用                  |
+| 主要引用来源                     | Yao et al., 2022                               | Wang et al., 2023；LangChain, 2023 | Shinn et al., 2023                          |
 
 The architectural diagram below compares the control flow and state transitions across all three
 patterns:
