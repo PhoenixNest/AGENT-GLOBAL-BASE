@@ -1,0 +1,1 @@
+../../.claude/rules/cross-platform-development.md
