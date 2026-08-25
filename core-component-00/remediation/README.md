@@ -1,0 +1,118 @@
+# CC-00 Remediation Program — Execution Log
+
+**Classification:** Execution-Tracking Archive
+**Owner:** Core Component 00 Laboratory
+**Director:** Dr. Elias Vance
+**Purpose:** Track execution of the P0/P1 findings from `core-component-00/benchmarks/` through to
+verified completion
+
+---
+
+## Overview
+
+This folder holds Implementation Plans executing the highest-severity findings from the CC-00
+enterprise benchmark series. Created at CEO direction, 2026-08-17, following a design review
+conducted by an Opus 5 high-effort agent — that review corrected three owner-attribution errors,
+relocated one item to the plan with actual authority over its fix, replaced a false sequencing
+claim with the real conflict it was masking, and required this folder to inherit
+`core-component-00/maintenance-records/`'s structure rather than invent a new one.
+
+**Gate 1** (establishing this archive and its five layer plans) was granted by the CEO on
+2026-08-17. **Gate 2** (any change to `.claude/hooks/*.py`) is a separate, explicit User
+sign-off — not yet granted. See `pipeline.md` for both gates in full.
+
+All five plans have since cleared pipeline stage 2 (Approval). The Harness plan's I4/I5 items
+were held at `Blocked` pending an architecture conflict — Dr. Vance arbitrated it 2026-08-17
+(resolved per-hook, not as a blanket policy; see that plan's `log/02-approval.md`) — and all
+five plans now carry Reviewer-approved Approach for every item. No item has entered Execution;
+I4 and I5 remain additionally held at Gate 2.
+
+---
+
+## Directory Structure
+
+```
+core-component-00/remediation/
+├── README.md                          ← This file
+├── CLAUDE.md                          ← Claude Code operating layer for this folder
+├── pipeline.md                        ← Stage definitions, Scoping Rule, gates
+├── template/
+│   ├── implementation-plan.md         ← Copy for every new topic
+│   └── log-entry.md                   ← Copy for every stage/development within a topic
+├── engineering/                       ← Type-scoped, mirrors benchmarks/engineering/
+│   ├── prompt-engineering/
+│   ├── context-engineering/
+│   ├── harness-engineering/
+│   └── multi-agent-engineering/
+└── retrieval-augmented-generation/    ← Layer 4 — parallel to engineering/, not inside it
+```
+
+Full authoring rules: `CLAUDE.md` (this folder). Stage gates and the Scoping Rule (which benchmark
+findings become a tracked plan vs. the Remediation Backlog below): `pipeline.md`.
+
+---
+
+## Plan Index
+
+One row per layer. All five plans opened 2026-08-17; all five cleared Stage 2 (Approval) the same
+day.
+
+| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                                                               |
+| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Approved — Execution not started                                                     |
+| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Approved — Execution not started                                                     |
+| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Approved — I1–I3 clear to Execution; I4/I5 approved but held at Gate 2 (Hook-Change) |
+| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Approved — Execution not started                                                     |
+| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Approved — Execution not started                                                     |
+
+---
+
+## Remediation Backlog
+
+P2/P3 rows from the benchmark series with no dependency link to an in-scope item above (see
+`pipeline.md` § Scoping Rule). No dedicated plan — named owner only, revisited at that layer's
+next benchmark refresh.
+
+| Source Report | Row | Gap (one line)                                                                          | Owner           |
+| ------------- | --- | --------------------------------------------------------------------------------------- | --------------- |
+| Prompt        | R6  | Eval harness has no CI/schedule run path — unreferenced code                            | Ravi Deshmukh   |
+| Prompt        | R7  | No prompt versioning discipline beyond plain git history                                | Dr. Elias Vance |
+| Prompt        | R8  | Four dead-path references in an always-on workspace rule                                | Dr. Elias Vance |
+| Context       | R4  | Memory tiers carry no token budget; assembler's history slot not bound to them          | Hana Kobayashi  |
+| Context       | R5  | Compressor consumes none of the module's existing retention signals                     | Hana Kobayashi  |
+| Context       | R6  | Handoff contract bounds sub-agent input but not its return                              | Mei-Ling Zhao   |
+| Context       | R7  | Contradiction handling blocked behind a refused LLM judge; no bitemporal alternative    | Dr. Elias Vance |
+| Harness       | R5  | Composite health score documented as p99-based but computed from mean latency           | Connor O'Malley |
+| Harness       | R6  | Allowlisting is global rather than per agent role                                       | Kwame Asante    |
+| Harness       | R7  | No execution isolation behind the tool boundary                                         | Kwame Asante    |
+| Harness       | R8  | `ToolRegistry.execute_tool()` produces no audit record on any branch                    | Connor O'Malley |
+| RAG           | R3  | No reranking stage, contradicting the module's own README                               | Sofia Almeida   |
+| RAG           | R4  | Zero-argument chunker default is the weaker arm of the module's own measured comparison | Diego Fontán    |
+| RAG           | R5  | No staleness monitoring/alerting on top of the write-time debounce hook                 | Sofia Almeida   |
+| MAE           | R4  | No documented cost criterion for choosing single-agent over swarm orchestration         | Dr. Elias Vance |
+
+**Coordination note (not a plan item):** MAE R3 (breaker registry sharing) and Harness R3
+(circuit-breaker state pooling) are the same underlying work — MAE R3's owner cell already names
+Connor O'Malley (harness) as co-owner. Whoever executes Harness R3 should notify Dr. Idris Farouk
+before finalizing, since it directly affects MAE R3's own eventual scope.
+
+---
+
+## Related Documentation
+
+| Document                                 | Purpose                                                   |
+| ---------------------------------------- | --------------------------------------------------------- |
+| `CLAUDE.md`                              | Scope, directory structure, authoring rules               |
+| `pipeline.md`                            | Stage definitions, Scoping Rule, Hook-Change Gate         |
+| `template/implementation-plan.md`        | The plan template — full field-by-field authoring guide   |
+| `core-component-00/benchmarks/`          | Source reports every plan item must cite                  |
+| `core-component-00/maintenance-records/` | The sibling archive this folder's structure is modeled on |
+| `core-component-00/README.md`            | CC-00 Laboratory overview                                 |
+
+---
+
+## Contact
+
+**Laboratory Director:** Dr. Elias Vance
+**Profile:** `core-component-00/crew/director/elias-vance/agent/profile.md`
+**Authority:** AGENTS.md § 6. Core Component 00
