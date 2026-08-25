@@ -1,0 +1,1 @@
+../../.claude/rules/full-stack-pipeline.md
