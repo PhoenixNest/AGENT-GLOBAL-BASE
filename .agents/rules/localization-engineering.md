@@ -1,0 +1,1 @@
+../../.claude/rules/localization-engineering.md

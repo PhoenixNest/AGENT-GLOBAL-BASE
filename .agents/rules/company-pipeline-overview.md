@@ -1,0 +1,1 @@
+../../.claude/rules/company-pipeline-overview.md
