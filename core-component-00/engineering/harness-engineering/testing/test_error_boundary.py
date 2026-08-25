@@ -8,6 +8,7 @@ Run with:
 import asyncio
 import sys
 import os
+import time
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -211,16 +212,48 @@ class TestSafeToolCall:
 class TestRateLimiter:
     @pytest.mark.asyncio
     async def test_acquire_does_not_raise_under_capacity(self):
-        limiter = RateLimiter(requests_per_minute=60)
-        # Should not block for the first request
-        await asyncio.wait_for(limiter.acquire(), timeout=1.0)
+        limiter = RateLimiter(tokens_per_minute=6000)
+        # A small call well under capacity should not block.
+        await asyncio.wait_for(limiter.acquire(token_cost=100), timeout=1.0)
 
     @pytest.mark.asyncio
     async def test_tokens_decrease_after_acquire(self):
-        limiter = RateLimiter(requests_per_minute=10)
+        limiter = RateLimiter(tokens_per_minute=1000)
         initial = limiter.tokens
-        await limiter.acquire()
+        await limiter.acquire(token_cost=50)
         assert limiter.tokens < initial
+
+    @pytest.mark.asyncio
+    async def test_small_payload_burst_still_passes_through_at_old_cadence(self):
+        # Regression: many small (1-unit) calls under a generous budget must still
+        # pass through immediately, same as the old request-count behavior.
+        limiter = RateLimiter(tokens_per_minute=6000)
+        start = time.monotonic()
+        for _ in range(20):
+            await asyncio.wait_for(limiter.acquire(token_cost=1), timeout=1.0)
+        assert time.monotonic() - start < 1.0
+
+    @pytest.mark.asyncio
+    async def test_large_payload_burst_is_throttled_by_cumulative_token_cost(self):
+        # Capacity 100 tokens/minute (refill ~1.667 tokens/sec). First call (60)
+        # leaves 40 tokens; a second call of 45 has only a 5-token deficit — a
+        # request-count limiter allowing e.g. 50 requests/minute would let both
+        # 60-cost calls through as "2 requests" with no wait at all. Here the
+        # second call must measurably wait for that deficit to refill.
+        limiter = RateLimiter(tokens_per_minute=100)
+        await asyncio.wait_for(limiter.acquire(token_cost=60), timeout=1.0)
+        start = time.monotonic()
+        await asyncio.wait_for(limiter.acquire(token_cost=45), timeout=8.0)
+        elapsed = time.monotonic() - start
+        assert elapsed > 1.0  # had to wait for refill, not an instant pass-through
+
+    @pytest.mark.asyncio
+    async def test_single_oversized_call_does_not_deadlock(self):
+        # A single call costing more than total capacity must still eventually
+        # succeed (against a full bucket) rather than blocking forever.
+        limiter = RateLimiter(tokens_per_minute=100)
+        await asyncio.wait_for(limiter.acquire(token_cost=500), timeout=1.0)
+        assert limiter.tokens < 0  # paid its real cost; now in debt
 
 
 # ---------------------------------------------------------------------------

@@ -507,26 +507,39 @@ async def process_user_request(request):
 class RateLimiter:
     """
     Token Bucket Rate Limiter to proactively prevent 429 errors.
+
+    Sized in tokens/minute, not requests/minute: a single large-payload call can
+    consume a large share of real provider throughput even though it is only one
+    "request", so a request-count bucket reports headroom that doesn't exist. Callers
+    report each call's actual or estimated token cost via `acquire(token_cost=...)`;
+    the bucket drains in proportion to that cost instead of a fixed 1-unit decrement
+    per call regardless of payload size. Corrected 2026-08-25 — see
+    core-component-00/remediation/engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/
+    item I1.
     """
-    def __init__(self, requests_per_minute: int = 50):
-        import time
-        self.capacity = requests_per_minute
-        self.tokens = requests_per_minute
-        self.refill_rate = requests_per_minute / 60.0
+    def __init__(self, tokens_per_minute: int = 50_000):
+        self.capacity = tokens_per_minute
+        self.tokens = tokens_per_minute
+        self.refill_rate = tokens_per_minute / 60.0
         self.last_refill = time.monotonic()
 
-    async def acquire(self):
-        import time
-        import asyncio
+    async def acquire(self, token_cost: int = 1) -> None:
         while True:
             now = time.monotonic()
             elapsed = now - self.last_refill
             self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_rate)
             self.last_refill = now
 
-            if self.tokens >= 1:
-                self.tokens -= 1
+            # A single call costing more than total capacity can never satisfy
+            # `tokens >= token_cost` even at a full bucket — treat "bucket is full"
+            # as sufficient in that case so an oversized single call isn't blocked
+            # forever. It still pays its real cost: tokens go negative and must
+            # refill past zero before the next call proceeds.
+            threshold = min(token_cost, self.capacity)
+            if self.tokens >= threshold:
+                self.tokens -= token_cost
                 return
-            
-            wait_time = (1 - self.tokens) / self.refill_rate
+
+            deficit = threshold - self.tokens
+            wait_time = deficit / self.refill_rate
             await asyncio.sleep(wait_time)
