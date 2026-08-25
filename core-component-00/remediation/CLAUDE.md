@@ -86,14 +86,16 @@ layer's findings into one report rather than one file per finding.
 2. Copy `template/implementation-plan.md` into it; fill in Metadata, the Included Items table
    (citing each item's source Benchmark Row ID — no orphan rows, same discipline as
    `benchmarks/template/enterprise-assessment.md`), and Cross-Layer Dependencies.
-3. Copy `template/log-entry.md` → `<slug>/log/01-drafting.md` for the Drafting stage.
+3. Copy `template/log-entry.md` → `<slug>/log/01-drafting-<items>-opened.md` for the Drafting
+   stage, per `pipeline.md` § Log File Naming (stage + item scope + outcome, not a bare stage
+   name — a filename must be readable from a directory listing alone).
 4. Add an entry to `README.md` (the plan index).
 5. Run Prettier: `prettier --write "<file-path>"`.
 
 **Follow-up on an existing topic** (a later stage, an incident, a status change): copy
-`template/log-entry.md` → `<slug>/log/NN-<slug>.md` (never edit or delete a prior entry), update
-the plan's header **Status** field, add a row to its Gate Log. Full rules, including the
-topic-boundary test: `pipeline.md`.
+`template/log-entry.md` → `<slug>/log/NN-<stage-slug>-<items>-<outcome>.md` (never edit or delete
+a prior entry), update the plan's header **Status** field, add a row to its Gate Log. Full rules,
+including the naming convention and the topic-boundary test: `pipeline.md`.
 
 ---
 
