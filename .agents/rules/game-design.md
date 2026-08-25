@@ -1,0 +1,1 @@
+../../.claude/rules/game-design.md

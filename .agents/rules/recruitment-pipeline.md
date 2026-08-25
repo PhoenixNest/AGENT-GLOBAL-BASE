@@ -1,0 +1,1 @@
+../../.claude/rules/recruitment-pipeline.md
