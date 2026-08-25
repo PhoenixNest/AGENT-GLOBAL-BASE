@@ -40,10 +40,10 @@ even though he is the plan's Owner for the other four items.
 
 ## Gate Log
 
-| Stage        | Entry                                                                                                                       | Summary                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| 0 — Trigger  | `core-component-00/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/log/01-drafting.md` | Topic opened from the signed-off Prompt benchmark's 5 in-scope P1 rows                          |
-| 2 — Approval | `core-component-00/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/log/02-approval.md` | Wieczorek signed off on I1/I2/I3/I5; Vance signed off on I4 per the per-item reviewer exception |
+| Stage        | Entry                                                                                                                                      | Summary                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| 0 — Trigger  | `core-component-00/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/log/01-drafting-i1-i5-opened.md`   | Topic opened from the signed-off Prompt benchmark's 5 in-scope P1 rows                          |
+| 2 — Approval | `core-component-00/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/log/02-approval-i1-i5-approved.md` | Wieczorek signed off on I1/I2/I3/I5; Vance signed off on I4 per the per-item reviewer exception |
 
 ---
 
