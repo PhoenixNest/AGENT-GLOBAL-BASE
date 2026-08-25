@@ -54,11 +54,13 @@ Remediation Program's original tracked P0/P1 work.
 (`core-component-00/benchmarks/engineering/harness-engineering/2026-08-25-harness-engineering-enterprise-assessment/enterprise-assessment.md`),
 which found the module's fixes hold up but surfaced one new P1 (token-unaware rate limiting) and
 one new P2 (a byte-size, not token-count, compaction trigger in H-CE01). Per `pipeline.md` §
-Scoping Rule the P1 qualifies for its own tracked plan on severity alone; the new
-`2026-08-25-harness-rate-limiter-remediation` plan is `Open` at Stage 0 (Drafting), not yet
-approved for Execution. The P2 has no dependency-closure link to it and stays in the Remediation
-Backlog below as Harness R10. Remaining P2/P3 findings with no dependency link to a closed or open
-item stay in the Backlog, revisited at each layer's next benchmark refresh.
+Scoping Rule the P1 qualifies for its own tracked plan on severity alone. The new
+`2026-08-25-harness-rate-limiter-remediation` plan has cleared Approval and Execution — `RateLimiter`
+is now token-aware (`token_cost` parameter, tokens/minute bucket) with 5 new/updated tests, full
+module suite 83 passed — and is `Executed, pending verification`, awaiting Dr. Vance's independent
+Stage 4 sign-off. The P2 has no dependency-closure link to it and stays in the Remediation Backlog
+below as Harness R10. Remaining P2/P3 findings with no dependency link to a closed or open item
+stay in the Backlog, revisited at each layer's next benchmark refresh.
 
 ---
 
@@ -90,14 +92,14 @@ findings become a tracked plan vs. the Remediation Backlog below): `pipeline.md`
 One row per layer. The original five plans opened 2026-08-17 and all cleared Stage 2 (Approval)
 the same day. A sixth plan opened 2026-08-25 from the Harness benchmark refresh.
 
-| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                    |
-| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | ----------------------------------------- |
-| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Verified — all 5 items (2026-08-25)       |
-| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Verified — both items (2026-08-25)        |
-| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Verified — all 5 items (2026-08-24)       |
-| 3     | `engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/implementation-plan.md`          | Kwame Asante     | Dr. Elias Vance                    | R9 (token-aware rate limiting, from the 2026-08-25 benchmark refresh) | Open — see `log/01-drafting-i1-opened.md` |
-| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Verified — both items (2026-08-25)        |
-| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Verified — both items (2026-08-25)        |
+| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                                                 |
+| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Verified — all 5 items (2026-08-25)                                    |
+| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Verified — both items (2026-08-25)                                     |
+| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Verified — all 5 items (2026-08-24)                                    |
+| 3     | `engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/implementation-plan.md`          | Kwame Asante     | Dr. Elias Vance                    | R9 (token-aware rate limiting, from the 2026-08-25 benchmark refresh) | Executed, pending verification — see `log/03-execution-i1-executed.md` |
+| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Verified — both items (2026-08-25)                                     |
+| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Verified — both items (2026-08-25)                                     |
 
 ---
 
