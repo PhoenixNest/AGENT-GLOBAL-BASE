@@ -23,9 +23,17 @@ sign-off — not yet granted. See `pipeline.md` for both gates in full.
 
 All five plans have since cleared pipeline stage 2 (Approval). The Harness plan's I4/I5 items
 were held at `Blocked` pending an architecture conflict — Dr. Vance arbitrated it 2026-08-17
-(resolved per-hook, not as a blanket policy; see that plan's `log/02-approval.md`) — and all
-five plans now carry Reviewer-approved Approach for every item. No item has entered Execution;
-I4 and I5 remain additionally held at Gate 2.
+(resolved per-hook, not as a blanket policy; see that plan's `log/02-approval-i1-i5-arbitrated.md`)
+— and all five plans now carry Reviewer-approved Approach for every item. **Gate 2 was granted by
+the User on 2026-08-23**, naming Harness I4 and I5 explicitly (see that plan's
+`log/03-hook-change-gate-i4-i5-granted.md`).
+All 16 items across all five plans are clear to Stage 3 (Execution). **All 5 Harness items (I1–I5)
+are now `Verified`** as of 2026-08-24 — Dr. Vance independently re-checked each diff and re-ran
+both test suites himself, per `log/09-verification-i1-i5-verified.md`. This closes the Harness
+plan's engineering work; see `log/04-execution-i1-fixed.md` through `log/08-execution-i5-enforced.md`
+for the underlying fixes. The remaining four plans (Prompt, Context, RAG, MAE — 11 items) are now
+entering Stage 3 (Execution) under git worktree isolation, per CEO direction 2026-08-24 (Workstream
+B) — see `.claude/rules/git-workflow.md` § Multi-Agent Worktree Lifecycle.
 
 ---
 
@@ -57,13 +65,13 @@ findings become a tracked plan vs. the Remediation Backlog below): `pipeline.md`
 One row per layer. All five plans opened 2026-08-17; all five cleared Stage 2 (Approval) the same
 day.
 
-| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                                                               |
-| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Approved — Execution not started                                                     |
-| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Approved — Execution not started                                                     |
-| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Approved — I1–I3 clear to Execution; I4/I5 approved but held at Gate 2 (Hook-Change) |
-| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Approved — Execution not started                                                     |
-| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Approved — Execution not started                                                     |
+| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                                    |
+| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------- |
+| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Approved — Execution not started                          |
+| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Approved — Execution not started                          |
+| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Verified — all 5 items (2026-08-24)                        |
+| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Approved — Execution not started                          |
+| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Approved — Execution not started                          |
 
 ---
 
