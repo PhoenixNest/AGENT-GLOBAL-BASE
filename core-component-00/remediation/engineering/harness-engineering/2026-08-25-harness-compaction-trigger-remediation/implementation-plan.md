@@ -4,21 +4,22 @@
 
 ## Metadata
 
-| Field                       | Value                                                                                                                                                                                                                                                                                            |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Plan ID**                 | `2026-08-25-harness-compaction-trigger-remediation`                                                                                                                                                                                                                                              |
-| **Layer**                   | 3 — Harness Engineering                                                                                                                                                                                                                                                                          |
-| **Source Benchmark Report** | `core-component-00/benchmarks/engineering/harness-engineering/2026-08-25-harness-engineering-enterprise-assessment/enterprise-assessment.md`                                                                                                                                                     |
-| **Owner**                   | Kwame Asante (Harness Engineering module lead)                                                                                                                                                                                                                                                   |
-| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                                                                                                                                                           |
-| **Hook-Change Gate**        | **Pending User sign-off** — item I1 touches `.claude/hooks/context-budget-alert.py`; per `pipeline.md`'s Hook-Change Gate, this requires a separate, explicit User approval naming the item and the date, distinct from this plan's own opening — not delegable to Reviewer, Owner, or Dr. Vance |
-| **Status**                  | Open — see `log/01-drafting-i1-opened.md`                                                                                                                                                                                                                                                        |
+| Field                       | Value                                                                                                                                        |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-08-25-harness-compaction-trigger-remediation`                                                                                          |
+| **Layer**                   | 3 — Harness Engineering                                                                                                                      |
+| **Source Benchmark Report** | `core-component-00/benchmarks/engineering/harness-engineering/2026-08-25-harness-engineering-enterprise-assessment/enterprise-assessment.md` |
+| **Owner**                   | Kwame Asante (Harness Engineering module lead)                                                                                               |
+| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                       |
+| **Hook-Change Gate**        | **Granted 2026-08-25 by User** — item I1 cleared; see `log/02-hook-change-gate-i1-granted.md`                                                |
+| **Status**                  | Open — see `log/01-drafting-i1-opened.md`                                                                                                    |
 
 **Reviewer requirement.** No item in this plan may reach `Status: Verified` on the strength of
 Owner self-verification — see `pipeline.md` stage 4.
 
-**Execution blocker.** Per `pipeline.md`, Execution on I1 cannot begin until the Hook-Change Gate
-above is explicitly granted by the User — Approval-stage sign-off does not substitute for this.
+**Execution blocker (resolved).** The Hook-Change Gate above is now granted. Execution on I1 still
+requires Stage 2 Approval first, per the pipeline's stage order — the Hook-Change Gate clearing
+does not itself constitute Approval.
 
 ---
 
@@ -46,17 +47,16 @@ above is explicitly granted by the User — Approval-stage sign-off does not sub
 
 ## Gate Log
 
-| Stage       | Entry                                                                                                                                          | Summary                                                                                           |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 0 — Trigger | `core-component-00/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/log/01-drafting-i1-opened.md` | Topic opened from the 2026-08-25 Harness benchmark refresh's P2 finding (Backlog row Harness R10) |
+| Stage            | Entry                                                                                                                                                   | Summary                                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 0 — Trigger      | `core-component-00/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/log/01-drafting-i1-opened.md`          | Topic opened from the 2026-08-25 Harness benchmark refresh's P2 finding (Backlog row Harness R10) |
+| Hook-Change Gate | `core-component-00/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/log/02-hook-change-gate-i1-granted.md` | User granted Gate 2 for I1's fix to `.claude/hooks/context-budget-alert.py`, directly in chat     |
 
 ---
 
 ## Open Follow-Up Items
 
-| Item                                                  | Owner | Target Date                      |
-| ----------------------------------------------------- | ----- | -------------------------------- |
-| Obtain explicit User Hook-Change Gate sign-off for I1 | User  | Before Execution can start on I1 |
+[None]
 
 ---
 
