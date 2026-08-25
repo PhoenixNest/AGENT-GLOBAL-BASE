@@ -1,0 +1,1 @@
+../../.claude/rules/asgf-framework.md
