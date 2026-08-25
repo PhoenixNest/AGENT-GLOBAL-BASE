@@ -1,10 +1,14 @@
 # Log Entry [NN] — [Stage Name, e.g. "Drafting" / "Approval" / "Execution" / "Verification" / "Incident"] — [YYYY-MM-DD]
 
-<!-- Copy this file into a topic's log/ subfolder as log/NN-<slug>.md, numbered sequentially
-     (01, 02, 03...) in the order stages/developments actually happened. Never edit or delete a
-     prior entry when adding a new one — if a later entry contradicts an earlier claim, say so
-     explicitly in the new entry instead of quietly rewriting the old one. Add a corresponding row
-     to the topic's implementation-plan.md Gate Log table and update its header Status field. -->
+<!-- Copy this file into a topic's log/ subfolder as log/NN-<stage-slug>-<items>-<outcome>.md
+     (e.g. 02-approval-i1-i5-approved.md, 03-hook-change-gate-i4-i5-granted.md) — see
+     pipeline.md § Log File Naming. NN numbers sequentially (01, 02, 03...) in the order
+     stages/developments actually happened; stage-slug, items, and outcome must let a reader
+     judge this entry's content from a directory listing alone, without opening the file. Never
+     edit or delete a prior entry when adding a new one — if a later entry contradicts an earlier
+     claim, say so explicitly in the new entry instead of quietly rewriting the old one. Add a
+     corresponding row to the topic's implementation-plan.md Gate Log table and update its header
+     Status field. -->
 
 Part of `core-component-00/remediation/.../implementation-plan.md`. Pipeline stage
 [N — Stage Name] (`core-component-00/remediation/pipeline.md`).

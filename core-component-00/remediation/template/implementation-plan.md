@@ -73,12 +73,14 @@ Benchmark Row ID. An item with no citation is invalid per the same "no orphan cl
 
 Per `pipeline.md`. One row per stage reached so far, oldest first.
 
-| Stage       | Entry                                                  | Summary                |
-| ----------- | ------------------------------------------------------ | ---------------------- |
-| 0 — Trigger | `core-component-00/remediation/.../log/01-drafting.md` | [one-sentence summary] |
+| Stage       | Entry                                                                 | Summary                |
+| ----------- | --------------------------------------------------------------------- | ---------------------- |
+| 0 — Trigger | `core-component-00/remediation/.../log/01-drafting-<items>-opened.md` | [one-sentence summary] |
 
 <!-- Add a row per subsequent stage reached, including the Hook-Change Gate if this plan has any
-     hook-touching item, and any Reopen edge per pipeline.md's loop-back. -->
+     hook-touching item, and any Reopen edge per pipeline.md's loop-back. Name each log file
+     log/NN-<stage-slug>-<items>-<outcome>.md per pipeline.md § Log File Naming — never a bare
+     stage name like "02-approval.md". -->
 
 ---
 
