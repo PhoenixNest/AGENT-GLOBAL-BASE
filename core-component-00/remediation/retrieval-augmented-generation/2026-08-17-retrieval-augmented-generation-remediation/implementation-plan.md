@@ -33,10 +33,10 @@
 
 ## Gate Log
 
-| Stage        | Entry                                                                                                                                   | Summary                                                             |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| 0 — Trigger  | `core-component-00/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/01-drafting.md` | Topic opened from the signed-off RAG benchmark's 2 in-scope P1 rows |
-| 2 — Approval | `core-component-00/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/02-approval.md` | Dr. Vance signed off as Reviewer on I1 and I2's Approach            |
+| Stage        | Entry                                                                                                                                                  | Summary                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| 0 — Trigger  | `core-component-00/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/01-drafting-i1-i2-opened.md`   | Topic opened from the signed-off RAG benchmark's 2 in-scope P1 rows |
+| 2 — Approval | `core-component-00/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/02-approval-i1-i2-approved.md` | Dr. Vance signed off as Reviewer on I1 and I2's Approach            |
 
 ---
 
