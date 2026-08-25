@@ -159,6 +159,31 @@ This means: **never put your most important content in the middle of a long cont
 
 ---
 
+## Utilization-Based Compaction Trigger
+
+`ContextAssembler.SAFETY_BUFFER` (Slot 4 above) is a **hard cap** — it fixes how much of the raw
+window is ever considered usable (90% by default) and never changes at runtime. It answers "how
+big can the window get," not "when should I compact."
+
+`ContextCompressor` (`implementations/context_compressor.py`) answers that second question with a
+separate, configurable **utilization trigger** (`DEFAULT_UTILIZATION_TRIGGER = 0.75`): once live
+usage crosses this fraction of the window, compaction fires automatically, well before the safety
+buffer would otherwise be breached.
+
+| Method                                                          | Purpose                                                                                                                        |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `current_utilization(current_tokens, max_tokens)`               | Fraction of the window currently consumed                                                                                      |
+| `should_trigger_compaction(current_tokens, max_tokens)`         | `True` once utilization ≥ `self.utilization_trigger`                                                                           |
+| `compress_if_triggered(turns, current_tokens, max_tokens, ...)` | Applies `compress_history()` automatically if triggered, else returns turns unchanged (`strategy="below_utilization_trigger"`) |
+
+`utilization_trigger` is a constructor argument on `ContextCompressor`, so callers can tune it
+per-deployment (e.g. a lower trigger for latency-sensitive agents that want to compact earlier).
+This is intentionally a separate mechanism from `SAFETY_BUFFER`: the assembler's buffer protects
+against ever exceeding the window; the compressor's trigger decides when to act proactively while
+there is still budget to act cleanly.
+
+---
+
 ## Visual Reference: Context Window Budget
 
 ```
