@@ -9,9 +9,9 @@ specifications, pipeline definitions, and Python reference implementations.
 
 ## Sponsors & Partners
 
-| Sponsor                                      | Referral Link                                                           | Category                    | Description                                                                                                   |
-| -------------------------------------------- | ----------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **[OrcaRouter](https://www.orcarouter.ai/)** | [Referral Link](https://www.orcarouter.ai/ref/ref_cc7bbe4567cf227e4398) | AI Infrastructure & Routing | Direct routing to OpenAI, Anthropic, Google Gemini, and 200+ models at provider cost with automatic failover. |
+| Sponsor                                      | Category                    | Description                                                                                                                                                                                                           |
+| -------------------------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[OrcaRouter](https://www.orcarouter.ai/)** | AI Infrastructure & Routing | Direct routing to OpenAI, Anthropic, Google Gemini, and 200+ models at provider cost with automatic failover. Use [this Link](https://www.orcarouter.ai/ref/ref_cc7bbe4567cf227e4398) to get up to +10% extra credit. |
 
 ---
 
