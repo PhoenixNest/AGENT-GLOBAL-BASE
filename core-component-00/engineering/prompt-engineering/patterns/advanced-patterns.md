@@ -2,22 +2,23 @@
 
 ## Pattern Catalog
 
-| ID    | Pattern                         | Purpose                                                                                    | Best For                                                     |
-| ----- | ------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| P-001 | **Socratic Prompt**             | Guide thinking through probing questions rather than direct answers                        | Learning, interview prep, architectural thinking             |
-| P-002 | **Devil's Advocate**            | Stress-test ideas by having the model argue against them                                   | Decision validation, risk assessment                         |
-| P-003 | **Multi-Perspective Analyzer**  | Examine a topic from multiple stakeholder viewpoints                                       | Product decisions, policy analysis, team dynamics            |
-| P-004 | **Incremental Refinement Loop** | Iteratively improve output through structured feedback cycles                              | Writing, code, design documents                              |
-| P-005 | **Constraint Solver**           | Find solutions that satisfy multiple hard constraints                                      | Scheduling, resource allocation, system design               |
-| P-006 | **Knowledge Synthesizer**       | Combine information from multiple sources into coherent understanding                      | Literature review, competitive analysis                      |
-| P-007 | **Scenario Simulator**          | Explore "what if" scenarios with structured reasoning                                      | Risk planning, strategy, incident response prep              |
-| P-008 | **Abstraction Ladder**          | Move between concrete details and abstract principles                                      | Learning transfer, innovation, cross-domain problem solving  |
-| P-009 | **Pre-Mortem**                  | Identify failure modes before they happen                                                  | Project planning, product launches, deployments              |
-| P-010 | **Teaching Test**               | Verify understanding by having the model teach the concept                                 | Learning verification, documentation                         |
-| P-011 | **Format Transformer**          | Convert between representations while preserving meaning                                   | Data migration, documentation conversion                     |
-| P-012 | **Priority Matrix**             | Systematically prioritise a list of items                                                  | Backlog prioritisation, feature planning                     |
-| P-013 | **Persona Resolution**          | Ground a detected persona in a real, documented identity instead of freehanding voice      | Gates/optimizers that add role context, multi-agent handoffs |
-| P-014 | **Delegation Routing**          | Decide whether a request should go to a single agent, a team of leads, or a broad fallback | Request triage, gate/optimizer ownership decisions           |
+| ID    | Pattern                          | Purpose                                                                                                                  | Best For                                                                           |
+| ----- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| P-001 | **Socratic Prompt**              | Guide thinking through probing questions rather than direct answers                                                      | Learning, interview prep, architectural thinking                                   |
+| P-002 | **Devil's Advocate**             | Stress-test ideas by having the model argue against them                                                                 | Decision validation, risk assessment                                               |
+| P-003 | **Multi-Perspective Analyzer**   | Examine a topic from multiple stakeholder viewpoints                                                                     | Product decisions, policy analysis, team dynamics                                  |
+| P-004 | **Incremental Refinement Loop**  | Iteratively improve output through structured feedback cycles                                                            | Writing, code, design documents                                                    |
+| P-005 | **Constraint Solver**            | Find solutions that satisfy multiple hard constraints                                                                    | Scheduling, resource allocation, system design                                     |
+| P-006 | **Knowledge Synthesizer**        | Combine information from multiple sources into coherent understanding                                                    | Literature review, competitive analysis                                            |
+| P-007 | **Scenario Simulator**           | Explore "what if" scenarios with structured reasoning                                                                    | Risk planning, strategy, incident response prep                                    |
+| P-008 | **Abstraction Ladder**           | Move between concrete details and abstract principles                                                                    | Learning transfer, innovation, cross-domain problem solving                        |
+| P-009 | **Pre-Mortem**                   | Identify failure modes before they happen                                                                                | Project planning, product launches, deployments                                    |
+| P-010 | **Teaching Test**                | Verify understanding by having the model teach the concept                                                               | Learning verification, documentation                                               |
+| P-011 | **Format Transformer**           | Convert between representations while preserving meaning                                                                 | Data migration, documentation conversion                                           |
+| P-012 | **Priority Matrix**              | Systematically prioritise a list of items                                                                                | Backlog prioritisation, feature planning                                           |
+| P-013 | **Persona Resolution**           | Ground a detected persona in a real, documented identity instead of freehanding voice                                    | Gates/optimizers that add role context, multi-agent handoffs                       |
+| P-014 | **Delegation Routing**           | Decide whether a request should go to a single agent, a team of leads, or a broad fallback                               | Request triage, gate/optimizer ownership decisions                                 |
+| P-015 | **Constrained-Decoding Request** | Route a machine-parseable output schema through the provider's constrained-decoding feature instead of prose instruction | Any structured/JSON output where the provider supports schema-constrained sampling |
 
 ---
 
@@ -383,6 +384,36 @@ or team (e.g. H-P01), request-triage systems, any workflow with more than one pl
 
 ---
 
+### P-015: Constrained-Decoding Request
+
+**Purpose:** When a task needs machine-parseable output, request it through the provider's
+schema-constrained decoding feature (JSON mode / structured output / grammar-constrained
+generation) instead of asking for it in prose. Constraining the sampling itself guarantees
+schema-valid output; asking for it in prose does not. See
+`fundamentals/research.md` § 3.4 for the primary-vs-fallback rationale.
+
+```
+1. Define the exact output schema (JSON Schema or the provider's equivalent).
+2. Pass the schema through the provider's structured-output / constrained-decoding request
+   parameter — not as instructional text inside the prompt body.
+3. Reserve prompt-level schema instruction (spelling out the shape in prose) only for cases
+   where the target provider/model has no constrained-decoding support, or the schema is too
+   dynamic/complex for that mechanism to express.
+4. Even with constrained decoding, still validate the parsed result against the schema at the
+   application boundary — constrained decoding guarantees syntactic validity, not that the
+   values are semantically correct for your use case.
+```
+
+**Design constraint:** this pattern is a request-shape choice, not a prompting technique — the
+schema still needs the same care (exact field names, types, and required/optional markers) either
+way. What changes is _where_ the schema is enforced: at the API/decoding layer (primary) versus
+in the model's compliance with instructions (fallback).
+
+**Use cases:** any structured/JSON output — tool-call arguments, extraction pipelines, API
+response formatting — where the target provider supports schema-constrained sampling.
+
+---
+
 ## Pattern Composition
 
 Patterns can be combined for more powerful prompts:
@@ -415,6 +446,7 @@ P-004 (Incremental Refinement) + P-010 (Priority Matrix) =
 | Prioritize work                     | P-012 (Priority Matrix)                               |
 | Ground a persona in a real identity | P-013 (Persona Resolution)                            |
 | Decide request ownership            | P-014 (Delegation Routing)                            |
+| Guarantee machine-parseable output  | P-015 (Constrained-Decoding Request)                  |
 
 ---
 
