@@ -37,9 +37,16 @@ per CEO direction (Workstream B) — see `.claude/rules/git-workflow.md` § Mult
 Lifecycle. All 4 branches (`agent/prompt-eng/remediation-r1-r5`, `agent/context-eng/remediation-r2-r3`,
 `agent/rag-eng/remediation-r1-r2`, `agent/mae-eng/remediation-r1-r2`) were merged into
 `core00/dev/engineering` with `--no-ff` after Dr. Vance independently re-ran each module's test
-suite himself. **All 16 items across all five plans are now `Executed, pending verification`** —
-none besides Harness has reached `Verified`, since that requires the same independent Stage 4
-Reviewer sign-off Harness already went through, not yet performed for the other four plans.
+suite himself.
+
+**Stage 4 Verification is now complete for Context, RAG, and MAE** (2026-08-25) — Dr. Vance
+independently re-read every diff and re-ran each module's test suite himself before moving
+`Status` to `Verified`; see each plan's own `log/` for the Verification entry. **The Prompt plan
+is partially verified**: I4 is `Verified` (Dr. Vance, per the plan's own per-item reviewer
+exception — Wieczorek cannot review his own item), but I1/I2/I3/I5 still require Dr. Tomasz
+Wieczorek's independent sign-off, not yet performed. **Program status: 4 of 5 plans fully
+`Verified`** (Harness, Context, RAG, MAE); the Prompt plan has 1 of 5 items `Verified` (I4) with
+4 items (I1, I2, I3, I5) still at `Executed, pending verification`, awaiting Wieczorek.
 
 ---
 
@@ -71,13 +78,13 @@ findings become a tracked plan vs. the Remediation Backlog below): `pipeline.md`
 One row per layer. All five plans opened 2026-08-17; all five cleared Stage 2 (Approval) the same
 day.
 
-| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                                    |
-| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------- |
-| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Executed, pending verification — all 5 items (2026-08-24) |
-| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Executed, pending verification — both items (2026-08-24)  |
-| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Verified — all 5 items (2026-08-24)                       |
-| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Executed, pending verification — both items (2026-08-24)  |
-| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Executed, pending verification — both items (2026-08-24)  |
+| Layer | Plan                                                                                                          | Owner            | Reviewer                           | In-Scope Items                                                        | Status                                                                       |
+| ----- | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1     | `engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/implementation-plan.md`             | Dr. Elias Vance  | Dr. Tomasz Wieczorek (independent) | R1, R2, R3, R5 (Vance); R4 (Wieczorek)                                | Partially verified — I4 Verified; I1/I2/I3/I5 pending Wieczorek (2026-08-25) |
+| 2     | `engineering/context-engineering/2026-08-17-context-engineering-remediation/implementation-plan.md`           | Mei-Ling Zhao    | Dr. Elias Vance                    | R2, R3 (R1 relocated — see Harness plan)                              | Verified — both items (2026-08-25)                                           |
+| 3     | `engineering/harness-engineering/2026-08-17-harness-engineering-remediation/implementation-plan.md`           | Kwame Asante     | Dr. Elias Vance                    | R1 (P0), R2 (P0), R3 (P1, O'Malley), R4 (P1) + Context R1 (relocated) | Verified — all 5 items (2026-08-24)                                          |
+| 4     | `retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/implementation-plan.md` | Sofia Almeida    | Dr. Elias Vance                    | R1 (Almeida), R2 (Fontán)                                             | Verified — both items (2026-08-25)                                           |
+| 5     | `engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/implementation-plan.md`   | Dr. Idris Farouk | Dr. Elias Vance                    | R1 (P1, Farouk), R2 (P2, Yusuf — admitted, prerequisite to R1)        | Verified — both items (2026-08-25)                                           |
 
 ---
 
