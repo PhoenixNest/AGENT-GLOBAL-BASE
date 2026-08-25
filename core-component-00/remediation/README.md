@@ -98,23 +98,25 @@ P2/P3 rows from the benchmark series with no dependency link to an in-scope item
 `pipeline.md` § Scoping Rule). No dedicated plan — named owner only, revisited at that layer's
 next benchmark refresh.
 
-| Source Report | Row | Gap (one line)                                                                          | Owner           |
-| ------------- | --- | --------------------------------------------------------------------------------------- | --------------- |
-| Prompt        | R6  | Eval harness has no CI/schedule run path — unreferenced code                            | Ravi Deshmukh   |
-| Prompt        | R7  | No prompt versioning discipline beyond plain git history                                | Dr. Elias Vance |
-| Prompt        | R8  | Four dead-path references in an always-on workspace rule                                | Dr. Elias Vance |
-| Context       | R4  | Memory tiers carry no token budget; assembler's history slot not bound to them          | Hana Kobayashi  |
-| Context       | R5  | Compressor consumes none of the module's existing retention signals                     | Hana Kobayashi  |
-| Context       | R6  | Handoff contract bounds sub-agent input but not its return                              | Mei-Ling Zhao   |
-| Context       | R7  | Contradiction handling blocked behind a refused LLM judge; no bitemporal alternative    | Dr. Elias Vance |
-| Harness       | R5  | Composite health score documented as p99-based but computed from mean latency           | Connor O'Malley |
-| Harness       | R6  | Allowlisting is global rather than per agent role                                       | Kwame Asante    |
-| Harness       | R7  | No execution isolation behind the tool boundary                                         | Kwame Asante    |
-| Harness       | R8  | `ToolRegistry.execute_tool()` produces no audit record on any branch                    | Connor O'Malley |
-| RAG           | R3  | No reranking stage, contradicting the module's own README                               | Sofia Almeida   |
-| RAG           | R4  | Zero-argument chunker default is the weaker arm of the module's own measured comparison | Diego Fontán    |
-| RAG           | R5  | No staleness monitoring/alerting on top of the write-time debounce hook                 | Sofia Almeida   |
-| MAE           | R4  | No documented cost criterion for choosing single-agent over swarm orchestration         | Dr. Elias Vance |
+| Source Report | Row | Gap (one line)                                                                              | Owner           |
+| ------------- | --- | ------------------------------------------------------------------------------------------- | --------------- |
+| Prompt        | R6  | Eval harness has no CI/schedule run path — unreferenced code                                | Ravi Deshmukh   |
+| Prompt        | R7  | No prompt versioning discipline beyond plain git history                                    | Dr. Elias Vance |
+| Prompt        | R8  | Four dead-path references in an always-on workspace rule                                    | Dr. Elias Vance |
+| Context       | R4  | Memory tiers carry no token budget; assembler's history slot not bound to them              | Hana Kobayashi  |
+| Context       | R5  | Compressor consumes none of the module's existing retention signals                         | Hana Kobayashi  |
+| Context       | R6  | Handoff contract bounds sub-agent input but not its return                                  | Mei-Ling Zhao   |
+| Context       | R7  | Contradiction handling blocked behind a refused LLM judge; no bitemporal alternative        | Dr. Elias Vance |
+| Harness       | R5  | Composite health score documented as p99-based but computed from mean latency               | Connor O'Malley |
+| Harness       | R6  | Allowlisting is global rather than per agent role                                           | Kwame Asante    |
+| Harness       | R7  | No execution isolation behind the tool boundary                                             | Kwame Asante    |
+| Harness       | R8  | `ToolRegistry.execute_tool()` produces no audit record on any branch                        | Connor O'Malley |
+| Harness       | R9  | `RateLimiter` is request-count-based, not token-aware — under-protects large-payload bursts | Kwame Asante    |
+| Harness       | R10 | H-CE01's compaction trigger uses transcript byte-size, not a token count                    | Kwame Asante    |
+| RAG           | R3  | No reranking stage, contradicting the module's own README                                   | Sofia Almeida   |
+| RAG           | R4  | Zero-argument chunker default is the weaker arm of the module's own measured comparison     | Diego Fontán    |
+| RAG           | R5  | No staleness monitoring/alerting on top of the write-time debounce hook                     | Sofia Almeida   |
+| MAE           | R4  | No documented cost criterion for choosing single-agent over swarm orchestration             | Dr. Elias Vance |
 
 **Coordination note (not a plan item):** MAE R3 (breaker registry sharing) and Harness R3
 (circuit-breaker state pooling) are the same underlying work — MAE R3's owner cell already names
