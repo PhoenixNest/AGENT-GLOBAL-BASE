@@ -12,7 +12,12 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from implementations.context_compressor import ContextCompressor, _estimate_tokens
+from implementations.context_compressor import (
+    ContextCompressor,
+    _estimate_tokens,
+    estimate_turns_tokens,
+    format_turns_for_estimation,
+)
 from typing import List, Dict
 
 
@@ -81,23 +86,64 @@ def acon_compress(turns: List[Dict], target_tokens: int) -> List[Dict]:
     return [t for _, t in kept]
 
 
-TARGET_TOKENS = 1500
+# Contractual token-accounting basis for this benchmark: every token count
+# below — original, ContextCompressor's own internal accounting, and ACON's
+# — is measured via estimate_turns_tokens() (the role-prefixed, joined
+# transcript form). Summing per-turn content estimates in isolation
+# undercounts (it omits role-label/separator overhead) and disagrees with
+# what compress_history() itself compresses against — that mismatch used to
+# make this benchmark flaky. See context_compressor.format_turns_for_estimation.
+COMPRESSION_TARGET_FRACTION = 0.5  # compress each session down to half its size
+RATIO_FLOOR = 0.30  # ContextCompressor must cut at least 30% of tokens once compression runs
+CONTINUITY_FLOOR = 1.0  # every designated decision turn must survive verbatim
+
+
+def _decision_indices(turns: List[Dict]) -> List[int]:
+    """Indices of turns carrying irreversible information for this session —
+    the same markers ACON's importance scoring treats as `is_tool` (code
+    definitions, cited findings). These are the turns a real agent could not
+    afford to lose to compression."""
+    markers = ("def ", "arXiv")
+    return [i for i, t in enumerate(turns) if any(m in t.get("content", "") for m in markers)]
 
 
 def test_acon_vs_context_compressor():
     compressor = ContextCompressor()
     for session in SAMPLE_SESSIONS:
         turns = session["turns"]
-        original_tokens = sum(_estimate_tokens(t["content"]) for t in turns)
-        cc_result = compressor.compress_history(turns, target_tokens=TARGET_TOKENS)
-        acon_result = acon_compress(turns, target_tokens=TARGET_TOKENS)
-        acon_tokens = sum(_estimate_tokens(t["content"]) for t in acon_result)
+        original_tokens = estimate_turns_tokens(turns)
+        target_tokens = max(1, int(original_tokens * COMPRESSION_TARGET_FRACTION))
+        decision_indices = _decision_indices(turns)
+
+        cc_result = compressor.compress_history(
+            turns, target_tokens=target_tokens, sacred_turns=decision_indices
+        )
+        acon_result = acon_compress(turns, target_tokens=target_tokens)
+        acon_tokens = estimate_turns_tokens(acon_result)
+
         assert cc_result.compressed_tokens < original_tokens, (
             f"ContextCompressor did not reduce tokens for {session['name']}"
         )
         assert acon_tokens < original_tokens, (
             f"ACON did not reduce tokens for {session['name']}"
         )
+
+        assert cc_result.compression_ratio >= RATIO_FLOOR, (
+            f"{session['name']}: ContextCompressor ratio {cc_result.compression_ratio:.1%} "
+            f"below floor {RATIO_FLOOR:.0%}"
+        )
+
+        if decision_indices:
+            compressed_text = format_turns_for_estimation(cc_result.content)
+            survived = sum(
+                1 for i in decision_indices if turns[i]["content"] in compressed_text
+            )
+            continuity = survived / len(decision_indices)
+            assert continuity >= CONTINUITY_FLOOR, (
+                f"{session['name']}: decision continuity {continuity:.0%} "
+                f"below floor {CONTINUITY_FLOOR:.0%} "
+                f"({survived}/{len(decision_indices)} decision turns survived)"
+            )
 
 
 def run_benchmark():
@@ -108,10 +154,13 @@ def run_benchmark():
     print("-" * 80)
     for session in SAMPLE_SESSIONS:
         turns = session["turns"]
-        orig = sum(_estimate_tokens(t["content"]) for t in turns)
-        cc = compressor.compress_history(turns, target_tokens=TARGET_TOKENS)
-        acon = acon_compress(turns, target_tokens=TARGET_TOKENS)
-        acon_tok = sum(_estimate_tokens(t["content"]) for t in acon)
+        orig = estimate_turns_tokens(turns)
+        target_tokens = max(1, int(orig * COMPRESSION_TARGET_FRACTION))
+        cc = compressor.compress_history(
+            turns, target_tokens=target_tokens, sacred_turns=_decision_indices(turns)
+        )
+        acon = acon_compress(turns, target_tokens=target_tokens)
+        acon_tok = estimate_turns_tokens(acon)
         print(
             f"{session['name']:<20} {orig:>10} {cc.compressed_tokens:>10} {cc.compression_ratio:>8.1%} {acon_tok:>12} {1 - acon_tok/orig:>10.1%}"
         )
