@@ -1,13 +1,13 @@
 # Pass 4 Remediation Review — ANU-00 Agent Development Curriculum (24 Modules)
 
 **Requested by:** CEO, closing the scoped Pass 4 remediation run recommended by
-`../2026-08-18-first-review-cycle/comprehensive-review.md` (Joint Recommendation).
+`academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (Joint Recommendation).
 
 **Author:** Dr. Naledi Mokoena, ANU-00 Lead.
 
 **Inputs:** the four independent re-reviews in this folder (Bhandari on `intermediate/04`,
 Ibarra-Costa on `intermediate/07` and `advanced/08`, Baek on `advanced/05`); the eight authors'
-remediation of their own modules; `../2026-08-18-first-review-cycle/comprehensive-review.md` (Pass 3); `curriculum/README.md`
+remediation of their own modules; `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (Pass 3); `curriculum/README.md`
 as amended 2026-08-18 (Amendment 1).
 
 **Date:** 2026-08-19 — the date carried by all four re-reviews. I have not inferred any later date.
@@ -29,7 +29,7 @@ sub-reports second.
 
 | What I did myself                                                                | How                                                                                                                                                                                                                    |
 | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| C-1 — deprecated `执行框架` across **all 24** files, not just the 8 named        | Counted `执行框架` and `运行框架` per file and compared each count against Pass 3's own per-file audit (`../2026-08-18-first-review-cycle/comprehensive-review.md` l. 61)                                              |
+| C-1 — deprecated `执行框架` across **all 24** files, not just the 8 named        | Counted `执行框架` and `运行框架` per file and compared each count against Pass 3's own per-file audit (`academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` l. 61)      |
 | C-2 — metadata block on **all 24** files (not a 12-file sample)                  | Read the first 12 lines of every module and diffed the block field-by-field against README §4.1's canonical Format B: three fields, bold `·`-separated line, Chinese mirror line, full roster identity, trailing `---` |
 | C-3 — remaining inline glosses across **all 24** files                           | Regex sweep for the `English term（中文）` shape §4 names — an ASCII token immediately followed by a parenthesis containing CJK — then hand-classified every one of the 42 hits against the narrowed §4 rule           |
 | Bilingual typography across **all 24** files                                     | Counted half-width `,` `:` `;` directly following a CJK character against their full-width counterparts, per file — the same scan that produced the 868-instance finding at Pass 3, rerun identically                  |
@@ -185,7 +185,7 @@ of them, four in `advanced/01` (a P2 carried unchanged from Pass 3 in a document
 was never in scope), and the single BM25 artifact in `intermediate/06` described above.
 
 This was not a corpus-wide C-item that could be missed on a technicality. It is written into the
-per-document reason column of `../2026-08-18-first-review-cycle/comprehensive-review.md` rows 5, 13, 21 and 22 as a named cause
+per-document reason column of `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` rows 5, 13, 21 and 22 as a named cause
 of those four documents' needs-revision verdicts. It was in scope, it was specific, and it was not
 done. Dr. Baek recorded it in her `advanced/05` re-review as an out-of-scope observation so it
 would not be lost — correctly, given her assigned scope — and my scan confirms it holds for all

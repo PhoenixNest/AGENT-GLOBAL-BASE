@@ -43,7 +43,7 @@ tracked finding, but is not itself a round.
   `comprehensive-review.md`; a narrower follow-up (like a remediation re-review) may have only its
   own report files directly in the round folder, as `2026-08-19-remediation-review/` does.
 - Cross-references between rounds use relative paths through the dated folders
-  (`../2026-08-18-first-review-cycle/comprehensive-review.md`), never a bare `reviews/...` path
+  (`academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md`), never a bare `reviews/...` path
   that assumes a flat structure.
 
 ## Existing Rounds

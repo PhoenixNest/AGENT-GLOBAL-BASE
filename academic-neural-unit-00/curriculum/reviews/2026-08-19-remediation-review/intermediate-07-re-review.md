@@ -4,13 +4,13 @@
 **Document re-reviewed:** `academic-neural-unit-00/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md`
 **Document author:** Dr. Kaito Fujimori (Agent Systems Research) — not this reviewer
 **Review date:** 2026-08-19
-**Review pass:** Pass 4 remediation re-review, per `../2026-08-18-first-review-cycle/comprehensive-review.md` (Joint
+**Review pass:** Pass 4 remediation re-review, per `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (Joint
 Recommendation, l. 251): "the four documents with blocking-severity findings (`intermediate/07`,
 `advanced/05`, `advanced/08`, and `intermediate/04`) should be re-reviewed by a reviewer other than
 their author before close, per README §6's independence rule." This is a re-review of one prior
 finding against one document, not a fresh full-document cluster review — item scope is the P1
-recorded against `intermediate/07` §6 in `../2026-08-18-first-review-cycle/internal/multi-agent-evaluation-cluster-review.md` and
-upheld in `../2026-08-18-first-review-cycle/comprehensive-review.md` (l. 87, l. 202), plus a bounded spot-check of the
+recorded against `intermediate/07` §6 in `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/internal/multi-agent-evaluation-cluster-review.md` and
+upheld in `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (l. 87, l. 202), plus a bounded spot-check of the
 corpus-wide C-1/C-2/C-3 harmonization items as they apply to this one file.
 
 ---
@@ -22,7 +22,7 @@ corpus-wide C-1/C-2/C-3 harmonization items as they apply to this one file.
 is this document.
 
 **Relationship to the original finding:** I am the same reviewer who raised the original P1 against
-this document's §6 in Pass 1 (`../2026-08-18-first-review-cycle/internal/multi-agent-evaluation-cluster-review.md`), as the
+this document's §6 in Pass 1 (`academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/internal/multi-agent-evaluation-cluster-review.md`), as the
 ratified cluster reviewer for Multi-Agent Systems & Evaluation (`curriculum/README.md` §6, §7.2 —
 "Ibarra-Costa reviews Multi-Agent & Evaluation (Fujimori, Dubois, Bhandari)"). Being the original
 flagger of a defect is not the independence conflict README §6 and the CEO's re-review instruction
@@ -53,7 +53,7 @@ below) I went back to the primary source myself, independent of what the documen
 
 ### 2.1 What the original finding said
 
-Pass 3, upheld in `../2026-08-18-first-review-cycle/comprehensive-review.md` (l. 87): the document attributed Anthropic's
+Pass 3, upheld in `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` (l. 87): the document attributed Anthropic's
 "up to 90%" figure to a single-agent-vs-multi-agent comparison, when in the source the 90% figure
 is a **time reduction** from a **parallelization change** (parallel subagent dispatch and parallel
 tool calls, replacing the team's own earlier **sequential** execution) — not a single-agent
@@ -194,7 +194,7 @@ corpus-wide C-2/C-3 audit, which belongs to the closing synthesis.
 
 No blocking or non-blocking issue remains against this document from the Pass 3 finding. I am not
 aware of any other open item against `intermediate/07` from Pass 1–3 records (its only recorded
-blocking finding was this one, per `../2026-08-18-first-review-cycle/comprehensive-review.md` l. 202).
+blocking finding was this one, per `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` l. 202).
 
 ---
 
@@ -207,7 +207,7 @@ re-review is a new file, never an edit to the document or to the report it follo
 harmonization dimension across the whole corpus (that is the closing synthesis's job, not a
 single-document re-review); the remediation status of the other three Pass-4-flagged documents
 (`advanced/05`, `advanced/08`, `intermediate/04`) — each requires its own independent re-review;
-and any item in `../2026-08-18-first-review-cycle/comprehensive-review.md` not connected to the specific finding this
+and any item in `academic-neural-unit-00/curriculum/reviews/2026-08-18-first-review-cycle/comprehensive-review.md` not connected to the specific finding this
 re-review was scoped to verify.
 
 ---
