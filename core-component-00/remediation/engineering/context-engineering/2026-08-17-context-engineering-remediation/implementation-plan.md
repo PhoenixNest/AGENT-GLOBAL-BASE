@@ -40,10 +40,10 @@ Implementation Plan instead. See Cross-Layer Dependencies below.
 
 ## Gate Log
 
-| Stage        | Entry                                                                                                                         | Summary                                                                                                             |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| 0 — Trigger  | `core-component-00/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/01-drafting.md` | Topic opened from the signed-off Context benchmark's 2 in-scope P1 rows (R1 relocated to Harness)                   |
-| 2 — Approval | `core-component-00/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/02-approval.md` | Dr. Vance signed off as Reviewer on I1 and I2's Approach; no hook dependency, cleared to Execution once Zhao begins |
+| Stage        | Entry                                                                                                                                        | Summary                                                                                                             |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 0 — Trigger  | `core-component-00/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/01-drafting-i1-i2-opened.md`   | Topic opened from the signed-off Context benchmark's 2 in-scope P1 rows (R1 relocated to Harness)                   |
+| 2 — Approval | `core-component-00/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/02-approval-i1-i2-approved.md` | Dr. Vance signed off as Reviewer on I1 and I2's Approach; no hook dependency, cleared to Execution once Zhao begins |
 
 ---
 
