@@ -1,16 +1,21 @@
 # ANU-00 Curriculum — External-Audience Content Independence Remediation — Implementation Plan
 
-**Status:** Proposal — pending CEO approval
+**Status:** Approved by CEO 2026-08-26 (directed execution via git-worktree-isolated personnel) —
+**executed and closed the same day**
 **Prepared:** 2026-08-26
 **Scope:** Remediate the curriculum so its 24 existing modules are independently understandable to
 a reader with no access to this repository, per CEO direction that the curriculum now serves as
 general-purpose teaching material. Bounded to content-independence remediation only — no new
 modules, no S-2 practicum/post-training content, no broader expansion.
 
-> This document is the CEO-facing proposal for how this remediation will be scoped and executed. No
-> audit, edit, or review file described below has been produced yet — only this plan. Implementation
-> begins only after explicit CEO sign-off, the same gate `curriculum-development-plan.md` and the
-> S-2 extension plan both used.
+> This document authorized the remediation executed the same day it was approved. All five phases
+> in §6 ran to completion: audit reports, the link-mesh conversion script, the `advanced/07`/
+> `advanced/05` edits, both Phase 4 reviews, and Phase 5 verification all live under
+> `curriculum/reviews/2026-08-26-external-audience-remediation/`. Per `final-review.md`'s Joint
+> Recommendation, two items were escalated to the CEO rather than resolved by this plan: the
+> already-deferred author-metadata question (§2 item 5) and a new finding that
+> `curriculum/README.md` itself is not yet a clean external landing page — neither blocks this
+> plan's closure.
 
 ---
 
