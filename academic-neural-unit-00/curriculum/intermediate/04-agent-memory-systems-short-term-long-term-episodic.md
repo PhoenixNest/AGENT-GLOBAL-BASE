@@ -40,12 +40,12 @@ does not re-derive any of that material; it names the module whenever it leans o
 
 **为什么仅有智能体循环还不够**
 
-The agent loop covered in [`introductory/03`](/academic-neural-unit-00/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) describes how a single episode of agent behavior
+The agent loop covered in [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) describes how a single episode of agent behavior
 unfolds: observe, think, act, observe again. But it says nothing about what happens between
 episodes, or about what happens when a single episode's history grows larger than the context window
 can hold.
 
-[`introductory/03`](/academic-neural-unit-00/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 中介绍的智能体循环描述了单次智能体行为片段的展开方式：观察、思考、行动、再观察。但它并未说明片段之间发生了什么，也未说明当单次片段的历史记录增长到超出上下文窗口容量时会发生什么。
+[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 中介绍的智能体循环描述了单次智能体行为片段的展开方式：观察、思考、行动、再观察。但它并未说明片段之间发生了什么，也未说明当单次片段的历史记录增长到超出上下文窗口容量时会发生什么。
 
 A customer-support agent that helped a user yesterday and helps the same user again today has, from
 the bare agent-loop description alone, no way to know that yesterday happened at all — each new call
@@ -55,10 +55,10 @@ stored, and how it is brought back into a future context window when it is neede
 
 一个昨天帮助过某位用户、今天又要为同一用户提供服务的客服智能体，仅凭裸的智能体循环描述本身，完全无法知道“昨天”曾经发生过——每一次对 LLM 的新调用都只能从提示词中放入的文本开始，仅此而已。记忆系统正是决定一段过去的片段会留下什么、存放在何处、以及在需要时如何被重新带回未来上下文窗口中的软件与架构机制。
 
-This gap matters for a concrete reason grounded in [`introductory/06`](/academic-neural-unit-00/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md): the context window is finite,
+This gap matters for a concrete reason grounded in [`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md): the context window is finite,
 measured in tokens, and every token spent on history is a token unavailable for the current task.
 
-这一缺口之所以重要，有一个源自 [`introductory/06`](/academic-neural-unit-00/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md) 的具体原因：上下文窗口是有限的，以词元计量，而花在历史记录上的每一个词元，都是当前任务无法使用的词元。
+这一缺口之所以重要，有一个源自 [`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md) 的具体原因：上下文窗口是有限的，以词元计量，而花在历史记录上的每一个词元，都是当前任务无法使用的词元。
 
 An agent that simply appended its entire conversation history forever would eventually exceed the
 window and fail outright, and even before that point, a long unstructured history degrades an LLM's
@@ -126,9 +126,9 @@ building a real agent would encounter them.
 **工作记忆：运转中的上下文窗口**
 
 In an LLM agent, working memory is not a separate database — it is the context window itself,
-covered mechanically in [`introductory/06`](/academic-neural-unit-00/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md).
+covered mechanically in [`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md).
 
-在一个 LLM 智能体中，工作记忆并非一个独立的数据库——它就是上下文窗口本身，其机制部分已在 [`introductory/06`](/academic-neural-unit-00/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md) 中讲解过。
+在一个 LLM 智能体中，工作记忆并非一个独立的数据库——它就是上下文窗口本身，其机制部分已在 [`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md) 中讲解过。
 
 Everything the agent is actively reasoning over on this turn — the system prompt, the current
 conversation, any tool results just returned, and whatever fragments of long-term memory were
@@ -313,14 +313,14 @@ higher levels of the tree.
 This is the same underlying idea — converting raw experience into a compact, reusable lesson — that
 Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao's
 2023 paper "Reflexion: Language Agents with Verbal Reinforcement Learning" applies inside a single
-task rather than across a simulated life: as covered in [`intermediate/03`](/academic-neural-unit-00/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md), a Reflexion agent
+task rather than across a simulated life: as covered in [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md), a Reflexion agent
 converts scalar or binary task feedback into a verbal self-reflection and stores that reflection in
 an episodic memory buffer so that its next attempt at the same task starts with the lesson already
 in hand, rather than repeating the same mistake. Generative Agents' reflection trees and Reflexion's
 episodic buffer are the same architectural idea — episodic memory synthesized into a lesson and
 written back for future retrieval — applied at two different timescales.
 
-这与 Noah Shinn、Federico Cassano、Edward Berman、Ashwin Gopinath、Karthik Narasimhan 与 Shunyu Yao 于 2023 年发表的论文《Reflexion：具有言语强化学习的语言智能体》（"Reflexion: Language Agents with Verbal Reinforcement Learning"）中所应用的，其实是同一种底层思想——将原始经历转化为一条简明、可复用的经验教训——只不过应用的范围不同：正如 [`intermediate/03`](/academic-neural-unit-00/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的，Reflexion 智能体将某次任务的标量或二元反馈转化为一段言语化的自我反思，并将该反思存入一个情景记忆缓冲区，使得它下一次尝试同一任务时，能够带着这条经验教训直接开始，而不是重复同样的错误。 Generative Agents 的反思树与 Reflexion 的情景记忆缓冲区，本质上是同一种架构思想——将情景记忆综合为一条经验教训并写回以供未来检索——只是应用在了两种不同的时间尺度上。
+这与 Noah Shinn、Federico Cassano、Edward Berman、Ashwin Gopinath、Karthik Narasimhan 与 Shunyu Yao 于 2023 年发表的论文《Reflexion：具有言语强化学习的语言智能体》（"Reflexion: Language Agents with Verbal Reinforcement Learning"）中所应用的，其实是同一种底层思想——将原始经历转化为一条简明、可复用的经验教训——只不过应用的范围不同：正如 [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的，Reflexion 智能体将某次任务的标量或二元反馈转化为一段言语化的自我反思，并将该反思存入一个情景记忆缓冲区，使得它下一次尝试同一任务时，能够带着这条经验教训直接开始，而不是重复同样的错误。 Generative Agents 的反思树与 Reflexion 的情景记忆缓冲区，本质上是同一种架构思想——将情景记忆综合为一条经验教训并写回以供未来检索——只是应用在了两种不同的时间尺度上。
 
 ---
 
@@ -353,9 +353,9 @@ description of where an agent's "how-to" knowledge already lives: partly implici
 weights of the LLM itself (the model's general competence at, say, writing Python, which was never
 explicitly stored as a memory but is simply part of what the model is), and partly explicit, inside
 the agent's own source code — the concrete procedures that implement each action and the
-decision-making loop itself, as covered in [`introductory/03`](/academic-neural-unit-00/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) and [`intermediate/03`](/academic-neural-unit-00/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md).
+decision-making loop itself, as covered in [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) and [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md).
 
-CoALA 所定义的程序性记忆，与其说是智能体在运行时会写入的一种存储，不如说是对智能体“操作性”知识究竟存放于何处这一问题的描述：一部分是隐性的，存在于 LLM 自身的权重之中（例如模型编写 Python 代码的一般能力，这种能力从未被显式地存储为某条记忆，而只是模型本身能力的一部分）；另一部分是显性的，存在于智能体自身的源代码之中——即实现每个具体行动的程序，以及决策循环本身，这些内容已在 [`introductory/03`](/academic-neural-unit-00/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 与 [`intermediate/03`](/academic-neural-unit-00/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中讲解过。
+CoALA 所定义的程序性记忆，与其说是智能体在运行时会写入的一种存储，不如说是对智能体“操作性”知识究竟存放于何处这一问题的描述：一部分是隐性的，存在于 LLM 自身的权重之中（例如模型编写 Python 代码的一般能力，这种能力从未被显式地存储为某条记忆，而只是模型本身能力的一部分）；另一部分是显性的，存在于智能体自身的源代码之中——即实现每个具体行动的程序，以及决策循环本身，这些内容已在 [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 与 [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中讲解过。
 
 Framed this way, procedural memory is the reminder that not all of an agent's "memory" is retrieved
 text — some of it is the code that makes the agent an agent in the first place, and no scoring
@@ -469,8 +469,8 @@ handling, and observability.
 
 ### Internal Cross-References
 
-- [`introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md`](/academic-neural-unit-00/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
-- [`introductory/04-tool-use-and-function-calling-basics.md`](/academic-neural-unit-00/curriculum/introductory/04-tool-use-and-function-calling-basics.md)
-- [`introductory/06-context-windows-tokens-and-memory-basics.md`](/academic-neural-unit-00/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)
-- [`intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md`](/academic-neural-unit-00/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
-- [`advanced/03-agent-harness-engineering-production-grade-agent-loops.md`](/academic-neural-unit-00/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+- [`introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+- [`introductory/04-tool-use-and-function-calling-basics.md`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md)
+- [`introductory/06-context-windows-tokens-and-memory-basics.md`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)
+- [`intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+- [`advanced/03-agent-harness-engineering-production-grade-agent-loops.md`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
