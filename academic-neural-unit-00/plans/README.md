@@ -39,10 +39,11 @@ plans/
 
 ## Existing Plans
 
-| Plan                                                        | Date       | Produced                                                                                                                |
-| ----------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `2026-08-17-curriculum-first-production-run/`               | 2026-08-17 | The 24-module bilingual curriculum under `curriculum/` (approved and executed)                                          |
-| `2026-08-19-curriculum-coding-and-post-training-extension/` | 2026-08-19 | 8 new modules (coding practicum + post-training track) addressing Pass 3's S-2 gap — **Proposal, pending CEO approval** |
+| Plan                                                        | Date       | Produced                                                                                                                                                                                                                                    |
+| ----------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `2026-08-17-curriculum-first-production-run/`               | 2026-08-17 | The 24-module bilingual curriculum under `curriculum/` (approved and executed)                                                                                                                                                              |
+| `2026-08-19-curriculum-coding-and-post-training-extension/` | 2026-08-19 | 8 new modules (coding practicum + post-training track) addressing the Pass 3 review's scope decision S-2 — **approved by CEO; execution deferred until after the external-audience remediation below**                                      |
+| `2026-08-26-curriculum-external-audience-remediation/`      | 2026-08-26 | Content-independence remediation across the existing 24 modules addressing the Pass 3 review's scope decision S-1, per CEO ruling that the curriculum now serves an external, general-purpose audience — **Proposal, pending CEO approval** |
 
 ## Why Not Just Leave the Plan Inside the Deliverable's Folder
 
