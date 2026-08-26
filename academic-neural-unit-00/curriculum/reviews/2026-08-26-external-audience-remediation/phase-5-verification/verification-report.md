@@ -43,13 +43,13 @@ The blind external review's Phase 4 finding (README.md's citations extend well b
 very first sentence cites a `plans/`-scoped document the link-mesh conversion script could not have
 caught since it is outside `curriculum/` and not markdown-link syntax) is **not** a silently-dropped
 item — it is named, and its disposition (escalate, don't fix here) is recorded in
-`final-review.md`'s Joint Recommendation.
+`../phase-4-review/final-review.md`'s Joint Recommendation.
 
 ## 4. Prettier
 
 Ran `npx prettier --write` on every file this round created or modified: 2 Phase 1 audit reports,
 24 curriculum modules (link conversion + `advanced/07`/`advanced/05` reframe), 2 Phase 4 review
-reports, this file, and `final-review.md`. All conformant.
+reports, this file, and `../phase-4-review/final-review.md`. All conformant.
 
 ---
 
@@ -96,7 +96,7 @@ escalated rather than left unaddressed.**
 
 ## 6. Recommendation
 
-Phase 5 verification confirms `final-review.md`'s Joint Recommendation: this round's chartered work
+Phase 5 verification confirms `../phase-4-review/final-review.md`'s Joint Recommendation: this round's chartered work
 — the S-1 finding and the expanded link-mesh/citation scope it implied — is complete across all 24
 modules, independently verified twice (structural script + cold external read), and the one
 finding outside this round's scope is named and escalated, not dropped. Recommend the CEO accept
