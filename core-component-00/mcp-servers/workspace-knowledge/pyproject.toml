@@ -27,6 +27,7 @@ dependencies = [
     # local version to force the CUDA variant:
     #   pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
     "torch>=2.13.0",
+    "proxytypes>=0.10.0",
 ]
 
 [project.scripts]
