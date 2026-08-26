@@ -11,11 +11,12 @@ modules, no S-2 practicum/post-training content, no broader expansion.
 > This document authorized the remediation executed the same day it was approved. All five phases
 > in §6 ran to completion: audit reports, the link-mesh conversion script, the `advanced/07`/
 > `advanced/05` edits, both Phase 4 reviews, and Phase 5 verification all live under
-> `curriculum/reviews/2026-08-26-external-audience-remediation/`. Per `final-review.md`'s Joint
-> Recommendation, two items were escalated to the CEO rather than resolved by this plan: the
-> already-deferred author-metadata question (§2 item 5) and a new finding that
-> `curriculum/README.md` itself is not yet a clean external landing page — neither blocks this
-> plan's closure.
+> `curriculum/reviews/2026-08-26-external-audience-remediation/`, filed in per-phase subfolders
+> (`phase-1-audit/`, `phase-4-review/`, `phase-5-verification/`) per that folder's own README.
+> Per `phase-4-review/final-review.md`'s Joint Recommendation, two items were escalated to the CEO
+> rather than resolved by this plan: the already-deferred author-metadata question (§2 item 5) and
+> a new finding that `curriculum/README.md` itself is not yet a clean external landing page —
+> neither blocks this plan's closure.
 
 ---
 
