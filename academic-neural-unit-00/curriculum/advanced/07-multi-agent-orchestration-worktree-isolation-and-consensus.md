@@ -128,10 +128,9 @@ blocks every other agent behind it.
 What is needed instead is a mechanism that gives each agent its own private, fully-writable copy of
 the working state, so agents never observe each other's in-progress edits at all, combined with a
 principled way to reconcile those private copies back into one shared result once each agent
-finishes. That is exactly the shape of the solution `core-component-00`'s engineering practice
-adopted for this workspace's own multi-agent work, and it is the subject of the next section.
+finishes. That is exactly the shape of the solution the next section develops.
 
-真正需要的是一种机制，让每个智能体都拥有一份完全私有、可自由写入的工作状态副本，使得智能体之间完全观察不到彼此正在进行中的修改，同时再配合一套有原则的方法，在每个智能体完成工作之后，把这些私有副本重新调和为一份共享结果。这正是本工作区 `core-component-00` 工程实践中，为其自身多智能体工作所采用的解决方案的形态，也是下一节要讨论的主题。
+真正需要的是一种机制，让每个智能体都拥有一份完全私有、可自由写入的工作状态副本，使得智能体之间完全观察不到彼此正在进行中的修改，同时再配合一套有原则的方法，在每个智能体完成工作之后，把这些私有副本重新调和为一份共享结果。这正是下一节要展开讲解的解决方案的形态。
 
 ---
 
@@ -164,11 +163,11 @@ content-addressed, so concurrent writers cannot corrupt it by writing to their o
 
 这些智能体谁也看不到、更不可能覆盖其他智能体尚未提交的修改，因为每个工作树都拥有自己独立的工作目录文件和自己独立的 Git 索引（Git 的暂存区数据结构）——真正共享的只有 `.git/` 中经过压缩的对象历史，而 Git 自身的对象模型是只追加、内容寻址的，因此并发的写入者各自写入自己的工作树时，不可能破坏这份共享历史。
 
-The full lifecycle this workspace's own multi-agent engineering practice specifies —
-`core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md` —
-has five phases, summarized in the table below.
+This five-phase pattern — Provision, Execute, Integrate, Resolve, Clean up — is a standard way
+production systems structure git-worktree-based multi-agent orchestration, built directly on the
+linked-working-directory mechanics already described above. It is summarized in the table below.
 
-本工作区自身的多智能体工程实践所规定的完整生命周期——见 `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md` ——分为五个阶段，概述如下表所示。
+“预配置（Provision）→执行（Execute）→集成（Integrate）→处理冲突（Resolve）→清理（Clean up）”这一五阶段模式，是生产系统组织基于 Git 工作树的多智能体编排时的一种标准做法，直接建立在前文所述的“链接工作目录”机制之上，概述如下表所示。
 
 | Phase         | Action                                                                          | Key Commands                                                |
 | ------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -226,25 +225,33 @@ summarized in the table below.
 | 2   | Commit attribution convention     | this workflow's commit messages carry a specific attribution convention: subject lines follow `agent/<name>: <verb-phrase>`, and bodies are hyphen-bulleted lists of concrete changes — because when a merge conflict shows up after Stage 3, it is far easier to triage if every commit readable via `git log --author=<agent>` clearly states which agent changed what and why — an audit trail a shared lock could never provide.                             | 这套工作流中的提交信息带有特定的归属约定：主题行遵循 `agent/<name>: <动词短语>` 的格式，正文则是以连字符列出的具体改动清单，因为三个阶段之后如果出现合并冲突，如果每一次提交都能以 `git log --author=<agent>` 可读的形式清楚说明是哪个智能体做了什么改动、为什么这么做，那么排查起来会容易得多——这正是共享锁机制永远无法提供的审计轨迹。 |
 | 3   | Integration is the decision point | most relevant to this chapter's topic: **Stage 3 (integration) is exactly when isolation ends and a decision must be made** — if two agents' branches touch the same lines of the same file, Git cannot resolve that automatically, and the orchestrator needs a principled way to decide which change wins. That decision problem is exactly what [§5](#5-foundations-of-distributed-consensus) through [§7](#7-semantic-consensus-among-llm-agents) formalize. | 也是与本章主题最相关的一点：**第 3 阶段（集成）正是隔离结束、必须做出决策的时刻**——如果两个智能体的分支修改了同一份文件的相同代码行，Git 无法自动解决这种冲突，编排器需要一套有原则的方法来判断应当采纳哪一方的改动。而这正是第 5 节到第 7 节要形式化处理的决策问题。                                                                    |
 
-Worktree isolation has real operational failure modes of its own, and this workspace's own
-multi-agent engineering practice has an instructive, documented case: an agent once needed a new
-worktree to access a large, slow-to-populate shared cache directory without re-downloading it, and
-used a Windows directory _junction_ — a filesystem-level alias — to point the worktree at the real
-shared directory instead of copying it. When that worktree was later removed with `git worktree
-remove`, Git's recursive cleanup followed the junction as an ordinary subdirectory and deleted the
-shared cache's actual contents in the main repository, not a copy.
+Worktree isolation has a real operational failure mode worth naming explicitly, and it follows
+directly from filesystem behavior any reader can verify independently, not from any one team's
+private experience: a **directory junction** (on Windows) or a **symbolic link** (on Unix-like
+systems) that points a new worktree at a large, slow-to-populate shared resource — used to avoid
+re-downloading or re-copying that resource for every worktree — is not itself a copy. Standard
+recursive-delete behavior on both platforms (Windows's reparse-point handling, documented in
+Microsoft's own reference material on junctions and reparse points, and the well-known Unix
+behavior of `rm -r`/`rm -rf` walking through a symlink's target when the link sits inside the path
+being removed) will, by default, follow the alias straight through and delete the real target's
+contents — not a copy of them. Git's own `git worktree remove` cleanup is exactly this kind of
+recursive-delete operation, so this is not a hypothetical: it is the mechanical, predictable
+consequence of aliasing a shared resource into a worktree that is later removed.
 
-工作树隔离本身也存在真实的运维层面的失败模式，本工作区自身的多智能体工程实践中就有一个颇具启发性、且已被记录在案的案例：某个智能体曾经需要让一个新的工作树访问一个体积庞大、填充缓慢的共享缓存目录，为了避免重新下载，它没有直接复制这个目录，而是使用了 Windows 的目录**联接**——一种文件系统层面的别名——让工作树指向真实的共享目录。后来这个工作树被 `git worktree remove` 移除时，Git 的递归清理逻辑把这个联接当作了一个普通子目录来处理，结果删除的是主仓库中共享缓存的**真实内容**，而不是某份副本。
+工作树隔离存在一个真实的、值得明确指出的运维层面失败模式，而且它直接源自任何读者都可以自行验证的文件系统行为，而非某个团队的私有经历：用（Windows 上的）**目录联接**或（类 Unix 系统上的）**符号链接**，把一个新工作树指向某个体积庞大、填充缓慢的共享资源——目的是避免为每个工作树重新下载或重新复制它——这个联接或链接本身并不是一份副本。两个平台上标准的递归删除行为（Windows 对重解析点的处理方式，记录在微软官方关于联接与重解析点的参考文档中；以及类 Unix 系统上广为人知的行为——当符号链接本身位于待删除路径之内时，`rm -r`/`rm -rf` 会径直穿过链接指向的目标）在默认情况下都会直接穿过这个别名，删除的是真实目标的内容，而不是某份副本。Git 自身的 `git worktree remove` 清理逻辑正是这样一种递归删除操作，因此这并非纸上谈兵：只要把共享资源以别名方式引入一个日后会被移除的工作树，这个后果就是机械的、可预见的。
 
-The lesson generalizes past Git: **isolation that is implemented as an alias to shared storage is
-not isolation** — it is a label on top of shared mutable state, and any tool that assumes "this
-directory is disposable" will eventually treat the alias as disposable too. The rule this workspace
-now enforces — copy large shared assets into a new worktree rather than symlinking or junctioning
-them in — is a direct, worked consequence of that incident, and a useful cautionary example of how
-an isolation mechanism can be quietly undermined by a shortcut that looks harmless in the moment it
-is taken.
+The lesson generalizes past Git: **isolation implemented as an alias to shared storage is not
+isolation** — it is a label on top of shared mutable state, and any tool that assumes "this
+directory is disposable" will eventually treat the alias as disposable too. (This curriculum's own
+producing organization ran into exactly this failure mode once in practice, which is why its
+internal worktree convention now requires copying large shared assets into a new worktree rather
+than symlinking or junctioning them in — mentioned here only as a real-world data point, not as
+something a reader needs to verify.) The general rule this incident illustrates — copy large shared
+assets into an isolated worktree rather than aliasing them in — follows directly from the
+recursive-delete behavior described above, independent of whether any particular team has hit the
+failure yet.
 
-这个教训的意义超出了 Git 本身：**用指向共享存储的别名来实现的“隔离”，根本不是真正的隔离**——它只是在共享的可变状态之上贴了一层标签，任何认为“这个目录可以随意丢弃”的工具，迟早也会把这个别名本身当作可以随意丢弃的东西。本工作区现在强制执行的规则——把大型共享资源复制进新的工作树，而不是用符号链接或联接的方式引入——正是这次事故所直接得出的、经过实践检验的结论，也是一个很好的警示案例，说明一种隔离机制是如何被一个当下看似无害的捷径悄悄破坏的。
+这个教训的意义超出了 Git 本身：**用指向共享存储的别名来实现的“隔离”，根本不是真正的隔离**——它只是在共享的可变状态之上贴了一层标签，任何认为“这个目录可以随意丢弃”的工具，迟早也会把这个别名本身当作可以随意丢弃的东西。（本课程的编写方自己也曾在实践中遇到过这种失败模式，这正是其内部工作树规范现在要求把大型共享资源复制进新工作树、而非用符号链接或联接方式引入的原因——这里提及它只是作为一个真实世界的例证，读者并不需要去核实它。）这一事件所印证的一般规则——把大型共享资源复制进隔离的工作树，而不是以别名方式引入——直接源自上文所述的递归删除行为，无论某个具体团队是否已经踩过这个坑，这条规则都成立。
 
 ---
 
@@ -586,14 +593,15 @@ cannot repair a candidate that was corrupted before it was ever finished.
 
 This chapter separated two problems that multi-agent orchestration systems routinely conflate:
 keeping concurrent agents from corrupting each other's in-progress work (worktree isolation, built
-on Git's linked-working-directory feature and this workspace's own five-phase lifecycle), and
+on Git's linked-working-directory feature and the five-phase Provision-Execute-Integrate-Resolve-
+Clean up lifecycle in [§4](#4-git-worktree-isolation-as-multi-agent-infrastructure)), and
 combining multiple agents' finished, independent outputs into one trustworthy result (consensus,
 ranging from classical crash-fault and Byzantine-fault distributed algorithms — Paxos, Raft, and the
 Byzantine Generals result — through the semantic-consensus mechanisms purpose-built for LLM agents —
 self-consistency, multiagent debate, and Mixture-of-Agents — to the emergent, implicit coordination
 demonstrated by memory-and-reflection-equipped Generative Agents).
 
-本章把多智能体编排系统中经常被混为一谈的两个问题分开处理：一是防止并发的智能体相互破坏彼此正在进行中的工作（工作树隔离，建立在 Git 的链接工作目录特性以及本工作区自身的五阶段生命周期之上），二是把多个智能体各自独立完成的输出综合为一个可信的结果（共识，涵盖从经典的崩溃故障与拜占庭故障分布式算法—— Paxos、Raft 以及拜占庭将军问题的结论——到专为大语言模型智能体设计的语义共识机制——自洽性、多智能体辩论与智能体混合架构——再到配备记忆与反思能力的生成式智能体所展现出的涌现式、隐式协同）。
+本章把多智能体编排系统中经常被混为一谈的两个问题分开处理：一是防止并发的智能体相互破坏彼此正在进行中的工作（工作树隔离，建立在 Git 的链接工作目录特性以及[第 4 节](#4-git-worktree-isolation-as-multi-agent-infrastructure)所述的“预配置—执行—集成—处理冲突—清理”五阶段生命周期之上），二是把多个智能体各自独立完成的输出综合为一个可信的结果（共识，涵盖从经典的崩溃故障与拜占庭故障分布式算法—— Paxos、Raft 以及拜占庭将军问题的结论——到专为大语言模型智能体设计的语义共识机制——自洽性、多智能体辩论与智能体混合架构——再到配备记忆与反思能力的生成式智能体所展现出的涌现式、隐式协同）。
 
 The worked three-agent code-review swarm in [§8](#8-worked-example-a-three-agent-code-review-swarm-with-isolation-and-consensus) showed both halves working together in the correct
 order, and [§9](#9-failure-modes-and-anti-patterns)'s three failure modes each showed what breaks when that order, or the underlying
