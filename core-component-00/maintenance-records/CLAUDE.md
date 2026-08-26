@@ -46,12 +46,10 @@ core-component-00/maintenance-records/
         └── ...
 ```
 
-**One folder per maintenance topic** (revised 2026-08-13, second same-day revision — see
-`README.md`'s Format Note for the full history: "new file per operation" → "one file per topic
-with inline dated sections" → this folder shape). This now matches
-`core-component-00/telescope/`'s directory structure exactly (dated folder per topic, per the
-`research-report.md` + `supporting/` Programme shape) rather than approximating it with a single
-growing file.
+**One folder per maintenance topic.** This matches `core-component-00/telescope/`'s directory
+structure exactly (dated folder per topic, per the `research-report.md` + `supporting/` Programme
+shape) rather than a single growing file. For the reasoning behind this shape, see `README.md`'s
+Format Note.
 
 The split within a topic folder follows Zhao's (`crew/context-engineering/mei-ling-zhao/`)
 memory-tier framing: `maintenance-record.md` is the **working-memory** summary — short, always

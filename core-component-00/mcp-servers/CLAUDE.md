@@ -53,30 +53,29 @@ free.
 
 **How the interpreter is selected — three places must agree:**
 
-| Location                                      | Mechanism                                                                                                                                                                                                                                     |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.mcp.json`                                   | `"command"` points directly at each server's own venv interpreter — `<server>/.venv/Scripts/python.exe` on Windows, `<server>/.venv/bin/python` on Linux/macOS (not bare `"python"`, and not `"uv"` — see the 2026-08-13 incident note below) |
-| `embedder_client.py`                          | Inherits automatically via `sys.executable` — no configuration needed                                                                                                                                                                         |
-| `embedder-service/manage_embedder_service.py` | Resolves whichever server's venv spawned it, via the inherited interpreter — no separate venv of its own; `EMBEDDER_SERVICE_PYTHON` overrides if ever needed                                                                                  |
+| Location                                      | Mechanism                                                                                                                                                                                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.mcp.json`                                   | `"command"` points directly at each server's own venv interpreter — `<server>/.venv/Scripts/python.exe` on Windows, `<server>/.venv/bin/python` on Linux/macOS (not bare `"python"`, and not `"uv"` — see the incident note below) |
+| `embedder_client.py`                          | Inherits automatically via `sys.executable` — no configuration needed                                                                                                                                                              |
+| `embedder-service/manage_embedder_service.py` | Resolves whichever server's venv spawned it, via the inherited interpreter — no separate venv of its own; `EMBEDDER_SERVICE_PYTHON` overrides if ever needed                                                                       |
 
 > **A bare `"python"` — or `"uv"` — anywhere in this chain is a defect.** Both resolve via `PATH`
-> to whatever the spawning process's own environment happens to contain. `"python"` risks a
-> system-wide, possibly CPU-only interpreter. `"uv"` failed for a different reason on 2026-08-13:
-> the Claude Code host process spawns MCP servers using its own long-lived process environment,
-> which does not necessarily match a freshly-opened shell's `PATH` — a `uv` install added to the
-> user `PATH` after the host process started is invisible to it until the host itself restarts,
-> not just on `/mcp reconnect`. `.mcp.json`'s `"command"` must therefore be an absolute or
-> `${CLAUDE_PROJECT_DIR:-.}`-relative path to a concrete interpreter, never a bare command name
-> resolved via `PATH`. Full incident record:
+> to whatever the spawning process's own environment happens to contain, which does not
+> necessarily match the Claude Code host's own long-lived process environment — a `PATH`-resolved
+> command can start cleanly in a fresh shell test and still fail when the host itself spawns it.
+> `"python"` additionally risks a system-wide, possibly CPU-only interpreter. `.mcp.json`'s
+> `"command"` must therefore be an absolute or `${CLAUDE_PROJECT_DIR:-.}`-relative path to a
+> concrete interpreter, never a bare command name resolved via `PATH`. Full incident record:
 > `core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
 >
-> **Cross-platform consequence:** because `.mcp.json` cannot branch on OS, a single checked-in
-> file cannot auto-resolve both `Scripts/python.exe` (Windows) and `bin/python` (Linux/macOS)
-> without either a `PATH`-resolved indirection (proven unreliable above) or a hardcoded,
-> OS-specific literal (the current state). A Linux/macOS deployment of this workspace must edit
-> both `.mcp.json` entries' `"command"` to
-> `${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/<server>/.venv/bin/python` — a one-line,
-> documented change per server, not an automatic one. Full record:
+> **Cross-platform path resolution:** `.mcp.json` is static JSON and cannot branch on OS, so a
+> single checked-in interpreter path cannot itself resolve to both `Scripts/python.exe` (Windows)
+> and `bin/python` (Linux/macOS). A `SessionStart` hook,
+> `.claude/hooks/mcp-config-platform-check.py`, handles this automatically: at every session start
+> it checks whether each server's configured `"command"` file exists on disk, and if not, rewrites
+> it to the sibling path for the OS actually running — always a fully-resolved, existence-verified
+> absolute path, never a bare command name — before Claude Code's own `/mcp reconnect` runs. Full
+> record:
 > `core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
 
 **`sys.path` and `sys.executable` are not interchangeable.** Inserting a `site-packages` directory
