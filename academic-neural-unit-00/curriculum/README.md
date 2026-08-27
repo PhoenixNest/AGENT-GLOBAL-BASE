@@ -82,12 +82,16 @@ curriculum/
 ├── intermediate/                       ← 8 modules — builds strictly on introductory/
 ├── advanced/                           ← 8 modules — builds strictly on intermediate/
 └── reviews/
-    ├── README.md                       ← the dated-round filing convention (read before adding a new round)
-    ├── 2026-08-18-first-review-cycle/  ← Pass 1 (internal/), Pass 2 (external/), Pass 3 (comprehensive-review.md)
-    │   ├── internal/                   ← 5 ANU-00 cluster review reports
-    │   ├── external/                   ← 2 blind external review reports
-    │   └── comprehensive-review.md     ← Lead's synthesis review (root final-review.md shape)
-    └── 2026-08-19-remediation-review/  ← Pass 4: 4 independent re-reviews + the Lead's closing synthesis
+    ├── README.md                            ← the dated-round filing convention (read before adding a new round)
+    ├── 2026-08-18-first-review-cycle/       ← Pass 1 (internal/), Pass 2 (external/), Pass 3 (comprehensive-review.md)
+    │   ├── internal/                        ← 5 ANU-00 cluster review reports
+    │   ├── external/                        ← 2 blind external review reports
+    │   └── comprehensive-review.md          ← Lead's synthesis review (root final-review.md shape)
+    ├── 2026-08-19-remediation-review/       ← Pass 4: 4 independent re-reviews + the Lead's closing synthesis
+    └── 2026-08-26-external-audience-remediation/  ← phase-<n>-<phase-title>/ shape, keyed to that
+        ├── phase-1-audit/                          round's own plan's §6 phases (see reviews/README.md
+        ├── phase-4-review/                          for when to use this shape instead of internal/external/)
+        └── phase-5-verification/
 ```
 
 Filenames are level-prefixed, two-digit ordered, kebab-case. The `#` column of the module index in
