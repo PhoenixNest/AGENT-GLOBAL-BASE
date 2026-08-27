@@ -80,7 +80,8 @@ curriculum/
 ├── README.md                           ← this file — canonical conventions and module index
 ├── introductory/                       ← 8 modules — zero prior background assumed
 ├── intermediate/                       ← 8 modules — builds strictly on introductory/
-├── advanced/                           ← 8 modules — builds strictly on intermediate/
+├── advanced/                           ← 10 modules — 8 original + 2 post-training (S2, Amendment 5)
+├── practicum/                          ← 6 hands-on coding modules (S2, Amendment 5) — see practicum/README.md
 └── reviews/
     ├── README.md                            ← the dated-round filing convention (read before adding a new round)
     ├── 2026-08-18-first-review-cycle/       ← Pass 1 (internal/), Pass 2 (external/), Pass 3 (comprehensive-review.md)
@@ -375,14 +376,22 @@ deliverable rather than a research programme, and it is not delegable.
 | advanced     | 06  | RAG at Scale: Hybrid Search, Reranking & Evaluation                       | Dr. Wei-Ling Tan        | Prompt & Context Engineering         |
 | advanced     | 07  | Multi-Agent Orchestration: Worktree Isolation & Consensus                 | Dr. Aditi Bhandari      | Multi-Agent Systems & Evaluation     |
 | advanced     | 08  | Rigorous Agent Evaluation: Statistical Methodology                        | Dr. Mireille Dubois     | Multi-Agent Systems & Evaluation     |
+| advanced     | 09  | Reinforcement Learning from Human Feedback                                | Dr. Samuel Okonkwo      | Post-Training (S2, Amendment 5)      |
+| advanced     | 10  | Modern Post-Training Methods: DPO, GRPO & Reward Modeling                 | Dr. Aditi Bhandari      | Post-Training (S2, Amendment 5)      |
+
+Modules `advanced/09` and `advanced/10` are ratified at charter (2026-08-27, Amendment 5) but not
+yet authored — authoring is Phase 2 of the S2 plan's §4 production workflow, which has not started
+under this ratification. See Amendment 5 below for the governing plan reference. The 6 hands-on
+practicum modules that are the other half of the S2 extension are a separate sibling category, not
+part of this table — see `practicum/README.md`.
 
 ### 7.1 Filenames
 
-| Level          | Files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `introductory` | `01-neural-networks-and-deep-learning-foundations.md`, `02-the-transformer-architecture-and-attention.md`, `03-what-is-an-ai-agent-concepts-and-the-agent-loop.md`, `04-tool-use-and-function-calling-basics.md`, `05-prompt-engineering-fundamentals.md`, `06-context-windows-tokens-and-memory-basics.md`, `07-introduction-to-multi-agent-systems.md`, `08-why-and-how-we-evaluate-agents.md`                                                                                                          |
-| `intermediate` | `01-training-dynamics-optimization-and-generalization.md`, `02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`, `03-agent-design-patterns-react-plan-execute-reflexion.md`, `04-agent-memory-systems-short-term-long-term-episodic.md`, `05-advanced-prompting-cot-few-shot-structured-output.md`, `06-rag-fundamentals-retrieval-embeddings-and-grounding.md`, `07-multi-agent-communication-and-coordination-protocols.md`, `08-evaluating-agent-systems-benchmarks-and-methodology.md` |
-| `advanced`     | `01-scaling-laws-and-emergent-capabilities.md`, `02-mixture-of-experts-and-modern-architecture-variants.md`, `03-agent-harness-engineering-production-grade-agent-loops.md`, `04-agentic-safety-guardrails-and-governance-patterns.md`, `05-advanced-context-engineering-long-context-and-budgeting.md`, `06-rag-at-scale-hybrid-search-reranking-and-evaluation.md`, `07-multi-agent-orchestration-worktree-isolation-and-consensus.md`, `08-rigorous-agent-evaluation-statistical-methodology.md`       |
+| Level          | Files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `introductory` | `01-neural-networks-and-deep-learning-foundations.md`, `02-the-transformer-architecture-and-attention.md`, `03-what-is-an-ai-agent-concepts-and-the-agent-loop.md`, `04-tool-use-and-function-calling-basics.md`, `05-prompt-engineering-fundamentals.md`, `06-context-windows-tokens-and-memory-basics.md`, `07-introduction-to-multi-agent-systems.md`, `08-why-and-how-we-evaluate-agents.md`                                                                                                                                                                                                                                                                         |
+| `intermediate` | `01-training-dynamics-optimization-and-generalization.md`, `02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`, `03-agent-design-patterns-react-plan-execute-reflexion.md`, `04-agent-memory-systems-short-term-long-term-episodic.md`, `05-advanced-prompting-cot-few-shot-structured-output.md`, `06-rag-fundamentals-retrieval-embeddings-and-grounding.md`, `07-multi-agent-communication-and-coordination-protocols.md`, `08-evaluating-agent-systems-benchmarks-and-methodology.md`                                                                                                                                                                |
+| `advanced`     | `01-scaling-laws-and-emergent-capabilities.md`, `02-mixture-of-experts-and-modern-architecture-variants.md`, `03-agent-harness-engineering-production-grade-agent-loops.md`, `04-agentic-safety-guardrails-and-governance-patterns.md`, `05-advanced-context-engineering-long-context-and-budgeting.md`, `06-rag-at-scale-hybrid-search-reranking-and-evaluation.md`, `07-multi-agent-orchestration-worktree-isolation-and-consensus.md`, `08-rigorous-agent-evaluation-statistical-methodology.md`, `09-reinforcement-learning-from-human-feedback.md` (S2, not yet authored), `10-modern-post-training-methods-dpo-grpo-and-reward-modeling.md` (S2, not yet authored) |
 
 ### 7.2 Assignment Rationale and Roster Confirmation
 
@@ -469,3 +478,16 @@ trailing-content-after-`$$`, `$` inside a single backtick span, and paragraph-le
 balance — found no further instances after the two fixes. `templates/curriculum/internal-review-report.md`
 Check 5 (Structural completeness) now names all three patterns explicitly, so every future cluster
 reviewer checks for them on every formula-bearing document, not only the structural specialist.
+
+**Amendment 5 — 2026-08-27, Dr. Naledi Mokoena, ANU-00 Lead, under CEO approval.** Charters
+(Phase 1 of `academic-neural-unit-00/plans/2026-08-19-curriculum-coding-and-post-training-extension/curriculum-extension-plan.md`'s
+§4 production workflow) the S2 curriculum extension, addressing the two gaps
+`reviews/2026-08-18-first-review-cycle/comprehensive-review.md` recorded under scope decision S-2:
+zero runnable code and zero RLHF/post-training coverage across the existing 24 modules. Adds two
+post-training modules, `advanced/09` and `advanced/10` (§7 table above; existing `advanced/01`–`08`
+keep their numbers unchanged — pure addition, not renumbering), and opens a new sibling category,
+`curriculum/practicum/`, for 6 hands-on coding modules — its own conventions, the no-application-
+code boundary, and its module→author table are ratified in `practicum/README.md` rather than
+duplicated here, the same separation `reviews/README.md` already uses for review-round filing
+conventions. None of the existing 24 modules are edited by this amendment. Authoring (Phase 2 of
+the S2 plan) has not started under this ratification.
