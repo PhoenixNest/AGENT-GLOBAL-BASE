@@ -1,6 +1,7 @@
 # ANU-00 Curriculum Extension — Hands-On Coding & Post-Training Track — Implementation Plan
 
-**Status:** Proposal — pending CEO approval
+**Status:** Approved by CEO; execution in progress — Phase 1 (Charter) and Phase 2 (Author)
+complete, Phase 3 (Internal review) not yet started
 **Prepared:** 2026-08-19
 **Scope:** A bounded extension to the existing 24-module curriculum — a hands-on coding practicum
 plus two new post-training modules — addressing the S-2 gap the Pass 3 comprehensive review
@@ -123,10 +124,18 @@ practicum module; Okonkwo: 1 post-training module — run alongside a 6th agent 
 post-training module). **6 agents total** for authoring.
 
 **Phase 3 — Internal review (3 agents, Sonnet/high, parallel):** cross-cluster peer review, no
-author reviews their own work — e.g. Baek reviews the practicum modules, Bhandari reviews the
-post-training pair she didn't write plus spot-checks Okonkwo's, Lindqvist runs the same
-structural/metadata/bilingual-formatting pass used in the first run, extended with a fourth check:
-does every code block show its verification method, per the new practicum-specific rule in §3.
+author reviews their own work — Baek reviews the 6 practicum modules plus `advanced/10`, Bhandari
+reviews `advanced/09` only (Okonkwo's module — she does not review her own `advanced/10`),
+Lindqvist runs the same structural/metadata/bilingual-formatting pass used in the first run,
+extended with a fourth check: does every code block show its verification method, per the new
+practicum-specific rule in §3.
+
+**Correction (2026-08-27, under CEO ruling):** the original wording here — "Bhandari reviews the
+post-training pair she didn't write plus spot-checks Okonkwo's" — was self-contradictory, since §2.2
+assigns Bhandari as the author of `advanced/10`, one half of that pair; reviewing it would have
+violated the no-self-review rule stated in this same section. The CEO resolved this by reassigning
+`advanced/10`'s review to Baek and narrowing Bhandari's Phase 3 scope to `advanced/09` only, as
+reflected in the corrected assignment above.
 
 **Phase 4 — External blind review (2 agents, Sonnet/high, parallel):** same two personas as the
 first run (technical-accuracy, interview-readiness), plus this run's reviewers must additionally
