@@ -119,11 +119,12 @@ Rather than asking a human to write a good response — expensive, slow, and onl
 response per prompt — the reward-modeling stage asks a cheaper question: given two or more
 responses the current model already generated for the same prompt, which one is better? Humans
 are, empirically, much faster and more reliable at _comparing_ two responses than at _writing_ a
-response from scratch, and Stiennon et al. (2020) report that this comparison-based labeling
-scaled to 60,000 human comparisons for their summarization work at a labeling cost the
-demonstration-only approach of Ziegler et al. (2019) could not match at the same budget.
+response from scratch: Ziegler et al. (2019) report scaling this comparison-based labeling to
+60,000 human comparisons in their own summarization experiments, and Stiennon et al. (2020) scaled
+it further still, collecting 64,832 comparisons for their summarization work — both are
+comparison-based approaches, not a demonstration-writing baseline.
 
-奖励建模阶段不再要求人类去写一个好的回答——这样做既昂贵又缓慢，而且每条提示只能产出一个回答——而是提出了一个成本更低的问题：给定当前模型针对同一条提示已经生成的两个或更多个回答，哪一个更好？经验表明，人类*比较*两个回答的速度和可靠性，都远高于从零*撰写*一个回答；Stiennon 等人（2020）报告说，这种基于比较的标注方式，在他们的摘要任务中扩展到了 60,000 次人类比较，其标注成本是 Ziegler 等人（2019）仅靠示范数据的方式在同等预算下无法达到的。
+奖励建模阶段不再要求人类去写一个好的回答——这样做既昂贵又缓慢，而且每条提示只能产出一个回答——而是提出了一个成本更低的问题：给定当前模型针对同一条提示已经生成的两个或更多个回答，哪一个更好？经验表明，人类*比较*两个回答的速度和可靠性，都远高于从零*撰写*一个回答：Ziegler 等人（2019）在他们自己的摘要任务实验中，报告将这种基于比较的标注方式扩展到了 60,000 次人类比较；Stiennon 等人（2020）则将其进一步扩大，为其摘要工作收集了 64,832 次比较——两篇论文采用的都是基于比较的方法，而非依赖示范数据的基线方式。
 
 For a prompt $x$ and a pair of model-generated completions $y_w$ (the one the human labeler
 preferred, "win") and $y_l$ ("lose"), the reward model $r_\theta(x, y)$ is a single scalar-output
@@ -265,12 +266,7 @@ improve the objective — the worked example in [§8](#8-a-worked-example-ppos-c
 
 In practice, Schulman et al. (2017) combine $L^{\text{CLIP}}$ with a value-function loss term
 (coefficient $c_1$) and an entropy bonus (coefficient $c_2$, encouraging continued exploration)
-into a single objective $L^{\text{CLIP+VF+S}}(\theta) = \mathbb{E}_t\left[ L^{\text{CLIP}}_t(\theta)
-
-- c_1 \left(V_\theta(s_t) - V_t^{\text{targ}}\right)^2 + c_2\, S[\pi_\theta](s_t) \right]$, and this
-  is the form of PPO that Ziegler et al. (2019), Stiennon et al. (2020), and Ouyang et al. (2022) all
-  adopt for RLHF, with [§7](#7-advantage-estimation-and-the-kl-penalty-against-the-reference-policy) below adding one more term specific to language-model RLHF that does not appear in
-  Schulman et al.'s original game-playing and robotics experiments.
+into a single objective $L^{\text{CLIP+VF+S}}(\theta) = \mathbb{E}_t\left[ L^{\text{CLIP}}_t(\theta) - c_1 \left(V_\theta(s_t) - V_t^{\text{targ}}\right)^2 + c_2\, S[\pi_\theta](s_t) \right]$, and this is the form of PPO that Ziegler et al. (2019), Stiennon et al. (2020), and Ouyang et al. (2022) all adopt for RLHF, with [§7](#7-advantage-estimation-and-the-kl-penalty-against-the-reference-policy) below adding one more term specific to language-model RLHF that does not appear in Schulman et al.'s original game-playing and robotics experiments.
 
 在实践中，Schulman 等人（2017）把 $L^{\text{CLIP}}$ 与一个价值函数损失项（系数 $c_1$）以及一个鼓励持续探索的熵奖励项（系数 $c_2$）结合成一个单一目标：$L^{\text{CLIP+VF+S}}(\theta) = \mathbb{E}_t\left[ L^{\text{CLIP}}_t(\theta) - c_1 \left(V_\theta(s_t) - V_t^{\text{targ}}\right)^2 + c_2\, S[\pi_\theta](s_t) \right]$，而这正是 Ziegler 等人（2019）、Stiennon 等人（2020）以及 Ouyang 等人（2022）在 RLHF 中都采用的 PPO 形式；下文[第 7 节](#7-advantage-estimation-and-the-kl-penalty-against-the-reference-policy)还会再加入一项 Schulman 等人最初在游戏与机器人实验中并未出现的、专属于语言模型 RLHF 的项。
 
