@@ -305,7 +305,16 @@ CITATIONS (mandatory):
 - If you cannot verify a claim you were about to make, do not state it as fact — soften it, remove
   it, or find a verifiable source instead.
 - Internal Cross-References lists other curriculum modules this document builds on or connects to,
-  as relative markdown links.
+  as a real, resolvable `https://anu00.dev/curriculum/<tier>/<filename>.md[#anchor]` URL —
+  **not** a relative markdown link. Per the CEO's distribution-target ruling (2026-08-26,
+  `plans/2026-08-26-curriculum-external-audience-remediation/external-audience-remediation-plan.md`
+  §4), the curriculum is published as a single hosted public site, so every internal
+  cross-reference must resolve the same way for internal and external readers alike.
+  `anu00.dev` is an explicit placeholder domain pending real hosting provisioning — swap it for
+  the real domain once hosting exists, but do not revert to a relative path in the meantime.
+  (This line previously read "as relative markdown links" — that was the pre-2026-08-26
+  convention and is now stale; corrected 2026-08-27 after the stale text caused this exact
+  regression during the S2 extension's Phase 3 review and remediation.)
 - Audience: the reader has NO prior background in ML, AI, or agent development. Introductory-level
   docs must define every term before using it. Intermediate/advanced docs may assume only what
   earlier curriculum modules already taught — name which module, don't assume outside coursework.
