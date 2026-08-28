@@ -317,10 +317,17 @@ class SafeAgentToolUse:
         dangerous_patterns = [
             r"delete\s+.*\.(exe|dll)",  # System file deletion
             r"rm\s+-rf",  # Unix destructive command
-            r"format",  # Disk formatting
+            r"format\s+[a-z]:",  # Disk formatting command (e.g. "format c:") —
+            # anchored to drive-letter syntax so it doesn't match ordinary English
+            # use of the word "format" (e.g. "format this as markdown")
             r"kill\s+",  # Process termination
-            r"sudo\s+" if sys.platform != "win32" else "",  # Admin commands
         ]
+        if sys.platform != "win32":
+            # sudo has no win32 equivalent — append the pattern only where it's
+            # meaningful, instead of substituting "" (an empty regex matches
+            # every string, which previously flagged every task as dangerous
+            # on win32 regardless of content)
+            dangerous_patterns.append(r"sudo\s+")
 
         for pattern in dangerous_patterns:
             if re.search(pattern, task.lower()):

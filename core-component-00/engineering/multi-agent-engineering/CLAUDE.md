@@ -65,6 +65,11 @@ filesystem and branch, eliminating contention between concurrent agents.
 
 **Branch naming:** `agent/<role>/<task>` (e.g., `agent/backend/dark-mode-api`)
 
+**Branch topology (mandatory for independent batch work):** provision every agent's worktree from
+the _same_ base commit before merging any of them, not sequentially from the previous merge's tip —
+a sequential chain renders as a flat line in `git log --graph` and hides that the work was actually
+independent. See fundamentals doc §"Phase 3.5" for the pattern and the retroactive-rebuild recipe.
+
 **Full spec:** `fundamentals/git-worktree-orchestration.md`
 
 ---
