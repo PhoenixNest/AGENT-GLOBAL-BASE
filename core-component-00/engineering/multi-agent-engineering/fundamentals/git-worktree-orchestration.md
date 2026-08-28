@@ -106,6 +106,67 @@ EOF
 )"
 ```
 
+### Phase 3.5: Branch Topology — Parallel-Fork Base (Mandatory for Independent Batch Work)
+
+**The problem.** Phase 1's example above provisions worktrees one at a time. If an orchestrator
+instead provisions them **sequentially** — creating agent B's worktree only after agent A's branch
+has already merged, then agent C's only after B's — every branch's single parent is the tip of the
+previous merge, not a shared point in history. The resulting graph (`git log --graph`) renders as
+a flat vertical line: each merge commit sits directly under the last, and the fact that the work
+was logically independent and could have run concurrently is invisible. A reviewer scanning the
+graph cannot tell "5 independent fixes, done one after another for no reason" from "5 fixes that
+had to be sequenced because each depended on the last" — the topology carries no signal.
+
+**The rule.** When N agents' work is genuinely independent — no agent's task depends on another's
+output, and (ideally) no two agents touch the same file — **provision all N worktrees from the
+same base commit before merging any of them**:
+
+```bash
+# All three worktrees fork from the SAME commit (the current tip, captured once)
+BASE=$(git rev-parse HEAD)
+git worktree add ../agent-backend -b agent/backend/dark-mode-api "$BASE"
+git worktree add ../agent-frontend -b agent/frontend/dark-mode-ui "$BASE"
+git worktree add ../agent-tester -b agent/tester/dark-mode-tests "$BASE"
+
+# Each agent commits in its own worktree (Phase 2, unchanged)
+
+# Merge one at a time — order doesn't matter for independent work, but do it deterministically
+git merge agent/backend/dark-mode-api --no-ff -m "Merge agent/backend/dark-mode-api"
+git merge agent/frontend/dark-mode-ui --no-ff -m "Merge agent/frontend/dark-mode-ui"
+git merge agent/tester/dark-mode-tests --no-ff -m "Merge agent/tester/dark-mode-tests"
+```
+
+This costs nothing extra — the same number of worktrees, commits, and merges as the sequential
+version — but the graph now shows every branch forking from one shared point and fanning back in,
+which is what actually happened. Reserve genuine sequential chaining (each worktree forked from the
+previous merge's tip) for batches with a real dependency between steps; don't default to it out of
+habit when the work is independent.
+
+**Retroactive rebuild.** If a batch was already committed sequentially and needs its topology
+corrected after the fact (e.g., a later reviewer or the orchestrator's principal asks for it), this
+is safe to do without losing work, using cherry-pick rather than interactive rebase (this workspace
+never uses `-i` flags):
+
+1. `git branch backup-before-topology-rewrite <current-tip>` — a disposable safety ref, not a
+   permanent branch; delete it once step 4 passes.
+2. For each individual (non-merge) commit in the range, create a fresh worktree from the intended
+   common base and `git cherry-pick <that-commit>` onto it. A clean cherry-pick with matching
+   insertion/deletion counts confirms the diff reproduced exactly.
+3. Reset the target branch to the common base (`git reset --hard <base>`) and merge every rebuilt
+   branch in the original relative order, `--no-ff`.
+4. **Verify before cleaning up:** `git diff --quiet backup-before-topology-rewrite HEAD` must exit 0. This is a topology-only change — if the file tree differs at all from before the rewrite,
+   something was reordered or dropped, and you stop and investigate rather than proceeding to
+   cleanup. Don't rely on eyeballing the graph shape as sufficient verification; the byte-identity
+   check is the actual acceptance criterion.
+5. Only after step 4 passes: remove the temporary worktrees, delete the temporary branches
+   (`git branch -d`, safe mode), and delete the backup ref.
+
+This pattern was proven in production on 2026-08-27 rebuilding a 22-branch, two-phase batch (ANU-00
+curriculum remediation) from sequential-chain into parallel-fork topology, confirmed byte-identical
+via `git diff --quiet` before the safety backup was removed.
+
+---
+
 ### Phase 4: Conflict Resolution
 
 If merge conflicts occur:
@@ -290,6 +351,7 @@ manager.remove_worktree(worktree)
 
 ---
 
-**Version:** 1.0
-**Last Updated:** 2026-04-29
+**Version:** 1.1
+**Last Updated:** 2026-08-27 (added Phase 3.5 — Branch Topology: Parallel-Fork Base, per Dr. Idris
+Farouk, Multi-Agent Engineering Lead)
 **See also:** [Swarm Topologies](./swarm-topologies.md) · [Swarm Orchestrator](core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py) · [Git Worktree Manager](core-component-00/engineering/multi-agent-engineering/implementations/git_worktree_manager.py)
