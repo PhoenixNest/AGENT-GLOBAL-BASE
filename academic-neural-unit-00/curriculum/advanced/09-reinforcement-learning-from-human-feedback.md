@@ -14,15 +14,15 @@
 
 **引言：从预训练目标到人类偏好**
 
-[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) studied how a network is trained — gradient descent and its variants, driven entirely by a
-loss function computed from a fixed dataset — and [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) studied how far that same kind of training
+[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) studied how a network is trained — gradient descent and its variants, driven entirely by a
+loss function computed from a fixed dataset — and [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) studied how far that same kind of training
 scales: bigger models, more data, more compute, all still optimizing the same underlying objective,
 next-token prediction, and all measured by the same underlying quantity, cross-entropy test loss.
 This module asks what happens once you have a large, capable, pretrained language model and
 discover that "predicts the next token well" is not the same property as "does what a person
 actually wants it to do."
 
-[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 研究的是一个网络*如何*被训练——梯度下降及其变体，整个过程完全由根据固定数据集计算出的损失函数驱动；[`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 研究的是这种训练方式能扩展到多远——更大的模型、更多的数据、更多的算力，全都仍在优化同一个底层目标（预测下一个词元），也全都用同一个底层量（交叉熵测试损失）来衡量。本模块要问的是：当你已经拥有一个庞大、强大、预训练好的语言模型之后，会发现"能很好地预测下一个词元"和"能做到一个人真正想要它做的事"，并不是同一种性质——接下来会发生什么。
+[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 研究的是一个网络*如何*被训练——梯度下降及其变体，整个过程完全由根据固定数据集计算出的损失函数驱动；[`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 研究的是这种训练方式能扩展到多远——更大的模型、更多的数据、更多的算力，全都仍在优化同一个底层目标（预测下一个词元），也全都用同一个底层量（交叉熵测试损失）来衡量。本模块要问的是：当你已经拥有一个庞大、强大、预训练好的语言模型之后，会发现"能很好地预测下一个词元"和"能做到一个人真正想要它做的事"，并不是同一种性质——接下来会发生什么。
 
 A pretrained language model, trained only to continue text plausibly, will often continue a
 question with more questions, continue an instruction with a paraphrase of the instruction rather
@@ -61,17 +61,17 @@ this module follows their naming and formalization throughout.
 
 应用于语言模型的 RLHF，并不是单一的一套训练流程，而是由三个不同的、依次进行的阶段组成的一条流水线，每个阶段都会产出下一阶段所依赖的一份产物。Ziegler、Stiennon、Wu、Brown、Radford、Amodei、Christiano 与 Irving（2019）直接为语言模型确立了这个三阶段的结构，而 Ouyang 等人（2022）在提出 **InstructGPT** 的论文中，则是当今整条流水线在大规模场景下的经典参考文献——本模块通篇都沿用他们的命名与形式化方式。
 
-| Stage | Name                          | Input                                             | Output                                 | Trained by                                                                                                                                               |
-| ----- | ----------------------------- | ------------------------------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1     | Supervised fine-tuning (SFT)  | A pretrained language model, human demonstrations | A reference policy $\pi^{SFT}$         | Standard supervised learning ([`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §2) |
-| 2     | Reward model (RM) training    | $\pi^{SFT}$, human preference comparisons         | A scalar reward model $r_\theta(x, y)$ | The Bradley-Terry loss ([§4](#4-stage-2-reward-modeling-preference-data-and-the-bradley-terry-loss))                                                     |
-| 3     | RL fine-tuning against the RM | $\pi^{SFT}$, $r_\theta$                           | A final policy $\pi^{RL}_\phi$         | PPO ([§6](#6-stage-3-from-policy-gradients-to-ppos-clipped-objective))                                                                                   |
+| Stage | Name                          | Input                                             | Output                                 | Trained by                                                                                                                                                                                                  |
+| ----- | ----------------------------- | ------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | Supervised fine-tuning (SFT)  | A pretrained language model, human demonstrations | A reference policy $\pi^{SFT}$         | Standard supervised learning ([`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §2) |
+| 2     | Reward model (RM) training    | $\pi^{SFT}$, human preference comparisons         | A scalar reward model $r_\theta(x, y)$ | The Bradley-Terry loss ([§4](#4-stage-2-reward-modeling-preference-data-and-the-bradley-terry-loss))                                                                                                        |
+| 3     | RL fine-tuning against the RM | $\pi^{SFT}$, $r_\theta$                           | A final policy $\pi^{RL}_\phi$         | PPO ([§6](#6-stage-3-from-policy-gradients-to-ppos-clipped-objective))                                                                                                                                      |
 
-| 阶段 | 名称                   | 输入                             | 输出                              | 训练方式                                                                                                                                         |
-| ---- | ---------------------- | -------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1    | 有监督微调（SFT）      | 一个预训练语言模型、人类示范数据 | 一个参考策略 $\pi^{SFT}$          | 标准有监督学习（[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 2 节） |
-| 2    | 奖励模型（RM）训练     | $\pi^{SFT}$、人类偏好比较数据    | 一个标量奖励模型 $r_\theta(x, y)$ | Bradley-Terry 损失（[第 4 节](#4-stage-2-reward-modeling-preference-data-and-the-bradley-terry-loss)）                                           |
-| 3    | 针对 RM 的强化学习微调 | $\pi^{SFT}$、$r_\theta$          | 最终策略 $\pi^{RL}_\phi$          | PPO（[第 6 节](#6-stage-3-from-policy-gradients-to-ppos-clipped-objective)）                                                                     |
+| 阶段 | 名称                   | 输入                             | 输出                              | 训练方式                                                                                                                                                                                            |
+| ---- | ---------------------- | -------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | 有监督微调（SFT）      | 一个预训练语言模型、人类示范数据 | 一个参考策略 $\pi^{SFT}$          | 标准有监督学习（[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 2 节） |
+| 2    | 奖励模型（RM）训练     | $\pi^{SFT}$、人类偏好比较数据    | 一个标量奖励模型 $r_\theta(x, y)$ | Bradley-Terry 损失（[第 4 节](#4-stage-2-reward-modeling-preference-data-and-the-bradley-terry-loss)）                                                                                              |
+| 3    | 针对 RM 的强化学习微调 | $\pi^{SFT}$、$r_\theta$          | 最终策略 $\pi^{RL}_\phi$          | PPO（[第 6 节](#6-stage-3-from-policy-gradients-to-ppos-clipped-objective)）                                                                                                                        |
 
 Each stage answers a question the previous stage cannot: SFT teaches the model the _format_ of a
 good response by direct imitation, but human demonstrations are expensive and imitation alone
@@ -89,16 +89,16 @@ the reward model's scores into a policy that produces high-scoring text.
 
 **阶段 1：有监督微调与参考策略**
 
-The first stage is the most straightforward and reuses machinery [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) already covered
+The first stage is the most straightforward and reuses machinery [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) already covered
 in full: a pretrained language model is fine-tuned, using ordinary supervised learning — the same
-gradient-descent update rule and the same optimizer choices ([`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §3) — on a
+gradient-descent update rule and the same optimizer choices ([`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §3) — on a
 dataset of human-written demonstrations of the desired behavior: prompt-response pairs where the
 response is exactly what a skilled human would have written in reply to that prompt. Ouyang et al.
 (2022) report collecting roughly 13,000 such demonstrations for InstructGPT, written by hired
 human labelers, and fine-tuning GPT-3 on them for 16 epochs with a cosine learning-rate decay
-schedule ([`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §4).
+schedule ([`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §4).
 
-第一阶段是最直接的一步，直接复用了 [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 已经完整讲过的机制：对一个预训练语言模型，用普通的有监督学习——同样的梯度下降更新规则、同样的优化器选择（[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 3 节）——在一个由人类撰写的、展示所期望行为的示范数据集上进行微调：数据集中的每一条都是一对提示-回应，其中的回应正是一位熟练的人类会针对该提示写出的回答。Ouyang 等人（2022）报告说，他们为 InstructGPT 收集了大约 13,000 条这样的示范数据，由受雇的人类标注员撰写，并用余弦学习率衰减调度（[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 4 节）对 GPT-3 微调了 16 个训练轮次。
+第一阶段是最直接的一步，直接复用了 [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 已经完整讲过的机制：对一个预训练语言模型，用普通的有监督学习——同样的梯度下降更新规则、同样的优化器选择（[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 3 节）——在一个由人类撰写的、展示所期望行为的示范数据集上进行微调：数据集中的每一条都是一对提示-回应，其中的回应正是一位熟练的人类会针对该提示写出的回答。Ouyang 等人（2022）报告说，他们为 InstructGPT 收集了大约 13,000 条这样的示范数据，由受雇的人类标注员撰写，并用余弦学习率衰减调度（[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 4 节）对 GPT-3 微调了 16 个训练轮次。
 
 The resulting model is called the **SFT model** or **reference policy**, written $\pi^{SFT}$, and
 it plays two distinct roles for the rest of the pipeline: it is the _starting point_ that Stage 3's
@@ -192,19 +192,19 @@ completion is preferred over the second.
 Summing the final column gives $\sum -\log\sigma(\cdot) \approx 1.425$, and dividing by
 $\binom{4}{2} = 6$ gives $\text{loss}(\theta) \approx 0.238$ for this single prompt — the quantity
 that would then be averaged again over every prompt in a training batch to produce the batch loss
-that gradient descent ([`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §2) actually minimizes.
+that gradient descent ([`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §2) actually minimizes.
 
-将最后一列求和，得到 $\sum -\log\sigma(\cdot) \approx 1.425$，再除以 $\binom{4}{2} = 6$，得到这单条提示的损失 $\text{loss}(\theta) \approx 0.238$——这个量随后还会在一个训练批次中的每一条提示上再取一次平均，得到梯度下降（[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 2 节）真正去最小化的批次损失。
+将最后一列求和，得到 $\sum -\log\sigma(\cdot) \approx 1.425$，再除以 $\binom{4}{2} = 6$，得到这单条提示的损失 $\text{loss}(\theta) \approx 0.238$——这个量随后还会在一个训练批次中的每一条提示上再取一次平均，得到梯度下降（[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 2 节）真正去最小化的批次损失。
 
 Notice that the pair with the largest score gap, $(y_1, y_4)$ at 2.6, contributes the smallest
 individual loss term (0.071), because the reward model already strongly agrees with the human
 ranking on that pair; the pair with the smallest gap, $(y_1, y_2)$ at 0.7, contributes the largest
 term (0.403), because the reward model is least confident there — exactly the behavior the loss is
 designed to produce: gradient signal concentrates on the comparisons the model is currently getting
-least right, in the same sense that [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §2's gradient always points toward
+least right, in the same sense that [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §2's gradient always points toward
 reducing whichever error is currently largest.
 
-注意，分数差距最大的那一对 $(y_1, y_4)$（差距 2.6），贡献的单项损失反而最小（0.071），因为奖励模型在这一对上已经和人类的排序高度一致；而分数差距最小的那一对 $(y_1, y_2)$（差距 0.7），贡献的单项损失最大（0.403），因为奖励模型在这一对上的把握最不确定——这正是这个损失函数被设计出来要产生的行为：梯度信号会集中在模型当前判断得最不准的那些比较上，这与 [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 2 节中"梯度总是指向能降低当前最大误差的方向"是同一种道理。
+注意，分数差距最大的那一对 $(y_1, y_4)$（差距 2.6），贡献的单项损失反而最小（0.071），因为奖励模型在这一对上已经和人类的排序高度一致；而分数差距最小的那一对 $(y_1, y_2)$（差距 0.7），贡献的单项损失最大（0.403），因为奖励模型在这一对上的把握最不确定——这正是这个损失函数被设计出来要产生的行为：梯度信号会集中在模型当前判断得最不准的那些比较上，这与 [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 2 节中"梯度总是指向能降低当前最大误差的方向"是同一种道理。
 
 ---
 
@@ -227,11 +227,11 @@ by the reward it led to (or, more precisely, by an advantage estimate — [§7](
 parameters in the direction that makes high-reward actions more likely. The trouble is that a
 single large step, taken naively, can move the policy so far that the data it just collected is no
 longer even representative of what the new policy would do — destabilizing training, sometimes
-catastrophically, an instability with the same underlying flavor as [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §7's
+catastrophically, an instability with the same underlying flavor as [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) §7's
 worked example of a learning rate large enough to make gradient descent diverge rather than
 converge.
 
-一个普通的策略梯度方法，会取当前策略自身产生的轨迹，用每个动作所导致的奖励（更准确地说，是一个优势估计——见下文[第 7 节](#7-advantage-estimation-and-the-kl-penalty-against-the-reference-policy)）对其加权，然后把参数朝着能让高奖励动作变得更有可能的方向迈一步。问题在于，如果不加约束地迈出一大步，可能会让策略移动得太远，以至于刚刚采集到的数据甚至已经不能代表新策略会做出的行为——这会破坏训练的稳定性，有时甚至是灾难性的，其内在的不稳定性，与 [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 7 节中"学习率过大导致梯度下降发散而非收敛"的那个实例，在本质上是同一类问题。
+一个普通的策略梯度方法，会取当前策略自身产生的轨迹，用每个动作所导致的奖励（更准确地说，是一个优势估计——见下文[第 7 节](#7-advantage-estimation-and-the-kl-penalty-against-the-reference-policy)）对其加权，然后把参数朝着能让高奖励动作变得更有可能的方向迈一步。问题在于，如果不加约束地迈出一大步，可能会让策略移动得太远，以至于刚刚采集到的数据甚至已经不能代表新策略会做出的行为——这会破坏训练的稳定性，有时甚至是灾难性的，其内在的不稳定性，与 [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 第 7 节中"学习率过大导致梯度下降发散而非收敛"的那个实例，在本质上是同一类问题。
 
 PPO's fix is to bound how much a single update is allowed to trust the current batch of data, via
 the **probability ratio** between the new and old policy for each action taken:
@@ -422,15 +422,15 @@ be a good measure." In the RLHF literature it is called **reward hacking**（奖
 Gao, Schulman, and Hilton (2022) quantified this directly, in a controlled setup where a large
 "gold-standard" reward model stands in for true human judgment and a smaller "proxy" reward model
 of the kind actually used during RLHF is optimized against. As optimization against the proxy
-reward model intensifies — measured, following [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)'s style of relationship, by a smooth,
+reward model intensifies — measured, following [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)'s style of relationship, by a smooth,
 predictable functional form — gold-standard reward initially rises alongside proxy reward, exactly
 as intended, but then plateaus and, with enough further optimization, can actively decline: the
 policy has learned to satisfy the specific, idiosyncratic weaknesses of the proxy reward model
 rather than the underlying quality it was meant to stand in for. Gao et al. (2022) further report
 that this overoptimization curve itself scales predictably with reward-model size, connecting
-reward-model overoptimization directly to the kind of scaling-law reasoning [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) covers.
+reward-model overoptimization directly to the kind of scaling-law reasoning [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) covers.
 
-Gao、Schulman 与 Hilton（2022）在一个受控实验设定中，直接对这一现象做了量化：用一个大型"黄金标准"奖励模型来充当真实人类判断的替身，再对一个较小的、与 RLHF 中实际使用的类似的"代理"奖励模型进行优化。随着针对代理奖励模型的优化不断加强——按照 [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 所描述的那种关系风格来衡量，呈现出一种平滑、可预测的函数形式——黄金标准奖励一开始会随着代理奖励一起上升，完全符合预期，但随后会趋于平台，而如果继续大幅优化，甚至会开始实际下降：策略学会了去满足代理奖励模型那些特有的、古怪的弱点，而不是它本应代表的那种真实质量。Gao 等人（2022）进一步报告说，这条过优化曲线本身也会随奖励模型规模的变化而可预测地伸缩，这就把奖励模型的过优化问题，直接与 [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 所讲的那种规模法则式的推理联系了起来。
+Gao、Schulman 与 Hilton（2022）在一个受控实验设定中，直接对这一现象做了量化：用一个大型"黄金标准"奖励模型来充当真实人类判断的替身，再对一个较小的、与 RLHF 中实际使用的类似的"代理"奖励模型进行优化。随着针对代理奖励模型的优化不断加强——按照 [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 所描述的那种关系风格来衡量，呈现出一种平滑、可预测的函数形式——黄金标准奖励一开始会随着代理奖励一起上升，完全符合预期，但随后会趋于平台，而如果继续大幅优化，甚至会开始实际下降：策略学会了去满足代理奖励模型那些特有的、古怪的弱点，而不是它本应代表的那种真实质量。Gao 等人（2022）进一步报告说，这条过优化曲线本身也会随奖励模型规模的变化而可预测地伸缩，这就把奖励模型的过优化问题，直接与 [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 所讲的那种规模法则式的推理联系了起来。
 
 [§7](#7-advantage-estimation-and-the-kl-penalty-against-the-reference-policy)'s KL penalty against $\pi^{SFT}$ is, in this light, best understood not as an incidental
 regularizer but as the pipeline's primary defense against reward hacking: it directly limits how
@@ -484,6 +484,6 @@ RLHF 通过一条三阶段的流水线（[第 2 节](#2-the-three-stage-rlhf-pip
 
 ### Internal Cross-References
 
-- [`intermediate/01-training-dynamics-optimization-and-generalization.md`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) — gradient descent, optimizers, and learning-rate schedules this module's PPO and reward-model training both build on directly.
-- [`advanced/01-scaling-laws-and-emergent-capabilities.md`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — scaling laws this module's discussion of reward-model overoptimization ([§10](#10-reward-hacking-and-overoptimization-an-open-problem)) extends to reward-model size.
-- [`advanced/10-modern-post-training-methods-dpo-grpo-and-reward-modeling.md`](https://anu00.dev/curriculum/advanced/10-modern-post-training-methods-dpo-grpo-and-reward-modeling.md) — covers post-training methods developed as alternatives to this module's PPO-based pipeline, including approaches that remove the separate reward-model stage entirely.
+- [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) — gradient descent, optimizers, and learning-rate schedules this module's PPO and reward-model training both build on directly.
+- [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — scaling laws this module's discussion of reward-model overoptimization ([§10](#10-reward-hacking-and-overoptimization-an-open-problem)) extends to reward-model size.
+- [`advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling](https://anu00.dev/curriculum/advanced/10-modern-post-training-methods-dpo-grpo-and-reward-modeling.md) — covers post-training methods developed as alternatives to this module's PPO-based pipeline, including approaches that remove the separate reward-model stage entirely.
