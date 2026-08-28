@@ -9,6 +9,15 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
+# jsonref's published wheel does `from proxytypes import LazyProxy` (a stale absolute
+# import; see _vendor/proxytypes.py), which ModuleNotFoundErrors against a bare `uv add
+# proxytypes` since that package installs under `peak.util.proxies`, not a top-level
+# `proxytypes` module. Must be on sys.path before `fastmcp` is imported, since fastmcp
+# transitively imports jsonref.
+_VENDOR_ROOT = Path(__file__).resolve().parent / "_vendor"
+if str(_VENDOR_ROOT) not in sys.path:
+    sys.path.insert(0, str(_VENDOR_ROOT))
+
 from fastmcp import FastMCP
 
 WORKSPACE_ROOT = Path(os.getenv("WORKSPACE_ROOT", "."))

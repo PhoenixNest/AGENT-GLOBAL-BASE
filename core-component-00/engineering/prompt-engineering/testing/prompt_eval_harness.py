@@ -1,19 +1,42 @@
 """
-Prompt Evaluation Harness — Cross-Tier Stability Testing
+Prompt Evaluation Benchmark Set — Cross-Tier Perturbation Suite
 
-Tests prompt patterns across three model tiers (Haiku/Sonnet/Opus) to identify
-stable vs. brittle prompt patterns. Based on BrittleBench methodology (arXiv:2603.13285).
+Defines a benchmark set of 15 prompts (5 categories x 3 each), each paired with two
+semantics-preserving perturbations, for sweeping across three model tiers
+(Haiku/Sonnet/Opus). Perturbation pairing follows the BrittleBench methodology
+(arXiv:2603.13285).
+
+This file is an UNEXECUTED benchmark-set definition. It intentionally ships no
+classification logic and no model client.
+
+A prior version of this file computed a STABLE / TIER_SENSITIVE / BRITTLE verdict via a
+`MockModelClient` that returned `hashlib.md5(f"{tier}:{prompt[:50]}:{variant_id}")` in place
+of a real model call. That hash is a pure function of prompt text, tier, and variant index —
+it carries no model-output signal, so every run produced the same classification regardless
+of what any model actually did (verified: executing the prior version classified all 15
+prompts BRITTLE on every run, an arithmetic artifact of hashing 3 tiers x 2 variants, not a
+finding about any model). That classification path has been removed rather than kept as a
+placeholder — see
+core-component-00/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/
+item I1.
+
+To actually classify prompt stability, wire a real model client and grade its outputs
+directly instead of hashing them. A real client only needs to satisfy:
+
+    class ModelClient(Protocol):
+        def call(self, tier: str, prompt: str, variant_id: int) -> tuple[str, float]:
+            '''Return (model_output_text, latency_ms) from an actual model call.'''
+
+Then compare `model_output_text` across a prompt's variants (e.g. via embedding similarity,
+exact match after normalization, or an LLM-judge rubric) to derive a stability verdict. Do
+not reintroduce a hash-of-prompt-text substitute for that comparison.
 
 Usage:
-    python prompt_eval_harness.py
+    from prompt_eval_harness import MODEL_TIERS, BENCHMARK_PROMPTS, PromptVariant
+    # Wire a real client and grade its outputs against a rubric — not shipped here.
 """
-import hashlib
-import sys
-import os
-sys.path.insert(0, os.path.dirname(__file__))
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import List, Optional
+from typing import List
 
 MODEL_TIERS = {
     "haiku": "claude-haiku-4-5-20251001",
@@ -21,26 +44,12 @@ MODEL_TIERS = {
     "opus": "claude-opus-4-8",
 }
 
-class StabilityClass(Enum):
-    STABLE = "stable"
-    TIER_SENSITIVE = "tier_sensitive"
-    BRITTLE = "brittle"
-
 @dataclass
 class PromptVariant:
     prompt_id: str
     category: str
     base_prompt: str
     perturbations: List[str] = field(default_factory=list)
-
-@dataclass
-class EvalResult:
-    prompt_id: str
-    tier: str
-    variant_id: int
-    output_hash: str
-    latency_ms: float
-    stability_class: StabilityClass = StabilityClass.TIER_SENSITIVE
 
 BENCHMARK_PROMPTS = [
     # schema_constrained (3)
@@ -109,66 +118,3 @@ BENCHMARK_PROMPTS = [
         ['As a historian: why did Rome fall? One sentence.',
          'Historian perspective: cause of Roman fall, brief.']),
 ]
-
-class MockModelClient:
-    """Deterministic mock client for CI use. Same prompt -> same output hash."""
-
-    def call(self, tier: str, prompt: str, variant_id: int) -> tuple:
-        seed = f"{tier}:{prompt[:50]}:{variant_id}"
-        h = hashlib.md5(seed.encode()).hexdigest()[:8]
-        latency_map = {"haiku": 900.0, "sonnet": 1700.0, "opus": 3800.0}
-        return h, latency_map.get(tier, 1700.0)
-
-class PromptEvalHarness:
-    def __init__(self, client=None):
-        self.client = client or MockModelClient()
-
-    def run_eval(self, pv: PromptVariant, tier: str, variant_id: int = 0) -> EvalResult:
-        prompt = pv.base_prompt if variant_id == 0 else (pv.perturbations[variant_id - 1] if pv.perturbations else pv.base_prompt)
-        output_hash, latency = self.client.call(tier, prompt, variant_id)
-        return EvalResult(prompt_id=pv.prompt_id, tier=tier, variant_id=variant_id,
-                          output_hash=output_hash, latency_ms=latency)
-
-    def run_full_benchmark(self) -> List[EvalResult]:
-        results = []
-        for pv in BENCHMARK_PROMPTS:
-            for tier in MODEL_TIERS:
-                for vid in range(min(2, 1 + len(pv.perturbations))):
-                    results.append(self.run_eval(pv, tier, vid))
-        return results
-
-    def compute_stability_report(self, results: List[EvalResult]) -> dict:
-        from collections import defaultdict
-        per_prompt = defaultdict(list)
-        for r in results:
-            per_prompt[r.prompt_id].append(r)
-        report = {}
-        stable = tier_sensitive = brittle = 0
-        for pid, evals in per_prompt.items():
-            hashes = set(r.output_hash for r in evals)
-            if len(hashes) == 1:
-                cls = StabilityClass.STABLE; stable += 1
-            elif len(hashes) <= 2:
-                cls = StabilityClass.TIER_SENSITIVE; tier_sensitive += 1
-            else:
-                cls = StabilityClass.BRITTLE; brittle += 1
-            report[pid] = {"class": cls.value, "unique_outputs": len(hashes), "eval_count": len(evals)}
-        report["_summary"] = {"total": len(per_prompt), "STABLE": stable,
-                               "TIER_SENSITIVE": tier_sensitive, "BRITTLE": brittle}
-        return report
-
-def main():
-    harness = PromptEvalHarness()
-    results = harness.run_full_benchmark()
-    report = harness.compute_stability_report(results)
-    summary = report.pop("_summary")
-    print(f"\n{'Prompt ID':<10} {'Category':<20} {'Stability Class':<18} {'Unique Outputs'}")
-    print("-" * 65)
-    for pid, data in sorted(report.items()):
-        pv = next(p for p in BENCHMARK_PROMPTS if p.prompt_id == pid)
-        print(f"{pid:<10} {pv.category:<20} {data['class']:<18} {data['unique_outputs']}")
-    print(f"\nSummary: {summary['total']} prompts | STABLE={summary['STABLE']} TIER_SENSITIVE={summary['TIER_SENSITIVE']} BRITTLE={summary['BRITTLE']}")
-    print(f"Total evals: {len(results)}")
-
-if __name__ == "__main__":
-    main()

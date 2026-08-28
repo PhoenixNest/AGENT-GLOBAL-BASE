@@ -17,7 +17,7 @@ import asyncio
 import random
 import sys
 import time
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 
 MODEL_TIER_TIMEOUTS = {
@@ -90,6 +90,26 @@ class ContextOverflowError(Exception):
     """Raised when conversation exceeds token budget."""
 
     pass
+
+
+def _classify_provider_error(exc: Exception) -> Optional[str]:
+    """Classify a raw provider-SDK exception (anthropic.RateLimitError,
+    openai.RateLimitError, their timeout equivalents, or anything shaped like one)
+    into this module's typed vocabulary.
+
+    Classified structurally (HTTP status code, exception class name) rather than via
+    isinstance against imported anthropic/openai classes: neither SDK is a dependency
+    of this module, and structural matching also works across SDK major versions
+    without pinning to a specific class path.
+
+    Returns "rate_limit", "timeout", or None if `exc` isn't a recognized provider error.
+    """
+    name = type(exc).__name__
+    if getattr(exc, "status_code", None) == 429 or "RateLimit" in name:
+        return "rate_limit"
+    if "Timeout" in name:
+        return "timeout"
+    return None
 
 
 from enum import Enum
@@ -167,6 +187,26 @@ class CircuitBreaker:
             self._opened_at = time.monotonic()
 
 
+# Process-shared circuit-breaker registry, keyed by target service. Concurrent
+# SafeModelCall instances targeting the same service share one breaker's failure
+# evidence instead of each starting from a fresh, per-instance CLOSED state.
+_circuit_breaker_registry: Dict[str, "CircuitBreaker"] = {}
+
+
+def get_circuit_breaker(service_key: str) -> "CircuitBreaker":
+    """Return the shared CircuitBreaker for `service_key`, creating it on first use."""
+    if service_key not in _circuit_breaker_registry:
+        _circuit_breaker_registry[service_key] = CircuitBreaker()
+    return _circuit_breaker_registry[service_key]
+
+
+def reset_circuit_breaker_registry() -> None:
+    """Clear the shared registry. Test/ops utility only — production code should not
+    call this, since the registry is meant to persist failure evidence for the life
+    of the process, not per-call."""
+    _circuit_breaker_registry.clear()
+
+
 class SafeModelCall:
     """
     Wrapper for model calls with tiered error recovery.
@@ -176,13 +216,14 @@ class SafeModelCall:
         result = call.execute(prompt, schema=output_schema)
     """
 
-    def __init__(self, client, model_id, timeout=None, max_retries=3, enable_streaming: bool = True):
+    def __init__(self, client, model_id, timeout=None, max_retries=3, service_key=None):
         self.client = client
         self.model_id = model_id
         self.timeout = timeout if timeout is not None else get_timeout_for_model(model_id)
         self.max_retries = max_retries
-        self.circuit_breaker = CircuitBreaker()
-        self.enable_streaming = enable_streaming
+        # Target service defaults to model_id — the dimension callers already provide.
+        # Pass an explicit service_key when several model_ids front the same backend.
+        self.circuit_breaker = get_circuit_breaker(service_key or model_id)
 
     async def execute(self, prompt: str, schema=None) -> dict:
         """
@@ -213,7 +254,7 @@ class SafeModelCall:
 
                 # Make the call with timeout
                 response = await asyncio.wait_for(
-                    self.client.messages.create(messages=[prompt], stream=self.enable_streaming),
+                    self.client.messages.create(messages=[prompt]),
                     timeout=self.timeout,
                 )
 
@@ -247,7 +288,25 @@ class SafeModelCall:
                 }
 
             except Exception as e:
-                # Catch-all for unexpected errors
+                # Classify raw provider-SDK errors (anthropic.RateLimitError,
+                # openai.RateLimitError, their timeout equivalents) before falling
+                # through to the generic catch-all below.
+                classification = _classify_provider_error(e)
+                if classification == "rate_limit":
+                    log_warning(
+                        f"Provider rate limit classified from {type(e).__name__} "
+                        f"(model={self.model_id})"
+                    )
+                    raise RateLimitError(str(e)) from e
+
+                if classification == "timeout":
+                    log_error(f"Provider timeout on model call (model={self.model_id})")
+                    return {
+                        "success": False,
+                        "error": {"code": "TIMEOUT", "message": "Request timed out"},
+                    }
+
+                # Catch-all for genuinely unexpected errors
                 log_error(f"Unexpected error: {type(e).__name__}: {e}")
                 return {
                     "success": False,
@@ -448,26 +507,39 @@ async def process_user_request(request):
 class RateLimiter:
     """
     Token Bucket Rate Limiter to proactively prevent 429 errors.
+
+    Sized in tokens/minute, not requests/minute: a single large-payload call can
+    consume a large share of real provider throughput even though it is only one
+    "request", so a request-count bucket reports headroom that doesn't exist. Callers
+    report each call's actual or estimated token cost via `acquire(token_cost=...)`;
+    the bucket drains in proportion to that cost instead of a fixed 1-unit decrement
+    per call regardless of payload size. Corrected 2026-08-25 — see
+    core-component-00/remediation/engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/
+    item I1.
     """
-    def __init__(self, requests_per_minute: int = 50):
-        import time
-        self.capacity = requests_per_minute
-        self.tokens = requests_per_minute
-        self.refill_rate = requests_per_minute / 60.0
+    def __init__(self, tokens_per_minute: int = 50_000):
+        self.capacity = tokens_per_minute
+        self.tokens = tokens_per_minute
+        self.refill_rate = tokens_per_minute / 60.0
         self.last_refill = time.monotonic()
 
-    async def acquire(self):
-        import time
-        import asyncio
+    async def acquire(self, token_cost: int = 1) -> None:
         while True:
             now = time.monotonic()
             elapsed = now - self.last_refill
             self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_rate)
             self.last_refill = now
 
-            if self.tokens >= 1:
-                self.tokens -= 1
+            # A single call costing more than total capacity can never satisfy
+            # `tokens >= token_cost` even at a full bucket — treat "bucket is full"
+            # as sufficient in that case so an oversized single call isn't blocked
+            # forever. It still pays its real cost: tokens go negative and must
+            # refill past zero before the next call proceeds.
+            threshold = min(token_cost, self.capacity)
+            if self.tokens >= threshold:
+                self.tokens -= token_cost
                 return
-            
-            wait_time = (1 - self.tokens) / self.refill_rate
+
+            deficit = threshold - self.tokens
+            wait_time = deficit / self.refill_rate
             await asyncio.sleep(wait_time)
