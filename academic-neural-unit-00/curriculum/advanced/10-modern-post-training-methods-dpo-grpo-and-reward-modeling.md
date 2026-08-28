@@ -191,22 +191,99 @@ $$
 \max_{\pi_\theta} \; \mathbb{E}_{x\sim\mathcal{D},\, y\sim\pi_\theta(\cdot\mid x)}\big[r_\phi(x,y)\big] - \beta\, D_{KL}\big[\pi_\theta(\cdot\mid x)\,\|\,\pi_{ref}(\cdot\mid x)\big]
 $$
 
-Rafailov and co-authors' central observation is that this specific objective — reward maximization
-under a KL penalty toward a fixed reference — has a known closed-form solution for the optimal policy
-$\pi^*$, for _any_ fixed reward function $r$:
+Rafailov and co-authors do not merely assert this solution — they derive it in their paper's own
+Appendix A.1, using the same constrained-optimization argument that produces the Gibbs/Boltzmann policy
+throughout maximum-entropy reinforcement learning and soft Q-learning more generally. The derivation is
+worth carrying out explicitly here, because the resulting closed form is exactly what makes the
+partition function $Z(x)$ cancel later in this section. Fix a prompt $x$ — everything below is
+implicitly conditioned on this fixed $x$ — and expand the KL-divergence term in the objective above by
+its definition, $D_{KL}\big[\pi(\cdot\mid x)\,\|\,\pi_{ref}(\cdot\mid x)\big] = \sum_y \pi(y\mid
+x)\log\dfrac{\pi(y\mid x)}{\pi_{ref}(y\mid x)}$. This turns the maximization into an explicit
+optimization over the distribution $\pi(\cdot\mid x)$ itself:
 
-Rafailov 及其合著者的核心洞见在于：这个特定的目标——在相对固定参考策略的 KL 惩罚下做奖励最大化——对于**任意**给定的固定奖励函数 $r$，都存在一个已知的闭式最优策略解 $\pi^*$：
+Rafailov 及其合著者并不是凭空断言这个解，而是在论文自身的附录 A.1 中给出了推导，所用的正是最大熵强化学习与软 Q 学习中，用来推出吉布斯-玻尔兹曼（Gibbs/Boltzmann）策略形式的那一套约束优化论证。这个推导值得在此完整地展示一遍，因为正是由此得到的闭式解，才使得配分函数 $Z(x)$ 能够在本节后文中被消去。固定一个提示 $x$——以下推导中的所有量都隐含地以这个固定的 $x$ 为条件——并按定义把上面目标函数中的 KL 散度项展开：$D_{KL}\big[\pi(\cdot\mid x)\,\|\,\pi_{ref}(\cdot\mid x)\big] = \sum_y \pi(y\mid x)\log\dfrac{\pi(y\mid x)}{\pi_{ref}(y\mid x)}$。这就把原来的最大化问题，转化成了一个直接针对分布 $\pi(\cdot\mid x)$ 本身的显式优化问题：
+
+$$
+\max_{\pi(\cdot\mid x)} \;\; \sum_{y} \pi(y\mid x)\, r(x,y) \;-\; \beta \sum_{y} \pi(y\mid x) \log\frac{\pi(y\mid x)}{\pi_{ref}(y\mid x)}
+$$
+
+This maximization is subject to $\pi(\cdot\mid x)$ being a valid probability distribution over
+responses, i.e. $\sum_y \pi(y\mid x) = 1$. Non-negativity, $\pi(y\mid x)\geq 0$, does not need to be
+imposed as a separate active constraint — it holds automatically for the solution found below, since
+that solution turns out to be a positive multiple of $\pi_{ref}(y\mid x) \geq 0$. This leaves a single
+equality constraint, so the standard method of Lagrange multipliers applies: introducing a multiplier
+$\lambda(x)$ for the normalization constraint gives the Lagrangian
+
+这个最大化问题的约束条件，是 $\pi(\cdot\mid x)$ 必须是响应集合上的一个合法概率分布，即 $\sum_y \pi(y\mid x) = 1$。非负性约束 $\pi(y\mid x)\geq 0$ 不需要单独作为一个有效约束来处理——下面求得的解自然就会满足它，因为这个解本身就是 $\pi_{ref}(y\mid x) \geq 0$ 的一个正数倍。这样一来就只剩下一个等式约束，因此可以直接套用标准的**拉格朗日乘子法（method of Lagrange multipliers）**：为归一化约束引入一个拉格朗日乘子 $\lambda(x)$，得到拉格朗日函数
+
+$$
+\mathcal{L}\big(\pi(\cdot\mid x),\, \lambda(x)\big) = \sum_{y} \pi(y\mid x)\, r(x,y) \;-\; \beta \sum_{y} \pi(y\mid x) \log\frac{\pi(y\mid x)}{\pi_{ref}(y\mid x)} \;+\; \lambda(x)\left(1 - \sum_{y} \pi(y\mid x)\right)
+$$
+
+The objective being maximized is strictly concave in $\pi(\cdot\mid x)$: the first term $\sum_y
+\pi(y\mid x)\,r(x,y)$ is linear in $\pi$, and the second term equals $-\beta\, D_{KL}\big[\pi(\cdot\mid
+x)\,\|\,\pi_{ref}(\cdot\mid x)\big]$, which is strictly concave because KL divergence is strictly convex
+in its first argument and $\beta > 0$; a linear function plus a strictly concave function is strictly
+concave. Over a convex feasible set — the probability simplex defined by the constraint above — a
+strictly concave objective has at most one stationary point, and that point is automatically its unique
+global maximum, so finding the stationary point of $\mathcal{L}$ is sufficient to solve the problem.
+Because $y$ ranges over a discrete (if very large) set of possible responses, $\pi(\cdot\mid x)$ is a
+vector indexed by $y$ rather than a continuous function, so no calculus of variations is required here:
+each $\pi(y\mid x)$ can be treated as an ordinary independent variable, and $\mathcal{L}$ differentiated
+with respect to one of them at a time. Using $\dfrac{\partial}{\partial \pi(y\mid x)}\big[\pi(y\mid
+x)\log\pi(y\mid x)\big] = \log\pi(y\mid x) + 1$, the partial derivative of $\mathcal{L}$ with respect to
+$\pi(y\mid x)$, for one fixed response $y$, is
+
+被最大化的目标函数关于 $\pi(\cdot\mid x)$ 是**严格凹的**：第一项 $\sum_y \pi(y\mid x)\,r(x,y)$ 关于 $\pi$ 是线性的，第二项则等于 $-\beta\, D_{KL}\big[\pi(\cdot\mid x)\,\|\,\pi_{ref}(\cdot\mid x)\big]$——由于 KL 散度关于其第一个自变量是严格凸的，且 $\beta > 0$，这一项本身就是严格凹的；线性函数加上严格凹函数，其结果仍然是严格凹函数。在一个凸可行集——也就是上面约束条件所定义的概率单纯形——上，严格凹的目标函数至多只有一个驻点，而这个驻点自动就是唯一的全局最大值点，因此只需要求出 $\mathcal{L}$ 的驻点，即可解出整个问题。由于 $y$ 取值于一个离散（尽管规模可能极大）的响应集合，$\pi(\cdot\mid x)$ 本质上是一个以 $y$ 为下标的向量，而不是一个连续函数，因此这里并不需要用到变分法：可以把每一个 $\pi(y\mid x)$ 都当作一个普通的独立变量，逐一对 $\mathcal{L}$ 求偏导。利用 $\dfrac{\partial}{\partial \pi(y\mid x)}\big[\pi(y\mid x)\log\pi(y\mid x)\big] = \log\pi(y\mid x) + 1$，固定某一个响应 $y$，$\mathcal{L}$ 关于 $\pi(y\mid x)$ 的偏导数为
+
+$$
+\frac{\partial \mathcal{L}}{\partial \pi(y\mid x)} \;=\; r(x,y) \;-\; \beta\left(\log\frac{\pi(y\mid x)}{\pi_{ref}(y\mid x)} + 1\right) \;-\; \lambda(x)
+$$
+
+Setting this partial derivative to zero — the first-order stationarity condition — and solving for the
+log-ratio between $\pi$ and $\pi_{ref}$:
+
+令这个偏导数等于零——也就是一阶驻点条件——并解出 $\pi$ 与 $\pi_{ref}$ 之间的对数比值：
+
+$$
+\log\frac{\pi(y\mid x)}{\pi_{ref}(y\mid x)} \;=\; \frac{r(x,y)}{\beta} \;-\; 1 \;-\; \frac{\lambda(x)}{\beta}
+$$
+
+Exponentiating both sides isolates $\pi(y\mid x)$:
+
+对等式两边取指数，解出 $\pi(y\mid x)$：
+
+$$
+\pi(y\mid x) \;=\; \pi_{ref}(y\mid x)\, \exp\!\left(\frac{r(x,y)}{\beta}\right) \cdot \exp\!\left(-1 - \frac{\lambda(x)}{\beta}\right)
+$$
+
+The second exponential factor does not depend on $y$ at all — the stationarity condition ties it only
+to the single multiplier $\lambda(x)$, which is shared across every response $y$ to the same prompt $x$
+— so write it as $1/Z(x)$ for some function $Z(x)$ of $x$ alone, and pin down its exact value using
+precisely the normalization constraint that was set aside above:
+
+第二个指数因子根本不依赖于 $y$——驻点条件把它仅仅系于同一个乘子 $\lambda(x)$，而对同一个提示 $x$ 下的每一个响应 $y$ 而言，这个乘子都是共享、不变的——因此可以把它记作 $1/Z(x)$，其中 $Z(x)$ 是一个只依赖于 $x$ 的函数，并且恰好可以利用上面被暂时搁置的归一化约束，来确定它的具体取值：
+
+$$
+\sum_{y} \pi(y\mid x) = 1 \;\;\Longrightarrow\;\; \frac{1}{Z(x)} \sum_{y} \pi_{ref}(y\mid x)\, \exp\!\left(\frac{r(x,y)}{\beta}\right) = 1 \;\;\Longrightarrow\;\; Z(x) = \sum_{y} \pi_{ref}(y\mid x)\, \exp\!\left(\frac{r(x,y)}{\beta}\right)
+$$
+
+Substituting $1/Z(x)$ back in for the constant factor gives the unique maximizer $\pi^*$ — the
+closed-form optimal policy Rafailov and co-authors state, now derived rather than merely asserted, for
+_any_ fixed reward function $r$:
+
+把 $1/Z(x)$ 代回这个常数因子的位置，就得到了唯一的最大化解 $\pi^*$——也就是 Rafailov 及其合著者所给出的那个闭式最优策略，对**任意**给定的固定奖励函数 $r$ 都成立，而此刻它是被推导出来的，不再只是被断言的：
 
 $$
 \pi^*(y\mid x) = \frac{1}{Z(x)}\,\pi_{ref}(y\mid x)\, \exp\!\left(\frac{1}{\beta} r(x,y)\right)
 $$
 
-where $Z(x) = \sum_y \pi_{ref}(y\mid x)\exp\!\left(\frac{1}{\beta}r(x,y)\right)$ is a partition function
-that normalizes the distribution over all possible responses $y$ to prompt $x$ — and is, in general,
-computationally intractable to evaluate, since it sums over every possible generated sequence.
-Rearranging this expression to solve for the reward as a function of the optimal policy gives:
+As the derivation above shows, $Z(x)$ is exactly the normalizing sum required to make $\pi^*(\cdot\mid
+x)$ a valid probability distribution — but it remains, in general, computationally intractable to
+evaluate directly, since it sums over every possible generated sequence $y$. Rearranging this closed
+form to solve for the reward as a function of the optimal policy gives:
 
-其中 $Z(x) = \sum_y \pi_{ref}(y\mid x)\exp\!\left(\frac{1}{\beta}r(x,y)\right)$ 是一个配分函数，用来对提示 $x$ 下所有可能响应 $y$ 构成的分布做归一化——一般而言，这个配分函数在计算上是不可行的，因为它需要对每一个可能生成的序列求和。把这个表达式反过来整理，把奖励表示为最优策略的函数，就得到：
+正如上面的推导所示，$Z(x)$ 恰好就是让 $\pi^*(\cdot\mid x)$ 成为一个合法概率分布所需要的那个归一化求和项——但一般而言，它在计算上仍然是不可行的，因为它需要对每一个可能生成的序列 $y$ 求和。把这个闭式解反过来整理，把奖励表示为最优策略的函数，就得到：
 
 $$
 r(x,y) = \beta \log\frac{\pi^*(y\mid x)}{\pi_{ref}(y\mid x)} + \beta \log Z(x)
