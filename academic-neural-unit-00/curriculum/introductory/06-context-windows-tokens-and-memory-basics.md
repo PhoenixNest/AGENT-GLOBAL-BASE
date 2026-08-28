@@ -24,11 +24,11 @@ That limit has a name, a unit of measurement, and real engineering consequences,
 all three is a prerequisite for almost everything later in this curriculum: prompt engineering, tool
 use, retrieval, and multi-agent coordination all live inside that limit and are shaped by it. This
 module assumes no prior background — you do not need to have read anything about neural networks to
-follow it, though it does connect, where useful, to concepts introduced in [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) (neural
-network foundations) and [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) (the Transformer architecture and attention) so that the
+follow it, though it does connect, where useful, to concepts introduced in [`introductory/01`](01-neural-networks-and-deep-learning-foundations.md) (neural
+network foundations) and [`introductory/02`](02-the-transformer-architecture-and-attention.md) (the Transformer architecture and attention) so that the
 "why" behind the limit, not just the "what," is available to you.
 
-这个上限有专门的名称、有计量单位，也会带来真实的工程后果——理解这三者，是学好本课程后续几乎所有内容的前提：提示工程、工具使用、检索增强以及多智能体协作，全部都发生在这个限制之内，并被它深刻塑造。本模块不预设任何背景知识——你完全不需要先读过任何关于神经网络的内容也能跟上；不过在有帮助之处，它会与 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)（神经网络基础）和 [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)（Transformer 架构与注意力机制）中引入的概念相互印证，这样你不仅知道限制“是什么”，也能理解它“为什么存在”。
+这个上限有专门的名称、有计量单位，也会带来真实的工程后果——理解这三者，是学好本课程后续几乎所有内容的前提：提示工程、工具使用、检索增强以及多智能体协作，全部都发生在这个限制之内，并被它深刻塑造。本模块不预设任何背景知识——你完全不需要先读过任何关于神经网络的内容也能跟上；不过在有帮助之处，它会与 [`introductory/01`](01-neural-networks-and-deep-learning-foundations.md)（神经网络基础）和 [`introductory/02`](02-the-transformer-architecture-and-attention.md)（Transformer 架构与注意力机制）中引入的概念相互印证，这样你不仅知道限制“是什么”，也能理解它“为什么存在”。
 
 By the end of this module you will be able to:
 
@@ -193,11 +193,11 @@ not automatically mean better results.
 **上下文窗口为何有限：自注意力机制的代价**
 
 It is natural to ask: why not simply make the context window arbitrarily large? The honest answer
-starts with the mechanism [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) introduces in depth — the **self-attention** mechanism
+starts with the mechanism [`introductory/02`](02-the-transformer-architecture-and-attention.md) introduces in depth — the **self-attention** mechanism
 at the core of the Transformer architecture, from Vaswani et al.'s 2017 paper "Attention Is All You
 Need."
 
-一个很自然的问题是：为什么不能简单地把上下文窗口做得无限大呢？坦诚的答案要从 [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 深入介绍的机制说起——即 Transformer 架构核心的**自注意力**机制，出自 Vaswani 等人 2017 年发表的论文《Attention Is All You Need》。
+一个很自然的问题是：为什么不能简单地把上下文窗口做得无限大呢？坦诚的答案要从 [`introductory/02`](02-the-transformer-architecture-and-attention.md) 深入介绍的机制说起——即 Transformer 架构核心的**自注意力**机制，出自 Vaswani 等人 2017 年发表的论文《Attention Is All You Need》。
 
 Self-attention works by letting every token in the input compare itself against every other token,
 to decide how much each one should influence the model's understanding of the others. That "every
@@ -224,11 +224,11 @@ This quadratic growth — not a fixed engineering choice, but a direct mathemati
 self-attention is defined — is the fundamental reason every context window, no matter how
 impressively large, is still finite: the compute and memory required to process it eventually
 becomes the limiting resource. (Model providers use substantial engineering effort — some of it
-covered later in [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)'s treatment of the KV-cache — to make long contexts as efficient
+covered later in [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)'s treatment of the KV-cache — to make long contexts as efficient
 as possible in practice, but the underlying quadratic relationship in plain self-attention does not
 disappear; it is managed and amortized, not eliminated.)
 
-这种二次方增长——并非某种可以自由调整的工程选择，而是自注意力机制定义方式所带来的直接数学后果——正是每一个上下文窗口，无论表面上看起来多么庞大，终究都是有限的根本原因：处理它所需的计算量与内存量，最终会成为限制性的资源。（模型提供方会投入大量工程努力——其中一部分将在 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 关于 KV 缓存的讨论中涉及——来让长上下文在实践中尽可能高效，但纯粹自注意力机制中所固有的二次方关系并不会因此消失；它只是被管理和摊销了，而非被彻底消除。）
+这种二次方增长——并非某种可以自由调整的工程选择，而是自注意力机制定义方式所带来的直接数学后果——正是每一个上下文窗口，无论表面上看起来多么庞大，终究都是有限的根本原因：处理它所需的计算量与内存量，最终会成为限制性的资源。（模型提供方会投入大量工程努力——其中一部分将在 [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 关于 KV 缓存的讨论中涉及——来让长上下文在实践中尽可能高效，但纯粹自注意力机制中所固有的二次方关系并不会因此消失；它只是被管理和摊销了，而非被彻底消除。）
 
 ---
 
@@ -263,10 +263,10 @@ Chroma 公司 2025 年发布的技术报告《Context Rot: How Increasing Input 
 The practical lesson for this curriculum is not "never use a large context window" — large windows
 are genuinely useful and often necessary — but rather that _what_ you put in the context window, and
 how it is organized, matters as much as _how much_ you put in. This is precisely the discipline that
-[`intermediate/05`](https://anu00.dev/curriculum/intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) (advanced prompting) and [`advanced/05`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) (advanced context engineering) build on:
+[`intermediate/05`](../intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) (advanced prompting) and [`advanced/05`](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md) (advanced context engineering) build on:
 curating context, not just maximizing it.
 
-对本课程而言，这里得出的实践启示并非“永远不要使用大型上下文窗口”——大型窗口确实有其真实价值，往往也不可或缺——而是：放入上下文窗口中的内容“是什么”、以及它是如何组织的，与放入的内容“有多少”同等重要。这正是 [`intermediate/05`](https://anu00.dev/curriculum/intermediate/05-advanced-prompting-cot-few-shot-structured-output.md)（进阶提示工程）与 [`advanced/05`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md)（进阶上下文工程）所建立的核心方法论：精心筛选上下文，而不仅仅是一味地将其填满。
+对本课程而言，这里得出的实践启示并非“永远不要使用大型上下文窗口”——大型窗口确实有其真实价值，往往也不可或缺——而是：放入上下文窗口中的内容“是什么”、以及它是如何组织的，与放入的内容“有多少”同等重要。这正是 [`intermediate/05`](../intermediate/05-advanced-prompting-cot-few-shot-structured-output.md)（进阶提示工程）与 [`advanced/05`](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md)（进阶上下文工程）所建立的核心方法论：精心筛选上下文，而不仅仅是一味地将其填满。
 
 ---
 
@@ -291,15 +291,15 @@ and pull back only the relevant fragment when it is needed.
 
 为什么这一区分要在课程如此靠前的阶段就提出来？因为它把一个看似坚硬的天花板——“模型一次只能看到这么多”——重新构造成了一个可以通过工程手段解决的问题：与其试图把所有内容都塞进工作记忆，智能体完全可以将信息存储在外部，只在真正需要时才取回其中相关的片段。
 
-That is exactly the idea this curriculum develops next: [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) (agent memory systems)
+That is exactly the idea this curriculum develops next: [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) (agent memory systems)
 formalizes short-term, long-term, and episodic memory as engineered components of an agent, and
-[`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) (retrieval-augmented generation, also authored as part of this same module pair)
+[`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) (retrieval-augmented generation, also authored as part of this same module pair)
 develops the specific mechanism — retrieval — that decides which fragment of persistent memory is
 worth pulling back into the context window for a given request. Nothing in this module requires you
 to understand those mechanisms yet; the goal here is only to make the vocabulary and the underlying
 distinction available before you meet them.
 
-这正是本课程接下来要展开的思路：[`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) （智能体记忆系统）将短期记忆、长期记忆与情节记忆形式化为智能体的工程化组件，而 [`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)（检索增强生成，与本模块同为一对由同一作者撰写的模块）则会展开阐述那个具体的机制——检索——用以决定针对某一次特定请求，持久记忆中的哪个片段值得被取回到上下文窗口中。本模块并不要求你此刻就理解这些机制；这里的目标，只是在你真正接触它们之前，先为你准备好相关的词汇与其背后的这一根本区分。
+这正是本课程接下来要展开的思路：[`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) （智能体记忆系统）将短期记忆、长期记忆与情节记忆形式化为智能体的工程化组件，而 [`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)（检索增强生成，与本模块同为一对由同一作者撰写的模块）则会展开阐述那个具体的机制——检索——用以决定针对某一次特定请求，持久记忆中的哪个片段值得被取回到上下文窗口中。本模块并不要求你此刻就理解这些机制；这里的目标，只是在你真正接触它们之前，先为你准备好相关的词汇与其背后的这一根本区分。
 
 ---
 
@@ -333,11 +333,11 @@ behavior": if input tokens alone already exceed the context window, the API retu
 input plus the requested output would exceed it, current models can still accept the request but
 will stop generating once the limit is reached, reporting a specific stop reason rather than
 silently continuing. An agent-building engineer has to plan for this before it happens — by
-summarizing or truncating older turns, or, as [`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) will develop, by moving information
+summarizing or truncating older turns, or, as [`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) will develop, by moving information
 out of the conversation entirely and retrieving it back only when relevant — rather than discovering
 the failure mode in production.
 
-这正是 Anthropic 文档在“上下文窗口溢出行为”一节中所描述的情形：如果仅输入部分的词元数就已经超出上下文窗口，API 会返回错误；如果输入加上请求生成的输出总量会超出窗口，当前的一些模型仍会接受该请求，但一旦达到上限便会停止生成，并报告一个特定的停止原因，而非悄无声息地继续生成下去。构建智能体的工程师必须在这种情况发生之前就做好规划——例如对较早的对话轮次进行摘要或截断，或者如 [`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) 将要展开阐述的那样，把信息彻底移出对话本身，只在真正相关时才将其重新检索回来——而不是等到生产环境中才发现这一失败模式。
+这正是 Anthropic 文档在“上下文窗口溢出行为”一节中所描述的情形：如果仅输入部分的词元数就已经超出上下文窗口，API 会返回错误；如果输入加上请求生成的输出总量会超出窗口，当前的一些模型仍会接受该请求，但一旦达到上限便会停止生成，并报告一个特定的停止原因，而非悄无声息地继续生成下去。构建智能体的工程师必须在这种情况发生之前就做好规划——例如对较早的对话轮次进行摘要或截断，或者如 [`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) 将要展开阐述的那样，把信息彻底移出对话本身，只在真正相关时才将其重新检索回来——而不是等到生产环境中才发现这一失败模式。
 
 ---
 
@@ -350,12 +350,12 @@ into every later module.
 
 本模块的内容直接引出了四条实践习惯，值得在后续每一个模块中持续贯彻。
 
-| #   | Habit                             | EN                                                                                                                                                                                                                                                                                                                                                                                                                      | 中文                                                                                                                                                                                                                                                                                                                                                                                                            |
-| --- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Estimate tokens, don't guess**  | use a real tokenizer (such as OpenAI's `tiktoken`) or a provider's token-counting API before assuming a piece of text "should fit."                                                                                                                                                                                                                                                                                     | 在假定某段文本“应该能装得下”之前，先使用真实的分词器（例如 OpenAI 的 `tiktoken`）或服务提供方的词元计数 API 进行核实。                                                                                                                                                                                                                                                                                          |
-| 2   | **Everything counts**             | system prompts, tool definitions, prior conversation turns, and even the model's own internal reasoning (where applicable) all draw from the same token budget, not separate ones.                                                                                                                                                                                                                                      | 系统提示、工具定义、此前的对话轮次，乃至模型自身的内部推理过程（若适用），全部都从同一个词元预算中支取，而非各自独立的预算。                                                                                                                                                                                                                                                                                    |
-| 3   | **Placement matters**             | given the "lost in the middle" pattern from [§6](#6-more-tokens-is-not-always-better-context-rot), the most important information in a long context often belongs near the beginning or the end, not buried in the middle.                                                                                                                                                                                              | 鉴于第 6 节中“迷失于中段”这一模式，长上下文中最重要的信息，往往更适合放在开头或结尾附近，而不是被埋没在中段。                                                                                                                                                                                                                                                                                                   |
-| 4   | **Max context ≠ complete answer** | treat "we can just use a 1-million-token window" as a partial answer, not a complete one — [§6](#6-more-tokens-is-not-always-better-context-rot)'s context rot findings mean that curated, well-organized context frequently outperforms maximal context, a theme [`advanced/05`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) returns to in far greater depth. | 把“我们直接用一个百万词元的窗口不就行了”这种想法，当作一个部分正确、而非完整的答案来看待——[第 6 节](#6-more-tokens-is-not-always-better-context-rot)中关于上下文衰减的研究发现意味着，经过精心筛选、组织良好的上下文，往往会胜过一味求“最大化”的上下文，[`advanced/05`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) 将在更深的层次上重新探讨这一主题。 |
+| #   | Habit                             | EN                                                                                                                                                                                                                                                                                                                                                                                            | 中文                                                                                                                                                                                                                                                                                                                                                                                  |
+| --- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Estimate tokens, don't guess**  | use a real tokenizer (such as OpenAI's `tiktoken`) or a provider's token-counting API before assuming a piece of text "should fit."                                                                                                                                                                                                                                                           | 在假定某段文本“应该能装得下”之前，先使用真实的分词器（例如 OpenAI 的 `tiktoken`）或服务提供方的词元计数 API 进行核实。                                                                                                                                                                                                                                                                |
+| 2   | **Everything counts**             | system prompts, tool definitions, prior conversation turns, and even the model's own internal reasoning (where applicable) all draw from the same token budget, not separate ones.                                                                                                                                                                                                            | 系统提示、工具定义、此前的对话轮次，乃至模型自身的内部推理过程（若适用），全部都从同一个词元预算中支取，而非各自独立的预算。                                                                                                                                                                                                                                                          |
+| 3   | **Placement matters**             | given the "lost in the middle" pattern from [§6](#6-more-tokens-is-not-always-better-context-rot), the most important information in a long context often belongs near the beginning or the end, not buried in the middle.                                                                                                                                                                    | 鉴于第 6 节中“迷失于中段”这一模式，长上下文中最重要的信息，往往更适合放在开头或结尾附近，而不是被埋没在中段。                                                                                                                                                                                                                                                                         |
+| 4   | **Max context ≠ complete answer** | treat "we can just use a 1-million-token window" as a partial answer, not a complete one — [§6](#6-more-tokens-is-not-always-better-context-rot)'s context rot findings mean that curated, well-organized context frequently outperforms maximal context, a theme [`advanced/05`](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md) returns to in far greater depth. | 把“我们直接用一个百万词元的窗口不就行了”这种想法，当作一个部分正确、而非完整的答案来看待——[第 6 节](#6-more-tokens-is-not-always-better-context-rot)中关于上下文衰减的研究发现意味着，经过精心筛选、组织良好的上下文，往往会胜过一味求“最大化”的上下文，[`advanced/05`](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md) 将在更深的层次上重新探讨这一主题。 |
 
 ---
 
@@ -376,11 +376,11 @@ A larger context window is not automatically a better one: documented "context r
 middle" effects mean models use the tokens in front of them unevenly, favoring information near the
 start or end of the context. Finally, a model's working memory (its context window) is a
 fundamentally different thing from persistent memory systems that store information outside that
-window and retrieve it back only when needed — a distinction that sets up both [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
-(agent memory systems) and [`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) (retrieval-augmented generation) in the modules that
+window and retrieve it back only when needed — a distinction that sets up both [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+(agent memory systems) and [`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) (retrieval-augmented generation) in the modules that
 follow.
 
-更大的上下文窗口，并不自动意味着更好的效果：已有文献记录的“上下文衰减”与“迷失于中段”现象表明，模型对其眼前的词元的利用是不均衡的，会更偏向位于上下文开头或结尾附近的信息。最后，模型的工作记忆（即其上下文窗口）与那些将信息存储在窗口之外、只在真正需要时才取回的持久记忆系统，本质上是两种不同的事物——这一区分，也为后续模块中的 [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)（智能体记忆系统）与 [`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)（检索增强生成）铺设了基础。
+更大的上下文窗口，并不自动意味着更好的效果：已有文献记录的“上下文衰减”与“迷失于中段”现象表明，模型对其眼前的词元的利用是不均衡的，会更偏向位于上下文开头或结尾附近的信息。最后，模型的工作记忆（即其上下文窗口）与那些将信息存储在窗口之外、只在真正需要时才取回的持久记忆系统，本质上是两种不同的事物——这一区分，也为后续模块中的 [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)（智能体记忆系统）与 [`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)（检索增强生成）铺设了基础。
 
 ---
 
@@ -400,11 +400,11 @@ follow.
 
 ### Internal Cross-References
 
-- [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)
-- [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)
-- [`introductory/05` — Prompt Engineering Fundamentals](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md)
-- [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)
-- [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
-- [`intermediate/05` — Advanced Prompting: Chain-of-Thought, Few-Shot & Structured Output](https://anu00.dev/curriculum/intermediate/05-advanced-prompting-cot-few-shot-structured-output.md)
-- [`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
-- [`advanced/05` — Advanced Context Engineering: Long-Context & Context Budgeting](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md)
+- [`introductory/01` — Neural Networks & Deep Learning Foundations](01-neural-networks-and-deep-learning-foundations.md)
+- [`introductory/02` — The Transformer Architecture & Attention](02-the-transformer-architecture-and-attention.md)
+- [`introductory/05` — Prompt Engineering Fundamentals](05-prompt-engineering-fundamentals.md)
+- [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)
+- [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+- [`intermediate/05` — Advanced Prompting: Chain-of-Thought, Few-Shot & Structured Output](../intermediate/05-advanced-prompting-cot-few-shot-structured-output.md)
+- [`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
+- [`advanced/05` — Advanced Context Engineering: Long-Context & Context Budgeting](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md)
