@@ -5,7 +5,7 @@
 | Field   | English                                                                     | 中文                                                  |
 | ------- | --------------------------------------------------------------------------- | ----------------------------------------------------- |
 | Level   | Advanced                                                                    | 高级                                                  |
-| Cluster | Post-Training (S2, Amendment 5)                                             | 后训练（S2 扩展，第 5 号修正案）                      |
+| Cluster | Post-Training (S2, Amendment 5)                                             | 后训练（S2，第 5 号修正案）                           |
 | Author  | Dr. Aditi Bhandari, Staff Research Scientist — Foundational AI Lead, ANU-00 | ANU-00 基础人工智能首席研究科学家 Aditi Bhandari 博士 |
 
 ---
@@ -164,7 +164,7 @@ different functional forms depending on the optimization method (RL fine-tuning 
 resampling), with the divergence's severity scaling smoothly, and predictably, with reward-model size
 and dataset size.
 
-由于奖励模型终究只是对真实人类偏好的一种近似——它是在有限、带噪声的人类判断样本上训练出来的——如果针对它过于激进地优化策略，就会遇到**过度优化**问题，也称为**奖励破解**：策略学会了生成在 $r_\phi$ 下得分很高、但按照 $r_\phi$ 本应逼近的那个标准来看，实际质量却并未真正提升的输出。Leo Gao、John Schulman 与 Jacob Hilton 直接研究了这一现象，将其归纳为**古德哈特定律（Goodhart's Law）**——通俗地说，“一旦一项指标变成了优化目标，它就不再是一个好指标”——在奖励模型这一具体场景下的一个体现。他们的论文研究了随着优化压力（以相对参考策略的 KL 散度衡量）不断增大，真实的“黄金标准”奖励与代理奖励模型给出的分数是如何逐渐背离的，并报告称：这种“代理指标 vs. 黄金标准”的关系，会因优化方法（强化学习微调 vs. best-of-$n$ 重采样）不同而呈现出不同的函数形态，而且这种背离的严重程度，会随着奖励模型规模和训练数据规模的变化平滑、可预测地变化。
+由于奖励模型终究只是对真实人类偏好的一种近似——它是在有限、带噪声的人类判断样本上训练出来的——如果针对它过于激进地优化策略，就会遇到**过度优化**问题，也称为**奖励黑客**：策略学会了生成在 $r_\phi$ 下得分很高、但按照 $r_\phi$ 本应逼近的那个标准来看，实际质量却并未真正提升的输出。Leo Gao、John Schulman 与 Jacob Hilton 直接研究了这一现象，将其归纳为**古德哈特定律（Goodhart's Law）**——通俗地说，“一旦一项指标变成了优化目标，它就不再是一个好指标”——在奖励模型这一具体场景下的一个体现。他们的论文研究了随着优化压力（以相对参考策略的 KL 散度衡量）不断增大，真实的“黄金标准”奖励与代理奖励模型给出的分数是如何逐渐背离的，并报告称：这种“代理指标 vs. 黄金标准”的关系，会因优化方法（强化学习微调 vs. best-of-$n$ 重采样）不同而呈现出不同的函数形态，而且这种背离的严重程度，会随着奖励模型规模和训练数据规模的变化平滑、可预测地变化。
 
 The overoptimization problem is the direct engineering motivation for [§4](#4-deriving-direct-preference-optimization-dpo):
 if a separately-trained reward model is both expensive to build and structurally vulnerable to being
