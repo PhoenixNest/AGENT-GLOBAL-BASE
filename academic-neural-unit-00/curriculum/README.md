@@ -30,7 +30,7 @@ Three consequences follow, and every author is bound by them:
   mathematics beyond secondary-school algebra, no undefined jargon. If a term is used, it was
   defined earlier in the same document or in an earlier module.
 - **Intermediate and advanced modules may assume only what earlier curriculum modules taught, and
-  must name which module.** "As covered in `introductory/02`" is the required form. "As is well
+  must name which module.** "As covered in `introductory/02` — The Transformer Architecture & Attention" is the required form. "As is well
   known" and "recall from your linear algebra course" are not — the reader has no outside
   coursework to recall.
 - **Depth is the point.** Each module is a textbook chapter, not a summary: worked examples
@@ -219,27 +219,27 @@ local preference does not outrank it.
 `执行框架` and `运行框架`. `运行框架` is canonical: it was the majority usage, and it was the choice
 of both modules that make harnesses their actual subject. `执行框架` was a competing translation
 used in some earlier drafts and is **deprecated** — it must not appear in new modules, and the
-existing occurrences (`introductory/03`, `introductory/04`, `intermediate/07`, `advanced/08`) are
+existing occurrences (`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop, `introductory/04` — Tool Use & Function Calling Basics, `intermediate/07` — Multi-Agent Communication & Coordination Protocols, `advanced/08` — Rigorous Agent Evaluation: Statistical Methodology) are
 corrected under the C-1 harmonization scope, not left standing as an author's preference.
 
 **harness (evaluation harness) → 评估框架** (resolving C-2, 2026-08-27, S2 Phase 3 Problem #11).
-`practicum/06`'s "Agent Evaluation Harness" is a genuinely distinct sense from the C-1 entry above
+`practicum/06` — Building an Agent Evaluation Harness's "Agent Evaluation Harness" is a genuinely distinct sense from the C-1 entry above
 — a test/evaluation scaffold, not the agent's own execution loop — so it is ratified as its own
 entry rather than forced into `运行框架`. `工具链` ("toolchain") is deprecated for this sense: it
-described the wrong concept (build tooling, not a test harness) and is corrected in `practicum/06`.
+described the wrong concept (build tooling, not a test harness) and is corrected in `practicum/06` — Building an Agent Evaluation Harness.
 
 **Practicum / Hands-On Coding Practicum** (resolving C-3, 2026-08-27, S2 Phase 3 Problem #7). The
 six practicum modules' metadata blocks split three ways on "Practicum" (实战 / 实训 / 实践) and four
 ways on "Hands-On Coding Practicum" (动手编程实战 / 实战编程练习 / 动手编程实训 / 动手编程实践).
 实战 and 动手编程实战 are ratified as canonical — each was the plurality usage among the six modules,
 and pairing them keeps the Level and Cluster labels internally consistent with each other. The
-non-conforming modules (`practicum/03`, `04`, `05`, `06`) are corrected under this ratification.
+non-conforming modules (`practicum/03` — Building a ReAct Agent From Scratch, `04`, `05`, `06`) are corrected under this ratification.
 
-**reward hacking → 奖励黑客** (resolving C-4, 2026-08-27, S2 Phase 3 Problem #9). `advanced/09`
-and `advanced/10` — sibling modules in the same Post-Training cluster discussing the same named
+**reward hacking → 奖励黑客** (resolving C-4, 2026-08-27, S2 Phase 3 Problem #9). `advanced/09` — Reinforcement Learning from Human Feedback
+and `advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling — sibling modules in the same Post-Training cluster discussing the same named
 phenomenon — rendered it two different ways (奖励黑客 / 奖励破解). 奖励黑客 is canonical: it is the
 more established rendering and matches the "hacking" sense used elsewhere in the corpus (cf.
-Goodhart's Law discussion in both modules). `advanced/10` §3 is corrected under this ratification.
+Goodhart's Law discussion in both modules). `advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling §3 is corrected under this ratification.
 
 ### 4.3 Math/Formula Notation
 
@@ -411,7 +411,7 @@ deliverable rather than a research programme, and it is not delegable.
 | advanced     | 09  | Reinforcement Learning from Human Feedback                                | Dr. Samuel Okonkwo      | Post-Training (S2, Amendment 5)      |
 | advanced     | 10  | Modern Post-Training Methods: DPO, GRPO & Reward Modeling                 | Dr. Aditi Bhandari      | Post-Training (S2, Amendment 5)      |
 
-Modules `advanced/09` and `advanced/10` are ratified at charter (2026-08-27, Amendment 5) but not
+Modules `advanced/09` — Reinforcement Learning from Human Feedback and `advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling are ratified at charter (2026-08-27, Amendment 5) but not
 yet authored — authoring is Phase 2 of the S2 plan's §4 production workflow, which has not started
 under this ratification. See Amendment 5 below for the governing plan reference. The 6 hands-on
 practicum modules that are the other half of the S2 extension are a separate sibling category, not
@@ -516,7 +516,7 @@ reviewer checks for them on every formula-bearing document, not only the structu
 §4 production workflow) the S2 curriculum extension, addressing the two gaps
 `reviews/2026-08-18-first-review-cycle/comprehensive-review.md` recorded under scope decision S-2:
 zero runnable code and zero RLHF/post-training coverage across the existing 24 modules. Adds two
-post-training modules, `advanced/09` and `advanced/10` (§7 table above; existing `advanced/01`–`08`
+post-training modules, `advanced/09` — Reinforcement Learning from Human Feedback and `advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling (§7 table above; existing `advanced/01` — Scaling Laws & Emergent Capabilities–`08`
 keep their numbers unchanged — pure addition, not renumbering), and opens a new sibling category,
 `curriculum/practicum/`, for 6 hands-on coding modules — its own conventions, the no-application-
 code boundary, and its module→author table are ratified in `practicum/README.md` rather than
