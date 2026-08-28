@@ -494,8 +494,18 @@ class SwarmOrchestrator:
             SwarmTopology.PIPELINE: self._execute_pipeline,
             SwarmTopology.FORK_JOIN: self._execute_fork_join,
             SwarmTopology.HYBRID: self._execute_hybrid,
+            SwarmTopology.ROUTER: self._execute_router,
+            SwarmTopology.SUPERVISOR_WORKER: self._execute_supervisor_worker,
         }
-        executor = dispatch.get(plan.topology, self._execute_hybrid)
+        # No silent default: an unrouted SwarmTopology member must raise
+        # loudly here rather than falling through to Hybrid unannounced
+        # (MAE R1 — see TestUnroutedTopologyLoudFailure in
+        # test_swarm_orchestrator.py for the regression this closes).
+        executor = dispatch.get(plan.topology)
+        if executor is None:
+            raise NotImplementedError(
+                f"No executor implemented for swarm topology: {plan.topology!r}"
+            )
         await executor(plan)
         total_duration = time.time() - start_time
 
@@ -590,6 +600,17 @@ class SwarmOrchestrator:
             await asyncio.gather(*[self._dispatch(t) for t in independent])
 
     async def _execute_hybrid(self, plan: SwarmPlan) -> None:
+        await self._run_dependency_respecting_dispatch(plan)
+
+    async def _run_dependency_respecting_dispatch(self, plan: SwarmPlan) -> None:
+        """The dependency-respecting dispatch loop shared by Hybrid,
+        Router, and Supervisor-Worker: repeatedly dispatch whatever
+        subtasks have all their dependencies satisfied, until the plan is
+        settled or nothing more can become ready. Router and
+        Supervisor-Worker call this helper directly rather than
+        self._execute_hybrid so that neither topology's execution path
+        actually passes through the Hybrid executor — see
+        TestUnroutedTopologyLoudFailure, which asserts exactly that."""
         while not plan.all_completed():
             ready = plan.independent_tasks()
             if not ready:
@@ -598,6 +619,60 @@ class SwarmOrchestrator:
                         t.status = TaskStatus.FAILED
                 break
             await asyncio.gather(*[self._dispatch(t) for t in ready])
+
+    async def _execute_router(self, plan: SwarmPlan) -> None:
+        """ROUTER topology: classify each subtask by simple keyword/domain
+        matching against agent expertise (re-running the same matching
+        `plan()` used for auto-assignment, so routing reflects the task's
+        actual description text too, not just its domain field) before
+        dispatch. Routing decides *who* handles a task; dispatch order
+        still follows the same dependency-respecting loop as Hybrid.
+
+        This is the honest floor for ROUTER, not a full classification
+        engine: matching is the same substring/expertise heuristic
+        AgentProfile.matches_task already uses, extended to also check
+        against the task description. A learned/continuous classifier is
+        future work, not invented ahead of real usage data (same posture
+        as _HIGH_STAKES_DOMAIN_KEYWORDS elsewhere in this module).
+        """
+        for task in plan.subtasks:
+            task.assigned_agent = self._route_task(task)
+        await self._run_dependency_respecting_dispatch(plan)
+
+    def _route_task(self, task: SubTask) -> Optional[str]:
+        for agent in self.agents:
+            if agent.matches_task(task.domain) or agent.matches_task(task.description):
+                return agent.agent_id
+        return task.assigned_agent or self._select_agent(task)
+
+    async def _execute_supervisor_worker(self, plan: SwarmPlan) -> None:
+        """SUPERVISOR_WORKER topology: workers dispatch via the same
+        dependency-respecting loop as Hybrid, then an explicit supervisor
+        validation tier reviews every completed subtask against its own
+        gate_criteria (if any) before the plan is considered settled —
+        independent of SwarmConfig.enable_reflective_loop, which governs a
+        different, opt-in in-dispatch retry cycle. A subtask a worker
+        marked COMPLETED but that fails its own gate_criteria on
+        supervisor review is demoted to GATE_FAILED with the rationale
+        recorded, rather than being accepted uncritically.
+
+        This is the honest floor for SUPERVISOR_WORKER, not a full
+        multi-tier supervisory hierarchy: validation is a single
+        post-dispatch pass reusing evaluate_subtask_result, not a
+        supervisor agent that can re-delegate or re-plan failed work.
+        """
+        await self._run_dependency_respecting_dispatch(plan)
+        self._supervisor_validate(plan)
+
+    @staticmethod
+    def _supervisor_validate(plan: SwarmPlan) -> None:
+        for task in plan.subtasks:
+            if task.status != TaskStatus.COMPLETED or not task.gate_criteria:
+                continue
+            verdict = evaluate_subtask_result(task, task.result)
+            if not verdict.passed:
+                task.status = TaskStatus.GATE_FAILED
+                task.reflection_rationale_history.append(verdict.rationale)
 
     # -- Dispatch ----------------------------------------------------------
 

@@ -983,6 +983,105 @@ class TestFaultAndSemanticRetryCounterIndependence:
         assert subtasks[0].result != {"error": "circuit_breaker_open"}
 
 
+class TestUnroutedTopologyLoudFailure:
+    """MAE R2 (I2): regression baseline for MAE R1 (I1). Before I1 lands,
+    execute()'s dispatch dict has no entries for SUPERVISOR_WORKER or
+    ROUTER, and `dispatch.get(plan.topology, self._execute_hybrid)`
+    silently substitutes the Hybrid executor for both — this is invisible
+    to a green suite because nothing asserts on it. This test must be RED
+    before I1's fix lands (both topologies actually invoke the patched
+    Hybrid spy below) and GREEN immediately after (neither topology ever
+    reaches Hybrid — it either executes via its own explicit executor or
+    raises loudly instead)."""
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize("topology", ["supervisor_worker", "router"])
+    async def test_unrouted_topology_never_falls_through_to_hybrid(
+        self, agents, topology, monkeypatch
+    ):
+        config = SwarmConfig(fleet_id="test_fleet", topology=topology)
+        orch = SwarmOrchestrator(config=config, agents=agents)
+
+        hybrid_calls = []
+        original_hybrid = orch._execute_hybrid
+
+        async def spy_hybrid(plan):
+            hybrid_calls.append(plan)
+            return await original_hybrid(plan)
+
+        monkeypatch.setattr(orch, "_execute_hybrid", spy_hybrid)
+
+        subtasks = [SubTask(description="Task", domain="backend")]
+        plan = orch.plan("Task", subtasks=subtasks)
+
+        try:
+            await orch.execute(plan)
+        except Exception:
+            pass  # an explicit raise is an acceptable non-silent outcome
+
+        assert hybrid_calls == [], (
+            f"{topology} topology silently fell through to the Hybrid "
+            "executor instead of executing via its own path or raising "
+            "explicitly"
+        )
+
+
+class TestRouterAndSupervisorWorkerExecutors:
+    """Basic functional coverage for I1's beyond-the-floor executors —
+    the plan scopes their full behavior as tested separately, but these
+    confirm the minimal implementations actually do something real rather
+    than being a second silent no-op dressed up as a fix."""
+
+    @pytest.mark.asyncio
+    async def test_router_routes_by_domain_keyword_and_completes(self, agents):
+        config = SwarmConfig(fleet_id="test_fleet", topology="router")
+        orch = SwarmOrchestrator(config=config, agents=agents)
+        subtasks = [
+            SubTask(description="Build API", domain="backend"),
+            SubTask(description="Build UI", domain="frontend"),
+        ]
+        plan = orch.plan("Route work", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert result.success is True
+        assert subtasks[0].assigned_agent == "backend-01"
+        assert subtasks[1].assigned_agent == "frontend-01"
+
+    @pytest.mark.asyncio
+    async def test_supervisor_worker_completes_when_gate_criteria_satisfied(self, agents):
+        async def execute_fn(task, handoff):
+            return {"checks": {"tests_pass": True}}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="supervisor_worker")
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=execute_fn)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Supervised work", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.COMPLETED
+        assert result.success is True
+
+    @pytest.mark.asyncio
+    async def test_supervisor_worker_demotes_to_gate_failed_without_reflective_loop(self, agents):
+        """The supervisor validation tier catches an unmet gate_criteria
+        even when enable_reflective_loop is off (the default) — it is an
+        independent post-dispatch check, not a repackaging of that
+        opt-in in-dispatch retry cycle."""
+        async def execute_fn(task, handoff):
+            return {"checks": {"tests_pass": False}}
+
+        config = SwarmConfig(fleet_id="test_fleet", topology="supervisor_worker")
+        assert config.enable_reflective_loop is False
+        orch = SwarmOrchestrator(config=config, agents=agents, execute_fn=execute_fn)
+        subtasks = [SubTask(description="Task", domain="backend", gate_criteria=["tests_pass"])]
+        plan = orch.plan("Supervised work", subtasks=subtasks)
+        result = await orch.execute(plan)
+
+        assert subtasks[0].status == TaskStatus.GATE_FAILED
+        assert "tests_pass" in subtasks[0].reflection_rationale_history[-1]
+        assert result.success is False
+
+
 class TestGradualEnablementScaffolding:
     """enable_reflective_loop ships off by default; setting gate_criteria
     alone (without also flipping enable_reflective_loop) must not change
