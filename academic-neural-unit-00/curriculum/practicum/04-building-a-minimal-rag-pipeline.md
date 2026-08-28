@@ -15,7 +15,7 @@
 **本模块的定位**
 
 This module's explicit prerequisite is
-[`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md).
+[`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md).
 That module built the theory this one now turns into running code: what an embedding is and how a
 neural encoder produces one, how cosine similarity measures meaning, the difference between sparse
 (BM25) and dense (DPR-style) retrieval, the named Lewis et al. RAG architecture, why exact
@@ -25,7 +25,7 @@ context-destruction problem and Anthropic's Contextual Retrieval fix, and ground
 against hallucination that reduces but does not eliminate it.
 
 本模块明确的前置模块是
-[`intermediate/06`——检索增强生成基础：检索、嵌入与事实基础](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)。该模块搭建了本模块现在要转化为可运行代码的理论基础：什么是嵌入向量、神经编码器如何生成它；余弦相似度如何度量语义相似性；稀疏检索（BM25）与密集检索（DPR 风格）之间的区别；Lewis 等人命名的 RAG 架构；为何精确最近邻搜索无法扩展，以及近似最近邻搜索为此做出了怎样的取舍；索引—检索—增强—生成这一四阶段流水线；分块所带来的“上下文破坏”问题，以及 Anthropic 的“上下文检索”修复方案；以及事实基础作为对抗幻觉的一种手段，能够减少但无法彻底消除幻觉。
+[`intermediate/06`——检索增强生成基础：检索、嵌入与事实基础](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)。该模块搭建了本模块现在要转化为可运行代码的理论基础：什么是嵌入向量、神经编码器如何生成它；余弦相似度如何度量语义相似性；稀疏检索（BM25）与密集检索（DPR 风格）之间的区别；Lewis 等人命名的 RAG 架构；为何精确最近邻搜索无法扩展，以及近似最近邻搜索为此做出了怎样的取舍；索引—检索—增强—生成这一四阶段流水线；分块所带来的“上下文破坏”问题，以及 Anthropic 的“上下文检索”修复方案；以及事实基础作为对抗幻觉的一种手段，能够减少但无法彻底消除幻觉。
 
 This module does not re-derive or re-teach any of that theory. Every design choice below traces
 back to a specific section of `intermediate/06` by name, and the job here is purely to apply that
@@ -59,13 +59,13 @@ RAG system.
 
 **我们要构建什么：用代码实现四阶段流水线**
 
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
 described a complete RAG system as four stages: indexing (offline, once), and retrieval,
 augmentation, and generation (online, per request). This module implements each stage as a small,
 composable Python function or class, in the same order, so that the code below is a direct,
 line-for-line realization of that section's table rather than a different design.
 
-[`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)将一个完整的 RAG 系统描述为四个阶段：索引化（离线，仅需一次），以及检索、增强与生成（在线，针对每一次请求）。本模块将依照同样的顺序，把每一个阶段都实现为一个小型的、可组合的 Python 函数或类，因此下方的代码，是对该节表格逐项对应的直接实现，而非另起炉灶的设计。
+[`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)将一个完整的 RAG 系统描述为四个阶段：索引化（离线，仅需一次），以及检索、增强与生成（在线，针对每一次请求）。本模块将依照同样的顺序，把每一个阶段都实现为一个小型的、可组合的 Python 函数或类，因此下方的代码，是对该节表格逐项对应的直接实现，而非另起炉灶的设计。
 
 Indexing itself splits into three code steps here, because it is genuinely three separable
 concerns — chunking, embedding, and storing — and keeping them as three small functions rather
@@ -80,14 +80,14 @@ correspondence stays explicit throughout.
 
 下表列出了本模块所构建的每一个代码步骤，与其所应用的理论章节之间的对应关系，以便这种对应关系在全文中始终保持清晰可查。
 
-| Step                                                                                 | Applies theory from                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [§2](#2-step-1-chunking-a-document-into-retrievable-units) Chunking                  | [`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation), [§9](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval)                                 |
-| [§3](#3-step-2-embedding-chunks-with-a-real-sentence-encoder) Embedding              | [`intermediate/06` §2](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding) (Sentence-BERT lineage)                                                                                                                                                                                                                     |
-| [§4](#4-step-3-a-minimal-vector-similarity-index) Vector index                       | [`intermediate/06` §3](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics) (cosine similarity), [§7](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss) (why this does not scale) |
-| [§5](#5-step-4-retrieval-wiring-chunking-embedding-and-the-index-together) Retrieval | [`intermediate/06` §5](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#5-dense-retrieval-dual-encoders-and-dense-passage-retrieval-dpr), [§8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)                                                |
-| [§6](#6-step-5-augmentation-assembling-a-grounded-prompt) Augmentation               | [`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation), [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md) (prompt anatomy)                                                                                                    |
-| [§7](#7-step-6-generation-calling-claude-grounded-in-retrieved-context) Generation   | [`intermediate/06` §10](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#10-grounding-and-hallucination-reduction) (grounding)                                                                                                                                                                                                                                        |
+| Step                                                                                 | Applies theory from                                                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [§2](#2-step-1-chunking-a-document-into-retrievable-units) Chunking                  | [`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation), [§9](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval)                                 |
+| [§3](#3-step-2-embedding-chunks-with-a-real-sentence-encoder) Embedding              | [`intermediate/06` §2](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding) (Sentence-BERT lineage)                                                                                                                                                                                           |
+| [§4](#4-step-3-a-minimal-vector-similarity-index) Vector index                       | [`intermediate/06` §3](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics) (cosine similarity), [§7](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss) (why this does not scale) |
+| [§5](#5-step-4-retrieval-wiring-chunking-embedding-and-the-index-together) Retrieval | [`intermediate/06` §5](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#5-dense-retrieval-dual-encoders-and-dense-passage-retrieval-dpr), [§8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)                                                |
+| [§6](#6-step-5-augmentation-assembling-a-grounded-prompt) Augmentation               | [`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation), [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md) (prompt anatomy)                                                                                                    |
+| [§7](#7-step-6-generation-calling-claude-grounded-in-retrieved-context) Generation   | [`intermediate/06` §10](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#10-grounding-and-hallucination-reduction) (grounding)                                                                                                                                                                                                              |
 
 ---
 
@@ -95,15 +95,15 @@ correspondence stays explicit throughout.
 
 **步骤 1：将文档分块为可检索的单元**
 
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
 already explained why a whole document is the wrong retrieval unit — usually both larger than
 useful for a single retrieved chunk and larger than an embedding model can encode well in one
-pass — and [§9](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval)
+pass — and [§9](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval)
 warned that splitting too aggressively can strip a chunk of the context that gave it meaning. This
 step writes the simplest chunker that respects both facts at once: fixed-size windows with
 overlap, so that information sitting near a chunk boundary is not stranded in only one chunk.
 
-[`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)已经解释过为何一整篇文档并非合适的检索单元——它通常既过大、不适合作为单次检索的文本块，也过大、不利于嵌入模型在一次前向传播中充分编码；而[第 9 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval)则警示过，过于激进的切分会剥离掉赋予文本块意义的上下文。本步骤将编写能够同时兼顾这两点的最简单分块器：带重叠的固定大小窗口，使得靠近文本块边界的信息，不会被孤立地困在单独一个文本块之中。
+[`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)已经解释过为何一整篇文档并非合适的检索单元——它通常既过大、不适合作为单次检索的文本块，也过大、不利于嵌入模型在一次前向传播中充分编码；而[第 9 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval)则警示过，过于激进的切分会剥离掉赋予文本块意义的上下文。本步骤将编写能够同时兼顾这两点的最简单分块器：带重叠的固定大小窗口，使得靠近文本块边界的信息，不会被孤立地困在单独一个文本块之中。
 
 Character counts, not tokens, are used here for simplicity — a real system would chunk by token
 count using the same tokenizer the embedding model uses internally, but the windowing logic is
@@ -166,16 +166,16 @@ check confirmed every consecutive chunk pair shares the configured 15-character 
 
 **步骤 2：使用真实的句子编码器为文本块生成嵌入向量**
 
-[`intermediate/06` §2](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)
+[`intermediate/06` §2](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)
 grounded sentence-level embeddings in the Sentence-BERT lineage — a Transformer encoder trained so
 that a whole sentence or passage is encoded once into a single fixed-length vector, independent of
 whatever it will later be compared against. This step uses `sentence-transformers`, the reference
 open-source implementation of that same lineage, rather than any hand-rolled encoder, because a
 teaching pipeline that used a fake or trivial encoder would not actually demonstrate the
-meaning-carrying property [`intermediate/06` §2](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)
+meaning-carrying property [`intermediate/06` §2](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)
 described.
 
-[`intermediate/06` 第 2 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)已经把句子级嵌入向量的理论基础，建立在了 Sentence-BERT 一脉之上——一种经过训练的 Transformer 编码器，能够将一整句话或一整段文本一次性编码为单一的固定长度向量，且这一编码过程完全独立于它日后将要与之比较的内容。本步骤使用 `sentence-transformers`——同一脉络的参考性开源实现——而非任何自行手写的编码器，因为一条使用虚假或过于简单编码器的教学流水线，并不能真正演示出 [`intermediate/06` 第 2 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)所描述的那种承载语义的特性。
+[`intermediate/06` 第 2 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)已经把句子级嵌入向量的理论基础，建立在了 Sentence-BERT 一脉之上——一种经过训练的 Transformer 编码器，能够将一整句话或一整段文本一次性编码为单一的固定长度向量，且这一编码过程完全独立于它日后将要与之比较的内容。本步骤使用 `sentence-transformers`——同一脉络的参考性开源实现——而非任何自行手写的编码器，因为一条使用虚假或过于简单编码器的教学流水线，并不能真正演示出 [`intermediate/06` 第 2 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#2-from-words-to-vectors-the-idea-of-an-embedding)所描述的那种承载语义的特性。
 
 The `sentence-transformers` project's own documentation describes the library as "the go-to Python
 module for using and training state-of-the-art embedding and reranker models," installable with
@@ -207,13 +207,13 @@ def embed(texts: list[str]) -> list[list[float]]:
 
 The `normalize_embeddings=True` argument is doing real work here, not just tidying the numbers:
 because
-[`intermediate/06` §3](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)
+[`intermediate/06` §3](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)
 defined cosine similarity as the dot product divided by the product of the two vectors' norms,
 pre-normalizing every embedding to unit length (norm exactly 1) makes that division always equal
 1, so a plain dot product between two normalized vectors already _is_ their cosine similarity —
 Step 3's index takes advantage of exactly this to keep its own similarity computation simple.
 
-`normalize_embeddings=True` 这一参数在这里所起的作用是实实在在的，而不仅仅是让数值好看一些：由于[`intermediate/06` 第 3 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)将余弦相似度定义为点积除以两个向量模长的乘积，预先将每个嵌入向量归一化为单位长度（模长恰好为 1），会使这一除法运算的结果恒等于 1，因此两个已归一化向量之间的普通点积，本身就已经是它们的余弦相似度——步骤 3 中的索引，正是利用了这一点，来保持自身相似度计算的简洁。
+`normalize_embeddings=True` 这一参数在这里所起的作用是实实在在的，而不仅仅是让数值好看一些：由于[`intermediate/06` 第 3 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)将余弦相似度定义为点积除以两个向量模长的乘积，预先将每个嵌入向量归一化为单位长度（模长恰好为 1），会使这一除法运算的结果恒等于 1，因此两个已归一化向量之间的普通点积，本身就已经是它们的余弦相似度——步骤 3 中的索引，正是利用了这一点，来保持自身相似度计算的简洁。
 
 **Verification: mental trace against cited documentation.** This authoring environment has no
 network access to download model weights, so this specific call was not independently scratch-run
@@ -233,7 +233,7 @@ downstream of this function's _output_ (a plain list of lists of floats) is scra
 
 **步骤 3：一个最小化的向量相似度索引**
 
-[`intermediate/06` §7](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss)
+[`intermediate/06` §7](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss)
 explained that production systems need approximate nearest-neighbor search, backed by a library
 such as FAISS, once a document collection reaches millions of chunks. This module's whole point is
 "minimal," and a corpus small enough for a hands-on exercise does not need that machinery — this
@@ -243,15 +243,15 @@ by hand once, in code, is worth more pedagogically than importing a library that
 [§9 of the pipeline table above](#1-what-we-are-building-the-four-stage-pipeline-in-code) already
 points at where a real system would swap this out.
 
-[`intermediate/06` 第 7 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss)已经说明，一旦文档集合达到数百万个文本块的规模，生产系统就需要依托诸如 FAISS 一类的库来实现近似最近邻搜索。本模块的核心追求是“最简”，而一个足以支撑动手练习的小型语料库，并不需要那一整套机制——本步骤转而用纯 Python 实现精确最近邻搜索：存储每一个（文本块，向量）配对，并在搜索时，将查询向量直接与每一个已存储的向量逐一比较。亲手用代码实现这一过程一次，其教学价值胜过直接导入一个把这一切都隐藏起来的库，而[上文流水线表格的第 9 节位置](#1-what-we-are-building-the-four-stage-pipeline-in-code)也已经指明了一个真实系统会用什么来替换这一步。
+[`intermediate/06` 第 7 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss)已经说明，一旦文档集合达到数百万个文本块的规模，生产系统就需要依托诸如 FAISS 一类的库来实现近似最近邻搜索。本模块的核心追求是“最简”，而一个足以支撑动手练习的小型语料库，并不需要那一整套机制——本步骤转而用纯 Python 实现精确最近邻搜索：存储每一个（文本块，向量）配对，并在搜索时，将查询向量直接与每一个已存储的向量逐一比较。亲手用代码实现这一过程一次，其教学价值胜过直接导入一个把这一切都隐藏起来的库，而[上文流水线表格的第 9 节位置](#1-what-we-are-building-the-four-stage-pipeline-in-code)也已经指明了一个真实系统会用什么来替换这一步。
 
 Cosine similarity itself is written from the same first-principles definition
-[`intermediate/06` §3](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)
+[`intermediate/06` §3](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)
 derived — $\cos(a, b) = \dfrac{a \cdot b}{\|a\| \cdot \|b\|}$ — rather than pulled in from a
 numeric library, so that the formula that module derived on paper and the code that implements it
 here are visibly the same thing.
 
-余弦相似度本身，也是依照[`intermediate/06` 第 3 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)所推导的同一个第一性原理定义——$\cos(a, b) = \dfrac{a \cdot b}{\|a\| \cdot \|b\|}$——编写而成，而非从某个数值计算库中直接调用，这样一来，该模块在纸面上推导出的公式，与此处实现它的代码，二者之间的对应关系便清晰可见。
+余弦相似度本身，也是依照[`intermediate/06` 第 3 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)所推导的同一个第一性原理定义——$\cos(a, b) = \dfrac{a \cdot b}{\|a\| \cdot \|b\|}$——编写而成，而非从某个数值计算库中直接调用，这样一来，该模块在纸面上推导出的公式，与此处实现它的代码，二者之间的对应关系便清晰可见。
 
 ```python
 import math
@@ -296,13 +296,13 @@ class VectorIndex:
 
 To confirm `cosine_similarity` is correct before trusting it inside a larger pipeline, it is worth
 checking it against numbers already computed by hand:
-[`intermediate/06` §3](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)'s
+[`intermediate/06` §3](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)'s
 own worked example used query vector $q = (0.9, 0.1, 0.1)$ against three toy passage vectors and
 computed $\cos(q,a) \approx 0.999$, $\cos(q,b) \approx 0.167$, and $\cos(q,c) \approx 0.890$ by
 hand. Feeding those same three vectors into `VectorIndex` and calling `search(list(q), top_k=2)`
 must reproduce that exact ranking:
 
-在将 `cosine_similarity` 信任地用于一条更大的流水线之前，值得先用一组已经手工算过的数值对它进行核查：[`intermediate/06` 第 3 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)自己的算例，正是用查询向量 $q = (0.9, 0.1, 0.1)$ 与三个玩具段落向量逐一比较，并手工算出了 $\cos(q,a) \approx 0.999$、$\cos(q,b) \approx 0.167$ 以及 $\cos(q,c) \approx 0.890$。把这三个相同的向量输入 `VectorIndex`，并调用 `search(list(q), top_k=2)`，理应能够复现出完全相同的排序结果：
+在将 `cosine_similarity` 信任地用于一条更大的流水线之前，值得先用一组已经手工算过的数值对它进行核查：[`intermediate/06` 第 3 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)自己的算例，正是用查询向量 $q = (0.9, 0.1, 0.1)$ 与三个玩具段落向量逐一比较，并手工算出了 $\cos(q,a) \approx 0.999$、$\cos(q,b) \approx 0.167$ 以及 $\cos(q,c) \approx 0.890$。把这三个相同的向量输入 `VectorIndex`，并调用 `search(list(q), top_k=2)`，理应能够复现出完全相同的排序结果：
 
 ```python
 q = (0.9, 0.1, 0.1)
@@ -318,10 +318,10 @@ index.search(list(q), top_k=2)
 
 `passage A` ranks first, `passage C` second, and `passage B` (the irrelevant refund-policy
 passage) is correctly excluded from the top 2 — matching
-[`intermediate/06` §3](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)'s
+[`intermediate/06` §3](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)'s
 hand-computed values to three decimal places.
 
-`passage A` 排在第一位，`passage C` 排在第二位，而 `passage B`（那个不相关的退货政策段落）则被正确地排除在了前 2 名之外——与[`intermediate/06` 第 3 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)手工算出的数值，精确到小数点后三位都完全吻合。
+`passage A` 排在第一位，`passage C` 排在第二位，而 `passage B`（那个不相关的退货政策段落）则被正确地排除在了前 2 名之外——与[`intermediate/06` 第 3 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)手工算出的数值，精确到小数点后三位都完全吻合。
 
 **Verification: scratch-run.** `dot`, `norm`, `cosine_similarity`, and `VectorIndex.add`/`.search`
 were all executed directly during authoring against the exact `q`, `a`, `b`, `c` values above; the
@@ -340,21 +340,21 @@ With chunking ([§2](#2-step-1-chunking-a-document-into-retrievable-units)), emb
 ([§3](#3-step-2-embedding-chunks-with-a-real-sentence-encoder)), and the vector index
 ([§4](#4-step-3-a-minimal-vector-similarity-index)) each working on their own, this step wires them
 into the indexing and retrieval stages
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
 described: `index_document` performs indexing (chunk, embed, store — done once per document), and
 `retrieve` performs retrieval (embed the query with the same encoder used at indexing time, then
 search — done once per incoming request).
 
-在分块（[第 2 节](#2-step-1-chunking-a-document-into-retrievable-units)）、嵌入（[第 3 节](#3-step-2-embedding-chunks-with-a-real-sentence-encoder)）与向量索引（[第 4 节](#4-step-3-a-minimal-vector-similarity-index)）三者各自独立生效之后，本步骤将把它们串联进 [`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)所描述的索引化与检索这两个阶段之中：`index_document` 执行索引化（分块、嵌入、存储——每篇文档只需执行一次），`retrieve` 执行检索（用索引化阶段所用的同一个编码器对查询进行编码，然后执行搜索——每一次到来的请求都需执行一次）。
+在分块（[第 2 节](#2-step-1-chunking-a-document-into-retrievable-units)）、嵌入（[第 3 节](#3-step-2-embedding-chunks-with-a-real-sentence-encoder)）与向量索引（[第 4 节](#4-step-3-a-minimal-vector-similarity-index)）三者各自独立生效之后，本步骤将把它们串联进 [`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)所描述的索引化与检索这两个阶段之中：`index_document` 执行索引化（分块、嵌入、存储——每篇文档只需执行一次），`retrieve` 执行检索（用索引化阶段所用的同一个编码器对查询进行编码，然后执行搜索——每一次到来的请求都需执行一次）。
 
 Using the _same_ encoder for both the document chunks and the query is not a stylistic choice — it
 is required, because
-[`intermediate/06` §5](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#5-dense-retrieval-dual-encoders-and-dense-passage-retrieval-dpr)'s
+[`intermediate/06` §5](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#5-dense-retrieval-dual-encoders-and-dense-passage-retrieval-dpr)'s
 dual-encoder pattern only produces meaningfully comparable vectors when both sides were trained
 into the same numeric space; mixing encoders would make cosine similarity meaningless even though
 the code would still run without error.
 
-对文档文本块与查询使用*同一个*编码器，并非一种风格上的选择——而是必须如此，因为[`intermediate/06` 第 5 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#5-dense-retrieval-dual-encoders-and-dense-passage-retrieval-dpr)所讲解的双编码器模式，只有当两侧向量被训练进同一个数值空间时，才能产生具有实际可比性的向量；若混用不同的编码器，即便代码依然能够正常运行、不报任何错误，余弦相似度的结果也将变得毫无意义。
+对文档文本块与查询使用*同一个*编码器，并非一种风格上的选择——而是必须如此，因为[`intermediate/06` 第 5 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#5-dense-retrieval-dual-encoders-and-dense-passage-retrieval-dpr)所讲解的双编码器模式，只有当两侧向量被训练进同一个数值空间时，才能产生具有实际可比性的向量；若混用不同的编码器，即便代码依然能够正常运行、不报任何错误，余弦相似度的结果也将变得毫无意义。
 
 ```python
 def index_document(
@@ -392,15 +392,15 @@ correct; the `embed()` call itself carries the same mental-trace verification st
 
 **步骤 5：增强——组装一份具备事实基础的提示词**
 
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
 described augmentation as the step that connects retrieval back to
-[`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md)'s
+[`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md)'s
 anatomy of a well-formed prompt: instruction, context, input data, and output indicator. This step
 writes exactly that anatomy in code — the retrieved chunks become the context, the user's question
 becomes the input data — as a single pure function that takes a query and a list of retrieved
 chunks and returns one assembled prompt string.
 
-[`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)已经说明，增强正是将检索重新联系回 [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md)所定义的“组织良好的提示词”结构——指令、上下文、输入数据与输出指示——的那一步。本步骤正是用代码原样实现这一结构：检索到的文本块成为“上下文”，用户的问题成为“输入数据”，全部封装为一个纯函数，接收一次查询与一组检索到的文本块，返回一个组装完成的提示词字符串。
+[`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)已经说明，增强正是将检索重新联系回 [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md)所定义的“组织良好的提示词”结构——指令、上下文、输入数据与输出指示——的那一步。本步骤正是用代码原样实现这一结构：检索到的文本块成为“上下文”，用户的问题成为“输入数据”，全部封装为一个纯函数，接收一次查询与一组检索到的文本块，返回一个组装完成的提示词字符串。
 
 Keeping this as a pure function — no network call, no side effect, just string assembly — matters
 for the same reason keeping `VectorIndex` and `embed` separate mattered in
@@ -449,10 +449,10 @@ Output format: Respond in two sentences or fewer.
 
 This is a piece of software, not a person, deciding what belongs in the context part of the
 prompt — the same automated-prompt-construction framing
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)
 used, now made concrete as one function this reader wrote themselves.
 
-这是一段软件、而非某个人，在决定提示词的“上下文”部分应当填入什么内容——这正是 [`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)所使用的“自动化提示词构建”这一框架，如今被具体化为了读者亲手编写的这一个函数。
+这是一段软件、而非某个人，在决定提示词的“上下文”部分应当填入什么内容——这正是 [`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)所使用的“自动化提示词构建”这一框架，如今被具体化为了读者亲手编写的这一个函数。
 
 **Verification: scratch-run.** Executed directly during authoring with exactly the inputs shown;
 the output block above is the exact string produced, character for character.
@@ -466,7 +466,7 @@ the output block above is the exact string produced, character for character.
 **步骤 6：生成——调用 Claude，以检索到的上下文为依据作答**
 
 The final stage of
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)'s
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)'s
 pipeline sends the assembled prompt to an LLM. This step uses Anthropic's official `anthropic`
 Python SDK to call Claude, following exactly the pattern documented in the SDK's own README: a
 `client = anthropic.Anthropic()` constructed with no arguments resolves credentials from the
@@ -475,7 +475,7 @@ Python SDK to call Claude, following exactly the pattern documented in the SDK's
 returning a response whose `.content` is a list of typed content blocks — a caller checks each
 block's `.type` before reading `.text`.
 
-[`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)流水线的最后一个阶段，是将组装完成的提示词发送给一个 LLM。本步骤使用 Anthropic 官方的 `anthropic` Python SDK 来调用 Claude，严格遵循该 SDK 自身 README 文档所记载的模式：不带任何参数构造的 `client = anthropic.Anthropic()`，默认会从环境变量 `ANTHROPIC_API_KEY` 中解析凭证；而 `client.messages.create(...)` 接收一个 `model`、一个 `max_tokens` 上限，以及一个由 `{"role": ..., "content": ...}` 对象组成的 `messages` 列表，返回的响应对象的 `.content` 是一个由带类型的内容块组成的列表——调用方需要先检查每个内容块的 `.type`，再读取其 `.text`。
+[`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)流水线的最后一个阶段，是将组装完成的提示词发送给一个 LLM。本步骤使用 Anthropic 官方的 `anthropic` Python SDK 来调用 Claude，严格遵循该 SDK 自身 README 文档所记载的模式：不带任何参数构造的 `client = anthropic.Anthropic()`，默认会从环境变量 `ANTHROPIC_API_KEY` 中解析凭证；而 `client.messages.create(...)` 接收一个 `model`、一个 `max_tokens` 上限，以及一个由 `{"role": ..., "content": ...}` 对象组成的 `messages` 列表，返回的响应对象的 `.content` 是一个由带类型的内容块组成的列表——调用方需要先检查每个内容块的 `.type`，再读取其 `.text`。
 
 ```python
 import anthropic
@@ -551,10 +551,10 @@ class MinimalRAGPipeline:
 
 The flow below traces one call to `answer()` through every stage this module built, matching the
 offline/online split
-[`intermediate/06` §8](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)'s
+[`intermediate/06` §8](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)'s
 own flowchart used:
 
-下方的流程图，追踪了一次对 `answer()` 的调用，是如何流经本模块所构建的每一个阶段的，其结构对应于 [`intermediate/06` 第 8 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)自身流程图所使用的离线／在线划分：
+下方的流程图，追踪了一次对 `answer()` 的调用，是如何流经本模块所构建的每一个阶段的，其结构对应于 [`intermediate/06` 第 8 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#8-the-full-rag-pipeline-indexing-retrieval-augmentation-generation)自身流程图所使用的离线／在线划分：
 
 ```mermaid
 flowchart TD
@@ -599,7 +599,7 @@ print(pipeline.answer("How do I reset my password?"))
 [§3](#3-step-2-embedding-chunks-with-a-real-sentence-encoder), and stores the result. `answer()`
 then embeds the query with that same encoder, retrieves the chunks whose content actually concerns
 password resets — for the same semantic reasons
-[`intermediate/06` §3](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)
+[`intermediate/06` §3](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)
 demonstrated by hand — assembles a prompt grounding the question in those chunks, and returns
 Claude's answer. This module deliberately does not reproduce the exact cosine-similarity scores
 `all-MiniLM-L6-v2` would compute on this specific document, since doing so would require actually
@@ -607,7 +607,7 @@ invoking the model, which this authoring environment cannot do; per this curricu
 discipline, not knowing an unverified specific number is a permitted answer, and the reader running
 this code on their own machine can observe the real scores directly.
 
-`ingest()` 会对文档进行分块，使用[第 3 节](#3-step-2-embedding-chunks-with-a-real-sentence-encoder)中真实的 `all-MiniLM-L6-v2` 编码器为每个文本块生成嵌入向量，并将结果存储起来。随后，`answer()` 会用同一个编码器对查询进行编码，检索出内容确实与密码重置相关的文本块——其背后的语义原理，与 [`intermediate/06` 第 3 节](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)手工演算所展示的完全一致——组装出一份以这些文本块为依据的提示词，并返回 Claude 的作答。本模块刻意没有复现 `all-MiniLM-L6-v2` 在这一具体文档上会计算出的精确余弦相似度数值，因为这样做需要真正调用该模型，而本次撰写所处的环境无法做到这一点；依照本课程一贯的引用纪律，对于一个未经核实的具体数值，如实承认不知道是一种被允许的作答方式，读者在自己的机器上运行这段代码时，可以直接观察到真实的分数。
+`ingest()` 会对文档进行分块，使用[第 3 节](#3-step-2-embedding-chunks-with-a-real-sentence-encoder)中真实的 `all-MiniLM-L6-v2` 编码器为每个文本块生成嵌入向量，并将结果存储起来。随后，`answer()` 会用同一个编码器对查询进行编码，检索出内容确实与密码重置相关的文本块——其背后的语义原理，与 [`intermediate/06` 第 3 节](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#3-measuring-meaning-cosine-similarity-and-other-distance-metrics)手工演算所展示的完全一致——组装出一份以这些文本块为依据的提示词，并返回 Claude 的作答。本模块刻意没有复现 `all-MiniLM-L6-v2` 在这一具体文档上会计算出的精确余弦相似度数值，因为这样做需要真正调用该模型，而本次撰写所处的环境无法做到这一点；依照本课程一贯的引用纪律，对于一个未经核实的具体数值，如实承认不知道是一种被允许的作答方式，读者在自己的机器上运行这段代码时，可以直接观察到真实的分数。
 
 **Verification: mental trace.** `MinimalRAGPipeline` is a pure composition of six already-verified
 pieces ([§2](#2-step-1-chunking-a-document-into-retrievable-units)–[§7](#7-step-6-generation-calling-claude-grounded-in-retrieved-context)
@@ -629,13 +629,13 @@ own named successor module rather than re-taught here.
 
 将这条流水线称为“最简”是一种精确的表述，而非自谦之词，值得明确指出，为了实现这种极简，究竟牺牲了什么——而这些内容，均已在 `intermediate/06` 及其后续模块中被明确点名讲解过，本节不再重复讲解。
 
-| Left out                                     | Where it's covered                                                                                                                                                                                                                                                                                                                                                     |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Approximate nearest-neighbor search at scale | [§4](#4-step-3-a-minimal-vector-similarity-index) above does exact linear-scan search; [`intermediate/06` §7](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss) covers FAISS-style ANN indexing needed once a corpus reaches millions of chunks. |
-| Sparse (BM25) retrieval and hybrid search    | This pipeline is dense-only; [`intermediate/06` §4](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#4-sparse-retrieval-tf-idf-and-bm25) covers BM25, and [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers combining both.                   |
-| Contextual chunk enrichment                  | [`intermediate/06` §9](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval) covers Anthropic's Contextual Retrieval technique for reducing the failure mode this module's simple overlap-only chunker only partially mitigates.         |
-| Reranking                                    | Not implemented here; [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers it in depth.                                                                                                                                                                                                             |
-| Rigorous retrieval/answer evaluation         | This module's worked example is illustrative, not a benchmark; [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) and [`advanced/08`](https://anu00.dev/curriculum/advanced/08-rigorous-agent-evaluation-statistical-methodology.md) cover evaluating a RAG system rigorously.                           |
+| Left out                                     | Where it's covered                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Approximate nearest-neighbor search at scale | [§4](#4-step-3-a-minimal-vector-similarity-index) above does exact linear-scan search; [`intermediate/06` §7](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss) covers FAISS-style ANN indexing needed once a corpus reaches millions of chunks. |
+| Sparse (BM25) retrieval and hybrid search    | This pipeline is dense-only; [`intermediate/06` §4](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#4-sparse-retrieval-tf-idf-and-bm25) covers BM25, and [`advanced/06`](../advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers combining both.                                             |
+| Contextual chunk enrichment                  | [`intermediate/06` §9](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval) covers Anthropic's Contextual Retrieval technique for reducing the failure mode this module's simple overlap-only chunker only partially mitigates.         |
+| Reranking                                    | Not implemented here; [`advanced/06`](../advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers it in depth.                                                                                                                                                                                                             |
+| Rigorous retrieval/answer evaluation         | This module's worked example is illustrative, not a benchmark; [`advanced/06`](../advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) and [`advanced/08`](../advanced/08-rigorous-agent-evaluation-statistical-methodology.md) cover evaluating a RAG system rigorously.                                                     |
 
 Every one of these omissions is a deliberate scope boundary of a _minimal_ pipeline, not an
 oversight — the point of this module is that a reader who has worked through it now owns a
@@ -652,7 +652,7 @@ reach for when a specific limitation above starts to matter for a real corpus.
 
 This module built a complete, minimal, working RAG pipeline in Python, one stage at a time,
 directly realizing the theory
-[`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
+[`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
 taught: an overlap-aware chunker, real sentence embeddings from `sentence-transformers`'
 `all-MiniLM-L6-v2`, a from-first-principles cosine-similarity vector index, a retrieval function
 that keeps the query and document encoders matched, a prompt-assembly function realizing
@@ -660,7 +660,7 @@ that keeps the query and document encoders matched, a prompt-assembly function r
 to Claude through the official `anthropic` Python SDK — all composed into one
 `MinimalRAGPipeline` class.
 
-本模块用 Python 逐个阶段地构建出了一条完整、最简且可运行的 RAG 流水线，直接将 [`intermediate/06`](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)所讲授的理论付诸实现：一个具备重叠窗口的分块器、来自 `sentence-transformers` 的 `all-MiniLM-L6-v2` 模型所生成的真实句子嵌入向量、一个从第一性原理出发实现的余弦相似度向量索引、一个确保查询编码器与文档编码器始终保持一致的检索函数、一个实现了 `introductory/05` 所定义的“指令／上下文／输入数据／输出指示”结构的提示词组装函数，以及一次通过 Anthropic 官方 Python SDK 对 Claude 发起的生成调用——全部组合成了一个 `MinimalRAGPipeline` 类。
+本模块用 Python 逐个阶段地构建出了一条完整、最简且可运行的 RAG 流水线，直接将 [`intermediate/06`](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)所讲授的理论付诸实现：一个具备重叠窗口的分块器、来自 `sentence-transformers` 的 `all-MiniLM-L6-v2` 模型所生成的真实句子嵌入向量、一个从第一性原理出发实现的余弦相似度向量索引、一个确保查询编码器与文档编码器始终保持一致的检索函数、一个实现了 `introductory/05` 所定义的“指令／上下文／输入数据／输出指示”结构的提示词组装函数，以及一次通过 Anthropic 官方 Python SDK 对 Claude 发起的生成调用——全部组合成了一个 `MinimalRAGPipeline` 类。
 
 Every code block above states its own verification method next to it, per this practicum
 category's citation and verification discipline: the pure-Python logic (chunking, cosine
@@ -695,7 +695,7 @@ mechanism `intermediate/06` only described.
 
 ### Internal Cross-References
 
-- [`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
-- [`introductory/05` — Prompt Engineering Fundamentals](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md)
-- [`advanced/06` — RAG at Scale: Hybrid Search, Reranking & Evaluation](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md)
-- [`advanced/08` — Rigorous Agent Evaluation: Statistical Methodology](https://anu00.dev/curriculum/advanced/08-rigorous-agent-evaluation-statistical-methodology.md)
+- [`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](../intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
+- [`introductory/05` — Prompt Engineering Fundamentals](../introductory/05-prompt-engineering-fundamentals.md)
+- [`advanced/06` — RAG at Scale: Hybrid Search, Reranking & Evaluation](../advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md)
+- [`advanced/08` — Rigorous Agent Evaluation: Statistical Methodology](../advanced/08-rigorous-agent-evaluation-statistical-methodology.md)
