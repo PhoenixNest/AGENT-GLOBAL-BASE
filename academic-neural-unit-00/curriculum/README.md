@@ -207,9 +207,13 @@ Where a term has more than one defensible Chinese rendering, the choice is ratif
 binds every module — consistency across the corpus is a reader-facing property, and an author's
 local preference does not outrank it.
 
-| English term                        | Canonical Chinese | Deprecated            |
-| ----------------------------------- | ----------------- | --------------------- |
-| harness (agent / execution harness) | 运行框架          | 执行框架 — do not use |
+| English term                                  | Canonical Chinese | Deprecated                                            |
+| --------------------------------------------- | ----------------- | ----------------------------------------------------- |
+| harness (agent / execution harness)           | 运行框架          | 执行框架 — do not use                                 |
+| harness (evaluation harness — distinct sense) | 评估框架          | 工具链 — do not use for this sense                    |
+| Practicum (module Level)                      | 实战              | 实训, 实践 — do not use                               |
+| Hands-On Coding Practicum (module Cluster)    | 动手编程实战      | 实战编程练习, 动手编程实训, 动手编程实践 — do not use |
+| reward hacking                                | 奖励黑客          | 奖励破解 — do not use                                 |
 
 **harness → 运行框架** (resolving C-1). Eight modules across three clusters had split between
 `执行框架` and `运行框架`. `运行框架` is canonical: it was the majority usage, and it was the choice
@@ -217,6 +221,25 @@ of both modules that make harnesses their actual subject. `执行框架` was a c
 used in some earlier drafts and is **deprecated** — it must not appear in new modules, and the
 existing occurrences (`introductory/03`, `introductory/04`, `intermediate/07`, `advanced/08`) are
 corrected under the C-1 harmonization scope, not left standing as an author's preference.
+
+**harness (evaluation harness) → 评估框架** (resolving C-2, 2026-08-27, S2 Phase 3 Problem #11).
+`practicum/06`'s "Agent Evaluation Harness" is a genuinely distinct sense from the C-1 entry above
+— a test/evaluation scaffold, not the agent's own execution loop — so it is ratified as its own
+entry rather than forced into `运行框架`. `工具链` ("toolchain") is deprecated for this sense: it
+described the wrong concept (build tooling, not a test harness) and is corrected in `practicum/06`.
+
+**Practicum / Hands-On Coding Practicum** (resolving C-3, 2026-08-27, S2 Phase 3 Problem #7). The
+six practicum modules' metadata blocks split three ways on "Practicum" (实战 / 实训 / 实践) and four
+ways on "Hands-On Coding Practicum" (动手编程实战 / 实战编程练习 / 动手编程实训 / 动手编程实践).
+实战 and 动手编程实战 are ratified as canonical — each was the plurality usage among the six modules,
+and pairing them keeps the Level and Cluster labels internally consistent with each other. The
+non-conforming modules (`practicum/03`, `04`, `05`, `06`) are corrected under this ratification.
+
+**reward hacking → 奖励黑客** (resolving C-4, 2026-08-27, S2 Phase 3 Problem #9). `advanced/09`
+and `advanced/10` — sibling modules in the same Post-Training cluster discussing the same named
+phenomenon — rendered it two different ways (奖励黑客 / 奖励破解). 奖励黑客 is canonical: it is the
+more established rendering and matches the "hacking" sense used elsewhere in the corpus (cf.
+Goodhart's Law discussion in both modules). `advanced/10` §3 is corrected under this ratification.
 
 ### 4.3 Math/Formula Notation
 
