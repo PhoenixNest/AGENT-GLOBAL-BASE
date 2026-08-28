@@ -14,12 +14,12 @@
 
 **从通用循环到具名的工程化模式**
 
-[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) gave you the generic skeleton of every agent: perceive, think, act, observe,
+[`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) gave you the generic skeleton of every agent: perceive, think, act, observe,
 repeat. That skeleton is deliberately minimal — it says nothing about _how_ the "think" step should
 reason, _when_ a plan should be made versus revised, or _what_ an agent should do with a past
 failure the next time it tries.
 
-[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 为你提供了每一个智能体通用的骨架：感知、思考、行动、观察，如此往复。这一骨架刻意保持最简化——它并未说明“思考”这一步*应当*如何进行推理、*何时*应当先制定计划再修改计划，也未说明智能体在下一次尝试时应当如何利用上一次失败的经验。
+[`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 为你提供了每一个智能体通用的骨架：感知、思考、行动、观察，如此往复。这一骨架刻意保持最简化——它并未说明“思考”这一步*应当*如何进行推理、*何时*应当先制定计划再修改计划，也未说明智能体在下一次尝试时应当如何利用上一次失败的经验。
 
 Those are design choices, and over the past several years the agent-systems research community has
 converged on a handful of named patterns that answer them in different, reusable ways.
@@ -42,12 +42,12 @@ task.
 **ReAct：交替进行推理轨迹与行动**
 
 Yao et al.'s 2022 paper "ReAct: Synergizing Reasoning and Acting in Language Models" (already
-referenced in [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) and [`introductory/07`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md)) proposes prompting the LLM to produce, at
+referenced in [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) and [`introductory/07`](../introductory/07-introduction-to-multi-agent-systems.md)) proposes prompting the LLM to produce, at
 every step of the loop, an explicit **thought** — a short piece of free-text reasoning about what to
 do and why — immediately before the **action** it takes, and to read the resulting **observation**
 before producing the next thought.
 
-Yao 等人 2022 年发表的论文《ReAct：语言模型中推理与行动的协同增效》（"ReAct: Synergizing Reasoning and Acting in Language Models"，已在 [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 与 [`introductory/07`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md) 中引用过）提出：在循环的每一步，都提示 LLM 先生成一段明确的**思考**——一小段关于“该做什么、为什么这么做”的自由文本推理——紧接着才产出**行动**，并在读取由此产生的**观察**之后，再生成下一段思考。
+Yao 等人 2022 年发表的论文《ReAct：语言模型中推理与行动的协同增效》（"ReAct: Synergizing Reasoning and Acting in Language Models"，已在 [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 与 [`introductory/07`](../introductory/07-introduction-to-multi-agent-systems.md) 中引用过）提出：在循环的每一步，都提示 LLM 先生成一段明确的**思考**——一小段关于“该做什么、为什么这么做”的自由文本推理——紧接着才产出**行动**，并在读取由此产生的**观察**之后，再生成下一段思考。
 
 The paper's central claim, tested on question-answering and interactive decision-making benchmarks,
 is that this interleaving lets reasoning and acting improve each other: the reasoning traces help
@@ -59,10 +59,10 @@ et al., 2022).
 
 The pattern's name is exactly this loop, spelled out: **Re**ason, **Act** — a single, repeated
 thought → action → observation cycle, which is a direct specialization of the generic
-perceive-think-act-observe loop from [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md), where the "think" step is required to
+perceive-think-act-observe loop from [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md), where the "think" step is required to
 externalize its reasoning as text before choosing the action.
 
-这一模式的名字正是对这一循环的直接概括：**Re**ason、**Act**——一个单一的、反复进行的“思考 → 行动 → 观察”周期，它正是 [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 中通用的“感知-思考-行动-观察”循环的一种直接特化，只是这里的“思考”步骤被要求先以文本形式外化其推理过程，然后才能选择行动。
+这一模式的名字正是对这一循环的直接概括：**Re**ason、**Act**——一个单一的、反复进行的“思考 → 行动 → 观察”周期，它正是 [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 中通用的“感知-思考-行动-观察”循环的一种直接特化，只是这里的“思考”步骤被要求先以文本形式外化其推理过程，然后才能选择行动。
 
 ### 2.1 A Worked Trace
 
@@ -71,9 +71,9 @@ externalize its reasoning as text before choosing the action.
 Consider the task "what is the population of the capital city of the country where the 2016 Summer
 Olympics were held?" — a question that needs two facts chained together, neither of which the LLM
 can be assumed to know precisely from training alone. A ReAct-style trace, using the tool schema
-conventions from [`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md), looks like this:
+conventions from [`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md), looks like this:
 
-考虑这样一个任务：“2016 年夏季奥运会举办国的首都人口是多少？”——这是一个需要将两条事实串联起来才能回答的问题，而这两条事实都不能假定 LLM 仅凭训练所得就能精确掌握。采用 [`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md) 中的工具模式约定，一段 ReAct 风格的追踪记录如下：
+考虑这样一个任务：“2016 年夏季奥运会举办国的首都人口是多少？”——这是一个需要将两条事实串联起来才能回答的问题，而这两条事实都不能假定 LLM 仅凭训练所得就能精确掌握。采用 [`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md) 中的工具模式约定，一段 ReAct 风格的追踪记录如下：
 
 ```text
 Thought 1: I need to find which country hosted the 2016 Summer Olympics.
@@ -189,9 +189,9 @@ only depends on the previous step's output, forming a strict chain here, but on 
 independent subtasks could be dispatched in parallel — a capability a strictly one-step-at-a-time
 ReAct loop does not expose as naturally), and a human reviewer can approve or edit the plan before
 any tool call happens at all, which matters directly for the human-in-the-loop autonomy spectrum
-introduced in [`introductory/03` §7](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#7-autonomy-and-the-human-in-the-loop-spectrum).
+introduced in [`introductory/03` §7](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#7-autonomy-and-the-human-in-the-loop-spectrum).
 
-但在更复杂的任务上，这一差异就不再只是表面的了：由于整份计划一次性可见，计划-执行型智能体能够识别出第一步到第三步在*内容*上彼此独立（在这里，每一步都只依赖于前一步的输出，构成了一条严格的链条；但在另一项任务中，若干独立的子任务则可以被并行派发——这是一种严格逐步进行的 ReAct 循环并不那么自然地具备的能力），并且人工审阅者可以在任何工具调用真正发生之前，就对该计划进行批准或修改，这与 [`introductory/03` 第 7 节](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#7-autonomy-and-the-human-in-the-loop-spectrum)中介绍的“人在回路”自主性光谱直接相关。
+但在更复杂的任务上，这一差异就不再只是表面的了：由于整份计划一次性可见，计划-执行型智能体能够识别出第一步到第三步在*内容*上彼此独立（在这里，每一步都只依赖于前一步的输出，构成了一条严格的链条；但在另一项任务中，若干独立的子任务则可以被并行派发——这是一种严格逐步进行的 ReAct 循环并不那么自然地具备的能力），并且人工审阅者可以在任何工具调用真正发生之前，就对该计划进行批准或修改，这与 [`introductory/03` 第 7 节](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#7-autonomy-and-the-human-in-the-loop-spectrum)中介绍的“人在回路”自主性光谱直接相关。
 
 The cost is the opposite of ReAct's flexibility: if Step 2's real answer turns out to depend on
 information only discoverable during Step 3, a rigid plan must detect this and re-plan, whereas a
@@ -207,15 +207,15 @@ ReAct loop would simply have reasoned its way there one step at a time.
 
 Both ReAct and Plan-and-Execute describe how a single attempt at a task proceeds. Neither says
 anything about what happens if that attempt fails outright — the LLM's own weights are frozen, so it
-cannot "learn" in the training sense described in [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md), and without an explicit
+cannot "learn" in the training sense described in [`introductory/01`](../introductory/01-neural-networks-and-deep-learning-foundations.md), and without an explicit
 mechanism it would simply retry the same task the same way and likely fail the same way again.
 
-ReAct 与计划-执行这两种模式，描述的都是单次任务尝试如何进行。二者都没有说明，如果这次尝试彻底失败了，接下来会发生什么——LLM 自身的权重是冻结的，因此它无法像 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) 中所述训练意义上的“学习”那样进行学习；如果没有明确的机制，它只会以同样的方式重新尝试同一个任务，并且很可能以同样的方式再次失败。
+ReAct 与计划-执行这两种模式，描述的都是单次任务尝试如何进行。二者都没有说明，如果这次尝试彻底失败了，接下来会发生什么——LLM 自身的权重是冻结的，因此它无法像 [`introductory/01`](../introductory/01-neural-networks-and-deep-learning-foundations.md) 中所述训练意义上的“学习”那样进行学习；如果没有明确的机制，它只会以同样的方式重新尝试同一个任务，并且很可能以同样的方式再次失败。
 
 Shinn et al.'s 2023 paper "Reflexion: Language Agents with Verbal Reinforcement Learning" (also
-referenced in this curriculum's [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)) addresses exactly this gap.
+referenced in this curriculum's [`advanced/03`](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md)) addresses exactly this gap.
 
-Shinn 等人 2023 年发表的论文《Reflexion：具备语言化强化学习能力的语言智能体》（"Reflexion: Language Agents with Verbal Reinforcement Learning"，本课程 [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md) 中也曾引用）正是针对这一空白提出的解决方案。
+Shinn 等人 2023 年发表的论文《Reflexion：具备语言化强化学习能力的语言智能体》（"Reflexion: Language Agents with Verbal Reinforcement Learning"，本课程 [`advanced/03`](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md) 中也曾引用）正是针对这一空白提出的解决方案。
 
 After an attempt ends in failure — detected either by an external signal, such as a failing test, or
 by the LLM's own judgment of its result — the agent is prompted to generate a **self-reflection**: a
@@ -376,22 +376,22 @@ build.
 A ReAct agent's reasoning trace can look convincing while being wrong — a fluent thought that
 misreads an observation is not automatically caught by the pattern itself, since ReAct only
 structures _where_ reasoning happens, not whether it is correct; a harness must still validate
-actions before executing them, exactly as [`introductory/03` §8](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop) already warned for the generic loop.
+actions before executing them, exactly as [`introductory/03` §8](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop) already warned for the generic loop.
 A Plan-and-Execute agent's plan can be confidently detailed and still wrong end to end if an early
 step's assumption turns out false, which is why production systems typically allow re-planning
 rather than treating the first plan as final.
 
-一个 ReAct 智能体的推理轨迹，可能看起来令人信服，实际上却是错的——一段流畅但误读了观察结果的思考，并不会被该模式本身自动纠正，因为 ReAct 只规定了推理*发生在哪里*，而不保证推理本身正确与否；运行框架仍必须在执行任何行动之前对其进行校验，这正是 [`introductory/03` 第 8 节](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)针对通用循环早已提出的警示。一个计划-执行智能体的计划，即便看起来自信而详尽，若其中某个较早步骤的假设最终被证明是错误的，整份计划从头到尾都可能是错的——这正是为什么生产系统通常允许重新规划，而不是将最初的计划视为一成不变的。
+一个 ReAct 智能体的推理轨迹，可能看起来令人信服，实际上却是错的——一段流畅但误读了观察结果的思考，并不会被该模式本身自动纠正，因为 ReAct 只规定了推理*发生在哪里*，而不保证推理本身正确与否；运行框架仍必须在执行任何行动之前对其进行校验，这正是 [`introductory/03` 第 8 节](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)针对通用循环早已提出的警示。一个计划-执行智能体的计划，即便看起来自信而详尽，若其中某个较早步骤的假设最终被证明是错误的，整份计划从头到尾都可能是错的——这正是为什么生产系统通常允许重新规划，而不是将最初的计划视为一成不变的。
 
 A Reflexion loop can also fail in a specific way worth naming: if the success/failure signal itself
-is unreliable (for example, an LLM judging its own success, discussed further in [`introductory/08`](https://anu00.dev/curriculum/introductory/08-why-and-how-we-evaluate-agents.md)'s
+is unreliable (for example, an LLM judging its own success, discussed further in [`introductory/08`](../introductory/08-why-and-how-we-evaluate-agents.md)'s
 treatment of evaluation), the reflection may "correct" a step that was not actually the problem, and
 repeated retries can drift rather than converge. None of these pitfalls is solved by picking a
 different pattern; each pattern shifts _where_ the failure can occur, not whether failure is
-possible — which is precisely why [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md) treats none of these cognitive patterns as a
+possible — which is precisely why [`advanced/03`](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md) treats none of these cognitive patterns as a
 substitute for harness-level resilience and control engineering.
 
-一个 Reflexion 循环也可能以一种值得专门指出的方式失败：如果成功/失败信号本身并不可靠（例如由 LLM 自行判断自己是否成功，这一点在 [`introductory/08`](https://anu00.dev/curriculum/introductory/08-why-and-how-we-evaluate-agents.md) 关于评估的讨论中有更详细的说明），反思环节可能会“纠正”一个实际上并非问题所在的步骤，导致反复重试出现漂移而非收敛。这些陷阱都不能通过换用另一种模式来解决；每种模式只是改变了失败*可能发生的位置*，而无法保证失败不会发生——这正是为什么 [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md) 不将这些认知层面的模式视为运行框架层面韧性与控制工程的替代品。
+一个 Reflexion 循环也可能以一种值得专门指出的方式失败：如果成功/失败信号本身并不可靠（例如由 LLM 自行判断自己是否成功，这一点在 [`introductory/08`](../introductory/08-why-and-how-we-evaluate-agents.md) 关于评估的讨论中有更详细的说明），反思环节可能会“纠正”一个实际上并非问题所在的步骤，导致反复重试出现漂移而非收敛。这些陷阱都不能通过换用另一种模式来解决；每种模式只是改变了失败*可能发生的位置*，而无法保证失败不会发生——这正是为什么 [`advanced/03`](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md) 不将这些认知层面的模式视为运行框架层面韧性与控制工程的替代品。
 
 ---
 
@@ -400,7 +400,7 @@ substitute for harness-level resilience and control engineering.
 **小结与后续内容**
 
 This module introduced three named, citable patterns for how the "think" step of the agent loop from
-[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) can be structured: ReAct interleaves an explicit reasoning trace with each action,
+[`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) can be structured: ReAct interleaves an explicit reasoning trace with each action,
 one step at a time; Plan-and-Execute commits to a multi-step plan before execution begins, trading
 flexibility for reviewability and decomposability; and Reflexion adds an episodic self-correction
 loop across repeated attempts at the same task, letting a frozen model's behavior still improve
@@ -408,19 +408,19 @@ attempt over attempt through the content of its context rather than through weig
 the three is universally superior — each answers a different question about how a single agent
 should organize its own reasoning.
 
-本模块介绍了三种具名、有据可查的模式，用以回答 [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 中智能体循环“思考”这一步骤应当如何组织：ReAct 逐步将显式推理轨迹与每一次行动交替进行；计划-执行在执行开始前就确定一份多步骤计划，以灵活性换取可审阅性与可拆解性；而 Reflexion 则在同一任务的反复尝试之间加入了一个情景性的自我纠正循环，使得即便模型权重被冻结，其行为也能通过上下文内容——而非权重更新——在一次次尝试中不断改进。三者之中并无哪一个绝对优于其他——它们各自回答了“单个智能体应当如何组织自身推理”这一问题的不同侧面。
+本模块介绍了三种具名、有据可查的模式，用以回答 [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 中智能体循环“思考”这一步骤应当如何组织：ReAct 逐步将显式推理轨迹与每一次行动交替进行；计划-执行在执行开始前就确定一份多步骤计划，以灵活性换取可审阅性与可拆解性；而 Reflexion 则在同一任务的反复尝试之间加入了一个情景性的自我纠正循环，使得即便模型权重被冻结，其行为也能通过上下文内容——而非权重更新——在一次次尝试中不断改进。三者之中并无哪一个绝对优于其他——它们各自回答了“单个智能体应当如何组织自身推理”这一问题的不同侧面。
 
 `intermediate/04-agent-memory-systems-short-term-long-term-episodic.md` picks up exactly where
 Reflexion's episodic memory buffer left off, and develops a full taxonomy of what an agent can
 remember beyond a single task.
 `intermediate/07-multi-agent-communication-and-coordination-protocols.md` extends these single-agent
 patterns to systems where multiple agents, each potentially running one of these patterns
-internally, must communicate and coordinate. [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md) (already published in this curriculum)
+internally, must communicate and coordinate. [`advanced/03`](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md) (already published in this curriculum)
 treats all three patterns as the cognitive layer that a production harness must wrap with
 resilience, control, and observability engineering — read together with this module, not as a
 replacement for it.
 
-`intermediate/04-agent-memory-systems-short-term-long-term-episodic.md` 正是从 Reflexion 情景记忆缓冲区结束的地方继续讲起，发展出一套关于智能体除单一任务之外还能记住哪些内容的完整分类体系。 `intermediate/07-multi-agent-communication-and-coordination-protocols.md` 将这些单智能体模式扩展到多个智能体（每个智能体内部都可能运行着这三种模式之一）必须相互通信与协调的系统之中。本课程中已发布的 [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md) 则将这三种模式共同视为认知层面，生产级运行框架必须在此之上再包裹一层韧性、控制与可观测性工程——应与本模块结合阅读，而非将其视为对本模块的替代。
+`intermediate/04-agent-memory-systems-short-term-long-term-episodic.md` 正是从 Reflexion 情景记忆缓冲区结束的地方继续讲起，发展出一套关于智能体除单一任务之外还能记住哪些内容的完整分类体系。 `intermediate/07-multi-agent-communication-and-coordination-protocols.md` 将这些单智能体模式扩展到多个智能体（每个智能体内部都可能运行着这三种模式之一）必须相互通信与协调的系统之中。本课程中已发布的 [`advanced/03`](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md) 则将这三种模式共同视为认知层面，生产级运行框架必须在此之上再包裹一层韧性、控制与可观测性工程——应与本模块结合阅读，而非将其视为对本模块的替代。
 
 ---
 
@@ -437,11 +437,11 @@ replacement for it.
 
 ### Internal Cross-References
 
-- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
-- [`introductory/04` — Tool Use & Function Calling Basics](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md)
-- [`introductory/06` — Context Windows, Tokens & Memory Basics](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)
-- [`introductory/07` — Introduction to Multi-Agent Systems](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md)
-- [`introductory/08` — Why & How We Evaluate Agents](https://anu00.dev/curriculum/introductory/08-why-and-how-we-evaluate-agents.md)
-- [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
-- [`intermediate/07` — Multi-Agent Communication & Coordination Protocols](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)
-- [`advanced/03` — Agent Harness Engineering: Building Production-Grade Agent Loops](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+- [`introductory/04` — Tool Use & Function Calling Basics](../introductory/04-tool-use-and-function-calling-basics.md)
+- [`introductory/06` — Context Windows, Tokens & Memory Basics](../introductory/06-context-windows-tokens-and-memory-basics.md)
+- [`introductory/07` — Introduction to Multi-Agent Systems](../introductory/07-introduction-to-multi-agent-systems.md)
+- [`introductory/08` — Why & How We Evaluate Agents](../introductory/08-why-and-how-we-evaluate-agents.md)
+- [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](04-agent-memory-systems-short-term-long-term-episodic.md)
+- [`intermediate/07` — Multi-Agent Communication & Coordination Protocols](07-multi-agent-communication-and-coordination-protocols.md)
+- [`advanced/03` — Agent Harness Engineering: Building Production-Grade Agent Loops](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md)

@@ -14,11 +14,11 @@
 
 **引言：为什么语言模型需要工具**
 
-[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) established that an AI agent is an LLM wrapped in a loop that lets it act on an
+[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) established that an AI agent is an LLM wrapped in a loop that lets it act on an
 environment and observe the result, and that the "act" stage is what separates an agent from a plain
 chatbot. This module opens that "act" stage up in full detail.
 
-[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)已确立：AI 智能体是被包裹在一个循环中的 LLM，该循环使其能够作用于环境并观察结果，而“行动”阶段正是智能体区别于普通聊天机器人的关键所在。本模块将完整展开这一“行动”阶段。
+[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)已确立：AI 智能体是被包裹在一个循环中的 LLM，该循环使其能够作用于环境并观察结果，而“行动”阶段正是智能体区别于普通聊天机器人的关键所在。本模块将完整展开这一“行动”阶段。
 
 An LLM, on its own, can only do one thing: given some input text, produce output text.
 
@@ -28,10 +28,10 @@ It cannot look up today's stock price, run a calculation it is unsure of, read a
 computer, or send an email — not because it is unintelligent, but because none of those things are
 text prediction. A **tool**, in the agent-systems sense used throughout this curriculum, is a piece
 of ordinary software — a function, an API endpoint, a database query — that the agent's surrounding
-harness (the non-LLM code that runs the loop, as defined in [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)) can execute on the
+harness (the non-LLM code that runs the loop, as defined in [`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)) can execute on the
 LLM's behalf, and whose result is then fed back into the LLM as a new observation.
 
-它无法查询今天的股价，无法运行一个自己没把握的计算，无法读取你电脑上的某个文件，也无法发送邮件——这并非因为它不够智能，而是因为这些事情都不是“文本预测”。本课程中所使用的**工具**这一术语，特指某个普通软件——一个函数、一个 API 端点、一次数据库查询——它可以由智能体周边的运行框架（即[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)中定义的、运行循环的非 LLM 代码）代表 LLM 执行，其结果随后作为一条新的观察被反馈给 LLM。
+它无法查询今天的股价，无法运行一个自己没把握的计算，无法读取你电脑上的某个文件，也无法发送邮件——这并非因为它不够智能，而是因为这些事情都不是“文本预测”。本课程中所使用的**工具**这一术语，特指某个普通软件——一个函数、一个 API 端点、一次数据库查询——它可以由智能体周边的运行框架（即[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)中定义的、运行循环的非 LLM 代码）代表 LLM 执行，其结果随后作为一条新的观察被反馈给 LLM。
 
 Tool use is the mechanism that turns "predicting the next word" into "getting real things done."
 
@@ -84,10 +84,10 @@ It is worth stating the security-relevant consequence of this contract plainly, 
 to misread as a technicality: the LLM only ever _proposes_ a call; it never has direct access to
 your computer, your files, or the internet. Every single action still passes through code the
 developer wrote and controls. This "propose, don't execute" separation is the foundation for the
-safety patterns covered in depth in [`advanced/04`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md) — an agent is only as safe as the harness's
+safety patterns covered in depth in [`advanced/04`](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md) — an agent is only as safe as the harness's
 willingness to validate and, when appropriate, refuse a proposed call.
 
-值得明确指出这一契约在安全方面的含义，因为它很容易被误读为一个无关紧要的技术细节：LLM 始终只是“提议”一次调用，它从不直接访问你的电脑、文件或互联网。每一个行动仍然要经过开发者编写并掌控的代码。这种“只提议、不执行”的分离，正是[`advanced/04`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)中深入探讨的安全模式的基础——一个智能体的安全程度，取决于运行框架愿意在多大程度上校验、并在必要时拒绝一次被提议的调用。
+值得明确指出这一契约在安全方面的含义，因为它很容易被误读为一个无关紧要的技术细节：LLM 始终只是“提议”一次调用，它从不直接访问你的电脑、文件或互联网。每一个行动仍然要经过开发者编写并掌控的代码。这种“只提议、不执行”的分离，正是[`advanced/04`](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md)中深入探讨的安全模式的基础——一个智能体的安全程度，取决于运行框架愿意在多大程度上校验、并在必要时拒绝一次被提议的调用。
 
 ---
 
@@ -147,13 +147,13 @@ sequenceDiagram
     Harness->>User: "847 × 293 = 248,171."
 ```
 
-Notice the parallel to the weather example in [`introductory/03` §4](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#4-worked-example-a-weather-checking-agent-traced-step-by-step): this is the same agent loop —
+Notice the parallel to the weather example in [`introductory/03` §4](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#4-worked-example-a-weather-checking-agent-traced-step-by-step): this is the same agent loop —
 perceive, think, act, observe — with the "act" step now shown in the mechanical detail this module
 promised. The LLM never computed 847 × 293 itself; it recognized that the task called for the
 `multiply` tool, requested it with the correct arguments, and then read back an exact, guaranteed-
 correct result rather than an estimate.
 
-请注意这与[`introductory/03` 第 4 节](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#4-worked-example-a-weather-checking-agent-traced-step-by-step)天气示例的对应关系：这仍然是同一个智能体循环——感知、思考、行动、观察——只是本模块将“行动”这一步以其机械细节完整呈现出来。LLM 自己从未计算过 847 × 293；它识别出该任务需要使用 `multiply` 工具，以正确的参数发起请求，随后读回一个精确、保证正确的结果，而非一个估算值。
+请注意这与[`introductory/03` 第 4 节](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#4-worked-example-a-weather-checking-agent-traced-step-by-step)天气示例的对应关系：这仍然是同一个智能体循环——感知、思考、行动、观察——只是本模块将“行动”这一步以其机械细节完整呈现出来。LLM 自己从未计算过 847 × 293；它识别出该任务需要使用 `multiply` 工具，以正确的参数发起请求，随后读回一个精确、保证正确的结果，而非一个估算值。
 
 ---
 
@@ -243,9 +243,9 @@ corrected arguments, try a different tool, or tell the user it cannot complete t
 error observation gives it enough information to reason about what went wrong. An agent whose
 harness swallows errors silently will either hallucinate a plausible-sounding but false result, or
 loop indefinitely retrying an unfixable call — both of which connect directly back to the failure
-modes named in [`introductory/03` §8](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop).
+modes named in [`introductory/03` §8](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop).
 
-这一点之所以重要，是因为 LLM 下一次“思考”步骤只有在错误观察中包含足够信息、能够据此推断出问题所在时，才能做出好的决策——用修正后的参数重试、改用另一个工具，或告知用户任务无法完成。若某智能体的运行框架悄悄吞掉错误，它要么会产生一个听起来合理却虚假的结果（幻觉），要么会针对一个根本无法修复的调用无限重试——这两种情形都直接呼应了 [`introductory/03` 第 8 节](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)中所述的失效模式。
+这一点之所以重要，是因为 LLM 下一次“思考”步骤只有在错误观察中包含足够信息、能够据此推断出问题所在时，才能做出好的决策——用修正后的参数重试、改用另一个工具，或告知用户任务无法完成。若某智能体的运行框架悄悄吞掉错误，它要么会产生一个听起来合理却虚假的结果（幻觉），要么会针对一个根本无法修复的调用无限重试——这两种情形都直接呼应了 [`introductory/03` 第 8 节](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)中所述的失效模式。
 
 ---
 
@@ -276,13 +276,13 @@ provider's syntax is the durable skill.
 
 **小结**
 
-Tool use is what lets an LLM's decisions in the agent loop ([`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)) turn into real
+Tool use is what lets an LLM's decisions in the agent loop ([`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)) turn into real
 effects in the world. The mechanism rests on a three-part contract: a developer-written schema
 describing what a tool does and what arguments it takes, the LLM proposing a structured call based
 on that schema, and the harness — never the LLM — actually executing the call and returning its
 result as a new observation.
 
-工具使用使得 LLM 在智能体循环（[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)）中做出的决策，能够转化为世界中的真实效果。这一机制依赖于一份三方契约：由开发者编写的模式，描述某工具的功能及所需参数；LLM 基于该模式提议一次结构化调用；以及运行框架（而绝非 LLM 本身）真正执行该调用，并将其结果作为一条新的观察返回。
+工具使用使得 LLM 在智能体循环（[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)）中做出的决策，能够转化为世界中的真实效果。这一机制依赖于一份三方契约：由开发者编写的模式，描述某工具的功能及所需参数；LLM 基于该模式提议一次结构化调用；以及运行框架（而绝非 LLM 本身）真正执行该调用，并将其结果作为一条新的观察返回。
 
 This same contract, with only surface syntax differing, underlies OpenAI's function calling,
 Anthropic's tool use, and the newer provider-agnostic Model Context Protocol. Robust agents must
@@ -291,12 +291,12 @@ them, and must decide task by task whether calls can run in parallel or must run
 
 这同一份契约，仅在表层语法上有所不同，构成了 OpenAI 的函数调用、Anthropic 的工具使用，以及更新出现的、与提供商无关的模型上下文协议的共同基础。健壮的智能体还必须显式地处理失败情形，把清晰的错误观察反馈给 LLM，而非将其隐藏，并且必须逐任务判断各次调用应当并行执行还是必须顺序执行。
 
-[`introductory/07`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md) next extends these single-agent tool-use mechanics to systems where multiple
-agents, each with their own tools, must work together. [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) returns to tool use to
+[`introductory/07`](07-introduction-to-multi-agent-systems.md) next extends these single-agent tool-use mechanics to systems where multiple
+agents, each with their own tools, must work together. [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) returns to tool use to
 build named, formal agent design patterns — ReAct, Plan-and-Execute, and Reflexion — directly on top
 of the loop and tool-calling mechanics taught in this module and the previous one.
 
-接下来，[`introductory/07`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md)会将本模块所述单智能体的工具使用机制，扩展到多个各自拥有工具的智能体必须协同工作的系统之中。[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)则会回到工具使用这一主题，在本模块与上一模块所讲授的循环与函数调用机制之上，构建具名的、正式的智能体设计模式——ReAct、Plan-and-Execute 与 Reflexion。
+接下来，[`introductory/07`](07-introduction-to-multi-agent-systems.md)会将本模块所述单智能体的工具使用机制，扩展到多个各自拥有工具的智能体必须协同工作的系统之中。[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)则会回到工具使用这一主题，在本模块与上一模块所讲授的循环与函数调用机制之上，构建具名的、正式的智能体设计模式——ReAct、Plan-and-Execute 与 Reflexion。
 
 ---
 
@@ -313,8 +313,8 @@ of the loop and tool-calling mechanics taught in this module and the previous on
 
 ### Internal Cross-References
 
-- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
-- [`introductory/06` — Context Windows, Tokens & Memory Basics](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)
-- [`introductory/07` — Introduction to Multi-Agent Systems](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md)
-- [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
-- [`advanced/04` — Agentic Safety, Guardrails & Governance Patterns](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
+- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+- [`introductory/06` — Context Windows, Tokens & Memory Basics](06-context-windows-tokens-and-memory-basics.md)
+- [`introductory/07` — Introduction to Multi-Agent Systems](07-introduction-to-multi-agent-systems.md)
+- [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+- [`advanced/04` — Agentic Safety, Guardrails & Governance Patterns](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
