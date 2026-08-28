@@ -193,6 +193,10 @@ from sentence_transformers import SentenceTransformer
 _encoder = SentenceTransformer("all-MiniLM-L6-v2")
 
 
+class EmbeddingError(Exception):
+    """Raised when the embedding call fails for one or more texts."""
+
+
 def embed(texts: list[str]) -> list[list[float]]:
     """Encode a list of texts into a list of unit-length embedding vectors.
 
@@ -200,10 +204,29 @@ def embed(texts: list[str]) -> list[list[float]]:
     that the dot product between any two returned vectors already equals
     their cosine similarity (intermediate/06 §3) -- Step 3 below relies on
     this.
+
+    Raises EmbeddingError, wrapping the underlying failure together with the
+    number of texts involved, if the encoder call itself fails.
     """
-    vectors = _encoder.encode(texts, normalize_embeddings=True)
+    try:
+        vectors = _encoder.encode(texts, normalize_embeddings=True)
+    except Exception as exc:
+        raise EmbeddingError(f"embedding call failed for {len(texts)} text(s): {exc}") from exc
     return vectors.tolist()
 ```
+
+A bare `_encoder.encode(...)` call with no error handling would let any failure -- a corrupted
+input, an out-of-memory condition on a large batch, or, if `_encoder` here stood in for a hosted
+embedding API rather than a local model, a network timeout or rate limit -- propagate out of
+`embed()` as whatever exception type the underlying library happens to raise, with nothing in the
+message tying it back to this call. Catching it and re-raising as `EmbeddingError` gives every
+caller one stable exception type to handle regardless of the underlying cause, carrying the one
+piece of context (how many texts were being embedded) needed to start diagnosing which call
+failed -- the same translate-don't-hide treatment
+[`practicum/02` §6](https://anu00.dev/curriculum/practicum/02-implementing-tool-use-and-function-calling.md#6-the-dispatch-function-executing-one-call-safely)'s
+inner `try`/`except` gives a tool's own code raising inside `dispatch`.
+
+一次不带任何错误处理的 `_encoder.encode(...)` 调用，会让任何失败——输入数据损坏、大批量输入导致的内存不足，抑或——若此处的 `_encoder` 换成一个托管的嵌入 API 而非本地模型——网络超时或速率限制——以底层库恰好抛出的任何异常类型，径直从 `embed()` 中逃逸出去，且异常信息中没有任何内容能将其与这一次具体调用关联起来。将其捕获并重新包装为 `EmbeddingError` 抛出，使得每一个调用方都只需处理同一种稳定的异常类型，无论其底层原因为何，并携带上诊断“究竟是哪一次调用失败”所需要的最基本上下文（本次嵌入涉及多少段文本）——这正是[《practicum/02》第 6 节](https://anu00.dev/curriculum/practicum/02-implementing-tool-use-and-function-calling.md#6-the-dispatch-function-executing-one-call-safely)中 `dispatch` 内层 `try`/`except` 对“工具自身代码抛出异常”所采用的同一种“转化而非隐瞒”处理方式。
 
 The `normalize_embeddings=True` argument is doing real work here, not just tidying the numbers:
 because
@@ -223,9 +246,13 @@ confirmed during authoring — the `SentenceTransformer(...)` constructor call, 
 signature (including the `normalize_embeddings` parameter and its documented default of `False`),
 and the returned NumPy array's `.tolist()` conversion all match those sources verbatim. Everything
 downstream of this function's _output_ (a plain list of lists of floats) is scratch-run — see
-[§4](#4-step-3-a-minimal-vector-similarity-index) below.
+[§4](#4-step-3-a-minimal-vector-similarity-index) below. The added `try`/`except`/`raise ... from`
+wrapper is plain Python control flow with no external dependency, so it was scratch-run directly:
+forcing `_encoder.encode` to raise inside a stand-in for `embed()` confirmed `EmbeddingError` is
+raised with the expected message and `__cause__` set to the original exception, exactly as `raise
+... from exc` documents.
 
-**验证方式：对照已核实文档进行心算核查。** 本次撰写所处的环境无法联网下载模型权重，因此这一具体调用未能在此环境中独立试跑；取而代之的是，逐行对照了下方“参考文献”中所引用的 `sentence-transformers` 官方文档与 `all-MiniLM-L6-v2` 模型卡进行了核查，这两份文档均已在撰写过程中实际抓取并确认——`SentenceTransformer(...)` 构造调用、`.encode(...)` 的函数签名（包括 `normalize_embeddings` 参数及其文档记载的默认值 `False`），以及所返回的 NumPy 数组的 `.tolist()` 转换，均与上述来源逐字相符。该函数*输出结果*（一个由浮点数列表组成的普通列表）之后的所有下游逻辑，均已完成脚本试跑——见下方[第 4 节](#4-step-3-a-minimal-vector-similarity-index)。
+**验证方式：对照已核实文档进行心算核查。** 本次撰写所处的环境无法联网下载模型权重，因此这一具体调用未能在此环境中独立试跑；取而代之的是，逐行对照了下方“参考文献”中所引用的 `sentence-transformers` 官方文档与 `all-MiniLM-L6-v2` 模型卡进行了核查，这两份文档均已在撰写过程中实际抓取并确认——`SentenceTransformer(...)` 构造调用、`.encode(...)` 的函数签名（包括 `normalize_embeddings` 参数及其文档记载的默认值 `False`），以及所返回的 NumPy 数组的 `.tolist()` 转换，均与上述来源逐字相符。该函数*输出结果*（一个由浮点数列表组成的普通列表）之后的所有下游逻辑，均已完成脚本试跑——见下方[第 4 节](#4-step-3-a-minimal-vector-similarity-index)。新增的 `try`/`except`/`raise ... from` 包装逻辑属于纯 Python 控制流，不依赖任何外部资源，因此已直接完成脚本试跑：在 `embed()` 的一个替身版本中强制让 `_encoder.encode` 抛出异常，确认了 `EmbeddingError` 会携带预期的错误信息被抛出，且其 `__cause__` 会被设置为原始异常——与 `raise ... from exc` 的文档行为完全一致。
 
 ---
 
@@ -483,21 +510,51 @@ import anthropic
 client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from the environment
 
 
+class GenerationError(Exception):
+    """Raised when the Claude API call fails after a prompt has been assembled."""
+
+
 def generate(prompt: str, model: str = "claude-opus-5", max_tokens: int = 1024) -> str:
     """Generation stage: send the assembled prompt to Claude, return its
     text answer -- generated while grounded in the retrieved context that
     build_prompt() wove into `prompt`.
+
+    Raises GenerationError, wrapping the underlying failure together with
+    the prompt length, if the API call itself fails.
     """
-    response = client.messages.create(
-        model=model,
-        max_tokens=max_tokens,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    try:
+        response = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}],
+        )
+    except anthropic.APIError as exc:
+        raise GenerationError(
+            f"Claude API call failed (prompt length {len(prompt)} chars): {exc}"
+        ) from exc
     for block in response.content:
         if block.type == "text":
             return block.text
     return ""
 ```
+
+`anthropic.APIError` is the SDK's own documented base exception -- `RateLimitError`,
+`APITimeoutError`, and `APIConnectionError` (the transient failures
+[`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+invokes as its own motivating examples for why an external call needs resilience at all) all
+inherit from it, alongside the `APIStatusError` subclasses covering non-2xx responses. Catching
+it here, rather than letting whatever exception the SDK happens to raise propagate bare, converts
+any of those failures into one stable `GenerationError` carrying the prompt length that was being
+sent -- the same wrap-with-context, re-raise-a-clearer-exception treatment
+[`practicum/02` §4](https://anu00.dev/curriculum/practicum/02-implementing-tool-use-and-function-calling.md#4-structured-tool-call-parsing-from-raw-text-to-a-validated-request)'s
+`parse_tool_call` gives a malformed `json.JSONDecodeError` by re-raising it as `ToolCallError`.
+
+`anthropic.APIError` 是该 SDK 自身文档记载的基础异常类——`RateLimitError`、`APITimeoutError` 与
+`APIConnectionError`（这些正是[《advanced/03》](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)自身用作“为何一次外部调用需要具备韧性”这一论点之动机范例的瞬时性失败）均继承自它，此外还包括覆盖非
+2xx 响应的 `APIStatusError` 系列子类。在此处捕获它，而非任由 SDK 恰好抛出的异常类型原样逃逸，会将上述任何一种失败，统一转化为携带着“本次发送的提示词长度”这一上下文信息的同一种稳定的
+`GenerationError`——这正是[《practicum/02》第 4
+节](https://anu00.dev/curriculum/practicum/02-implementing-tool-use-and-function-calling.md#4-structured-tool-call-parsing-from-raw-text-to-a-validated-request)中
+`parse_tool_call` 对格式错误引发的 `json.JSONDecodeError`、将其重新包装为 `ToolCallError` 再抛出所采用的同一种“携带上下文包装、重新抛出更清晰异常”的处理方式。
 
 No system prompt is used here, deliberately: the entire instruction/context/input-data/output
 anatomy already lives inside `prompt` itself, exactly as
@@ -512,9 +569,15 @@ it was instead checked line by line against the official `anthropic-sdk-python` 
 Claude API Messages reference cited in References below, both fetched and confirmed during
 authoring — the zero-argument `Anthropic()` client, the `model`/`max_tokens`/`messages` request
 shape, and the `response.content` list of typed blocks with a `.text` field on `type == "text"`
-blocks all match those sources verbatim.
+blocks all match those sources verbatim. The `anthropic.APIError` base class and its
+`RateLimitError`/`APITimeoutError`/`APIConnectionError` subclasses were checked the same way,
+against the SDK's own exception-hierarchy documentation. The `try`/`except`/`raise ... from`
+wrapper around the call, having no network dependency of its own, was scratch-run directly:
+forcing `client.messages.create` to raise a stand-in `anthropic.APIError` inside a test double for
+`generate()` confirmed `GenerationError` is raised with the expected message and `__cause__` set
+to the original exception.
 
-**验证方式：对照已核实文档进行心算核查。** 本次撰写所处的环境无法联网访问真实的 Claude API，因此这一调用未能在此环境中独立试跑；取而代之的是，逐行对照了下方“参考文献”中所引用的官方 `anthropic-sdk-python` README 文档，以及 Claude API Messages 参考文档进行了核查，这两份文档均已在撰写过程中实际抓取并确认——不带任何参数的 `Anthropic()` 客户端构造方式、`model`/`max_tokens`/`messages` 请求结构，以及 `response.content` 中带类型的内容块列表（其中 `type == "text"` 的内容块具有 `.text` 字段），均与上述来源逐字相符。
+**验证方式：对照已核实文档进行心算核查。** 本次撰写所处的环境无法联网访问真实的 Claude API，因此这一调用未能在此环境中独立试跑；取而代之的是，逐行对照了下方“参考文献”中所引用的官方 `anthropic-sdk-python` README 文档，以及 Claude API Messages 参考文档进行了核查，这两份文档均已在撰写过程中实际抓取并确认——不带任何参数的 `Anthropic()` 客户端构造方式、`model`/`max_tokens`/`messages` 请求结构，以及 `response.content` 中带类型的内容块列表（其中 `type == "text"` 的内容块具有 `.text` 字段），均与上述来源逐字相符。`anthropic.APIError` 这一基类及其 `RateLimitError`/`APITimeoutError`/`APIConnectionError` 子类，也以同样的方式对照该 SDK 自身的异常层级文档进行了核查。围绕这一调用的 `try`/`except`/`raise ... from` 包装逻辑本身不依赖任何网络资源，因此已直接完成脚本试跑：在 `generate()` 的一个测试替身中，强制让 `client.messages.create` 抛出一个替身版的 `anthropic.APIError`，确认了 `GenerationError` 会携带预期的错误信息被抛出，且其 `__cause__` 会被设置为原始异常。
 
 ---
 
@@ -629,13 +692,14 @@ own named successor module rather than re-taught here.
 
 将这条流水线称为“最简”是一种精确的表述，而非自谦之词，值得明确指出，为了实现这种极简，究竟牺牲了什么——而这些内容，均已在 `intermediate/06` 及其后续模块中被明确点名讲解过，本节不再重复讲解。
 
-| Left out                                     | Where it's covered                                                                                                                                                                                                                                                                                                                                                     |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Approximate nearest-neighbor search at scale | [§4](#4-step-3-a-minimal-vector-similarity-index) above does exact linear-scan search; [`intermediate/06` §7](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss) covers FAISS-style ANN indexing needed once a corpus reaches millions of chunks. |
-| Sparse (BM25) retrieval and hybrid search    | This pipeline is dense-only; [`intermediate/06` §4](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#4-sparse-retrieval-tf-idf-and-bm25) covers BM25, and [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers combining both.                   |
-| Contextual chunk enrichment                  | [`intermediate/06` §9](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval) covers Anthropic's Contextual Retrieval technique for reducing the failure mode this module's simple overlap-only chunker only partially mitigates.         |
-| Reranking                                    | Not implemented here; [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers it in depth.                                                                                                                                                                                                             |
-| Rigorous retrieval/answer evaluation         | This module's worked example is illustrative, not a benchmark; [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) and [`advanced/08`](https://anu00.dev/curriculum/advanced/08-rigorous-agent-evaluation-statistical-methodology.md) cover evaluating a RAG system rigorously.                           |
+| Left out                                     | Where it's covered                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Approximate nearest-neighbor search at scale | [§4](#4-step-3-a-minimal-vector-similarity-index) above does exact linear-scan search; [`intermediate/06` §7](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#7-searching-at-scale-approximate-nearest-neighbor-search-and-faiss) covers FAISS-style ANN indexing needed once a corpus reaches millions of chunks.                                                                                                                                                                                                                                                                                                                                                                   |
+| Sparse (BM25) retrieval and hybrid search    | This pipeline is dense-only; [`intermediate/06` §4](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#4-sparse-retrieval-tf-idf-and-bm25) covers BM25, and [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers combining both.                                                                                                                                                                                                                                                                                                                                                                                     |
+| Contextual chunk enrichment                  | [`intermediate/06` §9](https://anu00.dev/curriculum/intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md#9-chunking-and-the-context-destruction-problem-anthropics-contextual-retrieval) covers Anthropic's Contextual Retrieval technique for reducing the failure mode this module's simple overlap-only chunker only partially mitigates.                                                                                                                                                                                                                                                                                                                                                                           |
+| Reranking                                    | Not implemented here; [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) covers it in depth.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| Rigorous retrieval/answer evaluation         | This module's worked example is illustrative, not a benchmark; [`advanced/06`](https://anu00.dev/curriculum/advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) and [`advanced/08`](https://anu00.dev/curriculum/advanced/08-rigorous-agent-evaluation-statistical-methodology.md) cover evaluating a RAG system rigorously.                                                                                                                                                                                                                                                                                                                                                                                             |
+| Production-grade resilience                  | [§3](#3-step-2-embedding-chunks-with-a-real-sentence-encoder) and [§7](#7-step-6-generation-calling-claude-grounded-in-retrieved-context) above wrap the embedding and Claude calls in `try`/`except`, so a failure surfaces as one clear, attributable `EmbeddingError`/`GenerationError` naming which call failed rather than an opaque, uncaught stack trace — but neither call retries, backs off, or trips a circuit breaker on a transient failure; [`advanced/03`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md) covers the bounded-retry-with-exponential-backoff and circuit-breaker patterns a production system layers on top of this minimal catch-and-wrap treatment. |
 
 Every one of these omissions is a deliberate scope boundary of a _minimal_ pipeline, not an
 oversight — the point of this module is that a reader who has worked through it now owns a
