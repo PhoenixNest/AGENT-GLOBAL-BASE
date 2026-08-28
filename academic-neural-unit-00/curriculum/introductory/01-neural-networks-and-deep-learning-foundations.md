@@ -38,14 +38,14 @@ network, then the learning procedure that adjusts it.
 
 神经网络之所以强大，并不是因为其中任何一个环节很复杂，而是因为将成千上万乃至数十亿个简单环节堆叠起来，并通过数据自动调节其内部数值，最终得到的函数就能够逼近极其复杂的关系：识别照片中的人脸、翻译一句话，或预测一段文字中的下一个词。本章将从零开始搭建这个函数：先是一个神经元，再到一层，再到一整个网络，最后是调整网络的学习过程。
 
-Every module after this one — the Transformer architecture in [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md), attention mechanics
-in [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md), and mixture-of-experts variants in [`advanced/02`](https://anu00.dev/curriculum/advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — is a refinement or
+Every module after this one — the Transformer architecture in [`introductory/02`](02-the-transformer-architecture-and-attention.md), attention mechanics
+in [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md), and mixture-of-experts variants in [`advanced/02`](../advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — is a refinement or
 extension of the same core idea introduced here: numbers flow through layers of simple operations,
 and a learning procedure adjusts the operations' internal numbers so that the output gets closer to
 what is desired. Understanding this chapter thoroughly is the single highest -leverage investment in
 the entire curriculum.
 
-本模块之后的每一个模块——[`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 中的 Transformer 架构、[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中的注意力机制细节，以及 [`advanced/02`](https://anu00.dev/curriculum/advanced/02-mixture-of-experts-and-modern-architecture-variants.md) 中的专家混合变体——都是对本章所引入这一核心思想的细化或扩展：数字流经一层层简单的运算，而学习过程会调整这些运算的内部数值，使输出逐渐逼近期望的结果。透彻理解本章，是整个课程体系中回报率最高的一项投入。
+本模块之后的每一个模块——[`introductory/02`](02-the-transformer-architecture-and-attention.md) 中的 Transformer 架构、[`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中的注意力机制细节，以及 [`advanced/02`](../advanced/02-mixture-of-experts-and-modern-architecture-variants.md) 中的专家混合变体——都是对本章所引入这一核心思想的细化或扩展：数字流经一层层简单的运算，而学习过程会调整这些运算的内部数值，使输出逐渐逼近期望的结果。透彻理解本章，是整个课程体系中回报率最高的一项投入。
 
 ---
 
@@ -430,6 +430,6 @@ large language model.
 
 ### Internal Cross-References
 
-- [`introductory/02-the-transformer-architecture-and-attention.md`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — builds directly on the neuron/layer/training vocabulary defined here.
-- [`intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) — extends the attention mechanism introduced in [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md).
-- [`advanced/02-mixture-of-experts-and-modern-architecture-variants.md`](https://anu00.dev/curriculum/advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — extends the layer/network vocabulary from this chapter into sparse architectures.
+- [`introductory/02-the-transformer-architecture-and-attention.md`](02-the-transformer-architecture-and-attention.md) — builds directly on the neuron/layer/training vocabulary defined here.
+- [`intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) — extends the attention mechanism introduced in [`introductory/02`](02-the-transformer-architecture-and-attention.md).
+- [`advanced/02-mixture-of-experts-and-modern-architecture-variants.md`](../advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — extends the layer/network vocabulary from this chapter into sparse architectures.
