@@ -39,7 +39,7 @@ names the module whenever it leans on it.
 
 **什么是运行框架，它为何不同于智能体循环**
 
-An agent design pattern such as ReAct, covered in [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md), describes a cognitive loop: how
+An agent design pattern such as ReAct, covered in [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md), describes a cognitive loop: how
 an LLM interleaves reasoning and action to decide what to do next. An agent harness is a different
 thing entirely — it is the surrounding production software that turns that cognitive loop into
 something that can run unattended, safely, repeatedly, and at scale, without a human watching every
@@ -47,7 +47,7 @@ step. Where the design pattern answers "what should the agent think and do next,
 answers a longer list of questions the pattern itself is silent on: how is a tool call actually
 executed, and what happens if it fails?
 
-[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的 ReAct 这类智能体设计模式，描述的是一种认知层面的循环：LLM 如何交替进行推理与行动，以决定下一步该做什么。而智能体运行框架则完全是另一回事——它是围绕在这一认知循环之外、将其转变为一种能够在无人值守情况下安全、可重复、大规模运转的生产级软件。设计模式回答的问题是“智能体接下来应当思考并做什么”，而运行框架要回答的，则是一份该模式本身完全没有涉及的更长问题清单：一次工具调用究竟是如何被实际执行的？
+[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的 ReAct 这类智能体设计模式，描述的是一种认知层面的循环：LLM 如何交替进行推理与行动，以决定下一步该做什么。而智能体运行框架则完全是另一回事——它是围绕在这一认知循环之外、将其转变为一种能够在无人值守情况下安全、可重复、大规模运转的生产级软件。设计模式回答的问题是“智能体接下来应当思考并做什么”，而运行框架要回答的，则是一份该模式本身完全没有涉及的更长问题清单：一次工具调用究竟是如何被实际执行的？
 
 How is the loop stopped before it runs forever or spends unbounded money? What is logged, and who
 can see it? What is the agent allowed to touch, and what is it sandboxed away from? How is a limited
@@ -99,7 +99,7 @@ by turn, what happens next — while many production systems that people casuall
 actually workflows, with fixed code deciding the sequence and the LLM filling in the content at each
 step.
 
-按照这套词汇，[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中的 ReAct 循环，在严格意义上属于智能体——由模型自身逐轮决定接下来发生什么——而许多被人们随口称作“智能体”的生产系统，实际上是工作流：由固定的代码决定执行顺序，LLM 只是在每一步填充具体内容。
+按照这套词汇，[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中的 ReAct 循环，在严格意义上属于智能体——由模型自身逐轮决定接下来发生什么——而许多被人们随口称作“智能体”的生产系统，实际上是工作流：由固定的代码决定执行顺序，LLM 只是在每一步填充具体内容。
 
 The same post names five composable patterns that, in the authors' account, cover most production
 agent designs:
@@ -149,7 +149,7 @@ four sections works through one of these, in turn, with a named, citable pattern
 
 **动作空间：工具调用格式与智能体-计算机接口**
 
-The default action space covered in [`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md) is structured tool calling: the model emits a
+The default action space covered in [`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md) is structured tool calling: the model emits a
 JSON object naming a function and its arguments, and the harness parses and dispatches it. This
 works well for a small, fixed set of simple tools, but John Yang, Carlos Jimenez, Alexander Wettig,
 Kilian Lieret, Shunyu Yao, Karthik Narasimhan, and Ofir Press's 2024 SWE-agent paper makes an
@@ -157,7 +157,7 @@ argument a harness engineer should take seriously: language model agents "repres
 of end users" and, like human end users, benefit from an interface purpose-built for them rather
 than one merely adapted from a human-facing tool.
 
-[`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md) 中所讲解的默认动作空间，是结构化的工具调用：模型生成一个 JSON 对象，指明函数名及其参数，由运行框架负责解析并分派执行。这种方式对于数量少、固定的简单工具集合运转良好，但 John Yang、Carlos Jimenez、Alexander Wettig、Kilian Lieret、Shunyu Yao、Karthik Narasimhan 与 Ofir Press 于 2024 年发表的 SWE-agent 论文提出了一个运行框架工程师应当认真对待的论点：语言模型智能体“构成了一类新的终端用户”，正如人类终端用户一样，它们也需要一种为其量身定制的接口，而不仅仅是一种从面向人类的工具改造而来的接口。
+[`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md) 中所讲解的默认动作空间，是结构化的工具调用：模型生成一个 JSON 对象，指明函数名及其参数，由运行框架负责解析并分派执行。这种方式对于数量少、固定的简单工具集合运转良好，但 John Yang、Carlos Jimenez、Alexander Wettig、Kilian Lieret、Shunyu Yao、Karthik Narasimhan 与 Ofir Press 于 2024 年发表的 SWE-agent 论文提出了一个运行框架工程师应当认真对待的论点：语言模型智能体“构成了一类新的终端用户”，正如人类终端用户一样，它们也需要一种为其量身定制的接口，而不仅仅是一种从面向人类的工具改造而来的接口。
 
 SWE-agent's custom agent-computer interface (ACI) significantly improved the agent's ability to
 create and edit files, navigate an entire repository, and run tests, precisely because the
@@ -284,11 +284,11 @@ handles the case where the dependency has stopped working altogether.
 
 **控制：迭代预算、成本预算与终止条件**
 
-A ReAct-style loop, as covered in [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md), is open-ended by design — the model itself
+A ReAct-style loop, as covered in [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md), is open-ended by design — the model itself
 decides, at each turn, whether the task is finished — and that openness is exactly what makes a
 control layer in the harness necessary rather than optional.
 
-正如 [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的，ReAct 风格的循环在设计上是开放式的——由模型自身在每一轮判断任务是否已经完成——而正是这种开放性，使得运行框架中的控制层不再是可有可无，而是必需的。
+正如 [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的，ReAct 风格的循环在设计上是开放式的——由模型自身在每一轮判断任务是否已经完成——而正是这种开放性，使得运行框架中的控制层不再是可有可无，而是必需的。
 
 A production harness enforces a hard iteration cap independent of the model's own judgment, so a
 loop that never converges terminates anyway rather than running indefinitely, and it tracks a
@@ -350,11 +350,11 @@ distinction available, not reconstructed from guesswork.
 其一，它使得 [§§4–6](#4-the-action-space-tool-calling-formats-and-the-agent-computer-interface) 中所讲的各种失效模式，能够在事后被诊断出来——一个因熔断器跳闸而失败的会话，在追踪记录中的表现，与一个因触及迭代上限而失败的会话截然不同，而工程师在排查一次生产事故时，需要能够直接获取这一区别，而不是靠猜测去重建。
 
 Second, for any harness that pages memory in and out the way MemGPT does, as covered in
-[`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md), the trace is also the record of which memories were retrieved and written at each
+[`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md), the trace is also the record of which memories were retrieved and written at each
 step, which is often the first place to look when an agent's behavior seems to have been shaped by a
 memory that turned out to be stale or wrong.
 
-其二，对于任何像 MemGPT 那样对记忆进行分页调入调出的运行框架（如 [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) 中所讲）而言，这份追踪记录同时也是每一步骤中哪些记忆被检索、哪些记忆被写入的记录——当一个智能体的行为看似受到了某条事后被证明是陈旧或错误的记忆的影响时，这份记录往往是首先需要查阅的地方。
+其二，对于任何像 MemGPT 那样对记忆进行分页调入调出的运行框架（如 [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) 中所讲）而言，这份追踪记录同时也是每一步骤中哪些记忆被检索、哪些记忆被写入的记录——当一个智能体的行为看似受到了某条事后被证明是陈旧或错误的记忆的影响时，这份记录往往是首先需要查阅的地方。
 
 ---
 
@@ -366,11 +366,11 @@ Assemble the pieces above into a single request's path through a production codi
 user submits a request. The harness's control layer initializes an iteration counter and a cost
 budget for the session before anything else runs. On each loop turn, the harness assembles the
 model's working memory — the current task, recent conversation, and any long-term memories retrieved
-via the recency/importance/relevance scoring covered in [`intermediate/04` §5](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md#5-episodic-memory-remembering-specific-experiences) — and calls the model,
+via the recency/importance/relevance scoring covered in [`intermediate/04` §5](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md#5-episodic-memory-remembering-specific-experiences) — and calls the model,
 wrapped by a circuit breaker and a bounded retry with exponential backoff in case the model provider
 itself is degraded.
 
-将上文各个环节整合起来，看一次请求在一个生产级编程智能体运行框架中所经历的完整路径。用户提交一个请求。在其他任何环节运转之前，运行框架的控制层首先为本次会话初始化一个迭代计数器与一个成本预算。在循环的每一轮，运行框架会组装模型的工作记忆——当前任务、近期对话，以及通过 [`intermediate/04` § 5](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md#5-episodic-memory-remembering-specific-experiences) 中所讲的新近度/重要性/相关性评分检索到的任何长期记忆——然后调用模型，该调用被熔断器与带指数退避的有限次重试所包裹，以应对模型提供方自身出现服务降级的情形。
+将上文各个环节整合起来，看一次请求在一个生产级编程智能体运行框架中所经历的完整路径。用户提交一个请求。在其他任何环节运转之前，运行框架的控制层首先为本次会话初始化一个迭代计数器与一个成本预算。在循环的每一轮，运行框架会组装模型的工作记忆——当前任务、近期对话，以及通过 [`intermediate/04` § 5](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md#5-episodic-memory-remembering-specific-experiences) 中所讲的新近度/重要性/相关性评分检索到的任何长期记忆——然后调用模型，该调用被熔断器与带指数退避的有限次重试所包裹，以应对模型提供方自身出现服务降级的情形。
 
 The model returns either a final answer or an action, expressed either as a JSON tool call or, in a
 CodeAct-style harness, as executable code. If it is an action, the harness dispatches it through a
@@ -385,10 +385,10 @@ Before starting the next turn, the control layer checks the iteration counter an
 against their caps; if either is exceeded, the loop terminates with an explicit "budget exceeded"
 status distinct from a normal completion, rather than being silently cut off. If the model's own
 output indicates the task is complete, the loop terminates normally instead, and — closing the
-circle back to [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) — the harness writes an episodic memory of what happened this
+circle back to [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) — the harness writes an episodic memory of what happened this
 session, so that a future session's retrieval has something new to find.
 
-在开始下一轮之前，控制层会将迭代计数器与成本预算与各自的上限进行核对；若任一项超出上限，循环便会以一个明确区别于正常完成的“预算超出”状态终止，而不是被悄无声息地截断。反之，若模型自身的输出表明任务已经完成，循环则会正常终止——此时呼应回 [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)——运行框架会写入一条关于本次会话经过的情景记忆，使得未来某次会话在检索时，能够找到一些新的内容。
+在开始下一轮之前，控制层会将迭代计数器与成本预算与各自的上限进行核对；若任一项超出上限，循环便会以一个明确区别于正常完成的“预算超出”状态终止，而不是被悄无声息地截断。反之，若模型自身的输出表明任务已经完成，循环则会正常终止——此时呼应回 [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)——运行框架会写入一条关于本次会话经过的情景记忆，使得未来某次会话在检索时，能够找到一些新的内容。
 
 ---
 
@@ -396,19 +396,19 @@ session, so that a future session's retrieval has something new to find.
 
 **小结**
 
-The agent design patterns covered in [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) describe how an agent thinks; this module has
+The agent design patterns covered in [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) describe how an agent thinks; this module has
 covered how that thinking is made to run safely and repeatedly in production.
 
-[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的智能体设计模式，描述的是智能体如何思考；本模块所讲解的，则是如何让这种思考在生产环境中安全、可重复地运转起来。
+[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 中所讲解的智能体设计模式，描述的是智能体如何思考；本模块所讲解的，则是如何让这种思考在生产环境中安全、可重复地运转起来。
 
 A harness gives the loop a deliberately designed action space — JSON tool calls per
-[`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md), an SWE-agent- style agent-computer interface, or a CodeAct-style code-execution
+[`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md), an SWE-agent- style agent-computer interface, or a CodeAct-style code-execution
 space, standardized where possible through MCP; resilience primitives — bounded retries with
 exponential backoff and the circuit breaker pattern — for when external dependencies fail; a control
 layer that owns iteration and cost budgets independent of the model's own judgment; and a sandboxing
 and observability layer that contains what the loop can touch and records what it actually did.
 
-运行框架为循环提供了经过精心设计的动作空间——遵循 [`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md) 的 JSON 工具调用、SWE-agent 风格的智能体-计算机接口，或是 CodeAct 风格的代码执行空间，并尽可能通过 MCP 加以标准化；提供了韧性原语——带指数退避的有限次重试与熔断器模式——用以应对外部依赖出现故障的情形；提供了独立于模型自身判断、掌控迭代与成本预算的控制层；以及一个约束循环所能触及范围、并记录其实际执行过程的沙箱化与可观测性层。
+运行框架为循环提供了经过精心设计的动作空间——遵循 [`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md) 的 JSON 工具调用、SWE-agent 风格的智能体-计算机接口，或是 CodeAct 风格的代码执行空间，并尽可能通过 MCP 加以标准化；提供了韧性原语——带指数退避的有限次重试与熔断器模式——用以应对外部依赖出现故障的情形；提供了独立于模型自身判断、掌控迭代与成本预算的控制层；以及一个约束循环所能触及范围、并记录其实际执行过程的沙箱化与可观测性层。
 
 None of these five concerns is optional in a system meant to run unattended, and none of them is
 answered by a better prompt or a better reasoning pattern alone — they are answered by engineering
@@ -435,6 +435,6 @@ the software the loop runs inside.
 
 ### Internal Cross-References
 
-- [`introductory/04-tool-use-and-function-calling-basics.md`](../introductory/04-tool-use-and-function-calling-basics.md)
-- [`intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
-- [`intermediate/04-agent-memory-systems-short-term-long-term-episodic.md`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+- [`introductory/04-tool-use-and-function-calling-basics.md`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md)
+- [`intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+- [`intermediate/04-agent-memory-systems-short-term-long-term-episodic.md`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
