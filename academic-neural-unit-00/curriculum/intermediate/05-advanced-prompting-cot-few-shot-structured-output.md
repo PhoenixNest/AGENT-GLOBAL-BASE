@@ -58,7 +58,7 @@ First, example selection: the examples should be representative of the range of 
 will actually see in production, including at least one example near each decision boundary (for
 sentiment classification, that means including a genuinely ambiguous or mixed-sentiment example, not
 just clear-cut positive and negative ones). Second, example ordering and count: because the prompt
-occupies a fixed context window (as defined in [`introductory/06`](../introductory/06-context-windows-tokens-and-memory-basics.md)), each example consumes tokens that
+occupies a fixed context window (as defined in [`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)), each example consumes tokens that
 are then unavailable for the actual input or for further reasoning, so few-shot prompting faces a
 direct trade-off between more guidance and less room for everything else — a trade-off the advanced
 module `advanced/05-advanced-context-engineering-long-context-and-budgeting.md` treats in depth as a
@@ -116,7 +116,7 @@ depends on how much example-writing effort is justified for the task at hand.
 Because a single chain-of-thought reasoning path can still go wrong at any individual step, Wang et
 al. (2022), in "Self-Consistency Improves Chain of Thought Reasoning in Language Models," introduced
 a technique called self-consistency that improves reliability further by exploiting temperature
-(defined in [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md), Section 7). Instead of running the model once at a low temperature
+(defined in [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md), Section 7). Instead of running the model once at a low temperature
 and taking whatever single answer it produces, self-consistency runs the same chain-of-thought
 prompt multiple times at a higher, non-zero temperature — deliberately allowing each run to reason
 differently — and then takes a majority vote over the multiple final answers produced, discarding
@@ -149,7 +149,7 @@ default to every prompt.
 As a prompt grows to include several few-shot examples, chain-of-thought instructions, and possibly
 multiple input documents at once, it becomes important to mark clearly where one part ends and the
 next begins — for the model's benefit as much as for a human prompt author's. Building on the
-delimiter technique introduced briefly in [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md) (Section 6), Anthropic's official
+delimiter technique introduced briefly in [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md) (Section 6), Anthropic's official
 prompting-best-practices documentation recommends consistently wrapping distinct prompt components
 in descriptive XML-style tags — for example `<examples>...</examples>` around the few-shot block,
 `<instructions>...</instructions>` around the task description, and `<document>...</document>`
@@ -163,7 +163,7 @@ part of a worked example as part of the actual input to be processed.
 
 **结构化输出：将回答约束到机器可读的模式**
 
-[`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md) (Section 6) introduced asking the model, via instruction alone, to format its
+[`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md) (Section 6) introduced asking the model, via instruction alone, to format its
 answer a certain way — for example, to respond with a single line of JSON.
 
 《提示工程基础》[第 6 节](#6-worked-example-combining-all-three-techniques)介绍了仅通过指令的方式，要求模型按某种特定格式作答——例如，要求它用一行 JSON 作答。
@@ -200,7 +200,7 @@ Anthropic 的工具使用功能，记录在 Claude API 文档“定义工具”(
 The practical rule of thumb this history suggests is: prefer provider-level, schema-enforced
 structured output whenever it is available and the downstream consumer is code rather than a human,
 since it removes an entire category of parsing failures at the source; fall back to
-instruction-based formatting (as in [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md)) only when the schema-enforcement feature is
+instruction-based formatting (as in [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md)) only when the schema-enforcement feature is
 unavailable for the provider or model in use.
 
 由此可以得出一条实用的经验法则：只要提供商层面的、由模式强制约束的结构化输出功能可用，并且下游的消费者是代码而非人，就应当优先使用它，因为它从源头上就消除了整整一类解析失败的可能性；只有在所使用的提供商或模型不支持这一模式强制功能时，才退而求其次，采用基于指令的格式化方式(如《提示工程基础》所述)。
@@ -209,7 +209,7 @@ unavailable for the provider or model in use.
 
 **实战示例：三种技巧的综合运用**
 
-Consider a harder version of the sentiment-and-feature task from [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md), Section 9: now
+Consider a harder version of the sentiment-and-feature task from [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md), Section 9: now
 the task is to read a multi-sentence product review that may discuss several features with different
 sentiments each, and to return a structured breakdown — because the task now requires genuine
 multi-step reasoning (distinguishing which sentence discusses which feature, and each feature's
@@ -238,21 +238,21 @@ review rather than guessing.
 **本层级的常见失败模式**
 
 Three failure patterns are specific to the techniques in this chapter, distinct from the beginner
-pitfalls already covered in [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md), Section 8.
+pitfalls already covered in [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md), Section 8.
 
 本章所涉及的这些技巧，还带来了三种与之特有的失败模式，不同于《提示工程基础》[第 8 节](#8-summary)已经讲过的那些初学者常见的坑。
 
-| #   | Failure pattern                    | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | 中文                                                                                                                                                                                                                                                                                                                                                                                   |
-| --- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Example leakage bias**           | if every few-shot example happens to share an incidental surface feature with its correct label (for instance, if every "negative" example in the prompt happens to be long and every "positive" example happens to be short), the model may learn to key off that surface feature rather than the actual task, a risk few-shot prompt authors should specifically check for by varying incidental features independently of the label.                                                                                                         | 如果每一个少样本示例恰好都在某个与标签无关的表面特征上与其正确标签相关联(比如，提示词中每一个“负面”示例恰好都篇幅较长，而每一个“正面”示例恰好都篇幅较短)，模型就可能学会依据这个表面特征来判断，而非真正依据任务本身来判断——这是少样本提示词的作者应当专门加以检查的风险，做法是让这些无关的表面特征相对于标签独立地变化。                                                             |
-| 2   | **Reasoning-answer inconsistency** | because chain-of-thought reasoning and the final answer are both generated by the same left-to-right token-by-token process, it is possible for a model's stated reasoning to look sound while its final answer does not actually follow from it — the reasoning trace should be read as a diagnostic aid for a human reviewer, not treated as a guarantee that the reasoning caused the answer.                                                                                                                                                | 由于思维链推理过程与最终答案都是由同一个从左到右、逐词元生成的过程产生的，模型陈述出来的推理过程有可能看起来合乎逻辑，而最终答案实际上却并非真正由该推理推导而来——推理轨迹应当被视为供人工审阅者参考的诊断辅助信息，而不应被当作“推理确实导致了这个答案”的保证。                                                                                                                       |
-| 3   | **Schema over-constraint**         | an excessively rigid or deeply nested JSON Schema can occasionally reduce a model's task accuracy even while perfectly guaranteeing valid structure, because the fields the schema demands may force an answer into a shape that does not fit an unusual input well; testing a schema against a range of realistic edge cases, per the iteration discipline in [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md) Section 7, remains necessary even when the format itself is now guaranteed to be syntactically valid. | 一份过于僵化或嵌套层级过深的 JSON Schema，有时会在完美保证结构合法的同时，反而降低模型完成任务的准确率，因为模式所要求的字段可能会强行把答案塞进一种并不适合某个非典型输入的形状里；即便格式本身现在已经能够保证在语法上合法，针对各种贴近真实场景的边界情形对模式本身进行测试，依照《提示工程基础》[第 7 节](#7-common-failure-modes-at-this-level)所述的那套迭代纪律，仍然是必要的。 |
+| #   | Failure pattern                    | EN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | 中文                                                                                                                                                                                                                                                                                                                                                                                   |
+| --- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Example leakage bias**           | if every few-shot example happens to share an incidental surface feature with its correct label (for instance, if every "negative" example in the prompt happens to be long and every "positive" example happens to be short), the model may learn to key off that surface feature rather than the actual task, a risk few-shot prompt authors should specifically check for by varying incidental features independently of the label.                                                                                                                                   | 如果每一个少样本示例恰好都在某个与标签无关的表面特征上与其正确标签相关联(比如，提示词中每一个“负面”示例恰好都篇幅较长，而每一个“正面”示例恰好都篇幅较短)，模型就可能学会依据这个表面特征来判断，而非真正依据任务本身来判断——这是少样本提示词的作者应当专门加以检查的风险，做法是让这些无关的表面特征相对于标签独立地变化。                                                             |
+| 2   | **Reasoning-answer inconsistency** | because chain-of-thought reasoning and the final answer are both generated by the same left-to-right token-by-token process, it is possible for a model's stated reasoning to look sound while its final answer does not actually follow from it — the reasoning trace should be read as a diagnostic aid for a human reviewer, not treated as a guarantee that the reasoning caused the answer.                                                                                                                                                                          | 由于思维链推理过程与最终答案都是由同一个从左到右、逐词元生成的过程产生的，模型陈述出来的推理过程有可能看起来合乎逻辑，而最终答案实际上却并非真正由该推理推导而来——推理轨迹应当被视为供人工审阅者参考的诊断辅助信息，而不应被当作“推理确实导致了这个答案”的保证。                                                                                                                       |
+| 3   | **Schema over-constraint**         | an excessively rigid or deeply nested JSON Schema can occasionally reduce a model's task accuracy even while perfectly guaranteeing valid structure, because the fields the schema demands may force an answer into a shape that does not fit an unusual input well; testing a schema against a range of realistic edge cases, per the iteration discipline in [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md) Section 7, remains necessary even when the format itself is now guaranteed to be syntactically valid. | 一份过于僵化或嵌套层级过深的 JSON Schema，有时会在完美保证结构合法的同时，反而降低模型完成任务的准确率，因为模式所要求的字段可能会强行把答案塞进一种并不适合某个非典型输入的形状里；即便格式本身现在已经能够保证在语法上合法，针对各种贴近真实场景的边界情形对模式本身进行测试，依照《提示工程基础》[第 7 节](#7-common-failure-modes-at-this-level)所述的那套迭代纪律，仍然是必要的。 |
 
 ## 8. Summary
 
 **小结**
 
-This chapter extended the four-part prompt and role structure from [`introductory/05`](../introductory/05-prompt-engineering-fundamentals.md) with three
+This chapter extended the four-part prompt and role structure from [`introductory/05`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md) with three
 techniques for harder tasks: few-shot prompting, which teaches a task through worked examples rather
 than description alone (Brown et al., 2020); chain-of-thought prompting, which elicits step-by-step
 reasoning either through worked examples (Wei et al., 2022) or a zero-shot trigger phrase (Kojima et
@@ -285,7 +285,7 @@ resource to be actively managed.
 
 ### Internal Cross-References
 
-- [`introductory/05-prompt-engineering-fundamentals.md`](../introductory/05-prompt-engineering-fundamentals.md) — direct prerequisite: prompt anatomy, roles, zero-shot prompting, temperature.
-- [`introductory/06-context-windows-tokens-and-memory-basics.md`](../introductory/06-context-windows-tokens-and-memory-basics.md) — prerequisite definitions of token and context window used in Sections 1 and 5.
-- [`introductory/04-tool-use-and-function-calling-basics.md`](../introductory/04-tool-use-and-function-calling-basics.md) — conceptual background for the tool-use mechanism referenced in Section 5.
-- [`advanced/05-advanced-context-engineering-long-context-and-budgeting.md`](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md) — direct continuation: context budgeting as a general resource-management problem.
+- [`introductory/05-prompt-engineering-fundamentals.md`](https://anu00.dev/curriculum/introductory/05-prompt-engineering-fundamentals.md) — direct prerequisite: prompt anatomy, roles, zero-shot prompting, temperature.
+- [`introductory/06-context-windows-tokens-and-memory-basics.md`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md) — prerequisite definitions of token and context window used in Sections 1 and 5.
+- [`introductory/04-tool-use-and-function-calling-basics.md`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md) — conceptual background for the tool-use mechanism referenced in Section 5.
+- [`advanced/05-advanced-context-engineering-long-context-and-budgeting.md`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) — direct continuation: context budgeting as a general resource-management problem.
