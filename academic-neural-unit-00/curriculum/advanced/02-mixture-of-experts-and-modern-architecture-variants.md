@@ -10,16 +10,16 @@
 
 ---
 
-This chapter assumes everything taught in [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md), [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md), [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md),
-and [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — neurons, layers, backpropagation ([`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)); the Transformer block, its
-feed-forward sub-layer, and residual/normalization structure ([`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)); multi-head
+This chapter assumes everything taught in [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md), [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md), [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md),
+and [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — neurons, layers, backpropagation ([`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)); the Transformer block, its
+feed-forward sub-layer, and residual/normalization structure ([`introductory/02` — The Transformer Architecture & Attention §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)); multi-head
 attention, the KV cache, and the family of techniques (MQA, GQA, MLA) that trade exact computation
-for efficiency ([`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)); and the observation that predictable scaling relationships link
-model size, data, and compute to performance ([`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)). Nothing beyond those four modules and
+for efficiency ([`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)); and the observation that predictable scaling relationships link
+model size, data, and compute to performance ([`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)). Nothing beyond those four modules and
 secondary-school algebra is assumed. As with every module in this curriculum, any term not already
 defined in a prerequisite module is defined here at first use.
 
-本章以 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)、[`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)、[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 与 [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 已经讲授的全部内容为前提——神经元、层、反向传播（[`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)）；Transformer 块及其前馈子层、残差与归一化结构（[`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)）；多头注意力、KV 缓存，以及一系列以牺牲精确计算换取效率的技术（MQA、GQA、MLA，见 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)）；以及“模型规模、数据量与算力同性能之间存在可预测的规模关系”这一观察（[`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)）。除这四个模块与中学代数知识外，本章不假设读者具备任何其他背景。与本课程体系中的每个模块一致，凡是尚未在某个前置模块中定义过的术语，均会在本章首次出现时给出定义。
+本章以 [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)、[`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)、[`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 与 [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 已经讲授的全部内容为前提——神经元、层、反向传播（[`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)）；Transformer 块及其前馈子层、残差与归一化结构（[`introductory/02` — Transformer 架构与注意力机制 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)）；多头注意力、KV 缓存，以及一系列以牺牲精确计算换取效率的技术（MQA、GQA、MLA，见 [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)）；以及“模型规模、数据量与算力同性能之间存在可预测的规模关系”这一观察（[`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)）。除这四个模块与中学代数知识外，本章不假设读者具备任何其他背景。与本课程体系中的每个模块一致，凡是尚未在某个前置模块中定义过的术语，均会在本章首次出现时给出定义。
 
 ---
 
@@ -27,20 +27,20 @@ defined in a prerequisite module is defined here at first use.
 
 **回顾与范围**
 
-[`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) described the Transformer block as combining a multi-head attention sub-layer
+[`introductory/02` — The Transformer Architecture & Attention §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) described the Transformer block as combining a multi-head attention sub-layer
 with a position-wise **feed-forward network** (FFN) — an ordinary multi-layer perceptron, applied
 independently and identically to every position in the sequence.
 
-[`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)介绍了 Transformer 块的组成方式：一个多头注意力子层，加上一个逐位置的**前馈网络**（FFN）——一个普通的多层感知机，被独立且完全相同地应用于序列中的每一个位置。
+[`introductory/02` — Transformer 架构与注意力机制 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)介绍了 Transformer 块的组成方式：一个多头注意力子层，加上一个逐位置的**前馈网络**（FFN）——一个普通的多层感知机，被独立且完全相同地应用于序列中的每一个位置。
 
-[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) then spent its entire length deepening the _attention_ half of that block: full
+[`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) then spent its entire length deepening the _attention_ half of that block: full
 multi-head mathematics, the KV cache, and techniques (MQA, GQA, MLA) that reduce attention's
 computational and memory cost without discarding its quality. This chapter turns to the _other_ half
 of the block — the feed-forward sub-layer — and to a set of further structural choices
 (normalization, gating) that, together with attention variants, define what "a modern large language
 model" actually looks like in 2026, as distinct from the original 2017 Transformer.
 
-[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 随后用整整一章的篇幅深化了该模块中“注意力”这一半的内容：完整的多头数学推导、KV 缓存，以及在不牺牲质量的前提下降低注意力计算与内存开销的技术（MQA、GQA、MLA）。本章转而聚焦该模块*另一半*——前馈子层，以及一系列进一步的结构性设计选择（归一化、门控），这些选择连同注意力变体一起，共同定义了 2026 年“现代大型语言模型”与 2017 年最初的 Transformer 相比究竟有何不同。
+[`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 随后用整整一章的篇幅深化了该模块中“注意力”这一半的内容：完整的多头数学推导、KV 缓存，以及在不牺牲质量的前提下降低注意力计算与内存开销的技术（MQA、GQA、MLA）。本章转而聚焦该模块*另一半*——前馈子层，以及一系列进一步的结构性设计选择（归一化、门控），这些选择连同注意力变体一起，共同定义了 2026 年“现代大型语言模型”与 2017 年最初的 Transformer 相比究竟有何不同。
 
 This chapter covers four families of change, in order: sparse **Mixture-of-Experts** (MoE, 专家混合)
 architectures, which replace the FFN's single dense computation with a large bank of specialized
@@ -58,17 +58,17 @@ normalization ([§10](#10-rmsnorm-a-simplified-normalization-for-modern-architec
 
 **前馈子层：规模扩展的瓶颈**
 
-[`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) established that scaling a model's parameter count, training data, and compute
+[`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) established that scaling a model's parameter count, training data, and compute
 together tends to improve performance in a predictable way.
 
-[`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 指出，将模型的参数量、训练数据量与算力共同扩大，往往能以一种可预测的方式提升性能。
+[`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 指出，将模型的参数量、训练数据量与算力共同扩大，往往能以一种可预测的方式提升性能。
 
 But scaling every parameter of a dense model — one where every parameter is used to process every
-token, exactly as the feed-forward network from [`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) does — means training and
+token, exactly as the feed-forward network from [`introductory/02` — The Transformer Architecture & Attention §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) does — means training and
 inference compute grow proportionally with parameter count: a model with twice as many FFN
 parameters costs roughly twice as much compute per token, at both training and inference time.
 
-但如果扩大的是一个稠密模型的每一个参数——即像 [`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)所述前馈网络那样，每个参数都被用来处理每一个 token——那么训练与推理所需的算力就会随参数量成比例增长：一个前馈网络参数量翻倍的模型，处理每个 token 所需的算力大致也会翻倍。
+但如果扩大的是一个稠密模型的每一个参数——即像 [`introductory/02` — Transformer 架构与注意力机制 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)所述前馈网络那样，每个参数都被用来处理每一个 token——那么训练与推理所需的算力就会随参数量成比例增长：一个前馈网络参数量翻倍的模型，处理每个 token 所需的算力大致也会翻倍。
 
 Shazeer et al.'s 2017 paper on **conditional computation** (条件计算) — computation in which only a
 data-dependent subset of a network's parameters is active for any given input — proposed breaking
@@ -95,12 +95,12 @@ Shazeer 等人将条件计算具体应用为：用许多规模较小的前馈网
 
 A **Mixture-of-Experts (MoE) layer** replaces the single FFN inside a Transformer block with $N$
 parallel expert networks, $E_1, E_2, \ldots, E_N$, each structured like an ordinary feed-forward
-network (same shape as [`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)'s FFN, with its own independent parameters), plus a
+network (same shape as [`introductory/02` — The Transformer Architecture & Attention §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)'s FFN, with its own independent parameters), plus a
 gating network $G$ that, for each token's embedding $x$, outputs a sparse weight vector over the $N$
 experts — nonzero for only a handful of experts, zero for the rest. The layer's output is the
 weighted sum of the _selected_ experts' outputs:
 
-**专家混合层**用 $N$ 个并行的专家网络 $E_1, E_2, \ldots, E_N$ 取代 Transformer 块内部单一的前馈网络，每个专家的结构都与普通的前馈网络相同（形态与 [`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)的 FFN 一致，但拥有各自独立的参数），另外配有一个门控网络 $G$，它针对每个 token 的嵌入向量 $x$，输出一个关于这 $N$ 个专家的稀疏权重向量——只有少数几个专家对应非零权重，其余均为零。该层的输出是*被选中*专家输出的加权和：
+**专家混合层**用 $N$ 个并行的专家网络 $E_1, E_2, \ldots, E_N$ 取代 Transformer 块内部单一的前馈网络，每个专家的结构都与普通的前馈网络相同（形态与 [`introductory/02` — Transformer 架构与注意力机制 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)的 FFN 一致，但拥有各自独立的参数），另外配有一个门控网络 $G$，它针对每个 token 的嵌入向量 $x$，输出一个关于这 $N$ 个专家的稀疏权重向量——只有少数几个专家对应非零权重，其余均为零。该层的输出是*被选中*专家输出的加权和：
 
 $$y = \sum_i G(x)_i \cdot E_i(x)$$
 
@@ -127,19 +127,19 @@ single most important accounting concept in this chapter, and recurs in every se
 
 The simplest gating network is a plain **softmax gate**: $G_\sigma(x) = \mathrm{Softmax}(x \cdot
 W_g)$, where $W_g$ is a learned weight matrix projecting the token embedding down to $N$ scores, one
-per expert, and softmax (already defined in [`introductory/01` §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)) turns them into a probability
+per expert, and softmax (already defined in [`introductory/01` — Neural Networks & Deep Learning Foundations §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)) turns them into a probability
 distribution. This alone is _not_ sparse — every expert gets some nonzero weight — so Shazeer et al.
 add two further mechanisms.
 
-最简单的门控网络是一个纯粹的 **softmax 门控**：$G_\sigma(x) = \mathrm{Softmax}(x \cdot W_g)$，其中 $W_g$ 是一个可学习的权重矩阵，将 token 嵌入投影为 $N$ 个得分，每个专家对应一个，而 softmax（已在 [`introductory/01` 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中定义）将这些得分转化为一个概率分布。但这本身*并非*稀疏的——每个专家都会获得某个非零权重——因此 Shazeer 等人又添加了两个机制。
+最简单的门控网络是一个纯粹的 **softmax 门控**：$G_\sigma(x) = \mathrm{Softmax}(x \cdot W_g)$，其中 $W_g$ 是一个可学习的权重矩阵，将 token 嵌入投影为 $N$ 个得分，每个专家对应一个，而 softmax（已在 [`introductory/01` — 神经网络与深度学习基础 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中定义）将这些得分转化为一个概率分布。但这本身*并非*稀疏的——每个专家都会获得某个非零权重——因此 Shazeer 等人又添加了两个机制。
 
 First, **KeepTopK** zeroes out (formally, sets to $-\infty$ before the softmax, exactly the masking
-trick [`intermediate/02` §5](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#5-causal-masking-for-autoregressive-generation) used for causal attention) every score except the $k$ largest, enforcing
+trick [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding §5](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#5-causal-masking-for-autoregressive-generation) used for causal attention) every score except the $k$ largest, enforcing
 genuine sparsity. Second, during training, tunable Gaussian noise is added to the raw scores before
 top-$k$ selection, to encourage exploration across experts and help balance how much training signal
 each expert receives — together, the full mechanism is:
 
-第一，**KeepTopK** 会将除最大的 $k$ 个得分之外的所有得分清零（形式上是在 softmax 之前将其设为 $-\infty$，与 [`intermediate/02` 第 5 节](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#5-causal-masking-for-autoregressive-generation)中用于因果注意力的掩码技巧完全相同），从而强制实现真正的稀疏性。第二，在训练过程中，会在原始得分上加入可调节的高斯噪声，再进行 top-$k$ 选择，以鼓励对不同专家的探索，并帮助平衡各专家所获得的训练信号——综合起来，完整的机制如下：
+第一，**KeepTopK** 会将除最大的 $k$ 个得分之外的所有得分清零（形式上是在 softmax 之前将其设为 $-\infty$，与 [`intermediate/02` — 注意力机制深入解析：多头注意力、KV 缓存与位置编码 第 5 节](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#5-causal-masking-for-autoregressive-generation)中用于因果注意力的掩码技巧完全相同），从而强制实现真正的稀疏性。第二，在训练过程中，会在原始得分上加入可调节的高斯噪声，再进行 top-$k$ 选择，以鼓励对不同专家的探索，并帮助平衡各专家所获得的训练信号——综合起来，完整的机制如下：
 
 $$G(x) = \mathrm{Softmax}(\mathrm{KeepTopK}(H(x), k))$$
 
@@ -309,9 +309,9 @@ payoff of the sparse-MoE design introduced in [§2](#2-the-feed-forward-sub-laye
 
 **门控前馈变体：GLU 与 SwiGLU**
 
-Independent of whether an FFN is dense (as in [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)) or one expert within a sparse MoE ([§3](#3-sparse-mixture-of-experts-the-core-idea)–[§8](#8-moe-in-a-widely-used-open-model-mixtral-of-experts)), its _internal_ structure can also change. The ordinary FFN from [`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) computes $\mathrm{FFN}(x) = f(xW_1)W_2$ for some activation $f$ (such as ReLU, from [`introductory/01` §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)). Shazeer's 2020 paper on **Gated Linear Units** (GLU, 门控线性单元) proposes replacing this with a gated variant that computes an elementwise product of two separate linear projections of $x$, one of them passed through a nonlinearity first — for the specific variant called **SwiGLU**, which uses the SiLU/Swish nonlinearity $f(z) = z \cdot \sigma(z)$:
+Independent of whether an FFN is dense (as in [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)) or one expert within a sparse MoE ([§3](#3-sparse-mixture-of-experts-the-core-idea)–[§8](#8-moe-in-a-widely-used-open-model-mixtral-of-experts)), its _internal_ structure can also change. The ordinary FFN from [`introductory/02` — The Transformer Architecture & Attention §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) computes $\mathrm{FFN}(x) = f(xW_1)W_2$ for some activation $f$ (such as ReLU, from [`introductory/01` — Neural Networks & Deep Learning Foundations §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)). Shazeer's 2020 paper on **Gated Linear Units** (GLU, 门控线性单元) proposes replacing this with a gated variant that computes an elementwise product of two separate linear projections of $x$, one of them passed through a nonlinearity first — for the specific variant called **SwiGLU**, which uses the SiLU/Swish nonlinearity $f(z) = z \cdot \sigma(z)$:
 
-无论 FFN 是稠密的（如 [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 中所述），还是稀疏 MoE 中的某一个专家（第 3 至[第 8 节](#8-moe-in-a-widely-used-open-model-mixtral-of-experts)），其*内部*结构同样可以发生变化。[`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)所述的普通 FFN 计算的是 $\mathrm{FFN}(x) = f(xW_1)W_2$，其中 $f$ 是某种激活函数（例如 [`introductory/01` 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中的 ReLU）。Shazeer 于 2020 年提出的**门控线性单元**（Gated Linear Unit，GLU）论文，提议将其替换为一种门控变体：对 $x$ 的两个独立线性投影做逐元素乘积，其中一个投影先经过一个非线性函数——对于其中被称为 **SwiGLU** 的具体变体，所使用的非线性函数是 SiLU/Swish 函数 $f(z) = z \cdot \sigma(z)$：
+无论 FFN 是稠密的（如 [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 中所述），还是稀疏 MoE 中的某一个专家（第 3 至[第 8 节](#8-moe-in-a-widely-used-open-model-mixtral-of-experts)），其*内部*结构同样可以发生变化。[`introductory/02` — Transformer 架构与注意力机制 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)所述的普通 FFN 计算的是 $\mathrm{FFN}(x) = f(xW_1)W_2$，其中 $f$ 是某种激活函数（例如 [`introductory/01` — 神经网络与深度学习基础 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中的 ReLU）。Shazeer 于 2020 年提出的**门控线性单元**（Gated Linear Unit，GLU）论文，提议将其替换为一种门控变体：对 $x$ 的两个独立线性投影做逐元素乘积，其中一个投影先经过一个非线性函数——对于其中被称为 **SwiGLU** 的具体变体，所使用的非线性函数是 SiLU/Swish 函数 $f(z) = z \cdot \sigma(z)$：
 
 $$\mathrm{FFN}_{\mathrm{SwiGLU}}(x, W, V, W_2) = (\mathrm{Swish}_1(xW) \otimes xV) W_2$$
 
@@ -343,7 +343,7 @@ deployed large language model families as of this writing.
 
 **RMSNorm：面向现代架构的简化归一化方法**
 
-[`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) introduced **layer normalization** as a way to keep values flowing between
+[`introductory/02` — The Transformer Architecture & Attention §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) introduced **layer normalization** as a way to keep values flowing between
 sub-layers in a stable numerical range. The standard layer normalization computes both a mean and a
 variance across a layer's activations and re-centers as well as re-scales them. Zhang and Sennrich's
 2019 paper on **root mean square layer normalization** (RMSNorm, RMS 层归一化) hypothesizes that the
@@ -351,7 +351,7 @@ re-centering (mean-subtraction) part of this computation is not the source of la
 benefit — only the re-scaling part is — and proposes dropping re-centering entirely. For an
 activation vector $a = (a_1, \ldots, a_n)$ and a learned per-dimension gain $g_i$, RMSNorm computes:
 
-[`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)介绍了**层归一化**（layer normalization），作为使流经各子层之间的数值保持在稳定范围内的一种方法。标准的层归一化会同时计算一层激活值的均值与方差，既做重新居中，也做重新缩放。Zhang 与 Sennrich 于 2019 年提出的**均方根层归一化**（root mean square layer normalization，RMSNorm）论文假设，这一计算中“重新居中”（即减去均值）的部分并非层归一化真正发挥作用的来源——只有“重新缩放”的部分才是——因此提议完全去掉重新居中这一步。对于激活向量 $a = (a_1, \ldots, a_n)$ 与一个可学习的、按维度设置的增益 $g_i$，RMSNorm 的计算方式为：
+[`introductory/02` — Transformer 架构与注意力机制 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)介绍了**层归一化**（layer normalization），作为使流经各子层之间的数值保持在稳定范围内的一种方法。标准的层归一化会同时计算一层激活值的均值与方差，既做重新居中，也做重新缩放。Zhang 与 Sennrich 于 2019 年提出的**均方根层归一化**（root mean square layer normalization，RMSNorm）论文假设，这一计算中“重新居中”（即减去均值）的部分并非层归一化真正发挥作用的来源——只有“重新缩放”的部分才是——因此提议完全去掉重新居中这一步。对于激活向量 $a = (a_1, \ldots, a_n)$ 与一个可学习的、按维度设置的增益 $g_i$，RMSNorm 的计算方式为：
 
 $$\mathrm{RMS}(a) = \sqrt{\frac{1}{n} \sum_i a_i^2}$$
 
@@ -368,9 +368,9 @@ needs to be computed or subtracted — which translates directly into faster tra
 
 Like SwiGLU in [§9](#9-gated-feed-forward-variants-glu-and-swiglu), RMSNorm has become one of the standard building blocks of the "modern
 Transformer" alongside the MoE, GQA/MLA, and RoPE variants covered in this module and
-[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md).
+[`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md).
 
-与[第 9 节](#9-gated-feed-forward-variants-glu-and-swiglu)中的 SwiGLU 类似，RMSNorm 如今已与本章及 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中所讲的 MoE、GQA/MLA 与 RoPE 变体一样，成为“现代 Transformer”的标准构件之一。
+与[第 9 节](#9-gated-feed-forward-variants-glu-and-swiglu)中的 SwiGLU 类似，RMSNorm 如今已与本章及 [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中所讲的 MoE、GQA/MLA 与 RoPE 变体一样，成为“现代 Transformer”的标准构件之一。
 
 ---
 
@@ -378,16 +378,16 @@ Transformer" alongside the MoE, GQA/MLA, and RoPE variants covered in this modul
 
 **完全脱离注意力机制：状态空间模型**
 
-Every architecture covered so far, in this module and in [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md), keeps the Transformer's
+Every architecture covered so far, in this module and in [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md), keeps the Transformer's
 attention mechanism and modifies something else around it (the feed-forward sub-layer, the
 normalization, the number of key/value projections). A structurally different line of work asks
 whether attention itself can be replaced.
 
-到目前为止，本章与 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中所讨论的每一种架构，都保留了 Transformer 的注意力机制，只是改动了它周围的其他部分（前馈子层、归一化方式、键/值投影的数量）。而另一条结构上截然不同的研究路线所探讨的问题是：注意力机制本身是否可以被替代。
+到目前为止，本章与 [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中所讨论的每一种架构，都保留了 Transformer 的注意力机制，只是改动了它周围的其他部分（前馈子层、归一化方式、键/值投影的数量）。而另一条结构上截然不同的研究路线所探讨的问题是：注意力机制本身是否可以被替代。
 
-Gu and Dao's 2023 Mamba architecture builds on **structured state space models** (SSMs, 结构化状态空间模型) — sequence models with roots in classical control theory, adapted for deep learning — and introduces a **selection mechanism** that lets the model's state-transition parameters depend on the current input, rather than being fixed for the whole sequence as in earlier SSM variants. The resulting architecture processes a sequence with computational cost that scales _linearly_ with sequence length, in contrast to attention's $O(n^2)$ cost established in [`intermediate/02` §4](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#4-computational-complexity-of-self-attention), while the authors report matching or exceeding Transformer-quality language modeling results at the scales they tested (Gu and Dao, 2023).
+Gu and Dao's 2023 Mamba architecture builds on **structured state space models** (SSMs, 结构化状态空间模型) — sequence models with roots in classical control theory, adapted for deep learning — and introduces a **selection mechanism** that lets the model's state-transition parameters depend on the current input, rather than being fixed for the whole sequence as in earlier SSM variants. The resulting architecture processes a sequence with computational cost that scales _linearly_ with sequence length, in contrast to attention's $O(n^2)$ cost established in [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding §4](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#4-computational-complexity-of-self-attention), while the authors report matching or exceeding Transformer-quality language modeling results at the scales they tested (Gu and Dao, 2023).
 
-Gu 与 Dao 于 2023 年提出的 Mamba 架构，建立在**结构化状态空间模型**（structured state space models，SSMs）——一类根植于经典控制理论、经过改造以适用于深度学习的序列模型——之上，并引入了一种**选择机制**，使模型的状态转移参数能够依赖于当前输入，而不像早期 SSM 变体那样在整个序列中保持固定。由此得到的架构在处理序列时，其计算成本随序列长度*线性*增长，这与 [`intermediate/02` 第 4 节](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#4-computational-complexity-of-self-attention)中所确立的注意力机制 $O(n^2)$ 成本形成对比；作者报告称，在其所测试的规模下，该架构在语言建模任务上的表现能够匹配甚至超过 Transformer 的质量（Gu and Dao, 2023）。
+Gu 与 Dao 于 2023 年提出的 Mamba 架构，建立在**结构化状态空间模型**（structured state space models，SSMs）——一类根植于经典控制理论、经过改造以适用于深度学习的序列模型——之上，并引入了一种**选择机制**，使模型的状态转移参数能够依赖于当前输入，而不像早期 SSM 变体那样在整个序列中保持固定。由此得到的架构在处理序列时，其计算成本随序列长度*线性*增长，这与 [`intermediate/02` — 注意力机制深入解析：多头注意力、KV 缓存与位置编码 第 4 节](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#4-computational-complexity-of-self-attention)中所确立的注意力机制 $O(n^2)$ 成本形成对比；作者报告称，在其所测试的规模下，该架构在语言建模任务上的表现能够匹配甚至超过 Transformer 的质量（Gu and Dao, 2023）。
 
 This is included here as a named, verifiable alternative architecture family, not as a settled
 verdict that attention-free models have superseded the Transformer. Whether state-space models match
@@ -405,7 +405,7 @@ asserting a resolved comparison it cannot cite.
 
 **小结与后续内容**
 
-This chapter completed the Foundations cluster by turning from attention ([`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)) to the
+This chapter completed the Foundations cluster by turning from attention ([`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)) to the
 rest of what defines a modern large language model's architecture: sparse Mixture-of-Experts layers
 that decouple total parameter count from per-token compute cost, from their original
 conditional-computation motivation ([§2](#2-the-feed-forward-sub-layer-as-a-scaling-bottleneck)–[§3](#3-sparse-mixture-of-experts-the-core-idea)) through the gating mechanics that make routing sparse and
@@ -416,17 +416,17 @@ feed-forward variants like SwiGLU that change the FFN's internal structure indep
 ([§9](#9-gated-feed-forward-variants-glu-and-swiglu)); RMSNorm as a simplified alternative to layer normalization ([§10](#10-rmsnorm-a-simplified-normalization-for-modern-architectures)); and, briefly, the
 state-space-model alternative to attention itself ([§11](#11-beyond-attention-entirely-state-space-models)).
 
-本章通过将视角从注意力机制（[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)）转向定义现代大型语言模型架构的其余部分，完成了“基础”（Foundations）主题群的收尾：稀疏专家混合层将总参数量与每 token 的计算成本相解耦，从其最初的条件计算动机出发（第 2 至[第 3 节](#3-sparse-mixture-of-experts-the-core-idea)），到使路由变得稀疏且可训练的门控机制（[第 4 节](#4-the-gating-network-softmax-and-noisy-top-k-gating)），再到使 MoE 在生产环境中变得切实可行的各个系统（GShard 的 top-2 路由与专家容量，[第 5 节](#5-scaling-moe-to-production-gshards-top-2-routing-and-expert-capacity)；Switch Transformer 的 top-1 路由与负载均衡损失，[第 6 节](#6-switch-transformer-simplifying-to-top-1-routing-and-the-load-balancing-loss)；DeepSeekMoE 的细粒度专家与共享专家，[第 7 节](#7-fine-grained-and-shared-experts-deepseekmoe)；Mixtral 的总参数量与激活参数量核算，[第 8 节](#8-moe-in-a-widely-used-open-model-mixtral-of-experts)）；独立于稀疏性、改变 FFN 内部结构的门控前馈变体，如 SwiGLU（[第 9 节](#9-gated-feed-forward-variants-glu-and-swiglu)）；作为层归一化简化替代方案的 RMSNorm（[第 10 节](#10-rmsnorm-a-simplified-normalization-for-modern-architectures)）；以及简要介绍的、完全脱离注意力机制本身的状态空间模型替代方案（[第 11 节](#11-beyond-attention-entirely-state-space-models)）。
+本章通过将视角从注意力机制（[`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)）转向定义现代大型语言模型架构的其余部分，完成了“基础”（Foundations）主题群的收尾：稀疏专家混合层将总参数量与每 token 的计算成本相解耦，从其最初的条件计算动机出发（第 2 至[第 3 节](#3-sparse-mixture-of-experts-the-core-idea)），到使路由变得稀疏且可训练的门控机制（[第 4 节](#4-the-gating-network-softmax-and-noisy-top-k-gating)），再到使 MoE 在生产环境中变得切实可行的各个系统（GShard 的 top-2 路由与专家容量，[第 5 节](#5-scaling-moe-to-production-gshards-top-2-routing-and-expert-capacity)；Switch Transformer 的 top-1 路由与负载均衡损失，[第 6 节](#6-switch-transformer-simplifying-to-top-1-routing-and-the-load-balancing-loss)；DeepSeekMoE 的细粒度专家与共享专家，[第 7 节](#7-fine-grained-and-shared-experts-deepseekmoe)；Mixtral 的总参数量与激活参数量核算，[第 8 节](#8-moe-in-a-widely-used-open-model-mixtral-of-experts)）；独立于稀疏性、改变 FFN 内部结构的门控前馈变体，如 SwiGLU（[第 9 节](#9-gated-feed-forward-variants-glu-and-swiglu)）；作为层归一化简化替代方案的 RMSNorm（[第 10 节](#10-rmsnorm-a-simplified-normalization-for-modern-architectures)）；以及简要介绍的、完全脱离注意力机制本身的状态空间模型替代方案（[第 11 节](#11-beyond-attention-entirely-state-space-models)）。
 
-Together with [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md), [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md), [`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md), [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md), and
-[`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md), this module completes the Foundations cluster: every mechanism a reader needs to
+Together with [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md), [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md), [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md), [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md), and
+[`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md), this module completes the Foundations cluster: every mechanism a reader needs to
 understand how a modern large language model is built, trained, and scaled — from a single neuron to
 sparse trillion-parameter architectures — has now been introduced with worked examples and verified
 citations. The Agent Architecture, Prompt & Context Engineering, and Multi-Agent Systems &
 Evaluation clusters build on this foundation to cover what is built _on top of_ the models this
 cluster described.
 
-本模块与 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)、[`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)、[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md)、[`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 以及 [`advanced/01`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 一起，共同完成了“基础”主题群：从单个神经元到稀疏的万亿参数架构，读者理解现代大型语言模型是如何构建、训练与扩展所需的每一个机制，如今都已配以手算示例与经过核实的引文加以介绍。“智能体架构”（Agent Architecture）、“提示与上下文工程”（Prompt & Context Engineering）以及“多智能体系统与评估”（Multi-Agent Systems & Evaluation）这几个主题群，都将建立在这一基础之上，介绍构建于本主题群所描述的模型*之上*的内容。
+本模块与 [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md)、[`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)、[`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md)、[`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 以及 [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) 一起，共同完成了“基础”主题群：从单个神经元到稀疏的万亿参数架构，读者理解现代大型语言模型是如何构建、训练与扩展所需的每一个机制，如今都已配以手算示例与经过核实的引文加以介绍。“智能体架构”（Agent Architecture）、“提示与上下文工程”（Prompt & Context Engineering）以及“多智能体系统与评估”（Multi-Agent Systems & Evaluation）这几个主题群，都将建立在这一基础之上，介绍构建于本主题群所描述的模型*之上*的内容。
 
 ---
 
@@ -448,8 +448,8 @@ cluster described.
 
 ### Internal Cross-References
 
-- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) — required prerequisite: neurons, layers, activations (ReLU, softmax), backpropagation.
-- [`introductory/02-the-transformer-architecture-and-attention.md`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — required prerequisite: the Transformer block, its feed-forward sub-layer ([§9](#9-gated-feed-forward-variants-glu-and-swiglu)), residual connections, and layer normalization.
-- [`intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) — required prerequisite: multi-head attention mathematics, the KV cache, $O(n^2)$ attention cost, and MQA/GQA/MLA as precedent for trading exact computation for efficiency.
-- [`advanced/01-scaling-laws-and-emergent-capabilities.md`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — required prerequisite: the scaling relationship between parameters, data, compute, and performance that motivates decoupling total parameters from per-token compute ([§2](#2-the-feed-forward-sub-layer-as-a-scaling-bottleneck)).
-- [`advanced/05-advanced-context-engineering-long-context-and-budgeting.md`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) — covers architectural and systems mitigations for the long-context costs noted in [`intermediate/02` §4](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#4-computational-complexity-of-self-attention) and touched on again in [§11](#11-beyond-attention-entirely-state-space-models) here.
+- [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) — required prerequisite: neurons, layers, activations (ReLU, softmax), backpropagation.
+- [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — required prerequisite: the Transformer block, its feed-forward sub-layer ([§9](#9-gated-feed-forward-variants-glu-and-swiglu)), residual connections, and layer normalization.
+- [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) — required prerequisite: multi-head attention mathematics, the KV cache, $O(n^2)$ attention cost, and MQA/GQA/MLA as precedent for trading exact computation for efficiency.
+- [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — required prerequisite: the scaling relationship between parameters, data, compute, and performance that motivates decoupling total parameters from per-token compute ([§2](#2-the-feed-forward-sub-layer-as-a-scaling-bottleneck)).
+- [`advanced/05` — Advanced Context Engineering: Long-Context & Context Budgeting](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) — covers architectural and systems mitigations for the long-context costs noted in [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding §4](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md#4-computational-complexity-of-self-attention) and touched on again in [§11](#11-beyond-attention-entirely-state-space-models) here.
