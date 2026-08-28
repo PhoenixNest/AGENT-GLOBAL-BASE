@@ -24,11 +24,11 @@ curriculum.
 
 **从前馈网络到序列模型**
 
-[`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) described a **feedforward network** — data flows in one direction, from input
+[`introductory/01`](01-neural-networks-and-deep-learning-foundations.md) described a **feedforward network** — data flows in one direction, from input
 layer through hidden layers to output layer, with no memory of previous inputs. That kind of network
 works well when each input is independent (for example, classifying one image at a time).
 
-[`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) 介绍的是**前馈网络**——数据沿单一方向流动，从输入层经隐藏层直至输出层，对之前的输入没有记忆。当每个输入相互独立时（例如逐张分类图像），这种网络表现良好。
+[`introductory/01`](01-neural-networks-and-deep-learning-foundations.md) 介绍的是**前馈网络**——数据沿单一方向流动，从输入层经隐藏层直至输出层，对之前的输入没有记忆。当每个输入相互独立时（例如逐张分类图像），这种网络表现良好。
 
 Language is different: a sentence is a **sequence** of tokens (token, discussed below) in which
 meaning depends heavily on order and on relationships between tokens that may be far apart — "The
@@ -106,10 +106,10 @@ has over recurrence.
 
 The remainder of this chapter builds up exactly how "relevance" is computed and how it is turned
 into a weighted combination. The full mathematical treatment — including multiple attention "heads"
-computed in parallel — is deferred to [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md); this chapter covers the single -head
+computed in parallel — is deferred to [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md); this chapter covers the single -head
 mechanics in enough depth to fully understand what a Transformer computes.
 
-本章接下来的部分将具体讲解“相关程度”究竟是如何计算出来的，以及它又是如何被转化为加权组合的。完整的数学处理——包括并行计算的多个注意力“头”——将留待 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 详细展开；本章将单头注意力的机制讲解到足以让读者完全理解 Transformer 究竟在计算什么的深度。
+本章接下来的部分将具体讲解“相关程度”究竟是如何计算出来的，以及它又是如何被转化为加权组合的。完整的数学处理——包括并行计算的多个注意力“头”——将留待 [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 详细展开；本章将单头注意力的机制讲解到足以让读者完全理解 Transformer 究竟在计算什么的深度。
 
 ---
 
@@ -118,11 +118,11 @@ mechanics in enough depth to fully understand what a Transformer computes.
 **查询、键与值**
 
 Attention computes relevance using three vectors derived from each token's embedding, via three
-separate learned weight matrices (recall from [`introductory/01` §3](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#3-the-single-neuron-weights-bias-and-activation) that a weight matrix is simply a
+separate learned weight matrices (recall from [`introductory/01` §3](01-neural-networks-and-deep-learning-foundations.md#3-the-single-neuron-weights-bias-and-activation) that a weight matrix is simply a
 collection of the same kind of weighted-sum parameters covered there, applied to a whole vector at
 once rather than to single numbers). For a token's embedding vector `x`:
 
-注意力机制通过每个 token 的嵌入向量，经由三个独立的可学习权重矩阵，计算出三个向量来衡量相关程度（回顾 [`introductory/01` 第 3 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#3-the-single-neuron-weights-bias-and-activation)可知，权重矩阵不过是该节所讲的同一类加权求和参数的集合，只是这里被整体应用于一个向量，而非单个数字）。对于某个 token 的嵌入向量 `x`：
+注意力机制通过每个 token 的嵌入向量，经由三个独立的可学习权重矩阵，计算出三个向量来衡量相关程度（回顾 [`introductory/01` 第 3 节](01-neural-networks-and-deep-learning-foundations.md#3-the-single-neuron-weights-bias-and-activation)可知，权重矩阵不过是该节所讲的同一类加权求和参数的集合，只是这里被整体应用于一个向量，而非单个数字）。对于某个 token 的嵌入向量 `x`：
 
 | Vector                          | EN                                                                                            | 中文                                                                 |
 | ------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -131,9 +131,9 @@ once rather than to single numbers). For a token's embedding vector `x`:
 | **Value**（值向量）`v = xW_V`   | represents “the actual content this token contributes” once it has been selected as relevant. | 表示“一旦这个 token 被判定为相关，它实际贡献的内容是什么”。          |
 
 `W_Q`, `W_K`, and `W_V` are learned parameter matrices — adjusted by backpropagation exactly as
-described in [`introductory/01` §9](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#9-backpropagation-computing-gradients-efficiently) — shared across all positions in the sequence.
+described in [`introductory/01` §9](01-neural-networks-and-deep-learning-foundations.md#9-backpropagation-computing-gradients-efficiently) — shared across all positions in the sequence.
 
-`W_Q`、`W_K` 和 `W_V` 都是可学习的参数矩阵——其调整方式与 [`introductory/01` 第 9 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#9-backpropagation-computing-gradients-efficiently)所述的反向传播完全相同——并且在序列的所有位置上是共享的。
+`W_Q`、`W_K` 和 `W_V` 都是可学习的参数矩阵——其调整方式与 [`introductory/01` 第 9 节](01-neural-networks-and-deep-learning-foundations.md#9-backpropagation-computing-gradients-efficiently)所述的反向传播完全相同——并且在序列的所有位置上是共享的。
 
 An analogy: think of a library catalog search. The **query** is the search phrase you type in. Every
 book's **key** is the metadata that the search matches against (title, subject tags). Every book's
@@ -164,10 +164,10 @@ the sequence (one row per token). $QK^T$ computes the dot product between every 
 step produces a raw relevance score between every pair of positions. $d_k$ is the dimension of the
 key vectors, and dividing by $\sqrt{d_k}$ is a scaling step Vaswani et al. found necessary because
 for large $d_k$, raw dot products can grow large in magnitude and push the softmax function
-(introduced in [`introductory/01` §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)) into regions where its gradient is extremely small, which harms
+(introduced in [`introductory/01` §4](01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)) into regions where its gradient is extremely small, which harms
 learning (Vaswani et al., 2017).
 
-其中 `Q`、`K`、`V` 是分别将序列中每个位置的查询、键、值向量按行堆叠而成的矩阵（每个 token 对应一行）。 $QK^T$ 计算的是每个查询与每个键之间的点积——两个向量的点积在方向相近时数值较大，因此这一步会为每一对位置生成一个原始的相关性得分。 $d_k$ 是键向量的维度，除以 $\sqrt{d_k}$ 是 Vaswani 等人发现必要的一个缩放步骤：当 $d_k$ 较大时，原始点积的数值可能变得很大，从而将 softmax 函数（已在 [`introductory/01` 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中介绍）推向梯度极小的区域，损害学习效果（Vaswani et al., 2017）。
+其中 `Q`、`K`、`V` 是分别将序列中每个位置的查询、键、值向量按行堆叠而成的矩阵（每个 token 对应一行）。 $QK^T$ 计算的是每个查询与每个键之间的点积——两个向量的点积在方向相近时数值较大，因此这一步会为每一对位置生成一个原始的相关性得分。 $d_k$ 是键向量的维度，除以 $\sqrt{d_k}$ 是 Vaswani 等人发现必要的一个缩放步骤：当 $d_k$ 较大时，原始点积的数值可能变得很大，从而将 softmax 函数（已在 [`introductory/01` 第 4 节](01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中介绍）推向梯度极小的区域，损害学习效果（Vaswani et al., 2017）。
 
 The **softmax** turns each row of relevance scores into a probability distribution — the **attention
 weights** — that sums to 1 across all positions being attended to. Finally, multiplying by `V`
@@ -263,9 +263,9 @@ sine and cosine functions of different frequencies, so that the model has direct
 token's position, and to the relative distance between any two positions, as part of its input
 (Vaswani et al., 2017). This chapter's coverage of positional encoding stops at this original
 sinusoidal scheme; newer schemes such as rotary position embedding, which modify the attention
-computation itself rather than adding a vector to the input, are covered in [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md).
+computation itself rather than adding a vector to the input, are covered in [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md).
 
-Vaswani 等人（2017）通过在每个 token 的嵌入向量进入注意力层之前，加上一个**位置编码**向量来解决这一问题——这是一个对每个位置都独一无二的向量，由不同频率的正弦与余弦函数生成，从而使模型能够直接获取每个 token 的位置信息，以及任意两个位置之间的相对距离，并将其作为输入的一部分（Vaswani et al., 2017）。本章对位置编码的介绍止步于这一最初的正弦方案；诸如旋转位置编码等更新的方案——它们直接修改注意力计算本身，而非在输入上叠加向量——将在 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中介绍。
+Vaswani 等人（2017）通过在每个 token 的嵌入向量进入注意力层之前，加上一个**位置编码**向量来解决这一问题——这是一个对每个位置都独一无二的向量，由不同频率的正弦与余弦函数生成，从而使模型能够直接获取每个 token 的位置信息，以及任意两个位置之间的相对距离，并将其作为输入的一部分（Vaswani et al., 2017）。本章对位置编码的介绍止步于这一最初的正弦方案；诸如旋转位置编码等更新的方案——它们直接修改注意力计算本身，而非在输入上叠加向量——将在 [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中介绍。
 
 ---
 
@@ -274,16 +274,16 @@ Vaswani 等人（2017）通过在每个 token 的嵌入向量进入注意力层�
 **Transformer 块：注意力、前馈网络、残差连接与归一化**
 
 A single **Transformer block** (Transformer 块) combines several pieces into one repeatable unit,
-stacked many times to form a deep network (recall “deep” from [`introductory/01` §12](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#12-deep-learning-why-deep)).
+stacked many times to form a deep network (recall “deep” from [`introductory/01` §12](01-neural-networks-and-deep-learning-foundations.md#12-deep-learning-why-deep)).
 
-一个完整的**Transformer 块**（Transformer block）将若干组件组合成一个可重复的单元，通过多次堆叠形成一个深层网络（回顾 [`introductory/01` 第 12 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#12-deep-learning-why-deep)中“深度”的含义）。
+一个完整的**Transformer 块**（Transformer block）将若干组件组合成一个可重复的单元，通过多次堆叠形成一个深层网络（回顾 [`introductory/01` 第 12 节](01-neural-networks-and-deep-learning-foundations.md#12-deep-learning-why-deep)中“深度”的含义）。
 
-| #   | Component                                        | EN                                                                                                                                                                                                                                                                                                                                                                                                                         | 中文                                                                                                                                                                                                                                                                                                                                          |
-| --- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Multi-head attention sub-layer（多头注意力子层） | lets every position gather relevant information from across the sequence ([§7](#7-multi-head-attention-a-first-look)).                                                                                                                                                                                                                                                                                                     | 让每个位置都能从整个序列中汇集相关信息（[第 7 节](#7-multi-head-attention-a-first-look)）。                                                                                                                                                                                                                                                   |
-| 2   | **Feed-forward network**（前馈网络）             | a position-wise, ordinary multi-layer perceptron of the kind built in [`introductory/01` §5](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#5-from-one-neuron-to-a-network-layers-and-forward-propagation), applied independently to each position — adds further nonlinear processing capacity.                                                                            | 一个逐位置的网络——即 [`introductory/01` 第 5 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#5-from-one-neuron-to-a-network-layers-and-forward-propagation)所搭建的那种普通多层感知机，被独立地应用于每个位置——增加了进一步的非线性处理能力。                                               |
-| 3   | **Residual connection**（残差连接）              | adds each sub-layer's input directly to its output (`output = SubLayer(x) + x`), which helps gradients flow through very deep stacks of blocks during backpropagation, addressing a version of the vanishing-gradient difficulty first mentioned in [`introductory/01` §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters). | 将每个子层的输入直接加到其输出上（`output = SubLayer(x) + x`），这有助于梯度在反向传播过程中顺利流经非常深的块堆叠结构，缓解了 [`introductory/01` 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中首次提到的梯度消失难题的一种变体。 |
-| 4   | **Layer normalization**（层归一化）              | rescales the values flowing between sub-layers to keep them in a stable numerical range, which stabilizes and speeds up training.                                                                                                                                                                                                                                                                                          | 对子层之间流动的数值进行重新缩放，使其保持在稳定的数值范围内，从而使训练更加稳定和快速。                                                                                                                                                                                                                                                      |
+| #   | Component                                        | EN                                                                                                                                                                                                                                                                                                                                                                               | 中文                                                                                                                                                                                                                                                                                                |
+| --- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Multi-head attention sub-layer（多头注意力子层） | lets every position gather relevant information from across the sequence ([§7](#7-multi-head-attention-a-first-look)).                                                                                                                                                                                                                                                           | 让每个位置都能从整个序列中汇集相关信息（[第 7 节](#7-multi-head-attention-a-first-look)）。                                                                                                                                                                                                         |
+| 2   | **Feed-forward network**（前馈网络）             | a position-wise, ordinary multi-layer perceptron of the kind built in [`introductory/01` §5](01-neural-networks-and-deep-learning-foundations.md#5-from-one-neuron-to-a-network-layers-and-forward-propagation), applied independently to each position — adds further nonlinear processing capacity.                                                                            | 一个逐位置的网络——即 [`introductory/01` 第 5 节](01-neural-networks-and-deep-learning-foundations.md#5-from-one-neuron-to-a-network-layers-and-forward-propagation)所搭建的那种普通多层感知机，被独立地应用于每个位置——增加了进一步的非线性处理能力。                                               |
+| 3   | **Residual connection**（残差连接）              | adds each sub-layer's input directly to its output (`output = SubLayer(x) + x`), which helps gradients flow through very deep stacks of blocks during backpropagation, addressing a version of the vanishing-gradient difficulty first mentioned in [`introductory/01` §4](01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters). | 将每个子层的输入直接加到其输出上（`output = SubLayer(x) + x`），这有助于梯度在反向传播过程中顺利流经非常深的块堆叠结构，缓解了 [`introductory/01` 第 4 节](01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)中首次提到的梯度消失难题的一种变体。 |
+| 4   | **Layer normalization**（层归一化）              | rescales the values flowing between sub-layers to keep them in a stable numerical range, which stabilizes and speeds up training.                                                                                                                                                                                                                                                | 对子层之间流动的数值进行重新缩放，使其保持在稳定的数值范围内，从而使训练更加稳定和快速。                                                                                                                                                                                                            |
 
 Vaswani et al. (2017) specify this block structure, and it remains, with only minor variations (such
 as where normalization is placed relative to each sub-layer), the structural backbone of essentially
@@ -310,9 +310,9 @@ Most modern large language models used for open-ended text generation, however, 
 generates the output as one continuous sequence, using a restriction called **causal masking** —
 preventing each position from attending to positions after it — so that generation remains a
 well-defined, position-by-position process. Causal masking and its interaction with efficient
-generation are covered in depth in [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md).
+generation are covered in depth in [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md).
 
-然而，如今大多数用于开放式文本生成的大型语言模型采用的是**仅解码器**架构：使用单一的一组 Transformer 块堆叠，既读取输入，又将输出作为同一个连续序列生成，并通过一种称为**因果掩码**的限制——阻止每个位置关注其之后的位置——使生成过程始终是一个良定义的、逐位置进行的过程。因果掩码及其与高效生成之间的相互作用，将在 [`intermediate/02`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中深入讲解。
+然而，如今大多数用于开放式文本生成的大型语言模型采用的是**仅解码器**架构：使用单一的一组 Transformer 块堆叠，既读取输入，又将输出作为同一个连续序列生成，并通过一种称为**因果掩码**的限制——阻止每个位置关注其之后的位置——使生成过程始终是一个良定义的、逐位置进行的过程。因果掩码及其与高效生成之间的相互作用，将在 [`intermediate/02`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) 中深入讲解。
 
 ---
 
@@ -324,16 +324,16 @@ A modern decoder-only language model, in outline, works as follows: input text i
 converted to embeddings, positional encodings are added ([§8](#8-positional-encoding-giving-the-model-a-sense-of-order)), the resulting vectors pass through
 many stacked Transformer blocks ([§9](#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)), each combining causally-masked multi-head attention ([§5](#5-scaled-dot-product-attention-the-formula)–[§7](#7-multi-head-attention-a-first-look),
 [§10](#10-encoder-decoder-vs-decoder-only-architectures)) with a feed-forward network, residuals, and normalization, and the final block's output is
-converted, via one more weight matrix and a softmax ([`introductory/01` §4](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)), into a probability
+converted, via one more weight matrix and a softmax ([`introductory/01` §4](01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)), into a probability
 distribution over the vocabulary for what token comes next.
 
-一个现代的仅解码器语言模型，概括来说是这样工作的：输入文本先被分词（[第 1 节](#1-from-feedforward-networks-to-sequence-models)）并转换为嵌入向量，随后加上位置编码（[第 8 节](#8-positional-encoding-giving-the-model-a-sense-of-order)），得到的向量依次经过多层堆叠的 Transformer 块（[第 9 节](#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)），每个块都将带因果掩码的多头注意力（第 5 至[第 7 节](#7-multi-head-attention-a-first-look)、[第 10 节](#10-encoder-decoder-vs-decoder-only-architectures)）与前馈网络、残差连接和归一化结合在一起，最后一个块的输出再经过一个权重矩阵和 softmax（[`introductory/01` 第 4 节](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)）的处理，转化为词表上关于“下一个 token 是什么”的概率分布。
+一个现代的仅解码器语言模型，概括来说是这样工作的：输入文本先被分词（[第 1 节](#1-from-feedforward-networks-to-sequence-models)）并转换为嵌入向量，随后加上位置编码（[第 8 节](#8-positional-encoding-giving-the-model-a-sense-of-order)），得到的向量依次经过多层堆叠的 Transformer 块（[第 9 节](#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)），每个块都将带因果掩码的多头注意力（第 5 至[第 7 节](#7-multi-head-attention-a-first-look)、[第 10 节](#10-encoder-decoder-vs-decoder-only-architectures)）与前馈网络、残差连接和归一化结合在一起，最后一个块的输出再经过一个权重矩阵和 softmax（[`introductory/01` 第 4 节](01-neural-networks-and-deep-learning-foundations.md#4-activation-functions-why-nonlinearity-matters)）的处理，转化为词表上关于“下一个 token 是什么”的概率分布。
 
 Generating text one token at a time, feeding each generated token back in as part of the input for
 the next step, is the basic operating loop of essentially every GPT-style model — every mechanic in
-that loop was introduced across this chapter and [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md).
+that loop was introduced across this chapter and [`introductory/01`](01-neural-networks-and-deep-learning-foundations.md).
 
-逐个 token 地生成文本，并将每个已生成的 token 反馈回输入中作为下一步的一部分，正是几乎所有 GPT 系列模型的基本运行循环——这一循环中的每一个机制，都已在本章与 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) 中逐一介绍完毕。
+逐个 token 地生成文本，并将每个已生成的 token 反馈回输入中作为下一步的一部分，正是几乎所有 GPT 系列模型的基本运行循环——这一循环中的每一个机制，都已在本章与 [`introductory/01`](01-neural-networks-and-deep-learning-foundations.md) 中逐一介绍完毕。
 
 ---
 
@@ -345,11 +345,11 @@ This chapter introduced the Transformer as the answer to a specific problem — 
 between tokens across a whole sequence, in parallel, without the sequential bottleneck of recurrence
 — via queries, keys, values, scaled dot-product attention, positional encoding, and the full
 Transformer block combining attention with feed-forward layers, residuals, and normalization.
-Together with [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md), this chapter completes the introductory Foundations cluster: every
+Together with [`introductory/01`](01-neural-networks-and-deep-learning-foundations.md), this chapter completes the introductory Foundations cluster: every
 subsequent module in this curriculum, at every level, assumes the vocabulary built across these two
 chapters.
 
-本章将 Transformer 引入为解决一个特定问题的方案——在不依赖循环结构所带来的顺序性瓶颈的前提下，并行地建模一整个序列中 token 之间的关系——具体通过查询、键、值、缩放点积注意力、位置编码，以及将注意力与前馈层、残差连接和归一化相结合的完整 Transformer 块来实现。本章与 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) 一起，共同完成了入门级的“基础”（Foundations）主题群：本课程体系中此后所有层级的每一个模块，都将以这两章所建立的词汇为前提。
+本章将 Transformer 引入为解决一个特定问题的方案——在不依赖循环结构所带来的顺序性瓶颈的前提下，并行地建模一整个序列中 token 之间的关系——具体通过查询、键、值、缩放点积注意力、位置编码，以及将注意力与前馈层、残差连接和归一化相结合的完整 Transformer 块来实现。本章与 [`introductory/01`](01-neural-networks-and-deep-learning-foundations.md) 一起，共同完成了入门级的“基础”（Foundations）主题群：本课程体系中此后所有层级的每一个模块，都将以这两章所建立的词汇为前提。
 
 `intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md` returns to exactly
 the attention mechanism introduced here and works through it in full mathematical detail — the
@@ -372,6 +372,6 @@ superseded the original sinusoidal scheme from [§8](#8-positional-encoding-givi
 
 ### Internal Cross-References
 
-- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) — required prerequisite: neurons, layers, activations, loss, gradient descent, backpropagation.
-- [`intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`](https://anu00.dev/curriculum/intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) — extends the single-head attention mechanics introduced here into full multi-head, KV-cache, and positional-encoding detail.
-- [`advanced/02-mixture-of-experts-and-modern-architecture-variants.md`](https://anu00.dev/curriculum/advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — extends the Transformer block's feed-forward sub-layer ([§9](#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)) into sparse mixture-of-experts variants.
+- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](01-neural-networks-and-deep-learning-foundations.md) — required prerequisite: neurons, layers, activations, loss, gradient descent, backpropagation.
+- [`intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md`](../intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) — extends the single-head attention mechanics introduced here into full multi-head, KV-cache, and positional-encoding detail.
+- [`advanced/02-mixture-of-experts-and-modern-architecture-variants.md`](../advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — extends the Transformer block's feed-forward sub-layer ([§9](#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)) into sparse mixture-of-experts variants.
