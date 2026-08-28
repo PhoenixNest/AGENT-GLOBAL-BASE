@@ -14,7 +14,7 @@
 
 **导论：从 RLHF 到直接偏好优化与群体相对的后训练方法**
 
-This module builds directly on [`advanced/09`](09-reinforcement-learning-from-human-feedback.md)
+This module builds directly on [`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md)
 (Reinforcement Learning from Human Feedback), which is this chapter's named prerequisite and
 establishes the three-stage RLHF pipeline this chapter takes as its starting point: a base language
 model is first fine-tuned on human demonstrations (supervised fine-tuning), human annotators then
@@ -29,7 +29,7 @@ belongs to `advanced/09`. This exact three-stage pipeline is the one Long Ouyang
 describe for InstructGPT, the model that established RLHF as the standard alignment recipe for
 instruction-following language models.
 
-本章直接建立在[`advanced/09`](09-reinforcement-learning-from-human-feedback.md)（基于人类反馈的强化学习）之上——这是本章明确指定的前置模块，也是本章讨论的出发点：该模块确立了 RLHF 的三阶段流程——首先在人类示范数据上对基础语言模型做有监督微调，随后由人类标注者对同一提示下的多个模型输出按偏好排序，再训练一个独立的**奖励模型**来预测这些排序，最后用强化学习——具体而言是近端策略优化（PPO）——对基础策略进行优化，使其最大化学得的奖励模型给出的分数，同时施加一个约束，防止策略偏离其起点太远。由于本模块与 `advanced/09` 是在同一份 S2 课程扩展章程（`README.md` 第 5 号修正案）下并行撰写的，本节仅复述本章能够独立成立所需的最小限度的流程回顾；关于 RLHF 流程、其奖励模型以及 PPO 的完整讲解属于 `advanced/09` 的范畴。这套三阶段流程正是 Long Ouyang 及其合著者为 InstructGPT 所描述的流程——该模型确立了 RLHF 作为指令跟随语言模型标准对齐方案的地位。
+本章直接建立在[`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md)（基于人类反馈的强化学习）之上——这是本章明确指定的前置模块，也是本章讨论的出发点：该模块确立了 RLHF 的三阶段流程——首先在人类示范数据上对基础语言模型做有监督微调，随后由人类标注者对同一提示下的多个模型输出按偏好排序，再训练一个独立的**奖励模型**来预测这些排序，最后用强化学习——具体而言是近端策略优化（PPO）——对基础策略进行优化，使其最大化学得的奖励模型给出的分数，同时施加一个约束，防止策略偏离其起点太远。由于本模块与 `advanced/09` 是在同一份 S2 课程扩展章程（`README.md` 第 5 号修正案）下并行撰写的，本节仅复述本章能够独立成立所需的最小限度的流程回顾；关于 RLHF 流程、其奖励模型以及 PPO 的完整讲解属于 `advanced/09` 的范畴。这套三阶段流程正是 Long Ouyang 及其合著者为 InstructGPT 所描述的流程——该模型确立了 RLHF 作为指令跟随语言模型标准对齐方案的地位。
 
 This chapter is about what changed after 2023: two methods that keep the same underlying preference
 data RLHF uses, but restructure how that data turns into an updated policy, for different engineering
@@ -137,10 +137,10 @@ $$
 This is exactly the loss described in Ouyang and co-authors' InstructGPT paper's reward-modeling
 stage: the reward model is initialized from the supervised-fine-tuned policy, then fine-tuned on this
 pairwise classification objective. Once trained, $r_\phi$ is frozen and used as the reward signal that
-drives PPO in the RLHF pipeline [`advanced/09`](09-reinforcement-learning-from-human-feedback.md)
+drives PPO in the RLHF pipeline [`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md)
 covers in full.
 
-这正是 Ouyang 及其合著者在 InstructGPT 论文中所描述的奖励建模阶段的损失函数：奖励模型从有监督微调后的策略初始化而来，随后在这个成对分类目标上做微调。训练完成后，$r_\phi$ 就被冻结下来，作为驱动 [`advanced/09`](09-reinforcement-learning-from-human-feedback.md) 全文所讲解的 RLHF 流程中 PPO 阶段的奖励信号。
+这正是 Ouyang 及其合著者在 InstructGPT 论文中所描述的奖励建模阶段的损失函数：奖励模型从有监督微调后的策略初始化而来，随后在这个成对分类目标上做微调。训练完成后，$r_\phi$ 就被冻结下来，作为驱动 [`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md) 全文所讲解的 RLHF 流程中 PPO 阶段的奖励信号。
 
 Worked example: given a preference triple where the current reward model scores $r_\phi(x,y_w) = 1.2$
 and $r_\phi(x,y_l) = 1.0$ (a narrow gap, since the model has not yet learned to separate this pair
@@ -180,12 +180,12 @@ next.
 
 **直接偏好优化（DPO）的推导**
 
-The standard RLHF objective [`advanced/09`](09-reinforcement-learning-from-human-feedback.md) covers
+The standard RLHF objective [`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md) covers
 in full is a KL-regularized reward maximization problem: find a policy $\pi_\theta$ that maximizes
 expected reward under the trained reward model $r_\phi$, while staying close (in KL divergence) to a
 fixed reference policy $\pi_{ref}$ (typically the supervised-fine-tuned model before RL):
 
-[`advanced/09`](09-reinforcement-learning-from-human-feedback.md) 全文所讲的标准 RLHF 目标，是一个带 KL 正则化的奖励最大化问题：寻找一个策略 $\pi_\theta$，使其在训练好的奖励模型 $r_\phi$ 下期望奖励最大化，同时（以 KL 散度衡量）与一个固定的参考策略 $\pi_{ref}$（通常是尚未经过强化学习的、有监督微调后的模型）保持接近：
+[`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md) 全文所讲的标准 RLHF 目标，是一个带 KL 正则化的奖励最大化问题：寻找一个策略 $\pi_\theta$，使其在训练好的奖励模型 $r_\phi$ 下期望奖励最大化，同时（以 KL 散度衡量）与一个固定的参考策略 $\pi_{ref}$（通常是尚未经过强化学习的、有监督微调后的模型）保持接近：
 
 $$
 \max_{\pi_\theta} \; \mathbb{E}_{x\sim\mathcal{D},\, y\sim\pi_\theta(\cdot\mid x)}\big[r_\phi(x,y)\big] - \beta\, D_{KL}\big[\pi_\theta(\cdot\mid x)\,\|\,\pi_{ref}(\cdot\mid x)\big]
@@ -572,7 +572,7 @@ becomes a policy update, not whether a scalar reward signal is needed at all.
 **小结**
 
 This chapter derived two post-2023 alternatives to the standard PPO-based RLHF pipeline
-[`advanced/09`](09-reinforcement-learning-from-human-feedback.md) established, both grounded in the
+[`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md) established, both grounded in the
 same Bradley-Terry preference model ([§2](#2-the-bradley-terry-model-a-formal-foundation-for-preference))
 underlying standard reward modeling ([§3](#3-reward-modeling-objective-training-procedure-and-overoptimization)).
 Direct Preference Optimization eliminates the reward model and the RL loop by algebraically folding a
@@ -590,7 +590,7 @@ up in a future revision of this chapter — they are an accurate description of 
 literature currently stands, and a reader entering this field should expect the ranking among DPO,
 its variants, PPO, and GRPO to keep shifting as more head-to-head studies are published.
 
-本章推导了两种在 2023 年之后出现的、替代 [`advanced/09`](09-reinforcement-learning-from-human-feedback.md) 所确立的标准“基于 PPO 的 RLHF”流程的方法，二者都建立在与标准奖励建模（[第 3 节](#3-reward-modeling-objective-training-procedure-and-overoptimization)）相同的 Bradley-Terry 偏好模型（[第 2 节](#2-the-bradley-terry-model-a-formal-foundation-for-preference)）之上。直接偏好优化通过代数手段，把一个带 KL 约束的奖励最大化目标的闭式最优策略解，重新代入 Bradley-Terry 似然之中，从而消去了奖励模型与强化学习循环，得到一个单一的分类损失（[第 4 节](#4-deriving-direct-preference-optimization-dpo)–[第 5 节](#5-dpo-worked-example-and-practical-considerations)），而它自身的假设，又分别被 IPO、KTO 与 SimPO 进一步细化或质疑（[第 6 节](#6-beyond-dpo-ipo-kto-and-simpo)）。群体相对策略优化保留了强化学习，但通过从一组采样结果自身的奖励统计量中估计基线，消去了 PPO 的价值函数网络（[第 7 节](#7-from-ppo-to-group-relative-policy-optimization)–[第 8 节](#8-the-grpo-objective-formulation-and-worked-example)），这一设计支撑起了 DeepSeekMath 与 DeepSeek-R1 的推理成果，但也带有其自身有据可查的长度偏差与难度偏差，Dr. GRPO 的分析将其具体归因于 GRPO 的两个归一化项（[第 9 节](#9-grpo-in-production-deepseekmath-deepseek-r1-and-the-length-and-difficulty-bias-critique)）。[第 10 节](#10-contested-ground-and-open-questions)提出的四个开放问题，并不是本章未来修订时需要收尾的松散线头——它们是对已发表文献现状的如实描述，初入这一领域的读者应当预期，随着更多正面对比研究的发表，DPO、其各种变体、PPO 与 GRPO 之间的优劣排名还会持续变化。
+本章推导了两种在 2023 年之后出现的、替代 [`advanced/09`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md) 所确立的标准“基于 PPO 的 RLHF”流程的方法，二者都建立在与标准奖励建模（[第 3 节](#3-reward-modeling-objective-training-procedure-and-overoptimization)）相同的 Bradley-Terry 偏好模型（[第 2 节](#2-the-bradley-terry-model-a-formal-foundation-for-preference)）之上。直接偏好优化通过代数手段，把一个带 KL 约束的奖励最大化目标的闭式最优策略解，重新代入 Bradley-Terry 似然之中，从而消去了奖励模型与强化学习循环，得到一个单一的分类损失（[第 4 节](#4-deriving-direct-preference-optimization-dpo)–[第 5 节](#5-dpo-worked-example-and-practical-considerations)），而它自身的假设，又分别被 IPO、KTO 与 SimPO 进一步细化或质疑（[第 6 节](#6-beyond-dpo-ipo-kto-and-simpo)）。群体相对策略优化保留了强化学习，但通过从一组采样结果自身的奖励统计量中估计基线，消去了 PPO 的价值函数网络（[第 7 节](#7-from-ppo-to-group-relative-policy-optimization)–[第 8 节](#8-the-grpo-objective-formulation-and-worked-example)），这一设计支撑起了 DeepSeekMath 与 DeepSeek-R1 的推理成果，但也带有其自身有据可查的长度偏差与难度偏差，Dr. GRPO 的分析将其具体归因于 GRPO 的两个归一化项（[第 9 节](#9-grpo-in-production-deepseekmath-deepseek-r1-and-the-length-and-difficulty-bias-critique)）。[第 10 节](#10-contested-ground-and-open-questions)提出的四个开放问题，并不是本章未来修订时需要收尾的松散线头——它们是对已发表文献现状的如实描述，初入这一领域的读者应当预期，随着更多正面对比研究的发表，DPO、其各种变体、PPO 与 GRPO 之间的优劣排名还会持续变化。
 
 ---
 
@@ -615,7 +615,7 @@ its variants, PPO, and GRPO to keep shifting as more head-to-head studies are pu
 
 ### Internal Cross-References
 
-- [`advanced/09-reinforcement-learning-from-human-feedback.md`](09-reinforcement-learning-from-human-feedback.md)
-- [`intermediate/01-training-dynamics-optimization-and-generalization.md`](../intermediate/01-training-dynamics-optimization-and-generalization.md)
-- [`advanced/01-scaling-laws-and-emergent-capabilities.md`](01-scaling-laws-and-emergent-capabilities.md)
-- [`advanced/08-rigorous-agent-evaluation-statistical-methodology.md`](08-rigorous-agent-evaluation-statistical-methodology.md)
+- [`advanced/09-reinforcement-learning-from-human-feedback.md`](https://anu00.dev/curriculum/advanced/09-reinforcement-learning-from-human-feedback.md)
+- [`intermediate/01-training-dynamics-optimization-and-generalization.md`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md)
+- [`advanced/01-scaling-laws-and-emergent-capabilities.md`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md)
+- [`advanced/08-rigorous-agent-evaluation-statistical-methodology.md`](https://anu00.dev/curriculum/advanced/08-rigorous-agent-evaluation-statistical-methodology.md)
