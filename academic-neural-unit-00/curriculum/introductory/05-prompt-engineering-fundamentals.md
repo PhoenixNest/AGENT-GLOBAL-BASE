@@ -365,6 +365,6 @@ module that follows directly from this one.
 
 ### Internal Cross-References
 
-- [`introductory/02-the-transformer-architecture-and-attention.md`](02-the-transformer-architecture-and-attention.md) — background on how the underlying model processes text (referenced for the reader's general orientation; consult that module directly for its content).
-- [`introductory/06-context-windows-tokens-and-memory-basics.md`](06-context-windows-tokens-and-memory-basics.md) — tokens and context windows, needed before structured-output and long-prompt techniques.
-- [`intermediate/05-advanced-prompting-cot-few-shot-structured-output.md`](../intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) — the direct continuation of this chapter: few-shot prompting, chain-of-thought, and structured output.
+- [`introductory/02-the-transformer-architecture-and-attention.md`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — background on how the underlying model processes text (referenced for the reader's general orientation; consult that module directly for its content).
+- [`introductory/06-context-windows-tokens-and-memory-basics.md`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md) — tokens and context windows, needed before structured-output and long-prompt techniques.
+- [`intermediate/05-advanced-prompting-cot-few-shot-structured-output.md`](https://anu00.dev/curriculum/intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) — the direct continuation of this chapter: few-shot prompting, chain-of-thought, and structured output.
