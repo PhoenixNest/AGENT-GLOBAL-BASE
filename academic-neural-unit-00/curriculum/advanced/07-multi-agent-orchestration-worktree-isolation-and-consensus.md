@@ -14,15 +14,15 @@
 
 **导论：从协调到并发执行**
 
-This module builds strictly on [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) (Multi-Agent Communication & Coordination
-Protocols), [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) (Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion),
-[`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) (Agent Memory Systems), [`introductory/07`](../introductory/07-introduction-to-multi-agent-systems.md) (Introduction to Multi-Agent Systems),
-and [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) (What Is an AI Agent? Concepts & the Agent Loop) — named explicitly wherever
+This module builds strictly on [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) (Multi-Agent Communication & Coordination
+Protocols), [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) (Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion),
+[`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) (Agent Memory Systems), [`introductory/07`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md) (Introduction to Multi-Agent Systems),
+and [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) (What Is an AI Agent? Concepts & the Agent Loop) — named explicitly wherever
 this chapter relies on them, per the curriculum's citation rule for intermediate/advanced modules.
 
-本章严格建立在 [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)（多智能体通信与协调协议）、[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)（智能体设计模式： ReAct、计划-执行与 Reflexion）、[`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)（智能体记忆系统）、[`introductory/07`](../introductory/07-introduction-to-multi-agent-systems.md)（多智能体系统导论）以及 [`introductory/03`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)（什么是人工智能智能体？概念与智能体循环）之上；凡本章依赖这些前置模块之处，均按课程对中高级模块的引用规则明确点名。
+本章严格建立在 [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)（多智能体通信与协调协议）、[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)（智能体设计模式： ReAct、计划-执行与 Reflexion）、[`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)（智能体记忆系统）、[`introductory/07`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md)（多智能体系统导论）以及 [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)（什么是人工智能智能体？概念与智能体循环）之上；凡本章依赖这些前置模块之处，均按课程对中高级模块的引用规则明确点名。
 
-[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) established how two or more agents exchange messages — request/response patterns,
+[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) established how two or more agents exchange messages — request/response patterns,
 shared blackboards, and publish-subscribe channels — so that a coordinator can assign work and
 collect results. That module answers the question "how do agents talk to each other?" This module
 answers a harder, adjacent question: once a group of agents is talking, what happens when several of
@@ -30,7 +30,7 @@ them need to **act on the same underlying resource at the same time** — the sa
 shared document, the same decision — without one agent's work silently clobbering another's, and
 without the group producing an answer that no single agent would actually stand behind?
 
-[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) 讨论了两个或多个智能体如何相互交换消息——请求/响应模式、共享黑板、发布-订阅通道——从而让协调者能够分配任务并收集结果。那一章回答的是“智能体之间如何交流？”这个问题。本章要回答一个更难、但与之紧密相关的问题：当一组智能体已经能够彼此通信之后，如果其中几个智能体需要**在同一时刻对同一份底层资源采取行动**——同一份代码库、同一份共享文档、同一个决策——会发生什么？
+[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) 讨论了两个或多个智能体如何相互交换消息——请求/响应模式、共享黑板、发布-订阅通道——从而让协调者能够分配任务并收集结果。那一章回答的是“智能体之间如何交流？”这个问题。本章要回答一个更难、但与之紧密相关的问题：当一组智能体已经能够彼此通信之后，如果其中几个智能体需要**在同一时刻对同一份底层资源采取行动**——同一份代码库、同一份共享文档、同一个决策——会发生什么？
 
 Those are two separate engineering problems, and this chapter treats them as such: **worktree
 isolation** solves the first (concurrent access to a shared filesystem), and **consensus** solves
@@ -63,12 +63,12 @@ half in turn and then combines them in a single worked example in [§8](#8-worke
 
 **回顾：编排拓扑与协调者的职责**
 
-[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) introduced the coordinator role and the message-passing protocols agents use to
+[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) introduced the coordinator role and the message-passing protocols agents use to
 report status and results back to it. This section briefly recaps the shapes that coordination can
 take — the **swarm topology**, i.e. the graph structure describing which agents communicate with
 which — because the topology chosen determines where isolation and consensus need to be applied.
 
-[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) 已经介绍了协调者角色，以及智能体用来向协调者汇报状态和结果的消息传递协议。本节先简要回顾一下协调可以采取的几种形态——**集群拓扑**，也就是描述“谁与谁通信”的图结构——因为选择哪种拓扑，决定了隔离与共识需要施加在系统的哪个环节。
+[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) 已经介绍了协调者角色，以及智能体用来向协调者汇报状态和结果的消息传递协议。本节先简要回顾一下协调可以采取的几种形态——**集群拓扑**，也就是描述“谁与谁通信”的图结构——因为选择哪种拓扑，决定了隔离与共识需要施加在系统的哪个环节。
 
 | Topology                              | EN                                                                                                       | 中文                                                                   |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -91,10 +91,10 @@ Mesh and debate-style topologies ([§7](#7-semantic-consensus-among-llm-agents))
 critiquing each other's answers _is_ a consensus mechanism. Pipeline topologies generally need
 neither, since each stage's output is the sole input to the next stage and there is nothing to
 isolate concurrently or reconcile by vote — which is precisely why this chapter, unlike
-[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md), narrows its focus to the flat/hierarchical and mesh cases where isolation and
+[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md), narrows its focus to the flat/hierarchical and mesh cases where isolation and
 consensus actually do work.
 
-网状拓扑和辩论式拓扑（见[第 7 节](#7-semantic-consensus-among-llm-agents)）从设计之初就是围绕共识构建的，因为让若干对等智能体互相评判对方的答案，本身就是一种共识机制。流水线拓扑通常两者都不太需要，因为每个阶段的输出就是下一阶段唯一的输入，既没有需要并发隔离的东西，也没有需要通过投票来调和的分歧——这也正是本章不同于 [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) 之处：本章把讨论范围收窄到隔离与共识真正发挥作用的扁平/层级与网状场景。
+网状拓扑和辩论式拓扑（见[第 7 节](#7-semantic-consensus-among-llm-agents)）从设计之初就是围绕共识构建的，因为让若干对等智能体互相评判对方的答案，本身就是一种共识机制。流水线拓扑通常两者都不太需要，因为每个阶段的输出就是下一阶段唯一的输入，既没有需要并发隔离的东西，也没有需要通过投票来调和的分歧——这也正是本章不同于 [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) 之处：本章把讨论范围收窄到隔离与共识真正发挥作用的扁平/层级与网状场景。
 
 ---
 
@@ -105,12 +105,12 @@ consensus actually do work.
 Consider the simplest possible failure: an orchestrator dispatches two worker agents to the same
 checked-out copy of a codebase, one to add a backend endpoint and one to add the corresponding
 frontend component. Both agents read the same files into their context windows (a mechanism
-[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) already covers) and both begin writing edits to disk. If Agent A saves the file
+[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) already covers) and both begin writing edits to disk. If Agent A saves the file
 `config.py` with its change, and Agent B — which read `config.py` _before_ Agent A's save — now
 saves its own, unrelated change to the same file, Agent B's save silently discards Agent A's edit,
 because Agent B's in-memory copy never had it.
 
-设想一种最简单不过的失败情形：编排器把两个工作智能体派到同一份已检出的代码库副本上，一个负责添加后端接口，另一个负责添加对应的前端组件。两个智能体都把同一批文件读入各自的上下文窗口（这一机制 [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) 已经介绍过），并且都开始把修改写回磁盘。如果智能体 A 保存了它对 `config.py` 的修改，而智能体 B——它读取 `config.py` 的时刻**早于** A 保存之前——现在也把自己那份与之无关的修改保存到同一个文件，那么 B 的保存会悄无声息地丢弃 A 的修改，因为 B 内存中的副本从一开始就没有包含 A 的改动。
+设想一种最简单不过的失败情形：编排器把两个工作智能体派到同一份已检出的代码库副本上，一个负责添加后端接口，另一个负责添加对应的前端组件。两个智能体都把同一批文件读入各自的上下文窗口（这一机制 [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) 已经介绍过），并且都开始把修改写回磁盘。如果智能体 A 保存了它对 `config.py` 的修改，而智能体 B——它读取 `config.py` 的时刻**早于** A 保存之前——现在也把自己那份与之无关的修改保存到同一个文件，那么 B 的保存会悄无声息地丢弃 A 的修改，因为 B 内存中的副本从一开始就没有包含 A 的改动。
 
 Neither agent receives an error. Neither agent knows anything went wrong. The orchestrator sees two
 "success" reports and a corrupted file. This is a **race condition**: an outcome that depends on the
@@ -138,7 +138,7 @@ finishes. That is exactly the shape of the solution the next section develops.
 
 **将 Git 工作树隔离作为多智能体基础设施**
 
-[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) covers the agent loop's action-execution step at the level of a single agent
+[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) covers the agent loop's action-execution step at the level of a single agent
 issuing a tool call. This section scales that up: when several agents each execute file-modification
 tool calls concurrently, the underlying version-control system can be used to give each one an
 isolated execution environment. `git worktree` is a feature of Git — the distributed version-control
@@ -146,7 +146,7 @@ system — that lets one repository support **multiple linked working directorie
 different branches at the same time**, all sharing the same underlying object history (the `.git/`
 database), per Git's own reference documentation for the command.
 
-[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 在单个智能体发出工具调用的层面，讨论了智能体循环中“执行动作”这一步骤。本节把这个概念扩展到多智能体场景：当若干智能体并发地执行文件修改类工具调用时，可以利用底层的版本控制系统，为每个智能体提供一个相互隔离的执行环境。 `git worktree` 是 Git——这一分布式版本控制系统——的一项特性，根据 Git 官方针对该命令的参考文档，它允许**一个仓库同时支持多个链接的工作目录，各自检出到不同的分支**，但底层共享同一份对象历史（即 `.git/` 数据库）。
+[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 在单个智能体发出工具调用的层面，讨论了智能体循环中“执行动作”这一步骤。本节把这个概念扩展到多智能体场景：当若干智能体并发地执行文件修改类工具调用时，可以利用底层的版本控制系统，为每个智能体提供一个相互隔离的执行环境。 `git worktree` 是 Git——这一分布式版本控制系统——的一项特性，根据 Git 官方针对该命令的参考文档，它允许**一个仓库同时支持多个链接的工作目录，各自检出到不同的分支**，但底层共享同一份对象历史（即 `.git/` 数据库）。
 
 In practice, this means an orchestrator can run `git worktree add ../agent-backend -b
 agent/backend/dark-mode-api` to create a new directory that is a complete, independent copy of the
@@ -392,11 +392,11 @@ Paxos、Raft 与拜占庭容错协议，设计的初衷都是让参与者就单�
 
 Multi-agent LLM orchestration therefore needs **semantic consensus**: agreement on the _meaning_ or
 _correctness_ of an answer, not on its literal string representation. This section covers four
-concrete, published mechanisms — building on [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)'s coverage of the single-agent ReAct
+concrete, published mechanisms — building on [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)'s coverage of the single-agent ReAct
 and Reflexion loops, since each mechanism below is best understood as running several instances of
 that loop and combining their outputs.
 
-因此，多智能体大语言模型编排需要的是**语义共识**：就答案的**含义**或**正确性**达成一致，而不是就其字面上的字符串表示达成一致。本节将介绍四种已在文献中发表的具体机制——它们建立在 [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 已经讲授的单智能体 ReAct 与 Reflexion 循环之上，因为理解下面每一种机制的最佳方式，都是把它看作并行运行多个该循环的实例、再对其输出进行综合。
+因此，多智能体大语言模型编排需要的是**语义共识**：就答案的**含义**或**正确性**达成一致，而不是就其字面上的字符串表示达成一致。本节将介绍四种已在文献中发表的具体机制——它们建立在 [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) 已经讲授的单智能体 ReAct 与 Reflexion 循环之上，因为理解下面每一种机制的最佳方式，都是把它看作并行运行多个该循环的实例、再对其输出进行综合。
 
 The simplest mechanism is **self-consistency（自洽性）**, introduced by Xuezhi Wang and co-authors in a
 2022 paper. Instead of generating one chain-of-thought reasoning path with greedy decoding, the
@@ -444,12 +444,12 @@ answering, and other domains.
 A related but distinct line of work is Joon Sung Park and co-authors' 2023 "Generative Agents"
 paper, which demonstrates that giving individual agents a persistent memory stream, a periodic
 reflection step that synthesizes raw memories into higher-level insights, and a retrieval mechanism
-to recall relevant memories — concepts [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) covers in depth for a single agent — is
+to recall relevant memories — concepts [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) covers in depth for a single agent — is
 sufficient to produce _emergent_ coordinated behavior across a population of agents (for example,
 several agents independently organizing a shared social event) without any explicit consensus vote
 at all.
 
-与之相关但又有所不同的另一条研究脉络，是 Joon Sung Park 及其合著者 2023 年发表的《Generative Agents》（生成式智能体）论文，该论文证明：给单个智能体配备一条持续的记忆流、一个能把原始记忆定期综合为更高层次洞见的反思步骤，以及一套用于回忆相关记忆的检索机制——这些概念 [`intermediate/04`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) 已针对单个智能体做过深入讲解——就足以在一个智能体群体中产生**涌现式的**协同行为（例如，若干智能体各自独立地组织起一场共同的社交活动），而完全不需要任何显式的共识投票。
+与之相关但又有所不同的另一条研究脉络，是 Joon Sung Park 及其合著者 2023 年发表的《Generative Agents》（生成式智能体）论文，该论文证明：给单个智能体配备一条持续的记忆流、一个能把原始记忆定期综合为更高层次洞见的反思步骤，以及一套用于回忆相关记忆的检索机制——这些概念 [`intermediate/04`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) 已针对单个智能体做过深入讲解——就足以在一个智能体群体中产生**涌现式的**协同行为（例如，若干智能体各自独立地组织起一场共同的社交活动），而完全不需要任何显式的共识投票。
 
 This is a genuinely important contrast for a multi-agent architect to hold in mind: consensus
 mechanisms like self-consistency, debate, and Mixture-of-Agents are **explicit** protocols that an
@@ -630,10 +630,10 @@ fault-tolerance arithmetic, is not respected.
 
 ### Internal Cross-References
 
-- [`introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md`](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
-- [`introductory/07-introduction-to-multi-agent-systems.md`](../introductory/07-introduction-to-multi-agent-systems.md)
-- [`intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
-- [`intermediate/04-agent-memory-systems-short-term-long-term-episodic.md`](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
-- [`intermediate/07-multi-agent-communication-and-coordination-protocols.md`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)
-- [`advanced/03-agent-harness-engineering-production-grade-agent-loops.md`](03-agent-harness-engineering-production-grade-agent-loops.md)
-- [`advanced/04-agentic-safety-guardrails-and-governance-patterns.md`](04-agentic-safety-guardrails-and-governance-patterns.md)
+- [`introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+- [`introductory/07-introduction-to-multi-agent-systems.md`](https://anu00.dev/curriculum/introductory/07-introduction-to-multi-agent-systems.md)
+- [`intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+- [`intermediate/04-agent-memory-systems-short-term-long-term-episodic.md`](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+- [`intermediate/07-multi-agent-communication-and-coordination-protocols.md`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)
+- [`advanced/03-agent-harness-engineering-production-grade-agent-loops.md`](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+- [`advanced/04-agentic-safety-guardrails-and-governance-patterns.md`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
