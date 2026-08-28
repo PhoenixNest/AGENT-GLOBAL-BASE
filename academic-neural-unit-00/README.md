@@ -20,9 +20,9 @@ during formation — not organizational ownership. See
 `formation/2026-07-23-formation-meeting/formation-report.md` §2 for the full boundary statement.
 
 This makes ANU-00 a fourth co-resident system alongside The Company (`company/`), The Studio
-(`studio/`), and the CC-00 Lab (`core-component-00/`) — see root `CLAUDE.md` §2. Formalizing that
-addition in the root repository map remains a follow-up action pending explicit CEO direction (see
-the formation report §5), not done as part of this record.
+(`studio/`), and the CC-00 Lab (`core-component-00/`) — see root `CLAUDE.md` §2. That addition was
+formalized in the root repository map on 2026-07-23 per explicit CEO direction (see the formation
+report §10).
 
 ---
 
