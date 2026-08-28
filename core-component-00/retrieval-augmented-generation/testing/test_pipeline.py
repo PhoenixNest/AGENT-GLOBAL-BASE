@@ -16,6 +16,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from implementations import pipeline as pipeline_module
 from implementations.chunker import FixedSizeChunker, SemanticChunker
 from implementations.pipeline import RAGPipeline, RetrievedContext
 from implementations.retrieval import Document
@@ -161,6 +162,84 @@ class TestPipelineACL:
         pipeline.ingest(docs)
         result = pipeline.query("classified", user_role="public")
         assert result.chunks == []
+
+
+# ---------------------------------------------------------------------------
+# Pre-fusion ACL enforcement (RAG R1 remediation, I1)
+#
+# These tests inspect the candidate set BEFORE post-fusion acl_filter() runs,
+# to verify the query-level ACL predicate itself excludes out-of-role
+# documents — not just that the final filtered output happens to be clean.
+# ---------------------------------------------------------------------------
+
+class TestPreFusionACLEnforcement:
+    def test_bm25_leg_scores_only_role_accessible_corpus(self, sample_docs, monkeypatch):
+        """bm25_score() must never even see out-of-role documents."""
+        pipeline = _make_pipeline(top_k=10)
+        pipeline.ingest(sample_docs)
+
+        captured = {}
+        original_bm25_score = pipeline_module.bm25_score
+
+        def spy_bm25_score(query, documents, *args, **kwargs):
+            captured["documents"] = list(documents)
+            return original_bm25_score(query, documents, *args, **kwargs)
+
+        monkeypatch.setattr(pipeline_module, "bm25_score", spy_bm25_score)
+        pipeline.query("error boundaries swarm agents", user_role="public")
+
+        assert "documents" in captured
+        doc_ids_seen = {doc.metadata.get("doc_id") for doc in captured["documents"]}
+        # doc-2 is engineering-only, doc-4 is research-only — neither should
+        # ever reach bm25_score's candidate set for a "public" query.
+        assert "doc-2" not in doc_ids_seen
+        assert "doc-4" not in doc_ids_seen
+
+    def test_vector_store_search_receives_user_role(self, sample_docs, embedder, mock_vector_store):
+        pipeline = _make_pipeline(embedder=embedder, vector_store=mock_vector_store, top_k=10)
+        pipeline.ingest(sample_docs)
+
+        original_search = mock_vector_store.search
+        captured = {}
+
+        def spy_search(vector, top_k=5, user_role=None):
+            captured["user_role"] = user_role
+            return original_search(vector, top_k=top_k, user_role=user_role)
+
+        mock_vector_store.search = spy_search
+        pipeline.query("error boundaries swarm agents", user_role="engineering")
+
+        assert captured["user_role"] == "engineering"
+
+    def test_vector_store_search_excludes_out_of_role_docs_directly(
+        self, sample_docs, embedder, mock_vector_store
+    ):
+        """
+        Call the vector store's search() directly (not through the pipeline)
+        to confirm the raw candidate set it returns is already role-filtered,
+        before any post-fusion acl_filter() step exists.
+        """
+        pipeline = _make_pipeline(embedder=embedder, vector_store=mock_vector_store, top_k=10)
+        pipeline.ingest(sample_docs)
+
+        q_vector = embedder("error boundaries swarm agents")
+        raw = mock_vector_store.search(q_vector, top_k=10, user_role="public")
+        returned_doc_ids = {doc_id.split("::")[0] for doc_id, _ in raw}
+
+        assert "doc-2" not in returned_doc_ids
+        assert "doc-4" not in returned_doc_ids
+
+    def test_research_role_candidate_set_includes_research_docs(
+        self, sample_docs, embedder, mock_vector_store
+    ):
+        pipeline = _make_pipeline(embedder=embedder, vector_store=mock_vector_store, top_k=10)
+        pipeline.ingest(sample_docs)
+
+        q_vector = embedder("swarm orchestration agents")
+        raw = mock_vector_store.search(q_vector, top_k=10, user_role="research")
+        returned_doc_ids = {doc_id.split("::")[0] for doc_id, _ in raw}
+
+        assert "doc-4" in returned_doc_ids
 
 
 # ---------------------------------------------------------------------------

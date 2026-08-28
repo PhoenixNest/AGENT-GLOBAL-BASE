@@ -124,6 +124,38 @@ def rrf_fusion(
     return merged
 
 
+def _role_has_access(acl_roles: List[str], user_role: str) -> bool:
+    """
+    A document is accessible when its acl_roles list contains "public", OR
+    contains the given user_role.
+    """
+    return "public" in acl_roles or user_role in acl_roles
+
+
+def filter_by_role(
+    documents: List[Document],
+    user_role: str,
+) -> List[Document]:
+    """
+    Filter a candidate document set to those accessible by user_role, before
+    any scoring or retrieval runs against it.
+
+    This is the query-level ACL predicate (defense layer 1): applied to the
+    BM25 candidate corpus, and mirrored in the vector-store search filter, so
+    out-of-role documents are never scored or returned as retrieval
+    candidates in the first place. acl_filter() below remains the
+    post-fusion defense layer (layer 2) — this does not replace it.
+
+    Args:
+        documents: Candidate documents to filter.
+        user_role: The requesting user's role string.
+
+    Returns:
+        Filtered list of accessible documents.
+    """
+    return [doc for doc in documents if _role_has_access(doc.acl_roles, user_role)]
+
+
 def acl_filter(
     results: List[ScoredDocument],
     user_role: str,
@@ -142,11 +174,10 @@ def acl_filter(
     Returns:
         Filtered list preserving original rank order.
     """
-    allowed: List[ScoredDocument] = []
-    for scored in results:
-        roles = scored.document.acl_roles
-        if "public" in roles or user_role in roles:
-            allowed.append(scored)
+    allowed: List[ScoredDocument] = [
+        scored for scored in results
+        if _role_has_access(scored.document.acl_roles, user_role)
+    ]
     # Re-rank after filtering
     for i, r in enumerate(allowed):
         r.rank = i

@@ -16,7 +16,8 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from .chunker import Chunk, FixedSizeChunker
-from .retrieval import Document, ScoredDocument, acl_filter, bm25_score, rrf_fusion
+from .pii_masking import mask_pii
+from .retrieval import Document, ScoredDocument, acl_filter, bm25_score, filter_by_role, rrf_fusion
 
 
 @dataclass
@@ -36,7 +37,10 @@ class RAGPipeline:
         chunker:      Object with a .chunk(text: str) -> List[Chunk] method.
         embedder:     Callable(text: str) -> List[float]. May be a mock in tests.
         vector_store: Object with .upsert(id, vector, payload) and
-                      .search(vector, top_k) -> List[Tuple[str, float]] methods.
+                      .search(vector, top_k, user_role=None) -> List[Tuple[str, float]]
+                      methods. `user_role`, when provided, must be applied as a
+                      query-level ACL predicate (defense layer 1) — acl_filter()
+                      is the second, post-fusion layer.
         top_k:        Maximum results to retrieve before ACL filtering.
     """
 
@@ -55,7 +59,11 @@ class RAGPipeline:
 
     def ingest(self, documents: List[Document]) -> int:
         """
-        Chunk, embed, and store documents.
+        Chunk, mask PII, embed, and store documents.
+
+        PII masking runs between chunking and embedding so no raw PII ever
+        reaches the embedder call, the vector store payload, or the local
+        BM25 index (ASGF-mandatory Security Control, rag-engineering.md).
 
         Returns the total number of chunks ingested.
         """
@@ -64,19 +72,20 @@ class RAGPipeline:
             chunks = self.chunker.chunk(doc.text)
             for chunk in chunks:
                 chunk_id = f"{doc.id}::{chunk.index}"
+                masked_text = mask_pii(chunk.text)
                 # Embed if embedder is available
                 if self.embedder is not None:
-                    vector = self.embedder(chunk.text)
+                    vector = self.embedder(masked_text)
                     if self.vector_store is not None:
                         self.vector_store.upsert(
                             id=chunk_id,
                             vector=vector,
-                            payload={"doc_id": doc.id, "text": chunk.text, "acl_roles": doc.acl_roles},
+                            payload={"doc_id": doc.id, "text": masked_text, "acl_roles": doc.acl_roles},
                         )
                 # Keep a local index for BM25 fallback
                 self._documents[chunk_id] = Document(
                     id=chunk_id,
-                    text=chunk.text,
+                    text=masked_text,
                     metadata={"doc_id": doc.id},
                     acl_roles=doc.acl_roles,
                 )
@@ -88,10 +97,13 @@ class RAGPipeline:
         Retrieve relevant chunks for a query, filtered by user role.
 
         Hybrid strategy:
-          1. BM25 keyword ranking over the local document index.
-          2. Semantic vector search via vector_store (if available).
-          3. RRF fusion of both result lists.
-          4. ACL filtering.
+          1. Query-level ACL predicate: filter the candidate corpus by role
+             before either retrieval leg runs (defense layer 1).
+          2. BM25 keyword ranking over the role-accessible candidate corpus.
+          3. Semantic vector search via vector_store, itself passed user_role
+             as a query-level filter (if available).
+          4. RRF fusion of both result lists.
+          5. ACL filtering (defense layer 2, post-fusion).
 
         Returns a RetrievedContext with top_k accessible chunks.
         """
@@ -99,14 +111,18 @@ class RAGPipeline:
         if not corpus:
             return RetrievedContext(chunks=[], scores=[], query=query, user_role=user_role)
 
+        # Query-level ACL predicate (defense layer 1) — out-of-role documents
+        # are excluded from the candidate set before any scoring happens.
+        accessible_corpus = filter_by_role(corpus, user_role)
+
         # BM25 leg
-        bm25_results = bm25_score(query, corpus)[: self.top_k * 2]
+        bm25_results = bm25_score(query, accessible_corpus)[: self.top_k * 2]
 
         # Semantic leg (if vector store available)
         semantic_results: List[ScoredDocument] = []
         if self.embedder is not None and self.vector_store is not None:
             q_vector = self.embedder(query)
-            raw = self.vector_store.search(q_vector, top_k=self.top_k * 2)
+            raw = self.vector_store.search(q_vector, top_k=self.top_k * 2, user_role=user_role)
             for doc_id, score in raw:
                 if doc_id in self._documents:
                     semantic_results.append(
@@ -119,7 +135,9 @@ class RAGPipeline:
             lists_to_fuse.append(semantic_results)
         fused = rrf_fusion(lists_to_fuse)[: self.top_k * 2]
 
-        # ACL filter
+        # ACL filter (defense layer 2 — post-fusion; kept even though layer 1
+        # and the vector-store predicate should already exclude everything
+        # out-of-role, per rag-engineering.md's defense-in-depth requirement)
         accessible = acl_filter(fused, user_role)[: self.top_k]
 
         # Map back to Chunk objects
