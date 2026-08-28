@@ -27,8 +27,8 @@ defined here at first use.
 
 **回顾与范围**
 
-[`introductory/02` §5](../introductory/02-the-transformer-architecture-and-attention.md#5-scaled-dot-product-attention-the-formula)–[§6](#6-autoregressive-decoding-and-the-redundancy-problem) defined single-head scaled dot-product attention, $\text{Attention}(Q,K,V) =
-\text{softmax}(QK^T/\sqrt{d_k})V$, and worked a two-token numeric example by hand. [`introductory/02`](../introductory/02-the-transformer-architecture-and-attention.md)
+[`introductory/02` §5](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#5-scaled-dot-product-attention-the-formula)–[§6](#6-autoregressive-decoding-and-the-redundancy-problem) defined single-head scaled dot-product attention, $\text{Attention}(Q,K,V) =
+\text{softmax}(QK^T/\sqrt{d_k})V$, and worked a two-token numeric example by hand. [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)
 [§7](#7-the-kv-cache-mechanism-and-memory-cost) introduced multi-head attention only at a conceptual level — several attention patterns computed
 in parallel — without the underlying mathematics. This chapter completes that picture in four parts:
 the full mathematics of multi-head attention ([§2](#2-multi-head-attention-in-full-mathematical-detail)–[§3](#3-worked-example-multi-head-attention-computation)), the computational cost of attention and why
@@ -36,7 +36,7 @@ generation needs a cache ([§4](#4-computational-complexity-of-self-attention)�
 the original sinusoidal scheme ([§9](#9-positional-encoding-revisited-sinusoidal-rotary-embeddings-and-alibi)), and a brief note on hardware-aware attention implementations
 ([§10](#10-io-awareness-and-flashattention)).
 
-[`introductory/02`](../introductory/02-the-transformer-architecture-and-attention.md) 第 5 至[第 6 节](#6-autoregressive-decoding-and-the-redundancy-problem)定义了单头缩放点积注意力 $\text{Attention}(Q,K,V) = \text{softmax}(QK^T/\sqrt{d_k})V$，并手算了一个双 token 的数值示例。[`introductory/02` 第 7 节](../introductory/02-the-transformer-architecture-and-attention.md#7-multi-head-attention-a-first-look)仅在概念层面介绍了多头注意力——即并行计算若干种注意力模式——而未涉及其底层数学。本章将从四个方面完整补全这一图景：多头注意力的完整数学推导（第 2 至[第 3 节](#3-worked-example-multi-head-attention-computation)）、注意力的计算成本以及生成过程为何需要缓存（第 4 至[第 7 节](#7-the-kv-cache-mechanism-and-memory-cost)）、在很大程度上已取代原始正弦方案的现代位置编码方案（[第 9 节](#9-positional-encoding-revisited-sinusoidal-rotary-embeddings-and-alibi)），以及关于硬件感知型注意力实现的简要说明（[第 10 节](#10-io-awareness-and-flashattention)）。
+[`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 第 5 至[第 6 节](#6-autoregressive-decoding-and-the-redundancy-problem)定义了单头缩放点积注意力 $\text{Attention}(Q,K,V) = \text{softmax}(QK^T/\sqrt{d_k})V$，并手算了一个双 token 的数值示例。[`introductory/02` 第 7 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#7-multi-head-attention-a-first-look)仅在概念层面介绍了多头注意力——即并行计算若干种注意力模式——而未涉及其底层数学。本章将从四个方面完整补全这一图景：多头注意力的完整数学推导（第 2 至[第 3 节](#3-worked-example-multi-head-attention-computation)）、注意力的计算成本以及生成过程为何需要缓存（第 4 至[第 7 节](#7-the-kv-cache-mechanism-and-memory-cost)）、在很大程度上已取代原始正弦方案的现代位置编码方案（[第 9 节](#9-positional-encoding-revisited-sinusoidal-rotary-embeddings-and-alibi)），以及关于硬件感知型注意力实现的简要说明（[第 10 节](#10-io-awareness-and-flashattention)）。
 
 ---
 
@@ -44,7 +44,7 @@ the original sinusoidal scheme ([§9](#9-positional-encoding-revisited-sinusoida
 
 **多头注意力的完整数学细节**
 
-Recall from [`introductory/02` §4](../introductory/02-the-transformer-architecture-and-attention.md#4-queries-keys-and-values) that a single attention head projects a token's $d_{\text{model}}$
+Recall from [`introductory/02` §4](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#4-queries-keys-and-values) that a single attention head projects a token's $d_{\text{model}}$
 -dimensional embedding into query, key, and value vectors via learned matrices $W_Q$, $W_K$, $W_V$.
 Multi-head attention runs $h$ such projections in parallel, called **heads**, each with its own
 independently learned weight matrices $W_Q^i$, $W_K^i$, $W_V^i$ for head $i$, each projecting into a
@@ -52,7 +52,7 @@ smaller dimension $d_k = d_{\text{model}} / h$ (so that the total parameter coun
 roughly matches a single full-dimensional head). Vaswani et al. (2017) define the complete operation
 as:
 
-回顾 [`introductory/02` 第 4 节](../introductory/02-the-transformer-architecture-and-attention.md#4-queries-keys-and-values)，单个注意力头通过可学习矩阵 $W_Q$、$W_K$、$W_V$，将一个 token 的 $d_{\text{model}}$ 维嵌入投影为查询、键、值向量。多头注意力并行运行 $h$ 个这样的投影，称为**头**，每个头 $i$ 都拥有各自独立学习的权重矩阵 $W_Q^i$、$W_K^i$、$W_V^i$，并投影到更小的维度 $d_k = d_{\text{model}} / h$（这样一来，所有头的参数总量与单个全维度头大致相当）。Vaswani 等人（2017）给出了完整操作的定义：
+回顾 [`introductory/02` 第 4 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#4-queries-keys-and-values)，单个注意力头通过可学习矩阵 $W_Q$、$W_K$、$W_V$，将一个 token 的 $d_{\text{model}}$ 维嵌入投影为查询、键、值向量。多头注意力并行运行 $h$ 个这样的投影，称为**头**，每个头 $i$ 都拥有各自独立学习的权重矩阵 $W_Q^i$、$W_K^i$、$W_V^i$，并投影到更小的维度 $d_k = d_{\text{model}} / h$（这样一来，所有头的参数总量与单个全维度头大致相当）。Vaswani 等人（2017）给出了完整操作的定义：
 
 $$
 head_i = \text{Attention}(QW_Q^i, KW_K^i, VW_V^i)
@@ -63,14 +63,14 @@ $$
 $$
 
 Each head produces its own output vector of dimension $d_k$ for every position, using exactly the
-scaled dot-product attention formula from [`introductory/02` §5](../introductory/02-the-transformer-architecture-and-attention.md#5-scaled-dot-product-attention-the-formula) applied within that head's own
+scaled dot-product attention formula from [`introductory/02` §5](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#5-scaled-dot-product-attention-the-formula) applied within that head's own
 projected subspace. The outputs of all $h$ heads are concatenated back into a single vector of
 dimension $h \times d_k = d_{\text{model}}$, and one final learned matrix $W_O$ mixes information
 across heads to produce the sub-layer's output. Vaswani et al. used $h = 8$ heads with
 $d_{\text{model}} = 512$, giving $d_k = 64$ (Vaswani et al., 2017); modern large models use larger
 $d_{\text{model}}$ and more heads, but the same structure.
 
-每个头都会为每个位置独立生成一个维度为 $d_k$ 的输出向量，其计算方式正是将 [`introductory/02` 第 5 节](../introductory/02-the-transformer-architecture-and-attention.md#5-scaled-dot-product-attention-the-formula)的缩放点积注意力公式，应用于该头自身投影出的子空间之内。所有 $h$ 个头的输出会被重新拼接为一个维度为 $h \times d_k = d_{\text{model}}$ 的单一向量，随后再由一个最终的可学习矩阵 $W_O$ 对各头之间的信息进行混合，从而得到该子层的输出。Vaswani 等人使用了 $h = 8$ 个头、$d_{\text{model}} = 512$，因此 $d_k = 64$（Vaswani et al., 2017）；现代大型模型使用更大的 $d_{\text{model}}$ 与更多的头，但结构完全相同。
+每个头都会为每个位置独立生成一个维度为 $d_k$ 的输出向量，其计算方式正是将 [`introductory/02` 第 5 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#5-scaled-dot-product-attention-the-formula)的缩放点积注意力公式，应用于该头自身投影出的子空间之内。所有 $h$ 个头的输出会被重新拼接为一个维度为 $h \times d_k = d_{\text{model}}$ 的单一向量，随后再由一个最终的可学习矩阵 $W_O$ 对各头之间的信息进行混合，从而得到该子层的输出。Vaswani 等人使用了 $h = 8$ 个头、$d_{\text{model}} = 512$，因此 $d_k = 64$（Vaswani et al., 2017）；现代大型模型使用更大的 $d_{\text{model}}$ 与更多的头，但结构完全相同。
 
 Why split into multiple smaller heads rather than use one large head? Vaswani et al. observe that a
 single attention head, by averaging over all relevant positions via one softmax distribution per
@@ -87,14 +87,14 @@ et al., 2017).
 
 **手算示例：多头注意力计算**
 
-Extend the two-token example from [`introductory/02` §6](../introductory/02-the-transformer-architecture-and-attention.md#6-a-worked-example-attention-by-hand-on-a-tiny-sequence). Let $d_{\text{model}} = 2$ and $h = 2$
+Extend the two-token example from [`introductory/02` §6](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#6-a-worked-example-attention-by-hand-on-a-tiny-sequence). Let $d_{\text{model}} = 2$ and $h = 2$
 heads, so each head has $d_k = 1$. Suppose, purely for illustration, that head 1's projection
 matrices select only the first embedding dimension and head 2's select only the second — that is,
 head 1 works with scalars $q_{1i} = k_{1i} = v_{1i} = x_i[0]$ (each token's first coordinate) and
 head 2 works with $q_{2i} = k_{2i} = v_{2i} = x_i[1]$ (each token's second coordinate), using the
 same $x_1 = [1,0]$, $x_2 = [0,1]$ as before.
 
-在 [`introductory/02` 第 6 节](../introductory/02-the-transformer-architecture-and-attention.md#6-a-worked-example-attention-by-hand-on-a-tiny-sequence)双 token 示例的基础上进行扩展。设 $d_{\text{model}} = 2$，$h = 2$ 个头，因此每个头的 $d_k = 1$。仅为便于说明，假设头 1 的投影矩阵只选取嵌入的第一维，头 2 的投影矩阵只选取第二维——也就是说，头 1 使用标量 $q_{1i} = k_{1i} = v_{1i} = x_i[0]$（每个 token 的第一个坐标），头 2 使用标量 $q_{2i} = k_{2i} = v_{2i} = x_i[1]$（每个 token 的第二个坐标），仍沿用之前的 $x_1 = [1,0]$、$x_2 = [0,1]$。
+在 [`introductory/02` 第 6 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#6-a-worked-example-attention-by-hand-on-a-tiny-sequence)双 token 示例的基础上进行扩展。设 $d_{\text{model}} = 2$，$h = 2$ 个头，因此每个头的 $d_k = 1$。仅为便于说明，假设头 1 的投影矩阵只选取嵌入的第一维，头 2 的投影矩阵只选取第二维——也就是说，头 1 使用标量 $q_{1i} = k_{1i} = v_{1i} = x_i[0]$（每个 token 的第一个坐标），头 2 使用标量 $q_{2i} = k_{2i} = v_{2i} = x_i[1]$（每个 token 的第二个坐标），仍沿用之前的 $x_1 = [1,0]$、$x_2 = [0,1]$。
 
 For head 1, the query/key values are $[1, 0]$ for tokens 1 and 2 respectively. Scores $q_{1i} \cdot
 k_{1j}$ for token 1 as query: against token 1, $1 \times 1 = 1$; against token 2, $1 \times 0 = 0$.
@@ -128,11 +128,11 @@ findings side by side before $W_O$ combines them — exactly the mechanism descr
 For a sequence of length $n$, computing $QK^T$ requires comparing every position against every other
 position, producing an $n \times n$ matrix of scores — the amount of computation and memory this
 requires grows proportional to $n^2$ (quadratically with sequence length), in contrast to the
-recurrent networks discussed in [`introductory/02` §2](../introductory/02-the-transformer-architecture-and-attention.md#2-why-sequential-processing-struggles-the-motivation-for-attention), whose per-step cost does not grow with total
+recurrent networks discussed in [`introductory/02` §2](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#2-why-sequential-processing-struggles-the-motivation-for-attention), whose per-step cost does not grow with total
 sequence length in the same way, though their total sequential computation still scales linearly
 with $n$ due to the step-by-step dependency.
 
-对于长度为 $n$ 的序列，计算 $QK^T$ 需要将每个位置与其他每个位置逐一比较，从而生成一个 $n \times n$ 的得分矩阵——所需的计算量与内存量都随 $n^2$（即随序列长度呈平方级）增长，这与 [`introductory/02` 第 2 节](../introductory/02-the-transformer-architecture-and-attention.md#2-why-sequential-processing-struggles-the-motivation-for-attention)所讨论的循环网络形成对比：循环网络单步的计算成本并不以同样方式随总序列长度增长，尽管由于其逐步依赖的特性，其总的顺序计算量仍随 $n$ 线性增长。
+对于长度为 $n$ 的序列，计算 $QK^T$ 需要将每个位置与其他每个位置逐一比较，从而生成一个 $n \times n$ 的得分矩阵——所需的计算量与内存量都随 $n^2$（即随序列长度呈平方级）增长，这与 [`introductory/02` 第 2 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#2-why-sequential-processing-struggles-the-motivation-for-attention)所讨论的循环网络形成对比：循环网络单步的计算成本并不以同样方式随总序列长度增长，尽管由于其逐步依赖的特性，其总的顺序计算量仍随 $n$ 线性增长。
 
 This $O(n^2)$ cost is a well-known and actively researched limitation of standard attention:
 doubling the sequence length quadruples the attention computation and memory required for the score
@@ -149,10 +149,10 @@ mitigations for long-context processing in depth.
 
 **用于自回归生成的因果掩码**
 
-[`introductory/02` §10](../introductory/02-the-transformer-architecture-and-attention.md#10-encoder-decoder-vs-decoder-only-architectures) introduced **causal masking** as the mechanism that prevents a decoder-only
+[`introductory/02` §10](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#10-encoder-decoder-vs-decoder-only-architectures) introduced **causal masking** as the mechanism that prevents a decoder-only
 model from attending to future positions.
 
-[`introductory/02` 第 10 节](../introductory/02-the-transformer-architecture-and-attention.md#10-encoder-decoder-vs-decoder-only-architectures)引入了**因果掩码**，作为阻止仅解码器模型关注未来位置的机制。
+[`introductory/02` 第 10 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#10-encoder-decoder-vs-decoder-only-architectures)引入了**因果掩码**，作为阻止仅解码器模型关注未来位置的机制。
 
 Mechanically, before the softmax step in $\text{Attention}(Q,K,V) =
 \text{softmax}(QK^T/\sqrt{d_k})V$, every score $(QK^T)_{ij}$ for which position $j$ comes after
@@ -260,14 +260,14 @@ A different, more recent approach, **multi-head latent attention (MLA)** (多头
 
 **再谈位置编码：正弦编码、旋转位置编码与 ALiBi**
 
-[`introductory/02` §8](../introductory/02-the-transformer-architecture-and-attention.md#8-positional-encoding-giving-the-model-a-sense-of-order) described the original **sinusoidal positional encoding** from Vaswani et al.
+[`introductory/02` §8](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#8-positional-encoding-giving-the-model-a-sense-of-order) described the original **sinusoidal positional encoding** from Vaswani et al.
 (2017): a fixed vector, generated from sine/cosine functions, added to each token's embedding before
 it enters the attention layers. This approach has a practical limitation: because the encoding is
 added directly to the input, a model's ability to generalize to sequence lengths longer than it saw
 during training is limited. Two influential alternatives modify the attention computation itself
 rather than the input embedding.
 
-[`introductory/02` 第 8 节](../introductory/02-the-transformer-architecture-and-attention.md#8-positional-encoding-giving-the-model-a-sense-of-order)介绍了 Vaswani 等人（2017）提出的最初**正弦位置编码**：一个由正弦/余弦函数生成的固定向量，在进入注意力层之前被加到每个 token 的嵌入上。这种方法存在一个实际局限：由于编码是直接叠加在输入上的，模型泛化到比训练时所见更长序列的能力因而受到限制。有两种颇具影响力的替代方案，它们改变的不是输入嵌入本身，而是注意力计算过程。
+[`introductory/02` 第 8 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#8-positional-encoding-giving-the-model-a-sense-of-order)介绍了 Vaswani 等人（2017）提出的最初**正弦位置编码**：一个由正弦/余弦函数生成的固定向量，在进入注意力层之前被加到每个 token 的嵌入上。这种方法存在一个实际局限：由于编码是直接叠加在输入上的，模型泛化到比训练时所见更长序列的能力因而受到限制。有两种颇具影响力的替代方案，它们改变的不是输入嵌入本身，而是注意力计算过程。
 
 **Rotary position embedding (RoPE)** (旋转位置编码), introduced by Su et al. in the RoFormer paper, encodes a token's absolute position by rotating its query and key vectors — treating pairs of dimensions as 2-D coordinates and applying a rotation whose angle depends on the token's position — before the dot product in the attention score is computed.
 
@@ -327,7 +327,7 @@ Dao 等人报告称，仅凭这一重构就能带来显著的训练实际耗时�
 
 **小结与后续内容**
 
-This chapter completed the mathematical picture of attention that [`introductory/02`](../introductory/02-the-transformer-architecture-and-attention.md) introduced at a
+This chapter completed the mathematical picture of attention that [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) introduced at a
 conceptual level: the full multi-head computation with its per-head projections and output mixing
 ([§2](#2-multi-head-attention-in-full-mathematical-detail)–[§3](#3-worked-example-multi-head-attention-computation)); the $O(n^2)$ computational cost of self-attention and the distinct redundancy problem that
 autoregressive generation introduces on top of it ([§4](#4-computational-complexity-of-self-attention), [§6](#6-autoregressive-decoding-and-the-redundancy-problem)); the KV cache as the standard fix for
@@ -336,15 +336,15 @@ MLA — developed to reduce it ([§7](#7-the-kv-cache-mechanism-and-memory-cost)
 address limitations of the original sinusoidal scheme ([§9](#9-positional-encoding-revisited-sinusoidal-rotary-embeddings-and-alibi)); and a brief note on IO-aware,
 hardware-efficient exact attention implementations ([§10](#10-io-awareness-and-flashattention)).
 
-本章完整补全了 [`introductory/02`](../introductory/02-the-transformer-architecture-and-attention.md) 仅在概念层面所介绍的注意力机制的数学图景：包含各头独立投影与输出混合的完整多头计算（第 2 至[第 3 节](#3-worked-example-multi-head-attention-computation)）；自注意力的 $O(n^2)$ 计算成本，以及自回归生成在此基础上额外引入的独特冗余问题（第 4、[第 6 节](#6-autoregressive-decoding-and-the-redundancy-problem)）；作为该冗余问题标准解决方案的 KV 缓存，及其自身的内存开销，以及为降低这一开销而发展出的三种被命名的技术——MQA、GQA 与 MLA（第 7 至[第 8 节](#8-reducing-kv-cache-cost-multi-query-grouped-query-and-multi-head-latent-attention)）；应对原始正弦方案局限性的现代位置编码方案 RoPE 与 ALiBi（[第 9 节](#9-positional-encoding-revisited-sinusoidal-rotary-embeddings-and-alibi)）；以及关于 IO 感知型、硬件高效的精确注意力实现的简要说明（[第 10 节](#10-io-awareness-and-flashattention)）。
+本章完整补全了 [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 仅在概念层面所介绍的注意力机制的数学图景：包含各头独立投影与输出混合的完整多头计算（第 2 至[第 3 节](#3-worked-example-multi-head-attention-computation)）；自注意力的 $O(n^2)$ 计算成本，以及自回归生成在此基础上额外引入的独特冗余问题（第 4、[第 6 节](#6-autoregressive-decoding-and-the-redundancy-problem)）；作为该冗余问题标准解决方案的 KV 缓存，及其自身的内存开销，以及为降低这一开销而发展出的三种被命名的技术——MQA、GQA 与 MLA（第 7 至[第 8 节](#8-reducing-kv-cache-cost-multi-query-grouped-query-and-multi-head-latent-attention)）；应对原始正弦方案局限性的现代位置编码方案 RoPE 与 ALiBi（[第 9 节](#9-positional-encoding-revisited-sinusoidal-rotary-embeddings-and-alibi)）；以及关于 IO 感知型、硬件高效的精确注意力实现的简要说明（[第 10 节](#10-io-awareness-and-flashattention)）。
 
 `advanced/02-mixture-of-experts-and-modern-architecture-variants.md` builds directly on the
-Transformer block structure from [`introductory/02` §9](../introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) and the attention mechanics from this chapter,
+Transformer block structure from [`introductory/02` §9](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization) and the attention mechanics from this chapter,
 turning to the _other_ major sub-layer of a Transformer block — the feed-forward network — and how
 modern architectures replace its single dense computation with a sparse mixture of specialized
 sub-networks.
 
-`advanced/02-mixture-of-experts-and-modern-architecture-variants.md` 将直接建立在 [`introductory/02` 第 9 节](../introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)所述的 Transformer 块结构以及本章所讲的注意力机制之上，转而聚焦 Transformer 块*另一个*主要的子层——前馈网络，并探讨现代架构如何用一组稀疏的专门化子网络来取代其单一的稠密计算。
+`advanced/02-mixture-of-experts-and-modern-architecture-variants.md` 将直接建立在 [`introductory/02` 第 9 节](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md#9-the-transformer-block-attention-feed-forward-residuals-and-normalization)所述的 Transformer 块结构以及本章所讲的注意力机制之上，转而聚焦 Transformer 块*另一个*主要的子层——前馈网络，并探讨现代架构如何用一组稀疏的专门化子网络来取代其单一的稠密计算。
 
 ---
 
@@ -365,7 +365,7 @@ sub-networks.
 
 ### Internal Cross-References
 
-- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](../introductory/01-neural-networks-and-deep-learning-foundations.md) — required prerequisite: neurons, layers, gradients, backpropagation.
-- [`introductory/02-the-transformer-architecture-and-attention.md`](../introductory/02-the-transformer-architecture-and-attention.md) — required prerequisite: queries/keys/values, scaled dot-product attention, the Transformer block, sinusoidal positional encoding, causal masking.
-- [`advanced/02-mixture-of-experts-and-modern-architecture-variants.md`](../advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — builds on this chapter's Transformer block and attention mechanics to cover the feed-forward sub-layer's sparse variants.
-- [`advanced/05-advanced-context-engineering-long-context-and-budgeting.md`](../advanced/05-advanced-context-engineering-long-context-and-budgeting.md) — covers architectural mitigations for the $O(n^2)$ attention cost noted in [§4](#4-computational-complexity-of-self-attention) in depth.
+- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) — required prerequisite: neurons, layers, gradients, backpropagation.
+- [`introductory/02-the-transformer-architecture-and-attention.md`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — required prerequisite: queries/keys/values, scaled dot-product attention, the Transformer block, sinusoidal positional encoding, causal masking.
+- [`advanced/02-mixture-of-experts-and-modern-architecture-variants.md`](https://anu00.dev/curriculum/advanced/02-mixture-of-experts-and-modern-architecture-variants.md) — builds on this chapter's Transformer block and attention mechanics to cover the feed-forward sub-layer's sparse variants.
+- [`advanced/05-advanced-context-engineering-long-context-and-budgeting.md`](https://anu00.dev/curriculum/advanced/05-advanced-context-engineering-long-context-and-budgeting.md) — covers architectural mitigations for the $O(n^2)$ attention cost noted in [§4](#4-computational-complexity-of-self-attention) in depth.
