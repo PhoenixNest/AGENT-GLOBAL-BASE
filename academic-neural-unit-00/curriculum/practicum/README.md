@@ -50,8 +50,8 @@ name which module" rule, `curriculum/README.md` §1), and walks the reader throu
 code themselves, step by step with the reasoning for each step — not a solved solution dropped
 whole.
 
-The second S-2 gap (zero RLHF/post-training coverage) is closed separately, as `advanced/09` and
-`advanced/10` inside the existing `curriculum/advanced/` folder — see `curriculum/README.md`
+The second S-2 gap (zero RLHF/post-training coverage) is closed separately, as `advanced/09` — Reinforcement Learning from Human Feedback and
+`advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling inside the existing `curriculum/advanced/` folder — see `curriculum/README.md`
 Amendment 5 for that ratification. This file covers the practicum category only.
 
 ---
@@ -97,14 +97,14 @@ Six modules. Filenames are level-prefixed, two-digit ordered, kebab-case — sam
 `curriculum/README.md` §7.1. Author assignment matches each crew member's documented specialty on
 the roster (`academic-neural-unit-00/crew/README.md`), consistent with the S2 plan §2.1.
 
-| #   | Title                                    | Filename                                           | Pairs With                                  | Author                                                                  |
-| --- | ---------------------------------------- | -------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------- |
-| 01  | Building a Basic Agent Loop              | `01-building-a-basic-agent-loop.md`                | `introductory/03` (the agent loop)          | Dr. Kaito Fujimori, Research Scientist — Agent Systems Research, ANU-00 |
-| 02  | Implementing Tool Use & Function Calling | `02-implementing-tool-use-and-function-calling.md` | `introductory/04`                           | Dr. Kaito Fujimori, Research Scientist — Agent Systems Research, ANU-00 |
-| 03  | Building a ReAct Agent From Scratch      | `03-building-a-react-agent-from-scratch.md`        | `intermediate/03` (ReAct, Plan-and-Execute) | Dr. Inés Roldán, Research Scientist — Software Engineering / CS, ANU-00 |
-| 04  | Building a Minimal RAG Pipeline          | `04-building-a-minimal-rag-pipeline.md`            | `intermediate/06` (RAG fundamentals)        | Dr. Rafael Ibarra-Costa, Research Scientist — Generalist, ANU-00        |
-| 05  | Implementing Scored Agent Memory         | `05-implementing-scored-agent-memory.md`           | `intermediate/04` (memory systems)          | Dr. Inés Roldán, Research Scientist — Software Engineering / CS, ANU-00 |
-| 06  | Building an Agent Evaluation Harness     | `06-building-an-agent-evaluation-harness.md`       | `intermediate/08` (evaluating agents)       | Dr. Mireille Dubois, Research Scientist — LLM Systems, ANU-00           |
+| #   | Title                                    | Filename                                           | Pairs With                                                                        | Author                                                                  |
+| --- | ---------------------------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 01  | Building a Basic Agent Loop              | `01-building-a-basic-agent-loop.md`                | `introductory/03` — What Is an AI Agent? Concepts & the Agent Loop                | Dr. Kaito Fujimori, Research Scientist — Agent Systems Research, ANU-00 |
+| 02  | Implementing Tool Use & Function Calling | `02-implementing-tool-use-and-function-calling.md` | `introductory/04` — Tool Use & Function Calling Basics                            | Dr. Kaito Fujimori, Research Scientist — Agent Systems Research, ANU-00 |
+| 03  | Building a ReAct Agent From Scratch      | `03-building-a-react-agent-from-scratch.md`        | `intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion    | Dr. Inés Roldán, Research Scientist — Software Engineering / CS, ANU-00 |
+| 04  | Building a Minimal RAG Pipeline          | `04-building-a-minimal-rag-pipeline.md`            | `intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding           | Dr. Rafael Ibarra-Costa, Research Scientist — Generalist, ANU-00        |
+| 05  | Implementing Scored Agent Memory         | `05-implementing-scored-agent-memory.md`           | `intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory | Dr. Inés Roldán, Research Scientist — Software Engineering / CS, ANU-00 |
+| 06  | Building an Agent Evaluation Harness     | `06-building-an-agent-evaluation-harness.md`       | `intermediate/08` — Evaluating Agent Systems: Benchmarks & Methodology            | Dr. Mireille Dubois, Research Scientist — LLM Systems, ANU-00           |
 
 This table is the sign-off required by
 `crew/lead/naledi-mokoena/skills/research-programme-chartering.md` §5, applied here to a training
