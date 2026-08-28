@@ -71,6 +71,25 @@ def _estimate_tokens(text: str) -> int:
         return max(1, int(len(text) / 4))
 
 
+def format_turns_for_estimation(turns: List[Dict]) -> str:
+    """Canonical transcript serialization for turn-token accounting.
+
+    This is the one wire-format ContextCompressor uses internally to decide
+    whether compression is needed. Any caller measuring token counts before
+    vs. after compression (benchmarks, tests, callers of compress_history)
+    MUST estimate against this same joined form rather than summing
+    per-turn content estimates in isolation — summing per-turn estimates
+    omits role-label/separator overhead and silently disagrees with the
+    number compress_history() itself compresses against.
+    """
+    return "\n".join(f"[{t.get('role', 'user')}]: {t.get('content', '')}" for t in turns)
+
+
+def estimate_turns_tokens(turns: List[Dict]) -> int:
+    """Contractual token-accounting basis for a list of turns. See format_turns_for_estimation."""
+    return _estimate_tokens(format_turns_for_estimation(turns))
+
+
 # ---------------------------------------------------------------------------
 # Compression result container
 # ---------------------------------------------------------------------------
@@ -110,17 +129,77 @@ class ContextCompressor:
         print(f"Reduced by {result.compression_ratio:.0%}")
     """
 
+    DEFAULT_UTILIZATION_TRIGGER = 0.75  # Proactively compact once usage crosses this fraction of the window
+
     def __init__(
         self,
         keep_recent_turns: int = 3,
         use_compaction_api: bool = False,
         anthropic_client=None,
+        utilization_trigger: float = DEFAULT_UTILIZATION_TRIGGER,
     ):
         self.keep_recent_turns = keep_recent_turns
         self.use_compaction_api = use_compaction_api
         self._api_client = (
             CompactionAPIClient(anthropic_client) if anthropic_client else None
         )
+        if not 0.0 < utilization_trigger <= 1.0:
+            raise ValueError(
+                f"utilization_trigger must be in (0.0, 1.0], got {utilization_trigger}"
+            )
+        self.utilization_trigger = utilization_trigger
+
+    # ------------------------------------------------------------------
+    # Utilization-based compaction trigger
+    # ------------------------------------------------------------------
+    #
+    # Distinct from ContextAssembler.SAFETY_BUFFER (context_assembler.py),
+    # which is a hard cap on how much of the raw window is ever considered
+    # usable. This trigger instead watches *live* usage against that window
+    # and decides *when* to proactively compact, well before the safety
+    # buffer would otherwise be breached.
+
+    def current_utilization(self, current_tokens: int, max_tokens: int) -> float:
+        """Fraction of the window currently consumed. 0.0 if max_tokens <= 0."""
+        if max_tokens <= 0:
+            return 0.0
+        return current_tokens / max_tokens
+
+    def should_trigger_compaction(self, current_tokens: int, max_tokens: int) -> bool:
+        """True once utilization crosses the configured trigger threshold."""
+        return self.current_utilization(current_tokens, max_tokens) >= self.utilization_trigger
+
+    def compress_if_triggered(
+        self,
+        turns: List[Dict],
+        current_tokens: int,
+        max_tokens: int,
+        target_tokens: Optional[int] = None,
+        sacred_turns: Optional[List[int]] = None,
+    ) -> CompressionResult:
+        """
+        Apply compress_history() automatically once utilization crosses the
+        configured trigger; otherwise return turns unchanged.
+
+        Args:
+            turns: List of {'role': ..., 'content': ...} dicts.
+            current_tokens: Current measured token usage (canonical basis —
+                see estimate_turns_tokens()).
+            max_tokens: The window's total token capacity.
+            target_tokens: Budget to compress down to once triggered.
+                Defaults to half of current_tokens.
+            sacred_turns: Indices of turns to preserve verbatim.
+        """
+        if not self.should_trigger_compaction(current_tokens, max_tokens):
+            return CompressionResult(
+                original_tokens=current_tokens,
+                compressed_tokens=current_tokens,
+                content=turns,
+                strategy="below_utilization_trigger",
+                information_loss="none",
+            )
+        target = target_tokens if target_tokens is not None else max(1, int(current_tokens * 0.5))
+        return self.compress_history(turns, target_tokens=target, sacred_turns=sacred_turns)
 
     # ------------------------------------------------------------------
     # History compression (lossy)
@@ -152,10 +231,7 @@ class ContextCompressor:
             CompressionResult with compressed content as a list of dicts.
         """
         sacred_set = set(sacred_turns or [])
-        original_text = "\n".join(
-            f"[{t.get('role', 'user')}]: {t.get('content', '')}" for t in turns
-        )
-        original_tokens = _estimate_tokens(original_text)
+        original_tokens = estimate_turns_tokens(turns)
 
         if original_tokens <= target_tokens:
             return CompressionResult(
@@ -185,24 +261,22 @@ class ContextCompressor:
                 information_loss="low",
             )
 
-        # Apply progressive compression to older turns
-        tiers = self._split_into_tiers(older_turns, tier_count=3)
+        # Apply progressive compression to older turns.
+        # older_turns == turns[:-keep], so a turn's position within
+        # older_turns already IS its absolute index into `turns` — tag each
+        # turn with that index before tiering so sacred-turn lookups stay
+        # correct regardless of which tier (or how many turns were kept) it
+        # falls into.
+        indexed_older = list(enumerate(older_turns))
+        tiers = self._split_into_tiers(indexed_older, tier_count=3)
         compressed_parts: List[Dict] = []
 
         for i, tier in enumerate(tiers):
             if not tier:
                 continue
             # Filter sacred turns — inject verbatim, compress the rest
-            sacred_in_tier = [
-                t
-                for j, t in enumerate(tier)
-                if (len(turns) - len(older_turns) + j) in sacred_set
-            ]
-            non_sacred_in_tier = [
-                t
-                for j, t in enumerate(tier)
-                if (len(turns) - len(older_turns) + j) not in sacred_set
-            ]
+            sacred_in_tier = [t for idx, t in tier if idx in sacred_set]
+            non_sacred_in_tier = [t for idx, t in tier if idx not in sacred_set]
 
             if sacred_in_tier:
                 compressed_parts.extend(sacred_in_tier)

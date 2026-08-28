@@ -101,9 +101,9 @@ All LLM-powered systems built in this workspace are bound by the ASGF framework 
 
 Governing documents: `agent-systems-governance-framework/governance/`
 
-> **Note (2026-07-16):** `prompt-engineering/`, `context-engineering/`, `harness-engineering/`, and
-> `multi-agent-engineering/` were relocated under `engineering/` on this date.
-> `retrieval-augmented-generation/` and `agent-systems-governance-framework/` were not moved.
+> **Layout note:** `prompt-engineering/`, `context-engineering/`, `harness-engineering/`, and
+> `multi-agent-engineering/` live under `engineering/`. `retrieval-augmented-generation/` and
+> `agent-systems-governance-framework/` do not — both stay at the `core-component-00/` top level.
 
 ---
 
