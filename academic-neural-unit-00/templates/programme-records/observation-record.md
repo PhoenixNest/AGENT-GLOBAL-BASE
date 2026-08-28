@@ -92,7 +92,7 @@ here, while the setup is still live, than to reconstruct later.]
 
 - [ ] No instrumentation beyond one-off, non-reusable scripting.
 - [ ] Instrumentation is being reused across observations → check whether it has become reusable
-      infrastructure. If so, file `referral-note.md` and state the path here: [`../referrals/...`]
+      infrastructure. If so, file `referral-note.md` and state the path here: [`academic-neural-unit-00/referrals/...`]
 
 ---
 
