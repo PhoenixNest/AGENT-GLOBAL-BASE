@@ -4,7 +4,9 @@ Document templates for ANU-00's own research process. Established 2026-07-24 und
 of full responsibility to Dr. Naledi Mokoena, ANU-00 Lead. `observation-record.md` added 2026-07-25
 on CEO approval, closing a gap the original five did not cover: they captured how to reproduce a
 _finding_, but nothing captured how to reproduce an _incident_ — the run that behaved oddly, the
-configuration that failed. That is a different object and now has its own record.
+configuration that failed. That is a different object and now has its own record. A third category, `curriculum/`, was founded
+2026-08-17 for the two curriculum review-report shapes — see the Directory Structure note below for
+why they found a category rather than joining one.
 
 ---
 
@@ -15,6 +17,12 @@ that folder's own README is explicit that this is the only thing it holds. A res
 charter is not that: it encodes ANU-00's charter fields, its stage-of-inquiry test, and its crew's
 specific design rules. Filing it at root would misrepresent an ANU-00 instrument as a
 workspace-wide one.
+
+The same reasoning admits the curriculum review reports added 2026-08-17: a review that checks
+信达雅 bilingual quality, audits every citation against the real paper, and judges pedagogical fit
+for a zero-background ANU-00/CC-00 joiner encodes this entity's own curriculum conventions
+(`academic-neural-unit-00/curriculum/README.md` §4–§6), not a shape any of the four co-resident
+systems could pick up and use.
 
 The inverse rule holds too, and it is why this folder is smaller than it might have been: **where a
 root template already covers the shape, ANU-00 uses it rather than growing a twin.**
@@ -37,9 +45,12 @@ templates/
 │   ├── open-question-log.md
 │   ├── observation-record.md
 │   └── referral-note.md
-└── knowledge-base/                             ← the archive side: what gets filed and how it is indexed
-    ├── research-report.md
-    └── taxonomy-change-record.md
+├── knowledge-base/                             ← the archive side: what gets filed and how it is indexed
+│   ├── research-report.md
+│   └── taxonomy-change-record.md
+└── curriculum/                                 ← the teaching side: reviewing standing training material
+    ├── internal-review-report.md
+    └── external-review-report.md
 ```
 
 Split by **which side of the process the document serves** — chartering a programme versus filing
@@ -47,18 +58,26 @@ and indexing its output — mirroring the reasoning root `templates/` uses for i
 categories. A new template joins whichever side it belongs to, or founds a third category if
 neither fits. Do not force a genuinely new shape into one of these two.
 
+`curriculum/` is that third category, founded 2026-08-17. A curriculum review report is neither a
+chartering instrument nor a knowledge-base entry: it judges standing teaching material against an
+external bar, where the other two serve a dated research programme. Forcing it into either side
+would have made it look like a finding, which it is not. Destination:
+`academic-neural-unit-00/curriculum/reviews/`.
+
 ---
 
 ## Available Templates
 
-| Template                                          | Pattern       | Owner                  | Use for                                                                                                                       |
-| ------------------------------------------------- | ------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `programme-records/research-programme-charter.md` | Point-in-time | Dr. Mokoena (ratifies) | Chartering a research programme — all six steps of `research-programme-chartering.md`                                         |
-| `programme-records/open-question-log.md`          | Append-only   | Dr. Mokoena            | The standing register a non-falsifiable question is routed to instead of being chartered                                      |
-| `programme-records/observation-record.md`         | Point-in-time | Recording scientist    | Capturing one reproducible incident — a run, failure, or example — so another researcher can reproduce it from the file alone |
-| `programme-records/referral-note.md`              | Point-in-time | Originating scientist  | Recording a production-tooling need discovered mid-research, scoped **out**                                                   |
-| `knowledge-base/research-report.md`               | Point-in-time | Authoring scientist    | The knowledge-base entry every research-design skill requires                                                                 |
-| `knowledge-base/taxonomy-change-record.md`        | Append-only   | Tobias Lindqvist       | Taxonomy current state plus its explicit, logged change history                                                               |
+| Template                                          | Pattern       | Owner                   | Use for                                                                                                                                                        |
+| ------------------------------------------------- | ------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `programme-records/research-programme-charter.md` | Point-in-time | Dr. Mokoena (ratifies)  | Chartering a research programme — all six steps of `research-programme-chartering.md`                                                                          |
+| `programme-records/open-question-log.md`          | Append-only   | Dr. Mokoena             | The standing register a non-falsifiable question is routed to instead of being chartered                                                                       |
+| `programme-records/observation-record.md`         | Point-in-time | Recording scientist     | Capturing one reproducible incident — a run, failure, or example — so another researcher can reproduce it from the file alone                                  |
+| `programme-records/referral-note.md`              | Point-in-time | Originating scientist   | Recording a production-tooling need discovered mid-research, scoped **out**                                                                                    |
+| `knowledge-base/research-report.md`               | Point-in-time | Authoring scientist     | The knowledge-base entry every research-design skill requires                                                                                                  |
+| `knowledge-base/taxonomy-change-record.md`        | Append-only   | Tobias Lindqvist        | Taxonomy current state plus its explicit, logged change history                                                                                                |
+| `curriculum/internal-review-report.md`            | Point-in-time | Reviewing crew member   | ANU-00 peer review of one curriculum cluster — independent fact spot-check, citation validity, pedagogical fit, 信达雅 bilingual quality, per-document verdict |
+| `curriculum/external-review-report.md`            | Point-in-time | Blind external reviewer | The outside-expert pass — named external standards, claim spot-check, full citation audit, interview-readiness verdict                                         |
 
 **Never mix the two patterns.** Point-in-time records get a new file when content changes;
 append-only records get a new row or section and never lose a prior one.
