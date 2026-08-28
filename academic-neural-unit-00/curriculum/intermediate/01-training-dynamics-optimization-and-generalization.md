@@ -14,12 +14,12 @@
 
 **引言：从静态网络到训练轨迹**
 
-[`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) defined a neural network as a parameterized function that maps inputs to outputs,
+[`introductory/01`](../introductory/01-neural-networks-and-deep-learning-foundations.md) defined a neural network as a parameterized function that maps inputs to outputs,
 and described the loss function as a scalar measuring how wrong the network's predictions are, and
 backpropagation as the algorithm that computes the gradient of that loss with respect to every
 parameter.
 
-[`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) 已经把神经网络定义为一个带参数的函数，将输入映射到输出；把损失函数定义为衡量网络预测有多“错”的标量值；把反向传播定义为计算该损失相对于每个参数的梯度的算法。
+[`introductory/01`](../introductory/01-neural-networks-and-deep-learning-foundations.md) 已经把神经网络定义为一个带参数的函数，将输入映射到输出；把损失函数定义为衡量网络预测有多“错”的标量值；把反向传播定义为计算该损失相对于每个参数的梯度的算法。
 
 That module stopped at the single-step update rule: adjust each parameter a small amount in the
 direction that reduces the loss. This module picks up exactly where that stopped and asks a
@@ -44,12 +44,12 @@ terribly, and understanding why is most of what this module is about.
 
 **梯度下降及其随机变体**
 
-Recall the update rule from [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md): given parameters $\theta$ and a loss function
+Recall the update rule from [`introductory/01`](../introductory/01-neural-networks-and-deep-learning-foundations.md): given parameters $\theta$ and a loss function
 $L(\theta)$, the gradient-descent step is $\theta \leftarrow \theta - \eta \nabla L(\theta)$, where
 $\eta$ (eta) is the learning rate and $\nabla L(\theta)$ is the gradient of the loss with respect to
 every parameter, computed by backpropagation.
 
-回忆一下 [`introductory/01`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) 中的更新规则：给定参数 $\theta$ 与损失函数 $L(\theta)$，梯度下降步骤为 $\theta \leftarrow \theta - \eta \nabla L(\theta)$，其中 $\eta$（eta，读作“伊塔”）是学习率，$\nabla L(\theta)$ 是损失相对于每个参数的梯度，由反向传播计算得出。
+回忆一下 [`introductory/01`](../introductory/01-neural-networks-and-deep-learning-foundations.md) 中的更新规则：给定参数 $\theta$ 与损失函数 $L(\theta)$，梯度下降步骤为 $\theta \leftarrow \theta - \eta \nabla L(\theta)$，其中 $\eta$（eta，读作“伊塔”）是学习率，$\nabla L(\theta)$ 是损失相对于每个参数的梯度，由反向传播计算得出。
 
 That module computed $\nabla L(\theta)$ using the _entire_ training set on every step — this is
 called **batch gradient descent**. In practice, almost no real system trains this way, because
@@ -408,6 +408,6 @@ learning works as well as it empirically does.
 
 ### Internal Cross-References
 
-- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](https://anu00.dev/curriculum/introductory/01-neural-networks-and-deep-learning-foundations.md) — neurons, layers, loss functions, backpropagation, and the basic gradient-descent update rule this module builds directly on.
-- [`introductory/02-the-transformer-architecture-and-attention.md`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — the transformer architecture, the model family most modern training-dynamics research (including the scaling-law and double-descent literature cited above) is conducted on.
-- [`advanced/01-scaling-laws-and-emergent-capabilities.md`](https://anu00.dev/curriculum/advanced/01-scaling-laws-and-emergent-capabilities.md) — extends this module's optimization and generalization discussion to the scale of frontier language models, including a compute-optimal reframing of the capacity questions raised in [§§8–9](#8-modern-puzzles-double-descent-and-the-limits-of-classical-theory).
+- [`introductory/01-neural-networks-and-deep-learning-foundations.md`](../introductory/01-neural-networks-and-deep-learning-foundations.md) — neurons, layers, loss functions, backpropagation, and the basic gradient-descent update rule this module builds directly on.
+- [`introductory/02-the-transformer-architecture-and-attention.md`](../introductory/02-the-transformer-architecture-and-attention.md) — the transformer architecture, the model family most modern training-dynamics research (including the scaling-law and double-descent literature cited above) is conducted on.
+- [`advanced/01-scaling-laws-and-emergent-capabilities.md`](../advanced/01-scaling-laws-and-emergent-capabilities.md) — extends this module's optimization and generalization discussion to the scale of frontier language models, including a compute-optimal reframing of the capacity questions raised in [§§8–9](#8-modern-puzzles-double-descent-and-the-limits-of-classical-theory).
