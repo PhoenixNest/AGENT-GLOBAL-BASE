@@ -14,14 +14,14 @@
 
 **引言：从单个模型的训练过程到覆盖各种规模的一整个模型家族**
 
-[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) studied training dynamics for a single model of fixed size — how it descends the
+[`intermediate/01`](../intermediate/01-training-dynamics-optimization-and-generalization.md) studied training dynamics for a single model of fixed size — how it descends the
 loss landscape, and why it generalizes or fails to. This module asks a different kind of question,
 one that only makes sense once you have trained not one model but _many_ models of systematically
 varying size, varying amounts of training data, and varying amounts of compute: is there a
 predictable relationship between how large a model is, how much data and compute it was trained
 with, and how well it performs?
 
-[`intermediate/01`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) 研究的是单个固定规模模型的训练动力学——它如何沿着损失曲面下降，又为什么能够泛化或者泛化失败。本模块所问的是另一类问题，这类问题只有在你不是训练了一个模型、而是训练了系统性变化规模、变化训练数据量、变化训练算力的*许多*模型之后才有意义：一个模型的规模有多大、用了多少数据和算力来训练、最终表现有多好，这三者之间是否存在一种可预测的关系？
+[`intermediate/01`](../intermediate/01-training-dynamics-optimization-and-generalization.md) 研究的是单个固定规模模型的训练动力学——它如何沿着损失曲面下降，又为什么能够泛化或者泛化失败。本模块所问的是另一类问题，这类问题只有在你不是训练了一个模型、而是训练了系统性变化规模、变化训练数据量、变化训练算力的*许多*模型之后才有意义：一个模型的规模有多大、用了多少数据和算力来训练、最终表现有多好，这三者之间是否存在一种可预测的关系？
 
 If there is such a relationship, it would let a lab predict the performance of a model it has not
 yet trained — including models far larger than anything trained so far — from the performance of
@@ -71,12 +71,12 @@ $\alpha_{C_{\min}} \approx 0.050$.
 具体而言，在保持另外两个因素不成为瓶颈的前提下，该论文报告了交叉熵测试损失 L 分别与非嵌入模型参数数量 N、数据集规模 D（以词元数计）、训练算力量 $C_{\min}$ 之间的三条独立的幂律关系：$L(N) = (N_c/N)^{\alpha_N}$，其中 $\alpha_N \approx 0.076$，$N_c \approx 8.8 \times 10^{13}$；$L(D) = (D_c/D)^{\alpha_D}$，其中 $\alpha_D \approx 0.095$，$D_c \approx 5.4 \times 10^{13}$ 个词元；以及 $L(C_{\min}) = (C_c/C_{\min})^{\alpha_{C_{\min}}}$，其中 $\alpha_{C_{\min}} \approx 0.050$。
 
 A second, equally important finding of the paper is that other architectural choices — network depth
-versus width, the number of attention heads (introduced in [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md)), and similar details —
+versus width, the number of attention heads (introduced in [`introductory/02`](../introductory/02-the-transformer-architecture-and-attention.md)), and similar details —
 have comparatively minor effects on loss within a wide range, as long as total parameter count is
 held fixed; scale, in other words, dominates architectural fine-tuning as a lever for improving
 performance.
 
-该论文同样重要的第二项发现是：只要总参数量保持固定，其他架构选择——网络的深度与宽度之比、注意力头的数量（在 [`introductory/02`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) 中已经介绍过）等类似细节——在相当宽的范围内对损失的影响都相对较小；换句话说，作为提升性能的杠杆，规模本身要比架构上的精细调整更为主导。
+该论文同样重要的第二项发现是：只要总参数量保持固定，其他架构选择——网络的深度与宽度之比、注意力头的数量（在 [`introductory/02`](../introductory/02-the-transformer-architecture-and-attention.md) 中已经介绍过）等类似细节——在相当宽的范围内对损失的影响都相对较小；换句话说，作为提升性能的杠杆，规模本身要比架构上的精细调整更为主导。
 
 ---
 
@@ -303,6 +303,6 @@ caveat this curriculum's citation policy requires when the literature itself has
 
 ### Internal Cross-References
 
-- [`introductory/02-the-transformer-architecture-and-attention.md`](https://anu00.dev/curriculum/introductory/02-the-transformer-architecture-and-attention.md) — the transformer architecture every model in every scaling-law study cited above was built on.
-- [`intermediate/01-training-dynamics-optimization-and-generalization.md`](https://anu00.dev/curriculum/intermediate/01-training-dynamics-optimization-and-generalization.md) — optimization and generalization, including the observation that classical capacity-based theory undershoots real deep-network behavior, a theme this module extends to the scale of frontier models.
-- [`intermediate/05-advanced-prompting-cot-few-shot-structured-output.md`](https://anu00.dev/curriculum/intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) — covers chain-of-thought prompting in depth; [§6](#6-emergent-capabilities-the-claim) above references its scale-dependent effectiveness as a specific example in the emergent-capabilities literature.
+- [`introductory/02-the-transformer-architecture-and-attention.md`](../introductory/02-the-transformer-architecture-and-attention.md) — the transformer architecture every model in every scaling-law study cited above was built on.
+- [`intermediate/01-training-dynamics-optimization-and-generalization.md`](../intermediate/01-training-dynamics-optimization-and-generalization.md) — optimization and generalization, including the observation that classical capacity-based theory undershoots real deep-network behavior, a theme this module extends to the scale of frontier models.
+- [`intermediate/05-advanced-prompting-cot-few-shot-structured-output.md`](../intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) — covers chain-of-thought prompting in depth; [§6](#6-emergent-capabilities-the-claim) above references its scale-dependent effectiveness as a specific example in the emergent-capabilities literature.
