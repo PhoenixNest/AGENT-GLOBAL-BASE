@@ -15,15 +15,15 @@
 **本模块的定位**
 
 This module has one prerequisite:
-[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
 ("Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion"), and it assumes nothing beyond what
-that module already taught. `intermediate/03` [§2](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions)
+that module already taught. `intermediate/03` [§2](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions)
 defined the ReAct pattern — an LLM producing an explicit **thought**, then an **action**, then
 reading the resulting **observation**, in a repeated cycle — and walked a hand-traced example: "what
 is the population of the capital city of the country where the 2016 Summer Olympics were held?",
 resolved in four thought/action/observation cycles.
 
-本模块只有一个前置模块：[`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)（《智能体设计模式：ReAct、计划-执行与 Reflexion》），本模块不假设读者具备该模块之外的任何知识。`intermediate/03` [第 2 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions)已经定义了 ReAct 模式——LLM 先产出一段明确的**思考**，再产出一次**行动**，随后读取由此得到的**观察**，如此循环往复——并手动追踪了一个示例：“2016 年夏季奥运会举办国的首都人口是多少？”，该示例通过四轮思考-行动-观察循环得到了解答。
+本模块只有一个前置模块：[`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)（《智能体设计模式：ReAct、计划-执行与 Reflexion》），本模块不假设读者具备该模块之外的任何知识。`intermediate/03` [第 2 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions)已经定义了 ReAct 模式——LLM 先产出一段明确的**思考**，再产出一次**行动**，随后读取由此得到的**观察**，如此循环往复——并手动追踪了一个示例：“2016 年夏季奥运会举办国的首都人口是多少？”，该示例通过四轮思考-行动-观察循环得到了解答。
 
 That module described the pattern in prose and showed a hand-written trace of what the interaction
 looks like. It did not show you the code that produces that trace. This module does exactly that:
@@ -34,11 +34,11 @@ in Python — not a library import, a from-scratch implementation you can read t
 
 This module writes no application code outside its own fenced code blocks — everything below lives
 in this markdown file, exactly as
-[`practicum/README.md` §3](README.md) requires. Copy the
+[`practicum/README.md` §3](https://anu00.dev/curriculum/practicum/README.md) requires. Copy the
 blocks into your own `.py` file on your own machine to run them; nothing here is committed as a
 runnable file in this repository.
 
-本模块不会在自身的代码围栏之外撰写任何应用代码——以下所有内容都保存在这一份 markdown 文件之中，正如 [`practicum/README.md` 第 3 节](README.md)所要求的那样。若要运行这些代码，请将下方代码块复制到你自己机器上的 `.py` 文件中；本仓库中不会提交任何可运行的文件。
+本模块不会在自身的代码围栏之外撰写任何应用代码——以下所有内容都保存在这一份 markdown 文件之中，正如 [`practicum/README.md` 第 3 节](https://anu00.dev/curriculum/practicum/README.md)所要求的那样。若要运行这些代码，请将下方代码块复制到你自己机器上的 `.py` 文件中；本仓库中不会提交任何可运行的文件。
 
 ---
 
@@ -121,13 +121,13 @@ below, where it is scratch-run.
 **本代码块的验证方式：** 心算追踪。`@dataclass`（已对照官方 Python 文档核实，见“参考文献”）会根据三个带类型标注的字段自动生成 `__init__`，因此 `Tool(name=..., description=..., func=...)` 能够正确构造；`ToolRegistry.get` 返回 `Optional[Tool]`（即对未知名称返回 `None`，而非抛出 `KeyError`）这一行为，会在下方[第 8 节](#8-step-7-hardening-hallucinated-tools-and-runaway-loops)中被实际脚本运行验证，那里正是对幻觉工具名的处理逻辑。
 
 The `Tool` dataclass is the same shape as the tool-calling schemas covered in
-[`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md), reduced to the minimum this module needs: a name, a
+[`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md), reduced to the minimum this module needs: a name, a
 description, and a callable. A production system typically adds a formal input schema as well (as
 the Anthropic Messages API's `tools` parameter does — see [§9](#9-step-8-swapping-in-a-real-llm)); this module keeps the argument as a
 single free-text string to keep the parser in [§3](#3-step-2-the-react-prompt-contract) simple, since the parsing problem, not the schema
 design, is this module's teaching point.
 
-`Tool` 数据类的结构，与 [`introductory/04`](../introductory/04-tool-use-and-function-calling-basics.md) 中所讲解的工具调用模式一脉相承，只是精简到了本模块所需的最低限度：一个名称、一段描述，以及一个可调用对象。生产系统通常还会额外附加一份正式的输入模式定义（正如 Anthropic Messages API 的 `tools` 参数所做的那样——参见[第 9 节](#9-step-8-swapping-in-a-real-llm)）；本模块则将参数保持为单一的自由文本字符串，以便让[第 3 节](#3-step-2-the-react-prompt-contract)中的解析器保持简单，因为解析问题而非模式设计，才是本模块要讲授的重点。
+`Tool` 数据类的结构，与 [`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md) 中所讲解的工具调用模式一脉相承，只是精简到了本模块所需的最低限度：一个名称、一段描述，以及一个可调用对象。生产系统通常还会额外附加一份正式的输入模式定义（正如 Anthropic Messages API 的 `tools` 参数所做的那样——参见[第 9 节](#9-step-8-swapping-in-a-real-llm)）；本模块则将参数保持为单一的自由文本字符串，以便让[第 3 节](#3-step-2-the-react-prompt-contract)中的解析器保持简单，因为解析问题而非模式设计，才是本模块要讲授的重点。
 
 ---
 
@@ -139,10 +139,10 @@ A parser can only be as reliable as the format it is parsing is precise. Before 
 code, the format itself has to be nailed down: the LLM is instructed, in its system prompt, to
 respond with exactly one `Thought:` line followed by exactly one `Action:` line — or, once it has
 enough information, exactly one `Thought:` line followed by exactly one `Final Answer:` line. This
-is the same three-role vocabulary (thought, action, observation) `intermediate/03` [§2](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions) already
+is the same three-role vocabulary (thought, action, observation) `intermediate/03` [§2](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions) already
 named; this module is simply pinning it down to a literal, parseable line format:
 
-一个解析器的可靠程度，取决于它所解析的格式本身有多精确。在编写任何解析代码之前，必须先把格式本身确定下来：在系统提示词中，我们要求 LLM 严格用一行 `Thought:` 加一行 `Action:` 来作答——或者，一旦信息已经充分，就用一行 `Thought:` 加一行 `Final Answer:` 来作答。这正是 `intermediate/03` [第 2 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions)已经提出的三种角色词汇（思考、行动、观察）；本模块只是将其固定为一种字面的、可解析的行格式：
+一个解析器的可靠程度，取决于它所解析的格式本身有多精确。在编写任何解析代码之前，必须先把格式本身确定下来：在系统提示词中，我们要求 LLM 严格用一行 `Thought:` 加一行 `Action:` 来作答——或者，一旦信息已经充分，就用一行 `Thought:` 加一行 `Final Answer:` 来作答。这正是 `intermediate/03` [第 2 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#2-react-interleaving-reasoning-traces-and-actions)已经提出的三种角色词汇（思考、行动、观察）；本模块只是将其固定为一种字面的、可解析的行格式：
 
 ```python
 def build_system_prompt(tools) -> str:
@@ -223,10 +223,10 @@ the middle of a thought — from being misparsed as an actual action; the line h
 `Action:` to count. Second, the argument-quote stripping (`if len(arg) >= 2 and arg[0] == arg[-1]
 and ...`) exists because the worked trace in [§7](#7-step-6-running-it-end-to-end) writes arguments as quoted strings —
 `search("capital of Brazil")` — matching how the original hand-written trace in `intermediate/03`
-[§2.1](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace) wrote its actions, and the tool function itself
+[§2.1](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace) wrote its actions, and the tool function itself
 should receive the bare text, not the surrounding quote characters.
 
-有两个细节具有支撑性作用，值得单独指出。第一，`re.match` 只锚定在行的**开头**（而非可以匹配行内任意位置的 `re.search`），这一点很重要，因为它能防止诸如 `"Well, Action: search(...) is what I'd do"` 这样的一行——即某段思考文本中偶然提到了“Action:”一词——被误判为一次真正的行动；该行必须*以* `Action:` 开头才会被计入。第二，去除参数两侧引号的逻辑（`if len(arg) >= 2 and arg[0] == arg[-1] and ...`）之所以存在，是因为[第 7 节](#7-step-6-running-it-end-to-end)中的追踪示例将参数写作带引号的字符串——`search("capital of Brazil")`——这与 `intermediate/03` [第 2.1 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)原始手写追踪记录中书写行动的方式一致，而工具函数本身应当接收去除了引号符号的纯文本。
+有两个细节具有支撑性作用，值得单独指出。第一，`re.match` 只锚定在行的**开头**（而非可以匹配行内任意位置的 `re.search`），这一点很重要，因为它能防止诸如 `"Well, Action: search(...) is what I'd do"` 这样的一行——即某段思考文本中偶然提到了“Action:”一词——被误判为一次真正的行动；该行必须*以* `Action:` 开头才会被计入。第二，去除参数两侧引号的逻辑（`if len(arg) >= 2 and arg[0] == arg[-1] and ...`）之所以存在，是因为[第 7 节](#7-step-6-running-it-end-to-end)中的追踪示例将参数写作带引号的字符串——`search("capital of Brazil")`——这与 `intermediate/03` [第 2.1 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)原始手写追踪记录中书写行动的方式一致，而工具函数本身应当接收去除了引号符号的纯文本。
 
 ---
 
@@ -266,11 +266,11 @@ class ScriptedStubLLM:
 ```
 
 **Verification (this block):** scratch-run in [§7](#7-step-6-running-it-end-to-end) — `ScriptedStubLLM` is instantiated with the
-four completions reproducing the `intermediate/03` [§2.1](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace) trace and returns them
+four completions reproducing the `intermediate/03` [§2.1](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace) trace and returns them
 in order across four calls, then correctly raises `RuntimeError` on a fifth call in the max-steps
 guard demonstration in [§8](#8-step-7-hardening-hallucinated-tools-and-runaway-loops).
 
-**本代码块的验证方式：** 在[第 7 节](#7-step-6-running-it-end-to-end)中脚本实际运行——`ScriptedStubLLM` 被实例化为持有四段完成结果，用以复现 `intermediate/03` [第 2.1 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)的追踪记录，并在四次调用中依次正确返回；随后在[第 8 节](#8-step-7-hardening-hallucinated-tools-and-runaway-loops)的最大步数保护演示中，第五次调用被正确地触发了 `RuntimeError`。
+**本代码块的验证方式：** 在[第 7 节](#7-step-6-running-it-end-to-end)中脚本实际运行——`ScriptedStubLLM` 被实例化为持有四段完成结果，用以复现 `intermediate/03` [第 2.1 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)的追踪记录，并在四次调用中依次正确返回；随后在[第 8 节](#8-step-7-hardening-hallucinated-tools-and-runaway-loops)的最大步数保护演示中，第五次调用被正确地触发了 `RuntimeError`。
 
 Deliberately, `ScriptedStubLLM.complete` ignores its `transcript` argument entirely — it does not
 even look at what it was asked. This is a real simplification, not an oversight: it keeps this
@@ -327,14 +327,14 @@ max-steps guard case.
 
 Notice what this loop does _not_ do: it never lets the LLM's output execute as code, and it never
 calls a tool whose name was not explicitly registered. Both of these connect directly to
-`introductory/03` [§8](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)'s warning, restated in
-`intermediate/03` [§6](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level), that a fluent-sounding thought is not
+`introductory/03` [§8](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)'s warning, restated in
+`intermediate/03` [§6](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level), that a fluent-sounding thought is not
 automatically a correct one, and that a 运行框架 (harness) still has to validate actions before
 acting on them rather than trusting the model's output outright. This loop's validation is
 intentionally minimal — tool-name lookup only, not argument-schema validation — and
 [§10](#10-common-pitfalls-beyond-what-the-code-already-handles) names what a production harness adds on top.
 
-请注意，这个循环*没有*做的事情：它从不会将 LLM 的输出当作代码去执行，也从不会调用一个未被显式注册过名称的工具。这两点都与 `introductory/03` [第 8 节](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)的警示、以及 `intermediate/03` [第 6 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level)中重申的观点直接相关：一段读起来流畅的思考，并不会因此自动成为一段正确的思考，运行框架仍必须在真正执行某个行动之前对其加以校验，而不能对模型的输出全盘信任。这个循环的校验是刻意保持最小化的——仅进行工具名称查找，而不进行参数模式校验——[第 10 节](#10-common-pitfalls-beyond-what-the-code-already-handles)将说明生产级运行框架还需在此基础上补充哪些内容。
+请注意，这个循环*没有*做的事情：它从不会将 LLM 的输出当作代码去执行，也从不会调用一个未被显式注册过名称的工具。这两点都与 `introductory/03` [第 8 节](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)的警示、以及 `intermediate/03` [第 6 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level)中重申的观点直接相关：一段读起来流畅的思考，并不会因此自动成为一段正确的思考，运行框架仍必须在真正执行某个行动之前对其加以校验，而不能对模型的输出全盘信任。这个循环的校验是刻意保持最小化的——仅进行工具名称查找，而不进行参数模式校验——[第 10 节](#10-common-pitfalls-beyond-what-the-code-already-handles)将说明生产级运行框架还需在此基础上补充哪些内容。
 
 ---
 
@@ -342,11 +342,11 @@ intentionally minimal — tool-name lookup only, not argument-schema validation 
 
 **第 7 节：步骤六——端到端运行**
 
-Reproducing `intermediate/03` [§2.1](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)'s trace requires a `search` tool
+Reproducing `intermediate/03` [§2.1](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)'s trace requires a `search` tool
 backed by the same three facts that trace used, and a `ScriptedStubLLM` scripted with the same four
 thought/action pairs and closing final answer:
 
-要复现 `intermediate/03` [第 2.1 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)的追踪记录，需要一个由该追踪记录中同样三条事实支撑的 `search` 工具，以及一个按同样四组思考/行动配对与最终答案预先编好脚本的 `ScriptedStubLLM`：
+要复现 `intermediate/03` [第 2.1 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)的追踪记录，需要一个由该追踪记录中同样三条事实支撑的 `search` 工具，以及一个按同样四组思考/行动配对与最终答案预先编好脚本的 `ScriptedStubLLM`：
 
 ```python
 FACTS = {
@@ -400,21 +400,21 @@ FINAL ANSWER: The 2016 Summer Olympics were held in Brazil, whose capital, Bras�
 
 **Verification (this block):** scratch-run — executed with `python3` in the course of authoring this
 module; the printed final answer is character-for-character identical to the "Final Answer" line of
-`intermediate/03` [§2.1](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)'s hand-written trace, which is the
+`intermediate/03` [§2.1](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)'s hand-written trace, which is the
 strongest form of verification a practicum module pairing with a specific worked example can offer:
 the code's output is checked against the earlier module's own text, not merely against the author's
 expectation of what it should say.
 
-**本代码块的验证方式：** 脚本实际运行——在撰写本模块期间已用 `python3` 实际执行过；打印出的最终答案与 `intermediate/03` [第 2.1 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)手写追踪记录中的“最终答案”一行逐字符完全一致，这是一个与具体既有算例配套的实战模块所能提供的最有力验证方式：代码的输出被拿去与前一个模块自身的文字直接核对，而不仅仅是核对作者自己对其应产出内容的预期。
+**本代码块的验证方式：** 脚本实际运行——在撰写本模块期间已用 `python3` 实际执行过；打印出的最终答案与 `intermediate/03` [第 2.1 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)手写追踪记录中的“最终答案”一行逐字符完全一致，这是一个与具体既有算例配套的实战模块所能提供的最有力验证方式：代码的输出被拿去与前一个模块自身的文字直接核对，而不仅仅是核对作者自己对其应产出内容的预期。
 
-Step by step, this run does exactly what `intermediate/03` [§2.1](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)
+Step by step, this run does exactly what `intermediate/03` [§2.1](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)
 described in prose: `ReActAgent.run` calls `llm.complete` four times; the first three calls each
 produce a `Thought:`/`Action:` pair that `parse_step` routes to `search`, whose result becomes the
 `Observation:` line appended to the transcript before the next call; the fourth call produces a
 `Thought:`/`Final Answer:` pair, and `parse_step` routes that to the `"final"` branch, which returns
 the answer directly out of `run` without any further tool call.
 
-这次运行的每一步，都与 `intermediate/03` [第 2.1 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)用文字描述的过程完全一致：`ReActAgent.run` 调用 `llm.complete` 共四次；前三次调用各自产出一组 `Thought:`/`Action:` 配对，`parse_step` 将其路由给 `search`，其返回结果随后成为追加到对话记录中的 `Observation:` 行，供下一次调用使用；第四次调用产出一组 `Thought:`/`Final Answer:` 配对，`parse_step` 将其路由到 `"final"` 分支，直接从 `run` 中返回该答案，不再进行任何后续工具调用。
+这次运行的每一步，都与 `intermediate/03` [第 2.1 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)用文字描述的过程完全一致：`ReActAgent.run` 调用 `llm.complete` 共四次；前三次调用各自产出一组 `Thought:`/`Action:` 配对，`parse_step` 将其路由给 `search`，其返回结果随后成为追加到对话记录中的 `Observation:` 行，供下一次调用使用；第四次调用产出一组 `Thought:`/`Final Answer:` 配对，`parse_step` 将其路由到 `"final"` 分支，直接从 `run` 中返回该答案，不再进行任何后续工具调用。
 
 ---
 
@@ -545,10 +545,10 @@ module that keep working once the deterministic stub is gone.
 This module's `ReActAgent` deliberately handles only two failure modes — an unknown tool name and an
 unbounded loop — because those are the two this module set out to teach. A reader extending this
 code toward something closer to production should be aware of at least three more, none of which
-`intermediate/03` [§6](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level) treats as solved by picking a different
+`intermediate/03` [§6](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level) treats as solved by picking a different
 design pattern, and none of which this loop solves either.
 
-本模块中的 `ReActAgent` 刻意只处理了两种失效模式——未知的工具名称与无边界的循环——因为这正是本模块打算讲授的两种情形。若读者希望将这段代码进一步扩展为更接近生产级的实现，至少还应留意另外三种情形，`intermediate/03` [第 6 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level)并未将它们视为可以通过换用另一种设计模式来解决的问题，本循环同样也未能解决它们。
+本模块中的 `ReActAgent` 刻意只处理了两种失效模式——未知的工具名称与无边界的循环——因为这正是本模块打算讲授的两种情形。若读者希望将这段代码进一步扩展为更接近生产级的实现，至少还应留意另外三种情形，`intermediate/03` [第 6 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#6-common-pitfalls-at-this-level)并未将它们视为可以通过换用另一种设计模式来解决的问题，本循环同样也未能解决它们。
 
 A tool's argument was never schema-validated here — `search` receives whatever bare string
 `parse_step` extracted, and a tool with side effects (writing a file, sending a request) would need
@@ -571,15 +571,15 @@ the model can reason about and route around.
 
 This module built a working ReAct agent from four pieces — a tool registry, a prompt contract, a
 line-oriented parser, and a bounded loop — verified it against `intermediate/03`
-[§2.1](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)'s hand-written trace by actually running it and
+[§2.1](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)'s hand-written trace by actually running it and
 matching the output word for word, demonstrated its two built-in failure-handling paths, and showed
 the exact single-method substitution point where a scripted stub gives way to a real LLM API call.
 
-本模块用四个组成部分——工具注册表、提示词契约、按行组织的解析器，以及带边界的循环——构建了一个可运行的 ReAct 智能体，并通过真正运行代码、逐字核对输出，将其与 `intermediate/03` [第 2.1 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)手写的追踪记录进行了验证，演示了其内置的两条失效处理路径，并展示了：从脚本化的桩对象切换到真实的 LLM API 调用，唯一需要替换的正是那一个方法。
+本模块用四个组成部分——工具注册表、提示词契约、按行组织的解析器，以及带边界的循环——构建了一个可运行的 ReAct 智能体，并通过真正运行代码、逐字核对输出，将其与 `intermediate/03` [第 2.1 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#21-a-worked-trace)手写的追踪记录进行了验证，演示了其内置的两条失效处理路径，并展示了：从脚本化的桩对象切换到真实的 LLM API 调用，唯一需要替换的正是那一个方法。
 
 `practicum/05-implementing-scored-agent-memory.md`, by the same author, picks up a different piece
 of `intermediate/03`'s territory — Reflexion's episodic memory buffer, named but not built in
-[§4](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#4-reflexion-learning-from-a-failed-attempt-within-the-same-task) of that
+[§4](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#4-reflexion-learning-from-a-failed-attempt-within-the-same-task) of that
 module — and builds, from scratch, the scored retrieval mechanism `intermediate/04` develops the
 theory for. `practicum/02-implementing-tool-use-and-function-calling.md` covers the tool-calling
 schema this module used in its simplified single-string-argument form in more depth.
@@ -587,7 +587,7 @@ schema this module used in its simplified single-string-argument form in more de
 module's [§10](#10-common-pitfalls-beyond-what-the-code-already-handles) named — schema validation, self-correction on parse failure, exception
 handling around tool execution — is treated at full production depth.
 
-同一作者撰写的 `practicum/05-implementing-scored-agent-memory.md`，将接续 `intermediate/03` 领域中的另一部分内容——即该模块[第 4 节](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#4-reflexion-learning-from-a-failed-attempt-within-the-same-task)中已被命名、却未被实际构建出来的 Reflexion 情景记忆缓冲区——从零构建出 `intermediate/04` 已经讲授过理论的评分式检索机制。`practicum/02-implementing-tool-use-and-function-calling.md` 将更深入地讲解本模块以简化的单字符串参数形式所使用的工具调用模式。`advanced/03-agent-harness-engineering-production-grade-agent-loops.md` 则会在完整的生产级深度上，处理本模块[第 10 节](#10-common-pitfalls-beyond-what-the-code-already-handles)中所指出的各项加固措施——模式校验、解析失败时的自我纠正，以及围绕工具执行的异常处理。
+同一作者撰写的 `practicum/05-implementing-scored-agent-memory.md`，将接续 `intermediate/03` 领域中的另一部分内容——即该模块[第 4 节](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md#4-reflexion-learning-from-a-failed-attempt-within-the-same-task)中已被命名、却未被实际构建出来的 Reflexion 情景记忆缓冲区——从零构建出 `intermediate/04` 已经讲授过理论的评分式检索机制。`practicum/02-implementing-tool-use-and-function-calling.md` 将更深入地讲解本模块以简化的单字符串参数形式所使用的工具调用模式。`advanced/03-agent-harness-engineering-production-grade-agent-loops.md` 则会在完整的生产级深度上，处理本模块[第 10 节](#10-common-pitfalls-beyond-what-the-code-already-handles)中所指出的各项加固措施——模式校验、解析失败时的自我纠正，以及围绕工具执行的异常处理。
 
 ---
 
@@ -605,10 +605,10 @@ handling around tool execution — is treated at full production depth.
 
 ### Internal Cross-References
 
-- [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
-- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](../introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
-- [`introductory/04` — Tool Use & Function Calling Basics](../introductory/04-tool-use-and-function-calling-basics.md)
-- [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](../intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
-- [`advanced/03` — Agent Harness Engineering: Building Production-Grade Agent Loops](../advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
-- [`practicum/02` — Implementing Tool Use & Function Calling](02-implementing-tool-use-and-function-calling.md)
-- [`practicum/05` — Implementing Scored Agent Memory](05-implementing-scored-agent-memory.md)
+- [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+- [`introductory/04` — Tool Use & Function Calling Basics](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md)
+- [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](https://anu00.dev/curriculum/intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+- [`advanced/03` — Agent Harness Engineering: Building Production-Grade Agent Loops](https://anu00.dev/curriculum/advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+- [`practicum/02` — Implementing Tool Use & Function Calling](https://anu00.dev/curriculum/practicum/02-implementing-tool-use-and-function-calling.md)
+- [`practicum/05` — Implementing Scored Agent Memory](https://anu00.dev/curriculum/practicum/05-implementing-scored-agent-memory.md)
