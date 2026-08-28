@@ -14,21 +14,21 @@
 
 **从单一智能体到多智能体：为什么需要多智能体？**
 
-[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) defined an AI agent as an LLM wrapped in a loop — perceive, think, act, observe —
+[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) defined an AI agent as an LLM wrapped in a loop — perceive, think, act, observe —
 that lets it take actions in an environment using tools, as covered mechanically in
-[`introductory/04`](04-tool-use-and-function-calling-basics.md). A single such agent, however capable, runs into a real limitation once tasks grow
+[`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md). A single such agent, however capable, runs into a real limitation once tasks grow
 large or varied: one agent has one running context (the accumulated history it reasons over, covered
-fully in [`introductory/06`](06-context-windows-tokens-and-memory-basics.md)), one "personality" set by its instructions, and one thread of attention.
+fully in [`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)), one "personality" set by its instructions, and one thread of attention.
 
-[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)将 AI 智能体定义为被包裹在一个循环——感知、思考、行动、观察——中的 LLM，使其能够借助[`introductory/04`](04-tool-use-and-function-calling-basics.md)所讲授的工具在环境中采取行动。然而，单个这样的智能体，无论能力多强，一旦任务变得庞大或多样，就会遇到一个真实的限制：一个智能体只有一个运行中的上下文（即它据以推理的累积历史，详见[`introductory/06`](06-context-windows-tokens-and-memory-basics.md)）、一套由指令设定的“人格”，以及一条注意力线索。
+[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)将 AI 智能体定义为被包裹在一个循环——感知、思考、行动、观察——中的 LLM，使其能够借助[`introductory/04`](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md)所讲授的工具在环境中采取行动。然而，单个这样的智能体，无论能力多强，一旦任务变得庞大或多样，就会遇到一个真实的限制：一个智能体只有一个运行中的上下文（即它据以推理的累积历史，详见[`introductory/06`](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)）、一套由指令设定的“人格”，以及一条注意力线索。
 
 Ask a single agent to "research a topic, write code implementing a finding, and rigorously check
 that code for bugs" and it must do all three jobs itself, in the same context, often blurring
 between them — the reasoning that makes for careful research is not the same reasoning that makes
 for skeptical bug-hunting, and cramming both into one continuous context invites exactly the kind of
-context loss named in [`introductory/03` §8](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop).
+context loss named in [`introductory/03` §8](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop).
 
-如果要求单个智能体“研究某个课题、编写实现某项发现的代码、并严格检查该代码中的漏洞”，它就必须在同一个上下文中独自完成这三项工作，往往会导致三者相互混淆——支撑严谨研究的推理方式，与支撑挑剔式漏洞查找的推理方式并不相同，把二者硬塞进同一个连续上下文，恰恰会招致[`introductory/03` 第 8 节](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)所述的上下文丢失问题。
+如果要求单个智能体“研究某个课题、编写实现某项发现的代码、并严格检查该代码中的漏洞”，它就必须在同一个上下文中独自完成这三项工作，往往会导致三者相互混淆——支撑严谨研究的推理方式，与支撑挑剔式漏洞查找的推理方式并不相同，把二者硬塞进同一个连续上下文，恰恰会招致[`introductory/03` 第 8 节](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md#8-common-failure-modes-of-the-agent-loop)所述的上下文丢失问题。
 
 A **multi-agent system** (**MAS** for short) splits such work across two or more separate agents,
 each with its own context, its own instructions, and often its own tools, that communicate to
@@ -50,7 +50,7 @@ function well together.
 
 多智能体系统的正式研究早于现代 LLM 数十年，其根源可追溯到分布式人工智能研究；Michael Wooldridge 广为使用的教科书《多智能体系统导论》（_An Introduction to MultiAgent Systems_）将该领域界定为围绕“由多个相互交互、自主的智能体组成的系统”，每个智能体在共享环境中追求自身目标，并且必须协调才能良好运作。
 
-This curriculum adapts that definition to the LLM-agent case introduced in [`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md): a
+This curriculum adapts that definition to the LLM-agent case introduced in [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md): a
 **multi-agent system** here means two or more AI agents — each running its own
 perceive-think-act-observe loop, each with its own context — that exchange messages or otherwise
 share information in order to jointly complete a task. The key word is "own": if two agent-like
@@ -58,7 +58,7 @@ components share a single context and are really just one LLM call producing str
 two different purposes, that is not a multi-agent system by this definition; separateness of context
 and decision-making is what makes it "multi."
 
-本课程将该定义适配到[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)所引入的 LLM 智能体情形：此处的**多智能体系统**是指两个或更多 AI 智能体——各自运行自己的“感知—思考—行动—观察”循环，各自拥有自己的上下文——通过交换消息或以其他方式共享信息，来共同完成某项任务。关键词是“各自”：如果两个类智能体的组件共享同一个上下文，实质上只是一次 LLM 调用为两个不同目的产出结构化输出，那么按此定义它并不是多智能体系统；上下文与决策的相互独立，才是使其成为“多”智能体系统的原因。
+本课程将该定义适配到[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)所引入的 LLM 智能体情形：此处的**多智能体系统**是指两个或更多 AI 智能体——各自运行自己的“感知—思考—行动—观察”循环，各自拥有自己的上下文——通过交换消息或以其他方式共享信息，来共同完成某项任务。关键词是“各自”：如果两个类智能体的组件共享同一个上下文，实质上只是一次 LLM 调用为两个不同目的产出结构化输出，那么按此定义它并不是多智能体系统；上下文与决策的相互独立，才是使其成为“多”智能体系统的原因。
 
 ---
 
@@ -71,11 +71,11 @@ common patterns precisely.
 
 MAS 中的智能体彼此之间可以有不同的关系类型，值得精确地为三种最常见的模式命名。
 
-| Pattern                     | EN                                                                                                                                                                                                                                                                                                                                           | 中文                                                                                                                                                                                                                                                      |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Cooperation** / **协作**  | agents share a common goal and actively help each other reach it — a research agent handing its findings to a writing agent is cooperating.                                                                                                                                                                                                  | 智能体共享一个共同目标，并积极互相帮助以实现该目标——一个研究智能体把发现交给一个写作智能体，就是在协作。                                                                                                                                                  |
-| **Coordination** / **协调** | a narrower, more mechanical relationship: agents may not share every goal, but they must still avoid interfering with each other's actions — two agents both editing different parts of the same shared file need to coordinate which sections each may touch, even if neither cares about the other's specific subtask.                     | 一种更狭窄、更机械化的关系：智能体未必共享全部目标，但仍必须避免相互干扰彼此的行动——两个智能体分别编辑同一份共享文件的不同部分，即便彼此都不关心对方具体的子任务，也仍需协调各自可以触及哪些部分。                                                        |
-| **Competition** / **竞争**  | agents have conflicting goals, such as one agent proposing a plan and a second agent explicitly tasked with trying to find flaws in it (a pattern sometimes called adversarial or "red-team/blue-team" design, covered further from a safety angle in [`advanced/04`](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md)). | 智能体拥有相互冲突的目标，例如一个智能体提出一项计划，另一个智能体则被明确赋予寻找其缺陷的任务（这种模式有时被称为对抗式或“红队/蓝队”设计，[`advanced/04`](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md)会从安全角度进一步展开）。 |
+| Pattern                     | EN                                                                                                                                                                                                                                                                                                                                                                     | 中文                                                                                                                                                                                                                                                                                |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cooperation** / **协作**  | agents share a common goal and actively help each other reach it — a research agent handing its findings to a writing agent is cooperating.                                                                                                                                                                                                                            | 智能体共享一个共同目标，并积极互相帮助以实现该目标——一个研究智能体把发现交给一个写作智能体，就是在协作。                                                                                                                                                                            |
+| **Coordination** / **协调** | a narrower, more mechanical relationship: agents may not share every goal, but they must still avoid interfering with each other's actions — two agents both editing different parts of the same shared file need to coordinate which sections each may touch, even if neither cares about the other's specific subtask.                                               | 一种更狭窄、更机械化的关系：智能体未必共享全部目标，但仍必须避免相互干扰彼此的行动——两个智能体分别编辑同一份共享文件的不同部分，即便彼此都不关心对方具体的子任务，也仍需协调各自可以触及哪些部分。                                                                                  |
+| **Competition** / **竞争**  | agents have conflicting goals, such as one agent proposing a plan and a second agent explicitly tasked with trying to find flaws in it (a pattern sometimes called adversarial or "red-team/blue-team" design, covered further from a safety angle in [`advanced/04`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)). | 智能体拥有相互冲突的目标，例如一个智能体提出一项计划，另一个智能体则被明确赋予寻找其缺陷的任务（这种模式有时被称为对抗式或“红队/蓝队”设计，[`advanced/04`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)会从安全角度进一步展开）。 |
 
 Most practical LLM-based multi-agent systems in production use combine cooperation and coordination
 — agents genuinely working toward one shared outcome, while a coordination layer (covered in [§6](#6-communication-messages-protocols-and-shared-state))
@@ -100,10 +100,10 @@ architecture**. Three basic shapes cover most practical designs.
 | **Decentralized** / **去中心式** | agents communicate directly with whichever peer they need, with no single agent in overall control — more resilient to any one agent failing, but harder to predict and debug.                                                                                                                                         | 智能体直接与所需的对等智能体通信，没有任何一个智能体掌握全局控制权——对任何单个智能体的失败更具韧性，但更难预测与调试。                                                                                   |
 | **Hierarchical** / **层级式**    | a middle ground: a top-level orchestrator delegates broad sub-tasks to mid-level agents, each of which may in turn coordinate its own small team of specialist agents, so control is distributed across levels rather than concentrated in one agent or spread flatly across all of them.                              | 一种折中：顶层编排器把较大的子任务委派给中层智能体，而每个中层智能体又可能协调自己手下一小队专家智能体，因此控制权分布在多个层级之上，而非集中于单个智能体，也非平铺分散在所有智能体之间。               |
 
-This module names these architectures at an introductory level; [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) and [`advanced/07`](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)
+This module names these architectures at an introductory level; [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) and [`advanced/07`](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)
 develop the concrete protocols and topologies that implement them.
 
-本模块在入门层面为这些架构命名；[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)与[`advanced/07`](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)将进一步展开实现这些架构的具体协议与拓扑结构。
+本模块在入门层面为这些架构命名；[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)与[`advanced/07`](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)将进一步展开实现这些架构的具体协议与拓扑结构。
 
 ---
 
@@ -167,12 +167,12 @@ mechanisms are used in practice, often together.
 
 Real systems frequently combine both: an orchestrator might message a sub-agent to "update section 3
 of the shared report," where the message is passed directly but the actual work product lives in
-shared state. This module names the concepts; [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md) covers concrete, named communication
+shared state. This module names the concepts; [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md) covers concrete, named communication
 protocols (including the Contract Net Protocol and the FIPA Agent Communication Language) that
 formalize how these exchanges are structured in both classical and modern LLM-based multi-agent
 frameworks.
 
-真实系统常将二者结合：编排器可能通过消息告诉某个子智能体“更新共享报告的[第 3 节](#3-types-of-agent-interaction-cooperation-coordination-competition)”，消息本身是直接传递的，但实际工作成果却存放在共享状态中。本模块在此为这些概念命名；[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)将介绍具体的、具名的通信协议（包括合同网协议 Contract Net Protocol 与 FIPA 智能体通信语言），正式规范这些交流在经典多智能体系统与现代基于 LLM 的多智能体框架中是如何被组织起来的。
+真实系统常将二者结合：编排器可能通过消息告诉某个子智能体“更新共享报告的[第 3 节](#3-types-of-agent-interaction-cooperation-coordination-competition)”，消息本身是直接传递的，但实际工作成果却存放在共享状态中。本模块在此为这些概念命名；[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)将介绍具体的、具名的通信协议（包括合同网协议 Contract Net Protocol 与 FIPA 智能体通信语言），正式规范这些交流在经典多智能体系统与现代基于 LLM 的多智能体框架中是如何被组织起来的。
 
 ---
 
@@ -217,10 +217,10 @@ encounter with the topic.
 | **Cascading errors**（错误级联）      | because one agent's output becomes another's input, a mistake made early — a hallucinated fact, a subtly wrong plan — can be passed downstream and compounded by every agent that trusts it without re-checking, sometimes producing a confidently wrong final result that is harder to trace back to its source than a single agent's mistake would be.   | 由于一个智能体的输出会成为另一个智能体的输入，早期发生的一个错误——一个幻觉出的事实、一个微妙错误的计划——可能被传递到下游，并被每个不加复核就信任它的智能体不断放大，有时会产生一个自信满满却错误的最终结果，其错误根源比单智能体犯错时更难追溯。 |
 | **Coordination overhead**（协调开销） | time and computation spent on agents communicating, waiting for each other, or resolving conflicting claims about shared state is pure overhead that a single-agent system does not pay at all — beyond some task complexity, a MAS is worth this overhead, but below it, a single well-designed agent loop is often simply the better engineering choice. | 花费在智能体之间通信、相互等待，或解决关于共享状态的相互冲突主张上的时间与算力，是单智能体系统完全不需要承担的纯粹开销——当任务复杂度超过某个阈值后，MAS 值得承担这份开销；但在此阈值以下，一个设计良好的单智能体循环往往才是更好的工程选择。     |
 
-These risks are picked up again with concrete named failure patterns in [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md), and with
-formal mitigation techniques in [`advanced/04`](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md) and [`advanced/07`](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md).
+These risks are picked up again with concrete named failure patterns in [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md), and with
+formal mitigation techniques in [`advanced/04`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md) and [`advanced/07`](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md).
 
-这些风险将在[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)中以具体、具名的失效模式再次展开，并在[`advanced/04`](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md)与[`advanced/07`](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)中给出正式的缓解技术。
+这些风险将在[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)中以具体、具名的失效模式再次展开，并在[`advanced/04`](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)与[`advanced/07`](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)中给出正式的缓解技术。
 
 ---
 
@@ -229,22 +229,22 @@ formal mitigation techniques in [`advanced/04`](../advanced/04-agentic-safety-gu
 **小结**
 
 A multi-agent system is two or more separately-contexted AI agents — each running its own
-perceive-think-act-observe loop from [`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) — that communicate, via message passing or
+perceive-think-act-observe loop from [`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) — that communicate, via message passing or
 shared state, to jointly complete a task. Agents may cooperate, coordinate, or compete, arranged in
 a centralized, decentralized, or hierarchical architecture. Splitting a task this way trades context
 crowding for new costs — added LLM calls, cascading errors, and coordination overhead — and can
 produce emergent behavior, for better or worse, that was never explicitly programmed into any one
 agent.
 
-多智能体系统是指两个或更多各自拥有独立上下文的 AI 智能体——每个智能体都运行着[`introductory/03`](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 所述自己的“感知—思考—行动—观察”循环——通过消息传递或共享状态进行通信，以共同完成某项任务。智能体之间可以是协作、协调或竞争的关系，可按集中式、去中心式或层级式架构组织。这种拆分方式以新的代价换取了对上下文拥挤问题的缓解——增加的 LLM 调用、错误级联，以及协调开销——并可能产生涌现行为，无论其结果是好是坏，都并非被明确编写进任何单个智能体之中。
+多智能体系统是指两个或更多各自拥有独立上下文的 AI 智能体——每个智能体都运行着[`introductory/03`](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) 所述自己的“感知—思考—行动—观察”循环——通过消息传递或共享状态进行通信，以共同完成某项任务。智能体之间可以是协作、协调或竞争的关系，可按集中式、去中心式或层级式架构组织。这种拆分方式以新的代价换取了对上下文拥挤问题的缓解——增加的 LLM 调用、错误级联，以及协调开销——并可能产生涌现行为，无论其结果是好是坏，都并非被明确编写进任何单个智能体之中。
 
-The next module in this cluster, [`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md), returns to this topic with formal communication
-protocols and named coordination frameworks. [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) develops single- and multi-step
+The next module in this cluster, [`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md), returns to this topic with formal communication
+protocols and named coordination frameworks. [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) develops single- and multi-step
 reasoning patterns (ReAct, Plan-and-Execute, Reflexion) that individual agents inside a MAS commonly
-use internally, and [`advanced/07`](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md) covers production-grade multi-agent orchestration in full
+use internally, and [`advanced/07`](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md) covers production-grade multi-agent orchestration in full
 engineering depth.
 
-本主题群的下一个模块[`intermediate/07`](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)将带着正式的通信协议与具名的协调框架回归这一主题。 [`intermediate/03`](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)将发展出单个智能体在 MAS 内部通常内在使用的单步与多步推理模式（ReAct、 Plan-and-Execute、Reflexion），而[`advanced/07`](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)则会以完整的工程深度介绍生产级多智能体编排。
+本主题群的下一个模块[`intermediate/07`](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)将带着正式的通信协议与具名的协调框架回归这一主题。 [`intermediate/03`](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)将发展出单个智能体在 MAS 内部通常内在使用的单步与多步推理模式（ReAct、 Plan-and-Execute、Reflexion），而[`advanced/07`](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)则会以完整的工程深度介绍生产级多智能体编排。
 
 ---
 
@@ -259,10 +259,10 @@ engineering depth.
 
 ### Internal Cross-References
 
-- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
-- [`introductory/04` — Tool Use & Function Calling Basics](04-tool-use-and-function-calling-basics.md)
-- [`introductory/06` — Context Windows, Tokens & Memory Basics](06-context-windows-tokens-and-memory-basics.md)
-- [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](../intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
-- [`intermediate/07` — Multi-Agent Communication & Coordination Protocols](../intermediate/07-multi-agent-communication-and-coordination-protocols.md)
-- [`advanced/04` — Agentic Safety, Guardrails & Governance Patterns](../advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
-- [`advanced/07` — Multi-Agent Orchestration: Worktree Isolation & Consensus](../advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)
+- [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](https://anu00.dev/curriculum/introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+- [`introductory/04` — Tool Use & Function Calling Basics](https://anu00.dev/curriculum/introductory/04-tool-use-and-function-calling-basics.md)
+- [`introductory/06` — Context Windows, Tokens & Memory Basics](https://anu00.dev/curriculum/introductory/06-context-windows-tokens-and-memory-basics.md)
+- [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](https://anu00.dev/curriculum/intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+- [`intermediate/07` — Multi-Agent Communication & Coordination Protocols](https://anu00.dev/curriculum/intermediate/07-multi-agent-communication-and-coordination-protocols.md)
+- [`advanced/04` — Agentic Safety, Guardrails & Governance Patterns](https://anu00.dev/curriculum/advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
+- [`advanced/07` — Multi-Agent Orchestration: Worktree Isolation & Consensus](https://anu00.dev/curriculum/advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)
