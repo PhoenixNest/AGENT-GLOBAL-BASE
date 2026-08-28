@@ -50,12 +50,23 @@ def mock_vector_store():
     def upsert(id: str, vector: List[float], payload: dict) -> None:
         store[id] = (vector, payload)
 
-    def search(vector: List[float], top_k: int = 5) -> List[Tuple[str, float]]:
+    def search(vector: List[float], top_k: int = 5, user_role: str = None) -> List[Tuple[str, float]]:
         # Return ids ordered by first-element similarity (trivial, deterministic).
         if not store:
             return []
+        items = list(store.items())
+        if user_role is not None:
+            # Query-level ACL predicate: exclude out-of-role docs from the
+            # candidate set itself, before ranking — not just a post-filter.
+            items = [
+                (doc_id, entry) for doc_id, entry in items
+                if "public" in entry[1].get("acl_roles", ["public"])
+                or user_role in entry[1].get("acl_roles", ["public"])
+            ]
+        if not items:
+            return []
         scored = sorted(
-            store.items(),
+            items,
             key=lambda item: -abs(item[1][0][0] - vector[0]),
         )
         return [(doc_id, round(1.0 - i * 0.1, 3)) for i, (doc_id, _) in enumerate(scored[:top_k])]
