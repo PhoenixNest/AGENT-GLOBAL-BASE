@@ -11,7 +11,8 @@ User reference deployment: core-component-00/mcp-servers/workspace-knowledge/
 """
 
 from .chunker import FixedSizeChunker, SemanticChunker, HybridChunker
-from .retrieval import bm25_score, rrf_fusion, acl_filter
+from .retrieval import bm25_score, rrf_fusion, acl_filter, filter_by_role
+from .pii_masking import mask_pii
 from .pipeline import RAGPipeline
 
 __all__ = [
@@ -21,5 +22,7 @@ __all__ = [
     "bm25_score",
     "rrf_fusion",
     "acl_filter",
+    "filter_by_role",
+    "mask_pii",
     "RAGPipeline",
 ]
