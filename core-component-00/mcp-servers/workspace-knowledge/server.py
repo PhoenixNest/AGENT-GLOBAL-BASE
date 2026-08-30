@@ -10,12 +10,23 @@ from pathlib import Path
 from typing import Any
 
 # jsonref's published wheel does `from proxytypes import LazyProxy` (a stale absolute
-# import; see _vendor/proxytypes.py), which ModuleNotFoundErrors against a bare `uv add
-# proxytypes` since that package installs under `peak.util.proxies`, not a top-level
-# `proxytypes` module. Must be on sys.path before `fastmcp` is imported, since fastmcp
-# transitively imports jsonref.
+# import; see _vendor/proxytypes.py). On some `ProxyTypes` installs this ModuleNotFoundErrors
+# because that package installs under `peak.util.proxies`, not a top-level `proxytypes`
+# module -- but NOT on every install: this venv's `uv sync` resolved `ProxyTypes==0.10.0` as
+# a top-level `proxytypes.py` that already provides `LazyProxy` directly, no `peak` package
+# involved at all (discovered 2026-08-30 when unconditionally prepending _vendor/ shadowed
+# that working real module and crashed on the `peak` import the shim itself needs -- see
+# core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/16).
+# Only fall back to the vendored shim if the real package doesn't already work; must resolve
+# before `fastmcp` is imported, since fastmcp transitively imports jsonref.
 _VENDOR_ROOT = Path(__file__).resolve().parent / "_vendor"
-if str(_VENDOR_ROOT) not in sys.path:
+try:
+    import proxytypes as _real_proxytypes
+
+    _NEEDS_VENDOR_SHIM = not hasattr(_real_proxytypes, "LazyProxy")
+except ImportError:
+    _NEEDS_VENDOR_SHIM = True
+if _NEEDS_VENDOR_SHIM and str(_VENDOR_ROOT) not in sys.path:
     sys.path.insert(0, str(_VENDOR_ROOT))
 
 from fastmcp import FastMCP
