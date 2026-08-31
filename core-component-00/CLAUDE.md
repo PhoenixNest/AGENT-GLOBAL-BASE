@@ -109,18 +109,20 @@ Governing documents: `agent-systems-governance-framework/governance/`
 
 ## Where to Look
 
-| I need…                                                       | Go to                                            |
-| ------------------------------------------------------------- | ------------------------------------------------ |
-| Full lab overview + researcher profile                        | `README.md`                                      |
-| Governing framework + compliance                              | `agent-systems-governance-framework/`            |
-| Synthesis of all five layers                                  | `agent-systems-governance-framework/CONCEPTS.md` |
-| Prompt patterns                                               | `engineering/prompt-engineering/`                |
-| Context window architecture                                   | `engineering/context-engineering/`               |
-| Safe model execution                                          | `engineering/harness-engineering/`               |
-| RAG pipelines                                                 | `retrieval-augmented-generation/`                |
-| Multi-agent / swarm systems                                   | `engineering/multi-agent-engineering/`           |
-| MCP server implementations (deployment surface)               | `mcp-servers/`                                   |
-| Lab Director persona + crew roster                            | `crew/`                                          |
-| Research reports (CC-00 engineering + LLM research)           | `telescope/`                                     |
-| Maintenance operations log (servers, dependencies, MCP infra) | `maintenance-records/`                           |
-| Cross-cutting / workspace-wide research                       | workspace-root `telescope/`                      |
+| I need…                                                         | Go to                                            |
+| --------------------------------------------------------------- | ------------------------------------------------ |
+| Full lab overview + researcher profile                          | `README.md`                                      |
+| Governing framework + compliance                                | `agent-systems-governance-framework/`            |
+| Synthesis of all five layers                                    | `agent-systems-governance-framework/CONCEPTS.md` |
+| Prompt patterns                                                 | `engineering/prompt-engineering/`                |
+| Context window architecture                                     | `engineering/context-engineering/`               |
+| Safe model execution                                            | `engineering/harness-engineering/`               |
+| RAG pipelines                                                   | `retrieval-augmented-generation/`                |
+| Multi-agent / swarm systems                                     | `engineering/multi-agent-engineering/`           |
+| MCP server implementations (deployment surface)                 | `mcp-servers/`                                   |
+| Lab Director persona + crew roster                              | `crew/`                                          |
+| Research reports (CC-00 engineering + LLM research)             | `telescope/`                                     |
+| Maintenance operations log (servers, dependencies, MCP infra)   | `maintenance-records/`                           |
+| Enterprise benchmark assessments (module vs. industry practice) | `benchmarks/`                                    |
+| Remediation execution log (P0/P1 benchmark findings)            | `remediation/`                                   |
+| Cross-cutting / workspace-wide research                         | workspace-root `telescope/`                      |

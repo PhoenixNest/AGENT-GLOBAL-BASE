@@ -199,6 +199,8 @@ CC-00 operates with a four-part mission:
 
 **Maintenance Log:** Maintenance operations performed on CC-00 lab servers and engineering resources (dev environment, GPU/CUDA stack, dependency footprint, MCP server processes) are recorded in [`maintenance-records/`](./maintenance-records/README.md) — a separate, operational counterpart to the research-focused Telescope archive above.
 
+**Benchmarks & Remediation:** Enterprise-grade assessments comparing CC-00 modules against current industry practice are archived in [`benchmarks/`](./benchmarks/README.md); execution of the P0/P1 findings from those assessments is tracked to completion in [`remediation/`](./remediation/README.md).
+
 ---
 
 ## Module Overview
@@ -284,6 +286,8 @@ Foundational paper: [Agent Systems Governance Framework: The Convergence of Four
 | Understand RAG security controls              | `[retrieval-augmented-generation/security/guide.md](./retrieval-augmented-generation/security/guide.md)`                                             |
 | Wire all four modules together                | `[engineering/context-engineering/workspace/integration-guide.md](./engineering/context-engineering/workspace/integration-guide.md)`                 |
 | Document research findings                    | `[telescope/README.md](./telescope/README.md)`                                                                                                       |
+| Compare a module against industry practice    | `[benchmarks/README.md](./benchmarks/README.md)`                                                                                                     |
+| Track remediation of a benchmark finding      | `[remediation/README.md](./remediation/README.md)`                                                                                                   |
 
 ---
 

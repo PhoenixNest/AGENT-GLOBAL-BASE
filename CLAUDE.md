@@ -97,6 +97,8 @@ AGENT-GLOBAL-BASE/
 │   │   └── multi-agent-engineering/      ← Layer 5 (docs + Python + pytest)
 │   ├── retrieval-augmented-generation/   ← Layer 4 (docs + Python + requirements.txt)
 │   ├── director/                         ← Lab Director persona (Dr. Elias Vance)
+│   ├── benchmarks/                       ← Enterprise benchmark assessments (module vs. industry practice)
+│   ├── remediation/                      ← Remediation execution log (P0/P1 benchmark findings)
 │   └── telescope/                        ← Lab research archive (engineering + LLM research)
 │
 ├── academic-neural-unit-00/              ← ANU-00 [→ academic-neural-unit-00/CLAUDE.md]
