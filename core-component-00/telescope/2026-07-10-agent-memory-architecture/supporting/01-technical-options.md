@@ -14,7 +14,7 @@ This document specifies **how memory is technically stored** — not the forgett
 (see [03-forgetting-strategy.md](03-forgetting-strategy.md)) and not step-by-step deployment
 instructions (see [02-deployment-guidelines.md](02-deployment-guidelines.md)). It extends the
 workspace's existing lightweight Qdrant-based retrieval system
-([lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md))
+([lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md))
 that already powers document search — the same underlying technology, applied to a new kind of
 content: things an AI agent has said, decided, or learned, rather than documents someone wrote.
 
@@ -197,7 +197,7 @@ documentation change — at that point it becomes canonical, and the memory reco
 
 Follow the workspace's existing rule without exception: Qdrant runs in Docker/Server mode only,
 never the alternative "embedded" mode — the two store data in incompatible formats, so mixing them
-is not an option (see [lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)).
+is not an option (see [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)).
 
 **Memory runs on its own dedicated Qdrant instance, entirely separate from the document knowledge
 base's instance.** This was a deliberate choice, not a convenience default: the two systems serve
@@ -228,12 +228,12 @@ changes anything in this document.
 
 | Resource                                     | Location                                                                                                                                                                                                                 |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Memory type implementations                  | [memory_store.py](core-component-00/engineering/context-engineering/implementations/memory_store.py), [memory_vector_store.py](core-component-00/engineering/context-engineering/implementations/memory_vector_store.py) |
-| Context compression (pre-write reduction)    | [context_compressor.py](core-component-00/engineering/context-engineering/implementations/context_compressor.py)                                                                                                         |
-| RAG architecture / Corpus-as-Source-of-Truth | [overview.md](core-component-00/retrieval-augmented-generation/architecture/overview.md) §§ 10–11                                                                                                                        |
-| Lightweight RAG deployment (Qdrant modes)    | [lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                                                                                               |
-| Retrieval / fusion implementation            | [retrieval.py](core-component-00/retrieval-augmented-generation/implementations/retrieval.py)                                                                                                                            |
-| Shared embedder process                      | [embedder-service/server.py](core-component-00/mcp-servers/_shared/embedder-service/server.py)                                                                                                                           |
+| Memory type implementations                  | [memory_store.py](core-component-00/framework/02-context-engineering/implementations/memory_store.py), [memory_vector_store.py](core-component-00/framework/02-context-engineering/implementations/memory_vector_store.py) |
+| Context compression (pre-write reduction)    | [context_compressor.py](core-component-00/framework/02-context-engineering/implementations/context_compressor.py)                                                                                                         |
+| RAG architecture / Corpus-as-Source-of-Truth | [overview.md](core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md) §§ 10–11                                                                                                                        |
+| Lightweight RAG deployment (Qdrant modes)    | [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                                                                                               |
+| Retrieval / fusion implementation            | [retrieval.py](core-component-00/framework/04-retrieval-augmented-generation/implementations/retrieval.py)                                                                                                                            |
+| Shared embedder process                      | [embedder-service/server.py](core-component-00/platform/model-context-protocol-servers/_shared/embedder-service/server.py)                                                                                                                           |
 
 ---
 

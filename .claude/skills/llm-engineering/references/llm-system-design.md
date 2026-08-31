@@ -35,7 +35,7 @@ of problem. The specification is the contract between layers.
 ## Reference Architecture
 
 All five layers are specified in `core-component-00/`. The canonical integration guide
-is `core-component-00/engineering/context-engineering/workspace/integration-guide.md`. Consult it
+is `core-component-00/framework/02-context-engineering/workspace/integration-guide.md`. Consult it
 alongside this skill before producing the design.
 
 ## Design Process
@@ -67,7 +67,7 @@ any tool-use prompts.
 
 | Decision                               | Options / Reference                                                                                             |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Prompting technique                    | Zero-shot, few-shot, CoT, Schema-Constrained, Socratic — see `engineering/prompt-engineering/patterns/advanced-patterns.md` |
+| Prompting technique                    | Zero-shot, few-shot, CoT, Schema-Constrained, Socratic — see `framework/01-prompt-engineering/patterns/advanced-patterns.md` |
 | Role / persona definition              | Define if using an agent profile; specify identity, constraints, and mode                                       |
 | System prompt vs. task prompt boundary | System: persistent identity and rules; task: per-request instructions                                           |
 | Output format requirements             | If downstream requires structured output, use schema-constrained prompting                                      |
@@ -78,11 +78,11 @@ Specify the context window architecture.
 
 | Decision                                       | Options / Reference                                                                                            |
 | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Memory types needed                            | Episodic / Semantic / Procedural / Working — see `engineering/context-engineering/fundamentals/memory-types.md`            |
-| Four-slot composition                          | System / Retrieved / History / Tool outputs — see `engineering/context-engineering/fundamentals/context-window-anatomy.md` |
+| Memory types needed                            | Episodic / Semantic / Procedural / Working — see `framework/02-context-engineering/fundamentals/memory-types.md`            |
+| Four-slot composition                          | System / Retrieved / History / Tool outputs — see `framework/02-context-engineering/fundamentals/context-window-anatomy.md` |
 | Slot priority order under token pressure       | Default: System > Retrieved > History > Tool outputs. Document any deviation                                   |
 | Context preservation across session boundaries | Specify compression strategy and what is marked as sacred                                                      |
-| Multi-agent handoff tier                       | Full / Scoped / Minimal per agent transition — see `engineering/context-engineering/patterns/multi-agent-handoff.md`       |
+| Multi-agent handoff tier                       | Full / Scoped / Minimal per agent transition — see `framework/02-context-engineering/patterns/multi-agent-handoff.md`       |
 
 #### Layer 3 — Harness Engineering
 
@@ -93,7 +93,7 @@ Specify the execution envelope around each model call.
 | Timeout thresholds      | Set per the system's p99 latency requirement                                                                       |
 | Tool call whitelist     | Which tools are permitted via the Tool Registry; specify call limits                                               |
 | Retry logic             | Governs rate-limit and transient errors; use exponential backoff                                                   |
-| Token budget thresholds | When to trigger graceful degradation vs. hard abort — see `engineering/harness-engineering/implementations/context_monitor.py` |
+| Token budget thresholds | When to trigger graceful degradation vs. hard abort — see `framework/03-harness-engineering/implementations/context_monitor.py` |
 
 #### Layer 4 — Retrieval-Augmented Generation
 
@@ -107,7 +107,7 @@ not instantiated.
 | Chunking strategy                 | Fixed-size, semantic, or document-boundary — depends on content type                       |
 | Embedding model and vector store  | Select based on latency, scale, and cost requirements                                      |
 | ACL filtering                     | Required if retrieved chunks carry user-level access controls                              |
-| Reranking before context assembly | Specify the reranking step — see `retrieval-augmented-generation/architecture/overview.md` |
+| Reranking before context assembly | Specify the reranking step — see `framework/04-retrieval-augmented-generation/architecture/overview.md` |
 
 #### Layer 5 — Multi-Agent Engineering
 
@@ -116,10 +116,10 @@ is single-agent, document why and note that this layer is not instantiated.
 
 | Decision                                | Options / Reference                                                                                                           |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Swarm topology                          | Hierarchical / Flat / Mesh / Pipeline / Hybrid — see `engineering/multi-agent-engineering/fundamentals/swarm-topologies.md`               |
+| Swarm topology                          | Hierarchical / Flat / Mesh / Pipeline / Hybrid — see `framework/05-multi-agent-engineering/fundamentals/swarm-topologies.md`               |
 | Agent roles and authority boundaries    | Define each agent's responsibility, input, output, and escalation path                                                        |
 | Work decomposition and result synthesis | How tasks are divided across agents and how results are merged                                                                |
-| Orchestration patterns                  | Pipeline / Fork-Join / Router / Supervisor-Worker / Debate — see `engineering/multi-agent-engineering/patterns/orchestration-patterns.md` |
+| Orchestration patterns                  | Pipeline / Fork-Join / Router / Supervisor-Worker / Debate — see `framework/05-multi-agent-engineering/patterns/orchestration-patterns.md` |
 
 ### Step 3 — Integration Validation
 

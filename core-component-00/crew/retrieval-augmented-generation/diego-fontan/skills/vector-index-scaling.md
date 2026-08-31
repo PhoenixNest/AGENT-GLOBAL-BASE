@@ -55,5 +55,5 @@ architecture ownership.
 
 ## References
 
-- `core-component-00/retrieval-augmented-generation/`
+- `core-component-00/framework/04-retrieval-augmented-generation/`
 - Retrieval Pipeline Engineering (Sofia Almeida) — the module lead's architecture ownership

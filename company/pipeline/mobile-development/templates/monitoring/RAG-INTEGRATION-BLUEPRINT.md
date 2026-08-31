@@ -85,7 +85,7 @@ This blueprint defines the architecture for **semantic retrieval** over the comp
 | **Tier 1 Artifacts**      | `company/project/*/stages/**`                                |   Variable    | High (per project)        |
 | **Tier 2 Retrospectives** | `company/project/*/retrospective.md`                         | 1 per project | Once (at Stage 10)        |
 | **Tier 3 Institutional**  | `company/library/topics/institutional-memory.md`             |       1       | Quarterly                 |
-| **ASGF Framework**        | `core-component-00/engineering/multi-agent-engineering/*.md` |      ~5       | Low                       |
+| **ASGF Framework**        | `core-component-00/framework/05-multi-agent-engineering/*.md` |      ~5       | Low                       |
 
 **Total Static Corpus:** ~355 files
 **Total Dynamic Corpus:** Grows with each project

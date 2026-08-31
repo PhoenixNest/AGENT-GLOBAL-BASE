@@ -22,7 +22,7 @@
 Per CEO direction, Phases 1 and 2 were executed via multi-agent orchestration (one agent
 per hook performs the port; an independent second agent per hook adversarially verifies parity
 and, for governance-critical hooks, fail-closed behavior) to shorten the development cycle, per
-`core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+`core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 conventions where applicable.
 
 **Phase 3 blocker resolved:** the originally-documented "no native Windows hardware available"

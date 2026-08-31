@@ -5,7 +5,7 @@
 #   Subject: agent/<name>: <verb-phrase>  (imperative, <=72 chars)
 #   Body:    at least one hyphen-bulleted change line
 # Bodyless single-line agent commits are a P2 defect per CLAUDE.md §6.
-# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 #
 # Python port of multi-agent-commit-format-guard.ps1 / multi-agent-commit-format-guard.sh —
 # implements identical stdin handling, branch resolution (via `cwd` + `git -C <cwd> rev-parse

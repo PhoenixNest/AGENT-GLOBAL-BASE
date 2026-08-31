@@ -1,13 +1,13 @@
 ---
 paths:
-  - "core-component-00/retrieval-augmented-generation/security/**"
+  - "core-component-00/framework/04-retrieval-augmented-generation/security/**"
   - "studio/casual-games/library/topics/security/**"
   - "**/*security*.md"
   - "**/*auth*.ts"
   - "company/**/*auth*.py"
   - "studio/**/*auth*.py"
   - "core-component-00/engineering/**/*auth*.py"
-  - "core-component-00/retrieval-augmented-generation/**/*auth*.py"
+  - "core-component-00/framework/04-retrieval-augmented-generation/**/*auth*.py"
   - "**/*auth*.kt"
   - "**/*auth*.swift"
 description: Security architecture patterns and OWASP best practices

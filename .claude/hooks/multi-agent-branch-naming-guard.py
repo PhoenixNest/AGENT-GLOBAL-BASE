@@ -4,7 +4,7 @@
 # Detects git commands that create new branches and validates the branch name
 # against the workspace multi-agent naming convention:
 #   agent/<role>/<task>  or  stage<N>/agent/<role>/<task>
-# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 #
 # Python port of multi-agent-branch-naming-guard.ps1 (pwsh) and
 # multi-agent-branch-naming-guard.sh (bash). Implements identical stdin handling,

@@ -53,7 +53,7 @@ Chronological audit trail. Append-only.
   - **1/15 not attempted at all**: `git-line-encoding-validator`
 - CEO noted the Workflow-tool background orchestration consumed significant budget and directed
   discontinuing it in favor of the workspace's established git-worktree multi-agent pattern
-  (`core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`)
+  (`core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`)
   for remaining execution, while still using multi-agent techniques.
 - Reviewed the saved workflow script `.claude/workflows/cc00-hook-python-migration-phase2.js` — it
   matches what was originally authored, no drift or corruption found.

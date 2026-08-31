@@ -3,7 +3,7 @@
 
 Fires after Write or Edit tools modify .md files in KEY_DIRS.
 Behavior is governed by
-core-component-00/mcp-servers/workspace-knowledge/rag-system/rag-sync-state.json
+core-component-00/platform/model-context-protocol-servers/workspace-knowledge/rag-system/rag-sync-state.json
 (mode: auto|warn|off).
 Phase adaptation: reads search_backend from state file to determine rebuild vs upsert path.
 Phase 3 active (search_backend=qdrant): instructs upsert_document only; FAISS self-heals via
@@ -129,7 +129,8 @@ def main() -> int:
     state_file = (
         repo_root
         / "core-component-00"
-        / "mcp-servers"
+        / "platform"
+        / "model-context-protocol-servers"
         / "workspace-knowledge"
         / "rag-system"
         / "rag-sync-state.json"
