@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "workspace-knowledge": {
-      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/workspace-knowledge/.venv/Scripts/python.exe",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/workspace-knowledge/.venv/Scripts/python.exe",
       "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/workspace-knowledge/server.py"
+        "${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/workspace-knowledge/server.py"
       ],
       "env": {
         "WORKSPACE_ROOT": "${CLAUDE_PROJECT_DIR:-.}",
@@ -14,9 +14,9 @@
       }
     },
     "agent-memory": {
-      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/.venv/Scripts/python.exe",
+      "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/agent-memory/.venv/Scripts/python.exe",
       "args": [
-        "${CLAUDE_PROJECT_DIR:-.}/core-component-00/mcp-servers/agent-memory/server.py"
+        "${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/agent-memory/server.py"
       ],
       "env": {
         "MEMORY_QDRANT_URL": "http://localhost:6335",
