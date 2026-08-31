@@ -119,16 +119,16 @@ conflicting information arrived_ rather than merely because time passed (§ 5).
 
 Not external sources, but the existing workspace documents this investigation was required to
 build on rather than duplicate (a standing governance requirement — see
-[agent-systems-governance-framework/governance/](core-component-00/agent-systems-governance-framework/governance/)):
+[agent-systems-governance-framework/governance/](core-component-00/framework/00-agent-systems-governance-framework/governance/)):
 
 | Document                                                                                                                             | Role in This Investigation                                                                  |
 | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| [memory_store.py](core-component-00/engineering/context-engineering/implementations/memory_store.py)                                 | Existing four-memory-type model this design extends                                         |
-| [context_compressor.py](core-component-00/engineering/context-engineering/implementations/context_compressor.py)                     | Existing summarization primitive reused for consolidation                                   |
-| [overview.md](core-component-00/retrieval-augmented-generation/architecture/overview.md)                                             | Corpus-as-Source-of-Truth principle and Graceful Degradation Stack, extended by this design |
-| [diagrams.md](core-component-00/retrieval-augmented-generation/architecture/diagrams.md)                                             | Diagram convention followed in [04-workflow-diagrams.md](04-workflow-diagrams.md)           |
-| [lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)           | Existing Qdrant deployment-mode mandate this design must not violate                        |
-| [index-sync-hooks.md](core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md)                                 | Contrast case (document freshness) informing why memory's write path is simpler             |
+| [memory_store.py](core-component-00/framework/02-context-engineering/implementations/memory_store.py)                                 | Existing four-memory-type model this design extends                                         |
+| [context_compressor.py](core-component-00/framework/02-context-engineering/implementations/context_compressor.py)                     | Existing summarization primitive reused for consolidation                                   |
+| [overview.md](core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md)                                             | Corpus-as-Source-of-Truth principle and Graceful Degradation Stack, extended by this design |
+| [diagrams.md](core-component-00/framework/04-retrieval-augmented-generation/architecture/diagrams.md)                                             | Diagram convention followed in [04-workflow-diagrams.md](04-workflow-diagrams.md)           |
+| [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)           | Existing Qdrant deployment-mode mandate this design must not violate                        |
+| [index-sync-hooks.md](core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md)                                 | Contrast case (document freshness) informing why memory's write path is simpler             |
 | [core-component-00 telescope/CLAUDE.md](core-component-00/telescope/CLAUDE.md), [workspace telescope/CLAUDE.md](telescope/CLAUDE.md) | Report shape and status-lifecycle conventions this programme follows                        |
 
 ---

@@ -10,7 +10,7 @@
 ## 1. Relationship to the Existing Lightweight RAG Deployment
 
 The memory system reuses the same underlying retrieval technology as the document knowledge base
-([lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)), but runs on **its own,
+([lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)), but runs on **its own,
 separate Qdrant instance** rather than sharing the document knowledge base's — see
 [01-technical-options.md](01-technical-options.md) § 8 for why. What it reuses:
 
@@ -232,7 +232,7 @@ beyond a log-replay script, which already exists.
 [05-disaster-recovery-and-resilience.md](05-disaster-recovery-and-resilience.md)'s zero-data-loss guarantee against Qdrant outages both
 rest on one assumption neither document states outright: **the log file itself survives.** Neither
 covers disk failure, accidental deletion, filesystem corruption, or losing the whole machine —
-anything that destroys `core-component-00/engineering/context-engineering/memory/` directly, the
+anything that destroys `core-component-00/framework/02-context-engineering/memory/` directly, the
 one thing every Qdrant collection can be rebuilt from. This section designs the missing layer:
 backing up the log file itself, off the single copy § 8's guarantee depends on existing at all.
 
@@ -288,7 +288,7 @@ This section's objectives cover the case where the log file itself is the thing 
 | Restore verification   | `verify_backup_restore.py`          | Written. Not scheduled, not run yet — there's no snapshot yet for it to check.                                                                     |
 | Retention policy       | (built into `backup_memory_log.py`) | Written as inert logic — only takes effect once the backup script itself actually runs.                                                            |
 
-No part of `core-component-00/mcp-servers/agent-memory/server.py` was touched by this design —
+No part of `core-component-00/platform/model-context-protocol-servers/agent-memory/server.py` was touched by this design —
 these are standalone scripts only. A live connection to the memory server behaves identically
 whether or not this design exists.
 
@@ -316,8 +316,8 @@ stack report's metrics catalog.
 | Forgetting strategy (decay, promotion)                                    | [03-forgetting-strategy.md](03-forgetting-strategy.md)                                                                                               |
 | Disaster recovery (Qdrant-outage case, distinct from § 9's log-loss case) | [05-disaster-recovery-and-resilience.md](05-disaster-recovery-and-resilience.md)                                                                     |
 | Implementation status audit (what's actually running)                     | [00-sources-and-references.md](00-sources-and-references.md) § 6                                                                                     |
-| Lightweight RAG deployment                                                | [lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                           |
-| Replay mechanism, backing § 9's design                                    | [memory_vector_store.py](core-component-00/engineering/context-engineering/implementations/memory_vector_store.py)                                   |
+| Lightweight RAG deployment                                                | [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                           |
+| Replay mechanism, backing § 9's design                                    | [memory_vector_store.py](core-component-00/framework/02-context-engineering/implementations/memory_vector_store.py)                                   |
 | Monitoring for the backup mechanism                                       | [2026-08-08-cc00-mcp-observability-stack/research-report.md](core-component-00/telescope/2026-08-08-cc00-mcp-observability-stack/research-report.md) |
 
 ---

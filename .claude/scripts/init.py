@@ -326,7 +326,7 @@ def prime_mcp_venvs() -> None:
     if shutil.which("uv") is None:
         return
 
-    mcp_servers_dir = _CLAUDE_DIR.parent / "core-component-00" / "mcp-servers"
+    mcp_servers_dir = _CLAUDE_DIR.parent / "core-component-00" / "platform" / "model-context-protocol-servers"
     for name in ("workspace-knowledge", "agent-memory"):
         server_dir = mcp_servers_dir / name
         if not (server_dir / "pyproject.toml").exists():

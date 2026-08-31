@@ -100,8 +100,8 @@ If the exception is lifted, the studio will implement a RAG pipeline following t
 | Phase                 | Implementation                                                                   | Reference                                                                   |
 | :-------------------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
 | Phase 1 (File-based)  | Direct file retrieval; no embedding                                              | Current state                                                               |
-| Phase 2 (Embedding)   | Embed crew profiles + GDD corpus using `all-MiniLM-L6-v2`; local Qdrant instance | `core-component-00/retrieval-augmented-generation/`                         |
-| Phase 3 (Agentic RAG) | Multi-step retrieval with reranking; ACL per crew division                       | `core-component-00/retrieval-augmented-generation/architecture/overview.md` |
+| Phase 2 (Embedding)   | Embed crew profiles + GDD corpus using `all-MiniLM-L6-v2`; local Qdrant instance | `core-component-00/framework/04-retrieval-augmented-generation/`                         |
+| Phase 3 (Agentic RAG) | Multi-step retrieval with reranking; ACL per crew division                       | `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md` |
 
 **Chunking strategy (Phase 2):** 500–800 tokens per chunk, 100–200 token overlap.
 **Embedding model:** Pin to `all-MiniLM-L6-v2` until specialisation is warranted.

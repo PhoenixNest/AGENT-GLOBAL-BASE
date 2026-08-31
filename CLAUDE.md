@@ -57,8 +57,8 @@ The `.claude/` folder is fully provisioned:
 | `.claude/skills/<domain>/references/`                | Deep sub-skill reference docs                                                                                                |
 | `.claude/agents/*.md`                                | 4 functional subagents (pipeline-executor, org-activator, cc00-assistant, orchestrator)                                      |
 | `.claude/hooks/*.py`                                 | 15 cross-platform Python hooks (invoked via `uv run`): prompt governance, harness rate-limiting, RAG sync, git/commit guards |
-| `core-component-00/mcp-servers/workspace-knowledge/` | MCP server implementation (workspace-knowledge) — registered in root `.mcp.json`                                             |
-| `core-component-00/mcp-servers/agent-memory/`        | MCP server implementation (agent-memory) — registered in root `.mcp.json`                                                    |
+| `core-component-00/platform/model-context-protocol-servers/workspace-knowledge/` | MCP server implementation (workspace-knowledge) — registered in root `.mcp.json`                                             |
+| `core-component-00/platform/model-context-protocol-servers/agent-memory/`        | MCP server implementation (agent-memory) — registered in root `.mcp.json`                                                    |
 | `.mcp.json`                                          | MCP manifest at project root (Claude Code platform requirement)                                                              |
 
 ---
@@ -89,16 +89,19 @@ AGENT-GLOBAL-BASE/
 │       └── telescope/                    ← Studio research archive (game/market research)
 │
 ├── core-component-00/                    ← CC-00 Lab — ONLY place with runnable code  [→ core-component-00/CLAUDE.md]
-│   ├── agent-systems-governance-framework/        ← ASGF governing meta-module
-│   ├── engineering/                      ← Layers 1, 2, 3, 5 (see below)
-│   │   ├── prompt-engineering/           ← Layer 1 (docs only)
-│   │   ├── context-engineering/          ← Layer 2 (docs + Python + pytest)
-│   │   ├── harness-engineering/          ← Layer 3 (docs + Python + pytest)
-│   │   └── multi-agent-engineering/      ← Layer 5 (docs + Python + pytest)
-│   ├── retrieval-augmented-generation/   ← Layer 4 (docs + Python + requirements.txt)
-│   ├── director/                         ← Lab Director persona (Dr. Elias Vance)
-│   ├── benchmarks/                       ← Enterprise benchmark assessments (module vs. industry practice)
-│   ├── remediation/                      ← Remediation execution log (P0/P1 benchmark findings)
+│   ├── framework/                        ← The five-module stack + ASGF, numbered 00–05
+│   │   ├── 00-agent-systems-governance-framework/  ← ASGF governing meta-module
+│   │   ├── 01-prompt-engineering/        ← Layer 1 (docs only)
+│   │   ├── 02-context-engineering/       ← Layer 2 (docs + Python + pytest)
+│   │   ├── 03-harness-engineering/       ← Layer 3 (docs + Python + pytest)
+│   │   ├── 04-retrieval-augmented-generation/  ← Layer 4 (docs + Python + requirements.txt)
+│   │   └── 05-multi-agent-engineering/   ← Layer 5 (docs + Python + pytest)
+│   ├── platform/                         ← Deployment surface + operational history (unnumbered)
+│   │   ├── model-context-protocol-servers/  ← MCP server implementations (workspace-knowledge, agent-memory)
+│   │   ├── maintenance-records/          ← Maintenance operations log
+│   │   ├── benchmarks/                   ← Enterprise benchmark assessments (framework/ modules + platform/ itself)
+│   │   └── remediation/                  ← Remediation execution log (P0/P1 benchmark findings)
+│   ├── crew/                             ← Lab Director + crew (Dr. Elias Vance et al.)
 │   └── telescope/                        ← Lab research archive (engineering + LLM research)
 │
 ├── academic-neural-unit-00/              ← ANU-00 [→ academic-neural-unit-00/CLAUDE.md]
@@ -140,7 +143,7 @@ AGENT-GLOBAL-BASE/
   - Branch: `agent/<role>/<task>` (or `stage<N>/agent/<role>/<task>`)
   - Commit subject: `agent/<name>: <verb-phrase>` (≤72 chars, imperative, lowercase)
   - Commit body: hyphen-bulleted discrete changes — a bodyless single-line commit is a P2 defect
-  - Full spec: `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+  - Full spec: `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 ---
 
@@ -194,7 +197,7 @@ framework — a meta-layer above the five CC-00 modules, ratified by `ADR-ASGF-0
 agent systems, RAG pipelines, harnesses, and context solutions on **CC-00 patterns**, not ad-hoc
 inventions.
 
-Governing docs: `core-component-00/agent-systems-governance-framework/governance/`
+Governing docs: `core-component-00/framework/00-agent-systems-governance-framework/governance/`
 
 ---
 
@@ -212,7 +215,7 @@ every folder that has one with `[→ CLAUDE.md]`.
 | Company pipeline rules and variants                 | `company/pipeline/CLAUDE.md`                                     |
 | Studio structure + game pipeline                    | `studio/casual-games/CLAUDE.md`                                  |
 | The LLM engineering stack                           | `core-component-00/CLAUDE.md`                                    |
-| ASGF governance (ADRs, compliance)                  | `core-component-00/agent-systems-governance-framework/CLAUDE.md` |
+| ASGF governance (ADRs, compliance)                  | `core-component-00/framework/00-agent-systems-governance-framework/CLAUDE.md` |
 | Production Python implementations                   | `core-component-00/<module>/implementations/`                    |
 | Research archives (cross-department index)          | `telescope/CLAUDE.md` → `telescope/README.md`                    |
 | Product-oriented research (Company)                 | `company/telescope/CLAUDE.md`                                    |
@@ -286,4 +289,4 @@ When `[CONTEXT BUDGET ALERT — H-CE01]` appears in a `<system-reminder>`:
 
 - Apply Sacred Context principles immediately before this response
 - Prioritize: active task state > prior decisions > background knowledge
-- Reference: `core-component-00/engineering/harness-engineering/implementations/context_monitor.py`
+- Reference: `core-component-00/framework/03-harness-engineering/implementations/context_monitor.py`

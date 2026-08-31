@@ -21,7 +21,7 @@ modules and `curriculum/README.md` resolves to a real target module file and, wh
 Corpus-wide grep for `core-component-00`, `this workspace`, `本工作区`, `this repository`,
 `AGENT-GLOBAL-BASE`: **zero matches** in any of the 24 modules or `curriculum/README.md`. The two
 citations Phase 1 found (`advanced/07`'s `git-worktree-orchestration.md` citation, `advanced/05`'s
-`core-component-00/engineering/context-engineering/` aside) are both gone; `advanced/07`'s
+`core-component-00/framework/02-context-engineering/` aside) are both gone; `advanced/07`'s
 directory-junction incident now carries a public-source primary example (documented Windows
 reparse-point/Unix symlink recursive-delete behavior), with the internal anecdote kept only as an
 explicitly non-load-bearing aside, per plan §2 item 2's stated remediation options.
@@ -32,7 +32,7 @@ explicitly non-load-bearing aside, per plan §2 item 2's stated remediation opti
 | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
 | 694-link internal cross-reference mesh                                   | Fixed — converted to hosted-site URLs (Phase 3a)                                                                              |
 | `advanced/07` §4 citation + case study                                   | Fixed — reframed around public-source evidence (Phase 3b)                                                                     |
-| `advanced/05` `core-component-00/engineering/context-engineering/` aside | Fixed — trimmed (Phase 3b)                                                                                                    |
+| `advanced/05` `core-component-00/framework/02-context-engineering/` aside | Fixed — trimmed (Phase 3b)                                                                                                    |
 | `advanced/07` §3 transition sentence (missed in first Phase 3b pass)     | Caught by post-edit corpus-wide re-grep during Phase 3b, fixed same commit                                                    |
 | `advanced/07` §10 summary restating "this workspace's own" lifecycle     | Caught the same way, fixed same commit                                                                                        |
 | `curriculum/README.md` §6 mixing reader-facing and internal content      | **Explicitly ruled a scoping question, not a defect this round fixes** — escalated to CEO in the Phase 4 Joint Recommendation |

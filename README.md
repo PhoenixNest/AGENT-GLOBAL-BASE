@@ -141,14 +141,14 @@ large language models starts here. **Lab Director:** Dr. Elias Vance.
 
 | Layer | Module                                 | Has Runnable Code |
 | ----- | -------------------------------------- | :---------------: |
-| 1     | `engineering/prompt-engineering/`      |        No         |
-| 2     | `engineering/context-engineering/`     |        Yes        |
-| 3     | `engineering/harness-engineering/`     |        Yes        |
-| 4     | `retrieval-augmented-generation/`      |        Yes        |
-| 5     | `engineering/multi-agent-engineering/` |        Yes        |
+| 1     | `framework/01-prompt-engineering/`      |        No         |
+| 2     | `framework/02-context-engineering/`     |        Yes        |
+| 3     | `framework/03-harness-engineering/`     |        Yes        |
+| 4     | `framework/04-retrieval-augmented-generation/`      |        Yes        |
+| 5     | `framework/05-multi-agent-engineering/` |        Yes        |
 
 Key production implementations live under each module's `implementations/` folder. The governing
-framework — ASGF — is defined in `core-component-00/agent-systems-governance-framework/`.
+framework — ASGF — is defined in `core-component-00/framework/00-agent-systems-governance-framework/`.
 
 ---
 
@@ -207,9 +207,9 @@ Profile locations:
 | A specific department's agents                      | `company/departments/`                                        |
 | Studio structure + game pipeline                    | `studio/casual-games/library/overview/casual-games-studio.md` |
 | LLM engineering patterns                            | `core-component-00/README.md`                                 |
-| ASGF governance (ADRs, compliance)                  | `core-component-00/agent-systems-governance-framework/`       |
+| ASGF governance (ADRs, compliance)                  | `core-component-00/framework/00-agent-systems-governance-framework/`       |
 | Production Python code                              | `core-component-00/engineering/<module>/implementations/`     |
-| MCP server implementations                          | `core-component-00/mcp-servers/`                              |
+| MCP server implementations                          | `core-component-00/platform/model-context-protocol-servers/`                              |
 | Research archive (cross-department index)           | `telescope/README.md`                                         |
 | CC-00 engineering + LLM research                    | `core-component-00/telescope/README.md`                       |
 | Company product research                            | `company/telescope/README.md`                                 |

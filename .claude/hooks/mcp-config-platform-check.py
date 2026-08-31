@@ -25,7 +25,7 @@ an already-connected MCP server carries real risk, and OS switches are rare enou
 paying that cost every session is the wrong trade -- so this hook only ever writes when
 the file is missing or a path has actually gone stale, matching the original design's
 cost profile.
-Full record: core-component-00/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/
+Full record: core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/
 (see log/10-windows-reopen-and-proposed-fix.md, log/11 for this hook's original
 implementation, and log/14-15 for the 2026-08-30 template/gitignore redesign).
 
