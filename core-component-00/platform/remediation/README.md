@@ -150,14 +150,14 @@ before finalizing, since it directly affects MAE R3's own eventual scope.
 
 ## Related Documentation
 
-| Document                                 | Purpose                                                   |
-| ---------------------------------------- | --------------------------------------------------------- |
-| `CLAUDE.md`                              | Scope, directory structure, authoring rules               |
-| `pipeline.md`                            | Stage definitions, Scoping Rule, Hook-Change Gate         |
-| `template/implementation-plan.md`        | The plan template — full field-by-field authoring guide   |
+| Document                                          | Purpose                                                   |
+| ------------------------------------------------- | --------------------------------------------------------- |
+| `CLAUDE.md`                                       | Scope, directory structure, authoring rules               |
+| `pipeline.md`                                     | Stage definitions, Scoping Rule, Hook-Change Gate         |
+| `template/implementation-plan.md`                 | The plan template — full field-by-field authoring guide   |
 | `core-component-00/platform/benchmarks/`          | Source reports every plan item must cite                  |
 | `core-component-00/platform/maintenance-records/` | The sibling archive this folder's structure is modeled on |
-| `core-component-00/README.md`            | CC-00 Laboratory overview                                 |
+| `core-component-00/README.md`                     | CC-00 Laboratory overview                                 |
 
 ---
 

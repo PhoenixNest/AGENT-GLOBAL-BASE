@@ -226,14 +226,14 @@ changes anything in this document.
 
 ## References
 
-| Resource                                     | Location                                                                                                                                                                                                                 |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Resource                                     | Location                                                                                                                                                                                                                   |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Memory type implementations                  | [memory_store.py](core-component-00/framework/02-context-engineering/implementations/memory_store.py), [memory_vector_store.py](core-component-00/framework/02-context-engineering/implementations/memory_vector_store.py) |
-| Context compression (pre-write reduction)    | [context_compressor.py](core-component-00/framework/02-context-engineering/implementations/context_compressor.py)                                                                                                         |
-| RAG architecture / Corpus-as-Source-of-Truth | [overview.md](core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md) §§ 10–11                                                                                                                        |
-| Lightweight RAG deployment (Qdrant modes)    | [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                                                                                               |
-| Retrieval / fusion implementation            | [retrieval.py](core-component-00/framework/04-retrieval-augmented-generation/implementations/retrieval.py)                                                                                                                            |
-| Shared embedder process                      | [embedder-service/server.py](core-component-00/platform/model-context-protocol-servers/_shared/embedder-service/server.py)                                                                                                                           |
+| Context compression (pre-write reduction)    | [context_compressor.py](core-component-00/framework/02-context-engineering/implementations/context_compressor.py)                                                                                                          |
+| RAG architecture / Corpus-as-Source-of-Truth | [overview.md](core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md) §§ 10–11                                                                                                             |
+| Lightweight RAG deployment (Qdrant modes)    | [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                                                                                    |
+| Retrieval / fusion implementation            | [retrieval.py](core-component-00/framework/04-retrieval-augmented-generation/implementations/retrieval.py)                                                                                                                 |
+| Shared embedder process                      | [embedder-service/server.py](core-component-00/platform/model-context-protocol-servers/_shared/embedder-service/server.py)                                                                                                 |
 
 ---
 

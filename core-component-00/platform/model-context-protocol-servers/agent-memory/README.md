@@ -187,7 +187,9 @@ Registered in the project-root `.mcp.json`:
   "mcpServers": {
     "agent-memory": {
       "command": "${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/agent-memory/.venv/Scripts/python.exe",
-      "args": ["${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/agent-memory/server.py"],
+      "args": [
+        "${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/agent-memory/server.py"
+      ],
       "env": {
         "MEMORY_QDRANT_URL": "http://localhost:6335",
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -331,7 +333,7 @@ happens if it doesn't — disk failure, accidental deletion, host loss).
 
 | Script                     | Purpose                                                                                                                                                                                                                                                     |
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `backup_memory_log.py`     | Snapshots `../../framework/02-context-engineering/memory/` to a dated directory, keeping a rolling window of recent snapshots                                                                                                                                      |
+| `backup_memory_log.py`     | Snapshots `../../framework/02-context-engineering/memory/` to a dated directory, keeping a rolling window of recent snapshots                                                                                                                               |
 | `register_backup_task.ps1` | Registers a daily Windows Task Scheduler job to run the backup script                                                                                                                                                                                       |
 | `register_backup_task.py`  | Linux/macOS counterpart — registers a systemd `--user` timer or crontab entry. **Written 2026-08-14, UNVERIFIED** — no non-Windows machine available to test against; see its own docstring and the maintenance-record log entry below before relying on it |
 | `verify_backup_restore.py` | Replays a snapshot into a disposable test Qdrant collection via `rebuild_from_log()` and checks record counts, then cleans up                                                                                                                               |

@@ -32,8 +32,8 @@ The foundational reference for this discipline is:
 
 Read the following before producing a context design:
 
-| Document                                                                       | Purpose                                          |
-| ------------------------------------------------------------------------------ | ------------------------------------------------ |
+| Document                                                                                    | Purpose                                          |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | `core-component-00/framework/02-context-engineering/fundamentals/context-window-anatomy.md` | The four typed slots and their composition rules |
 | `core-component-00/framework/02-context-engineering/fundamentals/memory-types.md`           | Episodic, semantic, procedural, working memory   |
 | `core-component-00/framework/02-context-engineering/patterns/assembly-patterns.md`          | Dynamic assembly strategies                      |

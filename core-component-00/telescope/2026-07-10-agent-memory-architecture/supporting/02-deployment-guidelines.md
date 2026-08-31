@@ -316,8 +316,8 @@ stack report's metrics catalog.
 | Forgetting strategy (decay, promotion)                                    | [03-forgetting-strategy.md](03-forgetting-strategy.md)                                                                                               |
 | Disaster recovery (Qdrant-outage case, distinct from § 9's log-loss case) | [05-disaster-recovery-and-resilience.md](05-disaster-recovery-and-resilience.md)                                                                     |
 | Implementation status audit (what's actually running)                     | [00-sources-and-references.md](00-sources-and-references.md) § 6                                                                                     |
-| Lightweight RAG deployment                                                | [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)                           |
-| Replay mechanism, backing § 9's design                                    | [memory_vector_store.py](core-component-00/framework/02-context-engineering/implementations/memory_vector_store.py)                                   |
+| Lightweight RAG deployment                                                | [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)              |
+| Replay mechanism, backing § 9's design                                    | [memory_vector_store.py](core-component-00/framework/02-context-engineering/implementations/memory_vector_store.py)                                  |
 | Monitoring for the backup mechanism                                       | [2026-08-08-cc00-mcp-observability-stack/research-report.md](core-component-00/telescope/2026-08-08-cc00-mcp-observability-stack/research-report.md) |
 
 ---

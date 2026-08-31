@@ -54,7 +54,7 @@ are scoped to the MCP server process and are not visible to hook processes).
 | **File**         | `.claude/hooks/rag-index-sync.py`                                                                                                           |
 | **Event name**   | `PostToolUse` on `Write` and `Edit` tool calls                                                                                              |
 | **Registration** | `.claude/settings.json`, `PostToolUse` entry: `{"command": "uv", "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/rag-index-sync.py"]}` |
-| **State file**   | `core-component-00/platform/model-context-protocol-servers/workspace-knowledge/rag-system/rag-sync-state.json`                                                          |
+| **State file**   | `core-component-00/platform/model-context-protocol-servers/workspace-knowledge/rag-system/rag-sync-state.json`                              |
 
 ---
 
@@ -179,8 +179,8 @@ and the hook.
 
 ## References
 
-| Resource                       | Location                                                                                                     |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Resource                       | Location                                                                                                                  |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
 | **State File Schema**          | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight/reference/rag-sync-state-schema.md` |
 | **MCP Server Setup**           | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight/guides/mcp-server-setup.md`         |
 | **Index Sync Hook Pattern**    | `core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md`                              |

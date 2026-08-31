@@ -35,8 +35,8 @@ The foundational reference for this discipline is:
 
 Read the following before producing a context design:
 
-| Document                                                                       | Purpose                                          |
-| ------------------------------------------------------------------------------ | ------------------------------------------------ |
+| Document                                                                                    | Purpose                                          |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | `core-component-00/framework/02-context-engineering/fundamentals/context-window-anatomy.md` | The four typed slots and their composition rules |
 | `core-component-00/framework/02-context-engineering/fundamentals/memory-types.md`           | Episodic, semantic, procedural, working memory   |
 | `core-component-00/framework/02-context-engineering/patterns/assembly-patterns.md`          | Dynamic assembly strategies                      |
@@ -118,7 +118,7 @@ For sessions expected to exceed the model's context window, specify:
 | **Compression trigger**      | At what token threshold does compression engage?                                                                   |
 | **Sacred context**           | What is exempt from compression? (Decisions made, user preferences, confirmed constraints — must survive verbatim) |
 | **Compression target**       | How many tokens should the compressed history occupy after compression?                                            |
-| **Reference implementation** | `framework/02-context-engineering/implementations/context_compressor.py`                                                        |
+| **Reference implementation** | `framework/02-context-engineering/implementations/context_compressor.py`                                           |
 
 ### Step 6 — Handoff Protocol (if applicable)
 

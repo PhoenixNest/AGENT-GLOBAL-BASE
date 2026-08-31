@@ -75,16 +75,16 @@ This blueprint defines the architecture for **semantic retrieval** over the comp
 
 ## 4. Knowledge Corpus Definition
 
-| Corpus Partition          | Source                                                       |  File Count   | Update Frequency          |
-| :------------------------ | :----------------------------------------------------------- | :-----------: | :------------------------ |
-| **Agent Profiles**        | `company/departments/**/agent/profile.md`                    |      80       | Rare (profile updates)    |
-| **Skill Guidelines**      | `company/departments/**/skills/*.md`                         |     ~250      | Moderate (new guidelines) |
-| **Pipeline Definitions**  | `company/pipeline/*/pipeline.md`                             |       5       | Rare (ADR-level changes)  |
-| **Pipeline Templates**    | `company/pipeline/*/templates/**/*.md`                       |      34       | Moderate (new templates)  |
-| **Company Library**       | `company/library/**/*.md`                                    |      ~30      | Low                       |
-| **Tier 1 Artifacts**      | `company/project/*/stages/**`                                |   Variable    | High (per project)        |
-| **Tier 2 Retrospectives** | `company/project/*/retrospective.md`                         | 1 per project | Once (at Stage 10)        |
-| **Tier 3 Institutional**  | `company/library/topics/institutional-memory.md`             |       1       | Quarterly                 |
+| Corpus Partition          | Source                                                        |  File Count   | Update Frequency          |
+| :------------------------ | :------------------------------------------------------------ | :-----------: | :------------------------ |
+| **Agent Profiles**        | `company/departments/**/agent/profile.md`                     |      80       | Rare (profile updates)    |
+| **Skill Guidelines**      | `company/departments/**/skills/*.md`                          |     ~250      | Moderate (new guidelines) |
+| **Pipeline Definitions**  | `company/pipeline/*/pipeline.md`                              |       5       | Rare (ADR-level changes)  |
+| **Pipeline Templates**    | `company/pipeline/*/templates/**/*.md`                        |      34       | Moderate (new templates)  |
+| **Company Library**       | `company/library/**/*.md`                                     |      ~30      | Low                       |
+| **Tier 1 Artifacts**      | `company/project/*/stages/**`                                 |   Variable    | High (per project)        |
+| **Tier 2 Retrospectives** | `company/project/*/retrospective.md`                          | 1 per project | Once (at Stage 10)        |
+| **Tier 3 Institutional**  | `company/library/topics/institutional-memory.md`              |       1       | Quarterly                 |
 | **ASGF Framework**        | `core-component-00/framework/05-multi-agent-engineering/*.md` |      ~5       | Low                       |
 
 **Total Static Corpus:** ~355 files

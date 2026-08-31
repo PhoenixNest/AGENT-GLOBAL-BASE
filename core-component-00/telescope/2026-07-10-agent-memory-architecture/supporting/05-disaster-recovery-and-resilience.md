@@ -181,16 +181,16 @@ again; it doesn't change _how_ scoring, decay, or importance are calculated once
 
 ## References
 
-| Resource                                                                                             | Location                                                                                                                    |
-| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Resource                                                                                             | Location                                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Document-search fallback design (the precedent this extends)                                         | `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md` § 11                                            |
 | Orphaned-record detection (inverted precedent for § 5)                                               | `core-component-00/framework/04-retrieval-augmented-generation/evaluation/reference-table.md` § Orphaned Point Detection and Remediation |
 | Operator command interface (precedent for § 7)                                                       | `core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md` § Operator Control Interface                |
-| Memory-as-Corpus principle (basis for the zero-data-loss guarantee)                                  | [01-technical-options.md](01-technical-options.md) § 2                                                                      |
-| Write path and the sync-state file                                                                   | [02-deployment-guidelines.md](02-deployment-guidelines.md) § 3                                                              |
-| Deployment topology (dedicated memory database instance)                                             | [01-technical-options.md](01-technical-options.md) § 8; [02-deployment-guidelines.md](02-deployment-guidelines.md) § 1      |
-| Full implementation-status audit (what's actually built, mechanism by mechanism)                     | [00-sources-and-references.md](00-sources-and-references.md) § 6                                                            |
-| Disk-level backup design (the JSONL-log-loss case, distinct from this document's Qdrant-outage case) | [02-deployment-guidelines.md](02-deployment-guidelines.md) § 9                                                              |
+| Memory-as-Corpus principle (basis for the zero-data-loss guarantee)                                  | [01-technical-options.md](01-technical-options.md) § 2                                                                                   |
+| Write path and the sync-state file                                                                   | [02-deployment-guidelines.md](02-deployment-guidelines.md) § 3                                                                           |
+| Deployment topology (dedicated memory database instance)                                             | [01-technical-options.md](01-technical-options.md) § 8; [02-deployment-guidelines.md](02-deployment-guidelines.md) § 1                   |
+| Full implementation-status audit (what's actually built, mechanism by mechanism)                     | [00-sources-and-references.md](00-sources-and-references.md) § 6                                                                         |
+| Disk-level backup design (the JSONL-log-loss case, distinct from this document's Qdrant-outage case) | [02-deployment-guidelines.md](02-deployment-guidelines.md) § 9                                                                           |
 
 ---
 

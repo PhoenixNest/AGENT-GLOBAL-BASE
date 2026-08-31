@@ -4,15 +4,15 @@
 
 ## Metadata
 
-| Field                       | Value                                                                                                                                        |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Plan ID**                 | `2026-08-25-harness-compaction-trigger-remediation`                                                                                          |
-| **Layer**                   | 3 — Harness Engineering                                                                                                                      |
+| Field                       | Value                                                                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-08-25-harness-compaction-trigger-remediation`                                                                                                   |
+| **Layer**                   | 3 — Harness Engineering                                                                                                                               |
 | **Source Benchmark Report** | `core-component-00/platform/benchmarks/engineering/harness-engineering/2026-08-25-harness-engineering-enterprise-assessment/enterprise-assessment.md` |
-| **Owner**                   | Kwame Asante (Harness Engineering module lead)                                                                                               |
-| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                       |
-| **Hook-Change Gate**        | **Granted 2026-08-25 by User** — item I1 cleared; see `log/02-hook-change-gate-i1-granted.md`                                                |
-| **Status**                  | Verified — see `log/05-verification-i1-verified.md`                                                                                          |
+| **Owner**                   | Kwame Asante (Harness Engineering module lead)                                                                                                        |
+| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                |
+| **Hook-Change Gate**        | **Granted 2026-08-25 by User** — item I1 cleared; see `log/02-hook-change-gate-i1-granted.md`                                                         |
+| **Status**                  | Verified — see `log/05-verification-i1-verified.md`                                                                                                   |
 
 **Reviewer requirement.** No item in this plan may reach `Status: Verified` on the strength of
 Owner self-verification — see `pipeline.md` stage 4.
@@ -47,8 +47,8 @@ does not itself constitute Approval.
 
 ## Gate Log
 
-| Stage            | Entry                                                                                                                                                   | Summary                                                                                                                                                                           |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage            | Entry                                                                                                                                                            | Summary                                                                                                                                                                           |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 — Trigger      | `core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/log/01-drafting-i1-opened.md`          | Topic opened from the 2026-08-25 Harness benchmark refresh's P2 finding (Backlog row Harness R10)                                                                                 |
 | Hook-Change Gate | `core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/log/02-hook-change-gate-i1-granted.md` | User granted Gate 2 for I1's fix to `.claude/hooks/context-budget-alert.py`, directly in chat                                                                                     |
 | 2 — Approval     | `core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/log/03-approval-i1-approved.md`        | Dr. Vance approved Kwame Asante's Approach as independent Reviewer                                                                                                                |

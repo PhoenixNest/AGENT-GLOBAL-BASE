@@ -4,15 +4,15 @@
 
 ## Metadata
 
-| Field                       | Value                                                                                                                                                |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Plan ID**                 | `2026-08-17-multi-agent-engineering-remediation`                                                                                                     |
-| **Layer**                   | 5 — Multi-Agent Engineering                                                                                                                          |
+| Field                       | Value                                                                                                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-08-17-multi-agent-engineering-remediation`                                                                                                              |
+| **Layer**                   | 5 — Multi-Agent Engineering                                                                                                                                   |
 | **Source Benchmark Report** | `core-component-00/platform/benchmarks/engineering/multi-agent-engineering/2026-08-16-multi-agent-engineering-enterprise-assessment/enterprise-assessment.md` |
-| **Owner**                   | Dr. Idris Farouk (Multi-Agent Engineering lead)                                                                                                      |
-| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                               |
-| **Hook-Change Gate**        | N/A — neither item in this plan touches `.claude/hooks/*.py`                                                                                         |
-| **Status**                  | Verified — see `log/04-verification-i1-i2-verified.md`                                                                                               |
+| **Owner**                   | Dr. Idris Farouk (Multi-Agent Engineering lead)                                                                                                               |
+| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                        |
+| **Hook-Change Gate**        | N/A — neither item in this plan touches `.claude/hooks/*.py`                                                                                                  |
+| **Status**                  | Verified — see `log/04-verification-i1-i2-verified.md`                                                                                                        |
 
 ---
 
@@ -39,8 +39,8 @@ land safely — without it, I1's "no silent fallthrough" claim is unverifiable b
 
 ## Gate Log
 
-| Stage            | Entry                                                                                                                                                    | Summary                                                                                                                                                                          |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage            | Entry                                                                                                                                                             | Summary                                                                                                                                                                          |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 — Trigger      | `core-component-00/platform/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/01-drafting-i1-i2-opened.md`       | Topic opened from the signed-off MAE benchmark's 1 in-scope P1 row plus its P2 prerequisite                                                                                      |
 | 2 — Approval     | `core-component-00/platform/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/02-approval-i1-i2-approved.md`     | Dr. Vance signed off as Reviewer on I1 and I2's Approach                                                                                                                         |
 | 3 — Execution    | `core-component-00/platform/remediation/engineering/multi-agent-engineering/2026-08-17-multi-agent-engineering-remediation/log/03-execution-i1-i2-executed.md`    | I2's regression test written and confirmed red, then I1's loud-failure fix plus Router/Supervisor-Worker executors landed and confirmed green; full MAE suite (134 tests) passes |

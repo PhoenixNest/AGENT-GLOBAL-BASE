@@ -47,13 +47,13 @@ agent-systems-governance-framework/
 
 ## ASGF Layer Map
 
-| Layer | Name                | CC-00 Module                           | Requirement Class                    |
-| ----- | ------------------- | -------------------------------------- | ------------------------------------ |
-| 1     | Prompt Engineering  | `../01-prompt-engineering/`      | Standardised instruction patterns    |
-| 2     | Context Engineering | `../02-context-engineering/`     | Structured handoffs, context windows |
-| 3     | Harness Engineering | `../03-harness-engineering/`     | Automated gate enforcement           |
-| 4     | RAG / Memory        | `../04-retrieval-augmented-generation/`      | Institutional knowledge retention    |
-| 5     | Multi-Agent         | `../05-multi-agent-engineering/` | Swarm orchestration and isolation    |
+| Layer | Name                | CC-00 Module                            | Requirement Class                    |
+| ----- | ------------------- | --------------------------------------- | ------------------------------------ |
+| 1     | Prompt Engineering  | `../01-prompt-engineering/`             | Standardised instruction patterns    |
+| 2     | Context Engineering | `../02-context-engineering/`            | Structured handoffs, context windows |
+| 3     | Harness Engineering | `../03-harness-engineering/`            | Automated gate enforcement           |
+| 4     | RAG / Memory        | `../04-retrieval-augmented-generation/` | Institutional knowledge retention    |
+| 5     | Multi-Agent         | `../05-multi-agent-engineering/`        | Swarm orchestration and isolation    |
 
 ---
 

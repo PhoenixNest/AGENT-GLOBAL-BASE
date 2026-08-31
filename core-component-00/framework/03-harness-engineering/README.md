@@ -195,8 +195,8 @@ harness-engineering/
 
 ## Related Modules
 
-| Module                                                                                          | Relationship                                                                                                                 |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Module                                                                                                       | Relationship                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
 | [`context-engineering/`](core-component-00/framework/02-context-engineering/README.md)                       | Assembles the context window that Harness Engineering executes. Wire `ContextAssembler.build()` → `SafeModelCall.execute()`. |
 | [`retrieval-augmented-generation/`](core-component-00/framework/04-retrieval-augmented-generation/README.md) | Provides retrieved documents that feed into the context window via context-engineering.                                      |
 | [`prompt-engineering/`](core-component-00/framework/01-prompt-engineering/README.md)                         | Provides patterns for writing content within each context slot.                                                              |

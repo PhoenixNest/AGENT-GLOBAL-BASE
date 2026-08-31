@@ -28,16 +28,16 @@ explicitly non-load-bearing aside, per plan §2 item 2's stated remediation opti
 
 ## 3. Every Phase 1 finding fixed or explicitly ruled non-issue — none silently dropped
 
-| Phase 1 finding                                                          | Disposition                                                                                                                   |
-| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| 694-link internal cross-reference mesh                                   | Fixed — converted to hosted-site URLs (Phase 3a)                                                                              |
-| `advanced/07` §4 citation + case study                                   | Fixed — reframed around public-source evidence (Phase 3b)                                                                     |
+| Phase 1 finding                                                           | Disposition                                                                                                                   |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 694-link internal cross-reference mesh                                    | Fixed — converted to hosted-site URLs (Phase 3a)                                                                              |
+| `advanced/07` §4 citation + case study                                    | Fixed — reframed around public-source evidence (Phase 3b)                                                                     |
 | `advanced/05` `core-component-00/framework/02-context-engineering/` aside | Fixed — trimmed (Phase 3b)                                                                                                    |
-| `advanced/07` §3 transition sentence (missed in first Phase 3b pass)     | Caught by post-edit corpus-wide re-grep during Phase 3b, fixed same commit                                                    |
-| `advanced/07` §10 summary restating "this workspace's own" lifecycle     | Caught the same way, fixed same commit                                                                                        |
-| `curriculum/README.md` §6 mixing reader-facing and internal content      | **Explicitly ruled a scoping question, not a defect this round fixes** — escalated to CEO in the Phase 4 Joint Recommendation |
-| Author-metadata institutional-framing question (plan §2 item 5)          | Unchanged from the plan's own framing — already a known, deferred, non-blocking item                                          |
-| README.md's audience-framing statement ("a new ANU-00 or CC-00 joiner")  | Checked, correctly framed as-is (explains the citation rule, does not itself assume repository access) — no fix needed        |
+| `advanced/07` §3 transition sentence (missed in first Phase 3b pass)      | Caught by post-edit corpus-wide re-grep during Phase 3b, fixed same commit                                                    |
+| `advanced/07` §10 summary restating "this workspace's own" lifecycle      | Caught the same way, fixed same commit                                                                                        |
+| `curriculum/README.md` §6 mixing reader-facing and internal content       | **Explicitly ruled a scoping question, not a defect this round fixes** — escalated to CEO in the Phase 4 Joint Recommendation |
+| Author-metadata institutional-framing question (plan §2 item 5)           | Unchanged from the plan's own framing — already a known, deferred, non-blocking item                                          |
+| README.md's audience-framing statement ("a new ANU-00 or CC-00 joiner")   | Checked, correctly framed as-is (explains the citation rule, does not itself assume repository access) — no fix needed        |
 
 The blind external review's Phase 4 finding (README.md's citations extend well beyond §6, and its
 very first sentence cites a `plans/`-scoped document the link-mesh conversion script could not have

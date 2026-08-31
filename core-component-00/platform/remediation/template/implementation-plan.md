@@ -73,8 +73,8 @@ Benchmark Row ID. An item with no citation is invalid per the same "no orphan cl
 
 Per `pipeline.md`. One row per stage reached so far, oldest first.
 
-| Stage       | Entry                                                                 | Summary                |
-| ----------- | --------------------------------------------------------------------- | ---------------------- |
+| Stage       | Entry                                                                          | Summary                |
+| ----------- | ------------------------------------------------------------------------------ | ---------------------- |
 | 0 — Trigger | `core-component-00/platform/remediation/.../log/01-drafting-<items>-opened.md` | [one-sentence summary] |
 
 <!-- Add a row per subsequent stage reached, including the Hook-Change Gate if this plan has any
