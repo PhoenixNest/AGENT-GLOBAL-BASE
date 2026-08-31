@@ -138,8 +138,8 @@ def main() -> int:
             + subject
             + "' does not match required format 'agent/<name>: <verb-phrase>' (imperative, "
             "<=72 chars). This is a P2 defect per CLAUDE.md §6. Example: 'agent/backend: "
-            "add authentication endpoint'. Reference: core-component-00/engineering/"
-            "multi-agent-engineering/fundamentals/git-worktree-orchestration.md.",
+            "add authentication endpoint'. Reference: core-component-00/framework/"
+            "05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md.",
             session_id=data.get("session_id"), sub_decision="deny_subject_format",
         )
         return 0

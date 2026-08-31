@@ -208,7 +208,7 @@ Profile locations:
 | Studio structure + game pipeline                    | `studio/casual-games/library/overview/casual-games-studio.md` |
 | LLM engineering patterns                            | `core-component-00/README.md`                                 |
 | ASGF governance (ADRs, compliance)                  | `core-component-00/framework/00-agent-systems-governance-framework/`       |
-| Production Python code                              | `core-component-00/engineering/<module>/implementations/`     |
+| Production Python code                              | `core-component-00/framework/<NN-module>/implementations/`     |
 | MCP server implementations                          | `core-component-00/platform/model-context-protocol-servers/`                              |
 | Research archive (cross-department index)           | `telescope/README.md`                                         |
 | CC-00 engineering + LLM research                    | `core-component-00/telescope/README.md`                       |

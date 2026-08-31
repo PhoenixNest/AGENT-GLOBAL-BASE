@@ -90,8 +90,8 @@ def _emit_deny(branch_name: str, session_id=None) -> None:
         + "' does not follow workspace conventions. Multi-agent branches must be: "
         "agent/<role>/<task> or stage<N>/agent/<role>/<task> (e.g., "
         "agent/backend/dark-mode-api). Standard branches (feature/, fix/, company/, "
-        "studio/) are also accepted. Reference: core-component-00/engineering/"
-        "multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
+        "studio/) are also accepted. Reference: core-component-00/framework/"
+        "05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
     )
     log_invocation("multi-agent-branch-naming-guard", "PreToolUse", decision="deny",
                     reason=branch_name, session_id=session_id)
