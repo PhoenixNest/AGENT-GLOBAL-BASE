@@ -78,10 +78,12 @@ an ANU-00 finding.
 ```
 curriculum/
 ├── README.md                           ← this file — canonical conventions and module index
-├── introductory/                       ← 8 modules — zero prior background assumed
-├── intermediate/                       ← 8 modules — builds strictly on introductory/
-├── advanced/                           ← 10 modules — 8 original + 2 post-training (S2, Amendment 5)
-├── practicum/                          ← 6 hands-on coding modules (S2, Amendment 5) — see practicum/README.md
+├── books/                              ← the readable content, numbered for reading order (Amendment 6)
+│   ├── 01-introductory/                ← 8 modules — zero prior background assumed
+│   ├── 02-intermediate/                ← 8 modules — builds strictly on introductory/
+│   ├── 03-practicum/                   ← 6 hands-on coding modules (S2, Amendment 5) — see books/03-practicum/README.md;
+│   │                                     numbered third: pairs only with introductory/intermediate concepts, none with advanced
+│   └── 04-advanced/                    ← 10 modules — 8 original + 2 post-training (S2, Amendment 5)
 └── reviews/
     ├── README.md                            ← the dated-round filing convention (read before adding a new round)
     ├── 2026-08-18-first-review-cycle/       ← Pass 1 (internal/), Pass 2 (external/), Pass 3 (comprehensive-review.md)
@@ -305,7 +307,7 @@ CITATIONS (mandatory):
 - If you cannot verify a claim you were about to make, do not state it as fact — soften it, remove
   it, or find a verifiable source instead.
 - Internal Cross-References lists other curriculum modules this document builds on or connects to,
-  as a real, resolvable `https://anu00.dev/curriculum/<tier>/<filename>.md[#anchor]` URL —
+  as a real, resolvable `https://anu00.dev/curriculum/books/<NN-tier>/<filename>.md[#anchor]` URL —
   **not** a relative markdown link. Per the CEO's distribution-target ruling (2026-08-26,
   `plans/2026-08-26-curriculum-external-audience-remediation/external-audience-remediation-plan.md`
   §4), the curriculum is published as a single hosted public site, so every internal
@@ -314,7 +316,9 @@ CITATIONS (mandatory):
   the real domain once hosting exists, but do not revert to a relative path in the meantime.
   (This line previously read "as relative markdown links" — that was the pre-2026-08-26
   convention and is now stale; corrected 2026-08-27 after the stale text caused this exact
-  regression during the S2 extension's Phase 3 review and remediation.)
+  regression during the S2 extension's Phase 3 review and remediation. The `books/<NN-tier>/`
+  segment was added 2026-08-31, Amendment 6, when the four content folders moved under
+  `curriculum/books/` — see Amendment 6 below.)
 - Audience: the reader has NO prior background in ML, AI, or agent development. Introductory-level
   docs must define every term before using it. Intermediate/advanced docs may assume only what
   earlier curriculum modules already taught — name which module, don't assume outside coursework.
@@ -525,3 +529,17 @@ code boundary, and its module→author table are ratified in `practicum/README.m
 duplicated here, the same separation `reviews/README.md` already uses for review-round filing
 conventions. None of the existing 24 modules are edited by this amendment. Authoring (Phase 2 of
 the S2 plan) has not started under this ratification.
+
+**Amendment 6 — 2026-08-31, Dr. Naledi Mokoena, ANU-00 Lead, under CEO approval.** Groups the four
+content folders (`introductory/`, `intermediate/`, `practicum/`, `advanced/`) under a new
+`curriculum/books/` subfolder, and assigns each a two-digit reading-order prefix:
+`01-introductory/`, `02-intermediate/`, `03-practicum/`, `04-advanced/`. Practicum is placed third
+rather than last: `practicum/README.md` §5's module→prerequisite table pairs every practicum
+module with an introductory or intermediate concept and none with advanced, so the reading order
+consolidates hands-on practice before the reader proceeds to advanced theory. `reviews/` and the
+authorizing plan (`plans/README.md`) are unaffected — this amendment reorganizes reading content
+only. Every citation URL under §5 was corrected corpus-wide in the same pass that ratified this
+amendment (`plans/2026-08-31-curriculum-books-restructure/curriculum-books-restructure-plan.md`),
+not left as a follow-up. Inline shorthand citation labels (e.g. `introductory/01`) are unchanged —
+they identify a level and module number, not a filesystem path, and were never tied to the
+physical folder name.
