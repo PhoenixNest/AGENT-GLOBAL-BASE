@@ -30,8 +30,8 @@ protocol, prevents these failure modes before the first line of code is written.
 
 ## Reference Materials
 
-| Document                                                                               | Purpose                                      |
-| -------------------------------------------------------------------------------------- | -------------------------------------------- |
+| Document                                                                                            | Purpose                                      |
+| --------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | `core-component-00/framework/05-multi-agent-engineering/fundamentals/swarm-topologies.md`           | Topology catalogue with selection criteria   |
 | `core-component-00/framework/05-multi-agent-engineering/patterns/orchestration-patterns.md`         | Orchestration pattern library                |
 | `core-component-00/framework/05-multi-agent-engineering/patterns/anti-patterns.md`                  | Failure modes to avoid                       |

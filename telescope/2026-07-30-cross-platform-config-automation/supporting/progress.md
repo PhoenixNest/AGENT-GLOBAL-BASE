@@ -8,12 +8,12 @@
 
 ## Current Status
 
-| Phase                                   | Owner                                          | Status         |
-| ---------------------------------------- | ----------------------------------------------- | -------------- |
-| Phase 1 — Inventory & Design              | Kwame Asante                                   | Folded into Phase 2 execution below |
-| Phase 2 — Port & Parity-Test in Isolation | Kwame Asante + Connor O'Malley + Dr. Tomasz Wieczorek | **Complete** — all 15 hooks ported, independently verified, merged (11 bugs found and fixed) |
-| Phase 3 — Unified Cutover                 | Dr. Elias Vance | **Complete** — committed (`57cc143`) and merged into `workspace/inspector` (`2de0b0a`) |
-| Phase 4 — ASE Ratification & Cleanup      | Dr. Elias Vance                                | **Complete** — CLAUDE.md §3/§11 updated, research-report.md ratified and closed to Implemented, telescope/README.md index updated. Not yet committed — see open conflict noted in session-log.md |
+| Phase                                     | Owner                                                 | Status                                                                                                                                                                                           |
+| ----------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Phase 1 — Inventory & Design              | Kwame Asante                                          | Folded into Phase 2 execution below                                                                                                                                                              |
+| Phase 2 — Port & Parity-Test in Isolation | Kwame Asante + Connor O'Malley + Dr. Tomasz Wieczorek | **Complete** — all 15 hooks ported, independently verified, merged (11 bugs found and fixed)                                                                                                     |
+| Phase 3 — Unified Cutover                 | Dr. Elias Vance                                       | **Complete** — committed (`57cc143`) and merged into `workspace/inspector` (`2de0b0a`)                                                                                                           |
+| Phase 4 — ASE Ratification & Cleanup      | Dr. Elias Vance                                       | **Complete** — CLAUDE.md §3/§11 updated, research-report.md ratified and closed to Implemented, telescope/README.md index updated. Not yet committed — see open conflict noted in session-log.md |
 
 ---
 
@@ -34,8 +34,9 @@ via their `/mnt/c/...` paths, with the WSL project directory reachable from them
 Windows PowerShell process against this exact repo.
 
 **Phase 3 technical design (all verified against primary-source Claude Code docs, not assumed):**
+
 - Every hook now invoked via **exec form** (`"command": "uv", "args": ["run",
-  "${CLAUDE_PROJECT_DIR}/.claude/hooks/<name>.py"]`) — no shell involved at all, so there is no
+"${CLAUDE_PROJECT_DIR}/.claude/hooks/<name>.py"]`) — no shell involved at all, so there is no
   `python`/`python3` naming discrepancy (confirmed: this repo's own Linux/WSL side has no bare
   `python`, only `python3`) and no shell-quoting cross-platform risk.
 - **Placeholder syntax matters**: exec-form `args` elements only substitute the **braced**

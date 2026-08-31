@@ -1592,8 +1592,8 @@ python core-component-00\framework\04-retrieval-augmented-generation\tools\test_
 
 ### 12.1 Internal Documentation
 
-| Document                | Location                                                                               | Purpose                                  |
-| ----------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Document                | Location                                                                                            | Purpose                                  |
+| ----------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | **RAG Architecture**    | `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md`            | System architecture and component design |
 | **Context Engineering** | `core-component-00/framework/02-context-engineering/README.md`                                      | 4-slot context assembly patterns         |
 | **Harness Engineering** | `core-component-00/framework/03-harness-engineering/README.md`                                      | Error boundaries and safe execution      |

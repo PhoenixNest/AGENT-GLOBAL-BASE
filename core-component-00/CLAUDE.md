@@ -32,13 +32,13 @@ protocol: `crew/README.md` and `crew/CLAUDE.md`.
 
 ## The Five-Module Engineering Stack
 
-| Layer                     | Module Folder                              | Type                  | Has Tests? |
-| ------------------------- | ------------------------------------------- | --------------------- | ---------- |
-| 1 — What to write         | `framework/01-prompt-engineering/`          | Knowledge base        | No         |
-| 2 — How to structure it   | `framework/02-context-engineering/`         | Knowledge + Framework | Yes        |
-| 3 — How to execute safely | `framework/03-harness-engineering/`         | Production Framework  | Yes        |
+| Layer                     | Module Folder                                  | Type                  | Has Tests? |
+| ------------------------- | ---------------------------------------------- | --------------------- | ---------- |
+| 1 — What to write         | `framework/01-prompt-engineering/`             | Knowledge base        | No         |
+| 2 — How to structure it   | `framework/02-context-engineering/`            | Knowledge + Framework | Yes        |
+| 3 — How to execute safely | `framework/03-harness-engineering/`            | Production Framework  | Yes        |
 | 4 — Where to get content  | `framework/04-retrieval-augmented-generation/` | Production Framework  | Yes        |
-| 5 — How agents cooperate  | `framework/05-multi-agent-engineering/`     | Production Framework  | Yes        |
+| 5 — How agents cooperate  | `framework/05-multi-agent-engineering/`        | Production Framework  | Yes        |
 
 ASGF (Agent Systems Governance Framework) is the **meta-layer above all five** — not a sixth module. See
 `framework/00-agent-systems-governance-framework/`.
@@ -49,16 +49,16 @@ ASGF (Agent Systems Governance Framework) is the **meta-layer above all five** �
 
 All paths relative to `core-component-00/`:
 
-| File                                                                                  | Module | Purpose                                                |
-| -------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
-| `framework/02-context-engineering/implementations/context_assembler.py`                | CE     | Four-slot context window assembly                      |
-| `framework/02-context-engineering/implementations/memory_store.py`                     | CE     | Episodic, semantic, procedural, working memory         |
-| `framework/02-context-engineering/implementations/context_compressor.py`               | CE     | Long-session compression                               |
-| `framework/03-harness-engineering/implementations/error_boundary.py`                   | HE     | Timeout, rate-limit, validation recovery               |
-| `framework/03-harness-engineering/implementations/context_monitor.py`                  | HE     | Token budget enforcement                               |
-| `framework/03-harness-engineering/implementations/tool_registry.py`                    | HE     | Tool whitelists, call limits, dangerous task detection |
-| `framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py`           | MAE    | Swarm topology orchestration                           |
-| `framework/05-multi-agent-engineering/implementations/handoff_packet.py`               | MAE    | Context Handoff Protocol                               |
+| File                                                                         | Module | Purpose                                                |
+| ---------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
+| `framework/02-context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
+| `framework/02-context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
+| `framework/02-context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
+| `framework/03-harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery               |
+| `framework/03-harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                               |
+| `framework/03-harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits, dangerous task detection |
+| `framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                           |
+| `framework/05-multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                               |
 
 ---
 
@@ -109,9 +109,9 @@ Governing documents: `framework/00-agent-systems-governance-framework/governance
 
 ## Where to Look
 
-| I need…                                                         | Go to                                                       |
-| --------------------------------------------------------------- | ------------------------------------------------------------ |
-| Full lab overview + researcher profile                          | `README.md`                                                  |
+| I need…                                                         | Go to                                                         |
+| --------------------------------------------------------------- | ------------------------------------------------------------- |
+| Full lab overview + researcher profile                          | `README.md`                                                   |
 | Governing framework + compliance                                | `framework/00-agent-systems-governance-framework/`            |
 | Synthesis of all five layers                                    | `framework/00-agent-systems-governance-framework/CONCEPTS.md` |
 | Prompt patterns                                                 | `framework/01-prompt-engineering/`                            |
@@ -122,7 +122,7 @@ Governing documents: `framework/00-agent-systems-governance-framework/governance
 | MCP server implementations (deployment surface)                 | `platform/model-context-protocol-servers/`                    |
 | Lab Director persona + crew roster                              | `crew/`                                                       |
 | Research reports (CC-00 engineering + LLM research)             | `telescope/`                                                  |
-| Maintenance operations log (servers, dependencies, MCP infra)   | `platform/maintenance-records/`                                |
+| Maintenance operations log (servers, dependencies, MCP infra)   | `platform/maintenance-records/`                               |
 | Enterprise benchmark assessments (module vs. industry practice) | `platform/benchmarks/`                                        |
 | Remediation execution log (P0/P1 benchmark findings)            | `platform/remediation/`                                       |
 | Cross-cutting / workspace-wide research                         | workspace-root `telescope/`                                   |

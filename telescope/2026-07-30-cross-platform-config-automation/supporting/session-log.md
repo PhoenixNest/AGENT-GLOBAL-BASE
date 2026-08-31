@@ -85,7 +85,7 @@ Chronological audit trail. Append-only.
   JSON (not just read code), fix any bugs directly rather than only reporting them, confirm
   fail-closed behavior on governance-critical hooks, avoid touching `settings.json` (Phase 3 not
   started) or the `.ps1`/`.sh` originals, and commit on its own branch per `agent/<name>:
-  <verb-phrase>` convention.
+<verb-phrase>` convention.
 - Awaiting completion notifications; will merge verified branches back to `workspace/inspector`
   and update this log with actual per-hook results once each agent reports in.
 
@@ -159,8 +159,8 @@ Chronological audit trail. Append-only.
   create any new commit resubmitting `b61d4a6`'s content at all — leave it in an unsubmitted
   (uncommitted, working-tree-only) state. Flagged before executing that this was technically
   incompatible with keeping the separate `docs: record Phase 2 completion` commit (`b0dd485`)
-  intact as a normal commit, since `b0dd485` only *edits* three files that `b61d4a6` originally
-  *created* — a diff can't modify a file that isn't in history. CEO chose: leave that content
+  intact as a normal commit, since `b0dd485` only _edits_ three files that `b61d4a6` originally
+  _created_ — a diff can't modify a file that isn't in history. CEO chose: leave that content
   unsubmitted too (Option A), rather than letting `b0dd485` absorb the doc creation (Option B).
   On inspection, `workspace/inspector`'s actual tip was already `89e5008` (not `b0dd485` —
   that commit existed as a loose object but had never been advanced onto the branch), so the
@@ -222,7 +222,7 @@ Chronological audit trail. Append-only.
 - CEO asked how to resolve the `python`/`python3` naming discrepancy across platforms instead.
   Recommended `uv run <script>.py` as the single cross-platform invocation form (resolves its own
   interpreter regardless of what the system calls it) — verified live: `uv run
-  .claude/hooks/context-budget-alert.py` produced identical, correct behavior (piped JSON, exit 0)
+.claude/hooks/context-budget-alert.py` produced identical, correct behavior (piped JSON, exit 0)
   both directly on Linux/WSL and through the real Windows PowerShell UNC-path interop.
 - CEO flagged a `uv` version skew noticed during that test (Linux 0.12.0, Windows 0.8.17).
   Verified via `uv`'s own release documentation (Astral ships one version tag with prebuilt
@@ -240,12 +240,12 @@ Chronological audit trail. Append-only.
   rather than assuming: exec form (`command`+`args`, no shell) vs. shell form (`command` only,
   shell varies: `sh -c` on POSIX, Git Bash or PowerShell on Windows); `${CLAUDE_PROJECT_DIR}`
   substitution happens as literal text before spawn in both forms; the hook-level `shell` field is
-  ignored once `args` is set; and `defaultShell` (bash/powershell) is a *separate*, interactive-`!`-command-only
+  ignored once `args` is set; and `defaultShell` (bash/powershell) is a _separate_, interactive-`!`-command-only
   setting that already auto-detects correctly per platform when left unset, matching CLAUDE.md
   §1's own documented Git-Bash exception — so no OS-conditional value is needed anywhere in the
   unified file.
 - **Wrote the unified `settings.json`**: every hook entry now `{"command": "uv", "args": ["run",
-  "${CLAUDE_PROJECT_DIR}/.claude/hooks/<name>.py"]}` (exec form). Dropped the dangling
+"${CLAUDE_PROJECT_DIR}/.claude/hooks/<name>.py"]}` (exec form). Dropped the dangling
   `prompt-write-guard.sh` entry (see below). Merged `enabledMcpjsonServers` to include both
   `workspace-knowledge` and `agent-memory`. Deleted `platform-settings/settings.bash.json` and
   `settings.powershell.json` (the latter clean; the former had unrelated pre-existing uncommitted
@@ -257,7 +257,7 @@ Chronological audit trail. Append-only.
 - **Self-inflicted incident, caught and fixed live:** the first draft used bare
   `$CLAUDE_PROJECT_DIR` instead of the required braced `${CLAUDE_PROJECT_DIR}` inside exec-form
   `args` — exec form has no shell to expand a bare `$VAR`, so `uv` tried to spawn a literal,
-  nonexistent path. Since this session's own live `.claude/settings.json` *is* the file being
+  nonexistent path. Since this session's own live `.claude/settings.json` _is_ the file being
   edited, this immediately broke the `PreToolUse: "*"` `prompt-gate-enforcer` hook (and the
   `Bash|PowerShell`-matched hooks), which blocked **every** subsequent tool call in the session,
   including every attempted fix (Edit, Bash, Read, and even `AskUserQuestion` itself all hit the
@@ -310,7 +310,7 @@ Chronological audit trail. Append-only.
   `git commit -F <message-file>`, which keeps the actual message text entirely out of the shell
   command the hook inspects.
 - Committed on the draft branch as `57cc143` (`agent/harness-engineering: complete Phase 3
-  unified settings.json cutover`), covering: the `uv run` hook rewrite, the two retired
+unified settings.json cutover`), covering: the `uv run` hook rewrite, the two retired
   `platform-settings/*.json` file deletions, `init.py`'s dead-logic removal, the 30 original hook
   scripts, and both doc updates — staged explicitly by filename throughout (never a blanket
   `git add`), so the pre-existing unrelated MCP-server-fix modifications and the still-unsubmitted
@@ -339,7 +339,7 @@ Chronological audit trail. Append-only.
   Updated `telescope/README.md`'s index row to match (was previously self-contradictory: "Complete
   — implementation authorized by CEO, not yet started").
 - **Found a real conflict before staging anything, not silently resolved:** `git show
-  HEAD:telescope/README.md` confirms this investigation's index row has never existed in any
+HEAD:telescope/README.md` confirms this investigation's index row has never existed in any
   commit, and `research-report.md` (plus the rest of this `supporting/` directory) has never been
   committed at all — this is exactly the content the CEO directed be kept unsubmitted during the
   `b61d4a6` remediation (Option A, this same file). Phase 4's own defined scope explicitly calls

@@ -59,13 +59,13 @@ Precedent already existed inside this workspace for fixing exactly this class of
 
 **Verification:**
 
-| Check performed                                                                | Result                                                                                            |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| Read root `.mcp.json` — confirmed literal `"command"` value for both servers   | Confirmed: `.../mcp-servers/.venv/Scripts/python.exe` on both entries (Windows-only path)         |
-| Read `agent-memory/server.py:242` — confirmed the sibling-cleanup OS guard     | Confirmed: `if sys.platform != "win32": return` — non-Windows path is a no-op, not a crash        |
-| Grep sweep of `core-component-00/platform/model-context-protocol-servers/` for PowerShell references       | Confirmed 8 matching files (server.py, 2 test files, backup script, 2 READMEs, `.ps1`, CLAUDE.md) |
-| Read `manage_embedder_service.ps1` in full                                     | Confirmed: no `.py`/`.sh` equivalent existed anywhere in `_shared/embedder-service/`              |
-| Read `register_backup_task.ps1`'s calling context via `agent-memory/README.md` | Confirmed: STATUS is "implemented, INACTIVE" — no automatic caller, opt-in only                   |
+| Check performed                                                                                      | Result                                                                                            |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Read root `.mcp.json` — confirmed literal `"command"` value for both servers                         | Confirmed: `.../mcp-servers/.venv/Scripts/python.exe` on both entries (Windows-only path)         |
+| Read `agent-memory/server.py:242` — confirmed the sibling-cleanup OS guard                           | Confirmed: `if sys.platform != "win32": return` — non-Windows path is a no-op, not a crash        |
+| Grep sweep of `core-component-00/platform/model-context-protocol-servers/` for PowerShell references | Confirmed 8 matching files (server.py, 2 test files, backup script, 2 READMEs, `.ps1`, CLAUDE.md) |
+| Read `manage_embedder_service.ps1` in full                                                           | Confirmed: no `.py`/`.sh` equivalent existed anywhere in `_shared/embedder-service/`              |
+| Read `register_backup_task.ps1`'s calling context via `agent-memory/README.md`                       | Confirmed: STATUS is "implemented, INACTIVE" — no automatic caller, opt-in only                   |
 
 **Outcome:** The CEO's concern was confirmed accurate and, in one respect, understated — the
 `.mcp.json` interpreter path was a hard launch blocker on Linux/macOS, not merely a degraded

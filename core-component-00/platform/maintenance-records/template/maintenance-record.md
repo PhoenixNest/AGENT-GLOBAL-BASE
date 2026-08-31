@@ -50,8 +50,8 @@ Per `core-component-00/platform/maintenance-records/pipeline.md`. One row per st
 first — the full `log/` entry's path plus a one- or two-sentence summary, not the full account
 (that's in the linked entry).
 
-| Stage             | Entry                                                                      | Summary                |
-| ----------------- | -------------------------------------------------------------------------- | ---------------------- |
+| Stage             | Entry                                                                               | Summary                |
+| ----------------- | ----------------------------------------------------------------------------------- | ---------------------- |
 | 1 — Investigation | `core-component-00/platform/maintenance-records/YYYY-MM-DD-<slug>/log/01-<slug>.md` | [one-sentence summary] |
 
 <!-- Add a row per subsequent stage reached. If the topic reopens (a new problem found during

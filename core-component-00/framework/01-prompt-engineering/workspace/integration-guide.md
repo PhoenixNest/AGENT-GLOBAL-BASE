@@ -447,14 +447,14 @@ Every AI tool has an **entry point** — a configuration file or instruction set
 
 **How:** Configure your tool to load from canonical workspace paths:
 
-| What to load                 | Canonical workspace path                                  |
-| ---------------------------- | --------------------------------------------------------- |
-| Master rules                 | `AGENTS.md`                                               |
-| Mobile pipeline              | `company/pipeline/mobile-development/pipeline.md`         |
-| Web pipeline                 | `company/pipeline/web-development/pipeline.md`            |
-| Backend API pipeline         | `company/pipeline/backend-api/pipeline.md`                |
-| Full-Stack pipeline          | `company/pipeline/full-stack/pipeline.md`                 |
-| Recruitment pipeline         | `company/pipeline/recruitment/pipeline.md`                |
+| What to load                 | Canonical workspace path                                               |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| Master rules                 | `AGENTS.md`                                                            |
+| Mobile pipeline              | `company/pipeline/mobile-development/pipeline.md`                      |
+| Web pipeline                 | `company/pipeline/web-development/pipeline.md`                         |
+| Backend API pipeline         | `company/pipeline/backend-api/pipeline.md`                             |
+| Full-Stack pipeline          | `company/pipeline/full-stack/pipeline.md`                              |
+| Recruitment pipeline         | `company/pipeline/recruitment/pipeline.md`                             |
 | Prompt engineering reference | `core-component-00/framework/01-prompt-engineering/quick-reference.md` |
 
 **Example — Claude Code:**

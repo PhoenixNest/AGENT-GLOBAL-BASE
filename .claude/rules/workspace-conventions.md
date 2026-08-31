@@ -57,9 +57,9 @@ Any task exceeding estimate by >20% triggers CTO → CPO schedule risk notificat
 
 ## Context and Session Management
 
-| Situation                | Action                                                                   | Reference                                                                                 |
-| ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                                         |
+| Situation                | Action                                                                   | Reference                                                                                  |
+| ------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| Session boundary reached | Maintain `progress.md`, `session-log.md`, `checkpoint.json`              | —                                                                                          |
 | Context budget pressure  | Apply Sacred Context; run the context compressor                         | `core-component-00/framework/02-context-engineering/implementations/context_compressor.py` |
 | Inter-agent handoff      | Follow the three-tier Context Handoff Protocol (Full / Scoped / Minimal) | `core-component-00/framework/02-context-engineering/patterns/multi-agent-handoff.md`       |
 

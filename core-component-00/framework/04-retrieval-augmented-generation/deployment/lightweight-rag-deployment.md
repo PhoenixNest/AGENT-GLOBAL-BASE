@@ -181,8 +181,8 @@ This component is the **retrieval layer** of the full-stack RAG architecture des
 `full-stack-rag-deployment.md`. The two systems share the same retrieval engineering principles
 documented across this module:
 
-| Principle                             | Reference                                                                                                             |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Principle                             | Reference                                                                                                                          |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Corpus-as-Source-of-Truth             | `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md` §10                                       |
 | Graceful Degradation Stack            | `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md` §11                                       |
 | Index Sync Hook pattern               | `core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md`                                       |
@@ -193,13 +193,13 @@ documented across this module:
 
 ## References
 
-| Resource                      | Location                                                                                   |
-| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| Resource                      | Location                                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **CC-00 RAG Architecture**    | `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md`                |
 | **Index Sync Hook Pattern**   | `core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md`            |
 | **Evaluation Reference**      | `core-component-00/framework/04-retrieval-augmented-generation/evaluation/reference-table.md`           |
 | **Full-Stack RAG Deployment** | `core-component-00/framework/04-retrieval-augmented-generation/deployment/full-stack-rag-deployment.md` |
-| **Qdrant Documentation**      | https://qdrant.tech/documentation/                                                         |
+| **Qdrant Documentation**      | https://qdrant.tech/documentation/                                                                      |
 
 ---
 

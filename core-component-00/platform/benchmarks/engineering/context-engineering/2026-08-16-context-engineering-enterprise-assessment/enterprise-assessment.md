@@ -10,7 +10,7 @@
 | **Date**                        | 2026-08-16                                                                  |
 | **Assessor**                    | Mei-Ling Zhao (Senior Research Engineer — Context Engineering, module lead) |
 | **Reviewer**                    | Dr. Elias Vance (Laboratory Director) — reviewed 2026-08-16                 |
-| **Module(s) / System Assessed** | `core-component-00/framework/02-context-engineering/`                        |
+| **Module(s) / System Assessed** | `core-component-00/framework/02-context-engineering/`                       |
 | **Requestor**                   | CEO, via user                                                               |
 | **Prior Assessment**            | None — first pass                                                           |
 

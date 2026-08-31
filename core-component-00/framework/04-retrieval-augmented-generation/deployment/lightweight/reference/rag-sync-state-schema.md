@@ -175,8 +175,8 @@ malformed — a safe degraded state that does not cause incorrect behavior.
 
 ## References
 
-| Resource                     | Location                                                                                               |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Resource                     | Location                                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **Hook Configuration Guide** | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight/guides/hook-configuration.md` |
 | **Index Sync Hook Pattern**  | `core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md`                        |
 | **MCP Server Setup**         | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight/guides/mcp-server-setup.md`   |

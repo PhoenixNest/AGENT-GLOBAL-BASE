@@ -4,15 +4,15 @@
 
 ## Metadata
 
-| Field                           | Value                                                                                                               |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Assessment ID**               | `2026-08-16-harness-engineering-enterprise-assessment`                                                              |
-| **Date**                        | 2026-08-16                                                                                                          |
-| **Assessor**                    | Kwame Asante (Senior Research Engineer, Harness Engineering — module lead)                                          |
-| **Reviewer**                    | Dr. Elias Vance (Laboratory Director) — reviewed 2026-08-16                                                         |
+| Field                           | Value                                                                                                                |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Assessment ID**               | `2026-08-16-harness-engineering-enterprise-assessment`                                                               |
+| **Date**                        | 2026-08-16                                                                                                           |
+| **Assessor**                    | Kwame Asante (Senior Research Engineer, Harness Engineering — module lead)                                           |
+| **Reviewer**                    | Dr. Elias Vance (Laboratory Director) — reviewed 2026-08-16                                                          |
 | **Module(s) / System Assessed** | `core-component-00/framework/03-harness-engineering/`, plus its two Claude Code session-layer hooks (H-CE01, H-HE02) |
-| **Requestor**                   | CEO, via user — Layer 3 of the enterprise benchmark series                                                          |
-| **Prior Assessment**            | None — first pass                                                                                                   |
+| **Requestor**                   | CEO, via user — Layer 3 of the enterprise benchmark series                                                           |
+| **Prior Assessment**            | None — first pass                                                                                                    |
 
 ---
 

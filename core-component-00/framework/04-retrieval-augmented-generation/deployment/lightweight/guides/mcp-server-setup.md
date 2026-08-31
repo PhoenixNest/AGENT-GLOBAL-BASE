@@ -301,8 +301,8 @@ detection). Rollback is available within one MCP server restart cycle.
 
 ## References
 
-| Resource                     | Location                                                                                                     |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Resource                     | Location                                                                                                                  |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | **Hook Configuration**       | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight/guides/hook-configuration.md`       |
 | **State File Schema**        | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight/reference/rag-sync-state-schema.md` |
 | **Lightweight RAG Overview** | `core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md`                  |

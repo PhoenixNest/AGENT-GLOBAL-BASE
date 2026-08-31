@@ -65,34 +65,34 @@ the layer above it will demand.
 Specify the instruction patterns that will be used in system prompts, task prompts, and
 any tool-use prompts.
 
-| Decision                               | Options / Reference                                                                                             |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Decision                               | Options / Reference                                                                                                          |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Prompting technique                    | Zero-shot, few-shot, CoT, Schema-Constrained, Socratic — see `framework/01-prompt-engineering/patterns/advanced-patterns.md` |
-| Role / persona definition              | Define if using an agent profile; specify identity, constraints, and mode                                       |
-| System prompt vs. task prompt boundary | System: persistent identity and rules; task: per-request instructions                                           |
-| Output format requirements             | If downstream requires structured output, use schema-constrained prompting                                      |
+| Role / persona definition              | Define if using an agent profile; specify identity, constraints, and mode                                                    |
+| System prompt vs. task prompt boundary | System: persistent identity and rules; task: per-request instructions                                                        |
+| Output format requirements             | If downstream requires structured output, use schema-constrained prompting                                                   |
 
 #### Layer 2 — Context Engineering
 
 Specify the context window architecture.
 
-| Decision                                       | Options / Reference                                                                                            |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Decision                                       | Options / Reference                                                                                                         |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | Memory types needed                            | Episodic / Semantic / Procedural / Working — see `framework/02-context-engineering/fundamentals/memory-types.md`            |
 | Four-slot composition                          | System / Retrieved / History / Tool outputs — see `framework/02-context-engineering/fundamentals/context-window-anatomy.md` |
-| Slot priority order under token pressure       | Default: System > Retrieved > History > Tool outputs. Document any deviation                                   |
-| Context preservation across session boundaries | Specify compression strategy and what is marked as sacred                                                      |
+| Slot priority order under token pressure       | Default: System > Retrieved > History > Tool outputs. Document any deviation                                                |
+| Context preservation across session boundaries | Specify compression strategy and what is marked as sacred                                                                   |
 | Multi-agent handoff tier                       | Full / Scoped / Minimal per agent transition — see `framework/02-context-engineering/patterns/multi-agent-handoff.md`       |
 
 #### Layer 3 — Harness Engineering
 
 Specify the execution envelope around each model call.
 
-| Decision                | Options / Reference                                                                                                |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Timeout thresholds      | Set per the system's p99 latency requirement                                                                       |
-| Tool call whitelist     | Which tools are permitted via the Tool Registry; specify call limits                                               |
-| Retry logic             | Governs rate-limit and transient errors; use exponential backoff                                                   |
+| Decision                | Options / Reference                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Timeout thresholds      | Set per the system's p99 latency requirement                                                                                    |
+| Tool call whitelist     | Which tools are permitted via the Tool Registry; specify call limits                                                            |
+| Retry logic             | Governs rate-limit and transient errors; use exponential backoff                                                                |
 | Token budget thresholds | When to trigger graceful degradation vs. hard abort — see `framework/03-harness-engineering/implementations/context_monitor.py` |
 
 #### Layer 4 — Retrieval-Augmented Generation
@@ -101,12 +101,12 @@ Specify the knowledge retrieval pipeline if the system needs external knowledge.
 external knowledge retrieval is not required, document why and note that this layer is
 not instantiated.
 
-| Decision                          | Options / Reference                                                                        |
-| --------------------------------- | ------------------------------------------------------------------------------------------ |
-| Knowledge source(s)               | What is being indexed and at what refresh cadence                                          |
-| Chunking strategy                 | Fixed-size, semantic, or document-boundary — depends on content type                       |
-| Embedding model and vector store  | Select based on latency, scale, and cost requirements                                      |
-| ACL filtering                     | Required if retrieved chunks carry user-level access controls                              |
+| Decision                          | Options / Reference                                                                                     |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Knowledge source(s)               | What is being indexed and at what refresh cadence                                                       |
+| Chunking strategy                 | Fixed-size, semantic, or document-boundary — depends on content type                                    |
+| Embedding model and vector store  | Select based on latency, scale, and cost requirements                                                   |
+| ACL filtering                     | Required if retrieved chunks carry user-level access controls                                           |
 | Reranking before context assembly | Specify the reranking step — see `framework/04-retrieval-augmented-generation/architecture/overview.md` |
 
 #### Layer 5 — Multi-Agent Engineering
@@ -114,11 +114,11 @@ not instantiated.
 Specify the agent topology if the system decomposes into multiple agents. If the system
 is single-agent, document why and note that this layer is not instantiated.
 
-| Decision                                | Options / Reference                                                                                                           |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Decision                                | Options / Reference                                                                                                                        |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Swarm topology                          | Hierarchical / Flat / Mesh / Pipeline / Hybrid — see `framework/05-multi-agent-engineering/fundamentals/swarm-topologies.md`               |
-| Agent roles and authority boundaries    | Define each agent's responsibility, input, output, and escalation path                                                        |
-| Work decomposition and result synthesis | How tasks are divided across agents and how results are merged                                                                |
+| Agent roles and authority boundaries    | Define each agent's responsibility, input, output, and escalation path                                                                     |
+| Work decomposition and result synthesis | How tasks are divided across agents and how results are merged                                                                             |
 | Orchestration patterns                  | Pipeline / Fork-Join / Router / Supervisor-Worker / Debate — see `framework/05-multi-agent-engineering/patterns/orchestration-patterns.md` |
 
 ### Step 3 — Integration Validation

@@ -4,15 +4,15 @@
 
 ## Metadata
 
-| Field                       | Value                                                                                                                                                  |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Plan ID**                 | `2026-08-17-retrieval-augmented-generation-remediation`                                                                                                |
-| **Layer**                   | 4 — Retrieval-Augmented Generation                                                                                                                     |
+| Field                       | Value                                                                                                                                                           |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-08-17-retrieval-augmented-generation-remediation`                                                                                                         |
+| **Layer**                   | 4 — Retrieval-Augmented Generation                                                                                                                              |
 | **Source Benchmark Report** | `core-component-00/platform/benchmarks/retrieval-augmented-generation/2026-08-16-retrieval-augmented-generation-enterprise-assessment/enterprise-assessment.md` |
-| **Owner**                   | Sofia Almeida (RAG lead)                                                                                                                               |
-| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                 |
-| **Hook-Change Gate**        | N/A — neither item in this plan touches `.claude/hooks/*.py`                                                                                           |
-| **Status**                  | Verified — see `log/05-verification-i1-i2-verified.md`                                                                                                 |
+| **Owner**                   | Sofia Almeida (RAG lead)                                                                                                                                        |
+| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                          |
+| **Hook-Change Gate**        | N/A — neither item in this plan touches `.claude/hooks/*.py`                                                                                                    |
+| **Status**                  | Verified — see `log/05-verification-i1-i2-verified.md`                                                                                                          |
 
 ---
 
@@ -33,8 +33,8 @@
 
 ## Gate Log
 
-| Stage            | Entry                                                                                                                                                      | Summary                                                                                                                       |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Stage            | Entry                                                                                                                                                               | Summary                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | 0 — Trigger      | `core-component-00/platform/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/01-drafting-i1-i2-opened.md`       | Topic opened from the signed-off RAG benchmark's 2 in-scope P1 rows                                                           |
 | 2 — Approval     | `core-component-00/platform/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/02-approval-i1-i2-approved.md`     | Dr. Vance signed off as Reviewer on I1 and I2's Approach                                                                      |
 | 3 — Execution    | `core-component-00/platform/remediation/retrieval-augmented-generation/2026-08-17-retrieval-augmented-generation-remediation/log/03-execution-i1-executed.md`       | Sofia Almeida threaded `user_role` into the BM25 candidate corpus and `vector_store.search()`; `pytest` 83 passed             |

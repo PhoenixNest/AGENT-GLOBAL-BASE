@@ -4,15 +4,15 @@
 
 ## Metadata
 
-| Field                       | Value                                                                                                                                        |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Plan ID**                 | `2026-08-25-harness-rate-limiter-remediation`                                                                                                |
-| **Layer**                   | 3 — Harness Engineering                                                                                                                      |
+| Field                       | Value                                                                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-08-25-harness-rate-limiter-remediation`                                                                                                         |
+| **Layer**                   | 3 — Harness Engineering                                                                                                                               |
 | **Source Benchmark Report** | `core-component-00/platform/benchmarks/engineering/harness-engineering/2026-08-25-harness-engineering-enterprise-assessment/enterprise-assessment.md` |
-| **Owner**                   | Kwame Asante (Harness Engineering module lead)                                                                                               |
-| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                       |
-| **Hook-Change Gate**        | N/A — the fix lands in `implementations/error_boundary.py`'s `RateLimiter` class, not `.claude/hooks/*.py`                                   |
-| **Status**                  | Verified — see `log/04-verification-i1-verified.md`                                                                                          |
+| **Owner**                   | Kwame Asante (Harness Engineering module lead)                                                                                                        |
+| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                |
+| **Hook-Change Gate**        | N/A — the fix lands in `implementations/error_boundary.py`'s `RateLimiter` class, not `.claude/hooks/*.py`                                            |
+| **Status**                  | Verified — see `log/04-verification-i1-verified.md`                                                                                                   |
 
 **Reviewer requirement.** No item in this plan may reach `Status: Verified` on the strength of
 Owner self-verification — see `pipeline.md` stage 4.
@@ -43,8 +43,8 @@ Owner self-verification — see `pipeline.md` stage 4.
 
 ## Gate Log
 
-| Stage            | Entry                                                                                                                                          | Summary                                                                                                                                           |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage            | Entry                                                                                                                                                   | Summary                                                                                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 — Trigger      | `core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/log/01-drafting-i1-opened.md`       | Topic opened from the 2026-08-25 Harness benchmark refresh's new P1 finding (Backlog row Harness R9)                                              |
 | 2 — Approval     | `core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/log/02-approval-i1-approved.md`     | Dr. Vance approved Kwame Asante's Approach as independent Reviewer                                                                                |
 | 3 — Execution    | `core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/log/03-execution-i1-executed.md`    | `RateLimiter` made token-aware (`token_cost` param, tokens/minute bucket, oversized-call fix); 5 new/updated tests; full suite 83 passed          |

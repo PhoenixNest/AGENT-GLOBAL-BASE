@@ -4,15 +4,15 @@
 
 ## Metadata
 
-| Field                       | Value                                                                                                                                        |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Plan ID**                 | `2026-08-17-context-engineering-remediation`                                                                                                 |
-| **Layer**                   | 2 — Context Engineering                                                                                                                      |
+| Field                       | Value                                                                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-08-17-context-engineering-remediation`                                                                                                          |
+| **Layer**                   | 2 — Context Engineering                                                                                                                               |
 | **Source Benchmark Report** | `core-component-00/platform/benchmarks/engineering/context-engineering/2026-08-16-context-engineering-enterprise-assessment/enterprise-assessment.md` |
-| **Owner**                   | Mei-Ling Zhao (Context Engineering lead)                                                                                                     |
-| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                       |
-| **Hook-Change Gate**        | N/A — neither item in this plan touches `.claude/hooks/*.py`                                                                                 |
-| **Status**                  | Verified — see `log/04-verification-i1-i2-verified.md`                                                                                       |
+| **Owner**                   | Mei-Ling Zhao (Context Engineering lead)                                                                                                              |
+| **Reviewer**                | Dr. Elias Vance (independent of Owner)                                                                                                                |
+| **Hook-Change Gate**        | N/A — neither item in this plan touches `.claude/hooks/*.py`                                                                                          |
+| **Status**                  | Verified — see `log/04-verification-i1-i2-verified.md`                                                                                                |
 
 ---
 
@@ -40,8 +40,8 @@ Implementation Plan instead. See Cross-Layer Dependencies below.
 
 ## Gate Log
 
-| Stage            | Entry                                                                                                                                            | Summary                                                                                                                                                                                                                                        |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stage            | Entry                                                                                                                                                     | Summary                                                                                                                                                                                                                                        |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 — Trigger      | `core-component-00/platform/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/01-drafting-i1-i2-opened.md`       | Topic opened from the signed-off Context benchmark's 2 in-scope P1 rows (R1 relocated to Harness)                                                                                                                                              |
 | 2 — Approval     | `core-component-00/platform/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/02-approval-i1-i2-approved.md`     | Dr. Vance signed off as Reviewer on I1 and I2's Approach; no hook dependency, cleared to Execution once Zhao begins                                                                                                                            |
 | 3 — Execution    | `core-component-00/platform/remediation/engineering/context-engineering/2026-08-17-context-engineering-remediation/log/03-execution-i1-i2-executed.md`    | I1 (utilization trigger) and I2 (token-accounting basis + ratio/continuity floors, plus a discovered sacred-turn indexing bugfix) implemented; full suite green (341 passed, 1 skipped), including the previously-red `test_acon_benchmark.py` |

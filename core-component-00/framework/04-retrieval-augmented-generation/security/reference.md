@@ -343,17 +343,17 @@ pii_handling:
 
 ### Immutable Audit Log Structure
 
-| Field              | Type               | Description                         | Retention (Days) |
+| Field | Type | Description | Retention (Days) |
 | ------------------ | ------------------ | ----------------------------------- | ---------------- | -------- | ----- |
-| log_id             | string (SHA16)     | Unique identifier for deduplication | N/A              |
-| timestamp          | datetime (ISO8601) | UTC timestamp of operation          | 365              |
-| operation_type     | enum               | query                               | retrieve         | generate | error |
-| request_hash       | string (SHA256)    | Hash for content-addressed storage  | 365              |
-| user_id            | string             | Requester identifier (optional)     | 730              |
-| documents_accessed | list[string]       | Document IDs accessed               | 365              |
-| latency_ms         | integer            | Response time in milliseconds       | 90               |
-| error              | string             | Error message if any                | 90               |
-| response_hash      | string (SHA256)    | Hash of generated response          | 180              |
+| log_id | string (SHA16) | Unique identifier for deduplication | N/A |
+| timestamp | datetime (ISO8601) | UTC timestamp of operation | 365 |
+| operation_type | enum | query | retrieve | generate | error |
+| request_hash | string (SHA256) | Hash for content-addressed storage | 365 |
+| user_id | string | Requester identifier (optional) | 730 |
+| documents_accessed | list[string] | Document IDs accessed | 365 |
+| latency_ms | integer | Response time in milliseconds | 90 |
+| error | string | Error message if any | 90 |
+| response_hash | string (SHA256) | Hash of generated response | 180 |
 
 ### Implementation Code
 
