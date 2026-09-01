@@ -32,16 +32,16 @@ protocol: `crew/README.md` and `crew/CLAUDE.md`.
 
 ## The Five-Module Engineering Stack
 
-| Layer                     | Module Folder                          | Type                  | Has Tests? |
-| ------------------------- | -------------------------------------- | --------------------- | ---------- |
-| 1 — What to write         | `engineering/prompt-engineering/`      | Knowledge base        | No         |
-| 2 — How to structure it   | `engineering/context-engineering/`     | Knowledge + Framework | Yes        |
-| 3 — How to execute safely | `engineering/harness-engineering/`     | Production Framework  | Yes        |
-| 4 — Where to get content  | `retrieval-augmented-generation/`      | Production Framework  | Yes        |
-| 5 — How agents cooperate  | `engineering/multi-agent-engineering/` | Production Framework  | Yes        |
+| Layer                     | Module Folder                                  | Type                  | Has Tests? |
+| ------------------------- | ---------------------------------------------- | --------------------- | ---------- |
+| 1 — What to write         | `framework/01-prompt-engineering/`             | Knowledge base        | No         |
+| 2 — How to structure it   | `framework/02-context-engineering/`            | Knowledge + Framework | Yes        |
+| 3 — How to execute safely | `framework/03-harness-engineering/`            | Production Framework  | Yes        |
+| 4 — Where to get content  | `framework/04-retrieval-augmented-generation/` | Production Framework  | Yes        |
+| 5 — How agents cooperate  | `framework/05-multi-agent-engineering/`        | Production Framework  | Yes        |
 
 ASGF (Agent Systems Governance Framework) is the **meta-layer above all five** — not a sixth module. See
-`agent-systems-governance-framework/`.
+`framework/00-agent-systems-governance-framework/`.
 
 ---
 
@@ -49,16 +49,16 @@ ASGF (Agent Systems Governance Framework) is the **meta-layer above all five** �
 
 All paths relative to `core-component-00/`:
 
-| File                                                                        | Module | Purpose                                                |
-| --------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
-| `engineering/context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
-| `engineering/context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
-| `engineering/context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
-| `engineering/harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery               |
-| `engineering/harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                               |
-| `engineering/harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits, dangerous task detection |
-| `engineering/multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                           |
-| `engineering/multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                               |
+| File                                                                         | Module | Purpose                                                |
+| ---------------------------------------------------------------------------- | ------ | ------------------------------------------------------ |
+| `framework/02-context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly                      |
+| `framework/02-context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory         |
+| `framework/02-context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                               |
+| `framework/03-harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery               |
+| `framework/03-harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                               |
+| `framework/03-harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits, dangerous task detection |
+| `framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                           |
+| `framework/05-multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                               |
 
 ---
 
@@ -68,10 +68,10 @@ Run tests **per-module from the module folder** to avoid duplicate-package impor
 
 ```powershell
 # From core-component-00/
-pytest engineering/context-engineering/testing/ -v
-pytest engineering/harness-engineering/testing/ -v
-pytest retrieval-augmented-generation/testing/ -v
-pytest engineering/multi-agent-engineering/testing/ -v
+pytest framework/02-context-engineering/testing/ -v
+pytest framework/03-harness-engineering/testing/ -v
+pytest framework/04-retrieval-augmented-generation/testing/ -v
+pytest framework/05-multi-agent-engineering/testing/ -v
 ```
 
 Do NOT run all modules together with a single root-level `pytest .` — this causes import conflicts.
@@ -84,7 +84,7 @@ Parallel workers: `pytest -n <N>` — keep N ≤ 10 on this machine (i9-13900H, 
 
 - **RAG dependencies are heavy** — install only when needed:
   ```powershell
-  pip install -r retrieval-augmented-generation/requirements.txt
+  pip install -r framework/04-retrieval-augmented-generation/requirements.txt
   python -m spacy download en_core_web_sm
   ```
 - **GPU:** RTX 4060 (8 GB GDDR6) supports CUDA — always verify
@@ -99,28 +99,30 @@ Parallel workers: `pytest -n <N>` — keep N ≤ 10 on this machine (i9-13900H, 
 All LLM-powered systems built in this workspace are bound by the ASGF framework — ratified via
 `ADR-ASGF-001`. Build new systems on CC-00 patterns; do not invent ad-hoc approaches.
 
-Governing documents: `agent-systems-governance-framework/governance/`
+Governing documents: `framework/00-agent-systems-governance-framework/governance/`
 
-> **Layout note:** `prompt-engineering/`, `context-engineering/`, `harness-engineering/`, and
-> `multi-agent-engineering/` live under `engineering/`. `retrieval-augmented-generation/` and
-> `agent-systems-governance-framework/` do not — both stay at the `core-component-00/` top level.
+> **Layout note:** All five engineering modules plus ASGF now live under `framework/`, numbered
+> `00`–`05` (`00-agent-systems-governance-framework/` through `05-multi-agent-engineering/`). MCP
+> servers, maintenance records, benchmarks, and remediation live under `platform/` (unnumbered).
 
 ---
 
 ## Where to Look
 
-| I need…                                                       | Go to                                            |
-| ------------------------------------------------------------- | ------------------------------------------------ |
-| Full lab overview + researcher profile                        | `README.md`                                      |
-| Governing framework + compliance                              | `agent-systems-governance-framework/`            |
-| Synthesis of all five layers                                  | `agent-systems-governance-framework/CONCEPTS.md` |
-| Prompt patterns                                               | `engineering/prompt-engineering/`                |
-| Context window architecture                                   | `engineering/context-engineering/`               |
-| Safe model execution                                          | `engineering/harness-engineering/`               |
-| RAG pipelines                                                 | `retrieval-augmented-generation/`                |
-| Multi-agent / swarm systems                                   | `engineering/multi-agent-engineering/`           |
-| MCP server implementations (deployment surface)               | `mcp-servers/`                                   |
-| Lab Director persona + crew roster                            | `crew/`                                          |
-| Research reports (CC-00 engineering + LLM research)           | `telescope/`                                     |
-| Maintenance operations log (servers, dependencies, MCP infra) | `maintenance-records/`                           |
-| Cross-cutting / workspace-wide research                       | workspace-root `telescope/`                      |
+| I need…                                                         | Go to                                                         |
+| --------------------------------------------------------------- | ------------------------------------------------------------- |
+| Full lab overview + researcher profile                          | `README.md`                                                   |
+| Governing framework + compliance                                | `framework/00-agent-systems-governance-framework/`            |
+| Synthesis of all five layers                                    | `framework/00-agent-systems-governance-framework/CONCEPTS.md` |
+| Prompt patterns                                                 | `framework/01-prompt-engineering/`                            |
+| Context window architecture                                     | `framework/02-context-engineering/`                           |
+| Safe model execution                                            | `framework/03-harness-engineering/`                           |
+| RAG pipelines                                                   | `framework/04-retrieval-augmented-generation/`                |
+| Multi-agent / swarm systems                                     | `framework/05-multi-agent-engineering/`                       |
+| MCP server implementations (deployment surface)                 | `platform/model-context-protocol-servers/`                    |
+| Lab Director persona + crew roster                              | `crew/`                                                       |
+| Research reports (CC-00 engineering + LLM research)             | `telescope/`                                                  |
+| Maintenance operations log (servers, dependencies, MCP infra)   | `platform/maintenance-records/`                               |
+| Enterprise benchmark assessments (module vs. industry practice) | `platform/benchmarks/`                                        |
+| Remediation execution log (P0/P1 benchmark findings)            | `platform/remediation/`                                       |
+| Cross-cutting / workspace-wide research                         | workspace-root `telescope/`                                   |

@@ -25,7 +25,7 @@ itself needs revision as the knowledge base grows.
    that link bidirectionally at ingestion time, not as a later cleanup pass.
 4. **ASGF boundary, checked every time a new tool is built.** Any LLM-powered component of this
    ingestion pipeline (e.g., automated tagging, embedding-based search) is bound by the
-   workspace-wide ASGF framework (`core-component-00/agent-systems-governance-framework/governance/`) as a
+   workspace-wide ASGF framework (`core-component-00/framework/00-agent-systems-governance-framework/governance/`) as a
    technical standard — this applies regardless of ANU-00's organizational independence from CC-00.
    Do **not** assume reuse of CC-00's `workspace-knowledge` or `agent-memory` MCP servers; if
    ANU-00 needs equivalent capability, it is built or provisioned independently, subject to the

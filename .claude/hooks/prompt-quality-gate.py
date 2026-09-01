@@ -96,7 +96,7 @@ def main() -> int:
         "The following governance rules would be violated:\n"
         f"{rule_list}\n\n"
         "This prompt has been blocked. Please rephrase within the ASGF governance framework.\n"
-        "Reference: CLAUDE.md §1, §6, §8 | core-component-00/agent-systems-governance-framework/governance/"
+        "Reference: CLAUDE.md §1, §6, §8 | core-component-00/framework/00-agent-systems-governance-framework/governance/"
     )
 
     log_invocation("prompt-quality-gate", "UserPromptSubmit", decision="block",

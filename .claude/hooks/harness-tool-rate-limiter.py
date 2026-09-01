@@ -24,7 +24,7 @@ The "deny" signal is carried entirely in the hookSpecificOutput JSON printed to
 stdout (permissionDecision: "deny") — never in the process exit code. Under the
 limits, nothing is printed and the tool call is allowed through implicitly.
 
-Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py
+Reference: core-component-00/framework/03-harness-engineering/implementations/tool_registry.py
 
 Fail-closed note (governance-critical hook -- see verification notes below): the .sh
 original's `case "$raw" in ''|*[!0-9]*) ... esac` and its unprotected `>` write
@@ -168,7 +168,7 @@ Options:
      Action: summarise progress and do not retry the blocked command.
 
 NOTE: Any extension granted here is automatically removed at the start of the next prompt.
-Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py"""
+Reference: core-component-00/framework/03-harness-engineering/implementations/tool_registry.py"""
 
         reason = (
             f"[TOOL RATE LIMITER — H-HE01] Per-turn limit reached: {turn_count} / "
@@ -217,7 +217,7 @@ Options:
   D) "End conversation" — wrap up and stop.
      Action: summarise progress and do not retry the blocked command.
 
-Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py"""
+Reference: core-component-00/framework/03-harness-engineering/implementations/tool_registry.py"""
 
         reason = (
             f"[TOOL RATE LIMITER — H-HE01] Session ceiling reached: {session_count} / "

@@ -99,12 +99,12 @@ Three rules follow, and they apply to every example in this folder:
 
 Inherited from Findings 5 and 6, and not re-measured here:
 
-| Tier                             | Allocation                                                                                                               |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Reasoning (agent brain)**      | API models. **Not** a local 8B model — sub-14B tool-calling reliability is the binding weakness in any agent loop.       |
-| **GPU (RTX 4060, 8,188 MiB)**    | Embeddings + reranking, permanently resident (~570 MB today, ~1.1 GB once a cross-encoder reranker is added).            |
-| **Local generation (LM Studio)** | An explicitly scoped tier: offline work, privacy-sensitive documents, cheap bulk classification. **Never tool-calling.** |
-| **Python environment**           | The shared venv at `core-component-00/mcp-servers/.venv/`. Never install these dependencies globally.                    |
+| Tier                             | Allocation                                                                                                                        |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Reasoning (agent brain)**      | API models. **Not** a local 8B model — sub-14B tool-calling reliability is the binding weakness in any agent loop.                |
+| **GPU (RTX 4060, 8,188 MiB)**    | Embeddings + reranking, permanently resident (~570 MB today, ~1.1 GB once a cross-encoder reranker is added).                     |
+| **Local generation (LM Studio)** | An explicitly scoped tier: offline work, privacy-sensitive documents, cheap bulk classification. **Never tool-calling.**          |
+| **Python environment**           | The shared venv at `core-component-00/platform/model-context-protocol-servers/.venv/`. Never install these dependencies globally. |
 
 LM Studio has no LangChain partner package. Reach it through its OpenAI-compatible endpoint:
 
@@ -185,10 +185,10 @@ Finding 11 in the research report's 2026-07-26 addendum.
 **The obstacle.** All four CC-00 module roots expose a directory named `implementations/`:
 
 ```text
-core-component-00/engineering/context-engineering/implementations/
-core-component-00/engineering/harness-engineering/implementations/
-core-component-00/engineering/multi-agent-engineering/implementations/
-core-component-00/retrieval-augmented-generation/implementations/
+core-component-00/framework/02-context-engineering/implementations/
+core-component-00/framework/03-harness-engineering/implementations/
+core-component-00/framework/05-multi-agent-engineering/implementations/
+core-component-00/framework/04-retrieval-augmented-generation/implementations/
 ```
 
 CC-00's own test suites resolve this by putting **one** module root on `sys.path` and importing
@@ -338,7 +338,7 @@ graph-level, covered in `02-langgraph-examples.md` §5–6.
 """ASGF governance middleware for LangChain v1 agents.
 
 Each class closes a specific requirement from
-core-component-00/agent-systems-governance-framework/governance/compliance-standard.md
+core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md
 by delegating to the corresponding CC-00 reference implementation. The middleware
 is glue; the controls themselves stay in CC-00, where they are already tested.
 

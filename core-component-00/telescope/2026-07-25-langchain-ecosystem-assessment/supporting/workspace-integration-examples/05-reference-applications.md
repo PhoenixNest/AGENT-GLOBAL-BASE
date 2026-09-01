@@ -82,7 +82,7 @@ The workspace already has the right primitive for this, and it is not a LangChai
 
 > **Multi-agent / swarm work uses git worktree isolation.** Branch `agent/<role>/<task>`, commits
 > with hyphen-bulleted bodies, integration through a designated merge agent. Full spec:
-> `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+> `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 Any coding-agent adoption — `open-swe` or otherwise — must land inside that pattern rather than
 beside it. ASGF L5 makes this explicit: "Git worktree isolation used for parallel development"

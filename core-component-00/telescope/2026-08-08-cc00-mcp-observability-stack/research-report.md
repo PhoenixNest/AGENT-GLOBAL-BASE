@@ -56,7 +56,7 @@ than assume one process per server.
   only, not traces or logs.
 - Alertmanager routing and on-call/paging configuration — left for a follow-up once the metrics
   themselves are validated.
-- Metrics for servers outside `core-component-00/mcp-servers/` (none currently exist in this
+- Metrics for servers outside `core-component-00/platform/model-context-protocol-servers/` (none currently exist in this
   workspace).
 
 ---
@@ -76,7 +76,7 @@ instrumentation library (§2) — this is not a per-server bespoke build.
 
 ### 2. Shared Instrumentation Library
 
-New module: `core-component-00/mcp-servers/_shared/metrics.py`. Thin wrapper around
+New module: `core-component-00/platform/model-context-protocol-servers/_shared/metrics.py`. Thin wrapper around
 `prometheus_client`'s core collector types:
 
 - `record_tool_call(server, tool, status, duration_s)` — increments a `Counter` and observes a
@@ -439,9 +439,9 @@ hasn't finished rather than blocking. Verified: an immediate call on a fresh pro
 
 - § Related Incident History above — `search_capability` block design, stale-process diagnosis evidence this report's §3 argument depends on (merged 2026-08-10 from the former standalone `2026-07-10-agent-memory-architecture/supporting/10-observability-fix.md`)
 - `core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md` §9 — DR-backup scripts (merged there 2026-08-10 from the former standalone `12-dr-backup-design.md`), source of the `am_dr_backup_*` gauges in §5
-- `core-component-00/mcp-servers/_shared/embedder_client.py` — `embedder-service` lifecycle (self-election lock file, idle self-termination) underlying the §3 asymmetry
+- `core-component-00/platform/model-context-protocol-servers/_shared/embedder_client.py` — `embedder-service` lifecycle (self-election lock file, idle self-termination) underlying the §3 asymmetry
 - `.claude/rules/mcp-governance.md` § Shared Infrastructure — `embedder-service` — existing HTTP-endpoint precedent this design's `embedder-service` branch follows
-- `core-component-00/mcp-servers/workspace-knowledge/server.py` — `_document_kb_health_block()`, `search_tier`/`degradation_reason` fields sourced in §5
+- `core-component-00/platform/model-context-protocol-servers/workspace-knowledge/server.py` — `_document_kb_health_block()`, `search_tier`/`degradation_reason` fields sourced in §5
 
 ---
 

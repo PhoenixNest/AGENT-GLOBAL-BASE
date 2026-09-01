@@ -5,7 +5,7 @@ H-HE01-RESET: UserPromptSubmit -- resets per-turn tool counter and limit for H-H
 Fires at the start of every new prompt, ensuring the per-turn tool-call counter
 and any mid-turn extension granted by the user are wiped before the new turn begins.
 The session-level counter and ceiling are NOT touched here.
-Reference: core-component-00/engineering/harness-engineering/implementations/tool_registry.py
+Reference: core-component-00/framework/03-harness-engineering/implementations/tool_registry.py
 
 Ported 1:1 from harness-rate-limiter-turn-reset.ps1 / harness-rate-limiter-turn-reset.sh.
 Standard library only -- no third-party dependencies.
