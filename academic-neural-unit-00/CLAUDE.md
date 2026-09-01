@@ -58,10 +58,12 @@ academic-neural-unit-00/
 ├── README.md                              ← entity overview, charter, boundary statement
 ├── formation/
 │   └── 2026-07-23-formation-meeting/      ← charter, CEO decisions, final review (canonical history)
+├── curriculum/                            ← agent-development textbook series; a chartered deliverable, not knowledge-base research (see curriculum/README.md)
 ├── templates/                             ← ANU-00 research templates (see templates/README.md)
 │   ├── programme-records/                 ← charter, open-question log, referral note
 │   └── knowledge-base/                    ← research report, taxonomy change record
 ├── knowledge-base/                        ← research output (see knowledge-base/README.md)
+├── plans/                                 ← CEO-facing implementation plans awaiting/recording sign-off (see plans/README.md)
 └── crew/                                  ← personnel roster (10 FTEs)
     ├── README.md                          ← roster index + activation protocol
     ├── lead/naledi-mokoena/                ← ANU-00 Lead
@@ -92,8 +94,19 @@ lines, and span-of-control detail: `crew/README.md`.
 ANU-00's research output follows the workspace's existing dated research-archive pattern
 (`YYYY-MM-DD-<slug>/research-report.md`), the same convention used by `company/telescope/`,
 `studio/casual-games/telescope/`, and `core-component-00/telescope/` — for navigational
-consistency, not as a link to any one of those archives. No knowledge-base entries exist yet as of
-this file's authoring; the convention is established ahead of first use.
+consistency, not as a link to any one of those archives. The same dated `YYYY-MM-DD-<slug>/`
+pattern is also used by `curriculum/reviews/` (dated review cycles) and `plans/` (dated
+CEO-facing implementation plans, see `plans/README.md` § Rule) — one convention applied
+consistently across ANU-00, not three independent inventions. No entries exist yet directly under
+`knowledge-base/` itself as of this file's authoring; the convention is established ahead of
+first use there specifically.
+
+**Curriculum vs. knowledge-base (boundary).** `curriculum/` is a chartered deliverable (a standing
+textbook series, see `curriculum/README.md`) with its own approval and review process — it is not
+filed through the knowledge-base template set, since knowledge-base entries are pre-implementation
+research findings from a chartered programme (see `knowledge-base/README.md` § Boundary Note), not
+finished teaching material. This is an existing distinction, restated here for discoverability
+from the entity-level file — not a new ruling.
 
 **Templates (established 2026-07-24, CEO-delegated to Dr. Mokoena; observation record added
 2026-07-25).** Six templates govern the research process — charter, open-question log, observation
@@ -118,11 +131,13 @@ Historical hiring records: `company/recruitment/academic-neural-unit-00-fy2026-q
 
 ## Where to Look
 
-| I need…                                               | Go to                                                                 |
-| ----------------------------------------------------- | --------------------------------------------------------------------- |
-| Full charter, CC-00 boundary, all formation decisions | `formation/2026-07-23-formation-meeting/formation-report.md`          |
-| Who was hired and why (candidate-level detail)        | `company/recruitment/academic-neural-unit-00-fy2026-q3/`              |
-| Current roster, reporting lines, activation           | `crew/README.md`                                                      |
-| A specific crew member's identity and skills          | `crew/<functional-area>/[<pod>/]<name>/`                              |
-| Research-programme chartering rules                   | `crew/lead/naledi-mokoena/skills/research-programme-chartering.md`    |
-| Workspace-wide conventions this entity still follows  | root `CLAUDE.md` (Prettier formatting, git workflow, ASGF governance) |
+| I need…                                                                     | Go to                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Full charter, CC-00 boundary, all formation decisions                       | `formation/2026-07-23-formation-meeting/formation-report.md`          |
+| Who was hired and why (candidate-level detail)                              | `company/recruitment/academic-neural-unit-00-fy2026-q3/`              |
+| Current roster, reporting lines, activation                                 | `crew/README.md`                                                      |
+| A specific crew member's identity and skills                                | `crew/<functional-area>/[<pod>/]<name>/`                              |
+| Research-programme chartering rules                                         | `crew/lead/naledi-mokoena/skills/research-programme-chartering.md`    |
+| The agent-development curriculum (modules, review process, authoring rules) | `curriculum/README.md`                                                |
+| A CEO-facing implementation plan awaiting or recording sign-off             | `plans/README.md`                                                     |
+| Workspace-wide conventions this entity still follows                        | root `CLAUDE.md` (Prettier formatting, git workflow, ASGF governance) |
