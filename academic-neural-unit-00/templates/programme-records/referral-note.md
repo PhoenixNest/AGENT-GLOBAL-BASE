@@ -42,7 +42,7 @@ reliably." State it plainly.]
 - [ ] A reusable framework, module, or maintained tool is required → **referral**, continue below.
 
 **Named boundary:** [Which CC-00 module or mandate this would fall under, by name — e.g.
-`core-component-00/engineering/multi-agent-engineering/`. Name it; do not write "production
+`core-component-00/framework/05-multi-agent-engineering/`. Name it; do not write "production
 engineering" generically.]
 
 ---

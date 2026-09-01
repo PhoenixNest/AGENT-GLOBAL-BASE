@@ -27,7 +27,7 @@ final compliance sign-off remain Dr. Vance's sole authority (`director/elias-van
 
 ## Module Ownership
 
-- Executes the audit checklist defined in `agent-systems-governance-framework/governance/` against a given
+- Executes the audit checklist defined in `core-component-00/framework/00-agent-systems-governance-framework/governance/` against a given
   agent system, covering all four ASGF layers
 - Drafts gap-analysis findings with P0–P3 severity classification (per workspace defect severity
   conventions) and proposed remediation owners
@@ -63,5 +63,5 @@ final compliance sign-off remain Dr. Vance's sole authority (`director/elias-van
 
 ## References
 
-- `core-component-00/agent-systems-governance-framework/governance/`
+- `core-component-00/framework/00-agent-systems-governance-framework/governance/`
 - ASGF Compliance Audit (Dr. Vance, `director/elias-vance/skills/asgf-compliance-audit.md`)

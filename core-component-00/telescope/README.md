@@ -92,11 +92,11 @@ even when CC-00 is the executing team. Cross-linked here because CC-00 owns exec
 
 ## Related Documentation
 
-| Document                                                           | Purpose                                                      |
-| ------------------------------------------------------------------ | ------------------------------------------------------------ |
-| `telescope/README.md` (workspace root)                             | Cross-department index and workspace-wide governance reports |
-| `core-component-00/README.md`                                      | CC-00 Laboratory overview                                    |
-| `core-component-00/agent-systems-governance-framework/CONCEPTS.md` | Theoretical synthesis of all five modules                    |
+| Document                                                                        | Purpose                                                      |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `telescope/README.md` (workspace root)                                          | Cross-department index and workspace-wide governance reports |
+| `core-component-00/README.md`                                                   | CC-00 Laboratory overview                                    |
+| `core-component-00/framework/00-agent-systems-governance-framework/CONCEPTS.md` | Theoretical synthesis of all five modules                    |
 
 ---
 

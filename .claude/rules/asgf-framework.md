@@ -35,7 +35,7 @@ ASGF is the **mandatory governing framework** for all LLM-powered systems in thi
 
 ## Key Governance Documents
 
-All in `core-component-00/agent-systems-governance-framework/`:
+All in `core-component-00/framework/00-agent-systems-governance-framework/`:
 
 | Document                                | Purpose                                   |
 | --------------------------------------- | ----------------------------------------- |

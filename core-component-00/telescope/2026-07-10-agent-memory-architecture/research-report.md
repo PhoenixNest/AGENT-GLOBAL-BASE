@@ -565,12 +565,12 @@ scheduled maintenance job per [supporting/02-deployment-guidelines.md](supportin
 
 ### Internal Documentation
 
-- [memory_store.py](core-component-00/engineering/context-engineering/implementations/memory_store.py)
-- [context_compressor.py](core-component-00/engineering/context-engineering/implementations/context_compressor.py)
-- [overview.md](core-component-00/retrieval-augmented-generation/architecture/overview.md)
-- [lightweight-rag-deployment.md](core-component-00/retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)
-- [index-sync-hooks.md](core-component-00/retrieval-augmented-generation/patterns/index-sync-hooks.md)
-- [reference-table.md](core-component-00/retrieval-augmented-generation/evaluation/reference-table.md)
+- [memory_store.py](core-component-00/framework/02-context-engineering/implementations/memory_store.py)
+- [context_compressor.py](core-component-00/framework/02-context-engineering/implementations/context_compressor.py)
+- [overview.md](core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md)
+- [lightweight-rag-deployment.md](core-component-00/framework/04-retrieval-augmented-generation/deployment/lightweight-rag-deployment.md)
+- [index-sync-hooks.md](core-component-00/framework/04-retrieval-augmented-generation/patterns/index-sync-hooks.md)
+- [reference-table.md](core-component-00/framework/04-retrieval-augmented-generation/evaluation/reference-table.md)
 - [supporting/00-sources-and-references.md](supporting/00-sources-and-references.md), [supporting/01-technical-options.md](supporting/01-technical-options.md),
   [supporting/02-deployment-guidelines.md](supporting/02-deployment-guidelines.md) (deployment; now also the DR-backup design, merged
   2026-08-10), [supporting/03-forgetting-strategy.md](supporting/03-forgetting-strategy.md), [supporting/04-workflow-diagrams.md](supporting/04-workflow-diagrams.md),

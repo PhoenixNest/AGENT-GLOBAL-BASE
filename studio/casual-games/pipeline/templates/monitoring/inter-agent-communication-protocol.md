@@ -2,8 +2,8 @@
 
 > **ASGF Layer:** 5 — Multi-Agent Engineering + Layer 2 — Context Engineering
 > **Authority:** Studio Director Dr. Marcus Vogel
-> **Reference:** `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`
-> **Compliance:** `adr-asgf-001.md` (studio), `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` §Layer 5
+> **Reference:** `core-component-00/framework/05-multi-agent-engineering/implementations/handoff_packet.py`
+> **Compliance:** `adr-asgf-001.md` (studio), `core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md` §Layer 5
 
 This protocol defines **how crew agents communicate** within the studio pipeline — message formats, routing rules, escalation paths, and error handling. It replaces ad-hoc coordination with a structured, predictable communication model.
 
@@ -128,7 +128,7 @@ AWAITING USER DECISION — pipeline is paused.
 
 ## 4. Handoff Tier Selection
 
-> Reference: `core-component-00/engineering/context-engineering/patterns/multi-agent-handoff.md`
+> Reference: `core-component-00/framework/02-context-engineering/patterns/multi-agent-handoff.md`
 
 | Scenario                                 | Tier                    | Context Included                                                          |
 | :--------------------------------------- | :---------------------- | :------------------------------------------------------------------------ |
@@ -155,7 +155,7 @@ Is the receiver in the same division?
 
 ## 5. Parallel Agent Workflow (Git Worktree)
 
-> Reference: `core-component-00/engineering/multi-agent-engineering/implementations/git_worktree_manager.py`, `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+> Reference: `core-component-00/framework/05-multi-agent-engineering/implementations/git_worktree_manager.py`, `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 
 When multiple crew agents work concurrently on the same project (typically Stage 5 — Full Production), the **git worktree isolation pattern** applies:
 
