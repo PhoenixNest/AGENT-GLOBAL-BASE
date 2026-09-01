@@ -3,7 +3,7 @@
 > **ASGF Layer:** 1 — Prompt Engineering (Required)
 > **Authority:** Studio Director Dr. Marcus Vogel
 > **Binding scope:** All executor agents and crew agents operating in the Casual Games Studio pipeline
-> **Reference:** `core-component-00/agent-systems-governance-framework/patterns/anti-pattern-firewall.md`
+> **Reference:** `core-component-00/framework/00-agent-systems-governance-framework/patterns/anti-pattern-firewall.md`
 > **Parent company reference:** `company/pipeline/_base/agent-behavioral-constraints.md`
 > **Enforcement:** P0 defect for violations of §1 (Forbidden). P1 defect for violations of §2 (Required Declarations).
 

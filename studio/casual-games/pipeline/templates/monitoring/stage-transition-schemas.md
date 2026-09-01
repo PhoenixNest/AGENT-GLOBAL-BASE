@@ -2,7 +2,7 @@
 
 > **ASGF Layer:** 3 — Harness Engineering (gate automation) + Layer 2 — Context Engineering (handoff contracts)
 > **Authority:** Studio Director Dr. Marcus Vogel
-> **Reference:** `core-component-00/engineering/multi-agent-engineering/implementations/handoff_packet.py`
+> **Reference:** `core-component-00/framework/05-multi-agent-engineering/implementations/handoff_packet.py`
 
 This document defines the **JSON schema contracts** for every stage transition and kill gate in the Casual Games Studio 11-stage pipeline. Each schema is the machine-readable counterpart to the human-readable `stage-transition-summary.md`.
 

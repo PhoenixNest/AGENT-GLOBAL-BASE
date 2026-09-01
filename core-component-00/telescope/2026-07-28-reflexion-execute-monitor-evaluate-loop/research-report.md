@@ -140,11 +140,11 @@ explicitly avoiding duplication of monitoring logic that already exists.
 
 - `core-component-00/telescope/2026-07-14-reflexion-memory-system/research-report.md` (full read,
   including § Audit History and Open Questions)
-- `core-component-00/engineering/context-engineering/implementations/memory_store.py`
+- `core-component-00/framework/02-context-engineering/implementations/memory_store.py`
   (`WorkingMemory`, class at line 380; `ReflectionMemory`/`ReflectionRecord`, from line 450)
-- `core-component-00/engineering/harness-engineering/implementations/error_boundary.py`
+- `core-component-00/framework/03-harness-engineering/implementations/error_boundary.py`
   (`SafeModelCall.execute`, `retry_with_backoff`, `CircuitBreaker`)
-- `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`
+- `core-component-00/framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py`
   (`SwarmConfig.enable_feedback_loop`/`variance_threshold`/`circuit_breaker_open_abort`, `SubTask`)
 - `crew/director/elias-vance/agent/profile.md`, `crew/CLAUDE.md` (Laboratory Roster, Activation
   Protocol)
@@ -385,11 +385,11 @@ investigator decision, unchanged from the original report's Finding 4.
 
 - `core-component-00/telescope/2026-07-14-reflexion-memory-system/research-report.md` — the parent
   Programme this investigation directly follows up on (Open Question 4)
-- `core-component-00/engineering/context-engineering/implementations/memory_store.py` —
+- `core-component-00/framework/02-context-engineering/implementations/memory_store.py` —
   `WorkingMemory` (line 380), `ReflectionMemory`/`ReflectionRecord` (from line 450/624)
-- `core-component-00/engineering/harness-engineering/implementations/error_boundary.py` —
+- `core-component-00/framework/03-harness-engineering/implementations/error_boundary.py` —
   `retry_with_backoff`, `SafeModelCall`, `CircuitBreaker`
-- `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py` —
+- `core-component-00/framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py` —
   `SwarmConfig`, `SubTask`
 - `crew/director/elias-vance/agent/profile.md`; `crew/CLAUDE.md` (Laboratory Roster, Activation
   Protocol)

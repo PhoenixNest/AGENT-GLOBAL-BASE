@@ -252,13 +252,13 @@ asked to do.
 
 ### Tools and Resources
 
-- `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py`
+- `core-component-00/framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py`
   (`SwarmOrchestrator.__init__` at line 387, `_default_execute` at line 648,
   `evaluate_subtask_result()` at line 306)
-- `core-component-00/engineering/multi-agent-engineering/implementations/reflection_bridge.py`
+- `core-component-00/framework/05-multi-agent-engineering/implementations/reflection_bridge.py`
   (existing real-wiring precedent)
 - `.claude/agents/multi-agent-orchestrator.md` (the real subagent definition)
-- `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+- `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 - Root `CLAUDE.md` § 11 (H-P01's own documented history of the gap between advisory
   `additionalContext` and structural `PreToolUse`/`PostToolUse` enforcement — directly relevant
   precedent for classifying Surface A vs. Surface B below)
@@ -574,13 +574,13 @@ own real Execute phase invokes via `uv run` — matching the same cross-platform
 
 - `core-component-00/telescope/2026-07-28-reflexion-execute-monitor-evaluate-loop/` — the parent
   Programme this investigation bridges to real usage
-- `core-component-00/engineering/multi-agent-engineering/implementations/swarm_orchestrator.py` —
+- `core-component-00/framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py` —
   `SwarmOrchestrator.__init__` (line 387), `_default_execute` (line 648),
   `evaluate_subtask_result()` (line 306)
-- `core-component-00/engineering/multi-agent-engineering/implementations/reflection_bridge.py` —
+- `core-component-00/framework/05-multi-agent-engineering/implementations/reflection_bridge.py` —
   the existing real-wiring precedent this bridge's shape follows
 - `.claude/agents/multi-agent-orchestrator.md` — the real subagent this bridge extends
-- `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+- `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
 - Root `CLAUDE.md` § 11 — H-P01's advisory-vs-structural-enforcement history, the direct precedent
   for classifying Surface A vs. Surface B
 - `supporting/implementation-plan.md` — this Programme's own detailed phased implementation plan

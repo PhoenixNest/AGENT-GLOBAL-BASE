@@ -2,7 +2,7 @@
 """H-P01: UserPromptSubmit — Smart Prompt Optimizer (Python port).
 
 Scores the user's prompt on 5 quality dimensions drawn from CC-00 prompt-engineering
-patterns (core-component-00/engineering/prompt-engineering/fundamentals/). Below-threshold
+patterns (core-component-00/framework/01-prompt-engineering/fundamentals/). Below-threshold
 prompts get a full additionalContext block instructing Claude to optimize the prompt and use
 AskUserQuestion for confirmation before proceeding, plus a pending-confirmation marker file
 that prompt-gate-enforcer.{sh,ps1} (PreToolUse) checks before denying any tool call other
@@ -213,7 +213,7 @@ where relevant.
   proposed owner inside the step 2 confirmation, alongside the rewritten prompt — never apply
   routing silently. Never route a broad/uncategorizable fallback across an explicit
   organizational-independence boundary (e.g. ANU-00's independence from CC-00). See
-  core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md.
+  core-component-00/framework/01-prompt-engineering/patterns/advanced-patterns.md.
   </rule>
 </step>
 
