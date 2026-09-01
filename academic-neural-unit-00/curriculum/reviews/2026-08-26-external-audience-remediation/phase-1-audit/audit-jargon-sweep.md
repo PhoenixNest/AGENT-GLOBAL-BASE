@@ -72,7 +72,7 @@ The following were checked corpus-wide and found **not** to be defects:
   ruling, but that is a scope/positioning question for the Lead, not a "reader can't follow a
   citation" defect this audit is scoped to find. Flagged for awareness, not treated as an item
   needing a mechanical fix.
-- **`advanced/05`'s `core-component-00/engineering/context-engineering/` mention** — a citation-
+- **`advanced/05`'s `core-component-00/framework/02-context-engineering/` mention** — a citation-
   path defect, already captured in the companion links-and-citations audit (§2 there); not
   duplicated here since it's a citation, not free-standing jargon.
 - No other module contains the strings "this repository," "this workspace," "AGENT-GLOBAL-BASE,"

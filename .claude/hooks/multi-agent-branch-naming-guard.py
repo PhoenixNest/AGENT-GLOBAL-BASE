@@ -4,7 +4,7 @@
 # Detects git commands that create new branches and validates the branch name
 # against the workspace multi-agent naming convention:
 #   agent/<role>/<task>  or  stage<N>/agent/<role>/<task>
-# Reference: core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md
+# Reference: core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md
 #
 # Python port of multi-agent-branch-naming-guard.ps1 (pwsh) and
 # multi-agent-branch-naming-guard.sh (bash). Implements identical stdin handling,
@@ -90,8 +90,8 @@ def _emit_deny(branch_name: str, session_id=None) -> None:
         + "' does not follow workspace conventions. Multi-agent branches must be: "
         "agent/<role>/<task> or stage<N>/agent/<role>/<task> (e.g., "
         "agent/backend/dark-mode-api). Standard branches (feature/, fix/, company/, "
-        "studio/) are also accepted. Reference: core-component-00/engineering/"
-        "multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
+        "studio/) are also accepted. Reference: core-component-00/framework/"
+        "05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md and CLAUDE.md §6."
     )
     log_invocation("multi-agent-branch-naming-guard", "PreToolUse", decision="deny",
                     reason=branch_name, session_id=session_id)

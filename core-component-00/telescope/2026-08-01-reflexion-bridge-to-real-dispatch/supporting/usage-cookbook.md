@@ -38,7 +38,7 @@ Matches the same cross-platform pattern already shipped for every `.claude/hooks
 `uv`, not a raw shell:
 
 ```
-uv run core-component-00/engineering/multi-agent-engineering/implementations/reflective_dispatch_helper.py
+uv run core-component-00/framework/05-multi-agent-engineering/implementations/reflective_dispatch_helper.py
 ```
 
 Input is piped as JSON on stdin (not CLI flags — keeps the contract identical regardless of how

@@ -2,7 +2,7 @@
   "mcpServers": {
     "workspace-knowledge": {
       "command": "python3",
-      "args": ["core-component-00/mcp-servers/workspace-knowledge/server.py"],
+      "args": ["core-component-00/platform/model-context-protocol-servers/workspace-knowledge/server.py"],
       "env": {
         "WORKSPACE_ROOT": ".",
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -13,7 +13,7 @@
     },
     "agent-memory": {
       "command": "python3",
-      "args": ["core-component-00/mcp-servers/agent-memory/server.py"],
+      "args": ["core-component-00/platform/model-context-protocol-servers/agent-memory/server.py"],
       "env": {
         "MEMORY_QDRANT_URL": "http://localhost:6335",
         "FASTMCP_LOG_LEVEL": "ERROR",

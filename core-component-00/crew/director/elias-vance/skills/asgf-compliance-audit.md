@@ -18,9 +18,9 @@ studio pipelines. This skill is the enforcement mechanism for that mandate.
 
 **Governing documents:**
 
-- ADR: `core-component-00/agent-systems-governance-framework/governance/adr-asgf-001.md`
-- Standard: `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`
-- Maturity: `core-component-00/agent-systems-governance-framework/governance/maturity-model.md`
+- ADR: `core-component-00/framework/00-agent-systems-governance-framework/governance/adr-asgf-001.md`
+- Standard: `core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md`
+- Maturity: `core-component-00/framework/00-agent-systems-governance-framework/governance/maturity-model.md`
 
 The **Compliance Standard** is the authoritative specification for pass/fail criteria.
 When in doubt about a requirement, the standard takes precedence over this skill.
@@ -83,7 +83,7 @@ Assess the quality and structure of the system's instruction layer:
   is schema-constrained prompting used?
 - Are there few-shot examples where they would materially improve output consistency?
 - Do the prompts reflect the techniques documented in
-  `core-component-00/engineering/prompt-engineering/patterns/advanced-patterns.md`, or are they
+  `core-component-00/framework/01-prompt-engineering/patterns/advanced-patterns.md`, or are they
   ad-hoc?
 
 **Checklist:**
@@ -130,7 +130,7 @@ Assess the execution envelope around model calls:
 - Is there an error boundary that recovers gracefully from transient failures rather than
   propagating raw exceptions to users?
 
-Reference: `core-component-00/engineering/harness-engineering/implementations/`
+Reference: `core-component-00/framework/03-harness-engineering/implementations/`
 
 **Checklist:**
 
@@ -156,7 +156,7 @@ Assess the knowledge retrieval and memory system (if applicable):
 If the system has no retrieval requirement, document why and mark this layer as
 intentionally absent.
 
-Reference: `core-component-00/retrieval-augmented-generation/architecture/overview.md`
+Reference: `core-component-00/framework/04-retrieval-augmented-generation/architecture/overview.md`
 
 **Checklist:**
 

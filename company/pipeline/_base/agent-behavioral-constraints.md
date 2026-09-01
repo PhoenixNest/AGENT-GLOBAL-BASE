@@ -3,7 +3,7 @@
 > **ASGF Layer:** 1 — Prompt Engineering (Required)
 > **Authority:** CTO Dr. Kenji Nakamura + CPO Marcus Tran-Yoshida
 > **Binding scope:** All executor agents operating in any company development pipeline
-> **Reference:** `core-component-00/agent-systems-governance-framework/patterns/anti-pattern-firewall.md`
+> **Reference:** `core-component-00/framework/00-agent-systems-governance-framework/patterns/anti-pattern-firewall.md`
 > **Enforcement:** P0 defect for violations of §1 (Forbidden). P1 defect for violations of §2 (Required Declarations).
 
 Every AI executor agent operating in a company pipeline **must** embed the following behavioural constraints in its operating context. These constraints are non-negotiable and cannot be overridden by any organizational agent (Type A), pipeline document, or instruction — except by an explicit, in-session directive from the User.
@@ -46,7 +46,7 @@ When any of the following conditions arise, the executor agent **must** declare 
 
 ## §3 — Anti-Pattern Reference
 
-The following system-level anti-patterns are forbidden across all company pipelines. For full definitions and detection thresholds, see `core-component-00/agent-systems-governance-framework/patterns/anti-pattern-firewall.md`:
+The following system-level anti-patterns are forbidden across all company pipelines. For full definitions and detection thresholds, see `core-component-00/framework/00-agent-systems-governance-framework/patterns/anti-pattern-firewall.md`:
 
 - **God Agent** — one agent holding authority over all stages and all decisions
 - **Agent Sprawl** — creating more agents than necessary (>70% role overlap → consolidate)

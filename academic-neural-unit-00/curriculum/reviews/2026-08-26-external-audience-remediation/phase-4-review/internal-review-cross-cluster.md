@@ -46,7 +46,7 @@ citation fixes landed:
 - §10's summary no longer says "this workspace's own five-phase lifecycle"; it now cross-references
   §4 by anchor.
 
-`advanced/05`'s citation trim: confirmed the `core-component-00/engineering/context-engineering/`
+`advanced/05`'s citation trim: confirmed the `core-component-00/framework/02-context-engineering/`
 path reference is gone from both the EN and ZH cells of the table row; the sentence still reads
 coherently without it.
 

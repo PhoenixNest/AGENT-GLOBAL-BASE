@@ -4,7 +4,7 @@
 > `studio/casual-games/team/crew/<division>/<role>/<name>/agent/profile.md`
 >
 > **ASGF Compliance:** CC-00 Layer 2 — Context Engineering (Mandatory)
-> **Reference:** `core-component-00/engineering/context-engineering/CONCEPTS.md`
+> **Reference:** `core-component-00/framework/02-context-engineering/CONCEPTS.md`
 
 ---
 
@@ -18,7 +18,7 @@ When dispatching a task to a crew member, the orchestrating agent **must** consu
 
 ## Token Budget Allocation (CC-00 L2 Compliance)
 
-> Mandatory per `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` — Layer 2 Context Engineering.
+> Mandatory per `core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md` — Layer 2 Context Engineering.
 
 | CC-00 Slot       | Zone (this doc) | Contents                                                     | Budget Cap |       Sacred?        |
 | :--------------- | :-------------- | :----------------------------------------------------------- | :--------: | :------------------: |
@@ -28,7 +28,7 @@ When dispatching a task to a crew member, the orchestrating agent **must** consu
 | **Tool Outputs** | _(in-session)_  | Validation results, build reports, CSO gate feedback         |   ≤ 15%    |          No          |
 
 **Prune trigger:** At 85% of model context window, invoke
-`core-component-00/engineering/context-engineering/implementations/context_compressor.py`.
+`core-component-00/framework/02-context-engineering/implementations/context_compressor.py`.
 Compression priority order: Zone C → Zone B → **never Zone A**.
 
 > **Sacred Context rule:** Zone A items (crew identity, pipeline constraints, task objective,
@@ -41,13 +41,13 @@ Compression priority order: Zone C → Zone B → **never Zone A**.
 
 For sessions exceeding **10 turns**, apply compression before assembling the next context window:
 
-1. Invoke `core-component-00/engineering/context-engineering/implementations/context_compressor.py`
+1. Invoke `core-component-00/framework/02-context-engineering/implementations/context_compressor.py`
 2. Target Zone C (History slot) first — summarise completed stage outputs, retain only kill gate decisions and user sign-offs
 3. Target Zone B (Retrieved slot) second — collapse GDD summaries, retain only active feature references and live playtest data
 4. **Never compress Zone A** — Sacred Context items travel whole in every handoff
 5. After compression, validate total context remains below 85% of model context window
 
-> Reference: `core-component-00/engineering/context-engineering/CONCEPTS.md` §compression
+> Reference: `core-component-00/framework/02-context-engineering/CONCEPTS.md` §compression
 
 ---
 

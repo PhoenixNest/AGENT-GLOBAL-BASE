@@ -56,6 +56,6 @@ so compliance isn't marked purely by the same function that executes it.
 
 ## References
 
-- `core-component-00/agent-systems-governance-framework/governance/`
+- `core-component-00/framework/00-agent-systems-governance-framework/governance/`
 - ASGF Compliance Operations (Dr. Farouk) — the execution role this independently checks
 - ASGF Compliance Audit (Dr. Vance) — the ratification authority this escalates to

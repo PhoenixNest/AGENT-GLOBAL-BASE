@@ -279,7 +279,7 @@ def classify_request(
 **Registry alignment matters.** `ToolGovernanceMiddleware` raises at wiring time if a tool is not in
 `TOOL_REGISTRY`. That is intentional: the alternative — dropping the tool silently — produces an
 agent that fails in a way that looks like a model problem and is actually a config problem. Register
-new tools in `core-component-00/engineering/harness-engineering/implementations/tool_registry.py`,
+new tools in `core-component-00/framework/03-harness-engineering/implementations/tool_registry.py`,
 where the timeout, per-task call cap, and `requires_approval` flag live together.
 
 ---
@@ -383,7 +383,7 @@ the same as "simple enough to skip the harness."**
 ## Example 6 — Migrating this workspace's stale v0.x references
 
 **Use when:** acting on Finding 9. This is live technical debt in
-`core-component-00/retrieval-augmented-generation/`, severity P2, and it is real regardless of
+`core-component-00/framework/04-retrieval-augmented-generation/`, severity P2, and it is real regardless of
 whether LangChain is ever adopted.
 
 **The hazard, restated:** `requirements.txt` pins `langchain>=0.1.0`. That open-ended constraint
