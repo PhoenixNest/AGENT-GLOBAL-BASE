@@ -388,6 +388,7 @@ class SearchEngine:
 
     def _build_or_load_faiss_index(self, faiss, np, SentenceTransformer):
         """Build or load a FAISS index with mtime-based delta detection."""
+        self._INDEX_DIR.mkdir(parents=True, exist_ok=True)
         index_file = self._INDEX_DIR / "faiss.index"
         state_file = self._INDEX_DIR / "index_state.json"
 
