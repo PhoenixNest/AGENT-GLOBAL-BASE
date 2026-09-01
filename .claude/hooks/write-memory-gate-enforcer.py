@@ -2,7 +2,7 @@
 # Write-Memory-Confirmation-Gate enforcement — PreToolUse: denies any tool call other than
 # AskUserQuestion while a high-consequence agent-memory write confirmation is pending for this
 # session. Real enforcement companion to
-# core-component-00/mcp-servers/agent-memory/write_gate.py's WriteConfirmationGate. The
+# core-component-00/platform/model-context-protocol-servers/agent-memory/write_gate.py's WriteConfirmationGate. The
 # write-path threat model required a genuinely human-facing, structurally-enforced confirmation
 # step for high-consequence writes, not an in-process flag or docstring warning — see
 # core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md

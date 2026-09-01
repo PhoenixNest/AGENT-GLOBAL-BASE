@@ -62,4 +62,4 @@ staleness of retrieved facts at inference time.
 ## References
 
 - Retrieval Freshness Guarantees research programme (Dr. Vance, PI / Sofia Almeida, execution)
-- `core-component-00/retrieval-augmented-generation/`
+- `core-component-00/framework/04-retrieval-augmented-generation/`

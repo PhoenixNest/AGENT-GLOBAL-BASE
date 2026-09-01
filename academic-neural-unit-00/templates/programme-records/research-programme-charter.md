@@ -93,7 +93,7 @@ this programme's primary domain, delete the rest:
 practice for all (`software-engineering-research-design.md` §2, `agent-coordination-theory-research.md` §2):
 
 [State by name which CC-00 module or mandate this question is being checked against — e.g.
-`core-component-00/engineering/multi-agent-engineering/` — and why it does not belong there. If the
+`core-component-00/framework/05-multi-agent-engineering/` — and why it does not belong there. If the
 distinction is not obvious, escalate to Dr. Mokoena before proceeding rather than guessing.]
 
 **Migrate-vs-task attestation** (binding, `formation-report.md` §2 and §3.1):

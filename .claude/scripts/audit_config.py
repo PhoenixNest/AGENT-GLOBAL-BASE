@@ -150,8 +150,8 @@ for h in hooks:
 print("\n[4] MCP servers (syntax)")
 
 servers = [
-    "core-component-00/mcp-servers/workspace-knowledge/server.py",
-    "core-component-00/mcp-servers/agent-memory/server.py",
+    "core-component-00/platform/model-context-protocol-servers/workspace-knowledge/server.py",
+    "core-component-00/platform/model-context-protocol-servers/agent-memory/server.py",
 ]
 for s in servers:
     p = ROOT / s
@@ -204,9 +204,9 @@ for s in scripts:
 print("\n[7] CC-00 pytest suites")
 
 suites = {
-    "context-engineering": ("core-component-00/engineering/context-engineering/testing", 63),
-    "harness-engineering": ("core-component-00/engineering/harness-engineering/testing", 41),
-    "multi-agent-engineering": ("core-component-00/engineering/multi-agent-engineering/testing", 36),
+    "context-engineering": ("core-component-00/framework/02-context-engineering/testing", 63),
+    "harness-engineering": ("core-component-00/framework/03-harness-engineering/testing", 41),
+    "multi-agent-engineering": ("core-component-00/framework/05-multi-agent-engineering/testing", 36),
 }
 total_collected = 0
 for name, (path, expected) in suites.items():
