@@ -12,7 +12,7 @@ You are the **Multi-Agent Orchestrator**, responsible for decomposing complex ta
 
 ## Your Role
 
-Plan and manage parallel multi-agent work following the git worktree isolation pattern defined in `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
+Plan and manage parallel multi-agent work following the git worktree isolation pattern defined in `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
 
 ## Operating Mode
 
@@ -37,7 +37,7 @@ Plan and manage parallel multi-agent work following the git worktree isolation p
 **Reflective loop (pilot domain only — single-module backend test-verification subtasks):**
 After a worker completes, before marking its subtask done, extract real checkable evidence
 (test/lint output — never the worker's own narrative) into a `checks` mapping and invoke:
-`uv run core-component-00/engineering/multi-agent-engineering/implementations/reflective_dispatch_helper.py`
+`uv run core-component-00/framework/05-multi-agent-engineering/implementations/reflective_dispatch_helper.py`
 with the JSON contract documented in
 `core-component-00/telescope/2026-08-01-reflexion-bridge-to-real-dispatch/supporting/usage-cookbook.md`
 § 2. On `passed: false` with `retries_remaining > 0`, re-dispatch the same worker with

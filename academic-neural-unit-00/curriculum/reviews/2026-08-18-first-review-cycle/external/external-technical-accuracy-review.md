@@ -171,7 +171,7 @@ the 24 chapters has no way to verify these self-references either, which is a st
 "finished" standalone deliverable. Second, `advanced/07` §4 builds an extended, specific case study
 around "this workspace's own multi-agent engineering practice" — including a detailed narrative
 about a Windows directory-junction incident that deleted a shared cache during a `git worktree
-remove` — sourced to `core-component-00/engineering/multi-agent-engineering/fundamentals/
+remove` — sourced to `core-component-00/framework/05-multi-agent-engineering/fundamentals/
 git-worktree-orchestration.md`, a file outside the review set and evidently specific to this
 organization's own internal engineering history. This is workspace-parochial in exactly the sense
 an outside reviewer would flag: a generic international curriculum on multi-agent orchestration

@@ -1,7 +1,7 @@
 """ASGF governance middleware for LangChain v1 agents — the runnable governance kit.
 
 Each class closes a specific requirement from
-core-component-00/agent-systems-governance-framework/governance/compliance-standard.md
+core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md
 by delegating to the corresponding CC-00 reference implementation. The controls
 stay in CC-00, where they are already tested; this module is glue.
 

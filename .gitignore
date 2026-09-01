@@ -2,9 +2,15 @@
 __pycache__/
 *.py[cod]
 *.pyo
+.pytest_cache/
 
 # Virtual environments / dependency installs (defense-in-depth;
-# individual mcp-servers/* already gitignore their own .venv/)
+# individual model-context-protocol-servers/* already gitignore their own .venv/)
 .venv/
 venv/
 node_modules/
+
+# Machine-local MCP server config — generated from .mcp.json.example by the SessionStart
+# mcp-config-platform-check.py hook (per-OS interpreter path is not portable across machines).
+# See core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/.
+.mcp.json

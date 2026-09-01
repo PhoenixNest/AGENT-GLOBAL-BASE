@@ -17,7 +17,7 @@ up a new instance:
   provisioned by the prior `2026-07-10-agent-memory-architecture` programme and is a precondition,
   not part of this rollout.
 - The `sentence-transformers/all-MiniLM-L6-v2` model must already be present in the shared model
-  cache (`core-component-00/mcp-servers/_shared/models/`) — also a precondition from the prior
+  cache (`core-component-00/platform/model-context-protocol-servers/_shared/models/`) — also a precondition from the prior
   programme, reused unchanged (`01-technical-options.md` §2).
 - `agent-memory/server.py` must be reachable and its existing `search_memory`/`health_check`
   tools functioning (even if degraded, per its documented degrade-gracefully contract) before

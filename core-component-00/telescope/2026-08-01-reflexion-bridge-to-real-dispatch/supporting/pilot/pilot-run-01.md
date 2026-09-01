@@ -16,7 +16,7 @@ parent Programme's `05-benchmarking-methodology.md` pilot-category selection —
 domain-selection decision made here.
 
 **Concrete task:** Add unit tests to
-`core-component-00/engineering/multi-agent-engineering/testing/test_swarm_orchestrator.py`
+`core-component-00/framework/05-multi-agent-engineering/testing/test_swarm_orchestrator.py`
 covering `evaluate_subtask_result()`'s narrative-fallback path against realistic,
 transcript-shaped `result["output"]` text — closing part of Open Question 2 (both this
 Programme's and the parent Programme's `research-report.md`: "new unit tests needed against
@@ -73,7 +73,7 @@ Real invocation, from the main workspace (not the worktree — the helper's own 
 worktree-independent by design):
 
 ```
-uv run core-component-00/engineering/multi-agent-engineering/implementations/reflective_dispatch_helper.py
+uv run core-component-00/framework/05-multi-agent-engineering/implementations/reflective_dispatch_helper.py
 ```
 
 **Response (real, attempt 1):**

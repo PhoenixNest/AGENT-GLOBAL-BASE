@@ -165,7 +165,7 @@ surveyed, not a coincidence worth treating as a data point in isolation.
 
 - Live web search and document retrieval (2026-07-14)
 - This workspace's existing `context-engineering/implementations/memory_store.py`,
-  `core-component-00/mcp-servers/agent-memory/` (README + server contract), and
+  `core-component-00/platform/model-context-protocol-servers/agent-memory/` (README + server contract), and
   `telescope/2026-07-10-agent-memory-architecture/` (prior programme this investigation extends)
 - the 2026-07-13-mcp-embedder-service-redesign Programme's `MISTAKE-001` (now `REFLECT-004` in
   `memory_reflection`) and `agent-systems-engineering/governance/adr-ase-001.md` (EX-001
@@ -321,7 +321,7 @@ on a continuous scale.
 `agent-memory`'s own README states plainly that a write-capable MCP tool is "explicitly not
 planned yet" because "exposing a write tool changes that threat model — anything that can get an
 agent to call a tool could write directly into persistent memory," deferred "until it has been
-through an adversarial evaluation targeting prompt-injected write attempts" (`core-component-00/mcp-servers/agent-memory/README.md`,
+through an adversarial evaluation targeting prompt-injected write attempts" (`core-component-00/platform/model-context-protocol-servers/agent-memory/README.md`,
 § Write tool — not implemented). This is a standing, deliberate decision this investigation must
 not silently reopen. `mistake-log.md`'s only existing entry was itself written by a **named human
 investigator, in a Markdown file, as a deliberate documentation act** — not by an agent calling a
@@ -439,7 +439,7 @@ on-demand (an extension of `agent-memory`'s existing `search_memory` tool to
 1. Present this report and its four supporting documents to the CEO for sign-off (User Approval
    Gate — see the covering message).
 2. On approval, open an implementation task against `context-engineering/implementations/` and
-   `core-component-00/mcp-servers/agent-memory/` for the `ReflectionRecord` schema and collection.
+   `core-component-00/platform/model-context-protocol-servers/agent-memory/` for the `ReflectionRecord` schema and collection.
 3. Migrate `MISTAKE-001` into the new collection and mark `mistake-log.md` superseded per its own
    stated terms, not deleted.
 4. Schedule Dr. Wieczorek's adversarial evaluation of the authoring path ahead of production
@@ -452,7 +452,7 @@ on-demand (an extension of `agent-memory`'s existing `search_memory` tool to
 ### Internal Documentation
 
 - `core-component-00/context-engineering/implementations/memory_store.py`
-- `core-component-00/mcp-servers/agent-memory/README.md`
+- `core-component-00/platform/model-context-protocol-servers/agent-memory/README.md`
 - `core-component-00/telescope/2026-07-10-agent-memory-architecture/research-report.md` (prior
   programme this investigation extends, not duplicates)
 - `REFLECT-004` in the `memory_reflection` collection (formerly the 2026-07-13-mcp-embedder-service-redesign
