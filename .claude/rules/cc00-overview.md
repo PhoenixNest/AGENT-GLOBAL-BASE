@@ -15,32 +15,32 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 ## The Five-Module Engineering Stack
 
-| Layer | Module                                 | Type                  | Purpose                  |
-| ----- | -------------------------------------- | --------------------- | ------------------------ |
-| 1     | `engineering/prompt-engineering/`      | Knowledge base        | What to write            |
-| 2     | `engineering/context-engineering/`     | Knowledge + Framework | How to structure it      |
-| 3     | `engineering/harness-engineering/`     | Production Framework  | How to execute safely    |
-| 4     | `retrieval-augmented-generation/`      | Production Framework  | Where to get content     |
-| 5     | `engineering/multi-agent-engineering/` | Production Framework  | How agents cooperate     |
-| Meta  | `agent-systems-governance-framework/`  | Governance            | Compliance & integration |
+| Layer | Module                                             | Type                  | Purpose                  |
+| ----- | -------------------------------------------------- | --------------------- | ------------------------ |
+| 1     | `framework/01-prompt-engineering/`                 | Knowledge base        | What to write            |
+| 2     | `framework/02-context-engineering/`                | Knowledge + Framework | How to structure it      |
+| 3     | `framework/03-harness-engineering/`                | Production Framework  | How to execute safely    |
+| 4     | `framework/04-retrieval-augmented-generation/`     | Production Framework  | Where to get content     |
+| 5     | `framework/05-multi-agent-engineering/`            | Production Framework  | How agents cooperate     |
+| Meta  | `framework/00-agent-systems-governance-framework/` | Governance            | Compliance & integration |
 
 ---
 
 ## Key Production Implementations
 
-| File                                                                        | Module | Purpose                                        |
-| --------------------------------------------------------------------------- | ------ | ---------------------------------------------- |
-| `engineering/context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly              |
-| `engineering/context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory |
-| `engineering/context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                       |
-| `engineering/harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery       |
-| `engineering/harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                       |
-| `engineering/harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits                   |
-| `retrieval-augmented-generation/implementations/chunker.py`                 | RAG    | Fixed-size, semantic, hybrid chunking          |
-| `retrieval-augmented-generation/implementations/retrieval.py`               | RAG    | BM25 scoring, RRF fusion, ACL filtering        |
-| `retrieval-augmented-generation/implementations/pipeline.py`                | RAG    | End-to-end RAG pipeline (injectable deps)      |
-| `engineering/multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                   |
-| `engineering/multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                       |
+| File                                                                         | Module | Purpose                                        |
+| ---------------------------------------------------------------------------- | ------ | ---------------------------------------------- |
+| `framework/02-context-engineering/implementations/context_assembler.py`      | CE     | Four-slot context window assembly              |
+| `framework/02-context-engineering/implementations/memory_store.py`           | CE     | Episodic, semantic, procedural, working memory |
+| `framework/02-context-engineering/implementations/context_compressor.py`     | CE     | Long-session compression                       |
+| `framework/03-harness-engineering/implementations/error_boundary.py`         | HE     | Timeout, rate-limit, validation recovery       |
+| `framework/03-harness-engineering/implementations/context_monitor.py`        | HE     | Token budget enforcement                       |
+| `framework/03-harness-engineering/implementations/tool_registry.py`          | HE     | Tool whitelists, call limits                   |
+| `framework/04-retrieval-augmented-generation/implementations/chunker.py`     | RAG    | Fixed-size, semantic, hybrid chunking          |
+| `framework/04-retrieval-augmented-generation/implementations/retrieval.py`   | RAG    | BM25 scoring, RRF fusion, ACL filtering        |
+| `framework/04-retrieval-augmented-generation/implementations/pipeline.py`    | RAG    | End-to-end RAG pipeline (injectable deps)      |
+| `framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py` | MAE    | Swarm topology orchestration                   |
+| `framework/05-multi-agent-engineering/implementations/handoff_packet.py`     | MAE    | Context Handoff Protocol                       |
 
 ---
 
@@ -57,12 +57,12 @@ description: CC-00 Laboratory overview and behavior rules — active when workin
 
 ## Quick Navigation
 
-| I want to…                      | Go to                                                                 |
-| ------------------------------- | --------------------------------------------------------------------- |
-| Understand the full laboratory  | `core-component-00/README.md`                                         |
-| Learn about ASGF governance     | `core-component-00/agent-systems-governance-framework/README.md`      |
-| Design context windows          | `core-component-00/engineering/context-engineering/fundamentals/`     |
-| Implement error boundaries      | `core-component-00/engineering/harness-engineering/implementations/`  |
-| Build RAG pipelines             | `core-component-00/retrieval-augmented-generation/architecture/`      |
-| Orchestrate multi-agent systems | `core-component-00/engineering/multi-agent-engineering/fundamentals/` |
-| Document research findings      | `core-component-00/telescope/README.md`                               |
+| I want to…                      | Go to                                                                         |
+| ------------------------------- | ----------------------------------------------------------------------------- |
+| Understand the full laboratory  | `core-component-00/README.md`                                                 |
+| Learn about ASGF governance     | `core-component-00/framework/00-agent-systems-governance-framework/README.md` |
+| Design context windows          | `core-component-00/framework/02-context-engineering/fundamentals/`            |
+| Implement error boundaries      | `core-component-00/framework/03-harness-engineering/implementations/`         |
+| Build RAG pipelines             | `core-component-00/framework/04-retrieval-augmented-generation/architecture/` |
+| Orchestrate multi-agent systems | `core-component-00/framework/05-multi-agent-engineering/fundamentals/`        |
+| Document research findings      | `core-component-00/telescope/README.md`                                       |

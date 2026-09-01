@@ -74,7 +74,7 @@ property is what makes them safe to hand to an agent.
 The .mcp.json entries use ${CLAUDE_PROJECT_DIR}, which is a Claude Code host
 variable and is NOT set for a standalone Python process. Resolve it explicitly.
 
-The interpreter is the shared venv at core-component-00/mcp-servers/.venv/ —
+The interpreter is the shared venv at core-component-00/platform/model-context-protocol-servers/.venv/ —
 NOT a bare "python". A bare "python" resolves via PATH to the system interpreter
 and silently reintroduces both the global dependency and a possible CPU-only
 torch. This is documented as a defect in .claude/rules/mcp-governance.md and it

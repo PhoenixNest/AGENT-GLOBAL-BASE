@@ -20,7 +20,7 @@ implement, orchestrate, or ship one.
    criteria.
 2. **Boundary-check against CC-00 explicitly, every time, by name.** Before starting, state in one
    sentence why this question is theoretical/investigative and not a reusable implementation
-   pattern — and check it specifically against `core-component-00/engineering/multi-agent-engineering/`
+   pattern — and check it specifically against `core-component-00/framework/05-multi-agent-engineering/`
    and Dr. Farouk's mandate, not just against "production engineering" abstractly. This role exists
    because that specific boundary is the one most likely to blur; treat the check as mandatory, not
    optional, given this role's own vetting record flagged it as the central risk.

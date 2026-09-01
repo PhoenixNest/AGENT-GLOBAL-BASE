@@ -14,7 +14,7 @@ version: "1.0.0"
 
 Design and production hardening of the CC-00 RAG module's layered retrieval pipeline: semantic
 
-- keyword fusion ranking and ACL-filtered retrieval, per `core-component-00/retrieval-augmented-generation/`.
+- keyword fusion ranking and ACL-filtered retrieval, per `core-component-00/framework/04-retrieval-augmented-generation/`.
 
 ## Tools & Frameworks
 
@@ -63,4 +63,4 @@ Design and production hardening of the CC-00 RAG module's layered retrieval pipe
 
 - Enterprise RAG architecture: slot-priority assembly, ACL-filtered retrieval, layered retrieval
   (Dr. Vance, research contributions)
-- `core-component-00/retrieval-augmented-generation/`
+- `core-component-00/framework/04-retrieval-augmented-generation/`

@@ -59,4 +59,4 @@ footprint (`requirements.txt`, spaCy models, vector index libraries).
 ## References
 
 - `core-component-00/CLAUDE.md` § Environment Notes (Windows)
-- `core-component-00/retrieval-augmented-generation/requirements.txt`
+- `core-component-00/framework/04-retrieval-augmented-generation/requirements.txt`

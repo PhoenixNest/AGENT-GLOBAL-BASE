@@ -27,7 +27,7 @@ recorded, under scope decision **S-1**, that both blind external reviewers — r
 independently, with no ANU-00/CC-00 context — flagged the same passage: `advanced/07`
 ("Multi-Agent Orchestration: Worktree Isolation & Consensus") §4 builds an extended case study
 around a real workspace-internal git-worktree incident, citing
-`core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
+`core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`.
 The internal cluster reviewer (Dr. Ibarra-Costa) independently confirmed the case study represents
 its source accurately — this was never a factual defect. Pass 3 recorded it as a pure audience
 question: fine for an internal ANU-00/CC-00 readership, a visible seam if the curriculum is ever

@@ -55,5 +55,5 @@ as an active ANU-00 programme.
   (`skills/knowledge-base-ingestion-architecture.md`).
 - ASGF compliance for any LLM-powered tooling a programme might require — ASGF governance applies
   workspace-wide regardless of this chartering process; consult
-  `core-component-00/agent-systems-governance-framework/governance/` for the standard itself (a technical
+  `core-component-00/framework/00-agent-systems-governance-framework/governance/` for the standard itself (a technical
   reference, not a CC-00 organizational dependency).
