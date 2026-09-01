@@ -36,10 +36,13 @@ academic-neural-unit-00/
 │       ├── meeting-minutes.md                 ← record of the internal formation meeting
 │       ├── formation-report.md                ← report to the CEO + recorded CEO decision (§6)
 │       └── prospective-hires.md               ← role profiles + CEO full-scale override amendment
+├── curriculum/                                ← bilingual (EN/ZH) agent-development textbook series (see curriculum/README.md)
+│   └── reviews/                               ← dated YYYY-MM-DD-<slug>/ review-cycle entries
 ├── templates/                                 ← 6 research templates (see templates/README.md)
 │   ├── programme-records/                     ← research-programme-charter, open-question-log, observation-record, referral-note
 │   └── knowledge-base/                        ← research-report, taxonomy-change-record
 ├── knowledge-base/                            ← research output, dated YYYY-MM-DD-<slug>/ entries
+├── plans/                                     ← CEO-facing implementation plans, dated YYYY-MM-DD-<slug>/ entries (see plans/README.md)
 └── crew/                                      ← roster (10 FTEs, hired 2026-07-23)
     ├── README.md                              ← roster index + activation protocol
     ├── lead/naledi-mokoena/
