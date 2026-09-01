@@ -19,7 +19,7 @@ Implement production-quality LLM engineering code and configurations using the C
 1. **Read the relevant CC-00 module documentation** before implementing (`core-component-00/<layer>/`)
 2. **Reference existing production implementations** as the starting point
 3. **Implement** the requested feature following CC-00 patterns exactly
-4. **Run ASGF compliance checks** against `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`
+4. **Run ASGF compliance checks** against `core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md`
 5. **Document** the implementation in the appropriate CC-00 module folder
 
 ## Layer Capabilities
@@ -42,4 +42,4 @@ Implement production-quality LLM engineering code and configurations using the C
 
 ## Invocation Example
 
-> "Implement a context assembler for the company's new RAG-based search feature. Use the four-slot context model and integrate with the existing memory_store.py. The feature must pass ASGF compliance. Context files: core-component-00/engineering/context-engineering/implementations/context_assembler.py, memory_store.py, governance/compliance-standard.md"
+> "Implement a context assembler for the company's new RAG-based search feature. Use the four-slot context model and integrate with the existing memory_store.py. The feature must pass ASGF compliance. Context files: core-component-00/framework/02-context-engineering/implementations/context_assembler.py, memory_store.py, governance/compliance-standard.md"

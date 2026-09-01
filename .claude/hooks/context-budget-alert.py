@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # H-CE01: UserPromptSubmit — Context Budget Alert (Python port)
 # Estimates the transcript's actual token count (via
-# core-component-00/engineering/context-engineering/implementations/context_compressor.py's
+# core-component-00/framework/02-context-engineering/implementations/context_compressor.py's
 # tiktoken-based estimator) as the primary alert/enforcement signal. When it exceeds the
 # threshold, injects additionalContext directing Claude to apply Sacred Context
-# principles from CC-00 engineering/harness-engineering/implementations/context_monitor.py.
+# principles from CC-00 framework/03-harness-engineering/implementations/context_monitor.py.
 #
 # Ports .claude/hooks/context-budget-alert.ps1 and .claude/hooks/context-budget-alert.sh
 # to a single stdlib-only Python 3 implementation. This hook never denies/blocks a
@@ -17,11 +17,11 @@
 # an advisory alert with no code path that actually compresses anything (Context R1,
 # relocated into the Harness Implementation Plan as item I5 because the fix lands in
 # this Harness-owned hook file). Past ENFORCEMENT_THRESHOLD_TOKENS, this hook now invokes
-# core-component-00/engineering/context-engineering/implementations/context_compressor.py's
+# core-component-00/framework/02-context-engineering/implementations/context_compressor.py's
 # ContextCompressor.compress_history() directly against the transcript and injects
 # the actual compacted result — not a repeated reminder — as additionalContext.
 # Below that threshold (but above ALERT_THRESHOLD_TOKENS) it still only alerts, unchanged
-# from before. Full arbitration: core-component-00/remediation/engineering/
+# from before. Full arbitration: core-component-00/platform/remediation/engineering/
 # harness-engineering/2026-08-17-harness-engineering-remediation/log/
 # 02-approval-i1-i5-arbitrated.md.
 # -----------------------------------------------------------------------------------
@@ -38,7 +38,7 @@
 # FALLBACK_*_THRESHOLD_KB safety net below, used solely when the transcript can't be parsed
 # into any turns at all (e.g. corrupted JSONL) — the same case the byte-size signal already
 # had to handle before this fix. See
-# core-component-00/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/
+# core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/
 # item I1.
 # -----------------------------------------------------------------------------------
 
@@ -256,7 +256,7 @@ def main() -> int:
             "- Compress or summarize non-critical Conversation context where possible\n"
             "- If approaching model context limits, invoke context_compressor.py patterns\n"
             "- Prioritize: active task state > prior decisions > background knowledge\n"
-            "Reference: core-component-00/engineering/harness-engineering/implementations/context_monitor.py"
+            "Reference: core-component-00/framework/03-harness-engineering/implementations/context_monitor.py"
         )
         system_message = f"[H-CE01: context budget alert — {size_label}]"
 

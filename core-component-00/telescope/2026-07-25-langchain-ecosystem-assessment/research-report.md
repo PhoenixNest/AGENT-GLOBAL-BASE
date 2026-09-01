@@ -159,7 +159,7 @@ Four-phase investigation, conducted 2026-07-25:
 - PyPI JSON API (`pypi.org/pypi/<pkg>/json`) — authoritative current versions
 - Context7 MCP → `/langchain-ai/docs` — official LangChain v1 documentation and migration guide
 - Check Point Research — CVE detail for the LangGraph checkpointer chain
-- `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`
+- `core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md`
 
 ### Constraints
 
@@ -421,7 +421,7 @@ it is the number Finding 6 reasons against.
 - ~238 GB free disk is comfortable but not unlimited — a handful of Q4 8B models plus embedding
   caches will consume 30–60 GB.
 - The embedding stack's GPU residency is a precondition this report builds on, not a subject of it.
-  Its configuration and operating rules are documented in `core-component-00/mcp-servers/CLAUDE.md`
+  Its configuration and operating rules are documented in `core-component-00/platform/model-context-protocol-servers/CLAUDE.md`
   § Python Environment.
 
 ---
@@ -732,15 +732,15 @@ CEO/User direction on:
 
 ### Internal Documentation
 
-- `core-component-00/agent-systems-governance-framework/governance/compliance-standard.md` — the
+- `core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md` — the
   per-layer criteria used in Finding 8
-- `core-component-00/agent-systems-governance-framework/governance/adr-asgf-001.md` — ratifying
+- `core-component-00/framework/00-agent-systems-governance-framework/governance/adr-asgf-001.md` — ratifying
   authority
-- `core-component-00/retrieval-augmented-generation/` — existing RAG implementation
+- `core-component-00/framework/04-retrieval-augmented-generation/` — existing RAG implementation
   (`chunker.py`, `retrieval.py`, `pipeline.py`) and the stale references in Finding 9
-- `core-component-00/mcp-servers/_shared/embedder-service/server.py` — the shared embedding service
+- `core-component-00/platform/model-context-protocol-servers/_shared/embedder-service/server.py` — the shared embedding service
   a LangChain layer would route through
-- `core-component-00/mcp-servers/CLAUDE.md` § Python Environment — the shared-venv and GPU
+- `core-component-00/platform/model-context-protocol-servers/CLAUDE.md` § Python Environment — the shared-venv and GPU
   configuration this report treats as a precondition
 - `.claude/rules/mcp-governance.md` — three-gate inclusion test; `embedder-service` and
   `agent-memory` history
@@ -1366,4 +1366,4 @@ LangChain assessment report. All example code in `supporting/` is **unexecuted**
 **Scope note:** this report assesses LangChain only. The state of the local Python and GPU
 environment is treated as a **precondition** — a fact the deployment analysis reasons against, not
 a subject of this research. That environment is documented in
-`core-component-00/mcp-servers/CLAUDE.md` § Python Environment.
+`core-component-00/platform/model-context-protocol-servers/CLAUDE.md` § Python Environment.

@@ -32,31 +32,31 @@ Infrastructure Engineer, and 4 paired Research Engineer IIs). Total headcount 12
 User (CEO)
  │
  └── Dr. Elias Vance — Laboratory Director (L5)
-      │    owns: ASGF governance · cross-module architecture · engineering/prompt-engineering/ (direct)
+      │    owns: ASGF governance · cross-module architecture · framework/01-prompt-engineering/ (direct)
       │
       ├── Dr. Idris Farouk — Staff Research Engineer, MAE Lead (L4)
-      │    owns: engineering/multi-agent-engineering/ (lead) · ASGF audit execution
+      │    owns: framework/05-multi-agent-engineering/ (lead) · ASGF audit execution
       │    │
       │    └── Amina Yusuf — Senior Research Engineer II (L3)
-      │         owns: engineering/multi-agent-engineering/ (fleet resilience, isolation)
+      │         owns: framework/05-multi-agent-engineering/ (fleet resilience, isolation)
       │
       ├── Mei-Ling Zhao — Senior Research Engineer (L3)
-      │    owns: engineering/context-engineering/ (lead)
+      │    owns: framework/02-context-engineering/ (lead)
       │    │
       │    └── Hana Kobayashi — Senior Research Engineer II (L3)
-      │         owns: engineering/context-engineering/ (memory scaling, concurrent-access safety)
+      │         owns: framework/02-context-engineering/ (memory scaling, concurrent-access safety)
       │
       ├── Kwame Asante — Senior Research Engineer (L3)
-      │    owns: engineering/harness-engineering/ (lead)
+      │    owns: framework/03-harness-engineering/ (lead)
       │    │
       │    └── Connor O'Malley — Senior Research Engineer II (L3)
-      │         owns: engineering/harness-engineering/ (fault injection, recovery validation)
+      │         owns: framework/03-harness-engineering/ (fault injection, recovery validation)
       │
       ├── Sofia Almeida — Senior Research Engineer (L3)
-      │    owns: retrieval-augmented-generation/ (lead)
+      │    owns: framework/04-retrieval-augmented-generation/ (lead)
       │    │
       │    └── Diego Fontán — Senior Research Engineer II (L3)
-      │         owns: retrieval-augmented-generation/ (index scaling, re-embedding ops)
+      │         owns: framework/04-retrieval-augmented-generation/ (index scaling, re-embedding ops)
       │
       ├── Dr. Amara Nwosu-Chen — Staff Research Scientist (L4)
       │    owns: cross-cutting — independent research origination
@@ -87,13 +87,13 @@ Engineer IIs report to their paired module lead instead, per `recruitment-plan.m
 graph TB
     CC00(["core-component-00<br/>— LLM Engineering Laboratory —"])
     DIR["crew/<br/>Dr. Vance + 11 crew"]
-    ASGF["agent-systems-governance-framework/<br/>«Governing Framework»"]
-    ENG["engineering/<br/>Layers 1, 2, 3, 5"]
-    PE["prompt-engineering/<br/>Layer 1 — What to write"]
-    CE["context-engineering/<br/>Layer 2 — How to structure it"]
-    HE["harness-engineering/<br/>Layer 3 — How to execute safely"]
-    RAG["retrieval-augmented-generation/<br/>Layer 4 — Where to get content"]
-    MAE["multi-agent-engineering/<br/>Layer 5 — How agents cooperate"]
+    ASGF["framework/00-agent-systems-governance-framework/<br/>«Governing Framework»"]
+    ENG["framework/<br/>Layers 1, 2, 3, 5 (numbered 01-05)"]
+    PE["01-prompt-engineering/<br/>Layer 1 — What to write"]
+    CE["02-context-engineering/<br/>Layer 2 — How to structure it"]
+    HE["03-harness-engineering/<br/>Layer 3 — How to execute safely"]
+    RAG["04-retrieval-augmented-generation/<br/>Layer 4 — Where to get content"]
+    MAE["05-multi-agent-engineering/<br/>Layer 5 — How agents cooperate"]
 
     CC00 --- DIR
     CC00 --> ASGF
@@ -117,13 +117,13 @@ graph TB
     class DIR dir
 ```
 
-| Flow                                                                      | What moves                                                                              |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `engineering/prompt-engineering` → `engineering/context-engineering`      | Prompt patterns fill the System slot of the context window                              |
-| `retrieval-augmented-generation` → `engineering/context-engineering`      | Retrieved, reranked, ACL-filtered chunks fill the Retrieved slot                        |
-| `engineering/context-engineering` → `engineering/harness-engineering`     | Assembled, budget-compliant context window dispatched for safe model execution          |
-| `engineering/harness-engineering` → `retrieval-augmented-generation`      | Agent-generated artifacts ingested into the RAG knowledge store (feedback loop)         |
-| `engineering/multi-agent-engineering` → `engineering/harness-engineering` | Orchestrator manages agent swarm lifecycle; every model call routes through the harness |
+| Flow                                                                               | What moves                                                                              |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `framework/01-prompt-engineering` → `framework/02-context-engineering`             | Prompt patterns fill the System slot of the context window                              |
+| `framework/04-retrieval-augmented-generation` → `framework/02-context-engineering` | Retrieved, reranked, ACL-filtered chunks fill the Retrieved slot                        |
+| `framework/02-context-engineering` → `framework/03-harness-engineering`            | Assembled, budget-compliant context window dispatched for safe model execution          |
+| `framework/03-harness-engineering` → `framework/04-retrieval-augmented-generation` | Agent-generated artifacts ingested into the RAG knowledge store (feedback loop)         |
+| `framework/05-multi-agent-engineering` → `framework/03-harness-engineering`        | Orchestrator manages agent swarm lifecycle; every model call routes through the harness |
 
 ---
 
@@ -156,14 +156,14 @@ Full agent profile and skills: [`core-component-00/crew/director/elias-vance/age
 
 #### Selected Publications and Frameworks
 
-| Title                                                                                                                         | Type               | Year |
-| ----------------------------------------------------------------------------------------------------------------------------- | ------------------ | ---- |
-| _Constitutional AI: Harmlessness from AI Feedback_                                                                            | Co-authored paper  | 2022 |
-| _The Six Pillars of Context Engineering_                                                                                      | Internal framework | 2025 |
-| _Harness Engineering: Production Patterns for Reliable LLM Execution_                                                         | Framework spec     | 2025 |
-| _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_                                                   | Research note      | 2026 |
-| _Multi-Agent Context Handoff Protocols_                                                                                       | Architecture spec  | 2026 |
-| [_Agent Systems Governance Framework: The Convergence of Four Disciplines_](./agent-systems-governance-framework/CONCEPTS.md) | Foundational paper | 2026 |
+| Title                                                                                                                                      | Type               | Year |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ---- |
+| _Constitutional AI: Harmlessness from AI Feedback_                                                                                         | Co-authored paper  | 2022 |
+| _The Six Pillars of Context Engineering_                                                                                                   | Internal framework | 2025 |
+| _Harness Engineering: Production Patterns for Reliable LLM Execution_                                                                      | Framework spec     | 2025 |
+| _Sacred Context: Preserving Decision Continuity Across Long Agent Sessions_                                                                | Research note      | 2026 |
+| _Multi-Agent Context Handoff Protocols_                                                                                                    | Architecture spec  | 2026 |
+| [_Agent Systems Governance Framework: The Convergence of Four Disciplines_](./framework/00-agent-systems-governance-framework/CONCEPTS.md) | Foundational paper | 2026 |
 
 #### Research Philosophy
 
@@ -187,55 +187,57 @@ CC-00 operates with a four-part mission:
 
 ## Active Research Programmes
 
-| Programme                              | Status                    | Lead Module                        | Key Open Question                                                                                                                             |
-| -------------------------------------- | ------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Context Compression Theory**         | **Resolved** (2026-06-30) | `engineering/context-engineering/` | Compaction API (`compact_20260112`) is the canonical solution — 87–95% reduction; align `context_compressor.py`.                              |
-| **Multi-Agent Memory Coherence**       | **Resolved** (2026-06-30) | `engineering/context-engineering/` | git-as-substrate with `current_tasks/` file locking is the canonical pattern; GSM scope enforcement gap is a P1 security item.                |
-| **Retrieval Freshness Guarantees**     | **Resolved** (2026-06-26) | `retrieval-augmented-generation/`  | Staleness is a policy variable (debounce threshold of a post-write hook), not an architectural invariant. See `patterns/index-sync-hooks.md`. |
-| **Prompt Stability Under Fine-Tuning** | **Resolved** (2026-06-30) | `engineering/prompt-engineering/`  | Fine-tuning is Haiku-via-Bedrock only; schema-constrained prompts are the most stable class; CoT degrades post-FT.                            |
-| **Harness Performance Benchmarking**   | **Resolved** (2026-06-30) | `engineering/harness-engineering/` | SDK default is 10-min timeout (30 min worst-case); override per tier: Haiku 15s / Sonnet 30s / Opus 90s. P0 fix in `error_boundary.py`.       |
+| Programme                              | Status                    | Lead Module                                    | Key Open Question                                                                                                                             |
+| -------------------------------------- | ------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Context Compression Theory**         | **Resolved** (2026-06-30) | `framework/02-context-engineering/`            | Compaction API (`compact_20260112`) is the canonical solution — 87–95% reduction; align `context_compressor.py`.                              |
+| **Multi-Agent Memory Coherence**       | **Resolved** (2026-06-30) | `framework/02-context-engineering/`            | git-as-substrate with `current_tasks/` file locking is the canonical pattern; GSM scope enforcement gap is a P1 security item.                |
+| **Retrieval Freshness Guarantees**     | **Resolved** (2026-06-26) | `framework/04-retrieval-augmented-generation/` | Staleness is a policy variable (debounce threshold of a post-write hook), not an architectural invariant. See `patterns/index-sync-hooks.md`. |
+| **Prompt Stability Under Fine-Tuning** | **Resolved** (2026-06-30) | `framework/01-prompt-engineering/`             | Fine-tuning is Haiku-via-Bedrock only; schema-constrained prompts are the most stable class; CoT degrades post-FT.                            |
+| **Harness Performance Benchmarking**   | **Resolved** (2026-06-30) | `framework/03-harness-engineering/`            | SDK default is 10-min timeout (30 min worst-case); override per tier: Haiku 15s / Sonnet 30s / Opus 90s. P0 fix in `error_boundary.py`.       |
 
 **Research Archive:** Completed investigations and research findings are permanently archived in this Laboratory's own [Telescope instance](./telescope/README.md) (engineering + LLM research); see the workspace-root `telescope/README.md` for the other departments' archives.
 
-**Maintenance Log:** Maintenance operations performed on CC-00 lab servers and engineering resources (dev environment, GPU/CUDA stack, dependency footprint, MCP server processes) are recorded in [`maintenance-records/`](./maintenance-records/README.md) — a separate, operational counterpart to the research-focused Telescope archive above.
+**Maintenance Log:** Maintenance operations performed on CC-00 lab servers and engineering resources (dev environment, GPU/CUDA stack, dependency footprint, MCP server processes) are recorded in [`platform/maintenance-records/`](./platform/maintenance-records/README.md) — a separate, operational counterpart to the research-focused Telescope archive above.
+
+**Benchmarks & Remediation:** Enterprise-grade assessments comparing CC-00 modules against current industry practice are archived in [`platform/benchmarks/`](./platform/benchmarks/README.md); execution of the P0/P1 findings from those assessments is tracked to completion in [`platform/remediation/`](./platform/remediation/README.md).
 
 ---
 
 ## Module Overview
 
-| Module                                                                                    | Layer                     | Type                             | Has Code |
-| ----------------------------------------------------------------------------------------- | ------------------------- | -------------------------------- | -------- |
-| [`agent-systems-governance-framework/`](./agent-systems-governance-framework/README.md)   | Governing meta-layer      | Governance framework             | No       |
-| [`engineering/prompt-engineering/`](./engineering/prompt-engineering/README.md)           | 1 — What to write         | Knowledge base                   | No       |
-| [`engineering/context-engineering/`](./engineering/context-engineering/README.md)         | 2 — How to structure it   | Knowledge + Production framework | Yes      |
-| [`engineering/harness-engineering/`](./engineering/harness-engineering/README.md)         | 3 — How to execute safely | Production framework             | Yes      |
-| [`retrieval-augmented-generation/`](./retrieval-augmented-generation/README.md)           | 4 — Where to get content  | Production framework             | Yes      |
-| [`engineering/multi-agent-engineering/`](./engineering/multi-agent-engineering/README.md) | 5 — How agents cooperate  | Production framework             | Yes      |
+| Module                                                                                                            | Layer                     | Type                             | Has Code |
+| ----------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------------- | -------- |
+| [`framework/00-agent-systems-governance-framework/`](./framework/00-agent-systems-governance-framework/README.md) | Governing meta-layer      | Governance framework             | No       |
+| [`framework/01-prompt-engineering/`](./framework/01-prompt-engineering/README.md)                                 | 1 — What to write         | Knowledge base                   | No       |
+| [`framework/02-context-engineering/`](./framework/02-context-engineering/README.md)                               | 2 — How to structure it   | Knowledge + Production framework | Yes      |
+| [`framework/03-harness-engineering/`](./framework/03-harness-engineering/README.md)                               | 3 — How to execute safely | Production framework             | Yes      |
+| [`framework/04-retrieval-augmented-generation/`](./framework/04-retrieval-augmented-generation/README.md)         | 4 — Where to get content  | Production framework             | Yes      |
+| [`framework/05-multi-agent-engineering/`](./framework/05-multi-agent-engineering/README.md)                       | 5 — How agents cooperate  | Production framework             | Yes      |
 
 ---
 
 ## The Governing Module
 
-### `agent-systems-governance-framework/` — Governance & Integration
+### `framework/00-agent-systems-governance-framework/` — Governance & Integration
 
 The meta-module that sits above the five engineering pillars. It does not implement a
 single layer — it governs all five. It defines the compliance standard that every
 LLM-powered system must satisfy, the cross-cutting design patterns that span layer
 boundaries, and the runtime integration contracts between modules.
 
-Ratifying authority: [ADR-ASGF-001](./agent-systems-governance-framework/governance/adr-asgf-001.md) · Full module: [`agent-systems-governance-framework/README.md`](./agent-systems-governance-framework/README.md)
+Ratifying authority: [ADR-ASGF-001](./framework/00-agent-systems-governance-framework/governance/adr-asgf-001.md) · Full module: [`framework/00-agent-systems-governance-framework/README.md`](./framework/00-agent-systems-governance-framework/README.md)
 
 ---
 
 ## The Five Engineering Modules
 
-### 1. `engineering/prompt-engineering/` — Knowledge Base
+### 1. `framework/01-prompt-engineering/` — Knowledge Base
 
 The discipline of designing effective LLM instructions. Covers foundational research, zero-shot to chain-of-thought prompting, advanced patterns (Socratic, Devil's Advocate, Schema-Constrained), and workspace-specific strategy for integrating prompt techniques into skills, hooks, and agent profiles.
 
 ---
 
-### 2. `engineering/context-engineering/` — Knowledge Base + Production Code
+### 2. `framework/02-context-engineering/` — Knowledge Base + Production Code
 
 The discipline of architecting the LLM's context window — deciding what information to include, how to structure it across four typed slots (system / retrieved / history / tool outputs), and how to maintain it across the full lifecycle of an agent session.
 
@@ -243,7 +245,7 @@ Includes the four memory types (episodic, semantic, procedural, working), dynami
 
 ---
 
-### 3. `engineering/harness-engineering/` — Production Framework
+### 3. `framework/03-harness-engineering/` — Production Framework
 
 The discipline of safely executing LLM model calls at runtime. Covers error boundaries (timeout, rate-limit, validation recovery), context budget monitoring, and tool use boundaries (whitelists, call limits, dangerous task detection).
 
@@ -251,7 +253,7 @@ The harness is the last layer before the model call — it validates, monitors, 
 
 ---
 
-### 4. `retrieval-augmented-generation/` — Production Framework
+### 4. `framework/04-retrieval-augmented-generation/` — Production Framework
 
 The discipline of combining LLMs with external knowledge bases. Covers embedding pipelines, vector database architecture, reranking, chunking strategies, evaluation frameworks, security controls (ACL filtering, PII masking), and deployment templates.
 
@@ -259,31 +261,33 @@ RAG provides the retrieved content that feeds into the context-engineering retri
 
 ---
 
-### 5. `engineering/multi-agent-engineering/` — Production Framework
+### 5. `framework/05-multi-agent-engineering/` — Production Framework
 
 The discipline of designing, orchestrating, and operating coordinated systems of specialist LLM-powered agents. Covers swarm topology selection (Hierarchical, Flat, Mesh, Pipeline, Hybrid), git worktree isolation for parallel agent development, the Context Handoff Protocol (Full / Scoped / Minimal tiers), orchestration patterns, anti-patterns, and the complete agent swarm lifecycle.
 
 Multi-agent engineering is the orchestration layer that sits above context engineering and harness engineering — it consumes context assembly, delegates execution to the harness, and feeds knowledge back into RAG.
 
-Foundational paper: [Agent Systems Governance Framework: The Convergence of Four Disciplines](./agent-systems-governance-framework/CONCEPTS.md)
+Foundational paper: [Agent Systems Governance Framework: The Convergence of Four Disciplines](./framework/00-agent-systems-governance-framework/CONCEPTS.md)
 
 ---
 
 ## Quick Navigation
 
-| I want to…                                    | Go to                                                                                                                                                |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Write a better system prompt                  | `[engineering/prompt-engineering/fundamentals/research.md](./engineering/prompt-engineering/fundamentals/research.md)`                               |
-| Decide what goes in each context slot         | `[engineering/context-engineering/fundamentals/context-window-anatomy.md](./engineering/context-engineering/fundamentals/context-window-anatomy.md)` |
-| Choose the right memory type                  | `[engineering/context-engineering/fundamentals/memory-types.md](./engineering/context-engineering/fundamentals/memory-types.md)`                     |
-| Assemble a context window at runtime          | `[engineering/context-engineering/implementations/context_assembler.py](./engineering/context-engineering/implementations/context_assembler.py)`     |
-| Handle errors and timeouts around model calls | `[engineering/harness-engineering/implementations/error_boundary.py](./engineering/harness-engineering/implementations/error_boundary.py)`           |
-| Manage token budgets during long sessions     | `[engineering/harness-engineering/implementations/context_monitor.py](./engineering/harness-engineering/implementations/context_monitor.py)`         |
-| Build a RAG retrieval pipeline                | `[retrieval-augmented-generation/architecture/overview.md](./retrieval-augmented-generation/architecture/overview.md)`                               |
-| Pass context between agents                   | `[engineering/context-engineering/patterns/multi-agent-handoff.md](./engineering/context-engineering/patterns/multi-agent-handoff.md)`               |
-| Understand RAG security controls              | `[retrieval-augmented-generation/security/guide.md](./retrieval-augmented-generation/security/guide.md)`                                             |
-| Wire all four modules together                | `[engineering/context-engineering/workspace/integration-guide.md](./engineering/context-engineering/workspace/integration-guide.md)`                 |
-| Document research findings                    | `[telescope/README.md](./telescope/README.md)`                                                                                                       |
+| I want to…                                    | Go to                                                                                                                                                  |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Write a better system prompt                  | `[framework/01-prompt-engineering/fundamentals/research.md](./framework/01-prompt-engineering/fundamentals/research.md)`                               |
+| Decide what goes in each context slot         | `[framework/02-context-engineering/fundamentals/context-window-anatomy.md](./framework/02-context-engineering/fundamentals/context-window-anatomy.md)` |
+| Choose the right memory type                  | `[framework/02-context-engineering/fundamentals/memory-types.md](./framework/02-context-engineering/fundamentals/memory-types.md)`                     |
+| Assemble a context window at runtime          | `[framework/02-context-engineering/implementations/context_assembler.py](./framework/02-context-engineering/implementations/context_assembler.py)`     |
+| Handle errors and timeouts around model calls | `[framework/03-harness-engineering/implementations/error_boundary.py](./framework/03-harness-engineering/implementations/error_boundary.py)`           |
+| Manage token budgets during long sessions     | `[framework/03-harness-engineering/implementations/context_monitor.py](./framework/03-harness-engineering/implementations/context_monitor.py)`         |
+| Build a RAG retrieval pipeline                | `[framework/04-retrieval-augmented-generation/architecture/overview.md](./framework/04-retrieval-augmented-generation/architecture/overview.md)`       |
+| Pass context between agents                   | `[framework/02-context-engineering/patterns/multi-agent-handoff.md](./framework/02-context-engineering/patterns/multi-agent-handoff.md)`               |
+| Understand RAG security controls              | `[framework/04-retrieval-augmented-generation/security/guide.md](./framework/04-retrieval-augmented-generation/security/guide.md)`                     |
+| Wire all four modules together                | `[framework/02-context-engineering/workspace/integration-guide.md](./framework/02-context-engineering/workspace/integration-guide.md)`                 |
+| Document research findings                    | `[telescope/README.md](./telescope/README.md)`                                                                                                         |
+| Compare a module against industry practice    | `[platform/benchmarks/README.md](./platform/benchmarks/README.md)`                                                                                     |
+| Track remediation of a benchmark finding      | `[platform/remediation/README.md](./platform/remediation/README.md)`                                                                                   |
 
 ---
 
@@ -291,35 +295,35 @@ Foundational paper: [Agent Systems Governance Framework: The Convergence of Four
 
 Each module with production code ships with:
 
-| Module                                 | Implementations | Executable Tests                | Edge Case Guide |
-| -------------------------------------- | --------------- | ------------------------------- | --------------- |
-| `engineering/context-engineering/`     | 3 Python files  | 2 pytest suites (60 test cases) | Yes             |
-| `engineering/harness-engineering/`     | 3 Python files  | 2 pytest suites                 | Yes             |
-| `retrieval-augmented-generation/`      | 4 Python files  | 3 pytest suites (61 test cases) | Yes             |
-| `engineering/multi-agent-engineering/` | 3 Python files  | 3 pytest suites                 | Yes             |
+| Module                                         | Implementations | Executable Tests                | Edge Case Guide |
+| ---------------------------------------------- | --------------- | ------------------------------- | --------------- |
+| `framework/02-context-engineering/`            | 3 Python files  | 2 pytest suites (60 test cases) | Yes             |
+| `framework/03-harness-engineering/`            | 3 Python files  | 2 pytest suites                 | Yes             |
+| `framework/04-retrieval-augmented-generation/` | 4 Python files  | 3 pytest suites (61 test cases) | Yes             |
+| `framework/05-multi-agent-engineering/`        | 3 Python files  | 3 pytest suites                 | Yes             |
 
 All Python implementations have been smoke-tested and import cleanly. Run all tests from the module root with:
 
 ```bash
-pytest engineering/context-engineering/testing/ -v
-pytest engineering/harness-engineering/testing/ -v
-pytest retrieval-augmented-generation/testing/ -v
-pytest engineering/multi-agent-engineering/testing/ -v
+pytest framework/02-context-engineering/testing/ -v
+pytest framework/03-harness-engineering/testing/ -v
+pytest framework/04-retrieval-augmented-generation/testing/ -v
+pytest framework/05-multi-agent-engineering/testing/ -v
 ```
 
 ---
 
 ## Document Index
 
-| Module                                            | Files  | Last Updated |
-| ------------------------------------------------- | ------ | ------------ |
-| `agent-systems-governance-framework/` (Governing) | 11     | 2026-04-30   |
-| `engineering/prompt-engineering/`                 | 6      | 2026-04-24   |
-| `engineering/context-engineering/`                | 15     | 2026-04-28   |
-| `engineering/harness-engineering/`                | 11     | 2026-04-28   |
-| `retrieval-augmented-generation/`                 | 25     | 2026-06-30   |
-| `engineering/multi-agent-engineering/`            | 11     | 2026-04-29   |
-| **Total**                                         | **70** | —            |
+| Module                                                         | Files  | Last Updated |
+| -------------------------------------------------------------- | ------ | ------------ |
+| `framework/00-agent-systems-governance-framework/` (Governing) | 11     | 2026-04-30   |
+| `framework/01-prompt-engineering/`                             | 6      | 2026-04-24   |
+| `framework/02-context-engineering/`                            | 15     | 2026-04-28   |
+| `framework/03-harness-engineering/`                            | 11     | 2026-04-28   |
+| `framework/04-retrieval-augmented-generation/`                 | 25     | 2026-06-30   |
+| `framework/05-multi-agent-engineering/`                        | 11     | 2026-04-29   |
+| **Total**                                                      | **70** | —            |
 
 ---
 

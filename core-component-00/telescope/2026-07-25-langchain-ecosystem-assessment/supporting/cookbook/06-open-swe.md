@@ -62,7 +62,7 @@ manual:
 
 1. **A worktree-isolated execution path**, so the agent never writes to the primary working tree.
    This workspace already has the right primitive — `agent/<role>/<task>` branches in dedicated git
-   worktrees, per `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
+   worktrees, per `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`
    — but Open SWE would need to be wired into that pattern, not run beside it.
 2. **A path denylist** covering `.claude/`, `.mcp.json`, `**/pipeline.md`, and
    `agent-systems-governance-framework/governance/**`, enforced at the tool layer (i.e., the agent
@@ -116,13 +116,13 @@ second. Until the four preconditions in §2 are satisfied, the tool-selection qu
 
 ## 4. Integrations
 
-| Integrates with                                     | How (confidence)                                                                                                                                                                                                                      |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **LangGraph**                                       | **Confirmed by category** — built on the LangChain/LangGraph stack per its own description.                                                                                                                                           |
-| **Git hosting platforms** (GitHub, likely)          | **Likely, unconfirmed** — a coding agent of this kind requires some git-hosting integration for reading/writing code and opening changes; specific mechanism not verified.                                                            |
-| **This workspace's git worktree isolation pattern** | **Not upstream — a CC-00 precondition, not a feature.** Any future deployment must be wired into `core-component-00/engineering/multi-agent-engineering/fundamentals/git-worktree-orchestration.md`'s existing pattern, per §2 above. |
-| **A designated Integration Agent / merge reviewer** | **Not upstream — a CC-00 requirement.** ASGF L5's no-self-merge rule applies regardless of what Open SWE itself supports natively.                                                                                                    |
-| **Sandboxed execution environments**                | **Likely, unconfirmed** — running and testing code changes typically requires an isolated execution environment; specific mechanism (container, VM, cloud sandbox) not verified for this repository.                                  |
+| Integrates with                                     | How (confidence)                                                                                                                                                                                                                       |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **LangGraph**                                       | **Confirmed by category** — built on the LangChain/LangGraph stack per its own description.                                                                                                                                            |
+| **Git hosting platforms** (GitHub, likely)          | **Likely, unconfirmed** — a coding agent of this kind requires some git-hosting integration for reading/writing code and opening changes; specific mechanism not verified.                                                             |
+| **This workspace's git worktree isolation pattern** | **Not upstream — a CC-00 precondition, not a feature.** Any future deployment must be wired into `core-component-00/framework/05-multi-agent-engineering/fundamentals/git-worktree-orchestration.md`'s existing pattern, per §2 above. |
+| **A designated Integration Agent / merge reviewer** | **Not upstream — a CC-00 requirement.** ASGF L5's no-self-merge rule applies regardless of what Open SWE itself supports natively.                                                                                                     |
+| **Sandboxed execution environments**                | **Likely, unconfirmed** — running and testing code changes typically requires an isolated execution environment; specific mechanism (container, VM, cloud sandbox) not verified for this repository.                                   |
 
 ---
 

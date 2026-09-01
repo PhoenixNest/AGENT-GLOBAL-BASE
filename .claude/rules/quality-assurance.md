@@ -1,6 +1,6 @@
 ---
 paths:
-  - "core-component-00/engineering/**/testing/**"
+  - "core-component-00/framework/**/testing/**"
   - "**/*.test.ts"
   - "**/*.spec.ts"
 description: Testing/QA patterns, defect classification, and quality standards

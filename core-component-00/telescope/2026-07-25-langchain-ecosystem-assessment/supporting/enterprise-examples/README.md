@@ -79,7 +79,7 @@ python -m venv .venv
 .venv/Scripts/pip install -r requirements.txt
 ```
 
-**Do not install these dependencies into `core-component-00/mcp-servers/.venv/`.** That venv is
+**Do not install these dependencies into `core-component-00/platform/model-context-protocol-servers/.venv/`.** That venv is
 shared by the production `workspace-knowledge` and `agent-memory` MCP servers
 (`.claude/rules/mcp-governance.md`); installing an unrelated dependency set there risks a version
 conflict that breaks a production server. This project gets its own venv, deliberately.

@@ -60,7 +60,7 @@ CC-00-specific and not in the upstream guidance.
 ## Part 2 — Full ASGF requirement map
 
 Scored against
-`core-component-00/agent-systems-governance-framework/governance/compliance-standard.md`.
+`core-component-00/framework/00-agent-systems-governance-framework/governance/compliance-standard.md`.
 
 **Legend:** ✅ framework provides · 🔧 must be built (and is, in these examples) · ❌ gap
 **"Provides"** means the framework supplies the mechanism, not that using it is automatic.
