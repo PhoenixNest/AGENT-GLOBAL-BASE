@@ -252,6 +252,29 @@ class SearchTier(Enum):
     RAWFS = "rawfs"
 
 
+# N3 fix (2026-09-02, see platform/benchmarks/model-context-protocol-servers/
+# 2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md — the
+# tier-degradation suite's own module docstring flagged the same
+# one-directional-recovery shape the assessment's R2 finding described for
+# agent-memory). _TIER_RANK orders tiers worst-to-best so SearchEngine can
+# tell whether a newly-reached tier is a new ceiling worth remembering;
+# _TIER_ABOVE is the single-step climb table _maybe_reprobe_higher_tier()
+# uses to re-attempt exactly one tier up at a time, rather than jumping
+# straight back to the historical best in one shot.
+_TIER_RANK: dict[SearchTier, int] = {
+    SearchTier.RAWFS: 0,
+    SearchTier.BM25: 1,
+    SearchTier.HYBRID: 2,
+    SearchTier.HYBRID_QDRANT: 3,
+}
+
+_TIER_ABOVE: dict[SearchTier, SearchTier] = {
+    SearchTier.RAWFS: SearchTier.BM25,
+    SearchTier.BM25: SearchTier.HYBRID,
+    SearchTier.HYBRID: SearchTier.HYBRID_QDRANT,
+}
+
+
 class SearchEngine:
     KEY_DIRS = [
         "company",
@@ -269,10 +292,33 @@ class SearchEngine:
         / "sentence-transformers--all-mpnet-base-v2"
     )
 
+    # N3 fix: bounds how often _maybe_reprobe_higher_tier() will attempt to
+    # climb one tier back up after a query-time demotion. Deliberately not a
+    # separate health-check-style network probe — the climb attempt is made
+    # by simply letting the normal _search_with_fallback cascade try the
+    # higher tier's real search method on a query that was going to run
+    # anyway, so a successful climb costs nothing beyond what the query
+    # already paid, and a failed climb costs exactly one extra failed call
+    # (Qdrant timeout, at worst) no more often than once per cooldown window.
+    # Mirrors the cooldown-gated re-probe shape of agent-memory/server.py's
+    # _embedder_service_ready() (5.0s there, for a much cheaper localhost
+    # HTTP ping) — 30s here since a failed climb at HYBRID_QDRANT can block
+    # on a live Qdrant connection timeout, not just an HTTP round-trip.
+    _TIER_REPROBE_COOLDOWN_S = 30.0
+
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
         self._tier = SearchTier.RAWFS
         self._degradation_reason: str | None = None
+        # N3 fix: _max_tier is the highest tier this engine has ever reached
+        # (updated only by _note_tier(), at initialization elevation points —
+        # never by a query-time demotion); _last_reprobe_at gates how often
+        # _maybe_reprobe_higher_tier() will attempt to climb back toward it.
+        # Seeded to "now" rather than 0.0 so a freshly-constructed engine
+        # (which starts with _tier == _max_tier anyway) never reads as
+        # "cooldown already elapsed" before any real demotion has happened.
+        self._max_tier = SearchTier.RAWFS
+        self._last_reprobe_at: float = time.monotonic()
         self._chunks: list[dict] = []
         self._bm25 = None
         self._model = None          # SentenceTransformer
@@ -368,7 +414,7 @@ class SearchEngine:
 
         try:
             self._build_bm25_index(BM25Okapi)
-            self._tier = SearchTier.BM25
+            self._note_tier(SearchTier.BM25)
         except Exception as e:
             self._tier = SearchTier.RAWFS
             self._degradation_reason = f"BM25 build failed: {e}"
@@ -392,7 +438,7 @@ class SearchEngine:
         self._rebuild_progress["phase"] = "qdrant_connect"
         self._init_qdrant()
         if SEARCH_BACKEND == "qdrant" and self._qdrant_ready:
-            self._tier = SearchTier.HYBRID_QDRANT
+            self._note_tier(SearchTier.HYBRID_QDRANT)
 
         # Phase 2 — FAISS build / load (may take minutes on mtime mismatch)
         self._rebuild_progress["phase"] = "faiss"
@@ -416,9 +462,9 @@ class SearchEngine:
             self._init_qdrant()
 
         if SEARCH_BACKEND == "qdrant":
-            self._tier = SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID
+            self._note_tier(SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID)
         else:
-            self._tier = SearchTier.HYBRID
+            self._note_tier(SearchTier.HYBRID)
         self._rebuild_progress["phase"] = "done"
 
     def _init_qdrant(self):
@@ -772,7 +818,63 @@ class SearchEngine:
         results.sort(key=lambda r: r["score"], reverse=True)
         return results[:top_k]
 
+    def _note_tier(self, tier: SearchTier) -> None:
+        """Set self._tier, and raise self._max_tier if this is a new
+        ceiling. Called only at initialization elevation points
+        (_initialize_search_engine, _init_faiss_background) — query-time
+        demotions go through _demote() instead, which never raises the
+        ceiling. This is the ceiling _maybe_reprobe_higher_tier() re-climbs
+        toward after a query-time demotion (N3 fix)."""
+        self._tier = tier
+        if _TIER_RANK[tier] > _TIER_RANK[self._max_tier]:
+            self._max_tier = tier
+
+    def _demote(self, tier: SearchTier, reason: str) -> None:
+        """Record a query-time tier demotion (N2's corrected fallback
+        chain calls this at each step) and reset the reprobe cooldown clock
+        so _maybe_reprobe_higher_tier() waits a full cooldown window from
+        this failure — not from whenever the last attempt happened to be —
+        before attempting to climb back up (N3 fix)."""
+        self._tier = tier
+        self._degradation_reason = reason
+        self._last_reprobe_at = time.monotonic()
+
+    def _maybe_reprobe_higher_tier(self) -> None:
+        """N3 fix: once a tier has been demoted, nothing previously
+        re-attempted the higher tier on a later call -- it stayed demoted
+        until an explicit rebuild_index(), even after the original failure
+        condition would now succeed (see this module's
+        tests/test_search_tier_degradation.py module docstring finding).
+
+        This is the bounded, cooldown-gated re-probe that closes that gap
+        without adding a full health-check-style network round-trip to
+        every query: if the current tier is below the highest tier this
+        engine has ever reached (self._max_tier) and at least
+        _TIER_REPROBE_COOLDOWN_S has elapsed since the last demotion or
+        reprobe attempt, climb exactly one tier and let the normal cascade
+        in _search_with_fallback re-validate it with the real search call
+        that query was already going to make. On success the tier simply
+        stays up (the higher tier's try/except never fires). On failure the
+        existing cascade demotes it right back down via _demote(), which
+        also resets the cooldown clock -- so a genuinely-still-down
+        dependency costs at most one extra failed call per cooldown window,
+        never one per query.
+
+        Deliberately a single-step climb (HYBRID -> HYBRID_QDRANT, not a
+        direct BM25 -> HYBRID_QDRANT jump) even when _max_tier is two tiers
+        up, so a demotion caused by one broken dependency doesn't mask a
+        second, independently-broken dependency behind an untested jump.
+        """
+        if self._tier == self._max_tier:
+            return
+        now = time.monotonic()
+        if now - self._last_reprobe_at < self._TIER_REPROBE_COOLDOWN_S:
+            return
+        self._last_reprobe_at = now
+        self._tier = _TIER_ABOVE[self._tier]
+
     def _search_with_fallback(self, query: str, top_k: int = 10) -> list[dict]:
+        self._maybe_reprobe_higher_tier()
         if self._tier == SearchTier.HYBRID_QDRANT:
             try:
                 return self._search_hybrid_qdrant(query, top_k)
@@ -782,23 +884,32 @@ class SearchEngine:
                     self._degradation_reason = f"Qdrant search deferred: {e}"
                     return self._search_bm25(query, top_k)
                 else:
-                    self._tier = SearchTier.BM25
-                    self._degradation_reason = f"Qdrant search failed: {e}"
+                    # N2 fix (2026-09-02, see platform/benchmarks/model-context
+                    # -protocol-servers/2026-09-01-mcp-servers-enterprise-
+                    # assessment/enterprise-assessment.md and this module's
+                    # tests/test_search_tier_degradation.py): demote to HYBRID
+                    # (local FAISS), not straight to BM25 -- the FAISS index
+                    # and embedding model are already resident in memory
+                    # whenever HYBRID_QDRANT is reachable at all (HYBRID_QDRANT
+                    # is only set after Phase 2's FAISS build has already
+                    # completed), so a Qdrant-only failure should not also
+                    # cost semantic search capability it doesn't have to lose.
+                    # The HYBRID branch immediately below attempts that local
+                    # semantic search this same call, before ever falling
+                    # further to BM25.
+                    self._demote(SearchTier.HYBRID, f"Qdrant search failed: {e}")
             except Exception as e:
-                self._tier = SearchTier.BM25
-                self._degradation_reason = f"Qdrant search failed: {e}"
+                self._demote(SearchTier.HYBRID, f"Qdrant search failed: {e}")
         if self._tier == SearchTier.HYBRID:
             try:
                 return self._search_hybrid(query, top_k)
             except Exception as e:
-                self._tier = SearchTier.BM25
-                self._degradation_reason = f"Hybrid search failed: {e}"
+                self._demote(SearchTier.BM25, f"Hybrid search failed: {e}")
         if self._tier == SearchTier.BM25:
             try:
                 return self._search_bm25(query, top_k)
             except Exception as e:
-                self._tier = SearchTier.RAWFS
-                self._degradation_reason = f"BM25 search failed: {e}"
+                self._demote(SearchTier.RAWFS, f"BM25 search failed: {e}")
         return self._search_rawfs(query, top_k)
 
     def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
@@ -883,6 +994,14 @@ class SearchEngine:
         self._faiss_index = None
         self._qdrant_client = None
         self._qdrant_ready = False
+        # N3: a full rebuild starts a fresh init chain, so the reprobe
+        # ceiling/cooldown state from before this rebuild is stale — reset
+        # both so _note_tier() re-establishes _max_tier from scratch as the
+        # new init chain runs, rather than inheriting a ceiling that may no
+        # longer be reachable (or leaving a cooldown clock a fresh engine
+        # has no reason to honor).
+        self._max_tier = SearchTier.RAWFS
+        self._last_reprobe_at = time.monotonic()
         # Remove FAISS state so index rebuilds from scratch
         state_file = self._INDEX_DIR / "index_state.json"
         if state_file.exists():
