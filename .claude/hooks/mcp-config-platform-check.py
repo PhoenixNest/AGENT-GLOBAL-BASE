@@ -27,7 +27,13 @@ the file is missing or a path has actually gone stale, matching the original des
 cost profile.
 Full record: core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/
 (see log/10-windows-reopen-and-proposed-fix.md, log/11 for this hook's original
-implementation, and log/14-15 for the 2026-08-30 template/gitignore redesign).
+implementation, log/14-15 for the 2026-08-30 template/gitignore redesign, and log/29-30 for
+Item #11: on a genuinely fresh clone, this hook's own SessionStart pass runs before
+mcp-venv-bootstrap.py has created either OS's venv, so its correction has nothing to find yet
+-- mcp-venv-bootstrap.py now re-invokes this script a second time, in-process, immediately
+after a successful `uv sync`, so the correction still lands within the same SessionStart pass
+instead of requiring a session restart. That second invocation runs this exact script
+unmodified; nothing below needs to know it may be called twice in one session).
 
 Advisory + self-correcting, never blocking: every code path below exits 0. A missing
 `.mcp.json.example` template, a `.mcp.json`/template that cannot be parsed, a server
