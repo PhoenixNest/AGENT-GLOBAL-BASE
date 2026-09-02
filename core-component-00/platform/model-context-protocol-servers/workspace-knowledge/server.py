@@ -782,10 +782,23 @@ class SearchEngine:
                     self._degradation_reason = f"Qdrant search deferred: {e}"
                     return self._search_bm25(query, top_k)
                 else:
-                    self._tier = SearchTier.BM25
+                    # N2 fix (2026-09-02, see platform/benchmarks/model-context
+                    # -protocol-servers/2026-09-01-mcp-servers-enterprise-
+                    # assessment/enterprise-assessment.md and this module's
+                    # tests/test_search_tier_degradation.py): demote to HYBRID
+                    # (local FAISS), not straight to BM25 -- the FAISS index
+                    # and embedding model are already resident in memory
+                    # whenever HYBRID_QDRANT is reachable at all (HYBRID_QDRANT
+                    # is only set after Phase 2's FAISS build has already
+                    # completed), so a Qdrant-only failure should not also
+                    # cost semantic search capability it doesn't have to lose.
+                    # The HYBRID branch immediately below attempts that local
+                    # semantic search this same call, before ever falling
+                    # further to BM25.
+                    self._tier = SearchTier.HYBRID
                     self._degradation_reason = f"Qdrant search failed: {e}"
             except Exception as e:
-                self._tier = SearchTier.BM25
+                self._tier = SearchTier.HYBRID
                 self._degradation_reason = f"Qdrant search failed: {e}"
         if self._tier == SearchTier.HYBRID:
             try:
