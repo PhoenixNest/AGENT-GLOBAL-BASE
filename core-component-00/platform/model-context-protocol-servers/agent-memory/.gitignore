@@ -27,3 +27,4 @@ tests/*
 !tests/test_write_path_adversarial_evaluation.py
 !tests/test_embedder_reliability_fixes.py
 !tests/test_tier3_keyword_search.py
+!tests/test_pii_redaction.py
