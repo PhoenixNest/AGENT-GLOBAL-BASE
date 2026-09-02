@@ -1,3 +1,5 @@
+import functools
+import logging
 import os
 import sys
 import threading
@@ -45,6 +47,139 @@ import embedder_client  # noqa: E402
 # health_check() reports below regardless of activation state.
 import write_tool  # noqa: E402
 from write_provenance import get_default_rate_limiter  # noqa: E402
+
+
+# ---------------------------------------------------------------------------
+# Structured per-call audit logging (R4, 2026-09-02 — see
+# platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-
+# enterprise-assessment/enterprise-assessment.md, B3/R4). Standard-library
+# `logging` only, no new dependency. A module-level logger scoped to this
+# file's own name, not the "fastmcp" namespace fastmcp.utilities.logging
+# configures for its own internal logs (that configuration sets
+# propagate=False on the "fastmcp" logger specifically and never touches the
+# root logger, so it would not make our own logger's records visible on its
+# own). Reads the same FASTMCP_LOG_LEVEL env var already used to control the
+# fastmcp library's own verbosity (see agent-memory/README.md's `.mcp.json`
+# example) so this logger's level tracks the same knob operators already
+# have, rather than introducing a second, independent one.
+logger = logging.getLogger(__name__)
+_LOG_LEVEL_NAME = os.getenv("FASTMCP_LOG_LEVEL", "INFO").strip().upper()
+logger.setLevel(getattr(logging, _LOG_LEVEL_NAME, logging.INFO))
+if not logger.handlers:
+    _log_handler = logging.StreamHandler(sys.stderr)
+    _log_handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s")
+    )
+    logger.addHandler(_log_handler)
+
+
+def _call_outcome(result: Any) -> "tuple[bool, Optional[str]]":
+    """
+    Best-effort ok/error read of a tool's return value, for the audit log
+    only — never changes what is returned to the caller. This module's tools
+    signal failure through their return value, not exceptions (each
+    @mcp.tool() function here is documented "never raises"), so an
+    audit-trail decorator that only distinguishes ok/error by catching
+    exceptions would almost never observe a real failure. Covers the
+    failure-signaling shapes already in use: {"degraded": True, "reason":
+    ...} (search_memory), {"status": "error", ...} (write_memory's/
+    health_check's own outer except-clause shape), and {"written": False,
+    "status": <not "confirmation_required">, ...} (write_memory's rejected/
+    upsert-failed branches). write_memory's "confirmation_required" branch is
+    deliberately reported ok=True — it is a legitimate pending state, not a
+    failure. Any other shape (including health_check's own reachable=False
+    telemetry, which is expected, diagnostic output, not a call failure) is
+    reported ok=True.
+    """
+    if not isinstance(result, dict):
+        return True, None
+    if result.get("degraded") is True:
+        return False, result.get("reason")
+    if result.get("status") == "error":
+        return False, result.get("reason")
+    if result.get("written") is False and result.get("status") != "confirmation_required":
+        return False, result.get("reason") or result.get("status")
+    return True, None
+
+
+def _log_tool_call(summarize_args: Optional[Callable[..., Dict[str, Any]]] = None):
+    """
+    Decorator factory wrapping an @mcp.tool() function with structured
+    entry/exit logging: `tool_name`, `duration_ms`, and an ok/error outcome
+    (see _call_outcome) at INFO (ok) or ERROR (not ok, or an exception).
+    Never changes the wrapped function's behavior — an exception is always
+    re-raised after being logged, and the return value is passed through
+    unmodified; the exception path is defense-in-depth only, since every
+    tool this decorates already catches its own exceptions internally.
+
+    `summarize_args`, when given, is called with the same (*args, **kwargs)
+    the tool receives and must return a small dict of safe-to-log fields —
+    e.g. a content length, not the content itself. This is the only place
+    request arguments reach the log, and deliberately so: no call site below
+    passes raw `content`, `query`, or any other PII-bearing field — only
+    lengths, memory_type/session identifiers, and similar non-content
+    metadata. A summarizer that itself raises is caught and dropped rather
+    than allowed to break the underlying tool call.
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def _wrapper(*args, **kwargs):
+            tool_name = func.__name__
+            arg_summary: Dict[str, Any] = {}
+            if summarize_args is not None:
+                try:
+                    arg_summary = summarize_args(*args, **kwargs) or {}
+                except Exception:
+                    arg_summary = {}
+            start = time.monotonic()
+            try:
+                result = func(*args, **kwargs)
+            except Exception as exc:
+                duration_ms = round((time.monotonic() - start) * 1000, 2)
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False error=%r args=%s",
+                    tool_name, duration_ms, exc, arg_summary,
+                    exc_info=True,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": str(exc),
+                        "call_args": arg_summary,
+                    },
+                )
+                raise
+            duration_ms = round((time.monotonic() - start) * 1000, 2)
+            ok, reason = _call_outcome(result)
+            if ok:
+                logger.info(
+                    "tool_call tool_name=%s duration_ms=%s ok=True args=%s",
+                    tool_name, duration_ms, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": True,
+                        "call_args": arg_summary,
+                    },
+                )
+            else:
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False reason=%s args=%s",
+                    tool_name, duration_ms, reason, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": reason,
+                        "call_args": arg_summary,
+                    },
+                )
+            return result
+
+        return _wrapper
+
+    return decorator
 
 
 def _diag(msg: str) -> None:
@@ -975,7 +1110,30 @@ def _search_memory_impl(
     }
 
 
+def _summarize_search_memory_args(
+    query: str = "",
+    memory_type: str = "",
+    top_k: int = 5,
+    session_id: Optional[str] = None,
+    cross_session: bool = False,
+    include_dormant: bool = False,
+    include_archived: bool = False,
+    **_: Any,
+) -> Dict[str, Any]:
+    """query itself is never logged — only its length — since a search
+    query can carry the same kind of sensitive content a memory write
+    would."""
+    return {
+        "memory_type": memory_type,
+        "query_len": len(query or ""),
+        "top_k": top_k,
+        "cross_session": cross_session,
+        "session_id_present": session_id is not None,
+    }
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_search_memory_args)
 def search_memory(
     query: str,
     memory_type: str,
@@ -1044,6 +1202,7 @@ def search_memory(
 
 
 @mcp.tool()
+@_log_tool_call()
 def health_check() -> Dict[str, Any]:
     """Report reachability and point counts for the dedicated qdrant-memory
     instance (http://localhost:6335) this server reads from — episodic,
@@ -1106,6 +1265,31 @@ def health_check() -> Dict[str, Any]:
             "search_capability": _get_search_capability_snapshot(),
             "write_rate_limiting": get_default_rate_limiter().get_telemetry(),
         }
+
+
+def _summarize_write_memory_args(
+    content: str = "",
+    memory_type: str = "",
+    session_id: str = "",
+    provenance_source: str = "",
+    provenance_triggering_context_excerpt: str = "",
+    provenance_from_external_content: bool = False,
+    provenance_confidence: float = 0.0,
+    **_: Any,
+) -> Dict[str, Any]:
+    """content and provenance_triggering_context_excerpt are the two
+    fields on this call that can carry PII-bearing text (see
+    pii_redaction.py's module docstring on why content itself is redacted
+    before it ever reaches the embedder/payload) — neither is logged here,
+    only their lengths, per R4's explicit "avoid logging full content
+    bodies" scope."""
+    return {
+        "memory_type": memory_type,
+        "content_len": len(content or ""),
+        "excerpt_len": len(provenance_triggering_context_excerpt or ""),
+        "provenance_source": provenance_source,
+        "from_external_content": provenance_from_external_content,
+    }
 
 
 def write_memory(
@@ -1181,6 +1365,17 @@ def write_memory(
             "lane": None,
         }
 
+
+# write_memory's `def` statement above carries no decorator at all, on
+# purpose (see tests/test_read_constraints_reverification.py
+# ::TestConstraint1ReadOnlyFirst::test_write_memory_is_not_decorated_with_mcp_tool_directly
+# — a static-analysis safety check that the ONLY way this function becomes
+# MCP-registered is the explicit conditional call below, never a disguised
+# decorator). The logging wrapper (R4) is therefore applied here, by
+# explicit reassignment, before that conditional registration runs — not as
+# a decorator on the def — so the module-level `write_memory` name (and
+# whatever mcp.tool() below registers) is the logged version either way.
+write_memory = _log_tool_call(summarize_args=_summarize_write_memory_args)(write_memory)
 
 # NOT a live MCP tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED is truthy.
 if write_tool.AGENT_MEMORY_WRITE_TOOL_ENABLED:
