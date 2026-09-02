@@ -5,6 +5,7 @@ embedding/
 # except permanent regression tests explicitly excepted below
 tests/*
 !tests/test_upsert_delete_ordering_fix.py
+!tests/test_search_tier_degradation.py
 
 # Python environment
 .venv/
