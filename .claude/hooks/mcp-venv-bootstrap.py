@@ -26,6 +26,24 @@ sync` failure, timeout, or any unexpected exception. A failed bootstrap here lea
 server exactly as broken as it already was -- it never makes things worse, and the existing
 manual workaround (running `uv sync` by hand per each server's README) remains available
 regardless of what this hook does.
+
+Post-sync re-check (Item #11, log/29-log/30): on a genuinely fresh clone, the venv(s) this
+hook creates do not exist yet when `mcp-config-platform-check.py` makes its own pass earlier
+in the same `SessionStart` group, so that hook's own `.mcp.json` write (bootstrap-from-template
+or stale-path patch) is made against a filesystem state where neither OS's venv resolves --
+its interpreter-path fix has nothing to verify against yet. `uv sync` below then creates the
+venv, but nothing used to re-run the path check afterward, leaving `.mcp.json` wrong for the
+rest of that first session (only a second `SessionStart` -- i.e. a restart -- picked it up,
+since only then did `mcp-config-platform-check.py` see the venv actually on disk). Closing
+that gap without touching that hook's own fast/fail-open contract: *after* a successful sync
+(never before, never when nothing was synced), this hook re-invokes
+`mcp-config-platform-check.py` a second time, in-process via `uv run` exactly as
+`SessionStart` itself would, feeding it this same session's stdin payload so the resulting
+log record correlates. That second pass now finds the just-created venv and performs the
+correction inline -- restoring the "self-heal always logs first" ordering, but with one more
+correction pass appended at the end of the same `SessionStart` group instead of requiring a
+session restart. This adds at most one cheap re-invocation, and only on the already-rare path
+where `uv sync` actually ran -- the fast no-op path for ordinary sessions is untouched.
 """
 
 import json
@@ -40,6 +58,8 @@ POSIX_SUFFIX = "/.venv/bin/python"
 WINDOWS_SUFFIX = "/.venv/Scripts/python.exe"
 INVOCATION_LOG_RELATIVE = Path(".claude") / "hooks" / ".state" / "hook-invocations.jsonl"
 UV_SYNC_TIMEOUT_SECONDS = 300
+PLATFORM_CHECK_RECHECK_TIMEOUT_SECONDS = 30
+PLATFORM_CHECK_SCRIPT = Path(__file__).resolve().parent / "mcp-config-platform-check.py"
 
 
 def _repo_root() -> Path:
@@ -105,6 +125,39 @@ def _servers_needing_bootstrap(entry) -> list[str]:
         and item.get("reason") == "neither_os_path_exists"
         and item.get("server")
     ]
+
+
+def _rerun_platform_check(raw_stdin: str) -> dict:
+    """Re-invokes `mcp-config-platform-check.py` a second time, in-process via `uv run`
+    exactly as `SessionStart` itself would, feeding it this same session's original stdin
+    payload so its log record correlates by `session_id`. Called only after a successful
+    `uv sync` -- see the module docstring's "Post-sync re-check" section for why.
+
+    Its stdout (a JSON `hookSpecificOutput` blob, same shape this hook itself prints) is
+    captured, not forwarded -- this hook's own stdout must remain exactly one JSON object
+    for `SessionStart` to parse; the sibling hook's own `hook-invocations.jsonl` record
+    (written via the same `log_invocation` this hook also calls) remains the source of
+    truth for what it actually did, so we don't need to parse or duplicate that here.
+
+    Fail-open, matching every code path in this hook: any failure (missing `uv`, timeout,
+    unexpected exception) is caught and returned as `ok: False` -- never raised. A failed
+    re-check leaves `.mcp.json` exactly as stale as it already was; the pre-existing
+    fallback (a session restart) still applies.
+    """
+    try:
+        result = subprocess.run(
+            ["uv", "run", str(PLATFORM_CHECK_SCRIPT)],
+            input=raw_stdin,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=PLATFORM_CHECK_RECHECK_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "reason": "recheck_timeout"}
+    except Exception as exc:
+        return {"ok": False, "reason": "recheck_exception", "error": str(exc)}
+    return {"ok": result.returncode == 0, "returncode": result.returncode}
 
 
 def main() -> int:
@@ -189,8 +242,14 @@ def main() -> int:
     else:
         decision = "sync_failed"
 
+    # Post-sync re-check (Item #11): only reached when at least one server was actually
+    # synced -- re-run the sibling hook's own correction pass now that a venv it previously
+    # found missing exists, so .mcp.json is corrected within this same SessionStart pass
+    # rather than requiring a session restart. See module docstring for the full rationale.
+    recheck = _rerun_platform_check(raw_input) if synced else None
+
     log_invocation("mcp-venv-bootstrap", "SessionStart", decision=decision, session_id=session_id,
-                    extra={"synced": synced, "failed": failed})
+                    extra={"synced": synced, "failed": failed, "post_sync_recheck": recheck})
 
     if not synced:
         # Fail-open: nothing to tell the session that isn't already visible via the
@@ -200,11 +259,21 @@ def main() -> int:
     lines = [f"- {name}: uv sync completed" for name in synced]
     if failed:
         lines += [f"- {item['server']}: NOT bootstrapped ({item['reason']})" for item in failed]
+    if recheck and recheck.get("ok"):
+        lines.append("- .mcp.json interpreter path(s) re-verified for the newly-created venv(s)")
+        followup = "Reconnect the affected server(s) (e.g. `/mcp`) to pick this up."
+    else:
+        # The re-check itself failed open (see _rerun_platform_check) -- .mcp.json may
+        # still be stale. Say so honestly rather than repeating guidance that previously
+        # turned out not to work (Item #11, log/29): a plain /mcp reconnect re-reads the
+        # same file and won't fix a still-stale path -- only a session restart will.
+        lines.append("- .mcp.json re-check did not complete -- path may still be stale")
+        followup = "If the affected server(s) still fail to connect, restart this session (a fresh SessionStart re-runs the self-heal)."
     message = (
         "[MCP VENV BOOTSTRAP — SessionStart]\n"
         "Ran `uv sync` for MCP server(s) whose .venv did not exist for either OS:\n"
         + "\n".join(lines)
-        + "\n\nReconnect the affected server(s) (e.g. `/mcp`) to pick this up."
+        + "\n\n" + followup
     )
     system_message = f"[MCP venv bootstrapped: {', '.join(synced)}]"
     print(
