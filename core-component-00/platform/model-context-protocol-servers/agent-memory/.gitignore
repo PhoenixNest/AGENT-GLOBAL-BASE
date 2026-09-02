@@ -29,3 +29,4 @@ tests/*
 !tests/test_tier3_keyword_search.py
 !tests/test_pii_redaction.py
 !tests/test_tool_conformance.py
+!tests/test_structured_logging.py
