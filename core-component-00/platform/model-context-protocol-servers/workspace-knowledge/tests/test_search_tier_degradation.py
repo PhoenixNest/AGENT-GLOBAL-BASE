@@ -22,20 +22,22 @@ dependencies and workspace content this suite has no business depending
 on), and every collaborator method the fallback chain calls is stubbed
 directly on the instance.
 
-FINDING -- documented chain vs. actual runtime behavior (see
-TestHybridQdrantFailureDegradesToBM25.test_tier_drops_to_bm25_not_hybrid
-below): search_docs()'s docstring and the benchmark assessment both describe
-the chain as HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS. That is accurate for
+FIXED -- N2 (P1), query-time chain now matches the documented chain (see
+TestHybridQdrantFailureFallsToHybrid and
+TestHybridQdrantAndHybridBothFailCascadesToBm25 below). Before this fix,
+search_docs()'s docstring and the benchmark assessment both described the
+chain as HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS -- accurate for
 *initialization* (_init_faiss_background: SearchTier.HYBRID_QDRANT if
-_qdrant_ready else SearchTier.HYBRID). It is NOT what _search_with_fallback
-does at *query time*: a live Qdrant failure while already in HYBRID_QDRANT
-tier drops straight to SearchTier.BM25, skipping HYBRID entirely -- even
-though the FAISS index and embedding model are already resident in memory
+_qdrant_ready else SearchTier.HYBRID) but NOT for what _search_with_fallback
+did at *query time*: a live Qdrant failure while already in HYBRID_QDRANT
+tier dropped straight to SearchTier.BM25, skipping HYBRID entirely -- even
+though the FAISS index and embedding model were already resident in memory
 at that point (HYBRID_QDRANT is only reachable after the Phase 2 FAISS
-build has already completed). A query-time Qdrant outage therefore loses
-semantic search capability it does not have to lose. This suite tests the
-code as it actually behaves and flags the deviation rather than papering
-over it.
+build has already completed). A query-time Qdrant outage was therefore
+losing semantic search capability it did not have to lose.
+_search_with_fallback now demotes a HYBRID_QDRANT query failure to HYBRID
+(local FAISS) first, and only falls further to BM25 if that HYBRID attempt
+itself also fails -- see server.py's SearchEngine._search_with_fallback.
 
 FINDING -- recovery is one-directional at runtime (see
 TestRecoveryBehavior below): once _search_with_fallback demotes the tier,
@@ -46,6 +48,8 @@ the benchmark assessment flagged for agent-memory's health_check
 (B2/R2, "cached ready" vs. actual serviceability) -- here it is not a
 staleness bug in reporting, it is simply how the fallback is designed: no
 auto-recovery, degrade-and-stay until an operator/agent runs rebuild_index.
+(Tracked as N3 in the same severity triage as N2 above; not yet fixed as of
+this commit.)
 """
 import sys
 from pathlib import Path
@@ -82,56 +86,66 @@ def _result(file="x.md", score=1.0, snippet="snippet"):
 
 
 # ---------------------------------------------------------------------------
-# HYBRID_QDRANT -> BM25 (Qdrant unreachable at query time)
+# HYBRID_QDRANT -> HYBRID (Qdrant unreachable at query time) -- N2
 # ---------------------------------------------------------------------------
 
 
-class TestHybridQdrantFailureDegradesToBM25:
+class TestHybridQdrantFailureFallsToHybrid:
     """A live query-time Qdrant failure while in HYBRID_QDRANT tier -- the
     exact scenario the 2026-09-01 benchmark assessment observed live (S7:
     "Qdrant Docker unreachable ... falling back to FAISS" during a real
-    health_check/search_docs call in that session)."""
+    health_check/search_docs call in that session). N2 fix: the fallback
+    now tries local FAISS search (HYBRID) before ever considering BM25."""
 
     def test_search_still_returns_a_result_not_an_exception(self):
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(
             side_effect=ConnectionError("Qdrant Docker unreachable: timed out")
         )
-        bm25_results = [_result("a.md")]
-        engine._search_bm25 = MagicMock(return_value=bm25_results)
+        hybrid_results = [_result("a.md")]
+        engine._search_hybrid = MagicMock(return_value=hybrid_results)
+        # Must not be reached -- HYBRID succeeds, so the cascade should
+        # never fall as far as BM25.
+        engine._search_bm25 = MagicMock(
+            side_effect=AssertionError("BM25 must not be tried when HYBRID succeeds")
+        )
 
         results = engine._search_with_fallback("query", top_k=5)
 
-        assert results == bm25_results
-        engine._search_bm25.assert_called_once_with("query", 5)
+        assert results == hybrid_results
+        engine._search_hybrid.assert_called_once_with("query", 5)
+        engine._search_bm25.assert_not_called()
 
-    def test_tier_drops_to_bm25_not_hybrid(self):
-        """Documents the actual behavior (see module docstring FINDING):
-        the runtime fallback on a generic Qdrant-query exception jumps
-        straight from HYBRID_QDRANT to BM25 -- it never tries HYBRID
-        (local FAISS semantic search), unlike the documented four-tier
-        chain and unlike what happens during initialization."""
+    def test_tier_falls_to_hybrid_not_bm25(self):
+        """N2 regression guard: a generic Qdrant-query exception at
+        HYBRID_QDRANT demotes to HYBRID (local FAISS semantic search) and
+        attempts it immediately, not straight to BM25 -- the fix for the
+        exact gap this suite's module docstring used to document."""
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(side_effect=RuntimeError("boom"))
-        engine._search_bm25 = MagicMock(return_value=[])
-        # If the runtime fallback ever starts routing through HYBRID first,
+        engine._search_hybrid = MagicMock(return_value=[])
+        # If the runtime fallback ever regresses to skipping HYBRID again,
         # this must not be called -- this assertion is the regression guard
-        # for that specific behavior change.
-        engine._search_hybrid = MagicMock(
-            side_effect=AssertionError("HYBRID tier must not be tried on a query-time Qdrant failure")
+        # for that specific behavior.
+        engine._search_bm25 = MagicMock(
+            side_effect=AssertionError("BM25 must not be tried before HYBRID is attempted")
         )
 
         engine._search_with_fallback("query", top_k=5)
 
-        assert engine._tier == SearchTier.BM25
-        engine._search_hybrid.assert_not_called()
+        assert engine._tier == SearchTier.HYBRID
+        engine._search_hybrid.assert_called_once_with("query", 5)
+        engine._search_bm25.assert_not_called()
 
     def test_degradation_reason_reflects_the_forced_condition(self):
+        """When the HYBRID attempt succeeds, the degradation reason set by
+        the Qdrant failure is left untouched -- it accurately describes why
+        the engine is on HYBRID rather than HYBRID_QDRANT."""
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(
             side_effect=ConnectionError("Qdrant Docker unreachable: timed out")
         )
-        engine._search_bm25 = MagicMock(return_value=[])
+        engine._search_hybrid = MagicMock(return_value=[])
 
         engine._search_with_fallback("query", top_k=5)
 
@@ -143,7 +157,9 @@ class TestHybridQdrantFailureDegradesToBM25:
         "model not ready" means the FAISS/embedding model is still loading
         in the background init thread, so the current request is served
         from BM25 but the tier itself is left at HYBRID_QDRANT for the
-        next request (see _search_with_fallback's RuntimeError branch)."""
+        next request (see _search_with_fallback's RuntimeError branch).
+        Unchanged by the N2 fix -- verified here against the real
+        implementation to confirm the fix did not disturb it."""
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(
             side_effect=RuntimeError("model not ready — encoding deferred to post-FAISS init")
@@ -158,8 +174,37 @@ class TestHybridQdrantFailureDegradesToBM25:
         assert "Qdrant search deferred" in engine._degradation_reason
 
 
+class TestHybridQdrantAndHybridBothFailCascadesToBm25:
+    """Both HYBRID_QDRANT's own dependency (Qdrant) AND the HYBRID tier's
+    dependency (local FAISS/embedding) failing -- the case N2's fix must
+    still resolve correctly: HYBRID is genuinely attempted (not skipped),
+    and only falls to BM25 because it too failed, not because Qdrant alone
+    failed."""
+
+    def test_cascades_through_hybrid_to_bm25_when_both_fail(self):
+        engine = _make_engine(SearchTier.HYBRID_QDRANT)
+        engine._search_hybrid_qdrant = MagicMock(side_effect=ConnectionError("qdrant down"))
+        engine._search_hybrid = MagicMock(side_effect=RuntimeError("embed failure: gpu oom"))
+        bm25_results = [_result("c.md")]
+        engine._search_bm25 = MagicMock(return_value=bm25_results)
+
+        results = engine._search_with_fallback("query", top_k=5)
+
+        assert results == bm25_results
+        assert engine._tier == SearchTier.BM25
+        # Both intermediate tiers were genuinely attempted, in order -- the
+        # core N2 regression guard: HYBRID is not skipped.
+        engine._search_hybrid_qdrant.assert_called_once_with("query", 5)
+        engine._search_hybrid.assert_called_once_with("query", 5)
+        engine._search_bm25.assert_called_once_with("query", 5)
+        # The reported reason reflects the most proximate failure (HYBRID),
+        # since that's what actually caused the final BM25 demotion.
+        assert "Hybrid search failed" in engine._degradation_reason
+        assert "gpu oom" in engine._degradation_reason
+
+
 # ---------------------------------------------------------------------------
-# HYBRID -> BM25 (embedding failure)
+# HYBRID -> BM25 (embedding failure) -- unaffected by N2, still starts here
 # ---------------------------------------------------------------------------
 
 
@@ -167,7 +212,8 @@ class TestHybridFailureDegradesToBM25:
     """HYBRID tier's own dependency -- the local FAISS index plus in-process
     embedding model / embedder-service -- failing (e.g. an embedding call
     error inside _search_semantic) must degrade to BM25 rather than
-    raising."""
+    raising. Engine starts directly at HYBRID (not reached via
+    HYBRID_QDRANT), so N2's fix does not change this class's shape."""
 
     def test_search_still_returns_a_result_not_an_exception(self):
         engine = _make_engine(SearchTier.HYBRID)
@@ -252,13 +298,17 @@ class TestRawfsIsTheFloor:
 
 
 class TestCascadingFailureReachesRawfsFloor:
-    """Multiple dependencies down simultaneously (Qdrant AND BM25) must
-    still resolve to RAWFS results rather than raising or getting stuck
-    partway down the chain."""
+    """Multiple dependencies down simultaneously (Qdrant AND local
+    FAISS/Hybrid AND BM25) must still resolve to RAWFS results rather than
+    raising or getting stuck partway down the chain. Explicitly stubs
+    _search_hybrid too (unlike before the N2 fix, when it was never
+    reached from HYBRID_QDRANT) so the full four-tier cascade is exercised
+    deterministically end to end."""
 
     def test_every_tier_failing_still_returns_rawfs_results(self):
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(side_effect=ConnectionError("qdrant down"))
+        engine._search_hybrid = MagicMock(side_effect=RuntimeError("hybrid down"))
         engine._search_bm25 = MagicMock(side_effect=RuntimeError("bm25 down"))
         rawfs_results = [_result("f.md")]
         engine._search_rawfs = MagicMock(return_value=rawfs_results)
@@ -267,6 +317,11 @@ class TestCascadingFailureReachesRawfsFloor:
 
         assert results == rawfs_results
         assert engine._tier == SearchTier.RAWFS
+        # Confirms the cascade actually walked all four tiers in order,
+        # rather than short-circuiting past any of them.
+        engine._search_hybrid_qdrant.assert_called_once()
+        engine._search_hybrid.assert_called_once()
+        engine._search_bm25.assert_called_once()
 
 
 # ---------------------------------------------------------------------------
@@ -279,14 +334,18 @@ class TestHealthCheckReflectsSearchTierAndDegradationReason:
     "document_knowledge_base" block delegates to -- against the module-level
     `engine` global, monkeypatched per test. Same technique
     _memory_instance_health_block_impl's docstring documents as what makes
-    agent-memory's cross-server health_check comparison test possible."""
+    agent-memory's cross-server health_check comparison test possible.
+    _document_kb_health_block() is a thin accessor over engine._tier /
+    engine._degradation_reason -- it required no code change for N2, since
+    it already reports whatever the (now-corrected) fallback chain leaves
+    those two fields holding."""
 
     @pytest.mark.parametrize(
         "tier,reason",
         [
             (SearchTier.HYBRID_QDRANT, None),
             (SearchTier.HYBRID, "Qdrant Docker unreachable — falling back to FAISS: timed out"),
-            (SearchTier.BM25, "Qdrant search failed: ConnectionError('qdrant down')"),
+            (SearchTier.BM25, "Hybrid search failed: RuntimeError('embed failure')"),
             (SearchTier.RAWFS, "BM25 search failed: RuntimeError('bm25 corrupted')"),
         ],
     )
@@ -337,7 +396,7 @@ class TestHealthCheckReflectsSearchTierAndDegradationReason:
 
     def test_health_check_tool_surfaces_the_same_fields(self, monkeypatch):
         engine = _make_engine(SearchTier.BM25)
-        engine._degradation_reason = "Qdrant search failed: simulated"
+        engine._degradation_reason = "Hybrid search failed: simulated"
         monkeypatch.setattr(server, "engine", engine)
         # health_check() also computes memory_instance -- stub that path so
         # this test stays scoped to document_knowledge_base and doesn't
@@ -351,7 +410,7 @@ class TestHealthCheckReflectsSearchTierAndDegradationReason:
         assert result["document_knowledge_base"]["search_tier"] == "bm25"
         assert (
             result["document_knowledge_base"]["degradation_reason"]
-            == "Qdrant search failed: simulated"
+            == "Hybrid search failed: simulated"
         )
 
 
@@ -364,6 +423,10 @@ class TestSearchDocsToolNeverRaises:
     def test_returns_results_and_meta_reflecting_forced_tier(self, monkeypatch):
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(side_effect=ConnectionError("qdrant down"))
+        # Stubbed to fail too, so the tool-wrapper call deterministically
+        # cascades all the way to BM25 in one call (N2: HYBRID is genuinely
+        # attempted first, not skipped).
+        engine._search_hybrid = MagicMock(side_effect=RuntimeError("hybrid down"))
         bm25_results = [_result("g.md")]
         engine._search_bm25 = MagicMock(return_value=bm25_results)
         monkeypatch.setattr(server, "engine", engine)
@@ -372,7 +435,7 @@ class TestSearchDocsToolNeverRaises:
 
         assert result["results"] == bm25_results
         assert result["_meta"]["search_tier"] == "bm25"
-        assert "Qdrant search failed" in result["_meta"]["degradation_reason"]
+        assert "Hybrid search failed" in result["_meta"]["degradation_reason"]
 
     def test_rawfs_floor_via_the_tool_wrapper(self, monkeypatch):
         engine = _make_engine(SearchTier.RAWFS)
@@ -394,26 +457,33 @@ class TestSearchDocsToolNeverRaises:
 class TestRecoveryBehavior:
     """What the code actually does once the forced condition is lifted --
     verified against the real implementation rather than assumed (see
-    module docstring FINDING)."""
+    module docstring FINDING). N3 (not yet fixed as of this commit) will
+    replace test_no_automatic_recovery_on_next_call_once_demoted below with
+    tests for a bounded, cooldown-gated re-probe -- see the module
+    docstring's N3 finding."""
 
     def test_no_automatic_recovery_on_next_call_once_demoted(self):
         """Once _search_with_fallback demotes the tier, it never re-tries
         the higher tier on a later call, even if the underlying dependency
         would now succeed -- there is no re-probe/reconnect logic inside
-        _search_with_fallback itself."""
+        _search_with_fallback itself. N2's fix changed *which* tier a
+        Qdrant failure demotes to (HYBRID, not BM25 -- see
+        TestHybridQdrantFailureFallsToHybrid), but not this: once demoted,
+        recovery is still one-directional until N3 lands."""
         engine = _make_engine(SearchTier.HYBRID_QDRANT)
         engine._search_hybrid_qdrant = MagicMock(side_effect=ConnectionError("qdrant down"))
+        engine._search_hybrid = MagicMock(return_value=[])
         engine._search_bm25 = MagicMock(return_value=[])
 
         engine._search_with_fallback("query", top_k=5)
-        assert engine._tier == SearchTier.BM25
+        assert engine._tier == SearchTier.HYBRID  # N2: demoted to HYBRID, not BM25
 
         # "Recover" the dependency -- it would now succeed if tried again.
         engine._search_hybrid_qdrant = MagicMock(return_value=[_result("i.md")])
 
         engine._search_with_fallback("query", top_k=5)
 
-        assert engine._tier == SearchTier.BM25  # still demoted
+        assert engine._tier == SearchTier.HYBRID  # still demoted
         engine._search_hybrid_qdrant.assert_not_called()  # never retried
 
     def test_explicit_rebuild_restores_the_tier(self, tmp_path):
