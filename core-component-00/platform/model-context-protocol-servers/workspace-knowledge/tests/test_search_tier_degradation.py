@@ -39,19 +39,28 @@ _search_with_fallback now demotes a HYBRID_QDRANT query failure to HYBRID
 (local FAISS) first, and only falls further to BM25 if that HYBRID attempt
 itself also fails -- see server.py's SearchEngine._search_with_fallback.
 
-FINDING -- recovery is one-directional at runtime (see
-TestRecoveryBehavior below): once _search_with_fallback demotes the tier,
-nothing re-probes the higher tier on a later call, even after the
-underlying dependency would now succeed. The only way the tier climbs back
-up is an explicit rebuild_index() call. This is the same staleness shape
-the benchmark assessment flagged for agent-memory's health_check
-(B2/R2, "cached ready" vs. actual serviceability) -- here it is not a
-staleness bug in reporting, it is simply how the fallback is designed: no
-auto-recovery, degrade-and-stay until an operator/agent runs rebuild_index.
-(Tracked as N3 in the same severity triage as N2 above; not yet fixed as of
-this commit.)
+FIXED -- N3 (P1), recovery is no longer strictly one-directional at
+runtime (see TestRecoveryBehavior below). Before this fix, once
+_search_with_fallback demoted the tier, nothing re-probed the higher tier
+on a later call, even after the underlying dependency would now succeed --
+the only way the tier climbed back up was an explicit rebuild_index() call.
+This was the same staleness shape the benchmark assessment flagged for
+agent-memory's health_check (B2/R2, "cached ready" vs. actual
+serviceability). The fix is a bounded, cooldown-gated re-probe
+(SearchEngine._maybe_reprobe_higher_tier, _TIER_REPROBE_COOLDOWN_S,
+_max_tier) that climbs exactly one tier at a time and lets the normal
+fallback cascade re-validate it with the real search call a query was
+already going to make -- deliberately not a full health-check-style
+network round-trip added to every call, and deliberately gradual (one tier
+per cooldown window) rather than a single jump straight back to the
+historical ceiling, so a demotion caused by one broken dependency can't
+mask a second, independently-broken one behind an untested jump.
+rebuild_index() remains the authoritative full-reinit recovery path (see
+test_explicit_rebuild_restores_the_tier) -- the reprobe is a lighter,
+automatic complement to it, not a replacement.
 """
 import sys
+import time
 from pathlib import Path
 from unittest.mock import MagicMock
 
@@ -62,13 +71,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import server  # noqa: E402
 
 SearchTier = server.SearchTier
+SearchEngine = server.SearchEngine
+REPROBE_COOLDOWN_S = SearchEngine._TIER_REPROBE_COOLDOWN_S
 
 
 def _make_engine(tier, **overrides):
     """Construct a SearchEngine for _search_with_fallback/health-block
     testing only, bypassing __init__ -- same bypass pattern as
     test_upsert_delete_ordering_fix.py's _make_engine, extended with the
-    handful of extra attributes the fallback/health-check paths read."""
+    handful of extra attributes the fallback/health-check paths read.
+
+    N3 support: `max_tier` and `last_reprobe_at` default to `tier` and
+    `0.0` respectively -- i.e. by default the engine's reprobe ceiling is
+    wherever it starts (no pending recovery target, so
+    _maybe_reprobe_higher_tier() is a no-op) and its cooldown clock reads
+    as "long elapsed" (time.monotonic() is never actually 0.0 mid-test, so
+    a demoted engine with the default last_reprobe_at is always past
+    cooldown). Tests that specifically exercise the reprobe mechanism pass
+    both explicitly."""
     engine = server.SearchEngine.__new__(server.SearchEngine)
     engine._tier = tier
     engine._degradation_reason = None
@@ -76,6 +96,8 @@ def _make_engine(tier, **overrides):
     engine._qdrant_ready = False
     engine._qdrant_client = None
     engine._collection_name = "workspace_knowledge"
+    engine._max_tier = overrides.pop("max_tier", tier)
+    engine._last_reprobe_at = overrides.pop("last_reprobe_at", 0.0)
     for name, value in overrides.items():
         setattr(engine, name, value)
     return engine
@@ -450,59 +472,152 @@ class TestSearchDocsToolNeverRaises:
 
 
 # ---------------------------------------------------------------------------
-# Recovery behavior
+# Recovery behavior -- N3
 # ---------------------------------------------------------------------------
 
 
 class TestRecoveryBehavior:
     """What the code actually does once the forced condition is lifted --
-    verified against the real implementation rather than assumed (see
-    module docstring FINDING). N3 (not yet fixed as of this commit) will
-    replace test_no_automatic_recovery_on_next_call_once_demoted below with
-    tests for a bounded, cooldown-gated re-probe -- see the module
-    docstring's N3 finding."""
+    verified against the real implementation rather than assumed.
 
-    def test_no_automatic_recovery_on_next_call_once_demoted(self):
-        """Once _search_with_fallback demotes the tier, it never re-tries
-        the higher tier on a later call, even if the underlying dependency
-        would now succeed -- there is no re-probe/reconnect logic inside
-        _search_with_fallback itself. N2's fix changed *which* tier a
-        Qdrant failure demotes to (HYBRID, not BM25 -- see
-        TestHybridQdrantFailureFallsToHybrid), but not this: once demoted,
-        recovery is still one-directional until N3 lands."""
-        engine = _make_engine(SearchTier.HYBRID_QDRANT)
-        engine._search_hybrid_qdrant = MagicMock(side_effect=ConnectionError("qdrant down"))
-        engine._search_hybrid = MagicMock(return_value=[])
-        engine._search_bm25 = MagicMock(return_value=[])
+    N3 fix: _search_with_fallback now opens with a call to
+    _maybe_reprobe_higher_tier(), a bounded, cooldown-gated re-probe. These
+    tests isolate that mechanism from N2's cascade shape by starting the
+    engine already demoted to BM25 with an explicit `max_tier` ceiling
+    (SearchTier.HYBRID_QDRANT) -- i.e. simulating "some earlier call already
+    walked the fallback chain down to BM25", rather than re-deriving that
+    from a fresh HYBRID_QDRANT failure each time."""
+
+    def test_no_recovery_within_the_cooldown_window(self):
+        """Immediately after a demotion (cooldown clock freshly reset), a
+        later call does not re-attempt a higher tier even though the
+        underlying dependency would now succeed -- the reprobe is bounded,
+        not unconditional on every call. This is what keeps a genuinely-down
+        dependency from paying one extra failed-call cost per query during
+        an outage."""
+        engine = _make_engine(
+            SearchTier.BM25,
+            max_tier=SearchTier.HYBRID_QDRANT,
+            last_reprobe_at=time.monotonic(),  # "just demoted"
+        )
+        bm25_results = [_result("i.md")]
+        engine._search_bm25 = MagicMock(return_value=bm25_results)
+        # Would succeed if tried -- must not be, cooldown hasn't elapsed.
+        engine._search_hybrid = MagicMock(return_value=[_result("recovered.md")])
+
+        results = engine._search_with_fallback("query", top_k=5)
+
+        assert results == bm25_results
+        assert engine._tier == SearchTier.BM25  # still demoted
+        engine._search_hybrid.assert_not_called()
+
+    def test_recovery_climbs_one_tier_after_cooldown_elapses(self):
+        """Once _TIER_REPROBE_COOLDOWN_S has elapsed since the last
+        demotion/reprobe attempt, the next call climbs exactly one tier
+        (BM25 -> HYBRID, not straight to the HYBRID_QDRANT ceiling) and
+        lets the normal cascade validate it with a real call. On success,
+        the tier simply stays up."""
+        engine = _make_engine(
+            SearchTier.BM25,
+            max_tier=SearchTier.HYBRID_QDRANT,
+            last_reprobe_at=time.monotonic() - REPROBE_COOLDOWN_S - 1.0,
+        )
+        hybrid_results = [_result("recovered.md")]
+        engine._search_hybrid = MagicMock(return_value=hybrid_results)
+        # Deliberately not jumped straight to -- single-step climb, so
+        # HYBRID_QDRANT must not be tried in this same call.
+        engine._search_hybrid_qdrant = MagicMock(
+            side_effect=AssertionError("must climb one tier at a time, not jump to the ceiling")
+        )
+
+        results = engine._search_with_fallback("query", top_k=5)
+
+        assert results == hybrid_results
+        assert engine._tier == SearchTier.HYBRID
+        engine._search_hybrid.assert_called_once_with("query", 5)
+        engine._search_hybrid_qdrant.assert_not_called()
+
+    def test_recovery_climb_that_still_fails_re_demotes_and_resets_cooldown(self):
+        """A cooldown-elapsed climb attempt is a real call, not a freebie:
+        if the tier-above still fails, the existing cascade demotes right
+        back down via _demote(), which also resets the cooldown clock -- so
+        a still-broken dependency doesn't get re-tried on literally the
+        next call either."""
+        engine = _make_engine(
+            SearchTier.BM25,
+            max_tier=SearchTier.HYBRID_QDRANT,
+            last_reprobe_at=time.monotonic() - REPROBE_COOLDOWN_S - 1.0,
+        )
+        engine._search_hybrid = MagicMock(side_effect=RuntimeError("still broken"))
+        bm25_results = [_result("j.md")]
+        engine._search_bm25 = MagicMock(return_value=bm25_results)
+
+        results = engine._search_with_fallback("query", top_k=5)
+
+        assert results == bm25_results
+        assert engine._tier == SearchTier.BM25  # climb attempted, failed, re-demoted
+        assert "Hybrid search failed" in engine._degradation_reason
+
+        # Cooldown clock was reset by the failed climb -- an immediate
+        # follow-up call must not climb again.
+        engine._search_hybrid = MagicMock(return_value=[_result("recovered.md")])
+        results2 = engine._search_with_fallback("query", top_k=5)
+        assert results2 == bm25_results
+        assert engine._tier == SearchTier.BM25
+        engine._search_hybrid.assert_not_called()
+
+    def test_gradual_multi_step_climb_reaches_the_ceiling(self):
+        """Across two separate cooldown-elapsed calls, the tier climbs
+        BM25 -> HYBRID -> HYBRID_QDRANT one step at a time and then stops
+        climbing once it reaches its ceiling (self._max_tier) -- confirming
+        _maybe_reprobe_higher_tier() is a no-op once self._tier ==
+        self._max_tier, rather than continuing to re-validate an
+        already-recovered tier on every subsequent call."""
+        engine = _make_engine(
+            SearchTier.BM25,
+            max_tier=SearchTier.HYBRID_QDRANT,
+            last_reprobe_at=time.monotonic() - REPROBE_COOLDOWN_S - 1.0,
+        )
+        engine._search_hybrid = MagicMock(return_value=[_result("step1.md")])
 
         engine._search_with_fallback("query", top_k=5)
-        assert engine._tier == SearchTier.HYBRID  # N2: demoted to HYBRID, not BM25
+        assert engine._tier == SearchTier.HYBRID
 
-        # "Recover" the dependency -- it would now succeed if tried again.
-        engine._search_hybrid_qdrant = MagicMock(return_value=[_result("i.md")])
+        # Cooldown elapsed again since the first climb.
+        engine._last_reprobe_at = time.monotonic() - REPROBE_COOLDOWN_S - 1.0
+        engine._search_hybrid_qdrant = MagicMock(return_value=[_result("step2.md")])
 
         engine._search_with_fallback("query", top_k=5)
+        assert engine._tier == SearchTier.HYBRID_QDRANT  # ceiling reached
 
-        assert engine._tier == SearchTier.HYBRID  # still demoted
-        engine._search_hybrid_qdrant.assert_not_called()  # never retried
+        # Now at the ceiling -- a further call must not touch the reprobe
+        # path at all (no climb possible, tier == max_tier already), it
+        # just runs the normal HYBRID_QDRANT search directly.
+        engine._search_hybrid_qdrant.reset_mock()
+        engine._search_hybrid_qdrant.return_value = [_result("step3.md")]
+        engine._search_with_fallback("query", top_k=5)
+        assert engine._tier == SearchTier.HYBRID_QDRANT
+        engine._search_hybrid_qdrant.assert_called_once_with("query", 5)
 
     def test_explicit_rebuild_restores_the_tier(self, tmp_path):
-        """The only way the tier climbs back up is a full rebuild_index()
-        call, which reruns _initialize_search_engine() from scratch.
-        Verified here by stubbing that reinit chain (real BM25/FAISS/Qdrant
-        work is out of scope for this suite -- see
-        test_upsert_delete_ordering_fix.py and this file's own bypass
-        pattern) and confirming rebuild() invokes it and adopts whatever
-        tier it lands on. engine._INDEX_DIR is redirected to a tmp_path so
-        this never touches the real embedding/ directory's on-disk FAISS
-        state."""
-        engine = _make_engine(SearchTier.BM25)
+        """rebuild_index() remains the authoritative full-reinit recovery
+        path alongside N3's lighter automatic reprobe -- verified here by
+        stubbing that reinit chain (real BM25/FAISS/Qdrant work is out of
+        scope for this suite -- see test_upsert_delete_ordering_fix.py and
+        this file's own bypass pattern) and confirming rebuild() invokes it
+        and adopts whatever tier it lands on. engine._INDEX_DIR is
+        redirected to a tmp_path so this never touches the real
+        embedding/ directory's on-disk FAISS state."""
+        engine = _make_engine(SearchTier.BM25, max_tier=SearchTier.HYBRID_QDRANT)
         engine._degradation_reason = "Qdrant search failed: simulated"
         engine._INDEX_DIR = tmp_path  # never touch the real embedding/ dir
         engine._init_thread = None
 
         def _fake_reinit():
-            engine._tier = SearchTier.HYBRID_QDRANT
+            # Real _initialize_search_engine/_init_faiss_background elevate
+            # via _note_tier(), not a bare assignment -- mirrored here so
+            # this stub's effect on _max_tier matches production.
+            engine._note_tier(SearchTier.HYBRID_QDRANT)
             engine._degradation_reason = None
             engine._init_thread = None
 
@@ -512,3 +627,8 @@ class TestRecoveryBehavior:
 
         assert engine._tier == SearchTier.HYBRID_QDRANT
         assert engine._degradation_reason is None
+        # rebuild() resets _max_tier to RAWFS before the reinit chain runs,
+        # then the (stubbed) reinit chain re-establishes it via _note_tier
+        # -- confirms rebuild() doesn't leave a stale N3 ceiling behind from
+        # before the rebuild.
+        assert engine._max_tier == SearchTier.HYBRID_QDRANT
