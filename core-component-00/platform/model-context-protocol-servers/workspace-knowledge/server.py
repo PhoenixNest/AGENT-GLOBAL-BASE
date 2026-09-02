@@ -1,5 +1,7 @@
+import functools
 import hashlib
 import json
+import logging
 import os
 import re
 import sys
@@ -7,7 +9,7 @@ import threading
 import time
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Optional
 
 # jsonref's published wheel does `from proxytypes import LazyProxy` (a stale absolute
 # import; see _vendor/proxytypes.py). On some `ProxyTypes` installs this ModuleNotFoundErrors
@@ -65,6 +67,138 @@ mcp = FastMCP("workspace-knowledge")
 
 def _diag(msg: str) -> None:
     print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
+
+
+# ---------------------------------------------------------------------------
+# Structured per-call audit logging (R4, 2026-09-02 — see
+# platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-
+# enterprise-assessment/enterprise-assessment.md, B3/R4). Standard-library
+# `logging` only, no new dependency. Own module-level logger, not the
+# "fastmcp" namespace fastmcp.utilities.logging configures for its own
+# internal logs (propagate=False on the "fastmcp" logger specifically, never
+# touches the root logger — so it would not make this logger's records
+# visible on its own). Reads FASTMCP_LOG_LEVEL, the same env var already
+# used to control the fastmcp library's own verbosity (see this server's
+# README `.mcp.json` example), so this logger's level tracks the same knob
+# operators already have rather than introducing a second, independent one.
+# Mirrors agent-memory/server.py's identical setup — see that file for the
+# fuller rationale comment; kept in sync deliberately rather than duplicated
+# with drift.
+logger = logging.getLogger(__name__)
+_LOG_LEVEL_NAME = os.getenv("FASTMCP_LOG_LEVEL", "INFO").strip().upper()
+logger.setLevel(getattr(logging, _LOG_LEVEL_NAME, logging.INFO))
+if not logger.handlers:
+    _log_handler = logging.StreamHandler(sys.stderr)
+    _log_handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s")
+    )
+    logger.addHandler(_log_handler)
+
+
+def _call_outcome(result: Any) -> "tuple[bool, Optional[str]]":
+    """
+    Best-effort ok/error read of a tool's return value, for the audit log
+    only — never changes what is returned to the caller. Covers this
+    module's two failure-signaling shapes: a top-level {"error": ...} key
+    (retrieve_context, find_related_documents, validate_pipeline_document's
+    file-not-found/read-failure branches) and {"status": "error", ...}
+    (upsert_document). Tiered-search degradation (a non-null
+    `_meta.degradation_reason`, e.g. HYBRID_QDRANT falling back to BM25) is
+    deliberately reported ok=True — that is expected, working graceful
+    degradation (see B1 in the assessment above, "Pass at parity"), not a
+    call failure, and search_docs still returns real, usable results when it
+    happens. `validate_pipeline_document`'s `valid: False` is likewise
+    ok=True — a structural-validation finding is the tool's normal output,
+    not a failure of the tool itself.
+    """
+    if not isinstance(result, dict):
+        return True, None
+    if result.get("error"):
+        return False, str(result.get("error"))
+    if result.get("status") == "error":
+        return False, str(result.get("reason") or result.get("error") or "error")
+    return True, None
+
+
+def _log_tool_call(summarize_args: Optional[Callable[..., dict]] = None):
+    """
+    Decorator factory wrapping an @mcp.tool() function with structured
+    entry/exit logging: `tool_name`, `duration_ms`, and an ok/error outcome
+    (see _call_outcome) at INFO (ok) or ERROR (not ok, or an exception).
+    Never changes the wrapped function's behavior — an exception is always
+    re-raised after being logged (several tools here, e.g. rebuild_index and
+    health_check, have no internal try/except of their own, so this is the
+    first place such an exception is ever recorded), and the return value is
+    passed through unmodified.
+
+    `summarize_args`, when given, is called with the same (*args, **kwargs)
+    the tool receives and must return a small dict of safe-to-log fields. No
+    call site below logs a raw search query or document body wholesale —
+    only lengths — for the same reason agent-memory/server.py's identical
+    decorator avoids logging raw `content`: a workspace search query can
+    carry the same kind of sensitive free text a memory write would. A
+    summarizer that itself raises is caught and dropped rather than allowed
+    to break the underlying tool call.
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def _wrapper(*args, **kwargs):
+            tool_name = func.__name__
+            arg_summary: dict = {}
+            if summarize_args is not None:
+                try:
+                    arg_summary = summarize_args(*args, **kwargs) or {}
+                except Exception:
+                    arg_summary = {}
+            start = time.monotonic()
+            try:
+                result = func(*args, **kwargs)
+            except Exception as exc:
+                duration_ms = round((time.monotonic() - start) * 1000, 2)
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False error=%r args=%s",
+                    tool_name, duration_ms, exc, arg_summary,
+                    exc_info=True,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": str(exc),
+                        "call_args": arg_summary,
+                    },
+                )
+                raise
+            duration_ms = round((time.monotonic() - start) * 1000, 2)
+            ok, reason = _call_outcome(result)
+            if ok:
+                logger.info(
+                    "tool_call tool_name=%s duration_ms=%s ok=True args=%s",
+                    tool_name, duration_ms, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": True,
+                        "call_args": arg_summary,
+                    },
+                )
+            else:
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False reason=%s args=%s",
+                    tool_name, duration_ms, reason, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": reason,
+                        "call_args": arg_summary,
+                    },
+                )
+            return result
+
+        return _wrapper
+
+    return decorator
 
 
 EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
@@ -792,7 +926,12 @@ class SearchEngine:
 engine = SearchEngine(WORKSPACE_ROOT)
 
 
+def _summarize_search_docs_args(query: str = "", top_k: int = 10, **_: Any) -> dict:
+    return {"query_len": len(query or ""), "top_k": top_k}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_search_docs_args)
 def search_docs(query: str, top_k: int = 10) -> dict[str, Any]:
     """Hybrid semantic + BM25 keyword search across workspace markdown files with graceful
     fallback through HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS tiers. Returns ranked results
@@ -801,7 +940,12 @@ def search_docs(query: str, top_k: int = 10) -> dict[str, Any]:
     return {"query": query, "results": results, "_meta": engine._meta_block()}
 
 
+def _summarize_file_path_arg(file_path: str = "", **_: Any) -> dict:
+    return {"file_path": file_path}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_file_path_arg)
 def retrieve_context(file_path: str) -> dict[str, Any]:
     """Retrieve the full content of a specific workspace document by its relative path."""
     target = WORKSPACE_ROOT / file_path
@@ -815,6 +959,7 @@ def retrieve_context(file_path: str) -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def list_indexed_files() -> dict[str, Any]:
     """List all markdown files currently in the search index."""
     files = engine.list_files()
@@ -822,6 +967,7 @@ def list_indexed_files() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def rebuild_index() -> dict[str, Any]:
     """Rebuild the search index from scratch, re-scanning all workspace markdown files.
     Also clears and re-seeds the Qdrant collection when Qdrant is initialized. This call
@@ -832,6 +978,7 @@ def rebuild_index() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def rebuild_status() -> dict[str, Any]:
     """Report live progress of the most recently started rebuild_index call: current
     phase (idle/bm25/qdrant_connect/faiss/qdrant_seed/done/error), markdown files
@@ -841,6 +988,7 @@ def rebuild_status() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_file_path_arg)
 def upsert_document(file_path: str) -> dict[str, Any]:
     """Re-chunk, re-embed, and upsert a single document into the Qdrant collection.
     Also updates the BM25 index for this file. Use after editing an indexed .md file
@@ -870,7 +1018,14 @@ def upsert_document(file_path: str) -> dict[str, Any]:
         return {"status": "error", "error": str(exc), "_meta": engine._meta_block()}
 
 
+def _summarize_summarize_context_args(
+    topics: list[str] = (), max_docs_per_topic: int = 3, **_: Any
+) -> dict:
+    return {"topic_count": len(topics or ()), "max_docs_per_topic": max_docs_per_topic}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_summarize_context_args)
 def summarize_context(topics: list[str], max_docs_per_topic: int = 3) -> dict[str, Any]:
     """Pre-digest multi-document briefings for agent context slots.
     Returns top matching docs per topic, deduped across topics."""
@@ -889,7 +1044,12 @@ def summarize_context(topics: list[str], max_docs_per_topic: int = 3) -> dict[st
     }
 
 
+def _summarize_check_adr_precedent_args(technology: str = "", **_: Any) -> dict:
+    return {"technology": technology}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_check_adr_precedent_args)
 def check_adr_precedent(technology: str) -> dict[str, Any]:
     """Surface prior ADRs before a Technology Decision.
     Returns matching ADR documents and whether precedent exists."""
@@ -907,7 +1067,12 @@ def check_adr_precedent(technology: str) -> dict[str, Any]:
     }
 
 
+def _summarize_doc_path_arg(doc_path: str = "", **_: Any) -> dict:
+    return {"doc_path": doc_path}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_doc_path_arg)
 def validate_pipeline_document(doc_path: str) -> dict[str, Any]:
     """Validate a workspace document against its structural requirements.
     Detects document type and checks for required sections."""
@@ -954,7 +1119,14 @@ def validate_pipeline_document(doc_path: str) -> dict[str, Any]:
     }
 
 
+def _summarize_find_related_documents_args(
+    seed_doc_path: str = "", top_k: int = 5, **_: Any
+) -> dict:
+    return {"seed_doc_path": seed_doc_path, "top_k": top_k}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_find_related_documents_args)
 def find_related_documents(seed_doc_path: str, top_k: int = 5) -> dict[str, Any]:
     """Find documents semantically similar to a given workspace document.
     Requires HYBRID or HYBRID_QDRANT tier; falls back to BM25 keyword search."""
@@ -981,7 +1153,14 @@ TELESCOPE_PREFIXES = (
 )
 
 
+def _summarize_list_research_by_topic_args(
+    topic: str = "", format: str = "brief", **_: Any
+) -> dict:
+    return {"topic": topic, "format": format}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_list_research_by_topic_args)
 def list_research_by_topic(topic: str, format: str = "brief") -> dict[str, Any]:
     """List research archives across all telescope/ instances (workspace root plus the
     company/, core-component-00/, and studio/casual-games/ department archives) by topic.
@@ -1003,7 +1182,14 @@ def list_research_by_topic(topic: str, format: str = "brief") -> dict[str, Any]:
     }
 
 
+def _summarize_agent_knowledge_brief_args(
+    agent_role: str = "", context_topics: list[str] = (), **_: Any
+) -> dict:
+    return {"agent_role": agent_role, "topic_count": len(context_topics or ())}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_agent_knowledge_brief_args)
 def agent_knowledge_brief(agent_role: str, context_topics: list[str]) -> dict[str, Any]:
     """Generate a pre-digested knowledge brief for an agent role across multiple topics.
     Returns the top documents per topic, deduplicated, with relevant snippets."""
@@ -1089,6 +1275,7 @@ def _memory_instance_health_block() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def health_check() -> dict[str, Any]:
     """Report health for both Qdrant-backed instances this workspace runs:
     the document knowledge base (qdrant-workspace) and the persistent agent
