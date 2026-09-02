@@ -55,9 +55,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 AGENT_MEMORY_DIR = SCRIPT_DIR.parent
-MCP_SERVERS_DIR = AGENT_MEMORY_DIR.parent
 BACKUP_SCRIPT = SCRIPT_DIR / "backup_memory_log.py"
-PYTHON_EXE = MCP_SERVERS_DIR / ".venv" / "bin" / "python"
+PYTHON_EXE = AGENT_MEMORY_DIR / ".venv" / "bin" / "python"
 
 DEFAULT_TASK_NAME = "cc00-agent-memory-daily-backup"
 DEFAULT_TIME = "03:00"
