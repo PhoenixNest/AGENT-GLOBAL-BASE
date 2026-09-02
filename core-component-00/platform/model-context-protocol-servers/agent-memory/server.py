@@ -465,6 +465,19 @@ _embedder_service_lock = threading.Lock()
 _embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
 _embedder_service_last_probe_at: float = 0.0
 _embedder_service_process_started_at: float = time.time()
+# Wall-clock time of the last *actual* readiness check (the one-shot startup
+# probe in _start_embedder_service_background(), or a cooldown-gated
+# re-probe in _embedder_service_ready()) — as opposed to a mere cached read
+# of _embedder_service_state. R2 fix (2026-09-02, see
+# platform/benchmarks/.../2026-09-01-mcp-servers-enterprise-assessment):
+# a "ready" state, once set, was previously never re-probed for the rest of
+# the process's life (by design — see _embedder_service_ready()'s
+# docstring), so health_check had no way to tell a caller "confirmed ready
+# 200ms ago" from "confirmed ready 40 minutes ago, unconfirmed since". This
+# timestamp is exposed via _get_search_capability_snapshot() as
+# embedder_service_state_age_s so a caller can apply its own staleness
+# judgment without this module adding a network probe to every health check.
+_embedder_service_state_confirmed_at: float = 0.0
 
 # Bounds how often _embedder_service_ready() re-probes a cached "unavailable"
 # state — see that function's docstring for why "unavailable" is re-checked
@@ -487,10 +500,11 @@ def _start_embedder_service_background() -> None:
     # Runs exactly once, at process startup. An "unavailable" result here is
     # not final — _embedder_service_ready() re-probes and can overwrite it
     # with "ready" later, without a process restart (P1 fix, 2026-08-06).
-    global _embedder_service_state
+    global _embedder_service_state, _embedder_service_state_confirmed_at
     ok = embedder_client.ensure_service_running()
     with _embedder_service_lock:
         _embedder_service_state = "ready" if ok else "unavailable"
+        _embedder_service_state_confirmed_at = time.time()
     _diag(f"embedder-service background start: {'ready' if ok else 'unavailable'}")
 
 
@@ -514,7 +528,7 @@ def _embedder_service_ready() -> bool:
     alone here: the background thread's first check is still in flight, so
     there is nothing stale to re-check yet.
     """
-    global _embedder_service_state, _embedder_service_last_probe_at
+    global _embedder_service_state, _embedder_service_last_probe_at, _embedder_service_state_confirmed_at
     with _embedder_service_lock:
         state = _embedder_service_state
     if state != "unavailable":
@@ -529,6 +543,7 @@ def _embedder_service_ready() -> bool:
     ok = embedder_client.probe_health()
     with _embedder_service_lock:
         _embedder_service_state = "ready" if ok else "unavailable"
+        _embedder_service_state_confirmed_at = time.time()
     if ok:
         _diag("embedder-service re-probe: now ready (was unavailable)")
     return ok
@@ -608,6 +623,24 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
     already use — this function does not introduce a second source of truth,
     it only re-presents that existing state in a health_check-shaped block.
 
+    Staleness (R2 fix, 2026-09-02): a cached "ready" service state is trusted
+    as-is here (no re-probe — a network call is not something a health check
+    should trigger), but that means it can go stale relative to actual
+    serviceability — exactly the discrepancy the 2026-09-01 enterprise
+    assessment live-reproduced (`health_check` reported "ready" moments
+    before a real `search_memory` call failed with "embedder-service
+    unavailable and in-process embedder not ready"). To let a caller
+    distinguish "confirmed ready" from "cached ready, unconfirmed", this
+    snapshot also reports `embedder_service_state_age_s` — seconds since the
+    state was last actually confirmed by a real probe (the one-shot startup
+    check or a cooldown-gated re-probe in `_embedder_service_ready()`), and
+    `embedder_service_state_confirmed` (False only when no probe has ever
+    completed yet, e.g. very early in process startup). A caller/monitor
+    should treat a large `embedder_service_state_age_s` on a "ready" state
+    with correspondingly less confidence — this module deliberately does not
+    hardcode a "stale" cutoff itself, since what counts as too old is a
+    consumer policy decision, not a fact this server can assert on its own.
+
     Never raises: each state read is a plain lock-guarded attribute read, and
     any unexpected error degrades to a clearly-labeled "unavailable" reading
     rather than propagating, consistent with every other code path in this
@@ -616,6 +649,7 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
     try:
         with _embedder_service_lock:
             service_state = _embedder_service_state if EMBEDDER_SERVICE_ENABLED else "disabled"
+            confirmed_at = _embedder_service_state_confirmed_at
         with _embedder_lock:
             in_process_state = _embedder_state
             in_process_ready = _embedder_cache is not None
@@ -633,9 +667,14 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
         else:
             effective_path = "unavailable"
 
+        state_confirmed = EMBEDDER_SERVICE_ENABLED and confirmed_at > 0
+        state_age_s = round(time.time() - confirmed_at, 1) if state_confirmed else None
+
         return {
             "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
             "embedder_service_state": service_state,
+            "embedder_service_state_confirmed": state_confirmed,
+            "embedder_service_state_age_s": state_age_s,
             "in_process_fallback_state": in_process_state,
             "effective_path": effective_path,
         }
@@ -644,6 +683,8 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
         return {
             "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
             "embedder_service_state": "unavailable",
+            "embedder_service_state_confirmed": False,
+            "embedder_service_state_age_s": None,
             "in_process_fallback_state": f"failed: snapshot error: {exc}",
             "effective_path": "unavailable",
         }
