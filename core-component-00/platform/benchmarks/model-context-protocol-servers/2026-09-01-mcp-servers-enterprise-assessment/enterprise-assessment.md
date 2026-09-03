@@ -105,7 +105,11 @@ company/studio product, so Scale A governs throughout.
 
 ## Compliance Verdict
 
-**Conditional — P1 gaps open.**
+**Remediated — all R1–R5 items verified closed (2026-09-03).** See
+`core-component-00/platform/remediation/model-context-protocol-servers/2026-09-02-mcp-servers-enterprise-assessment-remediation/implementation-plan.md`
+for the execution and independent-verification record. The verdict narrative below is preserved
+as originally written (v1.0, 2026-09-01) — it describes the state this assessment found, not the
+current state.
 
 Both servers implement the two enterprise-baseline architecture patterns that matter most for
 this class of system — hybrid BM25/vector retrieval with tiered graceful degradation
@@ -159,9 +163,10 @@ reported and actual state.
 
 ## Version History
 
-| Version | Date       | Author                                                                | Changes                       |
-| ------- | ---------- | --------------------------------------------------------------------- | ----------------------------- |
-| 1.0     | 2026-09-01 | Dr. Elias Vance (directing; see Metadata for Assessor/Reviewer split) | Initial enterprise assessment |
+| Version | Date       | Author                                                                                                            | Changes                                                                                                                          |
+| ------- | ---------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | 2026-09-01 | Dr. Elias Vance (directing; see Metadata for Assessor/Reviewer split)                                             | Initial enterprise assessment                                                                                                    |
+| 1.1     | 2026-09-03 | Dr. Elias Vance (Reviewer, per `2026-09-02-mcp-servers-enterprise-assessment-remediation/implementation-plan.md`) | Updated Compliance Verdict to Remediated — all five Severity-Ordered Remediation Plan rows (R1–R5) independently verified closed |
 
 ---
 
