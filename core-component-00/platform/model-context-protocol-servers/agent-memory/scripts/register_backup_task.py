@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """
-Phase 5 DR backup — Linux/macOS scheduling registration for the daily
-agent-memory JSONL log snapshot. Cross-platform counterpart to
+DR-backup scheduling registration for the daily agent-memory JSONL log
+snapshot, on Linux/macOS. Cross-platform counterpart to
 register_backup_task.ps1 (Windows Task Scheduler).
 
-STATUS: implemented, INACTIVE by default, UNVERIFIED ON LINUX/MACOS. There is
-no non-Windows machine available in this workspace to actually run it
-against a real systemd user session or crontab. Do not treat this script as
-DR-ready until someone has run it for real on the target OS and confirmed
-the resulting timer/cron entry actually fires.
+STATUS: implemented, INACTIVE by default. The "systemd" mechanism is verified
+on Linux (WSL2): registering, enabling, and manually firing it produces a
+correct backup snapshot. The "cron" mechanism and macOS support (cron subject
+to TCC restrictions; no launchd implementation) remain unverified -- do not
+treat either as DR-ready until run for real and confirmed to fire. A
+registered "systemd" timer also does not survive a full logout/reboot unless
+`loginctl enable-linger` has been run separately for the account -- this
+script does not enable lingering for you.
 
 Running this script with no flags performs a DRY RUN only — it prints the
 unit/crontab definition it would register and registers nothing. Pass
@@ -90,7 +93,7 @@ def _detect_mechanism() -> str:
 def _systemd_units(task_name: str, hour: int, minute: int) -> tuple:
     service_unit = (
         f"[Unit]\n"
-        f"Description=CC-00 agent-memory JSONL log daily snapshot (Phase 5 DR backup)\n"
+        f"Description=CC-00 agent-memory JSONL log daily snapshot (DR backup)\n"
         f"\n"
         f"[Service]\n"
         f"Type=oneshot\n"
