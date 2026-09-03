@@ -1,3 +1,5 @@
+import functools
+import logging
 import os
 import sys
 import threading
@@ -47,6 +49,137 @@ import write_tool  # noqa: E402
 from write_provenance import get_default_rate_limiter  # noqa: E402
 
 
+# ---------------------------------------------------------------------------
+# Structured per-call audit logging. Standard-library
+# `logging` only, no new dependency. A module-level logger scoped to this
+# file's own name, not the "fastmcp" namespace fastmcp.utilities.logging
+# configures for its own internal logs (that configuration sets
+# propagate=False on the "fastmcp" logger specifically and never touches the
+# root logger, so it would not make our own logger's records visible on its
+# own). Reads the same FASTMCP_LOG_LEVEL env var already used to control the
+# fastmcp library's own verbosity (see agent-memory/README.md's `.mcp.json`
+# example) so this logger's level tracks the same knob operators already
+# have, rather than introducing a second, independent one.
+logger = logging.getLogger(__name__)
+_LOG_LEVEL_NAME = os.getenv("FASTMCP_LOG_LEVEL", "INFO").strip().upper()
+logger.setLevel(getattr(logging, _LOG_LEVEL_NAME, logging.INFO))
+if not logger.handlers:
+    _log_handler = logging.StreamHandler(sys.stderr)
+    _log_handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s")
+    )
+    logger.addHandler(_log_handler)
+
+
+def _call_outcome(result: Any) -> "tuple[bool, Optional[str]]":
+    """
+    Best-effort ok/error read of a tool's return value, for the audit log
+    only — never changes what is returned to the caller. This module's tools
+    signal failure through their return value, not exceptions (each
+    @mcp.tool() function here is documented "never raises"), so an
+    audit-trail decorator that only distinguishes ok/error by catching
+    exceptions would almost never observe a real failure. Covers the
+    failure-signaling shapes already in use: {"degraded": True, "reason":
+    ...} (search_memory), {"status": "error", ...} (write_memory's/
+    health_check's own outer except-clause shape), and {"written": False,
+    "status": <not "confirmation_required">, ...} (write_memory's rejected/
+    upsert-failed branches). write_memory's "confirmation_required" branch is
+    deliberately reported ok=True — it is a legitimate pending state, not a
+    failure. Any other shape (including health_check's own reachable=False
+    telemetry, which is expected, diagnostic output, not a call failure) is
+    reported ok=True.
+    """
+    if not isinstance(result, dict):
+        return True, None
+    if result.get("degraded") is True:
+        return False, result.get("reason")
+    if result.get("status") == "error":
+        return False, result.get("reason")
+    if result.get("written") is False and result.get("status") != "confirmation_required":
+        return False, result.get("reason") or result.get("status")
+    return True, None
+
+
+def _log_tool_call(summarize_args: Optional[Callable[..., Dict[str, Any]]] = None):
+    """
+    Decorator factory wrapping an @mcp.tool() function with structured
+    entry/exit logging: `tool_name`, `duration_ms`, and an ok/error outcome
+    (see _call_outcome) at INFO (ok) or ERROR (not ok, or an exception).
+    Never changes the wrapped function's behavior — an exception is always
+    re-raised after being logged, and the return value is passed through
+    unmodified; the exception path is defense-in-depth only, since every
+    tool this decorates already catches its own exceptions internally.
+
+    `summarize_args`, when given, is called with the same (*args, **kwargs)
+    the tool receives and must return a small dict of safe-to-log fields —
+    e.g. a content length, not the content itself. This is the only place
+    request arguments reach the log, and deliberately so: no call site below
+    passes raw `content`, `query`, or any other PII-bearing field — only
+    lengths, memory_type/session identifiers, and similar non-content
+    metadata. A summarizer that itself raises is caught and dropped rather
+    than allowed to break the underlying tool call.
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def _wrapper(*args, **kwargs):
+            tool_name = func.__name__
+            arg_summary: Dict[str, Any] = {}
+            if summarize_args is not None:
+                try:
+                    arg_summary = summarize_args(*args, **kwargs) or {}
+                except Exception:
+                    arg_summary = {}
+            start = time.monotonic()
+            try:
+                result = func(*args, **kwargs)
+            except Exception as exc:
+                duration_ms = round((time.monotonic() - start) * 1000, 2)
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False error=%r args=%s",
+                    tool_name, duration_ms, exc, arg_summary,
+                    exc_info=True,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": str(exc),
+                        "call_args": arg_summary,
+                    },
+                )
+                raise
+            duration_ms = round((time.monotonic() - start) * 1000, 2)
+            ok, reason = _call_outcome(result)
+            if ok:
+                logger.info(
+                    "tool_call tool_name=%s duration_ms=%s ok=True args=%s",
+                    tool_name, duration_ms, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": True,
+                        "call_args": arg_summary,
+                    },
+                )
+            else:
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False reason=%s args=%s",
+                    tool_name, duration_ms, reason, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": reason,
+                        "call_args": arg_summary,
+                    },
+                )
+            return result
+
+        return _wrapper
+
+    return decorator
+
+
 def _diag(msg: str) -> None:
     """Unbuffered, timestamped stderr line. A blocking native call that never
     returns and never raises is invisible to a try/except — the thread simply
@@ -87,8 +220,8 @@ def _resolve_sibling_cleanup_min_age_s() -> float:
     above the widest legitimate cold-start window this file allows for,
     including a retried attempt: the in-process embedder fallback retries
     once (_EMBEDDER_LOAD_MAX_ATTEMPTS = 2) at up to _EMBEDDER_LOAD_TIMEOUT_S
-    (90s) each, matching the documented 2026-07-13 incident where both
-    attempts stalled -- so a still-initializing legitimate process is never
+    (90s) each, covering the worst case where both attempts stall -- so a
+    still-initializing legitimate process is never
     mistaken for an orphan even in that worst case. Never raises and never
     returns below the floor, even on a malformed or adversarial override
     (including NaN, whose comparisons are always False and would otherwise
@@ -215,19 +348,16 @@ def _cleanup_stale_sibling_processes() -> None:
     """
     Terminates any other live process running this exact `server.py` before
     this instance proceeds. Mirrors the orphan-cleanup pattern already
-    proven for embedder-service (manage_embedder_service.ps1 -Action
-    cleanup / its 2026-08-13 manage_embedder_service.py port), applied here
-    to agent-memory's own process.
+    proven for embedder-service (manage_embedder_service.py's cleanup
+    action), applied here to agent-memory's own process.
 
-    Rationale (2026-08-09 live investigation, mcp-governance.md's
-    agent-memory row): the MCP host does not always cleanly terminate a
-    prior agent-memory process on `/mcp reconnect` -- four concurrent
-    instances were observed piling up in one session, each independently
+    Rationale: the MCP host does not always cleanly terminate a
+    prior agent-memory process on `/mcp reconnect` -- multiple concurrent
+    instances can pile up in one session, each independently
     racing to import the same heavy ML stack and/or spawn embedder-service.
     That is real resource contention (CPU, disk I/O, the shared
     embedder-service launch lock), not merely a theoretical duplicate, and
-    is a direct contributor to the cold-start stalls documented in that
-    row. This runs once, synchronously, at module-import time -- before
+    is a direct contributor to cold-start stalls. This runs once, synchronously, at module-import time -- before
     the embedder-service background thread starts further down -- so the
     process count is already trimmed by the time that race begins.
 
@@ -256,9 +386,7 @@ def _cleanup_stale_sibling_processes() -> None:
     _SIBLING_CLEANUP_MIN_AGE_S, so two processes spawned seconds apart by
     the same reconnect never treat each other as stale and kill each other.
 
-    Cross-platform via `psutil` (2026-08-13 -- previously Windows-only via
-    `powershell`/`Get-CimInstance`, a no-op elsewhere; see
-    core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md).
+    Cross-platform via `psutil`.
     Never raises: any failure here must not prevent this server from
     starting and serving.
 
@@ -341,18 +469,13 @@ _SHARED_MODEL_SLUG = "sentence-transformers--all-MiniLM-L6-v2"
 # has even been triggered, degrades gracefully (embedder still None) —
 # never blocks, never hangs.
 #
-# The load can also stall indefinitely rather than merely being slow (see
-# mcp-governance.md's agent-memory row and telescope/2026-07-13-mcp-embedder-
-# service-redesign/ for the investigation). _EMBEDDER_LOAD_TIMEOUT_S bounds
-# each attempt well above any observed successful load time, and a stalled
-# attempt is retried once in a fresh thread (the stalled thread itself is
-# abandoned — _call_with_hard_timeout never waits on it) before degrading.
-# Was 60.0. Raised 2026-08-09: a live run hit this exact bound on both
-# attempts (reported "failed: import did not complete within 60.0s across 2
-# attempts") under real multi-process contention, before a subsequent
-# process succeeded. 90s widens the on-demand budget to match what has
-# actually been observed rather than a synthetic estimate; it does not
-# claim to guarantee success.
+# The load can also stall indefinitely rather than merely being slow.
+# _EMBEDDER_LOAD_TIMEOUT_S bounds each attempt well above any observed
+# successful load time, and a stalled attempt is retried once in a fresh
+# thread (the stalled thread itself is abandoned — _call_with_hard_timeout
+# never waits on it) before degrading. 90s widens the on-demand budget to
+# match real multi-process contention rather than a synthetic estimate; it
+# does not claim to guarantee success.
 _EMBEDDER_LOAD_TIMEOUT_S = 90.0
 _EMBEDDER_LOAD_MAX_ATTEMPTS = 2
 
@@ -465,6 +588,16 @@ _embedder_service_lock = threading.Lock()
 _embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
 _embedder_service_last_probe_at: float = 0.0
 _embedder_service_process_started_at: float = time.time()
+# Wall-clock time of the last *actual* readiness check (the one-shot startup
+# probe in _start_embedder_service_background(), or a cooldown-gated
+# re-probe in _embedder_service_ready()) — as opposed to a mere cached read
+# of _embedder_service_state. Without this timestamp, health_check would
+# have no way to tell a caller "confirmed ready 200ms ago" from "confirmed
+# ready 40 minutes ago, unconfirmed since". This
+# timestamp is exposed via _get_search_capability_snapshot() as
+# embedder_service_state_age_s so a caller can apply its own staleness
+# judgment without this module adding a network probe to every health check.
+_embedder_service_state_confirmed_at: float = 0.0
 
 # Bounds how often _embedder_service_ready() re-probes a cached "unavailable"
 # state — see that function's docstring for why "unavailable" is re-checked
@@ -486,11 +619,12 @@ _EMBEDDER_SERVICE_STARTING_GRACE_S = 150.0
 def _start_embedder_service_background() -> None:
     # Runs exactly once, at process startup. An "unavailable" result here is
     # not final — _embedder_service_ready() re-probes and can overwrite it
-    # with "ready" later, without a process restart (P1 fix, 2026-08-06).
-    global _embedder_service_state
+    # with "ready" later, without a process restart.
+    global _embedder_service_state, _embedder_service_state_confirmed_at
     ok = embedder_client.ensure_service_running()
     with _embedder_service_lock:
         _embedder_service_state = "ready" if ok else "unavailable"
+        _embedder_service_state_confirmed_at = time.time()
     _diag(f"embedder-service background start: {'ready' if ok else 'unavailable'}")
 
 
@@ -509,12 +643,11 @@ def _embedder_service_ready() -> bool:
     single check loses the startup race against the shared embedder-service
     still coming up in another process, "unavailable" was previously a
     permanent, never-revisited verdict for the rest of this process's life
-    — even after the service became healthy seconds later (P1 fix, see
-    agent-memory live-validation findings, 2026-08-06). "starting" is left
+    — even after the service became healthy seconds later. "starting" is left
     alone here: the background thread's first check is still in flight, so
     there is nothing stale to re-check yet.
     """
-    global _embedder_service_state, _embedder_service_last_probe_at
+    global _embedder_service_state, _embedder_service_last_probe_at, _embedder_service_state_confirmed_at
     with _embedder_service_lock:
         state = _embedder_service_state
     if state != "unavailable":
@@ -529,6 +662,7 @@ def _embedder_service_ready() -> bool:
     ok = embedder_client.probe_health()
     with _embedder_service_lock:
         _embedder_service_state = "ready" if ok else "unavailable"
+        _embedder_service_state_confirmed_at = time.time()
     if ok:
         _diag("embedder-service re-probe: now ready (was unavailable)")
     return ok
@@ -601,12 +735,28 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
     Read-only snapshot of what `_get_embedder()` would resolve to right now,
     without triggering any side effect that a plain health check should not
     cause — in particular, this must never call `_ensure_embedder_load_started()`,
-    since that would reintroduce exactly the kind of eager background work the
-    2026-07-17 fix (commit referenced in mcp-governance.md's agent-memory row)
-    deliberately made lazy-only. Every state read here goes through the same
+    since that would reintroduce exactly the kind of eager background work this
+    function deliberately keeps lazy-only. Every state read here goes through the same
     module globals `_get_embedder()`/`_get_embedder_unavailable_reason()`
     already use — this function does not introduce a second source of truth,
     it only re-presents that existing state in a health_check-shaped block.
+
+    Staleness: a cached "ready" service state is trusted
+    as-is here (no re-probe — a network call is not something a health check
+    should trigger), but that means it can go stale relative to actual
+    serviceability — `health_check` can report "ready" moments
+    before a real `search_memory` call fails with "embedder-service
+    unavailable and in-process embedder not ready". To let a caller
+    distinguish "confirmed ready" from "cached ready, unconfirmed", this
+    snapshot also reports `embedder_service_state_age_s` — seconds since the
+    state was last actually confirmed by a real probe (the one-shot startup
+    check or a cooldown-gated re-probe in `_embedder_service_ready()`), and
+    `embedder_service_state_confirmed` (False only when no probe has ever
+    completed yet, e.g. very early in process startup). A caller/monitor
+    should treat a large `embedder_service_state_age_s` on a "ready" state
+    with correspondingly less confidence — this module deliberately does not
+    hardcode a "stale" cutoff itself, since what counts as too old is a
+    consumer policy decision, not a fact this server can assert on its own.
 
     Never raises: each state read is a plain lock-guarded attribute read, and
     any unexpected error degrades to a clearly-labeled "unavailable" reading
@@ -616,6 +766,7 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
     try:
         with _embedder_service_lock:
             service_state = _embedder_service_state if EMBEDDER_SERVICE_ENABLED else "disabled"
+            confirmed_at = _embedder_service_state_confirmed_at
         with _embedder_lock:
             in_process_state = _embedder_state
             in_process_ready = _embedder_cache is not None
@@ -633,9 +784,14 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
         else:
             effective_path = "unavailable"
 
+        state_confirmed = EMBEDDER_SERVICE_ENABLED and confirmed_at > 0
+        state_age_s = round(time.time() - confirmed_at, 1) if state_confirmed else None
+
         return {
             "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
             "embedder_service_state": service_state,
+            "embedder_service_state_confirmed": state_confirmed,
+            "embedder_service_state_age_s": state_age_s,
             "in_process_fallback_state": in_process_state,
             "effective_path": effective_path,
         }
@@ -644,6 +800,8 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
         return {
             "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
             "embedder_service_state": "unavailable",
+            "embedder_service_state_confirmed": False,
+            "embedder_service_state_age_s": None,
             "in_process_fallback_state": f"failed: snapshot error: {exc}",
             "effective_path": "unavailable",
         }
@@ -711,9 +869,8 @@ def _search_reflection_impl(
     that method unconditionally parses each point's payload via
     MemoryRecord.from_payload(), which requires the id/content/created_at/
     last_accessed_at shape the other three collections use. A
-    memory_reflection point's payload is a ReflectionRecord verbatim instead
-    (01-technical-options.md §2: "Payload fields: All ReflectionRecord
-    fields verbatim") — MemoryRecord.from_payload() would KeyError on it, a
+    memory_reflection point's payload is a ReflectionRecord verbatim
+    instead — MemoryRecord.from_payload() would KeyError on it, a
     failure QdrantMemoryIndex.search()'s own except clause already catches
     and degrades to [], silently returning zero results forever rather than
     real matches. This function performs the same query
@@ -934,7 +1091,30 @@ def _search_memory_impl(
     }
 
 
+def _summarize_search_memory_args(
+    query: str = "",
+    memory_type: str = "",
+    top_k: int = 5,
+    session_id: Optional[str] = None,
+    cross_session: bool = False,
+    include_dormant: bool = False,
+    include_archived: bool = False,
+    **_: Any,
+) -> Dict[str, Any]:
+    """query itself is never logged — only its length — since a search
+    query can carry the same kind of sensitive content a memory write
+    would."""
+    return {
+        "memory_type": memory_type,
+        "query_len": len(query or ""),
+        "top_k": top_k,
+        "cross_session": cross_session,
+        "session_id_present": session_id is not None,
+    }
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_search_memory_args)
 def search_memory(
     query: str,
     memory_type: str,
@@ -952,9 +1132,7 @@ def search_memory(
     `degraded=True` and a `reason`, matching this module's existing
     graceful-degradation discipline.
 
-    Usage constraints enforced here, not left to caller discipline (per
-    telescope/2026-07-10-agent-memory-architecture/research-report.md
-    § Architecture Decisions):
+    Usage constraints enforced here, not left to caller discipline:
 
     - episodic search is session-scoped by default — a session_id is required
       unless the caller explicitly sets cross_session=True to opt into
@@ -972,8 +1150,9 @@ def search_memory(
     - reflection results are full ReflectionRecord payloads (reflection_id,
       trigger_type, summary, root_cause, remediation, scope_of_applicability,
       severity, logged_by, timestamp, sacred, status, migrated_from), not the
-      episodic/semantic/procedural MemoryRecord shape — see
-      telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §5
+      episodic/semantic/procedural MemoryRecord shape — reflections carry
+      structured incident data (root cause, remediation, applicability) that
+      the generic MemoryRecord shape has no fields for
     """
     try:
         return _search_memory_impl(
@@ -1003,6 +1182,7 @@ def search_memory(
 
 
 @mcp.tool()
+@_log_tool_call()
 def health_check() -> Dict[str, Any]:
     """Report reachability and point counts for the dedicated qdrant-memory
     instance (http://localhost:6335) this server reads from — episodic,
@@ -1019,9 +1199,9 @@ def health_check() -> Dict[str, Any]:
     can read either server's health_check for this data.
 
     Also reports `search_capability` — embedder-service / in-process-fallback
-    state (see _get_search_capability_snapshot()) — the observability gap the
-    2026-08-06 P1 (embedder-service readiness was one-shot and invisible to
-    health_check; fixed as f655c21e) exposed: nothing in this tool's output
+    state (see _get_search_capability_snapshot()) — the observability gap where
+    embedder-service readiness was one-shot and invisible to
+    health_check: nothing in this tool's output
     previously told a caller whether search_memory's embedding path was
     actually usable right now.
 
@@ -1067,6 +1247,31 @@ def health_check() -> Dict[str, Any]:
         }
 
 
+def _summarize_write_memory_args(
+    content: str = "",
+    memory_type: str = "",
+    session_id: str = "",
+    provenance_source: str = "",
+    provenance_triggering_context_excerpt: str = "",
+    provenance_from_external_content: bool = False,
+    provenance_confidence: float = 0.0,
+    **_: Any,
+) -> Dict[str, Any]:
+    """content and provenance_triggering_context_excerpt are the two
+    fields on this call that can carry PII-bearing text (see
+    pii_redaction.py's module docstring on why content itself is redacted
+    before it ever reaches the embedder/payload) — neither is logged here,
+    only their lengths, per R4's explicit "avoid logging full content
+    bodies" scope."""
+    return {
+        "memory_type": memory_type,
+        "content_len": len(content or ""),
+        "excerpt_len": len(provenance_triggering_context_excerpt or ""),
+        "provenance_source": provenance_source,
+        "from_external_content": provenance_from_external_content,
+    }
+
+
 def write_memory(
     content: str,
     memory_type: str,
@@ -1085,9 +1290,9 @@ def write_memory(
     Investigator-Authored Write Path, never MCP-agent-callable (per
     memory_store.py and write_gate.py's classify() docstring).
 
-    There is no `sacred`, `importance`, or `status` parameter, on purpose
-    (Decision 2, research-report.md § Architecture Decisions) — every one of those is
-    derived internally: sacred is always False for this path, importance
+    There is no `sacred`, `importance`, or `status` parameter, on purpose —
+    every one of those is derived internally: sacred is always False for
+    this path, importance
     comes from the internal compute_write_time_importance("general")
     heuristic, and status ("active" | "quarantined") is determined entirely
     by WriteConfirmationGate.classify()'s routine/high_consequence
@@ -1140,6 +1345,17 @@ def write_memory(
             "lane": None,
         }
 
+
+# write_memory's `def` statement above carries no decorator at all, on
+# purpose (see tests/test_read_constraints_reverification.py
+# ::TestConstraint1ReadOnlyFirst::test_write_memory_is_not_decorated_with_mcp_tool_directly
+# — a static-analysis safety check that the ONLY way this function becomes
+# MCP-registered is the explicit conditional call below, never a disguised
+# decorator). The logging wrapper (R4) is therefore applied here, by
+# explicit reassignment, before that conditional registration runs — not as
+# a decorator on the def — so the module-level `write_memory` name (and
+# whatever mcp.tool() below registers) is the logged version either way.
+write_memory = _log_tool_call(summarize_args=_summarize_write_memory_args)(write_memory)
 
 # NOT a live MCP tool unless AGENT_MEMORY_WRITE_TOOL_ENABLED is truthy.
 if write_tool.AGENT_MEMORY_WRITE_TOOL_ENABLED:

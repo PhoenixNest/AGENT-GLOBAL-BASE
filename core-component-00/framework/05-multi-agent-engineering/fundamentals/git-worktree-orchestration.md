@@ -161,9 +161,8 @@ never uses `-i` flags):
 5. Only after step 4 passes: remove the temporary worktrees, delete the temporary branches
    (`git branch -d`, safe mode), and delete the backup ref.
 
-This pattern was proven in production on 2026-08-27 rebuilding a 22-branch, two-phase batch (ANU-00
-curriculum remediation) from sequential-chain into parallel-fork topology, confirmed byte-identical
-via `git diff --quiet` before the safety backup was removed.
+This pattern applies when rebuilding a multi-branch sequential-chain batch into parallel-fork
+topology — verify byte-identical via `git diff --quiet` before removing the safety backup.
 
 ---
 
@@ -206,24 +205,12 @@ git branch -d agent/tester/dark-mode-tests
 git worktree prune
 ```
 
-## Known Violation — Progress-Tracking Files Not Created During Execution (2026-07-14)
+## Rule — Progress-Tracking Files Are an Explicit Deliverable
 
-The same embedder-service/EX-001 build also surfaced a second process violation, unrelated to the
-junction incident above: the orchestrator (Dr. Vance) had already decided, in writing, exactly
-where `progress.md`/`session-log.md`/`checkpoint.json` should live for that build
-(`telescope/2026-07-13-mcp-embedder-service-redesign/supporting/implementation-tracking/`, per
-`workspace-conventions.md`'s progress-monitoring convention) — but never actually instructed any
-worker agent to create or update them, and never created them directly. All six phases plus the
-EX-001 remediation executed and merged with zero real-time tracking artifacts; the CEO went
-looking for them and found nothing. This is logged as a process violation, not a mere gap —
-`REFLECT-004` in the `memory_reflection` collection. The tracking files were subsequently
-compiled from git history as the official record — accurate, but their after-the-fact compilation
-does not excuse the violation itself.
-
-**Root cause:** the orchestrator briefs in this build's `agent()`/subagent prompts specified phase
-gates, acceptance criteria, and git-worktree conventions in detail, but never included
-tracking-file creation as a deliverable. A location decision on paper is not the same as an
-execution instruction.
+A location decision on paper for where `progress.md`/`session-log.md`/`checkpoint.json` should
+live is not the same as an execution instruction — an orchestrator brief that specifies phase
+gates, acceptance criteria, and git-worktree conventions but omits tracking-file creation as a
+deliverable will not produce those files.
 
 **Rule going forward:** any orchestrator brief for multi-agent work covered by the workspace's
 progress-monitoring convention must include tracking-file creation/update as an explicit,
@@ -285,31 +272,20 @@ main
 
 ---
 
-## Known Incident — Directory Junctions and `git worktree remove` (2026-07-14)
+## Rule — Never Junction a Shared Asset Directory Into a Worktree
 
-During the embedder-service build (`core-component-00/telescope/2026-07-13-mcp-embedder-service-redesign/`),
-an agent needed to give a new worktree access to a large, slow-to-populate shared cache
-(`core-component-00/platform/model-context-protocol-servers/_shared/models/`) without re-downloading it per worktree. It used
-a Windows directory **junction** to point the worktree's copy at the real shared cache directory.
-
-When that worktree was later removed with `git worktree remove`, Git's recursive cleanup followed
-the junction as if it were a real subdirectory and **deleted the shared cache's actual contents in
-the main repository** — not a copy, the source. This is a known Windows junction/recursive-delete
-footgun: a junction is transparent to most recursive filesystem walks, so tooling that assumes
+`git worktree remove`'s recursive cleanup follows a directory junction/symlink as if it were a
+real subdirectory — if a worktree's shared-cache access point is a junction rather than a copy,
+removing that worktree deletes the shared cache's actual contents in the main repository, not a
+copy. A junction is transparent to most recursive filesystem walks, so tooling that assumes
 "remove this directory tree" cannot tell where the junction's real target lives and treats it as
 disposable.
 
-**Recovery in this incident:** both cached models were restored (one from an intact local
-Hugging Face hub cache with no re-download, one by re-copying from a second consumer's still-intact
-private copy). No permanent data loss — but only because a second copy happened to exist elsewhere.
-That will not always be true.
-
-**Rule going forward:** if a worktree needs read access to a large shared asset directory that
-lives outside the repo's normal working tree, **copy it in, never junction or symlink it in**. The
-extra disk/time cost of a copy is bounded and known; the failure mode of a junction plus a
-recursive-delete tool is unbounded (it can take out the one real copy). This applies to any shared
-cache — model weights, datasets, or similar — not just the embedding-model cache that triggered
-this incident.
+**Rule:** if a worktree needs read access to a large shared asset directory that lives outside the
+repo's normal working tree, **copy it in, never junction or symlink it in**. The extra disk/time
+cost of a copy is bounded and known; the failure mode of a junction plus a recursive-delete tool
+is unbounded (it can take out the one real copy). This applies to any shared cache — model
+weights, datasets, or similar.
 
 ---
 
@@ -352,6 +328,4 @@ manager.remove_worktree(worktree)
 ---
 
 **Version:** 1.1
-**Last Updated:** 2026-08-27 (added Phase 3.5 — Branch Topology: Parallel-Fork Base, per Dr. Idris
-Farouk, Multi-Agent Engineering Lead)
 **See also:** [Swarm Topologies](./swarm-topologies.md) · [Swarm Orchestrator](core-component-00/framework/05-multi-agent-engineering/implementations/swarm_orchestrator.py) · [Git Worktree Manager](core-component-00/framework/05-multi-agent-engineering/implementations/git_worktree_manager.py)

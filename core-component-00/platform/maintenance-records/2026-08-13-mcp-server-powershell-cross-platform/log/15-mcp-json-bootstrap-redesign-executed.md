@@ -1,15 +1,10 @@
 # Log Entry 15 — Execution — .mcp.json Git-Tracking Redesign Executed — 2026-08-30
 
-Part of
-`core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`).
-
-**Trigger:** CEO approved `log/14`'s proposed design and directed execution ("The CEO has approved
-your work. Now you can start your work").
-
-**State before:** As left by `log/14` — proposal documented only, no code changed. Root `.mcp.json`
-still git-tracked; no `.mcp.json.example`; `.gitignore` had no entry for `.mcp.json`;
-`mcp-config-platform-check.py` still patch-in-place-only (no bootstrap-from-missing-file case).
+| Field            | Detail                                                                                                                                                                                                                                                                  |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`)                                                     |
+| **Trigger**      | CEO approved `log/14`'s proposed design and directed execution ("The CEO has approved your work. Now you can start your work").                                                                                                                                         |
+| **State before** | As left by `log/14` — proposal documented only, no code changed. Root `.mcp.json` still git-tracked; no `.mcp.json.example`; `.gitignore` had no entry for `.mcp.json`; `mcp-config-platform-check.py` still patch-in-place-only (no bootstrap-from-missing-file case). |
 
 **Actions taken:**
 
@@ -63,16 +58,7 @@ confirmed the real behavior on the actual workspace: a genuine fresh-clone/first
 host) and a live `/mcp reconnect`, matching the discipline `log/11`→`log/13` followed for the
 original self-healing hook.
 
-**Outcome:** Implemented as approved. `.mcp.json` is gitignored and untracked (working copy
-preserved); `.mcp.json.example` is the new committed template; the `SessionStart` hook bootstraps
-once on a missing file and otherwise behaves exactly as before (patch-if-stale, no-op otherwise).
-Governance docs (`mcp-servers/CLAUDE.md`, `.claude/rules/mcp-governance.md`) updated to match. No
-git commit was made — per workspace convention, commits happen only when explicitly requested; all
-changes are staged/present in the working tree only.
-
-**Handoff to next stage:** Routes to Stage 4 — Verification, independent-review gate open (see
-above). Needs: (1) a real session restart/first-clone check of `.mcp.json`-vs-`SessionStart` load
-order, and (2) a live `/mcp reconnect` confirming both servers still connect cleanly under the new
-bootstrap path — ideally run by the CEO or someone other than the executing session, per the
-independent-review discipline this topic has followed throughout. Until then, `Status` reads
-**Executed, pending verification**, not Completed.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | Implemented as approved. `.mcp.json` is gitignored and untracked (working copy preserved); `.mcp.json.example` is the new committed template; the `SessionStart` hook bootstraps once on a missing file and otherwise behaves exactly as before (patch-if-stale, no-op otherwise). Governance docs (`mcp-servers/CLAUDE.md`, `.claude/rules/mcp-governance.md`) updated to match. No git commit was made — per workspace convention, commits happen only when explicitly requested; all changes are staged/present in the working tree only. |
+| **Handoff to next stage** | Routes to Stage 4 — Verification, independent-review gate open (see above). Needs: (1) a real session restart/first-clone check of `.mcp.json`-vs-`SessionStart` load order, and (2) a live `/mcp reconnect` confirming both servers still connect cleanly under the new bootstrap path — ideally run by the CEO or someone other than the executing session, per the independent-review discipline this topic has followed throughout. Until then, `Status` reads **Executed, pending verification**, not Completed.                        |

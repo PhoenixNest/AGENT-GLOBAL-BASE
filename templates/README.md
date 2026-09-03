@@ -1,8 +1,8 @@
 # templates/ — Cross-System Document Templates
 
 Reusable document templates for processes that span more than one of the workspace's co-resident
-systems (The Company, The Studio, the CC-00 Lab, ANU-00). Established 2026-07-23, extracted from
-the documents produced during ANU-00's formation and staffing
+systems (The Company, The Studio, the CC-00 Lab, ANU-00). Extracted from the documents produced
+during ANU-00's formation and staffing
 (`academic-neural-unit-00/formation/2026-07-23-formation-meeting/`).
 
 ---

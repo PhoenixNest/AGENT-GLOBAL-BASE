@@ -66,8 +66,11 @@ def reset_embedder_globals(agent_memory_server):
     leak state into a later test. Use as a fixture dependency in any test
     that assigns to agent_memory_server.EMBEDDER_SERVICE_ENABLED,
     agent_memory_server._embedder_service_state,
-    agent_memory_server._embedder_state, or
-    agent_memory_server._embedder_cache.
+    agent_memory_server._embedder_state,
+    agent_memory_server._embedder_cache, or
+    agent_memory_server._embedder_service_state_confirmed_at (R2 staleness
+    field, 2026-09-02 — see TestSearchCapabilitySnapshot's *_state_age_s*
+    tests in test_server.py).
     """
     m = agent_memory_server
     snapshot = dict(
@@ -76,6 +79,7 @@ def reset_embedder_globals(agent_memory_server):
         _embedder_state=m._embedder_state,
         _embedder_cache=m._embedder_cache,
         _embedder_load_started=m._embedder_load_started,
+        _embedder_service_state_confirmed_at=m._embedder_service_state_confirmed_at,
     )
     yield m
     m.EMBEDDER_SERVICE_ENABLED = snapshot["EMBEDDER_SERVICE_ENABLED"]
@@ -83,3 +87,4 @@ def reset_embedder_globals(agent_memory_server):
     m._embedder_state = snapshot["_embedder_state"]
     m._embedder_cache = snapshot["_embedder_cache"]
     m._embedder_load_started = snapshot["_embedder_load_started"]
+    m._embedder_service_state_confirmed_at = snapshot["_embedder_service_state_confirmed_at"]

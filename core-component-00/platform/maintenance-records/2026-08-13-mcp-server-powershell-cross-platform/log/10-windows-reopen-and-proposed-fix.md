@@ -1,23 +1,10 @@
 # Log Entry 10 — Windows Reopen & Proposed Self-Healing Fix — 2026-08-25
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 5→1 — Reopen (`core-component-00/platform/maintenance-records/pipeline.md`): a new problem
-found on a previously-closed item routes back to Investigation, per the topic-boundary test (same
-system, `.mcp.json`, direct consequence of `log/06`'s prior change). This entry also carries the
-topic into stage 2 (Approval) with a proposed remediation — **not yet executed**, per explicit CEO
-direction (see Trigger).
-
-**Trigger:** User reported an MCP server connection failure on this machine and escalated it to
-the CEO. CEO asked for investigation and findings; separately asked for a durable, "thorough" fix
-(not another one-off path flip) to be proposed and documented as a maintenance record before any
-implementation — the CEO wants the record saved locally for review first, and will decide whether
-to authorize Execution afterward.
-
-**State before:** Topic `2026-08-13-mcp-server-powershell-cross-platform` was `Status: Completed
-with one follow-up item open (2026-08-20)` per `log/07` and `log/09` — Item #1 (`.mcp.json`
-launch path) had been closed by pointing both servers at their per-server venvs using the
-**Linux/WSL** path (`.venv/bin/python`), applied and independently confirmed via a live `/mcp
-reconnect` on that WSL/Linux machine.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 5→1 — Reopen (`core-component-00/platform/maintenance-records/pipeline.md`): a new problem found on a previously-closed item routes back to Investigation, per the topic-boundary test (same system, `.mcp.json`, direct consequence of `log/06`'s prior change). This entry also carries the topic into stage 2 (Approval) with a proposed remediation — **not yet executed**, per explicit CEO direction (see Trigger). |
+| **Trigger**      | User reported an MCP server connection failure on this machine and escalated it to the CEO. CEO asked for investigation and findings; separately asked for a durable, "thorough" fix (not another one-off path flip) to be proposed and documented as a maintenance record before any implementation — the CEO wants the record saved locally for review first, and will decide whether to authorize Execution afterward.                                                                                                                                        |
+| **State before** | Topic `2026-08-13-mcp-server-powershell-cross-platform` was `Status: Completed with one follow-up item open (2026-08-20)` per `log/07` and `log/09` — Item #1 (`.mcp.json` launch path) had been closed by pointing both servers at their per-server venvs using the **Linux/WSL** path (`.venv/bin/python`), applied and independently confirmed via a live `/mcp reconnect` on that WSL/Linux machine.                                                                                                                                                         |
 
 **Actions taken (Investigation):**
 
@@ -82,12 +69,7 @@ this machine (per `pipeline.md`'s severity table: "live service broken for an ac
 session/user"). Not downgraded despite the CEO's explicit choice to defer Execution pending
 review — the severity tag reflects present system state, not scheduling.
 
-**Outcome:** Root cause identified and documented; two remediation options proposed (tactical
-path-flip and durable self-healing hook). **No changes made to `.mcp.json`, no hook created, no
-implementation performed** — this entry is documentation only, per explicit CEO instruction to
-review the proposal before authorizing work.
-
-**Handoff to next stage:** Topic reopened, now sitting at stage 2 (Approval) — pending CEO review
-of this entry and the maintenance-record.md update below. On approval, the next `log/` entry
-(`log/11-...md`) will record whichever remediation is authorized (tactical-only, durable hook, or
-both), followed by a stage-4 independent-verification entry via a live `/mcp reconnect`.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | Root cause identified and documented; two remediation options proposed (tactical path-flip and durable self-healing hook). **No changes made to `.mcp.json`, no hook created, no implementation performed** — this entry is documentation only, per explicit CEO instruction to review the proposal before authorizing work.                                   |
+| **Handoff to next stage** | Topic reopened, now sitting at stage 2 (Approval) — pending CEO review of this entry and the maintenance-record.md update below. On approval, the next `log/` entry (`log/11-...md`) will record whichever remediation is authorized (tactical-only, durable hook, or both), followed by a stage-4 independent-verification entry via a live `/mcp reconnect`. |

@@ -8,6 +8,11 @@
             "type": "command",
             "command": "uv",
             "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/mcp-config-platform-check.py"]
+          },
+          {
+            "type": "command",
+            "command": "uv",
+            "args": ["run", "${CLAUDE_PROJECT_DIR}/.claude/hooks/mcp-venv-bootstrap.py"]
           }
         ]
       }
@@ -134,7 +139,8 @@
     ]
   },
   "worktree": {
-    "bgIsolation": "none"
+    "bgIsolation": "none",
+    "baseRef": "head"
   },
   "enabledMcpjsonServers": [
     "workspace-knowledge",

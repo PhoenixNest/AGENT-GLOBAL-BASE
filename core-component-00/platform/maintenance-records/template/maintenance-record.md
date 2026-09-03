@@ -20,27 +20,19 @@
      execution, later follow-ups — as numbered entries in log/. The topic-boundary test for
      "is this the same topic" is in core-component-00/platform/maintenance-records/pipeline.md — don't guess. -->
 
-**Owner:** [Name, role — the crew member(s) responsible for this topic overall, e.g. Ravi Deshmukh
-(Infrastructure Engineer)]
-**Authorized / reviewed by:** [Name, role — who signed off at pipeline stage 2 (Approval). State
-"Self-authorized — within [role]'s documented authority scope" if no separate approval was
-needed. An operation that changes cross-module architecture is outside the Infrastructure
-Engineer's unilateral authority per `crew/CLAUDE.md` § Authority Scope — name Dr. Vance or the
-relevant module lead as approver instead of self-authorizing. If different stages had different
-approvers, note that here.]
-**System / resource affected:** [Named server, dev environment, dependency stack, MCP server
-process, GPU/CUDA configuration, CI tooling, etc. — be specific enough that a reader can locate
-the affected component without cross-referencing another document, AND specific enough to serve
-as the anchor for core-component-00/platform/maintenance-records/pipeline.md's topic-boundary test. For any change touching a Python
-environment, name the specific venv/interpreter — a bare `python` resolving to the system
-interpreter is a known defect class (`.claude/rules/mcp-governance.md`).]
-**Severity:** [P0 (live service broken) / P1 (confirmed defect, not yet broken live) / P2
-(non-blocking gap) / P3 (routine) — assigned at pipeline stage 1, per core-component-00/platform/maintenance-records/pipeline.md's Severity
-tagging table. Update if severity changes mid-topic (e.g. a P1 escalates to P0 during Execution).]
-**Status:** [Current truth as of the most recent log/ entry — e.g. "Open", "Investigating",
-"Plan ready", "In progress", "Completed", "Completed with follow-up open", "Reopened — see
-log/NN-....md". Update this line every time a new log/ entry is added; per core-component-00/platform/maintenance-records/pipeline.md's
-staleness bound, this must never lag what the log/ entries actually say.]
+Header fields — a table, not prose paragraphs (2026-09-01, Format Note Revision 3): keep each
+cell's content to current-state facts, and point to the Pipeline Stage Log / Open Follow-Up
+Items tables for historical detail rather than restating it here — a header field that grows into
+a dated inline changelog is the exact anti-pattern `.claude/rules/mcp-governance.md`'s own history
+warns about (see README.md § Format Note).
+
+| Field                          | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Owner**                      | [Name, role — the crew member(s) responsible for this topic overall, e.g. Ravi Deshmukh (Infrastructure Engineer)]                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| **Authorized / reviewed by**   | [Name, role — who signed off at pipeline stage 2 (Approval). State "Self-authorized — within [role]'s documented authority scope" if no separate approval was needed. An operation that changes cross-module architecture is outside the Infrastructure Engineer's unilateral authority per `crew/CLAUDE.md` § Authority Scope — name Dr. Vance or the relevant module lead as approver instead of self-authorizing. If different stages had different approvers, note that here — briefly; per-stage detail belongs in the Pipeline Stage Log.] |
+| **System / resource affected** | [Named server, dev environment, dependency stack, MCP server process, GPU/CUDA configuration, CI tooling, etc. — be specific enough that a reader can locate the affected component without cross-referencing another document, AND specific enough to serve as the anchor for `pipeline.md`'s topic-boundary test. For any change touching a Python environment, name the specific venv/interpreter — a bare `python` resolving to the system interpreter is a known defect class (`.claude/rules/mcp-governance.md`).]                         |
+| **Severity**                   | [P0 (live service broken) / P1 (confirmed defect, not yet broken live) / P2 (non-blocking gap) / P3 (routine) — assigned at pipeline stage 1, per `pipeline.md`'s Severity tagging table. Update if severity changes mid-topic (e.g. a P1 escalates to P0 during Execution) — this cell holds the _current_ value only, not the escalation history.]                                                                                                                                                                                             |
+| **Status**                     | [Current truth as of the most recent log/ entry — e.g. "Open", "Investigating", "Plan ready", "In progress", "Completed", "Completed with follow-up open", "Reopened — see log/NN-....md". Update this line every time a new log/ entry is added; per `pipeline.md`'s staleness bound, this must never lag what the log/ entries actually say.]                                                                                                                                                                                                  |
 
 ---
 
