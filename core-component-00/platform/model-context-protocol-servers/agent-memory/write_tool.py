@@ -19,7 +19,7 @@ relying on this module:
   always requires an explicit confirmation round-trip, never sails through
   on an absent marker.
 
-`content` is passed through `pii_redaction.redact_pii()` (R3, 2026-09-02)
+`content` is passed through `pii_redaction.redact_pii()`
 immediately after input validation in `_write_memory_impl()`, before it
 reaches collision search, injection detection, or the embedder — see that
 call site's inline comment and `pii_redaction.py`'s module docstring for
@@ -255,14 +255,13 @@ def _write_memory_impl(
             "lane": None,
         }
 
-    # R3 fix (2026-09-02): redact PII before content touches anything else --
-    # collision search, injection detection, record construction, or the
-    # embedder. `content` is the only field this write path ever embeds
-    # (see index.search()/index.upsert_payload() below), and it is also the
+    # Redact PII before content touches anything else -- collision search,
+    # injection detection, record construction, or the embedder. `content`
+    # is the only field this write path ever embeds (see
+    # index.search()/index.upsert_payload() below), and it is also the
     # exact text persisted into the Qdrant payload, so redacting once here
-    # closes both the embedding-inversion exposure (S4 in the 2026-09-01
-    # enterprise assessment) and the "unredacted PII sitting in a shared,
-    # queryable vector store" exposure R3 was opened against -- without a
+    # closes both the embedding-inversion exposure and the "unredacted PII
+    # sitting in a shared, queryable vector store" exposure -- without a
     # second, divergent copy of the text. See pii_redaction.py's module
     # docstring for the full rationale and pattern coverage.
     content = redact_pii(content)

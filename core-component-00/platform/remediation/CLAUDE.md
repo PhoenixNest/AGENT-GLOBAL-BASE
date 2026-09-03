@@ -23,11 +23,9 @@ every other CC-00 record type:
 - `crew/director/elias-vance/skills/asgf-compliance-audit.md` — internal compliance audit
   against our own ASGF standard, a different question than "is this benchmark finding fixed."
 
-Established 2026-08-17 at CEO direction, following the same "created at CEO direction" precedent
-as `benchmarks/` (2026-08-16) and `maintenance-records/` (2026-07). The CEO's 2026-08-17 sign-off
-authorizes creating this archive and its five layer plans (**Gate 1** — see `pipeline.md`). It
-does **not** authorize any code change to `.claude/hooks/*.py` — that requires a separate,
-explicit User sign-off (**Gate 2**), not yet granted as of this folder's creation.
+The CEO's sign-off authorizes creating this archive and its five layer plans (**Gate 1** — see
+`pipeline.md`). It does **not** authorize any code change to `.claude/hooks/*.py` — that requires
+a separate, explicit User sign-off (**Gate 2**).
 
 ---
 

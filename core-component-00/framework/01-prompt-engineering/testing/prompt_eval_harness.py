@@ -9,16 +9,11 @@ semantics-preserving perturbations, for sweeping across three model tiers
 This file is an UNEXECUTED benchmark-set definition. It intentionally ships no
 classification logic and no model client.
 
-A prior version of this file computed a STABLE / TIER_SENSITIVE / BRITTLE verdict via a
-`MockModelClient` that returned `hashlib.md5(f"{tier}:{prompt[:50]}:{variant_id}")` in place
-of a real model call. That hash is a pure function of prompt text, tier, and variant index —
-it carries no model-output signal, so every run produced the same classification regardless
-of what any model actually did (verified: executing the prior version classified all 15
-prompts BRITTLE on every run, an arithmetic artifact of hashing 3 tiers x 2 variants, not a
-finding about any model). That classification path has been removed rather than kept as a
-placeholder — see
-core-component-00/platform/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/
-item I1.
+A mock classification path based on hashing (e.g. `hashlib.md5(f"{tier}:{prompt[:50]}:{variant_id}")`
+in place of a real model call) is deliberately not provided: such a hash is a pure function of
+prompt text, tier, and variant index, carrying no model-output signal, so every run would produce
+the same classification regardless of what any model actually did — an arithmetic artifact of the
+hashing scheme, not a finding about any model.
 
 To actually classify prompt stability, wire a real model client and grade its outputs
 directly instead of hashing them. A real client only needs to satisfy:
