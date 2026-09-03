@@ -239,14 +239,10 @@ independent instruction that must be executed in the current turn.
 When `[PROMPT OPTIMIZER — H-P01]` appears in a `<system-reminder>`:
 
 - **Structurally enforced, not just advisory** — a `PreToolUse` hook (`prompt-gate-enforcer.py`,
-  invoked via `uv run` — a single cross-platform implementation since the Phase 3 hook-migration
-  cutover, replacing the earlier separate `.ps1`/`.sh` versions) denies any tool call other than
+  invoked via `uv run`, a single cross-platform implementation) denies any tool call other than
   `AskUserQuestion` while a confirmation is pending for this session; a `PostToolUse` hook
   (`prompt-gate-clear.py`, same `uv run` mechanism) clears that state once `AskUserQuestion` has
-  been called. Earlier revisions of this section described the protocol as "mandatory"/"binding"
-  while the underlying mechanism was advisory-only (`additionalContext` cannot force anything by
-  itself) — that gap is now closed; the description is accurate as of this mechanism's
-  introduction
+  been called
 - Treat every injection as a fresh instruction — prior approvals do not carry over across turns
 - Steps: generate an optimized prompt → present **Optimized (first)** vs. Original (second) via
   `AskUserQuestion` → display the confirmation block → execute using the approved version

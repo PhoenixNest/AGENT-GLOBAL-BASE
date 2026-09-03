@@ -1,21 +1,10 @@
 # Log Entry 12 — Windows Venv Sync & jsonref/proxytypes Fix — 2026-08-26
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), a new incident
-found while performing `log/11`'s Handoff step (live `/mcp reconnect` verification), routed per
-the topic-boundary test (same system, `.mcp.json`-registered servers, direct consequence of
-attempting to verify `log/11`'s fix) rather than opened as a new topic.
-
-**Trigger:** CEO ran `/mcp` (reconnect) per `log/11`'s Handoff instruction. Both servers returned
-`Failed to reconnect ...: CONNECTION_CLOSED` — a new failure, distinct from the OS-path bug
-`log/11` fixed (which is confirmed still correct: both `.mcp.json` commands point at the right,
-existing `.venv/Scripts/python.exe` for this machine).
-
-**State before:** `.mcp.json` correct (per `log/11`). Both servers' per-server venvs on this
-Windows machine had never received the full dependency sync that `log/06`/`log/09` applied only
-to the WSL/Linux machine used for those entries — a fact not previously surfaced because no one
-had foreground-launched either server on this specific Windows machine since `log/02`'s original
-2026-08-13 remediation.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), a new incident found while performing `log/11`'s Handoff step (live `/mcp reconnect` verification), routed per the topic-boundary test (same system, `.mcp.json`-registered servers, direct consequence of attempting to verify `log/11`'s fix) rather than opened as a new topic |
+| **Trigger**      | CEO ran `/mcp` (reconnect) per `log/11`'s Handoff instruction. Both servers returned `Failed to reconnect ...: CONNECTION_CLOSED` — a new failure, distinct from the OS-path bug `log/11` fixed (which is confirmed still correct: both `.mcp.json` commands point at the right, existing `.venv/Scripts/python.exe` for this machine).                                                                                                                                                                |
+| **State before** | `.mcp.json` correct (per `log/11`). Both servers' per-server venvs on this Windows machine had never received the full dependency sync that `log/06`/`log/09` applied only to the WSL/Linux machine used for those entries — a fact not previously surfaced because no one had foreground-launched either server on this specific Windows machine since `log/02`'s original 2026-08-13 remediation.                                                                                                    |
 
 **Actions taken:**
 
@@ -74,14 +63,7 @@ requirement as `log/11` — a live `/mcp reconnect` performed by someone other t
 this topic's actual bar for a `.mcp.json`-registered-server change, not a foreground check alone.
 Not yet performed for this entry's fixes specifically.
 
-**Outcome:** Both servers now foreground-launch cleanly on this Windows machine. Two genuinely new,
-separate root causes were found and fixed beyond the OS-path bug `log/10`/`log/11` addressed: (1)
-this machine's venvs had never received the dependency sync `log/06`/`log/09` only applied on the
-WSL/Linux machine, and (2) `jsonref==1.1.0`'s published wheel has a real upstream packaging defect
-(an absolute import of a module name no current PyPI package provides under that name), worked
-around with a small vendored shim rather than waiting on an upstream fix.
-
-**Handoff to next stage:** Ask the user/CEO to run `/mcp` (reconnect) again, then call each
-server's `health_check` tool over the live connection — the same two-step confirmation `log/07`
-used. If it succeeds, this topic can finally return to `Status: Completed`. If it fails again, this
-is a third distinct incident and needs its own entry, not a repeat of this one.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | Both servers now foreground-launch cleanly on this Windows machine. Two genuinely new, separate root causes were found and fixed beyond the OS-path bug `log/10`/`log/11` addressed: (1) this machine's venvs had never received the dependency sync `log/06`/`log/09` only applied on the WSL/Linux machine, and (2) `jsonref==1.1.0`'s published wheel has a real upstream packaging defect (an absolute import of a module name no current PyPI package provides under that name), worked around with a small vendored shim rather than waiting on an upstream fix. |
+| **Handoff to next stage** | Ask the user/CEO to run `/mcp` (reconnect) again, then call each server's `health_check` tool over the live connection — the same two-step confirmation `log/07` used. If it succeeds, this topic can finally return to `Status: Completed`. If it fails again, this is a third distinct incident and needs its own entry, not a repeat of this one.                                                                                                                                                                                                                   |

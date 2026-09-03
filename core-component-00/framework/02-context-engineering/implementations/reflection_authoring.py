@@ -22,24 +22,22 @@ Identity enforcement — the actual security boundary, stated plainly:
     in the transcript of whoever performs the action. Nothing below changes
     that.
 
-    Why code alone cannot be the boundary: two full rounds of
-    implementation + adversarial review by Dr. Wieczorek established that
-    no purely code-level check running inside Claude Code's own
-    tool-execution environment can make this write path unforgeable — an
-    agent has the same import access a human developer does, so any layer
-    (a git-identity check, a token, a TTY prompt) is skippable by calling
-    something lower (the sink, the raw JSONL/Qdrant calls). First pass:
-    Wieczorek showed the git-identity + roster-name check alone passes for
-    any co-located agent process, since it authenticates the machine, not
-    the operator. Second pass, after `IdentityVerification` and the
-    TTY-gated confirmation were added: Wieczorek showed both were still
-    skippable — by fabricating an `IdentityVerification` directly (which
-    also silently skipped the confirmation step, since that step lived one
-    layer up and nothing forced it to run), or by calling
-    `PersistentMemorySink.write_reflection()` directly, bypassing
-    `ReflectionMemory` and every check in it. This is a structural ceiling,
-    not an engineering gap awaiting a cleverer fix — a third code layer
-    would only hand a third adversarial pass its next bypass.
+    Why code alone cannot be the boundary: no purely code-level check
+    running inside Claude Code's own tool-execution environment can make
+    this write path unforgeable — an agent has the same import access a
+    human developer does, so any layer (a git-identity check, a token, a
+    TTY prompt) is skippable by calling something lower (the sink, the raw
+    JSONL/Qdrant calls). A git-identity + roster-name check alone passes
+    for any co-located agent process, since it authenticates the machine,
+    not the operator. An `IdentityVerification` token plus TTY-gated
+    confirmation are also skippable — by fabricating an
+    `IdentityVerification` directly (which also silently skips the
+    confirmation step, if that step lives one layer up and nothing forces
+    it to run), or by calling `PersistentMemorySink.write_reflection()`
+    directly, bypassing `ReflectionMemory` and every check in it. This is a
+    structural ceiling, not an engineering gap awaiting a cleverer fix — an
+    additional code layer would only hand the next bypass attempt its next
+    target.
 
     What the code layers below actually are — legitimate defense-in-depth
     against careless/accidental misuse, explicitly NOT claimed as
@@ -61,17 +59,16 @@ Identity enforcement — the actual security boundary, stated plainly:
        and a typed confirmation of the reflection_id for GOVERNANCE_TRIGGERS
        types, and its result is now folded into the `IdentityVerification`
        token itself (`governance_confirmation`) rather than being a
-       separately-skippable step — closing the *composition* gap Wieczorek's
-       second pass found (a fabricated token no longer silently bypasses
-       confirmation; it must also carry a matching `governance_confirmation`
-       value). This still does not make the token unforgeable — it is a
-       plain dataclass field, directly settable by any caller who
-       constructs the object themselves.
+       separately-skippable step — a fabricated token does not silently
+       bypass confirmation; it must also carry a matching
+       `governance_confirmation` value. This still does not make the token
+       unforgeable — it is a plain dataclass field, directly settable by
+       any caller who constructs the object themselves.
     4. `PersistentMemorySink.write_reflection()` (memory_vector_store.py)
        independently re-checks the same `IdentityVerification` requirements
-       — closes the *direct-sink-call* bypass Wieczorek's second pass found
-       (constructing a bare `ReflectionRecord` and calling the sink
-       directly, skipping `ReflectionMemory` entirely). This is not the
+       — closes the *direct-sink-call* bypass (constructing a bare
+       `ReflectionRecord` and calling the sink directly, skipping
+       `ReflectionMemory` entirely). This is not the
        floor either: `JSONLMemoryLog.append_reflection()` and
        `QdrantMemoryIndex.upsert_payload()` remain directly callable
        beneath it with no check of any kind.
@@ -262,8 +259,7 @@ def verify_authorized_identity(
     ReflectionRecord is constructed. See this module's docstring
     ("Identity enforcement — honest current state") for what this check
     does and does not guarantee — in particular, it does not distinguish a
-    human operator from a co-located AI agent process
-    (MISTAKE-2026-07-16-001).
+    human operator from a co-located AI agent process.
 
     Always checks against the module-level AUTHORIZED_GIT_IDENTITIES /
     AUTHORIZED_INVESTIGATOR_NAMES constants — there is no caller-supplied
@@ -338,25 +334,21 @@ def require_governance_confirmation(
 
     Returns the confirmed reflection_id (not just None) so the caller
     (author_reflection()) can fold it into the IdentityVerification token's
-    governance_confirmation field — this closes the *composition* gap Dr.
-    Wieczorek's second adversarial pass found: previously, this confirmation
-    was a step callable code could simply not call (record_reflection() and
-    write_reflection() had no way to tell whether it had run at all). Now a
-    caller who wants a GOVERNANCE_TRIGGERS record accepted has to also
-    fabricate a matching governance_confirmation value on the token they
-    construct, not merely skip this function.
+    governance_confirmation field: a caller who wants a GOVERNANCE_TRIGGERS
+    record accepted has to also fabricate a matching governance_confirmation
+    value on the token they construct, not merely skip this function —
+    record_reflection() and write_reflection() both verify that field is
+    present and matches.
 
     This still does not make the authoring path unforgeable in an absolute
-    sense — per MISTAKE-2026-07-16-001's disclosed conclusion, nothing
-    purely code-level running in this environment can be, and this
-    composition fix does not change that conclusion. A caller willing to
+    sense — nothing purely code-level running in this environment can be.
+    A caller willing to
     deliberately script a fake TTY (e.g. via pty allocation) can still
     defeat the TTY check itself; a caller willing to read this module's
     source can still construct an IdentityVerification with a hand-set
     governance_confirmation without ever calling this function. What this
-    does do is remove the "single non-interactive script invocation" attack
-    Dr. Wieczorek demonstrated against the git-identity check alone, and
-    close the specific composition gap his second pass found — raising the
+    does do is remove a "single non-interactive script invocation" attack
+    against the git-identity check alone, raising the
     bar, not claiming the bar can't be cleared. For GOVERNANCE_TRIGGERS
     records, the actual security boundary is procedural (see this module's
     docstring), not this function.
@@ -462,8 +454,7 @@ def author_reflection(
             reflection_id, trigger_type, stdin=stdin, prompt_fn=prompt_fn
         )
         # Fold the confirmation result into the token itself rather than
-        # leaving it a separate, skippable step — closes the composition
-        # gap Wieczorek's second pass found. IdentityVerification is
+        # leaving it a separate, skippable step. IdentityVerification is
         # frozen, so this produces a new instance via dataclasses.replace()
         # rather than mutating in place.
         identity = dataclasses.replace(

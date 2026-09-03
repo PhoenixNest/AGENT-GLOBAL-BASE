@@ -1,17 +1,13 @@
 """
 Cross-platform manual supervisor for the shared embedder-service
-(start/stop/status/cleanup).
-
-2026-08-13 Python port of manage_embedder_service.ps1 (retired -- this file
-is now the sole implementation), following the same `.ps1`/`.sh` -> single
-`uv run` Python precedent already used for .claude/hooks/prompt-gate-enforcer.py.
-See core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md.
+(start/stop/status/cleanup). This is the sole implementation of the
+supervisor script, invoked via `uv run`.
 
 The service is normally self-launched by the first MCP server consumer that
 needs it (embedder_client.ensure_service_running(), atomic-lock guarded)
 and self-shuts-down after an idle timeout -- this script is not required
 for normal operation. It exists for manual control and, in particular,
-orphan cleanup, mirroring the original .ps1's rationale.
+orphan cleanup.
 
 Usage:
     uv run manage_embedder_service.py status

@@ -493,6 +493,59 @@ class TestSearchCapabilitySnapshot:
         snap = m._get_search_capability_snapshot()  # must not raise
         assert snap["effective_path"] == "unavailable"
         assert "snapshot error" in snap["in_process_fallback_state"]
+        assert snap["embedder_service_state_confirmed"] is False
+        assert snap["embedder_service_state_age_s"] is None
+
+    # -- R2 fix (2026-09-02): bounded-staleness indicator ------------------
+    # See platform/benchmarks/model-context-protocol-servers/
+    # 2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md
+    # B2/R2 — health_check's embedder_service_state was a cached "ready"
+    # value never re-probed once set, so a caller had no way to tell a
+    # freshly-confirmed "ready" from one confirmed 40 minutes ago. These
+    # tests cover the new embedder_service_state_confirmed /
+    # embedder_service_state_age_s fields that expose that staleness.
+
+    def test_ready_state_reports_confirmed_true_and_small_age(self, reset_embedder_globals):
+        m = reset_embedder_globals
+        m.EMBEDDER_SERVICE_ENABLED = True
+        m._embedder_service_state = "ready"
+        m._embedder_service_state_confirmed_at = time.time()
+        snap = m._get_search_capability_snapshot()
+        assert snap["embedder_service_state_confirmed"] is True
+        assert snap["embedder_service_state_age_s"] is not None
+        assert 0.0 <= snap["embedder_service_state_age_s"] < 5.0
+
+    def test_stale_ready_state_reports_large_age(self, reset_embedder_globals):
+        """This is the exact discrepancy the enterprise assessment live-
+        reproduced: health_check reporting "ready" from a confirmation that
+        happened a long time ago, with no way for a caller to tell."""
+        m = reset_embedder_globals
+        m.EMBEDDER_SERVICE_ENABLED = True
+        m._embedder_service_state = "ready"
+        m._embedder_service_state_confirmed_at = time.time() - 2400.0  # 40 min ago
+        snap = m._get_search_capability_snapshot()
+        assert snap["effective_path"] == "embedder-service"  # still trusted as-is, no re-probe
+        assert snap["embedder_service_state_confirmed"] is True
+        assert snap["embedder_service_state_age_s"] >= 2399.0
+
+    def test_never_confirmed_reports_confirmed_false_and_no_age(self, reset_embedder_globals):
+        """Very early in process startup, before the one-shot startup probe
+        in _start_embedder_service_background() has completed even once."""
+        m = reset_embedder_globals
+        m.EMBEDDER_SERVICE_ENABLED = True
+        m._embedder_service_state = "starting"
+        m._embedder_service_state_confirmed_at = 0.0
+        snap = m._get_search_capability_snapshot()
+        assert snap["embedder_service_state_confirmed"] is False
+        assert snap["embedder_service_state_age_s"] is None
+
+    def test_service_disabled_reports_confirmed_false_and_no_age(self, reset_embedder_globals):
+        m = reset_embedder_globals
+        m.EMBEDDER_SERVICE_ENABLED = False
+        m._embedder_service_state_confirmed_at = time.time()  # even if stale-set, disabled wins
+        snap = m._get_search_capability_snapshot()
+        assert snap["embedder_service_state_confirmed"] is False
+        assert snap["embedder_service_state_age_s"] is None
 
 
 # ---------------------------------------------------------------------------
@@ -513,6 +566,8 @@ class TestHealthCheckTool:
         assert set(result["search_capability"].keys()) == {
             "embedder_service_enabled",
             "embedder_service_state",
+            "embedder_service_state_confirmed",
+            "embedder_service_state_age_s",
             "in_process_fallback_state",
             "effective_path",
         }

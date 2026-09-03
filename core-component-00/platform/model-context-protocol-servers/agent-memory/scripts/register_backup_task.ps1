@@ -30,9 +30,8 @@ param(
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $AgentMemoryDir = Split-Path -Parent $ScriptDir
-$McpServersDir = Split-Path -Parent $AgentMemoryDir
 $BackupScript = Join-Path $ScriptDir "backup_memory_log.py"
-$PythonExe = Join-Path $McpServersDir ".venv\Scripts\python.exe"
+$PythonExe = Join-Path $AgentMemoryDir ".venv\Scripts\python.exe"
 
 Write-Host "Task name:    $TaskName"
 Write-Host "Trigger:      Daily at $Time"

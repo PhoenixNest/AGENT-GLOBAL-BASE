@@ -18,6 +18,12 @@ relying on this module:
   below resolves that ambiguity so a session's first high-consequence write
   always requires an explicit confirmation round-trip, never sails through
   on an absent marker.
+
+`content` is passed through `pii_redaction.redact_pii()`
+immediately after input validation in `_write_memory_impl()`, before it
+reaches collision search, injection detection, or the embedder — see that
+call site's inline comment and `pii_redaction.py`'s module docstring for
+the full rationale.
 """
 
 from __future__ import annotations
@@ -30,6 +36,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
+from pii_redaction import redact_pii
 from write_gate import WriteConfirmationGate
 from write_provenance import (
     WriteProvenance,
@@ -247,6 +254,17 @@ def _write_memory_impl(
             "record_id": None,
             "lane": None,
         }
+
+    # Redact PII before content touches anything else -- collision search,
+    # injection detection, record construction, or the embedder. `content`
+    # is the only field this write path ever embeds (see
+    # index.search()/index.upsert_payload() below), and it is also the
+    # exact text persisted into the Qdrant payload, so redacting once here
+    # closes both the embedding-inversion exposure and the "unredacted PII
+    # sitting in a shared, queryable vector store" exposure -- without a
+    # second, divergent copy of the text. See pii_redaction.py's module
+    # docstring for the full rationale and pattern coverage.
+    content = redact_pii(content)
 
     provenance = WriteProvenance(
         source=provenance_source,

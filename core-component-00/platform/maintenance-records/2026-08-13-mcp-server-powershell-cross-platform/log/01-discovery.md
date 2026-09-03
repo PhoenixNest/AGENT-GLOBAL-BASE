@@ -1,14 +1,10 @@
 # Log Entry 01 — Discovery — 2026-08-13
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 1 — Investigation (`core-component-00/platform/maintenance-records/pipeline.md`).
-
-**Trigger:** The CEO observed that CC-00's MCP servers still depend on PowerShell commands and
-asked whether this breaks OS universality for users on Linux/macOS. Dr. Vance and the relevant
-CC-00 crew were asked to investigate and report.
-
-**State before:** No prior audit of PowerShell/Windows-only dependencies existed for the MCP
-server deployment surface.
+| Field            | Detail                                                                                                                                                                                                                            |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 1 — Investigation (`core-component-00/platform/maintenance-records/pipeline.md`)           |
+| **Trigger**      | The CEO observed that CC-00's MCP servers still depend on PowerShell commands and asked whether this breaks OS universality for users on Linux/macOS. Dr. Vance and the relevant CC-00 crew were asked to investigate and report. |
+| **State before** | No prior audit of PowerShell/Windows-only dependencies existed for the MCP server deployment surface.                                                                                                                             |
 
 **Actions taken:**
 
@@ -67,11 +63,9 @@ Precedent already existed inside this workspace for fixing exactly this class of
 | Read `manage_embedder_service.ps1` in full                                                           | Confirmed: no `.py`/`.sh` equivalent existed anywhere in `_shared/embedder-service/`              |
 | Read `register_backup_task.ps1`'s calling context via `agent-memory/README.md`                       | Confirmed: STATUS is "implemented, INACTIVE" — no automatic caller, opt-in only                   |
 
-**Outcome:** The CEO's concern was confirmed accurate and, in one respect, understated — the
-`.mcp.json` interpreter path was a hard launch blocker on Linux/macOS, not merely a degraded
-feature. Ownership assigned per the standing model in
-`core-component-00/platform/maintenance-records/CLAUDE.md` (Dr. Vance
-owner, Ravi Deshmukh operational owner), applied to this specific defect.
+| Field       | Detail                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome** | The CEO's concern was confirmed accurate and, in one respect, understated — the `.mcp.json` interpreter path was a hard launch blocker on Linux/macOS, not merely a degraded feature. Ownership assigned per the standing model in `core-component-00/platform/maintenance-records/CLAUDE.md` (Dr. Vance owner, Ravi Deshmukh operational owner), applied to this specific defect. |
 
 **Findings handed to stage 2 (Approval) as the remediation plan:**
 
