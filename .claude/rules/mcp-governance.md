@@ -74,12 +74,32 @@ If any checkbox is ☐ (unchecked) after honest assessment, the server fails. Do
 
 ## Registered Servers (Post-Retirement)
 
-| Server                | Gates Passed                                | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| --------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `workspace-knowledge` | Capability ✅ Completeness ✅ Governance ✅ | BM25 search + raw-FS fallback; Phase 2 semantic upgrade live. `.mcp.json`'s `command` points at this server's own per-server venv interpreter (gitignored/machine-local, bootstrapped from `.mcp.json.example`, patched only on an actual OS switch). Full cross-platform-fix history, including the reverted `uv run` attempt: `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `agent-memory`        | Capability ✅ Completeness ⚠️ Governance ✅ | Cross-platform (`psutil`-based sibling-cleanup); `.mcp.json`'s `command` points at this server's own per-server venv interpreter (gitignored/machine-local, bootstrapped from `.mcp.json.example`, patched only on an actual OS switch). Read-only `search_memory` plus write-capable `write_memory`, both routed through the shared `embedder-service` (non-degraded); write-confirmation hook pair wired and live-verified. Two Required-level ASE gaps open (PII scrubbing on the embed path; merge-integration-agent designation) — tracked as harness-engineering backlog, neither blocking. Data-volume caveat: `memory_reflection` holds 4 real records, the other three memory types still hold zero. Full history (P0 fixes, embedder-service redesign, write-path build/evaluation, reconnect-reliability regression, cross-platform fix + revert): `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md` and `core-component-00/telescope/2026-08-08-cc00-mcp-observability-stack/research-report.md`. |
+| Server                | Gates Passed                                |
+| --------------------- | ------------------------------------------- |
+| `workspace-knowledge` | Capability ✅ Completeness ✅ Governance ✅ |
+| `agent-memory`        | Capability ✅ Completeness ⚠️ Governance ✅ |
 
-**Embedding model provisioning convention (established 2026-07-12):** any CC-00 MCP server that
+**`workspace-knowledge`.** BM25 search + raw-FS fallback; Phase 2 semantic upgrade live.
+`.mcp.json`'s `command` points at this server's own per-server venv interpreter
+(gitignored/machine-local, bootstrapped from `.mcp.json.example`, patched only on an actual OS
+switch).
+
+**`agent-memory`.** Cross-platform (`psutil`-based sibling-cleanup); `.mcp.json`'s `command`
+points at this server's own per-server venv interpreter (gitignored/machine-local, bootstrapped
+from `.mcp.json.example`, patched only on an actual OS switch). Read-only `search_memory` plus
+write-capable `write_memory`, both routed through the shared `embedder-service` (non-degraded);
+write-confirmation hook pair wired and live-verified.
+
+One Required-level ASE gap open (merge-integration-agent designation) — tracked as
+harness-engineering backlog, not blocking. PII scrubbing on the embed path is implemented:
+`redact_pii()` (`pii_redaction.py`) runs on `content` in `write_tool.py`'s `write_memory`
+ingestion path, ahead of collision search, injection detection, record construction, and the
+embedder/payload.
+
+Data-volume caveat: `memory_reflection` holds 4 real records, the other three memory types still
+hold zero.
+
+**Embedding model provisioning convention:** any CC-00 MCP server that
 needs a sentence-transformers embedding model provisions it into the shared cache at
 `core-component-00/platform/model-context-protocol-servers/_shared/models/<slug>/` via
 `core-component-00/platform/model-context-protocol-servers/_shared/provision_model.py <hf-model-id>` — not a private
@@ -88,20 +108,11 @@ per-server cache. The slug convention (`<hf-model-id>` with `/` → `--`) matche
 cache has no `--activate`/single-active-slot step, since different servers may need different,
 incompatible-dimension models resident at once (`workspace-knowledge`: `all-mpnet-base-v2`,
 768-dim; `agent-memory`: `all-MiniLM-L6-v2`, 384-dim) — each server reads its own model directly
-out of its slug directory. **`workspace-knowledge`'s former private cache
-(`workspace-knowledge/embedding/model/`) was retrofitted onto this convention 2026-08-06** as
-Phase 6 of a workspace-knowledge batch-encoding migration (telescope record removed 2026-08-13 as
-a completed maintenance-operation, implementation verified via git history) — its fallback
-loader (`SearchEngine._MODEL_DIR`, used when `embedder-service` is unavailable, for both the
-query path and the newly-migrated batch index-build/reseed/upsert paths) now reads
-`all-mpnet-base-v2` directly from `_shared/models/sentence-transformers--all-mpnet-base-v2/`
-instead of a duplicated private copy — verified byte-identical output (cosine similarity 1.0)
-before the 418.4 MB private copy was deleted. The line below, "this convention governs
-new/future provisioning, not a retrofit of what already works," was the standing position on
-this specific gap until that date; it no longer describes `workspace-knowledge`'s embedding-model
-loading, though the general principle (don't retrofit working systems without cause) still holds
-for future cases. Servers read the shared cache independently at call time; there is no shared
-init sequence, lock, or state file between servers.
+out of its slug directory. `workspace-knowledge` has no private embedding-model cache — its
+fallback loader (`SearchEngine._MODEL_DIR`, used when `embedder-service` is unavailable, for both
+the query path and the batch index-build/reseed/upsert paths) reads `all-mpnet-base-v2` directly
+from `_shared/models/sentence-transformers--all-mpnet-base-v2/`. Servers read the shared cache
+independently at call time; there is no shared init sequence, lock, or state file between servers.
 
 **The shared cache has a third consumer beyond the two registered servers.** `embedder-service`
 (see "Shared Infrastructure" below) loads every model any of its consumers route through it
@@ -136,15 +147,15 @@ request counter reaches zero — no external supervisor process has to remember 
 `POST /embed {model, texts}` over plain HTTP (`127.0.0.1:8791` by default). This removes the
 failure mode described in the `agent-memory` row above: a heavy `sentence_transformers` →
 `torch`/`scipy` import happening inside a process the MCP host itself spawns and churns, which
-was the root cause of the intermittent embedder-warmup stalls fixed 2026-07-17.
+was the root cause of intermittent embedder-warmup stalls.
 
 **Graceful degradation.** Both consumers treat the service being down or slow to start as a
 non-error. `agent-memory` falls back to its pre-existing `embedder=None` → `degraded: true` path
 (unchanged from before `embedder-service` existed). `workspace-knowledge` falls back to loading
 `all-mpnet-base-v2` in-process directly from the shared cache
-(`_shared/models/sentence-transformers--all-mpnet-base-v2/` — no longer a private copy, see the
-model-provisioning-convention note above) — this fallback now covers both the query path (Phase 4,
-2026-07-14) and the batch index-build/reseed/upsert paths (Phase 6, 2026-08-06).
+(`_shared/models/sentence-transformers--all-mpnet-base-v2/`, per the model-provisioning-convention
+note above) — this fallback covers both the query path and the batch index-build/reseed/upsert
+paths.
 
 **Python environment.** Each registered server runs from its own venv
 (`workspace-knowledge/.venv/`, `agent-memory/.venv/`) — these dependencies must not be installed

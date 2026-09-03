@@ -5,9 +5,7 @@ Disaster-recovery backup — snapshot the JSONL memory log.
 STATUS: implemented, INACTIVE. Nothing calls this script automatically — no
 scheduled task, no server code path invokes it. It only runs if someone runs
 it by hand or `register_backup_task.ps1 -Activate` has been run to wire it
-into Windows Task Scheduler. See:
-core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
-§9
+into Windows Task Scheduler.
 
 Copies core-component-00/framework/02-context-engineering/memory/ (the
 JSONLMemoryLog root — the durable source of truth every Qdrant collection is

@@ -513,9 +513,7 @@ class RateLimiter:
     "request", so a request-count bucket reports headroom that doesn't exist. Callers
     report each call's actual or estimated token cost via `acquire(token_cost=...)`;
     the bucket drains in proportion to that cost instead of a fixed 1-unit decrement
-    per call regardless of payload size. Corrected 2026-08-25 — see
-    core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-rate-limiter-remediation/
-    item I1.
+    per call regardless of payload size.
     """
     def __init__(self, tokens_per_minute: int = 50_000):
         self.capacity = tokens_per_minute

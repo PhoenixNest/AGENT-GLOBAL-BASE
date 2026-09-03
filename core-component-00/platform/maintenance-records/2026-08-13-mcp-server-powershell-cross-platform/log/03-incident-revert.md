@@ -1,18 +1,10 @@
 # Log Entry 03 — Incident & Revert — 2026-08-13
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3→1 — Reopen (`core-component-00/platform/maintenance-records/pipeline.md`): a new problem
-found during Execution routes back to Investigation rather than closing.
-
-**Trigger:** Immediately after
-`core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/02-remediation.md`'s
-item 1 landed, the user ran `/mcp reconnect` for both `workspace-knowledge` and `agent-memory` and
-got `Failed to reconnect ...: -32000` for both, repeatedly, across several attempts.
-
-**State before:** `.mcp.json`'s `"command"` was `"uv"` (bare command name, `PATH`-resolved) for
-both servers, per
-`core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/02-remediation.md`'s
-item 1.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                             |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3→1 — Reopen (`core-component-00/platform/maintenance-records/pipeline.md`): a new problem found during Execution routes back to Investigation rather than closing                          |
+| **Trigger**      | Immediately after `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/02-remediation.md`'s item 1 landed, the user ran `/mcp reconnect` for both `workspace-knowledge` and `agent-memory` and got `Failed to reconnect ...: -32000` for both, repeatedly, across several attempts. |
+| **State before** | `.mcp.json`'s `"command"` was `"uv"` (bare command name, `PATH`-resolved) for both servers, per `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/02-remediation.md`'s item 1.                                                                                                   |
 
 **Root cause:** Manual testing from an interactive PowerShell session — including a
 `.NET Process.Start` test with `PATH` explicitly restricted to the machine-scope value only —
@@ -64,21 +56,7 @@ reproduce the host's actual spawn environment.
 still fails after this revert, the host process itself (not just the MCP connection) likely needs
 a full restart.
 
-**Outcome:** `.mcp.json` is back to the exact command shape that was working before this topic's
-Execution stage touched it — a full functional revert of item 1. The `.mcp.json` portion of this
-topic's original Investigation finding (item 1) is **reopened**: no longer "fixed," it is back to
-"Windows-only hardcoded path, now with an explicit one-line documented edit for Linux/macOS
-deployment" instead of the Execution stage's "automatic" claim, which did not survive contact with
-the actual host spawn environment. Items 2–5 (the `agent-memory/server.py` psutil port, the
-`manage_embedder_service.py` port, the DR-scheduling documentation, and the README fence
-reformatting) are **unaffected** — none depend on `.mcp.json`'s launch mechanism or on `uv`/`PATH`
-resolution.
-
-**Handoff to Close:** No further reopen expected on this incident specifically — the revert is a
-known-working configuration, verified by prior operation, not a novel untested one. Two items
-remain open at Close, carried forward to
-`core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`'s
-Open Follow-Up Items table: (1) the `.mcp.json` zero-edit cross-platform question, still genuinely
-unsolved; (2) Linux/macOS verification of items 2–3, still genuinely un-performable from this
-machine. Neither blocks Close — both are pre-existing, documented gaps, not new risk introduced
-by this incident.
+| Field                | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**          | `.mcp.json` is back to the exact command shape that was working before this topic's Execution stage touched it — a full functional revert of item 1. The `.mcp.json` portion of this topic's original Investigation finding (item 1) is **reopened**: no longer "fixed," it is back to "Windows-only hardcoded path, now with an explicit one-line documented edit for Linux/macOS deployment" instead of the Execution stage's "automatic" claim, which did not survive contact with the actual host spawn environment. Items 2–5 (the `agent-memory/server.py` psutil port, the `manage_embedder_service.py` port, the DR-scheduling documentation, and the README fence reformatting) are **unaffected** — none depend on `.mcp.json`'s launch mechanism or on `uv`/`PATH` resolution. |
+| **Handoff to Close** | No further reopen expected on this incident specifically — the revert is a known-working configuration, verified by prior operation, not a novel untested one. Two items remain open at Close, carried forward to `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`'s Open Follow-Up Items table: (1) the `.mcp.json` zero-edit cross-platform question, still genuinely unsolved; (2) Linux/macOS verification of items 2–3, still genuinely un-performable from this machine. Neither blocks Close — both are pre-existing, documented gaps, not new risk introduced by this incident.                                                                                                                             |

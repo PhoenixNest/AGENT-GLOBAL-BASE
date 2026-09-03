@@ -1,5 +1,7 @@
+import functools
 import hashlib
 import json
+import logging
 import os
 import re
 import sys
@@ -7,16 +9,15 @@ import threading
 import time
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Optional
 
 # jsonref's published wheel does `from proxytypes import LazyProxy` (a stale absolute
 # import; see _vendor/proxytypes.py). On some `ProxyTypes` installs this ModuleNotFoundErrors
 # because that package installs under `peak.util.proxies`, not a top-level `proxytypes`
 # module -- but NOT on every install: this venv's `uv sync` resolved `ProxyTypes==0.10.0` as
 # a top-level `proxytypes.py` that already provides `LazyProxy` directly, no `peak` package
-# involved at all (discovered 2026-08-30 when unconditionally prepending _vendor/ shadowed
-# that working real module and crashed on the `peak` import the shim itself needs -- see
-# core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/16).
+# involved at all. Unconditionally prepending _vendor/ would shadow that working real module
+# and crash on the `peak` import the shim itself needs.
 # Only fall back to the vendored shim if the real package doesn't already work; must resolve
 # before `fastmcp` is imported, since fastmcp transitively imports jsonref.
 _VENDOR_ROOT = Path(__file__).resolve().parent / "_vendor"
@@ -65,6 +66,136 @@ mcp = FastMCP("workspace-knowledge")
 
 def _diag(msg: str) -> None:
     print(f"[DIAG {time.time():.3f}] {msg}", file=sys.stderr, flush=True)
+
+
+# ---------------------------------------------------------------------------
+# Structured per-call audit logging. Standard-library
+# `logging` only, no new dependency. Own module-level logger, not the
+# "fastmcp" namespace fastmcp.utilities.logging configures for its own
+# internal logs (propagate=False on the "fastmcp" logger specifically, never
+# touches the root logger — so it would not make this logger's records
+# visible on its own). Reads FASTMCP_LOG_LEVEL, the same env var already
+# used to control the fastmcp library's own verbosity (see this server's
+# README `.mcp.json` example), so this logger's level tracks the same knob
+# operators already have rather than introducing a second, independent one.
+# Mirrors agent-memory/server.py's identical setup — see that file for the
+# fuller rationale comment; kept in sync deliberately rather than duplicated
+# with drift.
+logger = logging.getLogger(__name__)
+_LOG_LEVEL_NAME = os.getenv("FASTMCP_LOG_LEVEL", "INFO").strip().upper()
+logger.setLevel(getattr(logging, _LOG_LEVEL_NAME, logging.INFO))
+if not logger.handlers:
+    _log_handler = logging.StreamHandler(sys.stderr)
+    _log_handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s")
+    )
+    logger.addHandler(_log_handler)
+
+
+def _call_outcome(result: Any) -> "tuple[bool, Optional[str]]":
+    """
+    Best-effort ok/error read of a tool's return value, for the audit log
+    only — never changes what is returned to the caller. Covers this
+    module's two failure-signaling shapes: a top-level {"error": ...} key
+    (retrieve_context, find_related_documents, validate_pipeline_document's
+    file-not-found/read-failure branches) and {"status": "error", ...}
+    (upsert_document). Tiered-search degradation (a non-null
+    `_meta.degradation_reason`, e.g. HYBRID_QDRANT falling back to BM25) is
+    deliberately reported ok=True — that is expected, working graceful
+    degradation (see B1 in the assessment above, "Pass at parity"), not a
+    call failure, and search_docs still returns real, usable results when it
+    happens. `validate_pipeline_document`'s `valid: False` is likewise
+    ok=True — a structural-validation finding is the tool's normal output,
+    not a failure of the tool itself.
+    """
+    if not isinstance(result, dict):
+        return True, None
+    if result.get("error"):
+        return False, str(result.get("error"))
+    if result.get("status") == "error":
+        return False, str(result.get("reason") or result.get("error") or "error")
+    return True, None
+
+
+def _log_tool_call(summarize_args: Optional[Callable[..., dict]] = None):
+    """
+    Decorator factory wrapping an @mcp.tool() function with structured
+    entry/exit logging: `tool_name`, `duration_ms`, and an ok/error outcome
+    (see _call_outcome) at INFO (ok) or ERROR (not ok, or an exception).
+    Never changes the wrapped function's behavior — an exception is always
+    re-raised after being logged (several tools here, e.g. rebuild_index and
+    health_check, have no internal try/except of their own, so this is the
+    first place such an exception is ever recorded), and the return value is
+    passed through unmodified.
+
+    `summarize_args`, when given, is called with the same (*args, **kwargs)
+    the tool receives and must return a small dict of safe-to-log fields. No
+    call site below logs a raw search query or document body wholesale —
+    only lengths — for the same reason agent-memory/server.py's identical
+    decorator avoids logging raw `content`: a workspace search query can
+    carry the same kind of sensitive free text a memory write would. A
+    summarizer that itself raises is caught and dropped rather than allowed
+    to break the underlying tool call.
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def _wrapper(*args, **kwargs):
+            tool_name = func.__name__
+            arg_summary: dict = {}
+            if summarize_args is not None:
+                try:
+                    arg_summary = summarize_args(*args, **kwargs) or {}
+                except Exception:
+                    arg_summary = {}
+            start = time.monotonic()
+            try:
+                result = func(*args, **kwargs)
+            except Exception as exc:
+                duration_ms = round((time.monotonic() - start) * 1000, 2)
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False error=%r args=%s",
+                    tool_name, duration_ms, exc, arg_summary,
+                    exc_info=True,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": str(exc),
+                        "call_args": arg_summary,
+                    },
+                )
+                raise
+            duration_ms = round((time.monotonic() - start) * 1000, 2)
+            ok, reason = _call_outcome(result)
+            if ok:
+                logger.info(
+                    "tool_call tool_name=%s duration_ms=%s ok=True args=%s",
+                    tool_name, duration_ms, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": True,
+                        "call_args": arg_summary,
+                    },
+                )
+            else:
+                logger.error(
+                    "tool_call tool_name=%s duration_ms=%s ok=False reason=%s args=%s",
+                    tool_name, duration_ms, reason, arg_summary,
+                    extra={
+                        "tool_name": tool_name,
+                        "duration_ms": duration_ms,
+                        "ok": False,
+                        "reason": reason,
+                        "call_args": arg_summary,
+                    },
+                )
+            return result
+
+        return _wrapper
+
+    return decorator
 
 
 EMBEDDER_SERVICE_ENABLED = os.getenv("EMBEDDER_SERVICE_ENABLED", "true").strip().lower() not in (
@@ -118,6 +249,25 @@ class SearchTier(Enum):
     RAWFS = "rawfs"
 
 
+# _TIER_RANK orders tiers worst-to-best so SearchEngine can
+# tell whether a newly-reached tier is a new ceiling worth remembering;
+# _TIER_ABOVE is the single-step climb table _maybe_reprobe_higher_tier()
+# uses to re-attempt exactly one tier up at a time, rather than jumping
+# straight back to the historical best in one shot.
+_TIER_RANK: dict[SearchTier, int] = {
+    SearchTier.RAWFS: 0,
+    SearchTier.BM25: 1,
+    SearchTier.HYBRID: 2,
+    SearchTier.HYBRID_QDRANT: 3,
+}
+
+_TIER_ABOVE: dict[SearchTier, SearchTier] = {
+    SearchTier.RAWFS: SearchTier.BM25,
+    SearchTier.BM25: SearchTier.HYBRID,
+    SearchTier.HYBRID: SearchTier.HYBRID_QDRANT,
+}
+
+
 class SearchEngine:
     KEY_DIRS = [
         "company",
@@ -135,10 +285,33 @@ class SearchEngine:
         / "sentence-transformers--all-mpnet-base-v2"
     )
 
+    # N3 fix: bounds how often _maybe_reprobe_higher_tier() will attempt to
+    # climb one tier back up after a query-time demotion. Deliberately not a
+    # separate health-check-style network probe — the climb attempt is made
+    # by simply letting the normal _search_with_fallback cascade try the
+    # higher tier's real search method on a query that was going to run
+    # anyway, so a successful climb costs nothing beyond what the query
+    # already paid, and a failed climb costs exactly one extra failed call
+    # (Qdrant timeout, at worst) no more often than once per cooldown window.
+    # Mirrors the cooldown-gated re-probe shape of agent-memory/server.py's
+    # _embedder_service_ready() (5.0s there, for a much cheaper localhost
+    # HTTP ping) — 30s here since a failed climb at HYBRID_QDRANT can block
+    # on a live Qdrant connection timeout, not just an HTTP round-trip.
+    _TIER_REPROBE_COOLDOWN_S = 30.0
+
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
         self._tier = SearchTier.RAWFS
         self._degradation_reason: str | None = None
+        # N3 fix: _max_tier is the highest tier this engine has ever reached
+        # (updated only by _note_tier(), at initialization elevation points —
+        # never by a query-time demotion); _last_reprobe_at gates how often
+        # _maybe_reprobe_higher_tier() will attempt to climb back toward it.
+        # Seeded to "now" rather than 0.0 so a freshly-constructed engine
+        # (which starts with _tier == _max_tier anyway) never reads as
+        # "cooldown already elapsed" before any real demotion has happened.
+        self._max_tier = SearchTier.RAWFS
+        self._last_reprobe_at: float = time.monotonic()
         self._chunks: list[dict] = []
         self._bm25 = None
         self._model = None          # SentenceTransformer
@@ -234,7 +407,7 @@ class SearchEngine:
 
         try:
             self._build_bm25_index(BM25Okapi)
-            self._tier = SearchTier.BM25
+            self._note_tier(SearchTier.BM25)
         except Exception as e:
             self._tier = SearchTier.RAWFS
             self._degradation_reason = f"BM25 build failed: {e}"
@@ -258,7 +431,7 @@ class SearchEngine:
         self._rebuild_progress["phase"] = "qdrant_connect"
         self._init_qdrant()
         if SEARCH_BACKEND == "qdrant" and self._qdrant_ready:
-            self._tier = SearchTier.HYBRID_QDRANT
+            self._note_tier(SearchTier.HYBRID_QDRANT)
 
         # Phase 2 — FAISS build / load (may take minutes on mtime mismatch)
         self._rebuild_progress["phase"] = "faiss"
@@ -282,9 +455,9 @@ class SearchEngine:
             self._init_qdrant()
 
         if SEARCH_BACKEND == "qdrant":
-            self._tier = SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID
+            self._note_tier(SearchTier.HYBRID_QDRANT if self._qdrant_ready else SearchTier.HYBRID)
         else:
-            self._tier = SearchTier.HYBRID
+            self._note_tier(SearchTier.HYBRID)
         self._rebuild_progress["phase"] = "done"
 
     def _init_qdrant(self):
@@ -388,6 +561,7 @@ class SearchEngine:
 
     def _build_or_load_faiss_index(self, faiss, np, SentenceTransformer):
         """Build or load a FAISS index with mtime-based delta detection."""
+        self._INDEX_DIR.mkdir(parents=True, exist_ok=True)
         index_file = self._INDEX_DIR / "faiss.index"
         state_file = self._INDEX_DIR / "index_state.json"
 
@@ -637,7 +811,63 @@ class SearchEngine:
         results.sort(key=lambda r: r["score"], reverse=True)
         return results[:top_k]
 
+    def _note_tier(self, tier: SearchTier) -> None:
+        """Set self._tier, and raise self._max_tier if this is a new
+        ceiling. Called only at initialization elevation points
+        (_initialize_search_engine, _init_faiss_background) — query-time
+        demotions go through _demote() instead, which never raises the
+        ceiling. This is the ceiling _maybe_reprobe_higher_tier() re-climbs
+        toward after a query-time demotion (N3 fix)."""
+        self._tier = tier
+        if _TIER_RANK[tier] > _TIER_RANK[self._max_tier]:
+            self._max_tier = tier
+
+    def _demote(self, tier: SearchTier, reason: str) -> None:
+        """Record a query-time tier demotion (N2's corrected fallback
+        chain calls this at each step) and reset the reprobe cooldown clock
+        so _maybe_reprobe_higher_tier() waits a full cooldown window from
+        this failure — not from whenever the last attempt happened to be —
+        before attempting to climb back up (N3 fix)."""
+        self._tier = tier
+        self._degradation_reason = reason
+        self._last_reprobe_at = time.monotonic()
+
+    def _maybe_reprobe_higher_tier(self) -> None:
+        """N3 fix: once a tier has been demoted, nothing previously
+        re-attempted the higher tier on a later call -- it stayed demoted
+        until an explicit rebuild_index(), even after the original failure
+        condition would now succeed (see this module's
+        tests/test_search_tier_degradation.py module docstring finding).
+
+        This is the bounded, cooldown-gated re-probe that closes that gap
+        without adding a full health-check-style network round-trip to
+        every query: if the current tier is below the highest tier this
+        engine has ever reached (self._max_tier) and at least
+        _TIER_REPROBE_COOLDOWN_S has elapsed since the last demotion or
+        reprobe attempt, climb exactly one tier and let the normal cascade
+        in _search_with_fallback re-validate it with the real search call
+        that query was already going to make. On success the tier simply
+        stays up (the higher tier's try/except never fires). On failure the
+        existing cascade demotes it right back down via _demote(), which
+        also resets the cooldown clock -- so a genuinely-still-down
+        dependency costs at most one extra failed call per cooldown window,
+        never one per query.
+
+        Deliberately a single-step climb (HYBRID -> HYBRID_QDRANT, not a
+        direct BM25 -> HYBRID_QDRANT jump) even when _max_tier is two tiers
+        up, so a demotion caused by one broken dependency doesn't mask a
+        second, independently-broken dependency behind an untested jump.
+        """
+        if self._tier == self._max_tier:
+            return
+        now = time.monotonic()
+        if now - self._last_reprobe_at < self._TIER_REPROBE_COOLDOWN_S:
+            return
+        self._last_reprobe_at = now
+        self._tier = _TIER_ABOVE[self._tier]
+
     def _search_with_fallback(self, query: str, top_k: int = 10) -> list[dict]:
+        self._maybe_reprobe_higher_tier()
         if self._tier == SearchTier.HYBRID_QDRANT:
             try:
                 return self._search_hybrid_qdrant(query, top_k)
@@ -647,23 +877,29 @@ class SearchEngine:
                     self._degradation_reason = f"Qdrant search deferred: {e}"
                     return self._search_bm25(query, top_k)
                 else:
-                    self._tier = SearchTier.BM25
-                    self._degradation_reason = f"Qdrant search failed: {e}"
+                    # Demote to HYBRID
+                    # (local FAISS), not straight to BM25 -- the FAISS index
+                    # and embedding model are already resident in memory
+                    # whenever HYBRID_QDRANT is reachable at all (HYBRID_QDRANT
+                    # is only set after Phase 2's FAISS build has already
+                    # completed), so a Qdrant-only failure should not also
+                    # cost semantic search capability it doesn't have to lose.
+                    # The HYBRID branch immediately below attempts that local
+                    # semantic search this same call, before ever falling
+                    # further to BM25.
+                    self._demote(SearchTier.HYBRID, f"Qdrant search failed: {e}")
             except Exception as e:
-                self._tier = SearchTier.BM25
-                self._degradation_reason = f"Qdrant search failed: {e}"
+                self._demote(SearchTier.HYBRID, f"Qdrant search failed: {e}")
         if self._tier == SearchTier.HYBRID:
             try:
                 return self._search_hybrid(query, top_k)
             except Exception as e:
-                self._tier = SearchTier.BM25
-                self._degradation_reason = f"Hybrid search failed: {e}"
+                self._demote(SearchTier.BM25, f"Hybrid search failed: {e}")
         if self._tier == SearchTier.BM25:
             try:
                 return self._search_bm25(query, top_k)
             except Exception as e:
-                self._tier = SearchTier.RAWFS
-                self._degradation_reason = f"BM25 search failed: {e}"
+                self._demote(SearchTier.RAWFS, f"BM25 search failed: {e}")
         return self._search_rawfs(query, top_k)
 
     def _upsert_file_to_qdrant(self, file_path_str: str) -> int:
@@ -748,6 +984,14 @@ class SearchEngine:
         self._faiss_index = None
         self._qdrant_client = None
         self._qdrant_ready = False
+        # N3: a full rebuild starts a fresh init chain, so the reprobe
+        # ceiling/cooldown state from before this rebuild is stale — reset
+        # both so _note_tier() re-establishes _max_tier from scratch as the
+        # new init chain runs, rather than inheriting a ceiling that may no
+        # longer be reachable (or leaving a cooldown clock a fresh engine
+        # has no reason to honor).
+        self._max_tier = SearchTier.RAWFS
+        self._last_reprobe_at = time.monotonic()
         # Remove FAISS state so index rebuilds from scratch
         state_file = self._INDEX_DIR / "index_state.json"
         if state_file.exists():
@@ -791,7 +1035,12 @@ class SearchEngine:
 engine = SearchEngine(WORKSPACE_ROOT)
 
 
+def _summarize_search_docs_args(query: str = "", top_k: int = 10, **_: Any) -> dict:
+    return {"query_len": len(query or ""), "top_k": top_k}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_search_docs_args)
 def search_docs(query: str, top_k: int = 10) -> dict[str, Any]:
     """Hybrid semantic + BM25 keyword search across workspace markdown files with graceful
     fallback through HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS tiers. Returns ranked results
@@ -800,7 +1049,12 @@ def search_docs(query: str, top_k: int = 10) -> dict[str, Any]:
     return {"query": query, "results": results, "_meta": engine._meta_block()}
 
 
+def _summarize_file_path_arg(file_path: str = "", **_: Any) -> dict:
+    return {"file_path": file_path}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_file_path_arg)
 def retrieve_context(file_path: str) -> dict[str, Any]:
     """Retrieve the full content of a specific workspace document by its relative path."""
     target = WORKSPACE_ROOT / file_path
@@ -814,6 +1068,7 @@ def retrieve_context(file_path: str) -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def list_indexed_files() -> dict[str, Any]:
     """List all markdown files currently in the search index."""
     files = engine.list_files()
@@ -821,6 +1076,7 @@ def list_indexed_files() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def rebuild_index() -> dict[str, Any]:
     """Rebuild the search index from scratch, re-scanning all workspace markdown files.
     Also clears and re-seeds the Qdrant collection when Qdrant is initialized. This call
@@ -831,6 +1087,7 @@ def rebuild_index() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def rebuild_status() -> dict[str, Any]:
     """Report live progress of the most recently started rebuild_index call: current
     phase (idle/bm25/qdrant_connect/faiss/qdrant_seed/done/error), markdown files
@@ -840,6 +1097,7 @@ def rebuild_status() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_file_path_arg)
 def upsert_document(file_path: str) -> dict[str, Any]:
     """Re-chunk, re-embed, and upsert a single document into the Qdrant collection.
     Also updates the BM25 index for this file. Use after editing an indexed .md file
@@ -869,7 +1127,14 @@ def upsert_document(file_path: str) -> dict[str, Any]:
         return {"status": "error", "error": str(exc), "_meta": engine._meta_block()}
 
 
+def _summarize_summarize_context_args(
+    topics: list[str] = (), max_docs_per_topic: int = 3, **_: Any
+) -> dict:
+    return {"topic_count": len(topics or ()), "max_docs_per_topic": max_docs_per_topic}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_summarize_context_args)
 def summarize_context(topics: list[str], max_docs_per_topic: int = 3) -> dict[str, Any]:
     """Pre-digest multi-document briefings for agent context slots.
     Returns top matching docs per topic, deduped across topics."""
@@ -888,7 +1153,12 @@ def summarize_context(topics: list[str], max_docs_per_topic: int = 3) -> dict[st
     }
 
 
+def _summarize_check_adr_precedent_args(technology: str = "", **_: Any) -> dict:
+    return {"technology": technology}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_check_adr_precedent_args)
 def check_adr_precedent(technology: str) -> dict[str, Any]:
     """Surface prior ADRs before a Technology Decision.
     Returns matching ADR documents and whether precedent exists."""
@@ -906,7 +1176,12 @@ def check_adr_precedent(technology: str) -> dict[str, Any]:
     }
 
 
+def _summarize_doc_path_arg(doc_path: str = "", **_: Any) -> dict:
+    return {"doc_path": doc_path}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_doc_path_arg)
 def validate_pipeline_document(doc_path: str) -> dict[str, Any]:
     """Validate a workspace document against its structural requirements.
     Detects document type and checks for required sections."""
@@ -953,7 +1228,14 @@ def validate_pipeline_document(doc_path: str) -> dict[str, Any]:
     }
 
 
+def _summarize_find_related_documents_args(
+    seed_doc_path: str = "", top_k: int = 5, **_: Any
+) -> dict:
+    return {"seed_doc_path": seed_doc_path, "top_k": top_k}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_find_related_documents_args)
 def find_related_documents(seed_doc_path: str, top_k: int = 5) -> dict[str, Any]:
     """Find documents semantically similar to a given workspace document.
     Requires HYBRID or HYBRID_QDRANT tier; falls back to BM25 keyword search."""
@@ -980,7 +1262,14 @@ TELESCOPE_PREFIXES = (
 )
 
 
+def _summarize_list_research_by_topic_args(
+    topic: str = "", format: str = "brief", **_: Any
+) -> dict:
+    return {"topic": topic, "format": format}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_list_research_by_topic_args)
 def list_research_by_topic(topic: str, format: str = "brief") -> dict[str, Any]:
     """List research archives across all telescope/ instances (workspace root plus the
     company/, core-component-00/, and studio/casual-games/ department archives) by topic.
@@ -1002,7 +1291,14 @@ def list_research_by_topic(topic: str, format: str = "brief") -> dict[str, Any]:
     }
 
 
+def _summarize_agent_knowledge_brief_args(
+    agent_role: str = "", context_topics: list[str] = (), **_: Any
+) -> dict:
+    return {"agent_role": agent_role, "topic_count": len(context_topics or ())}
+
+
 @mcp.tool()
+@_log_tool_call(summarize_args=_summarize_agent_knowledge_brief_args)
 def agent_knowledge_brief(agent_role: str, context_topics: list[str]) -> dict[str, Any]:
     """Generate a pre-digested knowledge brief for an agent role across multiple topics.
     Returns the top documents per topic, deduplicated, with relevant snippets."""
@@ -1088,6 +1384,7 @@ def _memory_instance_health_block() -> dict[str, Any]:
 
 
 @mcp.tool()
+@_log_tool_call()
 def health_check() -> dict[str, Any]:
     """Report health for both Qdrant-backed instances this workspace runs:
     the document knowledge base (qdrant-workspace) and the persistent agent

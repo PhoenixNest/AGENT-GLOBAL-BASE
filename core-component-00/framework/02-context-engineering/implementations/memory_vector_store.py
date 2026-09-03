@@ -56,8 +56,8 @@ if TYPE_CHECKING:
     from .memory_store import EpisodicEvent, SemanticFact, ReflectionRecord
 
 # Real (non-TYPE_CHECKING) import: PersistentMemorySink.write_reflection()'s
-# identity gate (MISTAKE-2026-07-16-001 remediation item 2) needs these at
-# runtime, not just for type annotations. No circular-import risk —
+# identity gate needs these at runtime, not just for type annotations.
+# No circular-import risk —
 # memory_store.py has no dependency on this module (verified: it imports
 # nothing from memory_vector_store.py).
 from .memory_store import GOVERNANCE_TRIGGERS, IdentityVerification, UnverifiedReflectionError  # noqa: E402

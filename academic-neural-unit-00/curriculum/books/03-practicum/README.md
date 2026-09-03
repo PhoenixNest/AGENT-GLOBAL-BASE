@@ -132,8 +132,7 @@ curriculum/books/03-practicum/
 └── 06-building-an-agent-evaluation-harness.md
 ```
 
-No module files exist yet as of this charter (Phase 1) — authoring is Phase 2 of the S2 plan's §4
-production workflow, which has not started under this document.
+All 6 module files exist and are authored, per the S2 plan's §4 production workflow.
 
 ---
 

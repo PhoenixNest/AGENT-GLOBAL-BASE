@@ -1,20 +1,10 @@
 # Log Entry 08 — Per-Server Venv Architecture Decision — 2026-08-20
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 2 — Approval (`core-component-00/platform/maintenance-records/pipeline.md`), resolving Open
-Follow-Up Item #4 from `log/06-linux-launch-applied-and-verified.md`.
-
-**Trigger:** CEO asked Dr. Vance for advice on Item #4 (per-server vs. shared venv architecture)
-rather than a unilateral executor decision, per this topic's authority model (a cross-module
-architecture change is outside Infrastructure Engineer's unilateral authority per `crew/CLAUDE.md`
-§ Authority Scope; Dr. Vance's sign-off applies).
-
-**State before:** `mcp-servers/CLAUDE.md` and `.claude/rules/mcp-governance.md` both documented a
-single shared venv at `mcp-servers/.venv/` as the required architecture, with an explicit
-rationale (deterministic `embedder-service` interpreter inheritance via `sys.executable`, ~2.7 GB
-disk savings). The actual live `.mcp.json` (since `log/06`) pointed at per-server venvs instead,
-because the shared venv had never been provisioned on this machine — a documented discrepancy
-between the docs and reality (Item #4).
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 2 — Approval (`core-component-00/platform/maintenance-records/pipeline.md`), resolving Open Follow-Up Item #4 from `log/06-linux-launch-applied-and-verified.md`                                                                                                                                                                                                            |
+| **Trigger**      | CEO asked Dr. Vance for advice on Item #4 (per-server vs. shared venv architecture) rather than a unilateral executor decision, per this topic's authority model (a cross-module architecture change is outside Infrastructure Engineer's unilateral authority per `crew/CLAUDE.md` § Authority Scope; Dr. Vance's sign-off applies).                                                                                                                                                                              |
+| **State before** | `mcp-servers/CLAUDE.md` and `.claude/rules/mcp-governance.md` both documented a single shared venv at `mcp-servers/.venv/` as the required architecture, with an explicit rationale (deterministic `embedder-service` interpreter inheritance via `sys.executable`, ~2.7 GB disk savings). The actual live `.mcp.json` (since `log/06`) pointed at per-server venvs instead, because the shared venv had never been provisioned on this machine — a documented discrepancy between the docs and reality (Item #4). |
 
 **Actions taken:**
 
@@ -58,12 +48,7 @@ between the docs and reality (Item #4).
 decision, not a shared-production-resource code change, so stage 2's approval gate (not stage 4's
 independent-review gate) applies — CEO approval is the required sign-off, recorded above.
 
-**Outcome:** Open Follow-Up Item #4 is closed. Per-server venvs are now the documented,
-CEO-approved architecture for this workspace's MCP servers, not merely this machine's ad-hoc
-state. The shared-venv design's real guarantee is preserved via the pin-lockstep invariant rather
-than via venv layout.
-
-**Handoff to next stage:** Does not close this topic. Two items remain open (see
-`maintenance-record.md`, updated alongside this entry): Item #5 (completing the full dependency
-sync so both servers run at full capability — in progress as of this entry, tracked separately)
-and Item #3 (Linux/macOS DR-scheduling verification, explicitly deferred).
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                           |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | Open Follow-Up Item #4 is closed. Per-server venvs are now the documented, CEO-approved architecture for this workspace's MCP servers, not merely this machine's ad-hoc state. The shared-venv design's real guarantee is preserved via the pin-lockstep invariant rather than via venv layout.                                  |
+| **Handoff to next stage** | Does not close this topic. Two items remain open (see `maintenance-record.md`, updated alongside this entry): Item #5 (completing the full dependency sync so both servers run at full capability — in progress as of this entry, tracked separately) and Item #3 (Linux/macOS DR-scheduling verification, explicitly deferred). |
