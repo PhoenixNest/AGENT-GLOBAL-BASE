@@ -77,11 +77,19 @@ code — do not assume the GPU is accessible.
 
 ## Running the Test Suite
 
-The test suite requires only standard library + pytest + unittest.mock — no heavy RAG dependencies:
+The test suite requires only standard library + pytest + unittest.mock — no heavy RAG dependencies.
+This module has its own venv (`.venv/`, via `uv sync` from this folder's `pyproject.toml`,
+deliberately declaring only `pytest` — not `requirements.txt` — since that's all `implementations/`
+and `testing/` actually import), matching the per-component venv convention used elsewhere in this
+workspace:
+
+```bash
+# From core-component-00/
+core-component-00/framework/04-retrieval-augmented-generation/.venv/bin/python -m pytest framework/04-retrieval-augmented-generation/testing/ -v
+```
 
 ```powershell
-# From core-component-00/
-pytest retrieval-augmented-generation/testing/ -v
+core-component-00\framework\04-retrieval-augmented-generation\.venv\Scripts\python.exe -m pytest framework\04-retrieval-augmented-generation\testing\ -v
 ```
 
 All heavy dependencies (embedding models, Qdrant, spaCy) are replaced by deterministic stubs
@@ -117,7 +125,8 @@ RAG is the knowledge retrieval layer. It integrates with:
 
 - Install dependencies only when actively needed — `requirements.txt` is a heavy payload.
 - Verify `torch.cuda.is_available()` before any GPU-dependent code path.
-- No CC-00 implementation change merges until `pytest framework/04-retrieval-augmented-generation/testing/ -v`
+- No CC-00 implementation change merges until this module's own
+  `.venv/bin/python -m pytest framework/04-retrieval-augmented-generation/testing/ -v`
   (from `core-component-00/`) passes. The lightweight suite requires no heavy deps and must always be green.
 - New RAG patterns must conform to ASGF compliance standards in
   `../00-agent-systems-governance-framework/governance/compliance-standard.md`.
