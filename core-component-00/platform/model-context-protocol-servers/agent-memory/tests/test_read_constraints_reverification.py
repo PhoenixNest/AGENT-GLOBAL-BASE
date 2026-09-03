@@ -581,7 +581,13 @@ class TestConstraint4SacredCompletenessStatic:
         """
         text = _SERVER_PY_PATH.read_text(encoding="utf-8")
         fn_start = text.index("def _search_memory_impl(")
-        fn_end = text.index("\n@mcp.tool()\ndef search_memory(")
+        # Boundary anchor is intentionally just "\ndef search_memory(" (not
+        # "\n@mcp.tool()\ndef search_memory(") -- it exists only to find
+        # where the NEXT top-level def begins so `body` below is scoped to
+        # _search_memory_impl alone; it is not itself an assertion about
+        # which/how-many decorators sit on search_memory (R4, 2026-09-02,
+        # added @_log_tool_call between @mcp.tool() and the def line).
+        fn_end = text.index("\ndef search_memory(")
         body = text[fn_start:fn_end]
         assert 'statuses = ["active"]' in body
         # No conditional wraps that literal assignment (it must not be inside

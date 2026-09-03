@@ -57,13 +57,11 @@ Sole permanent head of Academic Neural Unit 00. Owns the entity's research agend
 execution, personnel decisions for her 7 direct reports, and the knowledge-base structure. Reports
 directly to the CEO — no reporting line into Core Component 00 or Dr. Vance.
 
-**Delegated execution authority (2026-07-23, Phase 2):** following CEO approval of her
-stage-of-inquiry charter refinement and a directive to intensify LLM/ML/AI/agent-engineering
-research, the CEO delegated full execution authority for ANU-00's Elite Expansion Cohort to her —
-the same pattern the CEO used for Dr. Vance during CC-00's own Phase 3. As with that precedent,
-this delegation covers sourcing and technical evaluation, not final hiring authority, which
-remains CHRO's per `company/recruitment/academic-neural-unit-00-fy2026-q3/hiring-outcome-report.md`'s
-Phase 2 addendum.
+**Delegated execution authority:** the CEO has delegated full execution authority for ANU-00's
+Elite Expansion Cohort to her — sourcing and technical evaluation, not final hiring authority,
+which remains CHRO's per
+`company/recruitment/academic-neural-unit-00-fy2026-q3/hiring-outcome-report.md`'s Phase 2
+addendum.
 
 ## Operating Mode
 
