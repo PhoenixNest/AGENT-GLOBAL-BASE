@@ -1,33 +1,28 @@
 #!/usr/bin/env python3
 """SessionStart — MCP Config Platform Self-Heal
 
-Fires at the start of every session. Root `.mcp.json` is machine-local and gitignored
-(2026-08-30, Item #6 -- see the maintenance record below): it is bootstrapped once from
-the committed `.mcp.json.example` template on first run (file missing entirely), and
-after that only rewritten if a server's `"command"` interpreter path no longer resolves
-on this machine (a genuine OS switch), by flipping it to the sibling venv-interpreter
-path (`.venv/Scripts/python.exe` <-> `.venv/bin/python`). Both cases share the same
-per-server correction loop below. Every other session is a cheap no-op: read, verify
-each path still resolves, exit -- no write at all.
+Fires at the start of every session. Root `.mcp.json` is machine-local and gitignored: it
+is bootstrapped once from the committed `.mcp.json.example` template on first run (file
+missing entirely), and after that only rewritten if a server's `"command"` interpreter
+path no longer resolves on this machine (a genuine OS switch), by flipping it to the
+sibling venv-interpreter path (`.venv/Scripts/python.exe` <-> `.venv/bin/python`). Both
+cases share the same per-server correction loop below. Every other session is a cheap
+no-op: read, verify each path still resolves, exit -- no write at all.
 
 Why the file is gitignored and only conditionally written, not regenerated every
-session: `.mcp.json` is static JSON and cannot branch on OS, so every prior fix to this
-exact problem hardcoded one OS's path into the *committed* file and broke the other OS
-the next time the workspace ran on a different machine (2026-08-13: bare "uv" broke on
-the host's stale PATH; 2026-08-20: the WSL/Linux fix's `.venv/bin/python` committed as
-the new default then broke a Windows session; 2026-08-30: the fix for *that* -- a
-per-session self-healing hook -- turned out to leave a locally-rewritten `.mcp.json`
-one accidental `git add -A` away from repeating the same failure for the next person to
-pull). Gitignoring the real file removes that failure mode structurally instead of
-relying on nobody committing it by mistake. Regenerating on every session (an earlier
-version of this proposal) was rejected: the CEO flagged that rewriting `.mcp.json` near
-an already-connected MCP server carries real risk, and OS switches are rare enough that
+session: `.mcp.json` is static JSON and cannot branch on OS, so a single checked-in path
+cannot resolve correctly on every machine that pulls the repo. Gitignoring the real file
+removes that failure mode structurally instead of relying on nobody committing it by
+mistake. Regenerating on every session was rejected: rewriting `.mcp.json` near an
+already-connected MCP server carries real risk, and OS switches are rare enough that
 paying that cost every session is the wrong trade -- so this hook only ever writes when
-the file is missing or a path has actually gone stale, matching the original design's
-cost profile.
-Full record: core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/
-(see log/10-windows-reopen-and-proposed-fix.md, log/11 for this hook's original
-implementation, and log/14-15 for the 2026-08-30 template/gitignore redesign).
+the file is missing or a path has actually gone stale.
+On a genuinely fresh clone, this hook's own SessionStart pass can run before
+mcp-venv-bootstrap.py has created either OS's venv, so its correction has nothing to find yet --
+mcp-venv-bootstrap.py re-invokes this script a second time, in-process, immediately after a
+successful `uv sync`, so the correction still lands within the same SessionStart pass instead of
+requiring a session restart. That second invocation runs this exact script unmodified; nothing
+below needs to know it may be called twice in one session.
 
 Advisory + self-correcting, never blocking: every code path below exits 0. A missing
 `.mcp.json.example` template, a `.mcp.json`/template that cannot be parsed, a server

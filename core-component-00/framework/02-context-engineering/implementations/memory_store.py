@@ -557,27 +557,24 @@ class IdentityVerification:
     logged_by value. ReflectionMemory.record_reflection() requires one of
     these — never a bare logged_by string — as its `identity` argument.
 
-    This closes the direct-import bypass documented in REFLECT-003 (the
-    memory_reflection collection's own MISTAKE-2026-07-16-001 record):
-    before this gate existed, any caller importing memory_store.py directly
+    This closes a direct-import bypass: without this gate,
+    any caller importing memory_store.py directly
     (rather than going through reflection_authoring.py) could call
     record_reflection() with an arbitrary logged_by and no identity check
     ran at all — reflection_authoring.py's wrapper was the *only* enforced
     checkpoint, and it was trivially skippable by importing this module
     instead.
 
-    Honest limitation, per mistake-log.md's 2026-07-16 Update (second
-    Wieczorek pass): this is not a cryptographic guarantee, and cannot be
+    Honest limitation: this is not a cryptographic guarantee, and cannot be
     made into one. Python has no true encapsulation — a caller who reads
     this module's source can still construct an IdentityVerification
     instance directly (`IdentityVerification(logged_by=..., git_identity=...,
     governance_confirmation=...)`) without ever having called
-    verify_authorized_identity() or require_governance_confirmation(). Two
-    rounds of adversarial review established this is a structural ceiling,
-    not an engineering gap awaiting a cleverer fix: in a process an agent
-    has import access to, any in-process check is skippable by calling
-    something lower. What each field here does is narrower and honestly
-    bounded:
+    verify_authorized_identity() or require_governance_confirmation(). This
+    is a structural ceiling, not an engineering gap awaiting a cleverer fix:
+    in a process an agent has import access to, any in-process check is
+    skippable by calling something lower. What each field here does is
+    narrower and honestly bounded:
 
     - logged_by / git_identity close the *zero-effort* bypass (import
       memory_store, call record_reflection() with nothing but a string) —
@@ -632,7 +629,7 @@ class ReflectionMemory:
     IdentityVerification — see that class's docstring) — this was
     previously enforced only by the reflection_authoring.py wrapper one
     layer up, which meant any caller importing this module directly bypassed
-    the check entirely (MISTAKE-2026-07-16-001). The only sanctioned way to
+    the check entirely. The only sanctioned way to
     obtain an IdentityVerification in production use is
     implementations/reflection_authoring.py's verify_authorized_identity().
 
@@ -721,9 +718,9 @@ class ReflectionMemory:
                 "IdentityVerification carrying a governance_confirmation that "
                 "matches this exact reflection_id — the TTY-gated human "
                 "confirmation (reflection_authoring.require_governance_confirmation()) "
-                "was not attested for this record. Defense-in-depth only, per "
-                "MISTAKE-2026-07-16-001: the actual security boundary for these "
-                "records is procedural, not this check."
+                "was not attested for this record. Defense-in-depth only: the "
+                "actual security boundary for these records is procedural, "
+                "not this check."
             )
 
         record = ReflectionRecord(
@@ -750,8 +747,7 @@ class ReflectionMemory:
                 # re-verify it (PersistentMemorySink.write_reflection() —
                 # memory_vector_store.py) rather than trusting that this
                 # method already did — defense-in-depth against a caller
-                # who bypasses ReflectionMemory and calls the sink directly
-                # (the second bypass MISTAKE-2026-07-16-001 documents).
+                # who bypasses ReflectionMemory and calls the sink directly.
                 self._sink.write_reflection(record, identity)
             except Exception as exc:
                 print(f"WARNING: reflection write-through to sink failed: {exc}", file=sys.stderr)

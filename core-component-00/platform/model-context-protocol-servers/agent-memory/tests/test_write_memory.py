@@ -260,6 +260,151 @@ class TestRejections:
 
 
 # ---------------------------------------------------------------------------
+# R3 (2026-09-02): PII is redacted before it ever reaches the embedder or
+# the stored payload. See pii_redaction.py's module docstring and
+# write_tool._write_memory_impl()'s inline comment at the redact_pii() call
+# site for the full rationale (2026-09-01 enterprise assessment, B4/R3).
+# ---------------------------------------------------------------------------
+
+
+def _spy_embedder():
+    """Wraps the module's deterministic `_embedder` fixture with a call
+    recorder, so a test can assert on the *exact text* the embedder was
+    invoked with — not just on the returned vector — without needing a
+    live embedder-service or in-process model."""
+    calls = []
+
+    def _embed(text):
+        calls.append(text)
+        return _embedder(text)
+
+    _embed.calls = calls
+    return _embed
+
+
+class TestPiiRedactionBeforeEmbed:
+    def test_email_never_reaches_embedder_or_storage(self, gate, rate_limiter, tracker):
+        client = _client_with_candidates([])
+        spy = _spy_embedder()
+        result = _call(
+            gate,
+            rate_limiter,
+            tracker,
+            client,
+            content="reach me at jane.doe@example.com about the launch",
+            embedder=spy,
+        )
+        assert result["written"] is True
+        assert all("jane.doe@example.com" not in text for text in spy.calls)
+        assert any("[REDACTED_EMAIL]" in text for text in spy.calls)
+        upserted_payload = client.upsert.call_args.kwargs["points"][0].payload
+        assert "jane.doe@example.com" not in upserted_payload["content"]
+        assert "[REDACTED_EMAIL]" in upserted_payload["content"]
+
+    def test_phone_number_never_reaches_embedder_or_storage(self, gate, rate_limiter, tracker):
+        client = _client_with_candidates([])
+        spy = _spy_embedder()
+        result = _call(
+            gate,
+            rate_limiter,
+            tracker,
+            client,
+            content="call the customer back at 555-123-4567 tomorrow",
+            embedder=spy,
+        )
+        assert result["written"] is True
+        assert all("555-123-4567" not in text for text in spy.calls)
+        upserted_payload = client.upsert.call_args.kwargs["points"][0].payload
+        assert "555-123-4567" not in upserted_payload["content"]
+        assert "[REDACTED_PHONE]" in upserted_payload["content"]
+
+    def test_ssn_never_reaches_embedder_or_storage(self, gate, rate_limiter, tracker):
+        client = _client_with_candidates([])
+        spy = _spy_embedder()
+        result = _call(
+            gate,
+            rate_limiter,
+            tracker,
+            client,
+            content="applicant SSN on file is 123-45-6789 per HR",
+            embedder=spy,
+        )
+        assert result["written"] is True
+        assert all("123-45-6789" not in text for text in spy.calls)
+        upserted_payload = client.upsert.call_args.kwargs["points"][0].payload
+        assert "123-45-6789" not in upserted_payload["content"]
+        assert "[REDACTED_SSN]" in upserted_payload["content"]
+
+    def test_credit_card_never_reaches_embedder_or_storage(self, gate, rate_limiter, tracker):
+        client = _client_with_candidates([])
+        spy = _spy_embedder()
+        result = _call(
+            gate,
+            rate_limiter,
+            tracker,
+            client,
+            content="card on file: 4111 1111 1111 1111 expires next year",
+            embedder=spy,
+        )
+        assert result["written"] is True
+        assert all("4111 1111 1111 1111" not in text for text in spy.calls)
+        upserted_payload = client.upsert.call_args.kwargs["points"][0].payload
+        assert "4111 1111 1111 1111" not in upserted_payload["content"]
+        assert "[REDACTED_CC]" in upserted_payload["content"]
+
+    def test_redaction_happens_before_collision_search_embedding(self, gate, rate_limiter, tracker):
+        """Collision search (_resolve_collision -> index.search(query_text=
+        content, ...)) embeds `content` too, before the write-time upsert
+        embed call — this test targets that earlier embed call specifically,
+        confirming redaction is not a one-off applied only to the final
+        upsert."""
+        client = _client_with_candidates([])
+        spy = _spy_embedder()
+        _call(
+            gate,
+            rate_limiter,
+            tracker,
+            client,
+            content="reach jane.doe@example.com for details",
+            embedder=spy,
+        )
+        # Both the collision-search embed and the upsert embed go through
+        # the same spy; neither call may have seen the raw email.
+        assert len(spy.calls) >= 1
+        assert all("jane.doe@example.com" not in text for text in spy.calls)
+
+    def test_content_without_pii_is_unchanged(self, gate, rate_limiter, tracker):
+        client = _client_with_candidates([])
+        spy = _spy_embedder()
+        plain = "the deploy window moved to Thursday afternoon"
+        _call(gate, rate_limiter, tracker, client, content=plain, embedder=spy)
+        assert plain in spy.calls
+        upserted_payload = client.upsert.call_args.kwargs["points"][0].payload
+        assert upserted_payload["content"] == plain
+
+    def test_confirmation_summary_never_carries_raw_pii(self, gate, rate_limiter, tracker):
+        """High-consequence path (collision found, no judge configured)
+        builds a human-facing summary from content[:200] — that summary
+        must also never carry raw PII, since redaction happens once,
+        upstream of every downstream use of `content`."""
+        import json
+
+        client = _client_with_candidates([_existing_record_payload()])
+        result = _call(
+            gate,
+            rate_limiter,
+            tracker,
+            client,
+            content="collides with an existing fact, contact jane.doe@example.com",
+        )
+        assert result["status"] == "confirmation_required"
+        marker_path = gate.confirmation_marker_path("session-1")
+        marker = json.loads(marker_path.read_text(encoding="utf-8"))
+        assert "jane.doe@example.com" not in marker["summary"]
+        assert "[REDACTED_EMAIL]" in marker["summary"]
+
+
+# ---------------------------------------------------------------------------
 # Injection-flagged content: always forced to quarantine
 # ---------------------------------------------------------------------------
 

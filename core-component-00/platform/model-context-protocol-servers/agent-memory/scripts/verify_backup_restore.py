@@ -6,9 +6,7 @@ STATUS: implemented, INACTIVE. Not scheduled, not invoked by any running
 process, not yet executed against a live Qdrant instance. Run manually (or
 via a future scheduled trigger, once activated) to confirm the latest
 snapshot is actually restorable — a backup nobody has restored isn't a
-verified backup. See:
-core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
-§9
+verified backup.
 
 Replays the most recent snapshot under
 core-component-00/platform/model-context-protocol-servers/agent-memory/backups/snapshots/ through the

@@ -286,11 +286,10 @@ class TestReflectionMemory:
 
 
 # ---------------------------------------------------------------------------
-# ReflectionMemory.record_reflection()'s IdentityVerification gate —
-# closes the direct-import bypass documented in REFLECT-003
-# (MISTAKE-2026-07-16-001): a caller importing memory_store.py directly,
-# bypassing reflection_authoring.py entirely, must still supply a genuine
-# IdentityVerification token issued for the exact logged_by being recorded.
+# ReflectionMemory.record_reflection()'s IdentityVerification gate: a caller
+# importing memory_store.py directly, bypassing reflection_authoring.py
+# entirely, must still supply a genuine IdentityVerification token issued
+# for the exact logged_by being recorded.
 # ---------------------------------------------------------------------------
 
 class TestRecordReflectionIdentityGate:
@@ -375,17 +374,14 @@ class TestRecordReflectionIdentityGate:
 
 
 # ---------------------------------------------------------------------------
-# The governance_confirmation composition-gap fix (MISTAKE-2026-07-16-001's
-# 2026-07-16 Update, remediation item 1): a GOVERNANCE_TRIGGERS record
+# The governance_confirmation composition check: a GOVERNANCE_TRIGGERS record
 # requires the IdentityVerification's governance_confirmation to match the
 # exact reflection_id — a plain, hand-fabricated IdentityVerification with
 # correct logged_by/git_identity but no (or a mismatched) governance_
-# confirmation is rejected, closing the "silently skip the confirmation
-# step entirely" gap Wieczorek's second pass found. Honest framing per the
-# coordinator: this raises the bar for the composition gap, it does not
-# make the token unforgeable — a caller who reads the source can still set
-# governance_confirmation correctly by hand without ever having gone
-# through a real TTY prompt. These tests verify the composition check
+# confirmation is rejected. This raises the bar for the composition gap, it
+# does not make the token unforgeable — a caller who reads the source can
+# still set governance_confirmation correctly by hand without ever having
+# gone through a real TTY prompt. These tests verify the composition check
 # exists and works, not that it closes that broader limitation.
 # ---------------------------------------------------------------------------
 
@@ -670,8 +666,8 @@ class TestPersistentMemorySinkWriteReflection:
 
 # ---------------------------------------------------------------------------
 # PersistentMemorySink.write_reflection()'s IdentityVerification gate —
-# closes the second live bypass Dr. Wieczorek's second pass found: a caller
-# constructing a bare ReflectionRecord and calling this method directly,
+# closes the bypass where a caller
+# constructs a bare ReflectionRecord and calls this method directly,
 # skipping ReflectionMemory (and therefore record_reflection()'s own gate)
 # entirely. Honest framing: this is defense-in-depth, not a floor —
 # JSONLMemoryLog.append_reflection() and QdrantMemoryIndex.upsert_payload()
@@ -711,7 +707,7 @@ class TestWriteReflectionIdentityGate:
         assert log.read_all_reflections() == []
 
     def test_direct_bare_record_bypass_is_rejected(self, tmp_path):
-        """The literal scenario Dr. Wieczorek's second pass demonstrated:
+        """The direct-sink-call bypass:
         construct a ReflectionRecord directly (never through
         ReflectionMemory.record_reflection()) and call the sink directly."""
         log = JSONLMemoryLog(root_dir=tmp_path)

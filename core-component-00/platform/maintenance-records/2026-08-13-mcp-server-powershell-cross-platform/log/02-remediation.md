@@ -1,17 +1,10 @@
 # Log Entry 02 — Remediation — 2026-08-13
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), following the
-plan approved at stage 2 in
-`core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/01-discovery.md`.
-
-**Trigger:** The CEO reviewed the discovery entry, confirmed the maintenance-record's own
-follow-up table already functioned as the implementation plan (no separate implementation-plan
-document needed), and approved proceeding with execution as planned.
-
-**State before:** As documented in
-`core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/01-discovery.md`'s
-five findings.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), following the plan approved at stage 2 in `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/01-discovery.md` |
+| **Trigger**      | The CEO reviewed the discovery entry, confirmed the maintenance-record's own follow-up table already functioned as the implementation plan (no separate implementation-plan document needed), and approved proceeding with execution as planned.                                                                                                                                    |
+| **State before** | As documented in `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/01-discovery.md`'s five findings.                                                                                                                                                                                                                              |
 
 **Actions taken:**
 
@@ -83,12 +76,7 @@ that file for items 1 and 3. **Unaffected by the later revert.**
 resolving `UV_PROJECT_ENVIRONMENT` to `bin/python` there — flagged as an open item, not claimed as
 tested. This remains open — see `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/03-incident-revert.md`'s follow-up item.
 
-**Outcome:** All five items were implemented; items 1–3 (the only ones with runnable code) were
-verified working on Windows in isolated testing, including one real, non-mocked exercise of the
-psutil-based sibling-cleanup against live system processes. `agent-memory` test suite green at
-249/249. `manage_embedder_service.ps1` retired in favor of the Python port. **Item 1 did not
-survive contact with the live MCP host — see `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/03-incident-revert.md`.**
-
-**Handoff to next stage:** User needed to run `/mcp reconnect` for both servers to pick up the new
-`.mcp.json` command. This is what surfaced the incident documented next — the topic reopened at
-pipeline stage 1 rather than closing here.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | All five items were implemented; items 1–3 (the only ones with runnable code) were verified working on Windows in isolated testing, including one real, non-mocked exercise of the psutil-based sibling-cleanup against live system processes. `agent-memory` test suite green at 249/249. `manage_embedder_service.ps1` retired in favor of the Python port. **Item 1 did not survive contact with the live MCP host — see `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/03-incident-revert.md`.** |
+| **Handoff to next stage** | User needed to run `/mcp reconnect` for both servers to pick up the new `.mcp.json` command. This is what surfaced the incident documented next — the topic reopened at pipeline stage 1 rather than closing here.                                                                                                                                                                                                                                                                                                                                        |

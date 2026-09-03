@@ -98,8 +98,7 @@ consistency, not as a link to any one of those archives. The same dated `YYYY-MM
 pattern is also used by `curriculum/reviews/` (dated review cycles) and `plans/` (dated
 CEO-facing implementation plans, see `plans/README.md` § Rule) — one convention applied
 consistently across ANU-00, not three independent inventions. No entries exist yet directly under
-`knowledge-base/` itself as of this file's authoring; the convention is established ahead of
-first use there specifically.
+`knowledge-base/` itself; the convention is established ahead of first use there.
 
 **Curriculum vs. knowledge-base (boundary).** `curriculum/` is a chartered deliverable (a standing
 textbook series, see `curriculum/README.md`) with its own approval and review process — it is not
@@ -108,8 +107,7 @@ research findings from a chartered programme (see `knowledge-base/README.md` § 
 finished teaching material. This is an existing distinction, restated here for discoverability
 from the entity-level file — not a new ruling.
 
-**Templates (established 2026-07-24, CEO-delegated to Dr. Mokoena; observation record added
-2026-07-25).** Six templates govern the research process — charter, open-question log, observation
+**Templates.** Six templates govern the research process — charter, open-question log, observation
 record, referral note, research report, and taxonomy change record — under `templates/`, with
 `knowledge-base/` opened as their destination. Every required
 section in them traces to a documented rule in a crew skill file or the charter; none exists on
