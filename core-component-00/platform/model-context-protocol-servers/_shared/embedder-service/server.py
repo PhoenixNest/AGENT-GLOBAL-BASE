@@ -2,10 +2,9 @@
 embedder-service — persistent, localhost-only embedding server shared by
 every CC-00 MCP server that needs a sentence-transformers model.
 
-Built to remove a heavy compiled-extension import (sentence_transformers ->
-torch/scipy) happening inside a process the MCP host spawns and churns
-(root-caused in the 2026-07-13 embedder-service-redesign investigation).
-This service is launched once, outside that host-spawned lifecycle, and
+Removes a heavy compiled-extension import (sentence_transformers ->
+torch/scipy) from happening inside a process the MCP host spawns and
+churns. This service is launched once, outside that host-spawned lifecycle, and
 loads both models a single time at startup; consumers talk to it over plain
 HTTP instead of importing the ML stack themselves.
 
