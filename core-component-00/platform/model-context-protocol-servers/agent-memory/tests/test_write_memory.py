@@ -260,10 +260,9 @@ class TestRejections:
 
 
 # ---------------------------------------------------------------------------
-# R3 (2026-09-02): PII is redacted before it ever reaches the embedder or
-# the stored payload. See pii_redaction.py's module docstring and
-# write_tool._write_memory_impl()'s inline comment at the redact_pii() call
-# site for the full rationale (2026-09-01 enterprise assessment, B4/R3).
+# PII is redacted before it ever reaches the embedder or the stored payload.
+# See pii_redaction.py's module docstring and write_tool._write_memory_impl()'s
+# inline comment at the redact_pii() call site for the full rationale.
 # ---------------------------------------------------------------------------
 
 

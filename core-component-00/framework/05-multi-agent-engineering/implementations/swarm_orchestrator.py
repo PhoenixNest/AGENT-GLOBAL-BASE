@@ -499,8 +499,7 @@ class SwarmOrchestrator:
         }
         # No silent default: an unrouted SwarmTopology member must raise
         # loudly here rather than falling through to Hybrid unannounced
-        # (MAE R1 — see TestUnroutedTopologyLoudFailure in
-        # test_swarm_orchestrator.py for the regression this closes).
+        # (see TestUnroutedTopologyLoudFailure in test_swarm_orchestrator.py).
         executor = dispatch.get(plan.topology)
         if executor is None:
             raise NotImplementedError(
