@@ -1,14 +1,10 @@
 # Log Entry 11 — Self-Healing Hook Implemented — 2026-08-25
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), executing the
-CEO-approved plan from `log/10-windows-reopen-and-proposed-fix.md`.
-
-**Trigger:** CEO reviewed `log/10`'s proposal and approved the durable fix, authorizing Execution.
-
-**State before:** `.mcp.json`'s two `"command"` values pointed at the Linux/WSL venv path
-(`.venv/bin/python`, set in `log/06`), which does not exist on this Windows machine — both
-registered MCP servers unreachable, per `log/10`.
+| Field            | Detail                                                                                                                                                                                                                                                                                                |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), executing the CEO-approved plan from `log/10-windows-reopen-and-proposed-fix.md` |
+| **Trigger**      | CEO reviewed `log/10`'s proposal and approved the durable fix, authorizing Execution.                                                                                                                                                                                                                 |
+| **State before** | `.mcp.json`'s two `"command"` values pointed at the Linux/WSL venv path (`.venv/bin/python`, set in `log/06`), which does not exist on this Windows machine — both registered MCP servers unreachable, per `log/10`.                                                                                  |
 
 **Actions taken:**
 
@@ -51,14 +47,7 @@ this class of change — a live `/mcp reconnect` from the Claude Code host, perf
 by someone other than the executor, is the confirming test. That has not happened yet in this
 entry. **Status stays "Executed, pending independent verification"** until it does.
 
-**Outcome:** `.mcp.json` is corrected for this Windows session (both servers should now launch).
-The durable fix — the `SessionStart` self-healing hook — is implemented, registered, and
-functionally verified by direct invocation, but not yet confirmed against a live Claude Code host
-`/mcp reconnect`, which is this topic's actual bar for calling a `.mcp.json`-touching change done.
-
-**Handoff to next stage:** Ask the user/CEO to run `/mcp` (reconnect) now that this session is
-live, and call each server's `health_check` tool over the resulting connection — the same
-two-step confirmation `log/07` used for the 2026-08-20 fix. A follow-up entry (`log/12`) should
-record that result: if it succeeds, Item #1 re-closes and this topic's `Status` returns to
-"Completed"; if it fails, this is a new incident requiring its own `log/` entry per the Reopen
-edge, not a silent retry.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | `.mcp.json` is corrected for this Windows session (both servers should now launch). The durable fix — the `SessionStart` self-healing hook — is implemented, registered, and functionally verified by direct invocation, but not yet confirmed against a live Claude Code host `/mcp reconnect`, which is this topic's actual bar for calling a `.mcp.json`-touching change done.                                                                                                 |
+| **Handoff to next stage** | Ask the user/CEO to run `/mcp` (reconnect) now that this session is live, and call each server's `health_check` tool over the resulting connection — the same two-step confirmation `log/07` used for the 2026-08-20 fix. A follow-up entry (`log/12`) should record that result: if it succeeds, Item #1 re-closes and this topic's `Status` returns to "Completed"; if it fails, this is a new incident requiring its own `log/` entry per the Reopen edge, not a silent retry. |

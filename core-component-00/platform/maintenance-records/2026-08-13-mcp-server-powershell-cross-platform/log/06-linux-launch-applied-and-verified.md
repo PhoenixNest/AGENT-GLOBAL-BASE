@@ -1,18 +1,10 @@
 # Log Entry 06 — Linux Launch Path Applied and Verified — 2026-08-20
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), on the existing
-topic per the topic-boundary test — same system (`.mcp.json`'s `"command"`), direct follow-up to
-Open Follow-Up Item #1 from this topic's Close.
-
-**Trigger:** CEO asked for this topic's Open Follow-Up Item #1 (`.mcp.json` still Windows-only,
-requires a manual per-OS edit) to be treated as a maintenance task and fixed on a WSL/Linux machine
-now actually available for testing.
-
-**State before:** `.mcp.json`'s `"command"` for both servers was
-`${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/.venv/Scripts/python.exe` — the Windows-only
-path, per the 2026-08-13 revert (`log/03-incident-revert.md`). No `.venv` existed at
-`core-component-00/platform/model-context-protocol-servers/.venv/` on this machine at all.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), on the existing topic per the topic-boundary test — same system (`.mcp.json`'s `"command"`), direct follow-up to Open Follow-Up Item #1 from this topic's Close |
+| **Trigger**      | CEO asked for this topic's Open Follow-Up Item #1 (`.mcp.json` still Windows-only, requires a manual per-OS edit) to be treated as a maintenance task and fixed on a WSL/Linux machine now actually available for testing.                                                                                                                                                           |
+| **State before** | `.mcp.json`'s `"command"` for both servers was `${CLAUDE_PROJECT_DIR:-.}/core-component-00/platform/model-context-protocol-servers/.venv/Scripts/python.exe` — the Windows-only path, per the 2026-08-13 revert (`log/03-incident-revert.md`). No `.venv` existed at `core-component-00/platform/model-context-protocol-servers/.venv/` on this machine at all.                      |
 
 **Actions taken:**
 
@@ -85,19 +77,7 @@ other sessions depend on — per this topic's own Verification-stage gate, Statu
 executor was available in this session. **Status stays "Executed, pending independent
 verification"** until someone else confirms `/mcp reconnect` actually works on this machine.
 
-**Outcome:** Both servers now launch cleanly on this WSL/Linux machine via direct per-server venv
-interpreter paths in `.mcp.json`. The original 2026-08-13 finding (Windows-only hardcoded path) is
-functionally fixed for this machine — not by the documented shared-venv one-line edit (that venv
-doesn't exist here), but by an equivalent direct-path edit against each server's real, working
-venv. Neither server's venv has the full CUDA/torch/ML stack synced, so both would currently run
-with `embedder-service`/local-model embedding degraded rather than fully capable — a separate,
-already-documented graceful-degradation path (`.claude/rules/mcp-governance.md` § Shared
-Infrastructure), not a new failure this entry introduces.
-
-**Handoff to next stage:** Does not close this topic. Three items now open (see
-`maintenance-record.md`'s Open Follow-Up Items, updated alongside this entry):
-(1) independent confirmation that `/mcp reconnect` actually works on this machine with the new
-paths; (2) the shared-vs-per-server venv architecture question, owned by Dr. Vance/Ravi Deshmukh;
-(3) completing the full `uv sync` (CUDA/torch/transformers/scikit-learn) in both venvs so embedding
-runs at full capability rather than degraded. None of the three block the launch-path fix itself
-from standing.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Outcome**               | Both servers now launch cleanly on this WSL/Linux machine via direct per-server venv interpreter paths in `.mcp.json`. The original 2026-08-13 finding (Windows-only hardcoded path) is functionally fixed for this machine — not by the documented shared-venv one-line edit (that venv doesn't exist here), but by an equivalent direct-path edit against each server's real, working venv. Neither server's venv has the full CUDA/torch/ML stack synced, so both would currently run with `embedder-service`/local-model embedding degraded rather than fully capable — a separate, already-documented graceful-degradation path (`.claude/rules/mcp-governance.md` § Shared Infrastructure), not a new failure this entry introduces. |
+| **Handoff to next stage** | Does not close this topic. Three items now open (see `maintenance-record.md`'s Open Follow-Up Items, updated alongside this entry): (1) independent confirmation that `/mcp reconnect` actually works on this machine with the new paths; (2) the shared-vs-per-server venv architecture question, owned by Dr. Vance/Ravi Deshmukh; (3) completing the full `uv sync` (CUDA/torch/transformers/scikit-learn) in both venvs so embedding runs at full capability rather than degraded. None of the three block the launch-path fix itself from standing.                                                                                                                                                                                   |

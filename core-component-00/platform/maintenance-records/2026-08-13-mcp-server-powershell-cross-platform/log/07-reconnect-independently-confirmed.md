@@ -1,16 +1,10 @@
 # Log Entry 07 — Live `/mcp reconnect` Independently Confirmed — 2026-08-20
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 4 — Verification (`core-component-00/platform/maintenance-records/pipeline.md`), closing out
-`log/06-linux-launch-applied-and-verified.md`'s open independent-review requirement.
-
-**Trigger:** The CEO ran `/mcp` (reconnect) from the live Claude Code host on this machine against
-`.mcp.json` as fixed in `log/06-linux-launch-applied-and-verified.md`, and reported the result.
-
-**State before:** Both servers foreground-verified in isolation (`log/06`), but per `pipeline.md`'s
-stage 4 gate, that self-verification was explicitly insufficient for a `.mcp.json` change —
-the 2026-08-13 incident (`log/03-incident-revert.md`) is the precedent for why: a change that
-launches cleanly in the foreground still broke under the host's actual spawn environment.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 4 — Verification (`core-component-00/platform/maintenance-records/pipeline.md`), closing out `log/06-linux-launch-applied-and-verified.md`'s open independent-review requirement                                               |
+| **Trigger**      | The CEO ran `/mcp` (reconnect) from the live Claude Code host on this machine against `.mcp.json` as fixed in `log/06-linux-launch-applied-and-verified.md`, and reported the result.                                                                                                                                                                                 |
+| **State before** | Both servers foreground-verified in isolation (`log/06`), but per `pipeline.md`'s stage 4 gate, that self-verification was explicitly insufficient for a `.mcp.json` change — the 2026-08-13 incident (`log/03-incident-revert.md`) is the precedent for why: a change that launches cleanly in the foreground still broke under the host's actual spawn environment. |
 
 **Actions taken:**
 
@@ -40,15 +34,7 @@ launches cleanly in the foreground still broke under the host's actual spawn env
 reported by the CEO, not the executor of `log/06`'s fix — this is the independent confirmation
 that entry's Status line said was still needed.
 
-**Outcome:** Open Follow-Up Item #1 (`.mcp.json` WSL/Linux launch defect) is now genuinely closed
-— both self-verification (`log/06`) and independent live verification (this entry) confirm it.
-The two degradations surfaced (`rank_bm25` missing, embedder stack missing) are the concrete,
-now-observed symptoms of the already-open Item #5 (incomplete `uv sync`), not new findings —
-noted here as evidence, not as a new item.
-
-**Handoff to next stage:** Item #1 closes. Two items remain open on this topic (see
-`maintenance-record.md`, updated alongside this entry): the per-server-vs-shared-venv architecture
-question (Item #4) and completing the full dependency sync in each venv (Item #5, now with
-concrete symptoms attached) so both servers run at full capability rather than degraded. Item #3
-(Linux/macOS DR-scheduling verification) remains untouched by this entry. This topic does not
-close yet — three items still open.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | Open Follow-Up Item #1 (`.mcp.json` WSL/Linux launch defect) is now genuinely closed — both self-verification (`log/06`) and independent live verification (this entry) confirm it. The two degradations surfaced (`rank_bm25` missing, embedder stack missing) are the concrete, now-observed symptoms of the already-open Item #5 (incomplete `uv sync`), not new findings — noted here as evidence, not as a new item.                                                                 |
+| **Handoff to next stage** | Item #1 closes. Two items remain open on this topic (see `maintenance-record.md`, updated alongside this entry): the per-server-vs-shared-venv architecture question (Item #4) and completing the full dependency sync in each venv (Item #5, now with concrete symptoms attached) so both servers run at full capability rather than degraded. Item #3 (Linux/macOS DR-scheduling verification) remains untouched by this entry. This topic does not close yet — three items still open. |
