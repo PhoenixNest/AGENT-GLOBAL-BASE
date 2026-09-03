@@ -1,17 +1,10 @@
 # Log Entry 09 — Full Dependency Sync Completed — 2026-08-20
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), closing Open
-Follow-Up Item #5.
-
-**Trigger:** CEO approved continuing the dependency sync (raised alongside the Item #4 advice
-request). Both venvs' `uv sync` were relaunched in the background to install the full
-CUDA/torch/transformers/scikit-learn stack that `log/06`'s launch fix had left incomplete.
-
-**State before:** `agent-memory/.venv/` and `workspace-knowledge/.venv/` both had `fastmcp` and
-their core dependencies but not `torch`, `sentence-transformers`, or (for `workspace-knowledge`)
-`rank_bm25` — both servers ran with embedding/search degraded, directly observed via
-`health_check` in `log/07`.
+| Field            | Detail                                                                                                                                                                                                                                                                                          |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), closing Open Follow-Up Item #5                                             |
+| **Trigger**      | CEO approved continuing the dependency sync (raised alongside the Item #4 advice request). Both venvs' `uv sync` were relaunched in the background to install the full CUDA/torch/transformers/scikit-learn stack that `log/06`'s launch fix had left incomplete.                               |
+| **State before** | `agent-memory/.venv/` and `workspace-knowledge/.venv/` both had `fastmcp` and their core dependencies but not `torch`, `sentence-transformers`, or (for `workspace-knowledge`) `rank_bm25` — both servers ran with embedding/search degraded, directly observed via `health_check` in `log/07`. |
 
 **Actions taken:**
 
@@ -44,12 +37,7 @@ warm-start behavior now that both venvs can support it — those require exercis
 a real MCP connection with real queries, which is the next opportunistic step (Item #2's remaining
 half: `manage_embedder_service.py`'s Linux/macOS path), not something this entry claims.
 
-**Outcome:** Open Follow-Up Item #5 is closed. Both servers' venvs now hold the full declared
-dependency set from their respective `pyproject.toml`/`uv.lock`, verified by direct import and one
-foreground launch each — not just process-exit-code trust, given the session interruption that
-made exactly that kind of unverified trust fail silently earlier in this same item's history.
-
-**Handoff to next stage:** One item remains open on this topic: Item #3 (Linux/macOS DR-scheduling
-verification for `register_backup_task.py`), explicitly kept deferred per CEO direction. This
-entry does not close the topic — `maintenance-record.md`'s Status is updated alongside it to
-reflect one remaining open item.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | Open Follow-Up Item #5 is closed. Both servers' venvs now hold the full declared dependency set from their respective `pyproject.toml`/`uv.lock`, verified by direct import and one foreground launch each — not just process-exit-code trust, given the session interruption that made exactly that kind of unverified trust fail silently earlier in this same item's history. |
+| **Handoff to next stage** | One item remains open on this topic: Item #3 (Linux/macOS DR-scheduling verification for `register_backup_task.py`), explicitly kept deferred per CEO direction. This entry does not close the topic — `maintenance-record.md`'s Status is updated alongside it to reflect one remaining open item.                                                                              |

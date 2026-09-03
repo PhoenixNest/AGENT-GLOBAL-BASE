@@ -65,15 +65,12 @@ free.
 > command can start cleanly in a fresh shell test and still fail when the host itself spawns it.
 > `"python"` additionally risks a system-wide, possibly CPU-only interpreter. `.mcp.json`'s
 > `"command"` must therefore be an absolute or `${CLAUDE_PROJECT_DIR:-.}`-relative path to a
-> concrete interpreter, never a bare command name resolved via `PATH`. Full incident record:
-> `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
+> concrete interpreter, never a bare command name resolved via `PATH`.
 >
 > **Cross-platform path resolution:** `.mcp.json` is static JSON and cannot branch on OS, so a
 > single checked-in interpreter path cannot itself resolve to both `Scripts/python.exe` (Windows)
 > and `bin/python` (Linux/macOS) — and a machine-specific path is not something that belongs in
-> git at all (2026-08-30: the earlier per-session self-heal design left a locally-rewritten
-> `.mcp.json` one accidental `git add -A` away from shipping one OS's path as the new committed
-> default and breaking the other OS for the next puller). As of 2026-08-30, root `.mcp.json` is
+> git at all. Root `.mcp.json` is
 > **gitignored** and machine-local; the committed source of truth is `.mcp.json.example`. A
 > `SessionStart` hook, `.claude/hooks/mcp-config-platform-check.py`, resolves it automatically:
 >
@@ -90,9 +87,7 @@ free.
 > and happens before Claude Code's own `/mcp reconnect` runs. Changing shared, non-path config
 > (e.g. `agent-memory`'s `MEMORY_QDRANT_URL`) means editing `.mcp.json.example` **and** deleting
 > your local `.mcp.json` so the hook regenerates it — a `git pull` alone no longer propagates
-> changes to the machine-local file. Full record:
-> `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`
-> (`log/14`, `log/15`).
+> changes to the machine-local file.
 
 **`sys.path` and `sys.executable` are not interchangeable.** Inserting a `site-packages` directory
 at `sys.path[0]` affects _imports in the current process only_ — it does not change

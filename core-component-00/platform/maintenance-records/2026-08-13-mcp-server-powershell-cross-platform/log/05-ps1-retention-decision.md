@@ -1,17 +1,10 @@
 # Log Entry 05 — `register_backup_task.ps1` Retention Decision — 2026-08-14
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), a status-only
-follow-up on the same topic per the topic-boundary test (same system/resource named in the main
-record: `agent-memory/scripts/register_backup_task.ps1` and its Linux/macOS counterpart).
-
-**Trigger:** Following log entry 04, the CEO asked whether `register_backup_task.ps1` could now
-be removed, since a Linux/macOS counterpart (`register_backup_task.py`) exists. Dr. Vance was
-asked for a recommendation before any file change.
-
-**State before:** Both scripts present in `agent-memory/scripts/` — `.ps1` (Windows Task
-Scheduler, verified working since the original remediation) and `.py` (systemd timer / crontab,
-written 2026-08-14, explicitly unverified — see log entry 04).
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), a status-only follow-up on the same topic per the topic-boundary test (same system/resource named in the main record: `agent-memory/scripts/register_backup_task.ps1` and its Linux/macOS counterpart) |
+| **Trigger**      | Following log entry 04, the CEO asked whether `register_backup_task.ps1` could now be removed, since a Linux/macOS counterpart (`register_backup_task.py`) exists. Dr. Vance was asked for a recommendation before any file change.                                                                                                                                                                                         |
+| **State before** | Both scripts present in `agent-memory/scripts/` — `.ps1` (Windows Task Scheduler, verified working since the original remediation) and `.py` (systemd timer / crontab, written 2026-08-14, explicitly unverified — see log entry 04).                                                                                                                                                                                       |
 
 **Actions taken:**
 
@@ -34,10 +27,7 @@ written 2026-08-14, explicitly unverified — see log entry 04).
 **Independent-review gate (pipeline.md stage 4):** Not applicable — no file removed, no
 production-touching change made.
 
-**Outcome:** No code or script changes. `register_backup_task.ps1` and `register_backup_task.py`
-both remain in place. This entry records the decision and its rationale so it isn't re-litigated
-without the platform-exclusivity context surfacing again.
-
-**Handoff to next stage:** Close for this entry. Removing `.ps1` becomes a like-for-like swap only
-once `register_backup_task.py` is confirmed working for real on Linux and/or macOS — tracked as
-Open Follow-Up Item 3 on the main record, unchanged by this decision.
+| Field                     | Detail                                                                                                                                                                                                                                         |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | No code or script changes. `register_backup_task.ps1` and `register_backup_task.py` both remain in place. This entry records the decision and its rationale so it isn't re-litigated without the platform-exclusivity context surfacing again. |
+| **Handoff to next stage** | Close for this entry. Removing `.ps1` becomes a like-for-like swap only once `register_backup_task.py` is confirmed working for real on Linux and/or macOS — tracked as Open Follow-Up Item 3 on the main record, unchanged by this decision.  |
