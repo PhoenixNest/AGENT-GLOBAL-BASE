@@ -280,7 +280,7 @@ Binding details:
 
 ### 4.4 Section Citation & Academic Range Notation (§ vs §§)
 
-In accordance with international academic publishing standards (Chicago Manual of Style §10.42, Bluebook Rule 3.3) and CEO ratification (2026-08-24, Entry 14):
+In accordance with international academic publishing standards (Chicago Manual of Style §10.42, Bluebook Rule 3.3):
 
 - **Singular Section Citations:** Reference a single section using the singular section sign `§X` in English (e.g., `[§4](#...)` or `Section 4`) and `[第 X 节](#...)` in Chinese.
 - **Plural Section & Range Citations:** Reference a range or multiple sections using the academic plural double section sign `§§X–Y` in English (e.g., `[§§2–5](#...)` representing _"Sections 2 through 5"_) and `[第 X–Y 节](#...)` in Chinese.
@@ -308,17 +308,11 @@ CITATIONS (mandatory):
   it, or find a verifiable source instead.
 - Internal Cross-References lists other curriculum modules this document builds on or connects to,
   as a real, resolvable `https://anu00.dev/curriculum/books/<NN-tier>/<filename>.md[#anchor]` URL —
-  **not** a relative markdown link. Per the CEO's distribution-target ruling (2026-08-26,
-  `plans/2026-08-26-curriculum-external-audience-remediation/external-audience-remediation-plan.md`
-  §4), the curriculum is published as a single hosted public site, so every internal
-  cross-reference must resolve the same way for internal and external readers alike.
-  `anu00.dev` is an explicit placeholder domain pending real hosting provisioning — swap it for
-  the real domain once hosting exists, but do not revert to a relative path in the meantime.
-  (This line previously read "as relative markdown links" — that was the pre-2026-08-26
-  convention and is now stale; corrected 2026-08-27 after the stale text caused this exact
-  regression during the S2 extension's Phase 3 review and remediation. The `books/<NN-tier>/`
-  segment was added 2026-08-31, Amendment 6, when the four content folders moved under
-  `curriculum/books/` — see Amendment 6 below.)
+  **not** a relative markdown link. The curriculum is published as a single hosted public site, so
+  every internal cross-reference must resolve the same way for internal and external readers
+  alike. `anu00.dev` is an explicit placeholder domain pending real hosting provisioning — swap it
+  for the real domain once hosting exists, but do not revert to a relative path in the meantime.
+  See Amendment 6 below for the plan reference governing this rule.
 - Audience: the reader has NO prior background in ML, AI, or agent development. Introductory-level
   docs must define every term before using it. Intermediate/advanced docs may assume only what
   earlier curriculum modules already taught — name which module, don't assume outside coursework.
@@ -415,13 +409,11 @@ deliverable rather than a research programme, and it is not delegable.
 | advanced     | 09  | Reinforcement Learning from Human Feedback                                | Dr. Samuel Okonkwo      | Post-Training (S2, Amendment 5)      |
 | advanced     | 10  | Modern Post-Training Methods: DPO, GRPO & Reward Modeling                 | Dr. Aditi Bhandari      | Post-Training (S2, Amendment 5)      |
 
-Modules `advanced/09` — Reinforcement Learning from Human Feedback and `advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling were ratified at charter (2026-08-27, Amendment 5) and
-have since been fully authored, internally reviewed (Phase 3) and remediated, externally
-blind-reviewed (Phase 4, technical-accuracy + interview-readiness) and remediated, and
-citation-format polished — the S2 plan's §4 production workflow is complete and closed under this
-ratification. See Amendment 5 below for the governing plan reference. The 6 hands-on practicum
-modules that are the other half of the S2 extension are a separate sibling category, not part of
-this table — see `practicum/README.md`.
+Modules `advanced/09` — Reinforcement Learning from Human Feedback and `advanced/10` — Modern
+Post-Training Methods: DPO, GRPO & Reward Modeling are complete — authored, internally and
+externally reviewed and remediated, and citation-format polished. See Amendment 5 below for the
+governing plan reference. The 6 hands-on practicum modules that are the other half of the S2
+extension are a separate sibling category, not part of this table — see `practicum/README.md`.
 
 ### 7.1 Filenames
 

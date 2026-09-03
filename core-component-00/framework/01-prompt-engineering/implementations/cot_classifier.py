@@ -12,16 +12,11 @@ all models regress on ComplexBench when CoT is applied. Llama3-8B-Instruct drops
 to 59.0% accuracy — an Original-vs-CoT comparison on the *same* model, not a
 base-vs-fine-tuned comparison. The paper's own proposed mitigation is "classifier-selective
 reasoning": an external classifier predicts whether CoT will help a given instance, keyed on
-the instance's task/constraints — not on the model's fine-tuning status.
-
-An earlier version of this module suppressed CoT based on a `-ft-`-style substring match in
-the model ID string. That is not a distinction this paper draws, measures, or supports, and
-no independent source was found documenting fine-tuning status as a CoT-routing signal in
-practice. That routing key has been removed; suppression now keys on the query's own
-task/constraint content (the axis the paper's benchmarks and mitigation actually use) plus
-the existing prompt-stability signal. Corrected 2026-08-24 — see
-core-component-00/platform/remediation/engineering/prompt-engineering/2026-08-17-prompt-engineering-remediation/
-items I2 and I3.
+the instance's task/constraints — not on the model's fine-tuning status. This module's
+suppression logic keys on the query's own task/constraint content (the axis the paper's
+benchmarks and mitigation actually use) plus the existing prompt-stability signal; no
+independent source documents fine-tuning status as a CoT-routing signal in practice, so the
+model ID string plays no role in this classification.
 """
 from dataclasses import dataclass
 from enum import Enum

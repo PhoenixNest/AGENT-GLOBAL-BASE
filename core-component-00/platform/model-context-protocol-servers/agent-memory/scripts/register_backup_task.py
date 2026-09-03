@@ -4,14 +4,11 @@ Phase 5 DR backup — Linux/macOS scheduling registration for the daily
 agent-memory JSONL log snapshot. Cross-platform counterpart to
 register_backup_task.ps1 (Windows Task Scheduler).
 
-STATUS: implemented, INACTIVE by default, UNVERIFIED ON LINUX/MACOS. Written
-2026-08-14 in response to a CEO request not to leave this gap deferred
-indefinitely, but there is no non-Windows machine available in this workspace
-to actually run it against a real systemd user session or crontab. Do not
-treat this script as DR-ready until someone has run it for real on the
-target OS and confirmed the resulting timer/cron entry actually fires. See
-core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/04-linux-macos-dr-scheduling.md
-for the full record of this gap and why it was written without being tested.
+STATUS: implemented, INACTIVE by default, UNVERIFIED ON LINUX/MACOS. There is
+no non-Windows machine available in this workspace to actually run it
+against a real systemd user session or crontab. Do not treat this script as
+DR-ready until someone has run it for real on the target OS and confirmed
+the resulting timer/cron entry actually fires.
 
 Running this script with no flags performs a DRY RUN only — it prints the
 unit/crontab definition it would register and registers nothing. Pass

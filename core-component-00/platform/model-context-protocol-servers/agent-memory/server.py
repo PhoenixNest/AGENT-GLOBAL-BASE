@@ -50,9 +50,7 @@ from write_provenance import get_default_rate_limiter  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
-# Structured per-call audit logging (R4, 2026-09-02 — see
-# platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-
-# enterprise-assessment/enterprise-assessment.md, B3/R4). Standard-library
+# Structured per-call audit logging. Standard-library
 # `logging` only, no new dependency. A module-level logger scoped to this
 # file's own name, not the "fastmcp" namespace fastmcp.utilities.logging
 # configures for its own internal logs (that configuration sets
@@ -222,8 +220,8 @@ def _resolve_sibling_cleanup_min_age_s() -> float:
     above the widest legitimate cold-start window this file allows for,
     including a retried attempt: the in-process embedder fallback retries
     once (_EMBEDDER_LOAD_MAX_ATTEMPTS = 2) at up to _EMBEDDER_LOAD_TIMEOUT_S
-    (90s) each, matching the documented 2026-07-13 incident where both
-    attempts stalled -- so a still-initializing legitimate process is never
+    (90s) each, covering the worst case where both attempts stall -- so a
+    still-initializing legitimate process is never
     mistaken for an orphan even in that worst case. Never raises and never
     returns below the floor, even on a malformed or adversarial override
     (including NaN, whose comparisons are always False and would otherwise
@@ -350,19 +348,16 @@ def _cleanup_stale_sibling_processes() -> None:
     """
     Terminates any other live process running this exact `server.py` before
     this instance proceeds. Mirrors the orphan-cleanup pattern already
-    proven for embedder-service (manage_embedder_service.ps1 -Action
-    cleanup / its 2026-08-13 manage_embedder_service.py port), applied here
-    to agent-memory's own process.
+    proven for embedder-service (manage_embedder_service.py's cleanup
+    action), applied here to agent-memory's own process.
 
-    Rationale (2026-08-09 live investigation, mcp-governance.md's
-    agent-memory row): the MCP host does not always cleanly terminate a
-    prior agent-memory process on `/mcp reconnect` -- four concurrent
-    instances were observed piling up in one session, each independently
+    Rationale: the MCP host does not always cleanly terminate a
+    prior agent-memory process on `/mcp reconnect` -- multiple concurrent
+    instances can pile up in one session, each independently
     racing to import the same heavy ML stack and/or spawn embedder-service.
     That is real resource contention (CPU, disk I/O, the shared
     embedder-service launch lock), not merely a theoretical duplicate, and
-    is a direct contributor to the cold-start stalls documented in that
-    row. This runs once, synchronously, at module-import time -- before
+    is a direct contributor to cold-start stalls. This runs once, synchronously, at module-import time -- before
     the embedder-service background thread starts further down -- so the
     process count is already trimmed by the time that race begins.
 
@@ -391,9 +386,7 @@ def _cleanup_stale_sibling_processes() -> None:
     _SIBLING_CLEANUP_MIN_AGE_S, so two processes spawned seconds apart by
     the same reconnect never treat each other as stale and kill each other.
 
-    Cross-platform via `psutil` (2026-08-13 -- previously Windows-only via
-    `powershell`/`Get-CimInstance`, a no-op elsewhere; see
-    core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md).
+    Cross-platform via `psutil`.
     Never raises: any failure here must not prevent this server from
     starting and serving.
 
@@ -476,18 +469,13 @@ _SHARED_MODEL_SLUG = "sentence-transformers--all-MiniLM-L6-v2"
 # has even been triggered, degrades gracefully (embedder still None) —
 # never blocks, never hangs.
 #
-# The load can also stall indefinitely rather than merely being slow (see
-# mcp-governance.md's agent-memory row and telescope/2026-07-13-mcp-embedder-
-# service-redesign/ for the investigation). _EMBEDDER_LOAD_TIMEOUT_S bounds
-# each attempt well above any observed successful load time, and a stalled
-# attempt is retried once in a fresh thread (the stalled thread itself is
-# abandoned — _call_with_hard_timeout never waits on it) before degrading.
-# Was 60.0. Raised 2026-08-09: a live run hit this exact bound on both
-# attempts (reported "failed: import did not complete within 60.0s across 2
-# attempts") under real multi-process contention, before a subsequent
-# process succeeded. 90s widens the on-demand budget to match what has
-# actually been observed rather than a synthetic estimate; it does not
-# claim to guarantee success.
+# The load can also stall indefinitely rather than merely being slow.
+# _EMBEDDER_LOAD_TIMEOUT_S bounds each attempt well above any observed
+# successful load time, and a stalled attempt is retried once in a fresh
+# thread (the stalled thread itself is abandoned — _call_with_hard_timeout
+# never waits on it) before degrading. 90s widens the on-demand budget to
+# match real multi-process contention rather than a synthetic estimate; it
+# does not claim to guarantee success.
 _EMBEDDER_LOAD_TIMEOUT_S = 90.0
 _EMBEDDER_LOAD_MAX_ATTEMPTS = 2
 
@@ -603,12 +591,9 @@ _embedder_service_process_started_at: float = time.time()
 # Wall-clock time of the last *actual* readiness check (the one-shot startup
 # probe in _start_embedder_service_background(), or a cooldown-gated
 # re-probe in _embedder_service_ready()) — as opposed to a mere cached read
-# of _embedder_service_state. R2 fix (2026-09-02, see
-# platform/benchmarks/.../2026-09-01-mcp-servers-enterprise-assessment):
-# a "ready" state, once set, was previously never re-probed for the rest of
-# the process's life (by design — see _embedder_service_ready()'s
-# docstring), so health_check had no way to tell a caller "confirmed ready
-# 200ms ago" from "confirmed ready 40 minutes ago, unconfirmed since". This
+# of _embedder_service_state. Without this timestamp, health_check would
+# have no way to tell a caller "confirmed ready 200ms ago" from "confirmed
+# ready 40 minutes ago, unconfirmed since". This
 # timestamp is exposed via _get_search_capability_snapshot() as
 # embedder_service_state_age_s so a caller can apply its own staleness
 # judgment without this module adding a network probe to every health check.
@@ -634,7 +619,7 @@ _EMBEDDER_SERVICE_STARTING_GRACE_S = 150.0
 def _start_embedder_service_background() -> None:
     # Runs exactly once, at process startup. An "unavailable" result here is
     # not final — _embedder_service_ready() re-probes and can overwrite it
-    # with "ready" later, without a process restart (P1 fix, 2026-08-06).
+    # with "ready" later, without a process restart.
     global _embedder_service_state, _embedder_service_state_confirmed_at
     ok = embedder_client.ensure_service_running()
     with _embedder_service_lock:
@@ -658,8 +643,7 @@ def _embedder_service_ready() -> bool:
     single check loses the startup race against the shared embedder-service
     still coming up in another process, "unavailable" was previously a
     permanent, never-revisited verdict for the rest of this process's life
-    — even after the service became healthy seconds later (P1 fix, see
-    agent-memory live-validation findings, 2026-08-06). "starting" is left
+    — even after the service became healthy seconds later. "starting" is left
     alone here: the background thread's first check is still in flight, so
     there is nothing stale to re-check yet.
     """
@@ -751,20 +735,18 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
     Read-only snapshot of what `_get_embedder()` would resolve to right now,
     without triggering any side effect that a plain health check should not
     cause — in particular, this must never call `_ensure_embedder_load_started()`,
-    since that would reintroduce exactly the kind of eager background work the
-    2026-07-17 fix (commit referenced in mcp-governance.md's agent-memory row)
-    deliberately made lazy-only. Every state read here goes through the same
+    since that would reintroduce exactly the kind of eager background work this
+    function deliberately keeps lazy-only. Every state read here goes through the same
     module globals `_get_embedder()`/`_get_embedder_unavailable_reason()`
     already use — this function does not introduce a second source of truth,
     it only re-presents that existing state in a health_check-shaped block.
 
-    Staleness (R2 fix, 2026-09-02): a cached "ready" service state is trusted
+    Staleness: a cached "ready" service state is trusted
     as-is here (no re-probe — a network call is not something a health check
     should trigger), but that means it can go stale relative to actual
-    serviceability — exactly the discrepancy the 2026-09-01 enterprise
-    assessment live-reproduced (`health_check` reported "ready" moments
-    before a real `search_memory` call failed with "embedder-service
-    unavailable and in-process embedder not ready"). To let a caller
+    serviceability — `health_check` can report "ready" moments
+    before a real `search_memory` call fails with "embedder-service
+    unavailable and in-process embedder not ready". To let a caller
     distinguish "confirmed ready" from "cached ready, unconfirmed", this
     snapshot also reports `embedder_service_state_age_s` — seconds since the
     state was last actually confirmed by a real probe (the one-shot startup
@@ -887,9 +869,8 @@ def _search_reflection_impl(
     that method unconditionally parses each point's payload via
     MemoryRecord.from_payload(), which requires the id/content/created_at/
     last_accessed_at shape the other three collections use. A
-    memory_reflection point's payload is a ReflectionRecord verbatim instead
-    (01-technical-options.md §2: "Payload fields: All ReflectionRecord
-    fields verbatim") — MemoryRecord.from_payload() would KeyError on it, a
+    memory_reflection point's payload is a ReflectionRecord verbatim
+    instead — MemoryRecord.from_payload() would KeyError on it, a
     failure QdrantMemoryIndex.search()'s own except clause already catches
     and degrades to [], silently returning zero results forever rather than
     real matches. This function performs the same query
@@ -1151,9 +1132,7 @@ def search_memory(
     `degraded=True` and a `reason`, matching this module's existing
     graceful-degradation discipline.
 
-    Usage constraints enforced here, not left to caller discipline (per
-    telescope/2026-07-10-agent-memory-architecture/research-report.md
-    § Architecture Decisions):
+    Usage constraints enforced here, not left to caller discipline:
 
     - episodic search is session-scoped by default — a session_id is required
       unless the caller explicitly sets cross_session=True to opt into
@@ -1171,8 +1150,9 @@ def search_memory(
     - reflection results are full ReflectionRecord payloads (reflection_id,
       trigger_type, summary, root_cause, remediation, scope_of_applicability,
       severity, logged_by, timestamp, sacred, status, migrated_from), not the
-      episodic/semantic/procedural MemoryRecord shape — see
-      telescope/2026-07-14-reflexion-memory-system/supporting/01-technical-options.md §5
+      episodic/semantic/procedural MemoryRecord shape — reflections carry
+      structured incident data (root cause, remediation, applicability) that
+      the generic MemoryRecord shape has no fields for
     """
     try:
         return _search_memory_impl(
@@ -1219,9 +1199,9 @@ def health_check() -> Dict[str, Any]:
     can read either server's health_check for this data.
 
     Also reports `search_capability` — embedder-service / in-process-fallback
-    state (see _get_search_capability_snapshot()) — the observability gap the
-    2026-08-06 P1 (embedder-service readiness was one-shot and invisible to
-    health_check; fixed as f655c21e) exposed: nothing in this tool's output
+    state (see _get_search_capability_snapshot()) — the observability gap where
+    embedder-service readiness was one-shot and invisible to
+    health_check: nothing in this tool's output
     previously told a caller whether search_memory's embedding path was
     actually usable right now.
 
@@ -1310,9 +1290,9 @@ def write_memory(
     Investigator-Authored Write Path, never MCP-agent-callable (per
     memory_store.py and write_gate.py's classify() docstring).
 
-    There is no `sacred`, `importance`, or `status` parameter, on purpose
-    (Decision 2, research-report.md § Architecture Decisions) — every one of those is
-    derived internally: sacred is always False for this path, importance
+    There is no `sacred`, `importance`, or `status` parameter, on purpose —
+    every one of those is derived internally: sacred is always False for
+    this path, importance
     comes from the internal compute_write_time_importance("general")
     heuristic, and status ("active" | "quarantined") is determined entirely
     by WriteConfirmationGate.classify()'s routine/high_consequence

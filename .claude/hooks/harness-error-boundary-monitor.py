@@ -20,16 +20,12 @@
 #
 # Reference: core-component-00/framework/03-harness-engineering/implementations/error_boundary.py
 #
-# --- Accepted risk (Harness Engineering Remediation, item I4, 2026-08-23) ---------
-# The CC-00 Harness benchmark (2026-08-16) flagged this hook as "advisory-only — no
-# harness policy enforced at the session layer" (Harness R4). For H-HE02 specifically,
-# that finding is not a design gap to be closed: PostToolUse fires *after* the Bash
-# command has already executed, so by the time this hook runs there is no tool call
-# left to deny — advisory-only is the only coherent behavior available at this
-# lifecycle position, not a fallback chosen in place of a stronger one. Accepted as
-# structural, documented here rather than fixed, per the Harness Implementation Plan's
-# arbitration (core-component-00/platform/remediation/engineering/harness-engineering/
-# 2026-08-17-harness-engineering-remediation/log/02-approval-i1-i5-arbitrated.md).
+# --- Accepted risk: advisory-only by design ---------------------------------------
+# This hook is advisory-only — no harness policy is enforced at the session layer.
+# That is not a design gap to be closed: PostToolUse fires *after* the Bash command
+# has already executed, so by the time this hook runs there is no tool call left to
+# deny — advisory-only is the only coherent behavior available at this lifecycle
+# position, not a fallback chosen in place of a stronger one, and not a gap to close.
 # A genuine *blocking* control over dangerous Bash output would need to live at
 # PreToolUse instead, gating the command before it runs — that is a separate,
 # unscoped initiative, not an extension of this hook.

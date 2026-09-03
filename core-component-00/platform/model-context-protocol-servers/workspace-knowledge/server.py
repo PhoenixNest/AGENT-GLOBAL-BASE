@@ -16,9 +16,8 @@ from typing import Any, Callable, Optional
 # because that package installs under `peak.util.proxies`, not a top-level `proxytypes`
 # module -- but NOT on every install: this venv's `uv sync` resolved `ProxyTypes==0.10.0` as
 # a top-level `proxytypes.py` that already provides `LazyProxy` directly, no `peak` package
-# involved at all (discovered 2026-08-30 when unconditionally prepending _vendor/ shadowed
-# that working real module and crashed on the `peak` import the shim itself needs -- see
-# core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/log/16).
+# involved at all. Unconditionally prepending _vendor/ would shadow that working real module
+# and crash on the `peak` import the shim itself needs.
 # Only fall back to the vendored shim if the real package doesn't already work; must resolve
 # before `fastmcp` is imported, since fastmcp transitively imports jsonref.
 _VENDOR_ROOT = Path(__file__).resolve().parent / "_vendor"
@@ -70,9 +69,7 @@ def _diag(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Structured per-call audit logging (R4, 2026-09-02 — see
-# platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-
-# enterprise-assessment/enterprise-assessment.md, B3/R4). Standard-library
+# Structured per-call audit logging. Standard-library
 # `logging` only, no new dependency. Own module-level logger, not the
 # "fastmcp" namespace fastmcp.utilities.logging configures for its own
 # internal logs (propagate=False on the "fastmcp" logger specifically, never
@@ -252,11 +249,7 @@ class SearchTier(Enum):
     RAWFS = "rawfs"
 
 
-# N3 fix (2026-09-02, see platform/benchmarks/model-context-protocol-servers/
-# 2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md — the
-# tier-degradation suite's own module docstring flagged the same
-# one-directional-recovery shape the assessment's R2 finding described for
-# agent-memory). _TIER_RANK orders tiers worst-to-best so SearchEngine can
+# _TIER_RANK orders tiers worst-to-best so SearchEngine can
 # tell whether a newly-reached tier is a new ceiling worth remembering;
 # _TIER_ABOVE is the single-step climb table _maybe_reprobe_higher_tier()
 # uses to re-attempt exactly one tier up at a time, rather than jumping
@@ -884,10 +877,7 @@ class SearchEngine:
                     self._degradation_reason = f"Qdrant search deferred: {e}"
                     return self._search_bm25(query, top_k)
                 else:
-                    # N2 fix (2026-09-02, see platform/benchmarks/model-context
-                    # -protocol-servers/2026-09-01-mcp-servers-enterprise-
-                    # assessment/enterprise-assessment.md and this module's
-                    # tests/test_search_tier_degradation.py): demote to HYBRID
+                    # Demote to HYBRID
                     # (local FAISS), not straight to BM25 -- the FAISS index
                     # and embedding model are already resident in memory
                     # whenever HYBRID_QDRANT is reachable at all (HYBRID_QDRANT

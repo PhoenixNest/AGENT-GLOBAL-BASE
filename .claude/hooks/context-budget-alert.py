@@ -12,34 +12,22 @@
 # path below it is no longer purely advisory text: past a second, higher threshold
 # it actually runs compression, not just an alert message.
 #
-# --- Enforcement path (Harness Engineering Remediation, item I5, 2026-08-23) ------
-# The CC-00 Context/Harness benchmarks (2026-08-16) flagged this hook as stopping at
-# an advisory alert with no code path that actually compresses anything (Context R1,
-# relocated into the Harness Implementation Plan as item I5 because the fix lands in
-# this Harness-owned hook file). Past ENFORCEMENT_THRESHOLD_TOKENS, this hook now invokes
+# --- Enforcement path ---------------------------------------------------------------
+# Past ENFORCEMENT_THRESHOLD_TOKENS, this hook invokes
 # core-component-00/framework/02-context-engineering/implementations/context_compressor.py's
 # ContextCompressor.compress_history() directly against the transcript and injects
 # the actual compacted result — not a repeated reminder — as additionalContext.
-# Below that threshold (but above ALERT_THRESHOLD_TOKENS) it still only alerts, unchanged
-# from before. Full arbitration: core-component-00/platform/remediation/engineering/
-# harness-engineering/2026-08-17-harness-engineering-remediation/log/
-# 02-approval-i1-i5-arbitrated.md.
+# Below that threshold (but above ALERT_THRESHOLD_TOKENS) it only alerts.
 # -----------------------------------------------------------------------------------
 #
-# --- Token-count trigger (Harness Engineering Remediation, item I1, 2026-08-25) ----
-# The 2026-08-25 Harness benchmark refresh (Backlog row R10) found the thresholds above
-# still keyed on raw transcript byte-size — an interim proxy the enforcement fix above
-# explicitly flagged as a distinct follow-up, not itself a blocker. External practice
-# reserves a coarse byte/character-based estimate for a secondary safety-net layer only;
-# the primary trigger should use an actual token-count estimate of the transcript's real
-# conversational content. This hook now estimates tokens from the same extracted-turn text
-# ContextCompressor itself compresses against (`estimate_turns_tokens`), so the trigger and
-# the thing it triggers agree on what "large" means. Raw byte-size is kept only as the
-# FALLBACK_*_THRESHOLD_KB safety net below, used solely when the transcript can't be parsed
-# into any turns at all (e.g. corrupted JSONL) — the same case the byte-size signal already
-# had to handle before this fix. See
-# core-component-00/platform/remediation/engineering/harness-engineering/2026-08-25-harness-compaction-trigger-remediation/
-# item I1.
+# --- Token-count trigger -------------------------------------------------------------
+# The primary trigger uses an actual token-count estimate of the transcript's real
+# conversational content, not a coarse byte/character-based proxy. This hook estimates
+# tokens from the same extracted-turn text ContextCompressor itself compresses against
+# (`estimate_turns_tokens`), so the trigger and the thing it triggers agree on what
+# "large" means. Raw byte-size is kept only as the FALLBACK_*_THRESHOLD_KB safety net
+# below, used solely when the transcript can't be parsed into any turns at all (e.g.
+# corrupted JSONL) — the same case the byte-size signal already had to handle.
 # -----------------------------------------------------------------------------------
 
 import json

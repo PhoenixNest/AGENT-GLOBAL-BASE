@@ -1,21 +1,12 @@
-"""Pattern-based PII redaction for agent-memory's write path (R3, 2026-09-02).
+"""Pattern-based PII redaction for agent-memory's write path.
 
-Closes the gap flagged by both `.claude/rules/mcp-governance.md` (agent-memory
-row: "PII scrubbing on the embed path" — an open Required-level ASE gap) and
-the 2026-09-01 MCP servers enterprise assessment
-(`platform/benchmarks/model-context-protocol-servers/
-2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md`, B4/R3):
-before this fix, `grep -rni "pii|redact|scrub"` returned zero hits anywhere in
-this server's first-party source.
-
-Design, following that assessment's cited external practice (S4 — "If the
-source text doesn't contain PII when it's embedded, the embedding can't leak
-PII even under perfect inversion"): redact-before-embed, using standard
-regex patterns for the common PII classes named in the remediation item —
-email addresses, phone numbers, SSN-like patterns, and credit-card-like
-digit sequences. This is intentionally not a general-purpose PII/NER
-scrubber (no ML model, no locale-aware phone/ID validation) — regex-based
-pattern matching only, per R3's explicit "don't over-engineer" scope.
+Design: redact-before-embed, using standard regex patterns for the common
+PII classes — email addresses, phone numbers, SSN-like patterns, and
+credit-card-like digit sequences — so that source text does not contain PII
+when it is embedded; an embedding of already-redacted text cannot leak PII,
+even under perfect inversion. This is intentionally not a general-purpose
+PII/NER scrubber (no ML model, no locale-aware phone/ID validation) —
+regex-based pattern matching only, deliberately narrow in scope.
 
 Call site: `write_tool._write_memory_impl()` redacts `content` — the only
 field this server ever passes to an embedder (see
