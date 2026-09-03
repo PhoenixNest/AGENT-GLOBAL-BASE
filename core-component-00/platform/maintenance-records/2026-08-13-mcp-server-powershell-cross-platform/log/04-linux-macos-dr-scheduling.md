@@ -1,24 +1,10 @@
 # Log Entry 04 — Linux/macOS DR-Scheduling Script — 2026-08-14
 
-Part of `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`.
-Pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), following the
-plan approved at stage 2 below. Same topic per the topic-boundary test in `pipeline.md`: same
-system/resource (`register_backup_task.ps1`'s Linux/macOS gap, named in the main record's System /
-resource affected field) and a direct follow-up to Discovery item 4 / Remediation item 4.
-
-**Trigger:** The CEO reviewed this topic's Discovery finding 4 (`register_backup_task.ps1`'s
-Linux/macOS gap, deferred at Remediation as "not urgent while inactive") and asked why it should
-stay deferred rather than migrated now. Dr. Vance gave an honest assessment: the script isn't a
-like-for-like port (Windows Task Scheduler has no direct Linux/macOS equivalent — it requires a
-new implementation, not a swap), and it can't be tested from this Windows-only machine — the same
-kind of unverified-environment risk that caused the `.mcp.json` incident in log entry 03.
-Recommended writing it now but explicitly flagged as unverified rather than either silently
-shipping it as if tested or leaving the gap open indefinitely. **Approval (pipeline stage 2):**
-CEO approved this path — "Write it now, flagged as unverified."
-
-**State before:** `register_backup_task.ps1` (Windows Task Scheduler) was the only scheduling
-registration script. No Linux/macOS equivalent existed. `agent-memory/README.md` documented this
-as an intentional, undocumented-until-needed gap.
+| Field            | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Part of**      | `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md`, pipeline stage 3 — Execution (`core-component-00/platform/maintenance-records/pipeline.md`), following the plan approved at stage 2 below. Same topic per the topic-boundary test in `pipeline.md`: same system/resource (`register_backup_task.ps1`'s Linux/macOS gap, named in the main record's System / resource affected field) and a direct follow-up to Discovery item 4 / Remediation item 4.                                                                                                                                                                                                                                                                                                            |
+| **Trigger**      | The CEO reviewed this topic's Discovery finding 4 (`register_backup_task.ps1`'s Linux/macOS gap, deferred at Remediation as "not urgent while inactive") and asked why it should stay deferred rather than migrated now. Dr. Vance gave an honest assessment: the script isn't a like-for-like port (Windows Task Scheduler has no direct Linux/macOS equivalent — it requires a new implementation, not a swap), and it can't be tested from this Windows-only machine — the same kind of unverified-environment risk that caused the `.mcp.json` incident in log entry 03. Recommended writing it now but explicitly flagged as unverified rather than either silently shipping it as if tested or leaving the gap open indefinitely. **Approval (pipeline stage 2):** CEO approved this path — "Write it now, flagged as unverified." |
+| **State before** | `register_backup_task.ps1` (Windows Task Scheduler) was the only scheduling registration script. No Linux/macOS equivalent existed. `agent-memory/README.md` documented this as an intentional, undocumented-until-needed gap.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
 **Actions taken:**
 
@@ -56,15 +42,7 @@ independent-review gate does not apply as a hard blocker here. Recorded anyway f
 reviewer other than the author has looked at this yet; flagged as a natural task for whoever next
 has Linux/macOS access.
 
-**Outcome:** The Linux/macOS scheduling gap now has a written implementation instead of a
-documented absence, closing the "isn't written yet" half of the original finding — but the harder
-half (does it actually work) remains genuinely open. This is not a stealth downgrade of rigor: the
-script is explicitly labeled unverified everywhere a reader would encounter it, per the same
-honesty discipline already applied to the `agent-memory/server.py` and `manage_embedder_service.py`
-ports' own Linux/macOS status.
-
-**Handoff to next stage:** Close for this session — no further action possible without a
-non-Windows machine. Carries forward as an open follow-up item on the main record: verify
-`register_backup_task.py` for real (systemd timer AND crontab paths) before ever activating it in
-a real DR scenario, and decide whether macOS needs a proper launchd implementation or whether the
-documented cron-with-caveats fallback is acceptable long-term.
+| Field                     | Detail                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Outcome**               | The Linux/macOS scheduling gap now has a written implementation instead of a documented absence, closing the "isn't written yet" half of the original finding — but the harder half (does it actually work) remains genuinely open. This is not a stealth downgrade of rigor: the script is explicitly labeled unverified everywhere a reader would encounter it, per the same honesty discipline already applied to the `agent-memory/server.py` and `manage_embedder_service.py` ports' own Linux/macOS status. |
+| **Handoff to next stage** | Close for this session — no further action possible without a non-Windows machine. Carries forward as an open follow-up item on the main record: verify `register_backup_task.py` for real (systemd timer AND crontab paths) before ever activating it in a real DR scenario, and decide whether macOS needs a proper launchd implementation or whether the documented cron-with-caveats fallback is acceptable long-term.                                                                                        |

@@ -66,19 +66,15 @@ core-component-00/platform/benchmarks/
         └── enterprise-assessment.md
 ```
 
-**Type-scoped, dated-folder-per-assessment** (established 2026-08-16 at CEO direction). The
-`engineering/<module>/` layer is a **legacy taxonomy label**, preserved as-is through the
-2026-08-31 `framework/`+`platform/` reorganization rather than renamed — it groups Prompt,
-Context, Harness, and Multi-Agent Engineering the same way the now-retired
-`core-component-00/engineering/` folder once did, so a reader can still find a module's benchmark
-history by the module's name even though the live implementation now lives under
+**Type-scoped, dated-folder-per-assessment.** The `engineering/<module>/` layer is a **legacy
+taxonomy label** — it groups Prompt, Context, Harness, and Multi-Agent Engineering the way this
+workspace's module layout once did, so a reader can still find a module's benchmark history by
+the module's name even though the live implementation now lives under
 `core-component-00/framework/01-05-<module>/`. RAG (`retrieval-augmented-generation/`) sits
-outside `engineering/` here for the same reason it always did — it was never nested under
-`core-component-00/engineering/` in the real module layout either (see
-`core-component-00/CLAUDE.md`'s note on the 2026-07-16 relocation) — so its benchmark folder stays
-parallel to `engineering/` at the top of `benchmarks/`. Within each module folder, assessments
-remain dated-folder-per-topic, matching the shape already established by `telescope/` and
-`maintenance-records/` for this workspace's other CC-00 archive types.
+outside `engineering/` here because it was never nested under that legacy label in the real module
+layout either, so its benchmark folder stays parallel to `engineering/` at the top of
+`benchmarks/`. Within each module folder, assessments remain dated-folder-per-topic, matching the
+shape `telescope/` and `maintenance-records/` use for this workspace's other CC-00 archive types.
 
 **Layer sequence.** The five-module stack has a canonical order (see
 `core-component-00/CLAUDE.md` § The Five-Module Engineering Stack): 1 Prompt → 2 Context → 3

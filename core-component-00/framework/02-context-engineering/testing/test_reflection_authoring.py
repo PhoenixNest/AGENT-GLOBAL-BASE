@@ -2,12 +2,10 @@
 Executable pytest suite for the Investigator-Authored Write Path's identity
 enforcement (implementations/reflection_authoring.py).
 
-Closes the Independent Safety Self-Review's §2.2 (Dr. Wieczorek's Open
-finding: a non-empty-string check on `logged_by` is a formatting check, not
-identity verification) AND the follow-up finding MISTAKE-2026-07-16-001,
-recorded as REFLECT-003 in the memory_reflection collection: the two-factor
-git-identity + roster-name check alone does not distinguish a human
-operator from a co-located AI agent process. These tests exercise:
+A non-empty-string check on `logged_by` alone is a formatting check, not
+identity verification, and the two-factor git-identity + roster-name check
+alone does not distinguish a human operator from a co-located AI agent
+process. These tests exercise:
 
   1. The two-factor mechanism itself: an authenticated git identity read
      from git config (never from a caller-supplied argument), independently
@@ -227,8 +225,8 @@ class TestVerifyAuthorizedIdentityAcceptance:
 
 
 class TestAllowlistOverrideSurfaceRemoved:
-    """MISTAKE-2026-07-16-001's remediation item 2: authorized_git_identities
-    / authorized_investigator_names must no longer be accepted as function
+    """authorized_git_identities /
+    authorized_investigator_names must no longer be accepted as function
     parameters on verify_authorized_identity() or author_reflection() —
     exposing them was itself a compounding gap (a production call surface
     reachable by any caller could redefine "who is authorized"). These
