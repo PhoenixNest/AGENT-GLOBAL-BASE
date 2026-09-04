@@ -29,8 +29,8 @@ import pytest
 
 os.environ.setdefault("EMBEDDER_SERVICE_ENABLED", "false")
 # Prevents server.py's module-import-time _cleanup_stale_sibling_processes()
-# (2026-08-09) from scanning for and terminating real python.exe processes
-# during a test run -- see that function's docstring. Without this, a test
+# from scanning for and terminating real python.exe processes during a test
+# run -- see that function's docstring. Without this, a test
 # session run alongside a live Claude Code session pointed at this same repo
 # would kill that session's actual agent-memory MCP server process.
 os.environ.setdefault("AGENT_MEMORY_ENABLE_SIBLING_CLEANUP", "false")
@@ -68,9 +68,9 @@ def reset_embedder_globals(agent_memory_server):
     agent_memory_server._embedder_service_state,
     agent_memory_server._embedder_state,
     agent_memory_server._embedder_cache, or
-    agent_memory_server._embedder_service_state_confirmed_at (R2 staleness
-    field, 2026-09-02 — see TestSearchCapabilitySnapshot's *_state_age_s*
-    tests in test_server.py).
+    agent_memory_server._embedder_service_state_confirmed_at (the
+    staleness-tracking field — see TestSearchCapabilitySnapshot's
+    *_state_age_s* tests in test_server.py).
     """
     m = agent_memory_server
     snapshot = dict(

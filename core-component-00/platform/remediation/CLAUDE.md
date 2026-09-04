@@ -62,7 +62,11 @@ core-component-00/platform/remediation/
 │   ├── context-engineering/
 │   ├── harness-engineering/
 │   └── multi-agent-engineering/
-└── retrieval-augmented-generation/        ← Layer 4 — PARALLEL to engineering/, not inside it
+├── retrieval-augmented-generation/        ← Layer 4 — PARALLEL to engineering/, not inside it
+│   └── <YYYY-MM-DD-slug>/
+│       ├── implementation-plan.md
+│       └── log/
+└── model-context-protocol-servers/        ← Platform domain — PARALLEL to engineering/, mirrors benchmarks/model-context-protocol-servers/
     └── <YYYY-MM-DD-slug>/
         ├── implementation-plan.md
         └── log/
@@ -106,6 +110,9 @@ Per `crew/CLAUDE.md` § Authority Scope, same mapping as `benchmarks/`:
 - Dr. Tomasz Wieczorek (Safety & Evaluation) — Reviewer role on any plan, and Owner on any item
   that is a Safety-scoped finding rather than a module-design finding (e.g. Prompt R4)
 - Research Engineer IIs may own an individual item within a plan but do not own the plan itself
+- Ravi Deshmukh (Infrastructure Engineer) — Owner on any `model-context-protocol-servers/` plan,
+  the platform domain's operational owner per `maintenance-records/CLAUDE.md` § Who Can Write
+  Here, mirroring a module lead's role for that domain's own plans
 
 **A module lead cannot own a plan item whose fix lands outside their module's own code or docs.**
 This is why Context Engineering's R1 (a fix to a Harness-owned hook) sits in the Harness
