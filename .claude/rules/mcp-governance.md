@@ -84,6 +84,14 @@ If any checkbox is ☐ (unchecked) after honest assessment, the server fails. Do
 (gitignored/machine-local, bootstrapped from `.mcp.json.example`, patched only on an actual OS
 switch).
 
+Tiered search-degradation fallback (`HYBRID_QDRANT → HYBRID → BM25 → RAWFS`) is covered by a
+scenario-regression suite (`tests/test_search_tier_degradation.py`); a query-time dependency
+failure demotes to local FAISS before BM25 rather than skipping it, and a cooldown-gated single
+-step reprobe climbs a demoted tier back toward its highest-reached tier once the dependency
+recovers. Every registered tool produces a structured audit-log record (`tool_name`,
+`duration_ms`, ok/error outcome) on entry and exit; argument summarizers log only lengths and
+identifiers, never raw query text.
+
 **`agent-memory`.** Cross-platform (`psutil`-based sibling-cleanup); `.mcp.json`'s `command`
 points at this server's own per-server venv interpreter (gitignored/machine-local, bootstrapped
 from `.mcp.json.example`, patched only on an actual OS switch). Read-only `search_memory` plus
@@ -95,6 +103,15 @@ harness-engineering backlog, not blocking. PII scrubbing on the embed path is im
 `redact_pii()` (`pii_redaction.py`) runs on `content` in `write_tool.py`'s `write_memory`
 ingestion path, ahead of collision search, injection detection, record construction, and the
 embedder/payload.
+
+`health_check`'s cached embedder-capability state carries a last-confirmed-at timestamp
+(`_embedder_service_state_confirmed_at`), updated at both real probe sites, so a caller can tell a
+fresh "ready" from a stale one instead of trusting the cached value alone. Every registered tool
+(`search_memory`, `health_check`, `write_memory`) produces a structured audit-log record
+(`tool_name`, `duration_ms`, ok/error outcome) on entry and exit; argument summarizers log only
+lengths and identifiers, never raw content or query text. A minimal conformance gate
+(`tests/test_tool_conformance.py`) validates each tool's declared input schema against its actual
+signature.
 
 Data-volume caveat: `memory_reflection` holds 4 real records, the other three memory types still
 hold zero.

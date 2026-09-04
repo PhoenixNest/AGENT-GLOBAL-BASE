@@ -1,0 +1,76 @@
+# Implementation Plan — MCP Servers (Platform Domain)
+
+---
+
+## Metadata
+
+| Field                       | Value                                                                                                                                                                                                                                               |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Plan ID**                 | `2026-09-02-mcp-servers-enterprise-assessment-remediation`                                                                                                                                                                                          |
+| **Layer**                   | Platform domain — MCP servers (`workspace-knowledge`, `agent-memory`), parallel to the five engineering layers, mirroring `platform/benchmarks/model-context-protocol-servers/`                                                                     |
+| **Source Benchmark Report** | `core-component-00/platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md`                                                                                                        |
+| **Owner**                   | Ravi Deshmukh, Infrastructure Engineer — operational owner of the MCP servers' deployment surface (`crew/infrastructure/ravi-deshmukh/agent/profile.md`)                                                                                            |
+| **Reviewer**                | Dr. Elias Vance, CC-00 Laboratory Director — same Reviewer role held on the source benchmark report                                                                                                                                                 |
+| **Hook-Change Gate**        | N/A — no item touches `.claude/hooks/*.py`                                                                                                                                                                                                          |
+| **Status**                  | Verified — R1, R2, R3, R4, R5 all confirmed via targeted and full-suite test runs; two unrelated, pre-existing test failures found during Verification and logged as new backlog items, not blocking this plan's closure (see Open Follow-Up Items) |
+
+---
+
+## Included Items
+
+| ID  | Source Row                | Gap (restated, one line)                                                                                                                  | Severity (inherited) | Item Owner    | Approach                                                                                                                                                                                                                                                                                                                               | Acceptance Criteria                                                                                                                                           | Test Plan                                                                                       | Target Date | Item Status |
+| --- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- | ----------- |
+| I1  | R1, 2026-09-01 assessment | `workspace-knowledge`'s tiered search-degradation logic ran in production with no regression coverage                                     | P1                   | Ravi Deshmukh | Add a scenario-regression suite forcing `HYBRID_QDRANT → HYBRID → BM25 → RAWFS` transitions; while building it, also close two behavior gaps the new tests exposed — a query-time Qdrant failure skipped straight to BM25 instead of trying local FAISS first, and a demoted tier never reprobed back up once the dependency recovered | `tests/test_search_tier_degradation.py` exists and exercises every tier transition; demotion tries FAISS before BM25; a cooldown-gated reprobe climbs back up | `pytest tests/test_search_tier_degradation.py -q`                                               | 2026-09-02  | Verified    |
+| I2  | R2, 2026-09-01 assessment | `agent-memory`'s `health_check` embedder-capability field was a cached snapshot that could read "ready" moments before a real call failed | P1                   | Ravi Deshmukh | Add a last-confirmed-at timestamp to the cached state, updated at both real probe sites, and surface it in `health_check`'s `search_capability` block                                                                                                                                                                                  | `health_check` reports how stale its cached "ready" claim is, not just the claim itself                                                                       | `pytest tests/test_server.py -k "stale or confirmed" -q`                                        | 2026-09-02  | Verified    |
+| I3  | R3, 2026-09-01 assessment | No PII redaction on `agent-memory`'s embedding path                                                                                       | P1                   | Ravi Deshmukh | Add `pii_redaction.py` (`redact_pii()` — emails, US phone numbers, SSN-format numbers, credit-card-like digit runs); call it on `content` in `write_tool.py` immediately after input validation, before embedding                                                                                                                      | Known PII classes are redacted from `content` before it reaches the embedder, on every `write_memory` call                                                    | `pytest tests/test_pii_redaction.py -q` and `pytest tests/test_write_memory.py -k "Pii" -q`     | 2026-09-02  | Verified    |
+| I4  | R4, 2026-09-01 assessment | Neither server did structured per-call audit logging                                                                                      | P2                   | Ravi Deshmukh | Add a module-level logger to each server (`FASTMCP_LOG_LEVEL`-driven) and a decorator recording `tool_name`, `duration_ms`, and ok/error outcome on every registered tool, with argument summarizers that log lengths/identifiers only — never raw query or content text                                                               | Every registered tool call in both servers produces a structured log record; no raw content/query text appears in any log record                              | `pytest tests/test_structured_logging.py -q` in both `agent-memory/` and `workspace-knowledge/` | 2026-09-02  | Verified    |
+| I5  | R5, 2026-09-01 assessment | `agent-memory` had scenario tests but no conformance gate                                                                                 | P2                   | Ravi Deshmukh | Add a minimal conformance suite registering each tool-shaped function into a scratch FastMCP instance and validating its declared input JSON schema against its actual signature                                                                                                                                                       | `tests/test_tool_conformance.py` exists and passes for all three tools (`search_memory`, `health_check`, `write_memory`)                                      | `pytest tests/test_tool_conformance.py -q`                                                      | 2026-09-02  | Verified    |
+
+**Rules.**
+
+- Severity is inherited from the source benchmark report's Severity-Ordered Remediation Plan —
+  not re-derived here.
+- All five items share one Owner (Ravi Deshmukh) because all five fixes land in the same two
+  files' worth of platform-domain code he already operationally owns per
+  `maintenance-records/CLAUDE.md`; there is no module-lead split to make here the way there is
+  across the five engineering layers.
+
+---
+
+## Cross-Layer Dependencies
+
+None. All five items are scoped entirely within `workspace-knowledge/` and `agent-memory/`, which
+sit in the platform domain outside the five engineering layers' remediation plans.
+
+---
+
+## Gate Log
+
+| Stage            | Entry                                   | Summary                                                                                                                                                                                                                                                                                |
+| ---------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0 — Trigger      | This file's Metadata                    | The 2026-09-01 MCP servers enterprise assessment closed Conditional with 4 P1s / 2 P2s (R1–R5, B3's two servers folded into I4).                                                                                                                                                       |
+| 1 — Drafting     | `log/01-drafting-i1-i5-opened.md`       | Drafted 2026-09-03: establishes the Included Items table for R1–R5, each item dated to its 2026-09-02 implementation.                                                                                                                                                                  |
+| 2 — Approval     | `log/02-approval-i1-i5-approved.md`     | Dr. Vance reviews and approves the Approach taken for each item.                                                                                                                                                                                                                       |
+| 3 — Execution    | `log/03-execution-i1-i5-executed.md`    | Documents the five 2026-09-02 commits (and the two follow-up commits I1's own tests surfaced) as the Execution stage's record, with diffstat evidence.                                                                                                                                 |
+| 4 — Verification | `log/04-verification-i1-i5-verified.md` | Dr. Vance independently re-read each diff and re-ran every targeted test file plus both servers' full suites this session; all five items confirmed. Two unrelated pre-existing failures found in `agent-memory`'s full suite, logged as new backlog items — see Open Follow-Up Items. |
+| 5 — Close        | This file                               | `Status: Verified` — all five items closed.                                                                                                                                                                                                                                            |
+
+---
+
+## Open Follow-Up Items
+
+| #   | Item                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Owner         | Target                                                    |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------------------- |
+| 1   | `agent-memory/tests/test_embedder_reliability_fixes.py::test_absolute_windows_backslash_launch_matches` fails on any OS — it asserts against a hardcoded `...\core-component-00\mcp-servers\agent-memory\...` path that predates the `c8efa649` `framework/`+`platform/` reorg; the real path is now `...\core-component-00\platform\model-context-protocol-servers\agent-memory\...`. Pre-existing, unrelated to R1–R5; discovered during this plan's Verification stage.                                                                                                               | Ravi Deshmukh | Next session touching `agent-memory/tests/`               |
+| 2   | `agent-memory/tests/test_read_constraints_reverification.py::test_search_memory_source_byte_identical_to_pre_write_path_commit` fails as of `be457ff3` (2026-09-03, the documentation-style-rule pass): that commit edited `search_memory`'s docstring to remove an embedded reference-pointer citation per the new rule, which the byte-identity guard doesn't know how to tolerate. Unrelated to R1–R5 — I4's own commit (`79d924e0`) had already made this guard decorator-count-agnostic to survive the logging wrapper; a later, independent commit broke it again a different way. | Ravi Deshmukh | Next session touching `agent-memory/server.py` docstrings |
+
+---
+
+## Related Records
+
+- **Source benchmark report:** `core-component-00/platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md`
+- **Backlog items for this layer (P2/P3, not in this plan):** none beyond the two Open Follow-Up
+  Items above, both newly discovered during Verification rather than carried over from the source
+  report.
+- `core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/` — the maintenance topic covering this same deployment surface's cross-platform launch history.
+- `.claude/rules/mcp-governance.md` — Registered Servers table, updated alongside this plan to state R1/R2/R4/R5's outcomes as current fact.
