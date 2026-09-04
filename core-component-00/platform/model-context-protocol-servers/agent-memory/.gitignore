@@ -3,6 +3,10 @@
 __pycache__/
 *.py[cod]
 
+# DR-backup snapshots (backup_memory_log.py output) — machine-local runtime
+# artifacts, not source; may contain real memory-log content.
+backups/
+
 # Local evaluation harness — test scripts and generated outputs stay local,
 # except permanent regression tests explicitly excepted below. Mirrors
 # workspace-knowledge/.gitignore's pattern exactly, including the `tests/*`
