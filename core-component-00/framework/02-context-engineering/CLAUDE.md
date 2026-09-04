@@ -39,10 +39,16 @@ context-engineering/
 
 ## Running Tests
 
-Run from `core-component-00/` (not workspace root) to avoid import conflicts:
+This module has its own venv (`.venv/`, via `uv sync` from this folder's `pyproject.toml`),
+matching the per-component venv convention used elsewhere in this workspace. Run from
+`core-component-00/` (not workspace root) to avoid import conflicts:
+
+```bash
+core-component-00/framework/02-context-engineering/.venv/bin/python -m pytest framework/02-context-engineering/testing/ -v
+```
 
 ```powershell
-pytest engineering/context-engineering/testing/ -v
+core-component-00\framework\02-context-engineering\.venv\Scripts\python.exe -m pytest framework\02-context-engineering\testing\ -v
 ```
 
 Tests import via `from implementations.<module>` — the module root must be on `sys.path`. The test
@@ -98,4 +104,4 @@ Reference: `patterns/multi-agent-handoff.md`
 - Do not create ad-hoc context structures. Use the four-slot assembly pattern.
 - Memory types (episodic, semantic, procedural, working) have distinct roles — do not conflate them.
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
-- This module has an active test suite — any implementation change must pass `pytest engineering/context-engineering/testing/ -v` before committing.
+- This module has an active test suite — any implementation change must pass this module's own `.venv/bin/python -m pytest framework/02-context-engineering/testing/ -v` before committing.
