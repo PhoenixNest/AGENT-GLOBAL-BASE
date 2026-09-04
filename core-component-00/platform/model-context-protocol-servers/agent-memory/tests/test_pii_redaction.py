@@ -1,12 +1,8 @@
 """
 Unit tests for pii_redaction.py in isolation from write_tool.py's
 integration (see test_write_memory.py's TestPiiRedactionBeforeEmbed for the
-"actually happens before embedding" integration coverage).
-
-R3 (2026-09-02) — see pii_redaction.py's module docstring and
-platform/benchmarks/model-context-protocol-servers/
-2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md (B4/R3)
-for the gap this closes.
+"actually happens before embedding" integration coverage; see
+pii_redaction.py's own module docstring for what it redacts and why).
 """
 import sys
 from pathlib import Path

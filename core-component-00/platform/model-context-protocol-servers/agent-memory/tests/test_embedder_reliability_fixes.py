@@ -1,8 +1,7 @@
 """
-Tests for the 2026-08-09 embedder-path reliability fixes in server.py and
-embedder_client.py, plus the 2026-08-13 psutil cross-platform port of the
-sibling-cleanup scan (see
-core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md):
+Tests for the embedder-path reliability behavior in server.py and
+embedder_client.py, plus the cross-platform (`psutil`-based) sibling-cleanup
+scan:
 
 1. _cleanup_stale_sibling_processes() -- terminates other live processes
    running this exact server.py before proceeding, on-demand only (runs
@@ -13,9 +12,10 @@ core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-
    `psutil` (cross-platform) rather than `powershell`/`Get-CimInstance` --
    tests fake process iteration via `_iter_sibling_candidates` and process
    termination via `psutil.Process`, not `subprocess.run`.
-2. Widened on-demand cold-start timeout budgets
+2. On-demand cold-start timeout budgets
    (embedder_client.STARTUP_WAIT_TIMEOUT_S, server._EMBEDDER_LOAD_TIMEOUT_S)
-   matched to values actually observed live on 2026-08-09.
+   matched to values actually observed against a live embedder-service
+   cold start.
 3. _get_embedder_unavailable_reason()'s "starting (retry shortly)" wording
    for a recently-launched, not-yet-confirmed-ready embedder-service, versus
    a flat "unavailable" once the grace window has elapsed.
@@ -246,9 +246,8 @@ class TestSiblingCleanupMinAge:
 
     def test_nan_override_is_clamped_to_floor(self, agent_memory_server, monkeypatch):
         """NaN comparisons are always False, so a plain `value < floor` check
-        would silently let NaN through uncaught -- regression for the
-        2026-08-09 adversarial finding. `float("nan")` parses without
-        raising, so this must be caught by the floor check, not the
+        would silently let NaN through uncaught. `float("nan")` parses
+        without raising, so this must be caught by the floor check, not the
         except-ValueError branch."""
         monkeypatch.setenv("AGENT_MEMORY_SIBLING_CLEANUP_MIN_AGE_S", "nan")
         result = agent_memory_server._resolve_sibling_cleanup_min_age_s()
@@ -275,11 +274,9 @@ class TestSiblingCleanupMinAge:
 class TestSiblingMatchFilterSemantics:
     """
     Exercises _sibling_matches directly -- the pure-Python predicate that
-    replaced the PowerShell WHERE-clause (_build_sibling_match_filter_clause,
-    retired 2026-08-13; see
-    core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/maintenance-record.md).
-    No subprocess, no platform skip -- runs identically on every OS, which
-    is the whole point of the port.
+    replaced the retired PowerShell WHERE-clause approach
+    (_build_sibling_match_filter_clause). No subprocess, no platform skip --
+    runs identically on every OS, which is the whole point of the port.
     """
 
     @staticmethod
@@ -315,9 +312,9 @@ class TestSiblingMatchFilterSemantics:
         assert self._matches(agent_memory_server, cmdline, age_seconds=100.0) is True
 
     def test_absolute_posix_launch_matches(self, agent_memory_server):
-        """Linux/macOS-shaped absolute path -- the scenario the 2026-08-13
-        psutil port exists to cover, since the former implementation never
-        ran here at all (Windows-only gate)."""
+        """Linux/macOS-shaped absolute path -- the scenario the `psutil`
+        port exists to cover, since the former implementation never ran
+        here at all (Windows-only gate)."""
         cmdline = [
             "/home/user/AGENT-GLOBAL-BASE/core-component-00/platform/model-context-protocol-servers/.venv/bin/python",
             "/home/user/AGENT-GLOBAL-BASE/core-component-00/platform/model-context-protocol-servers/agent-memory/server.py",
@@ -376,7 +373,7 @@ class TestSiblingMatchFilterSemantics:
         """A same-suffix process spawned by a DIFFERENT host process (e.g. a
         separate checkout or git worktree session, per CLAUDE.md section 6)
         must never be matched, even when the path suffix and age both
-        qualify -- this is the 2026-08-09 cross-checkout finding."""
+        qualify."""
         cmdline = [
             "./core-component-00/platform/model-context-protocol-servers/.venv/Scripts/python.exe",
             "./core-component-00/platform/model-context-protocol-servers/agent-memory/server.py",

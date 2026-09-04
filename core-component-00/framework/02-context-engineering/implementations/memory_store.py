@@ -587,11 +587,10 @@ class IdentityVerification:
       is a composition-gap fix, not a new unforgeability claim — the field
       is still a plain dataclass attribute, directly settable by any caller.
 
-    For GOVERNANCE_TRIGGERS records, per 03-deployment-guidelines.md's
-    revised Phase 1 "done" gate, the actual security boundary is procedural
-    — genuine, live, in-transcript human confirmation in the coordinating
-    session — not this token or any other code-level check. See
-    implementations/reflection_authoring.py's module docstring for the
+    For GOVERNANCE_TRIGGERS records, the actual security boundary is
+    procedural — genuine, live, in-transcript human confirmation in the
+    coordinating session — not this token or any other code-level check.
+    See implementations/reflection_authoring.py's module docstring for the
     full, current statement of that boundary.
     """
     logged_by: str

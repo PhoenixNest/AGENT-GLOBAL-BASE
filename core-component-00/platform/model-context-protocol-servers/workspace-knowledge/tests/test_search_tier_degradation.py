@@ -1,13 +1,9 @@
 """Scenario-regression tests for SearchEngine's tiered search fallback chain
 (SearchTier.HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS).
 
-Added to close R1 (P1) from the 2026-09-01 MCP servers enterprise benchmark
-assessment
-(core-component-00/platform/benchmarks/model-context-protocol-servers/2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md,
-Benchmark Row B6 / Remediation R1): `workspace-knowledge` had exactly one
-first-party test file, unrelated to the tiered-search/degradation logic that
-runs live in production and was directly observed degrading this session
-(that assessment's S7 finding).
+Scenario-regression coverage for the tiered-search/degradation logic, which
+runs live in production and has been directly observed degrading under a
+real Qdrant outage.
 
 Pattern mirrors agent-memory/tests/test_embedder_reliability_fixes.py and
 test_cross_server_health_comparison.py: force a dependency failure and
@@ -22,42 +18,26 @@ dependencies and workspace content this suite has no business depending
 on), and every collaborator method the fallback chain calls is stubbed
 directly on the instance.
 
-FIXED -- N2 (P1), query-time chain now matches the documented chain (see
+The query-time chain matches the documented chain (see
 TestHybridQdrantFailureFallsToHybrid and
-TestHybridQdrantAndHybridBothFailCascadesToBm25 below). Before this fix,
-search_docs()'s docstring and the benchmark assessment both described the
-chain as HYBRID_QDRANT -> HYBRID -> BM25 -> RAWFS -- accurate for
-*initialization* (_init_faiss_background: SearchTier.HYBRID_QDRANT if
-_qdrant_ready else SearchTier.HYBRID) but NOT for what _search_with_fallback
-did at *query time*: a live Qdrant failure while already in HYBRID_QDRANT
-tier dropped straight to SearchTier.BM25, skipping HYBRID entirely -- even
-though the FAISS index and embedding model were already resident in memory
-at that point (HYBRID_QDRANT is only reachable after the Phase 2 FAISS
-build has already completed). A query-time Qdrant outage was therefore
-losing semantic search capability it did not have to lose.
-_search_with_fallback now demotes a HYBRID_QDRANT query failure to HYBRID
-(local FAISS) first, and only falls further to BM25 if that HYBRID attempt
-itself also fails -- see server.py's SearchEngine._search_with_fallback.
+TestHybridQdrantAndHybridBothFailCascadesToBm25 below): a live Qdrant
+failure while in HYBRID_QDRANT tier demotes to HYBRID (local FAISS) first,
+since the FAISS index and embedding model are already resident in memory
+whenever HYBRID_QDRANT is reachable at all -- only a HYBRID attempt failing
+too falls further to BM25. See server.py's SearchEngine._search_with_fallback.
 
-FIXED -- N3 (P1), recovery is no longer strictly one-directional at
-runtime (see TestRecoveryBehavior below). Before this fix, once
-_search_with_fallback demoted the tier, nothing re-probed the higher tier
-on a later call, even after the underlying dependency would now succeed --
-the only way the tier climbed back up was an explicit rebuild_index() call.
-This was the same staleness shape the benchmark assessment flagged for
-agent-memory's health_check (B2/R2, "cached ready" vs. actual
-serviceability). The fix is a bounded, cooldown-gated re-probe
+Recovery is not strictly one-directional at runtime (see
+TestRecoveryBehavior below): a bounded, cooldown-gated re-probe
 (SearchEngine._maybe_reprobe_higher_tier, _TIER_REPROBE_COOLDOWN_S,
-_max_tier) that climbs exactly one tier at a time and lets the normal
-fallback cascade re-validate it with the real search call a query was
-already going to make -- deliberately not a full health-check-style
-network round-trip added to every call, and deliberately gradual (one tier
-per cooldown window) rather than a single jump straight back to the
-historical ceiling, so a demotion caused by one broken dependency can't
-mask a second, independently-broken one behind an untested jump.
-rebuild_index() remains the authoritative full-reinit recovery path (see
-test_explicit_rebuild_restores_the_tier) -- the reprobe is a lighter,
-automatic complement to it, not a replacement.
+_max_tier) climbs a demoted tier back up, one tier at a time, once the
+underlying dependency recovers, letting the normal fallback cascade
+re-validate it with the real search call a query was already going to
+make -- deliberately not a full health-check-style network round-trip
+added to every call, and deliberately gradual so a demotion caused by one
+broken dependency can't mask a second, independently-broken one behind an
+untested jump. rebuild_index() remains the authoritative full-reinit
+recovery path (see test_explicit_rebuild_restores_the_tier) -- the reprobe
+is a lighter, automatic complement to it, not a replacement.
 """
 import sys
 import time
@@ -113,11 +93,9 @@ def _result(file="x.md", score=1.0, snippet="snippet"):
 
 
 class TestHybridQdrantFailureFallsToHybrid:
-    """A live query-time Qdrant failure while in HYBRID_QDRANT tier -- the
-    exact scenario the 2026-09-01 benchmark assessment observed live (S7:
-    "Qdrant Docker unreachable ... falling back to FAISS" during a real
-    health_check/search_docs call in that session). N2 fix: the fallback
-    now tries local FAISS search (HYBRID) before ever considering BM25."""
+    """A live query-time Qdrant failure while in HYBRID_QDRANT tier. N2 fix:
+    the fallback now tries local FAISS search (HYBRID) before ever
+    considering BM25."""
 
     def test_search_still_returns_a_result_not_an_exception(self):
         engine = _make_engine(SearchTier.HYBRID_QDRANT)

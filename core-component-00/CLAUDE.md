@@ -82,7 +82,10 @@ Parallel workers: `pytest -n <N>` — keep N ≤ 10 on this machine (i9-13900H, 
 
 ## Environment Notes (Windows)
 
-- **RAG dependencies are heavy** — install only when needed:
+- **RAG's `requirements.txt` is aspirational**, for architecture its `fundamentals/`/`patterns/`
+  document but `implementations/` does not yet build — install from it only when actually
+  implementing one of those pieces, not to run RAG's existing test suite (that only needs the
+  module's own `pyproject.toml`, `pytest`-only):
   ```powershell
   pip install -r framework/04-retrieval-augmented-generation/requirements.txt
   python -m spacy download en_core_web_sm

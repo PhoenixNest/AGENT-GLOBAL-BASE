@@ -113,10 +113,10 @@ class TestConstraint1ReadOnlyFirst:
             text=True,
             check=True,
         ).stdout
-        # Disclosed exception: search_memory's docstring citation was repointed
-        # from the now-deleted 09-mcp-architecture-decision.md to
-        # research-report.md's merged section. Applied to the baseline too so
-        # this documentation-only edit doesn't mask an unrelated functional
+        # Disclosed exception: search_memory's docstring cites a documentation
+        # path that differs, text-only, between the pinned baseline and the
+        # current source. Normalized on the baseline copy too, so this
+        # non-functional text difference doesn't mask an unrelated functional
         # change to the same function.
         old_source = old_source.replace(
             "    telescope/2026-07-10-agent-memory-architecture/supporting/09-mcp-architecture-decision.md):",
@@ -585,8 +585,8 @@ class TestConstraint4SacredCompletenessStatic:
         # "\n@mcp.tool()\ndef search_memory(") -- it exists only to find
         # where the NEXT top-level def begins so `body` below is scoped to
         # _search_memory_impl alone; it is not itself an assertion about
-        # which/how-many decorators sit on search_memory (R4, 2026-09-02,
-        # added @_log_tool_call between @mcp.tool() and the def line).
+        # which/how-many decorators sit on search_memory (it does not assume
+        # a fixed decorator count between @mcp.tool() and the def line).
         fn_end = text.index("\ndef search_memory(")
         body = text[fn_start:fn_end]
         assert 'statuses = ["active"]' in body
