@@ -1,17 +1,9 @@
 """
-R5 (2026-09-02) — minimal conformance-check test gate for agent-memory's
-registered `@mcp.tool()` endpoints (search_memory, health_check,
-write_memory).
+Minimal conformance-check test gate for agent-memory's registered
+`@mcp.tool()` endpoints (search_memory, health_check, write_memory).
 
-Per the 2026-09-01 MCP servers enterprise assessment
-(platform/benchmarks/model-context-protocol-servers/
-2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md,
-B5/R5): agent-memory already had strong scenario-test coverage (9 test
-files exercising write-gate, adversarial write-path evaluation, embedder
-reliability, cross-server health comparison, and Tier 3 keyword search) but
-no conformance-harness gate. This file adds exactly that gate — kept
-deliberately minimal per R5's own scope ("defer load/pentest testing
-entirely, that's explicitly out of scope for R5"):
+Deliberately minimal in scope — schema/signature conformance only; load
+and pentest testing are separate, out-of-scope gates:
 
 1. Each tool's declared input schema — the JSON schema FastMCP generates
    from its signature/type hints at registration time, the same shape a

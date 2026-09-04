@@ -7,9 +7,11 @@ retrieval-augmented generation pipelines that ground LLM responses in institutio
 
 ## What Lives Here
 
-This module contains knowledge documentation, production Python reference implementations, and a
-lightweight pytest test suite. The test suite uses mock dependencies and requires no GPU, CUDA,
-spaCy, or a live Qdrant instance.
+This module contains knowledge documentation for a broader "enterprise-grade RAG" architecture
+(`fundamentals/`, `patterns/`), plus a smaller set of production Python reference implementations
+that actually exist today — pure-Python, stdlib-only, injectable-dependency chunking/retrieval/
+pipeline/PII-masking code — and a lightweight pytest test suite for that existing code. The test
+suite uses mock dependencies and requires no GPU, CUDA, spaCy, or a live Qdrant instance.
 
 ---
 
@@ -19,30 +21,42 @@ spaCy, or a live Qdrant instance.
 retrieval-augmented-generation/
 ├── fundamentals/          ← Concepts: retrieval strategies, chunking, embedding, reranking
 ├── patterns/              ← Pipeline patterns (naive RAG, advanced RAG, modular RAG)
-├── implementations/       ← Reference Python implementations (pure Python, injectable deps)
+├── implementations/       ← Reference Python implementations (pure Python, stdlib-only, injectable deps)
 │   ├── chunker.py         ← FixedSizeChunker, SemanticChunker, HybridChunker
 │   ├── retrieval.py       ← BM25 scoring, RRF fusion, ACL filtering
-│   └── pipeline.py        ← RAGPipeline — end-to-end orchestration
+│   ├── pipeline.py        ← RAGPipeline — end-to-end orchestration
+│   └── pii_masking.py     ← PII masking for retrieved context
 ├── testing/               ← Lightweight pytest suite (no heavy deps required)
 │   ├── conftest.py        ← Mock embedder, mock Qdrant client, sample corpus
 │   ├── test_chunking.py   ← Chunking strategy tests
 │   ├── test_retrieval.py  ← BM25, RRF fusion, ACL filter tests
-│   └── test_pipeline.py   ← End-to-end pipeline + Layer 2 contract tests
-├── tools/                 ← Operational scripts (initialize.py, thermal_guardian.py)
-└── requirements.txt       ← Heavy dependencies (install only when needed)
+│   ├── test_pipeline.py   ← End-to-end pipeline + Layer 2 contract tests
+│   └── test_pii_masking.py ← PII masking tests
+├── tools/                 ← Operational scripts (initialize.py, thermal_guardian.py) — stdlib-only
+├── pyproject.toml         ← This module's own test-environment dependency (pytest only)
+└── requirements.txt       ← Dependencies for the broader architecture fundamentals/ and
+                              patterns/ document, not yet implemented here — see
+                              "Dependencies Warning" below
 ```
 
 ---
 
 ## Dependencies Warning
 
-**RAG dependencies are heavy — install only when actually needed.**
+**`requirements.txt` lists dependencies for the broader architecture `fundamentals/` and
+`patterns/` document, not for what's currently implemented.** `implementations/`, `testing/`,
+and `tools/` import stdlib only — running or testing the existing code needs nothing from
+`requirements.txt`, only this module's own `pyproject.toml` (see "Running the Test Suite"
+below). Install from `requirements.txt` only when actually implementing one of the
+architecture pieces it lists — never as part of a general environment setup, and never to run
+the existing test suite:
 
 ```powershell
 pip install -r retrieval-augmented-generation/requirements.txt
 ```
 
-The spaCy language model is a separate install step:
+The spaCy language model is a separate install step, needed only alongside the `spacy` package
+above:
 
 ```powershell
 python -m spacy download en_core_web_sm
@@ -77,11 +91,19 @@ code — do not assume the GPU is accessible.
 
 ## Running the Test Suite
 
-The test suite requires only standard library + pytest + unittest.mock — no heavy RAG dependencies:
+The test suite requires only standard library + pytest + unittest.mock — no heavy RAG dependencies.
+This module has its own venv (`.venv/`, via `uv sync` from this folder's `pyproject.toml`,
+deliberately declaring only `pytest` — not `requirements.txt` — since that's all `implementations/`
+and `testing/` actually import), matching the per-component venv convention used elsewhere in this
+workspace:
+
+```bash
+# From core-component-00/
+core-component-00/framework/04-retrieval-augmented-generation/.venv/bin/python -m pytest framework/04-retrieval-augmented-generation/testing/ -v
+```
 
 ```powershell
-# From core-component-00/
-pytest retrieval-augmented-generation/testing/ -v
+core-component-00\framework\04-retrieval-augmented-generation\.venv\Scripts\python.exe -m pytest framework\04-retrieval-augmented-generation\testing\ -v
 ```
 
 All heavy dependencies (embedding models, Qdrant, spaCy) are replaced by deterministic stubs
@@ -115,9 +137,12 @@ RAG is the knowledge retrieval layer. It integrates with:
 
 ## Rules
 
-- Install dependencies only when actively needed — `requirements.txt` is a heavy payload.
-- Verify `torch.cuda.is_available()` before any GPU-dependent code path.
-- No CC-00 implementation change merges until `pytest framework/04-retrieval-augmented-generation/testing/ -v`
+- `requirements.txt` is aspirational, for architecture not yet implemented in this module —
+  install from it only when actually building one of the pieces it lists.
+- Verify `torch.cuda.is_available()` before any GPU-dependent code path (applies once `torch` is
+  actually in use — not today).
+- No CC-00 implementation change merges until this module's own
+  `.venv/bin/python -m pytest framework/04-retrieval-augmented-generation/testing/ -v`
   (from `core-component-00/`) passes. The lightweight suite requires no heavy deps and must always be green.
 - New RAG patterns must conform to ASGF compliance standards in
   `../00-agent-systems-governance-framework/governance/compliance-standard.md`.

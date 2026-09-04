@@ -1,5 +1,17 @@
 # RAG System Dependencies
-# Enterprise-grade Retrieval Augmented Generation implementation
+#
+# Currently required by implementations/, testing/, and tools/: none beyond pytest, which
+# is declared in this module's own pyproject.toml (`uv sync` from this directory) — not
+# here. All four implementation files (chunker.py, retrieval.py, pipeline.py,
+# pii_masking.py), the full testing/ suite, and both tools/ scripts (initialize.py,
+# thermal_guardian.py) import stdlib only.
+#
+# Everything below is aspirational: dependencies for the broader "enterprise-grade RAG"
+# architecture this module's fundamentals/ and patterns/ document, but that
+# implementations/ does not yet build and testing/ does not yet exercise. None of it is
+# imported anywhere in this module today. Install only when actually implementing one of
+# these pieces — not as part of a general environment setup, and not to run the existing
+# test suite (see this module's CLAUDE.md § Running the Test Suite).
 
 # Core dependencies
 python-multipart>=0.0.6
@@ -55,9 +67,8 @@ bert-score>=0.3.5
 matplotlib>=3.8.0
 seaborn>=0.12.2
 
-# Testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
+# Dev tooling for whichever of the above gets implemented (not needed for the existing
+# lightweight suite -- that's covered by this module's own pyproject.toml)
 pylint>=2.17.0
 black>=23.11.0
 # Note: prettier is a Node.js formatter — install via: npm install -g prettier

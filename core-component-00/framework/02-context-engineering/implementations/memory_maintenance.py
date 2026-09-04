@@ -21,14 +21,12 @@ This module implements:
       below)
 
 Explicitly not done here:
-    - The LLM-judged contradiction check's production activation. Dr. Tomasz
-      Wieczorek's adversarial evaluation of its false-positive UPDATE risk has
-      run (telescope/2026-07-10-agent-memory-architecture/research-report.md
-      § Contradiction-Check Adversarial Evaluation)
-      and found no independent safeguards against misclassification — the gate
-      stays closed until the specific gaps that report lists are fixed.
-      run_maintenance_pass() refuses to invoke check_contradiction() under any
-      circumstance — see that function's docstring for the structural gate.
+    - The LLM-judged contradiction check's production activation. An adversarial
+      evaluation of its false-positive UPDATE risk found no independent
+      safeguards against misclassification — the gate stays closed until those
+      gaps are fixed. run_maintenance_pass() refuses to invoke
+      check_contradiction() under any circumstance — see that function's
+      docstring for the structural gate and the specific findings.
     - Threshold recalibration from real session data. The constants below are
       starting defaults, not validated values.
     - Per-collection point_counts and Qdrant reachability — those are
@@ -248,17 +246,15 @@ def check_contradiction(
     *** NOT ACTIVATED IN ANY PRODUCTION OR DEFAULT PATH. ***
 
     This function exists so consolidation's dependency graph is complete and
-    this logic is unit-testable. Dr. Tomasz Wieczorek's adversarial evaluation
-    (telescope/2026-07-10-agent-memory-architecture/research-report.md
-    § Contradiction-Check Adversarial Evaluation)
-    has already run against it and found no independent safeguards: a
-    representative naive judge misclassified 5/5 curated non-contradictory
-    pairs as UPDATE, the verdict is order-sensitive, and an engineered
-    "contradiction" can force archival of a true, unrelated fact. It must NOT
-    be wired into run_maintenance_pass() or any live pipeline until the gaps
-    that report lists are fixed and a follow-up evaluation clears them. Calling
-    this function directly outside of tests is a policy violation, not just an
-    engineering suggestion.
+    this logic is unit-testable. An adversarial evaluation found no
+    independent safeguards against misclassification: a representative naive
+    judge misclassified 5/5 curated non-contradictory pairs as UPDATE, the
+    verdict is order-sensitive, and an engineered "contradiction" can force
+    archival of a true, unrelated fact. It must NOT be wired into
+    run_maintenance_pass() or any live pipeline until these gaps are fixed
+    and a follow-up evaluation clears them. Calling this function directly
+    outside of tests is a policy violation, not just an engineering
+    suggestion.
 
     Returns one of "ADD" | "UPDATE" | "NOOP".
     """
