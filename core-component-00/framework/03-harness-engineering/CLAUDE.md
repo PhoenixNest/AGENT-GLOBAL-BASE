@@ -39,10 +39,16 @@ harness-engineering/
 
 ## Running Tests
 
-Run from `core-component-00/` (not workspace root) to avoid import conflicts:
+This module has its own venv (`.venv/`, via `uv sync` from this folder's `pyproject.toml`),
+matching the per-component venv convention used elsewhere in this workspace. Run from
+`core-component-00/` (not workspace root) to avoid import conflicts:
+
+```bash
+core-component-00/framework/03-harness-engineering/.venv/bin/python -m pytest framework/03-harness-engineering/testing/ -v
+```
 
 ```powershell
-pytest engineering/harness-engineering/testing/ -v
+core-component-00\framework\03-harness-engineering\.venv\Scripts\python.exe -m pytest framework\03-harness-engineering\testing\ -v
 ```
 
 Tests import via `from implementations.<module>` — the module root must be on `sys.path`. The test
@@ -87,6 +93,6 @@ from implementations.tool_registry import ToolRegistry
 - Token budgets must be enforced via `ContextMonitor` — do not rely on ad-hoc token counting.
 - Tool access must be governed by `ToolRegistry` — do not allow unrestricted tool access.
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
-- Any implementation change must pass `pytest engineering/harness-engineering/testing/ -v` before committing.
+- Any implementation change must pass this module's own `.venv/bin/python -m pytest framework/03-harness-engineering/testing/ -v` before committing.
 - Never bypass safety enforcement to advance a task — this is equivalent to Trim-to-Pass and is a
   P0 defect in any ASGF-governed system.

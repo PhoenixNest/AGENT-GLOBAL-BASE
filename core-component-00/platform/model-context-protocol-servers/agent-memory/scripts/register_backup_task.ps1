@@ -1,17 +1,16 @@
 <#
 .SYNOPSIS
-    Phase 5 DR backup — Windows Task Scheduler registration for the daily
-    agent-memory JSONL log snapshot.
+    DR-backup scheduling registration for the daily agent-memory JSONL log
+    snapshot, via Windows Task Scheduler.
 
 .DESCRIPTION
     STATUS: implemented, INACTIVE by default. Running this script with no
     switches performs a DRY RUN only — it prints the task definition it would
     register and registers nothing. Pass -Activate to actually create the
-    scheduled task. This split is deliberate: CEO approval (2026-08-08) covers
-    writing this script, not activating it — see
-    core-component-00/telescope/2026-07-10-agent-memory-architecture/supporting/02-deployment-guidelines.md
-    §9.
-    Do not pass -Activate without a fresh, explicit authorization to activate.
+    scheduled task. This split is deliberate: CEO approval to write scheduling
+    automation is not the same approval as activating it — do not pass
+    -Activate without a fresh, explicit authorization to activate, on either
+    script.
 
 .PARAMETER Activate
     Actually register the scheduled task. Omit to dry-run only.
@@ -47,6 +46,6 @@ $Action = New-ScheduledTaskAction -Execute $PythonExe -Argument "`"$BackupScript
 $Trigger = New-ScheduledTaskTrigger -Daily -At $Time
 $Settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -DontStopOnIdleEnd
 Register-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger -Settings $Settings `
-    -Description "CC-00 agent-memory JSONL log daily snapshot (Phase 5 DR backup)."
+    -Description "CC-00 agent-memory JSONL log daily snapshot (DR backup)."
 
 Write-Host "Registered scheduled task '$TaskName'."

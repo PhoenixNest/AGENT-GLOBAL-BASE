@@ -705,13 +705,12 @@ class TestEvaluateSubtaskResult:
         then explains three concrete failures — but the denied clause still
         contains the criterion's exact words as a contiguous substring.
 
-        Before the fix, `_criterion_satisfied` had no concept of negation,
-        hedging, or sentence structure — it only checked whether the
-        criterion string occurred anywhere in the narrative, so this denial
-        sentence scored identically to an assertion and produced a
-        confident false-positive passed=True. `_phrase_asserted_in_narrative`
-        now applies a bounded negation check (a fixed-window scan for a
-        small negation-cue vocabulary immediately before each match) that
+        A naive substring check has no concept of negation, hedging, or
+        sentence structure — it would score this denial sentence identically to an
+        assertion and produce a confident false-positive passed=True.
+        `_phrase_asserted_in_narrative` instead applies a bounded negation
+        check (a fixed-window scan for a small negation-cue vocabulary
+        immediately before each match) that
         closes this specific reproduction. This test must keep failing
         (i.e. keep asserting passed is False) if that check regresses.
         """
@@ -984,15 +983,12 @@ class TestFaultAndSemanticRetryCounterIndependence:
 
 
 class TestUnroutedTopologyLoudFailure:
-    """MAE R2 (I2): regression baseline for MAE R1 (I1). Before I1 lands,
-    execute()'s dispatch dict has no entries for SUPERVISOR_WORKER or
-    ROUTER, and `dispatch.get(plan.topology, self._execute_hybrid)`
-    silently substitutes the Hybrid executor for both — this is invisible
-    to a green suite because nothing asserts on it. This test must be RED
-    before I1's fix lands (both topologies actually invoke the patched
-    Hybrid spy below) and GREEN immediately after (neither topology ever
-    reaches Hybrid — it either executes via its own explicit executor or
-    raises loudly instead)."""
+    """An unrouted SwarmTopology member (SUPERVISOR_WORKER, ROUTER) must
+    never silently fall through to the Hybrid executor via
+    `dispatch.get(plan.topology, self._execute_hybrid)`'s default — that
+    would be invisible to a green suite because nothing else asserts on
+    it. Neither topology may ever reach Hybrid: each executes via its own
+    explicit executor or raises loudly instead."""
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("topology", ["supervisor_worker", "router"])

@@ -2,14 +2,10 @@
 Comparison logic for agent-memory vs. workspace-knowledge's `memory_instance`
 health_check blocks — test support code, not a registered MCP tool.
 
-This is Recommendation 2 ("Add a lightweight comparison test that calls both
-servers' health_check back-to-back ... so a future regression like Finding 3
-surfaces automatically instead of requiring a manual CEO-requested review to
-discover") from the 2026-07-17 agent-memory client-instability investigation.
-Finding 3 there was: agent-memory's health_check reported reachable=false
-with all-zero counts while workspace-knowledge, querying the *same*
-qdrant-memory instance in the same breath, reported correctly. This module is
-the pure divergence-detection logic that a live integration test
+Detects the class of regression where agent-memory's health_check reports
+reachable=false with all-zero counts while workspace-knowledge, querying the
+*same* qdrant-memory instance in the same breath, reports correctly. This
+module is the pure divergence-detection logic that a live integration test
 (test_cross_server_health_comparison.py) exercises against real output from
 both servers; kept separate from that test file so its correctness can be
 verified independently, with fixed, deterministic inputs and no live Qdrant
