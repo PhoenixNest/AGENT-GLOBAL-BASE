@@ -40,10 +40,16 @@ multi-agent-engineering/
 
 ## Running Tests
 
-Run from `core-component-00/` (not workspace root) to avoid import conflicts:
+This module has its own venv (`.venv/`, via `uv sync` from this folder's `pyproject.toml`),
+matching the per-component venv convention used elsewhere in this workspace. Run from
+`core-component-00/` (not workspace root) to avoid import conflicts:
+
+```bash
+core-component-00/framework/05-multi-agent-engineering/.venv/bin/python -m pytest framework/05-multi-agent-engineering/testing/ -v
+```
 
 ```powershell
-pytest engineering/multi-agent-engineering/testing/ -v
+core-component-00\framework\05-multi-agent-engineering\.venv\Scripts\python.exe -m pytest framework\05-multi-agent-engineering\testing\ -v
 ```
 
 ---
@@ -105,5 +111,5 @@ Reference: `implementations/handoff_packet.py` and
 - Handoff packets must use the three-tier protocol (`HandoffPacket`) — do not write freeform
   context dumps.
 - Run tests from `core-component-00/` or the module folder, not the workspace root.
-- Any implementation change must pass `pytest engineering/multi-agent-engineering/testing/ -v` before committing.
+- Any implementation change must pass this module's own `.venv/bin/python -m pytest framework/05-multi-agent-engineering/testing/ -v` before committing.
 - Single-line commits with no body are a P2 defect in agent work.

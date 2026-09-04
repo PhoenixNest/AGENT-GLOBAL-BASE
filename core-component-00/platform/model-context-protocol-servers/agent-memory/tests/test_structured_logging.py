@@ -1,14 +1,12 @@
 """
-Tests for R4 (2026-09-02) — structured per-call audit logging around each
-@mcp.tool() function's entry/exit. See server.py's `_log_tool_call`/
-`_call_outcome` and platform/benchmarks/model-context-protocol-servers/
-2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md (B3/R4)
-for the gap this closes.
+Tests for structured per-call audit logging around each @mcp.tool()
+function's entry/exit. See server.py's `_log_tool_call`/`_call_outcome`
+for the implementation.
 
-Covers, per the remediation item's own acceptance bar: at least one success
-and one failure case with expected fields actually emitted, plus the
-argument-redaction discipline (no raw `content`/`query` text ever reaches a
-log record — only lengths and other non-content metadata).
+Covers at least one success and one failure case with expected fields
+actually emitted, plus the argument-redaction discipline (no raw
+`content`/`query` text ever reaches a log record — only lengths and other
+non-content metadata).
 """
 import logging
 

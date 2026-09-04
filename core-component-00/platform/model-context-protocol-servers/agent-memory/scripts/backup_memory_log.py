@@ -2,10 +2,11 @@
 """
 Disaster-recovery backup — snapshot the JSONL memory log.
 
-STATUS: implemented, INACTIVE. Nothing calls this script automatically — no
-scheduled task, no server code path invokes it. It only runs if someone runs
-it by hand or `register_backup_task.ps1 -Activate` has been run to wire it
-into Windows Task Scheduler.
+STATUS: implemented. Nothing in the MCP server code path invokes it directly —
+it only runs if someone runs it by hand, or one of the two per-platform
+scheduling scripts has been activated: `register_backup_task.ps1 -Activate`
+(Windows Task Scheduler) or `register_backup_task.py --activate` (Linux
+systemd/cron).
 
 Copies core-component-00/framework/02-context-engineering/memory/ (the
 JSONLMemoryLog root — the durable source of truth every Qdrant collection is

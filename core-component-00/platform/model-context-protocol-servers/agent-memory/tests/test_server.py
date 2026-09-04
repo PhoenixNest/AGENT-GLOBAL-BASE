@@ -463,8 +463,8 @@ class TestSearchCapabilitySnapshot:
 
     def test_snapshot_never_triggers_lazy_warmup(self, reset_embedder_globals, monkeypatch):
         """The whole point of this function is that calling health_check must
-        not itself cause the eager-background-work regression the 2026-07-17
-        fix removed. Fail loudly if the snapshot ever calls the trigger."""
+        not itself trigger eager background work. Fail loudly if the
+        snapshot ever calls the trigger."""
         m = reset_embedder_globals
 
         def _fail_if_called():
@@ -496,14 +496,11 @@ class TestSearchCapabilitySnapshot:
         assert snap["embedder_service_state_confirmed"] is False
         assert snap["embedder_service_state_age_s"] is None
 
-    # -- R2 fix (2026-09-02): bounded-staleness indicator ------------------
-    # See platform/benchmarks/model-context-protocol-servers/
-    # 2026-09-01-mcp-servers-enterprise-assessment/enterprise-assessment.md
-    # B2/R2 — health_check's embedder_service_state was a cached "ready"
-    # value never re-probed once set, so a caller had no way to tell a
-    # freshly-confirmed "ready" from one confirmed 40 minutes ago. These
-    # tests cover the new embedder_service_state_confirmed /
-    # embedder_service_state_age_s fields that expose that staleness.
+    # -- Bounded-staleness indicator -----------------------------------------
+    # health_check's embedder_service_state is a cached "ready" value, not
+    # re-probed on every call. embedder_service_state_confirmed /
+    # embedder_service_state_age_s let a caller tell a freshly-confirmed
+    # "ready" from a stale one. These tests cover those fields.
 
     def test_ready_state_reports_confirmed_true_and_small_age(self, reset_embedder_globals):
         m = reset_embedder_globals

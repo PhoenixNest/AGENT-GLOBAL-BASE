@@ -1,0 +1,21 @@
+[project]
+name = "cc00-retrieval-augmented-generation"
+version = "0.1.0"
+description = "CC-00 Layer 4 (RAG) — test environment for implementations/"
+readme = "README.md"
+requires-python = ">=3.10"
+
+# implementations/ and testing/ (chunker.py, retrieval.py, pipeline.py, pii_masking.py, and
+# their tests) have no third-party dependencies (stdlib only: re, math, dataclasses, typing,
+# collections, unittest.mock, pathlib). pytest is needed to run testing/.
+#
+# requirements.txt in this folder lists a much larger dependency set (sentence-transformers,
+# torch, spacy, langchain, qdrant-client, weaviate-client, redis, fastapi, cohere,
+# elasticsearch, ...) for a broader "enterprise-grade RAG" architecture this module documents
+# but does not currently implement or test -- none of it is imported by implementations/ or
+# testing/. This pyproject.toml intentionally installs only what the actual runnable code
+# needs.
+dependencies = ["pytest>=8.0.0"]
+
+[tool.uv]
+package = false
