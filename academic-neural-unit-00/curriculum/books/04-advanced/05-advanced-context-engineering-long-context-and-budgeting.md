@@ -36,7 +36,7 @@ budgeting: the practical discipline, used daily by anyone building a production 
 treating a finite context window as a resource to be actively allocated and managed rather than
 filled passively.
 
-本章分为两个部分。第2至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)将长上下文视为一个真正棘手的工程与科学问题来考察：底层架构为何会抵抗简单粗暴的扩展、随着上下文增长模型的准确率究竟会发生什么、以及这一领域如何对此进行实证测量——其中也包括标准测量方法本身存在争议的地方。第7至[第 9 节](#9-common-pitfalls-at-this-level)随后转向上下文预算：这是任何构建生产级大语言模型应用的人日常都要用到的实践纪律——把有限的上下文窗口当作一种需要主动分配和管理的资源，而不是被动地被填满。
+本章分为两个部分。[第 2 节](#2-the-position-extrapolation-problem)至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)将长上下文视为一个真正棘手的工程与科学问题来考察：底层架构为何会抵抗简单粗暴的扩展、随着上下文增长模型的准确率究竟会发生什么、以及这一领域如何对此进行实证测量——其中也包括标准测量方法本身存在争议的地方。[第 7 节](#7-context-budgeting-as-an-engineering-discipline)至[第 9 节](#9-common-pitfalls-at-this-level)随后转向上下文预算：这是任何构建生产级大语言模型应用的人日常都要用到的实践纪律——把有限的上下文窗口当作一种需要主动分配和管理的资源，而不是被动地被填满。
 
 ## 1. Recap and Scope
 
@@ -58,7 +58,7 @@ linearly and multiplies across every concurrent request a server handles, and, a
 Sections 5–6 show, no guarantee that a model actually uses everything inside a larger window equally
 well.
 
-综合这三点可以看出：“干脆把上下文窗口做大一点”从来都不是一个没有代价的工程选择——它带来的计算成本增长快于线性，内存成本随线性增长、并会在服务器同时处理的每一个并发请求上成倍累加，而且正如本章第5至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)将会展示的那样，窗口变大也并不能保证模型能够同样好地利用窗口内的所有内容。
+综合这三点可以看出：“干脆把上下文窗口做大一点”从来都不是一个没有代价的工程选择——它带来的计算成本增长快于线性，内存成本随线性增长、并会在服务器同时处理的每一个并发请求上成倍累加，而且正如本章[第 5 节](#5-the-empirical-shape-of-long-context-performance-lost-in-the-middle)至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)将会展示的那样，窗口变大也并不能保证模型能够同样好地利用窗口内的所有内容。
 
 ## 2. The Position-Extrapolation Problem
 
@@ -136,7 +136,7 @@ limit.
 This is why Sections 5–6 evaluate long-context claims empirically rather than taking an advertised
 window size at face value.
 
-这正是为什么第5至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)要用实证的方式来评估长上下文的相关宣称，而不是对宣称的窗口大小照单全收。
+这正是为什么[第 5 节](#5-the-empirical-shape-of-long-context-performance-lost-in-the-middle)至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)要用实证的方式来评估长上下文的相关宣称，而不是对宣称的窗口大小照单全收。
 
 ## 4. Distributing Attention Across Devices: Ring Attention
 
@@ -147,7 +147,7 @@ lengths. A separate problem is purely computational: [`intermediate/02` — Atte
 that, for a sufficiently long sequence, the attention score matrix alone may not fit in a single
 device's memory regardless of positional encoding.
 
-第2至[第 3 节](#3-yarn-combining-interpolation-with-attention-scaling)讨论的是如何让一个已经训练好的模型的位置编码，在更长的长度下依然正确工作。另一个独立的问题则纯粹是计算层面的：《注意力机制深入解析》[第 4 节](#4-distributing-attention-across-devices-ring-attention)所述的 $O(n^2)$ 开销意味着，对于足够长的序列，无论采用何种位置编码，单单是注意力得分矩阵本身就可能装不进单个设备的内存。
+[第 2 节](#2-the-position-extrapolation-problem)至[第 3 节](#3-yarn-combining-interpolation-with-attention-scaling)讨论的是如何让一个已经训练好的模型的位置编码，在更长的长度下依然正确工作。另一个独立的问题则纯粹是计算层面的：《注意力机制深入解析》[第 4 节](#4-distributing-attention-across-devices-ring-attention)所述的 $O(n^2)$ 开销意味着，对于足够长的序列，无论采用何种位置编码，单单是注意力得分矩阵本身就可能装不进单个设备的内存。
 
 Liu, Zaharia, and Abbeel (2023), in "Ring Attention with Blockwise Transformers for Near-Infinite
 Context," address this by distributing the sequence itself across multiple devices arranged in a
@@ -174,7 +174,7 @@ says nothing on its own about whether the model's positional scheme extrapolates
 These are three separate engineering problems that happen to be solved together in a shipped
 product.
 
-之所以在本章中纳入环形注意力，并不是因为提示工程师需要亲自实现它，而是因为它能够帮助我们厘清一个重要的区分，供任何在思考厂商所宣称的上下文窗口时参考：一个非常庞大的宣称窗口(几十万乃至上百万个 token)，说明了提供该服务的机构已经解决了本节所描述的*计算层面*的分布式问题——但这本身并不能说明该模型的位置编码方案是否能够平滑地外推([第 2 节](#2-the-position-extrapolation-problem))，也不能说明该模型的准确率是否真的能在整个窗口范围内保持稳定(第5至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits))。这是三个各自独立的工程问题，只是恰好在某个已发布的产品中被一并解决了而已。
+之所以在本章中纳入环形注意力，并不是因为提示工程师需要亲自实现它，而是因为它能够帮助我们厘清一个重要的区分，供任何在思考厂商所宣称的上下文窗口时参考：一个非常庞大的宣称窗口(几十万乃至上百万个 token)，说明了提供该服务的机构已经解决了本节所描述的*计算层面*的分布式问题——但这本身并不能说明该模型的位置编码方案是否能够平滑地外推([第 2 节](#2-the-position-extrapolation-problem))，也不能说明该模型的准确率是否真的能在整个窗口范围内保持稳定([第 5 节](#5-the-empirical-shape-of-long-context-performance-lost-in-the-middle)至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits))。这是三个各自独立的工程问题，只是恰好在某个已发布的产品中被一并解决了而已。
 
 ## 5. The Empirical Shape of Long-Context Performance: "Lost in the Middle"
 
@@ -220,7 +220,7 @@ Given that longer context windows can fail both architecturally (Sections 2–4)
 (Section 5), the field needed a standard, repeatable way to measure whether a model actually uses
 its full advertised window.
 
-鉴于更长的上下文窗口既可能在架构层面出问题(第2至[第 4 节](#4-distributing-attention-across-devices-ring-attention))，也可能在行为层面出问题([第 5 节](#5-the-empirical-shape-of-long-context-performance-lost-in-the-middle))，这一领域需要一套标准、可重复的方法，来衡量一个模型是否真的能够用好它所宣称的整个窗口。
+鉴于更长的上下文窗口既可能在架构层面出问题([第 2 节](#2-the-position-extrapolation-problem)至[第 4 节](#4-distributing-attention-across-devices-ring-attention))，也可能在行为层面出问题([第 5 节](#5-the-empirical-shape-of-long-context-performance-lost-in-the-middle))，这一领域需要一套标准、可重复的方法，来衡量一个模型是否真的能够用好它所宣称的整个窗口。
 
 Kamradt's **Needle in a Haystack** test, published as an open-source evaluation methodology, does
 this directly: a specific, distinctive statement (the "needle") is inserted at a controlled depth (a
@@ -275,7 +275,7 @@ than filled greedily. A useful way to enumerate the categories competing for tha
 four-part prompt anatomy from [`introductory/05` — Prompt Engineering Fundamentals §2](https://anu00.dev/curriculum/books/01-introductory/05-prompt-engineering-fundamentals.md#2-the-anatomy-of-a-prompt) and the few-shot trade-off named in
 [`intermediate/05` — Advanced Prompting: Chain-of-Thought, Few-Shot & Structured Output §1](https://anu00.dev/curriculum/books/02-intermediate/05-advanced-prompting-cot-few-shot-structured-output.md#1-few-shot-prompting-in-context-learning-with-examples):
 
-第2至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)确立了这样一个事实：上下文窗口的可用容量，既不是无限的，在窗口内部各处也并非均等分布。**上下文预算**正是在这一现实之下形成的一种实践：把上下文窗口当作一种有限的资源，在不同类别的内容之间有意识地加以分配，而不是贪婪地一味填满。要枚举争夺这份预算的各个类别，一种有效的方式，是在《提示工程基础》[第 2 节](#2-the-position-extrapolation-problem)所讲的提示词四要素以及《进阶提示工程》[第 1 节](#1-recap-and-scope)所提到的少样本权衡基础上加以扩展：
+[第 2 节](#2-the-position-extrapolation-problem)至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)确立了这样一个事实：上下文窗口的可用容量，既不是无限的，在窗口内部各处也并非均等分布。**上下文预算**正是在这一现实之下形成的一种实践：把上下文窗口当作一种有限的资源，在不同类别的内容之间有意识地加以分配，而不是贪婪地一味填满。要枚举争夺这份预算的各个类别，一种有效的方式，是在《提示工程基础》[第 2 节](#2-the-position-extrapolation-problem)所讲的提示词四要素以及《进阶提示工程》[第 1 节](#1-recap-and-scope)所提到的少样本权衡基础上加以扩展：
 
 | #   | Category                                                                                                                                                                                                                                                                           | 类别                                                                                                                                        |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -370,7 +370,7 @@ have been shown (Section 6) to degrade well before their claimed limit on harder
 an engineer following this chapter's evidence treats headroom as a safety margin, not an invitation
 to add content indiscriminately.
 
-这是第5至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)发现的一个直接、实际的推论——因为长上下文中间部分的更多内容，并不保证能被模型正确使用，而且即便是那些宣称拥有庞大窗口的模型，也已经被证明([第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits))会在远未达到其宣称上限之前，就在更困难的多事实任务上出现性能下降；一名遵循本章证据行事的工程师，会把这部分余量当作安全边际，而不是一个可以不加节制往里塞内容的邀请。
+这是[第 5 节](#5-the-empirical-shape-of-long-context-performance-lost-in-the-middle)至[第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits)发现的一个直接、实际的推论——因为长上下文中间部分的更多内容，并不保证能被模型正确使用，而且即便是那些宣称拥有庞大窗口的模型，也已经被证明([第 6 节](#6-evaluating-long-context-claims-needle-in-a-haystack-and-its-limits))会在远未达到其宣称上限之前，就在更困难的多事实任务上出现性能下降；一名遵循本章证据行事的工程师，会把这部分余量当作安全边际，而不是一个可以不加节制往里塞内容的邀请。
 
 Combined with placing the large, static product manual first and marking both it and the system
 prompt as cached, this budget also minimizes cost: on a multi-turn session, every request after the

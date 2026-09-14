@@ -81,7 +81,7 @@ mathematical transformations. "Training" a network means searching for parameter
 the function's outputs match desired outputs on example data, using a procedure covered in [§7](#7-how-a-network-learns-loss-functions)–[§9](#9-backpropagation-computing-gradients-efficiently) of
 this chapter.
 
-给定一个输入（例如一张图像的像素值，或一个词的数值编码），网络会通过一系列简单的数学变换，计算出一个输出（例如图像中包含猫的概率，或下一个词的概率分布）。“训练”一个网络，就是利用示例数据搜索能使函数输出与期望输出相匹配的参数取值，其具体过程将在本章第 7 至[第 9 节](#9-backpropagation-computing-gradients-efficiently)中介绍。
+给定一个输入（例如一张图像的像素值，或一个词的数值编码），网络会通过一系列简单的数学变换，计算出一个输出（例如图像中包含猫的概率，或下一个词的概率分布）。“训练”一个网络，就是利用示例数据搜索能使函数输出与期望输出相匹配的参数取值，其具体过程将在本章[第 7 节](#7-how-a-network-learns-loss-functions)至[第 9 节](#9-backpropagation-computing-gradients-efficiently)中介绍。
 
 ---
 
@@ -164,7 +164,7 @@ To make [§3](#3-the-single-neuron-weights-bias-and-activation)–[§5](#5-from-
 sigmoid activation, and known numeric weights. This is a toy example — real networks have thousands
 to billions of parameters — but the arithmetic is identical in kind, just repeated many more times.
 
-为了让第 3 至[第 5 节](#5-from-one-neuron-to-a-network-layers-and-forward-propagation)的内容更加具体，来看一个最小规模的网络：一个拥有两个输入、使用 sigmoid 激活函数、权重已知的单一神经元。这只是一个玩具示例——真实的网络拥有成千上万乃至数十亿个参数——但其中的算术运算在本质上完全相同，只是被重复了更多次。
+为了让[第 3 节](#3-the-single-neuron-weights-bias-and-activation)至[第 5 节](#5-from-one-neuron-to-a-network-layers-and-forward-propagation)的内容更加具体，来看一个最小规模的网络：一个拥有两个输入、使用 sigmoid 激活函数、权重已知的单一神经元。这只是一个玩具示例——真实的网络拥有成千上万乃至数十亿个参数——但其中的算术运算在本质上完全相同，只是被重复了更多次。
 
 Suppose the inputs are $x_1 = 1.0$ and $x_2 = 0.5$, the weights are $w_1 = 0.4$ and $w_2 = -0.6$,
 and the bias is $b = 0.1$. The weighted sum is:
@@ -280,7 +280,7 @@ rule to decompose $\partial L/\partial w_1$ into three factors — how the loss 
 output $a$, how the output changes with the weighted sum $z$, and how the weighted sum changes with
 $w_1$:
 
-延续第 6 至[第 7 节](#7-how-a-network-learns-loss-functions)中的示例：为了更新权重 $w_1$，反向传播运用链式法则将 $\partial L/\partial w_1$ 分解为三个因子——损失相对于输出 $a$ 的变化率、输出相对于加权和 $z$ 的变化率，以及加权和相对于 $w_1$ 的变化率：
+延续[第 6 节](#6-a-worked-example-forward-pass-by-hand)至[第 7 节](#7-how-a-network-learns-loss-functions)中的示例：为了更新权重 $w_1$，反向传播运用链式法则将 $\partial L/\partial w_1$ 分解为三个因子——损失相对于输出 $a$ 的变化率、输出相对于加权和 $z$ 的变化率，以及加权和相对于 $w_1$ 的变化率：
 
 $$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial a} \cdot \frac{\partial a}{\partial z} \cdot \frac{\partial z}{\partial w_1}$$
 

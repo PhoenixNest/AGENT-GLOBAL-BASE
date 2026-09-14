@@ -658,9 +658,30 @@ ANU-00 Lead (Dr. Naledi Mokoena) conducted a curriculum-wide body table census:
 
 ---
 
+### Entry 16 — 2026-09-13 — Chinese range-citation anchor link restoration (leading endpoint)
+
+**Reported:** A reader found that in `introductory/01-neural-networks-and-deep-learning-foundations.md`, the English range citation "§7–§9" correctly jumps to either target section, but its Chinese counterpart ("第 7 至第 9 节") only jumps to Chapter/Section 9 — Section 7 is not clickable.
+
+**Investigation & Diagnostic Findings:**
+ANU-00 Lead (Dr. Naledi Mokoena) traced the report to a single, reproducible pattern and swept the full curriculum for other occurrences:
+
+- **Root Cause:** Wherever a range citation is phrased in Chinese as "第 X 至第 Y 节," the interactive anchor-link injection (Entry 12) linked only the trailing node ("第 Y 节," which sits directly against the "节" character it pattern-matched on) and left the leading node ("第 X") as unlinked plain text — because in this phrasing the shared trailing "节" is deferred to the end of the phrase and never appears immediately after the leading number. The corresponding English phrasing ("§X](#...)–[§Y](#...)") links both endpoints independently, so English was unaffected. Non-range citations phrased as "第 X 节与第 Y 节" (an "and"-join, each number followed by its own "节") were also unaffected, since both numbers had an adjacent "节" to match on.
+- **Scan Results:** Corpus-wide scan across all 24 curriculum modules found **33 instances of this exact pattern across 8 files**: `introductory/01` (3), `introductory/02` (1), `introductory/04` (1), `intermediate/02` (5), `intermediate/06` (6), `advanced/02` (5), `advanced/05` (9), `advanced/06` (3). No instances found in the `practicum/` tier.
+- **Scope Boundary:** A broader sweep for standalone (non-range) unlinked Chinese section citations was also run. It surfaced no further instances of this defect type — the remaining unlinked mentions found were either informal backreference shorthand (unlinked identically in the English text at the same location, e.g., "back in §2") or a single unrelated anchor-targeting error in `advanced/09` (English `[§5](#5-a-worked-example-computing-the-reward-model-loss)` mislabeled as a `curriculum/README.md` citation while pointing at that module's own heading) — logged here for visibility but out of scope for this entry's fix, since it is an English-side mistargeted anchor, not a Chinese-link omission.
+
+**Resolution / Execution:**
+
+- **(1) Leading-Endpoint Link Restoration:** Wrapped the leading Chinese endpoint of each of the 33 range citations in its own markdown link, targeting that number's own heading anchor — mirroring the English pattern of linking both ends of the range independently.
+- **(2) Prettier Guard:** Reformatted all 8 modified modules with `prettier --write`.
+- **(3) Zero-Defect Verification:** Re-scanned all 24 modules for the "第 X 至第 Y 节"-with-only-one-link pattern post-fix. 0 remaining instances.
+
+**Status:** Closed. 33 Chinese range-citation links restored across 8 modules; one unrelated English-side mistargeted-anchor finding (`advanced/09`) carried forward below as a new standing item.
+
+---
+
 ## Standing Open Items
 
 Carried forward across entries until resolved — check this list before filing a new entry, in
 case a new reader report turns out to be the same already-known item.
 
-None currently open.
+- `advanced/09-reinforcement-learning-from-human-feedback.md` line 441: English citation `` `curriculum/README.md` [§5](#5-a-worked-example-computing-the-reward-model-loss) `` links to this module's own §5 heading rather than to `curriculum/README.md` — mistargeted anchor, not yet triaged (Entry 16).
