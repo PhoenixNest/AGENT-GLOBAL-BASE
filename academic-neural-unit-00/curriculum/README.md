@@ -286,6 +286,31 @@ In accordance with international academic publishing standards (Chicago Manual o
 - **Plural Section & Range Citations:** Reference a range or multiple sections using the academic plural double section sign `§§X–Y` in English (e.g., `[§§2–5](#...)` representing _"Sections 2 through 5"_) and `[第 X–Y 节](#...)` in Chinese.
 - **Interactive Hyperlinks:** All intra-document section citations are rendered as clickable markdown anchor links (`[§X](#...)`, `[§§X–Y](#...)`) targeting the corresponding section heading ID.
 
+### 4.5 Sequential Navigation (Previous/Next Module)
+
+Every module carries a `## Continue Reading` / `**继续阅读**` section, placed immediately before
+`## References`, giving the previous and next module in the single reading order this file's §7
+Module Index (plus `practicum/README.md` for the practicum tier) defines: `01-introductory`
+(01–08) → `02-intermediate` (01–08) → `03-practicum` (01–06) → `04-advanced` (01–10).
+
+- **Format:** one bilingual line pair, using the same shorthand-label citation style and
+  `https://anu00.dev/curriculum/books/<NN-tier>/<filename>.md` URL convention as
+  `Internal Cross-References` (§5) — no `#anchor`, since the link targets the module as a whole:
+  `**Previous:** [`level/NN` — Title](url) · **Next:** [`level/NN` — Title](url)`, followed by its
+  Chinese line `**上一模块：** [...] · **下一模块：** [...]`.
+- **Endpoints:** `introductory/01` (no previous) and `advanced/10` (no next) each print an
+  explicit terminal statement in place of the missing link — `**Previous:** This is the first
+module in the curriculum.` / `**Next:** This is the final module in the curriculum.`, and their
+  Chinese equivalents — rather than omitting that line, so a reader cannot mistake an intentional
+  stop for a missing link.
+- **Not a substitute for `Internal Cross-References`:** that section remains unchanged and keeps
+  answering "what else is related"; this section answers a different question, "what's next in
+  the sequence," and the two are additive.
+- **`References` structure is unaffected:** §5's mandatory rule — the `## References` heading
+  immediately followed by `**参考文献**`, split into exactly `External Sources` and
+  `Internal Cross-References` — is unchanged. Sequential navigation is its own preceding section,
+  not a third subsection inside `References`.
+
 ---
 
 ## 5. Citations
@@ -535,3 +560,15 @@ amendment (`plans/2026-08-31-curriculum-books-restructure/curriculum-books-restr
 not left as a follow-up. Inline shorthand citation labels (e.g. `introductory/01`) are unchanged —
 they identify a level and module number, not a filesystem path, and were never tied to the
 physical folder name.
+
+**Amendment 7 — 2026-09-14, under CEO approval.** Adds §4.5 (Sequential Navigation), a
+`## Continue Reading` section placed immediately before `## References` in all 32 modules across
+`01-introductory` (01–08), `02-intermediate` (01–08), `03-practicum` (01–06), and `04-advanced`
+(01–10), giving each module a Previous/Next pointer along the single reading order Amendment 6
+established. Addresses a reader-submitted suggestion (`curriculum/reviews/reader-feedback-log.md`
+Entry 17): the existing `Internal Cross-References` section is topical, not reading-order, and
+carried no signal for "what comes next" — see
+`plans/2026-09-14-curriculum-sequential-navigation/curriculum-sequential-navigation-plan.md` for
+the full proposal and CEO decision record. `References`'s own mandatory structure (§5) is
+unchanged; the new section precedes it rather than nesting inside it. `Internal
+Cross-References`, the citation URL scheme, and the `books/` folder structure are all unaffected.

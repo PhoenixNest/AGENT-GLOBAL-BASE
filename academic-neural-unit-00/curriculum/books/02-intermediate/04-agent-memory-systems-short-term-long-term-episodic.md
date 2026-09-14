@@ -454,6 +454,16 @@ handling, and observability.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](https://anu00.dev/curriculum/books/02-intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) · **Next:** [`intermediate/05` — Advanced Prompting: Chain-of-Thought, Few-Shot & Structured Output](https://anu00.dev/curriculum/books/02-intermediate/05-advanced-prompting-cot-few-shot-structured-output.md)
+
+**上一模块：** [`intermediate/03` — 智能体设计模式：ReAct、计划-执行与 Reflexion](https://anu00.dev/curriculum/books/02-intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md) · **下一模块：** [`intermediate/05` — 进阶提示词工程：思维链、少样本与结构化输出](https://anu00.dev/curriculum/books/02-intermediate/05-advanced-prompting-cot-few-shot-structured-output.md)
+
+---
+
 ## References
 
 **参考文献**

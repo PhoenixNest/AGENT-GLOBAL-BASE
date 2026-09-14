@@ -368,6 +368,16 @@ sandboxed demonstration.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/03` — Agent Harness Engineering: Building Production-Grade Agent Loops](https://anu00.dev/curriculum/books/04-advanced/03-agent-harness-engineering-production-grade-agent-loops.md) · **Next:** [`advanced/05` — Advanced Context Engineering: Long-Context & Context Budgeting](https://anu00.dev/curriculum/books/04-advanced/05-advanced-context-engineering-long-context-and-budgeting.md)
+
+**上一模块：** [`advanced/03` — 智能体运行框架工程：构建生产级智能体循环](https://anu00.dev/curriculum/books/04-advanced/03-agent-harness-engineering-production-grade-agent-loops.md) · **下一模块：** [`advanced/05` — 高级上下文工程：长上下文与上下文预算](https://anu00.dev/curriculum/books/04-advanced/05-advanced-context-engineering-long-context-and-budgeting.md)
+
+---
+
 ## References
 
 **参考文献**

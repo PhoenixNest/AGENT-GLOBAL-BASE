@@ -330,6 +330,16 @@ The single hardest simplification in this module was the tool layer: one hardcod
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/08` — Evaluating Agent Systems: Benchmarks & Methodology](https://anu00.dev/curriculum/books/02-intermediate/08-evaluating-agent-systems-benchmarks-and-methodology.md) · **Next:** [`practicum/02` — Implementing Tool Use & Function Calling](https://anu00.dev/curriculum/books/03-practicum/02-implementing-tool-use-and-function-calling.md)
+
+**上一模块：** [`intermediate/08` — 评估智能体系统：基准测试与方法论](https://anu00.dev/curriculum/books/02-intermediate/08-evaluating-agent-systems-benchmarks-and-methodology.md) · **下一模块：** [`practicum/02` — 实现工具使用与函数调用](https://anu00.dev/curriculum/books/03-practicum/02-implementing-tool-use-and-function-calling.md)
+
+---
+
 ## References
 
 **参考文献**

@@ -335,6 +335,16 @@ role with the guardrails needed when a coordinator's decisions carry real-world 
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](https://anu00.dev/curriculum/books/02-intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) · **Next:** [`intermediate/08` — Evaluating Agent Systems: Benchmarks & Methodology](https://anu00.dev/curriculum/books/02-intermediate/08-evaluating-agent-systems-benchmarks-and-methodology.md)
+
+**上一模块：** [`intermediate/06` — 检索增强生成基础：检索、嵌入与事实基础](https://anu00.dev/curriculum/books/02-intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md) · **下一模块：** [`intermediate/08` — 评估智能体系统：基准测试与方法论](https://anu00.dev/curriculum/books/02-intermediate/08-evaluating-agent-systems-benchmarks-and-methodology.md)
+
+---
+
 ## References
 
 **参考文献**

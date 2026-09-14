@@ -351,6 +351,16 @@ module that follows directly from this one.
 
 本章定义了提示词、提示工程与上下文学习这几个概念；讲解了一个组织良好的提示词的四个组成部分，以及系统/用户/助手这套角色结构；介绍了零样本提示与温度参数；并练习了针对真实输入不断测试与修改提示词这一迭代纪律。本章的技巧都还没有涉及向模型展示已完成的示例、或要求模型逐步推理——这两项技巧，也就是少样本提示与思维链提示，连同具备严格模式校验的结构化输出，正是紧接本章之后的中级模块所要讲授的内容。
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/04` — Tool Use & Function Calling Basics](https://anu00.dev/curriculum/books/01-introductory/04-tool-use-and-function-calling-basics.md) · **Next:** [`introductory/06` — Context Windows, Tokens & Memory Basics](https://anu00.dev/curriculum/books/01-introductory/06-context-windows-tokens-and-memory-basics.md)
+
+**上一模块：** [`introductory/04` — 工具使用与函数调用基础](https://anu00.dev/curriculum/books/01-introductory/04-tool-use-and-function-calling-basics.md) · **下一模块：** [`introductory/06` — 上下文窗口、词元与记忆基础](https://anu00.dev/curriculum/books/01-introductory/06-context-windows-tokens-and-memory-basics.md)
+
+---
+
 ## References
 
 **参考文献**

@@ -269,6 +269,16 @@ resource to be actively managed.
 
 本主题群的下一个模块，《高级上下文工程：长上下文与上下文预算》(`advanced/05-advanced-context-engineering-long-context-and-budgeting.md`)，将直接接续[第 1 节](#1-few-shot-prompting-in-context-learning-with-examples)末尾提到的“上下文预算”这一权衡问题继续展开，把有限的上下文窗口本身当作一种需要主动管理的资源来对待。
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](https://anu00.dev/curriculum/books/02-intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) · **Next:** [`intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Grounding](https://anu00.dev/curriculum/books/02-intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
+
+**上一模块：** [`intermediate/04` — 记忆系统：短期记忆、长期记忆与情景记忆](https://anu00.dev/curriculum/books/02-intermediate/04-agent-memory-systems-short-term-long-term-episodic.md) · **下一模块：** [`intermediate/06` — 检索增强生成基础：检索、嵌入与事实基础](https://anu00.dev/curriculum/books/02-intermediate/06-rag-fundamentals-retrieval-embeddings-and-grounding.md)
+
+---
+
 ## References
 
 **参考文献**

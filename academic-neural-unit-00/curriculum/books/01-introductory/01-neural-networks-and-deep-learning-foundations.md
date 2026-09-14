@@ -417,6 +417,16 @@ large language model.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** This is the first module in the curriculum. · **Next:** [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/books/01-introductory/02-the-transformer-architecture-and-attention.md)
+
+**上一模块：** 这是课程的第一个模块。 · **下一模块：** [`introductory/02` — Transformer 架构与注意力机制](https://anu00.dev/curriculum/books/01-introductory/02-the-transformer-architecture-and-attention.md)
+
+---
+
 ## References
 
 **参考文献**

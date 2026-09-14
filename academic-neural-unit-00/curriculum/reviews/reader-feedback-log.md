@@ -679,6 +679,45 @@ ANU-00 Lead (Dr. Naledi Mokoena) traced the report to a single, reproducible pat
 
 ---
 
+### Entry 17 — 2026-09-14 — Sequential "Previous module / Next module" navigation added
+
+**Reported:** Separately from the anchor-link reports above, the same reader suggested that each
+module end with a "Next book" / "Previous book" pointer, the way a printed textbook series would.
+
+**Investigation & Findings:**
+A workspace-wide check found no existing sequential-navigation element: every module's closing
+`Internal Cross-References` section is topical (what's related), not reading-order (what's next)
+— e.g., `introductory/08`'s cross-references list `introductory/03`, `04`, `07`,
+`intermediate/08`, and `advanced/08`, but never `intermediate/01`, the module that actually comes
+next. Continuity between adjacent modules existed only as inconsistent author-written prose (e.g.
+`introductory/01` §13's "What Comes Next"). Full write-up and findings:
+`plans/2026-09-14-curriculum-sequential-navigation/curriculum-sequential-navigation-plan.md`.
+
+**Resolution / Execution:**
+CEO approval (relayed jointly with the reader) was given the same day. Executed per the plan:
+
+- **(1) Amendment:** Ratified `curriculum/README.md` §4.5 and Amendment 7, defining a
+  `## Continue Reading` / `**继续阅读**` section placed immediately before `## References` in
+  every module — kept structurally separate from `References` so §5's mandatory
+  heading-immediately-followed-by-translation, two-subsection structure is unaffected.
+- **(2) Corpus Insertion:** Script-generated all 32 Previous/Next section pairs from the full
+  reading order (`README.md` §7's Module Index for introductory/intermediate/advanced, plus
+  `practicum/README.md` for the practicum tier) and inserted one into each module — 32 files
+  across `01-introductory` (8), `02-intermediate` (8), `03-practicum` (6), `04-advanced` (10).
+- **(3) Terminal Endpoints:** `introductory/01` prints an explicit "first module" statement in
+  place of `Previous`; `advanced/10` prints an explicit "final module" statement in place of
+  `Next` — an intentional stop rather than a silent absence.
+- **(4) Verification:** Confirmed all 32 modules carry exactly one `Continue Reading` section
+  immediately before exactly one `References` section; every `Previous`/`Next` link target
+  resolves to a real file; the chain walks end-to-end from `introductory/01` to `advanced/10`
+  with 0 gaps, 0 cycles, 0 duplicates, and reverse-walks identically; `References`'s own mandatory
+  structure is unchanged in all 32 files.
+- **(5) Prettier Guard:** Reformatted all modified files with `prettier --write`.
+
+**Status:** Closed. Sequential navigation added and verified across all 32 curriculum modules.
+
+---
+
 ## Standing Open Items
 
 Carried forward across entries until resolved — check this list before filing a new entry, in

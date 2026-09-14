@@ -746,6 +746,16 @@ mechanism `intermediate/06` — RAG Fundamentals: Retrieval, Embeddings & Ground
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`practicum/03` — Building a ReAct Agent From Scratch](https://anu00.dev/curriculum/books/03-practicum/03-building-a-react-agent-from-scratch.md) · **Next:** [`practicum/05` — Implementing Scored Agent Memory](https://anu00.dev/curriculum/books/03-practicum/05-implementing-scored-agent-memory.md)
+
+**上一模块：** [`practicum/03` — 从零构建一个 ReAct 智能体](https://anu00.dev/curriculum/books/03-practicum/03-building-a-react-agent-from-scratch.md) · **下一模块：** [`practicum/05` — 实现带评分的智能体记忆](https://anu00.dev/curriculum/books/03-practicum/05-implementing-scored-agent-memory.md)
+
+---
+
 ## References
 
 **参考文献**

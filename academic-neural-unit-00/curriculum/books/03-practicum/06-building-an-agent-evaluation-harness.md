@@ -413,6 +413,16 @@ Every reported number in this module traces back to one fixed, seeded scratch-ru
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`practicum/05` — Implementing Scored Agent Memory](https://anu00.dev/curriculum/books/03-practicum/05-implementing-scored-agent-memory.md) · **Next:** [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/books/04-advanced/01-scaling-laws-and-emergent-capabilities.md)
+
+**上一模块：** [`practicum/05` — 实现带评分的智能体记忆](https://anu00.dev/curriculum/books/03-practicum/05-implementing-scored-agent-memory.md) · **下一模块：** [`advanced/01` — 规模法则与涌现能力](https://anu00.dev/curriculum/books/04-advanced/01-scaling-laws-and-emergent-capabilities.md)
+
+---
+
 ## References
 
 **参考文献**

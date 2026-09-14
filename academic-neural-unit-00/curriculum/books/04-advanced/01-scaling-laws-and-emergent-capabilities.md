@@ -289,6 +289,16 @@ caveat this curriculum's citation policy requires when the literature itself has
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`practicum/06` — Building an Agent Evaluation Harness](https://anu00.dev/curriculum/books/03-practicum/06-building-an-agent-evaluation-harness.md) · **Next:** [`advanced/02` — Mixture-of-Experts & Modern Architecture Variants](https://anu00.dev/curriculum/books/04-advanced/02-mixture-of-experts-and-modern-architecture-variants.md)
+
+**上一模块：** [`practicum/06` — 构建智能体评估框架](https://anu00.dev/curriculum/books/03-practicum/06-building-an-agent-evaluation-harness.md) · **下一模块：** [`advanced/02` — 专家混合与现代架构变体](https://anu00.dev/curriculum/books/04-advanced/02-mixture-of-experts-and-modern-architecture-variants.md)
+
+---
+
 ## References
 
 **参考文献**

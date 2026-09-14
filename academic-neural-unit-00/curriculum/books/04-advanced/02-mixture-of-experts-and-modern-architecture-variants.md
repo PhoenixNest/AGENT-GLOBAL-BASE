@@ -430,6 +430,16 @@ cluster described.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/01` — Scaling Laws & Emergent Capabilities](https://anu00.dev/curriculum/books/04-advanced/01-scaling-laws-and-emergent-capabilities.md) · **Next:** [`advanced/03` — Agent Harness Engineering: Building Production-Grade Agent Loops](https://anu00.dev/curriculum/books/04-advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+
+**上一模块：** [`advanced/01` — 规模法则与涌现能力](https://anu00.dev/curriculum/books/04-advanced/01-scaling-laws-and-emergent-capabilities.md) · **下一模块：** [`advanced/03` — 智能体运行框架工程：构建生产级智能体循环](https://anu00.dev/curriculum/books/04-advanced/03-agent-harness-engineering-production-grade-agent-loops.md)
+
+---
+
 ## References
 
 **参考文献**

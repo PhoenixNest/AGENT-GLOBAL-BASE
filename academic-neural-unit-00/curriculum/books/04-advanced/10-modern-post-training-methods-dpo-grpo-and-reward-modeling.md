@@ -671,6 +671,16 @@ its variants, PPO, and GRPO to keep shifting as more head-to-head studies are pu
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/09` — Reinforcement Learning from Human Feedback](https://anu00.dev/curriculum/books/04-advanced/09-reinforcement-learning-from-human-feedback.md) · **Next:** This is the final module in the curriculum.
+
+**上一模块：** [`advanced/09` — 基于人类反馈的强化学习](https://anu00.dev/curriculum/books/04-advanced/09-reinforcement-learning-from-human-feedback.md) · **下一模块：** 这是课程的最后一个模块。
+
+---
+
 ## References
 
 **参考文献**

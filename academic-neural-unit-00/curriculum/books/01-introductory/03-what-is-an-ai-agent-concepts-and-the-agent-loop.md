@@ -301,6 +301,16 @@ multiple agents.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/02` — The Transformer Architecture & Attention](https://anu00.dev/curriculum/books/01-introductory/02-the-transformer-architecture-and-attention.md) · **Next:** [`introductory/04` — Tool Use & Function Calling Basics](https://anu00.dev/curriculum/books/01-introductory/04-tool-use-and-function-calling-basics.md)
+
+**上一模块：** [`introductory/02` — Transformer 架构与注意力机制](https://anu00.dev/curriculum/books/01-introductory/02-the-transformer-architecture-and-attention.md) · **下一模块：** [`introductory/04` — 工具使用与函数调用基础](https://anu00.dev/curriculum/books/01-introductory/04-tool-use-and-function-calling-basics.md)
+
+---
+
 ## References
 
 **参考文献**

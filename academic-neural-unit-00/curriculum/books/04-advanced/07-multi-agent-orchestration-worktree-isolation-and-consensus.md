@@ -611,6 +611,16 @@ fault-tolerance arithmetic, is not respected.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/06` — RAG at Scale: Hybrid Search, Reranking & Evaluation](https://anu00.dev/curriculum/books/04-advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) · **Next:** [`advanced/08` — Rigorous Agent Evaluation: Statistical Methodology](https://anu00.dev/curriculum/books/04-advanced/08-rigorous-agent-evaluation-statistical-methodology.md)
+
+**上一模块：** [`advanced/06` — 规模化 RAG：混合检索、重排序与评估](https://anu00.dev/curriculum/books/04-advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md) · **下一模块：** [`advanced/08` — 智能体评估的统计学方法论](https://anu00.dev/curriculum/books/04-advanced/08-rigorous-agent-evaluation-statistical-methodology.md)
+
+---
+
 ## References
 
 **参考文献**

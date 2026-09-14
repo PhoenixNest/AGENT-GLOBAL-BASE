@@ -384,6 +384,16 @@ follow.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/05` — Prompt Engineering Fundamentals](https://anu00.dev/curriculum/books/01-introductory/05-prompt-engineering-fundamentals.md) · **Next:** [`introductory/07` — Introduction to Multi-Agent Systems](https://anu00.dev/curriculum/books/01-introductory/07-introduction-to-multi-agent-systems.md)
+
+**上一模块：** [`introductory/05` — 提示词工程基础](https://anu00.dev/curriculum/books/01-introductory/05-prompt-engineering-fundamentals.md) · **下一模块：** [`introductory/07` — 多智能体系统导论](https://anu00.dev/curriculum/books/01-introductory/07-introduction-to-multi-agent-systems.md)
+
+---
+
 ## References
 
 **参考文献**

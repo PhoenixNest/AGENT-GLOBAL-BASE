@@ -361,6 +361,16 @@ superseded the original sinusoidal scheme from [§8](#8-positional-encoding-givi
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/01` — Neural Networks & Deep Learning Foundations](https://anu00.dev/curriculum/books/01-introductory/01-neural-networks-and-deep-learning-foundations.md) · **Next:** [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](https://anu00.dev/curriculum/books/01-introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+
+**上一模块：** [`introductory/01` — 神经网络与深度学习基础](https://anu00.dev/curriculum/books/01-introductory/01-neural-networks-and-deep-learning-foundations.md) · **下一模块：** [`introductory/03` — 什么是 AI 智能体？概念与智能体循环](https://anu00.dev/curriculum/books/01-introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md)
+
+---
+
 ## References
 
 **参考文献**

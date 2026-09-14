@@ -418,6 +418,16 @@ the software the loop runs inside.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/02` — Mixture-of-Experts & Modern Architecture Variants](https://anu00.dev/curriculum/books/04-advanced/02-mixture-of-experts-and-modern-architecture-variants.md) · **Next:** [`advanced/04` — Agentic Safety, Guardrails & Governance Patterns](https://anu00.dev/curriculum/books/04-advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
+
+**上一模块：** [`advanced/02` — 专家混合与现代架构变体](https://anu00.dev/curriculum/books/04-advanced/02-mixture-of-experts-and-modern-architecture-variants.md) · **下一模块：** [`advanced/04` — 智能体安全、护栏与治理模式](https://anu00.dev/curriculum/books/04-advanced/04-agentic-safety-guardrails-and-governance-patterns.md)
+
+---
+
 ## References
 
 **参考文献**

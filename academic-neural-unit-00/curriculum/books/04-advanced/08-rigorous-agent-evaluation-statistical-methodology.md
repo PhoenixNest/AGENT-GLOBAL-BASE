@@ -530,6 +530,16 @@ real technical interview.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/07` — Multi-Agent Orchestration: Worktree Isolation & Consensus](https://anu00.dev/curriculum/books/04-advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md) · **Next:** [`advanced/09` — Reinforcement Learning from Human Feedback](https://anu00.dev/curriculum/books/04-advanced/09-reinforcement-learning-from-human-feedback.md)
+
+**上一模块：** [`advanced/07` — 多智能体编排：工作树隔离与共识](https://anu00.dev/curriculum/books/04-advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md) · **下一模块：** [`advanced/09` — 基于人类反馈的强化学习](https://anu00.dev/curriculum/books/04-advanced/09-reinforcement-learning-from-human-feedback.md)
+
+---
+
 ## References
 
 **参考文献**

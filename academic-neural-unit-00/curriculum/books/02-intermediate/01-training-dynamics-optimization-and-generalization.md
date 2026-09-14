@@ -389,6 +389,16 @@ learning works as well as it empirically does.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/08` — Why & How We Evaluate Agents](https://anu00.dev/curriculum/books/01-introductory/08-why-and-how-we-evaluate-agents.md) · **Next:** [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/books/02-intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)
+
+**上一模块：** [`introductory/08` — 为什么以及如何评估智能体](https://anu00.dev/curriculum/books/01-introductory/08-why-and-how-we-evaluate-agents.md) · **下一模块：** [`intermediate/02` — 注意力机制深入解析：多头注意力、KV 缓存与位置编码](https://anu00.dev/curriculum/books/02-intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md)
+
+---
+
 ## References
 
 **参考文献**

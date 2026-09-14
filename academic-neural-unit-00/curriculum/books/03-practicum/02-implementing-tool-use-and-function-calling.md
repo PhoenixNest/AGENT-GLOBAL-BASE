@@ -435,6 +435,16 @@ Two simplifications remain, both intentional and both named so a reader does not
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`practicum/01` — Building a Basic Agent Loop](https://anu00.dev/curriculum/books/03-practicum/01-building-a-basic-agent-loop.md) · **Next:** [`practicum/03` — Building a ReAct Agent From Scratch](https://anu00.dev/curriculum/books/03-practicum/03-building-a-react-agent-from-scratch.md)
+
+**上一模块：** [`practicum/01` — 构建一个基础智能体循环](https://anu00.dev/curriculum/books/03-practicum/01-building-a-basic-agent-loop.md) · **下一模块：** [`practicum/03` — 从零构建一个 ReAct 智能体](https://anu00.dev/curriculum/books/03-practicum/03-building-a-react-agent-from-scratch.md)
+
+---
+
 ## References
 
 **参考文献**

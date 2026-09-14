@@ -300,6 +300,16 @@ of the loop and tool-calling mechanics taught in this module and the previous on
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/03` — What Is an AI Agent? Concepts & the Agent Loop](https://anu00.dev/curriculum/books/01-introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) · **Next:** [`introductory/05` — Prompt Engineering Fundamentals](https://anu00.dev/curriculum/books/01-introductory/05-prompt-engineering-fundamentals.md)
+
+**上一模块：** [`introductory/03` — 什么是 AI 智能体？概念与智能体循环](https://anu00.dev/curriculum/books/01-introductory/03-what-is-an-ai-agent-concepts-and-the-agent-loop.md) · **下一模块：** [`introductory/05` — 提示词工程基础](https://anu00.dev/curriculum/books/01-introductory/05-prompt-engineering-fundamentals.md)
+
+---
+
 ## References
 
 **参考文献**

@@ -348,6 +348,16 @@ sub-networks.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/books/02-intermediate/01-training-dynamics-optimization-and-generalization.md) · **Next:** [`intermediate/03` — Agent Design Patterns: ReAct, Plan-and-Execute & Reflexion](https://anu00.dev/curriculum/books/02-intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+
+**上一模块：** [`intermediate/01` — 训练动力学：优化与泛化](https://anu00.dev/curriculum/books/02-intermediate/01-training-dynamics-optimization-and-generalization.md) · **下一模块：** [`intermediate/03` — 智能体设计模式：ReAct、计划-执行与 Reflexion](https://anu00.dev/curriculum/books/02-intermediate/03-agent-design-patterns-react-plan-execute-reflexion.md)
+
+---
+
 ## References
 
 **参考文献**

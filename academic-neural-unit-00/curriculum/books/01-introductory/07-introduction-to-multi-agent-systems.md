@@ -248,6 +248,16 @@ engineering depth.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/06` — Context Windows, Tokens & Memory Basics](https://anu00.dev/curriculum/books/01-introductory/06-context-windows-tokens-and-memory-basics.md) · **Next:** [`introductory/08` — Why & How We Evaluate Agents](https://anu00.dev/curriculum/books/01-introductory/08-why-and-how-we-evaluate-agents.md)
+
+**上一模块：** [`introductory/06` — 上下文窗口、词元与记忆基础](https://anu00.dev/curriculum/books/01-introductory/06-context-windows-tokens-and-memory-basics.md) · **下一模块：** [`introductory/08` — 为什么以及如何评估智能体](https://anu00.dev/curriculum/books/01-introductory/08-why-and-how-we-evaluate-agents.md)
+
+---
+
 ## References
 
 **参考文献**

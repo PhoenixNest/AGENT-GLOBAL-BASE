@@ -424,6 +424,16 @@ replacement for it.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/02` — Attention Deep Dive: Multi-Head Attention, KV-Cache & Positional Encoding](https://anu00.dev/curriculum/books/02-intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) · **Next:** [`intermediate/04` — Agent Memory Systems: Short-Term, Long-Term & Episodic Memory](https://anu00.dev/curriculum/books/02-intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+
+**上一模块：** [`intermediate/02` — 注意力机制深入解析：多头注意力、KV 缓存与位置编码](https://anu00.dev/curriculum/books/02-intermediate/02-attention-deep-dive-multi-head-kv-cache-positional-encoding.md) · **下一模块：** [`intermediate/04` — 记忆系统：短期记忆、长期记忆与情景记忆](https://anu00.dev/curriculum/books/02-intermediate/04-agent-memory-systems-short-term-long-term-episodic.md)
+
+---
+
 ## References
 
 **参考文献**

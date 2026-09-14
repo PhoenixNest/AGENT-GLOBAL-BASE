@@ -410,6 +410,16 @@ corpus at production scale.
 
 连同《高级上下文工程》一起，本章完成了“提示与上下文工程”这一主题群在高级层级上的完整脉络——这条脉络始于《提示工程基础》(`introductory/05-prompt-engineering-fundamentals.md`)：从写好单条格式良好的提示词，到应对更困难任务的提示技巧，到把模型自身的上下文窗口当作有限资源加以管理，再到在生产规模下，从外部语料库中检索出那个窗口本身容纳不下的内容。
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/05` — Advanced Context Engineering: Long-Context & Context Budgeting](https://anu00.dev/curriculum/books/04-advanced/05-advanced-context-engineering-long-context-and-budgeting.md) · **Next:** [`advanced/07` — Multi-Agent Orchestration: Worktree Isolation & Consensus](https://anu00.dev/curriculum/books/04-advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)
+
+**上一模块：** [`advanced/05` — 高级上下文工程：长上下文与上下文预算](https://anu00.dev/curriculum/books/04-advanced/05-advanced-context-engineering-long-context-and-budgeting.md) · **下一模块：** [`advanced/07` — 多智能体编排：工作树隔离与共识](https://anu00.dev/curriculum/books/04-advanced/07-multi-agent-orchestration-worktree-isolation-and-consensus.md)
+
+---
+
 ## References
 
 **参考文献**

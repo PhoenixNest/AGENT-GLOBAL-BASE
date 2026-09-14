@@ -591,6 +591,16 @@ handling around tool execution — is treated at full production depth.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`practicum/02` — Implementing Tool Use & Function Calling](https://anu00.dev/curriculum/books/03-practicum/02-implementing-tool-use-and-function-calling.md) · **Next:** [`practicum/04` — Building a Minimal RAG Pipeline](https://anu00.dev/curriculum/books/03-practicum/04-building-a-minimal-rag-pipeline.md)
+
+**上一模块：** [`practicum/02` — 实现工具使用与函数调用](https://anu00.dev/curriculum/books/03-practicum/02-implementing-tool-use-and-function-calling.md) · **下一模块：** [`practicum/04` — 构建一个最简 RAG 流水线](https://anu00.dev/curriculum/books/03-practicum/04-building-a-minimal-rag-pipeline.md)
+
+---
+
 ## References
 
 **参考文献**

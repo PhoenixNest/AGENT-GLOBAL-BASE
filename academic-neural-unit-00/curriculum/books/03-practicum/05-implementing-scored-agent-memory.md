@@ -553,6 +553,16 @@ production harness.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`practicum/04` — Building a Minimal RAG Pipeline](https://anu00.dev/curriculum/books/03-practicum/04-building-a-minimal-rag-pipeline.md) · **Next:** [`practicum/06` — Building an Agent Evaluation Harness](https://anu00.dev/curriculum/books/03-practicum/06-building-an-agent-evaluation-harness.md)
+
+**上一模块：** [`practicum/04` — 构建一个最简 RAG 流水线](https://anu00.dev/curriculum/books/03-practicum/04-building-a-minimal-rag-pipeline.md) · **下一模块：** [`practicum/06` — 构建智能体评估框架](https://anu00.dev/curriculum/books/03-practicum/06-building-an-agent-evaluation-harness.md)
+
+---
+
 ## References
 
 **参考文献**

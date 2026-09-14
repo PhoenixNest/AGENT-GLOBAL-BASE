@@ -467,6 +467,16 @@ RLHF 通过一条三阶段的流水线（[第 2 节](#2-the-three-stage-rlhf-pip
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/08` — Rigorous Agent Evaluation: Statistical Methodology](https://anu00.dev/curriculum/books/04-advanced/08-rigorous-agent-evaluation-statistical-methodology.md) · **Next:** [`advanced/10` — Modern Post-Training Methods: DPO, GRPO & Reward Modeling](https://anu00.dev/curriculum/books/04-advanced/10-modern-post-training-methods-dpo-grpo-and-reward-modeling.md)
+
+**上一模块：** [`advanced/08` — 智能体评估的统计学方法论](https://anu00.dev/curriculum/books/04-advanced/08-rigorous-agent-evaluation-statistical-methodology.md) · **下一模块：** [`advanced/10` — 现代后训练方法：DPO、GRPO 与奖励建模](https://anu00.dev/curriculum/books/04-advanced/10-modern-post-training-methods-dpo-grpo-and-reward-modeling.md)
+
+---
+
 ## References
 
 **参考文献**

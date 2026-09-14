@@ -419,6 +419,16 @@ generation selects only what is likely to matter for a given query, at scale.
 
 随后，本章把这些发现转化为上下文预算这一实用纪律：在相互竞争的各类内容之间分配有限的窗口、运用位置排布纪律与提示词缓存，并且——当内容确实超出了工程师愿意承担的预算时——转而求助于检索，而不是一味追求更大的上下文。而这最后一道泄压阀，正是本主题群下一个模块——《规模化 RAG：混合检索、重排序与评估》(`advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md`)——的起点：检索增强生成不会把每一份可能相关的文档都塞进上下文，而是在规模化的场景下，只挑选出对给定查询很可能真正重要的内容。
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`advanced/04` — Agentic Safety, Guardrails & Governance Patterns](https://anu00.dev/curriculum/books/04-advanced/04-agentic-safety-guardrails-and-governance-patterns.md) · **Next:** [`advanced/06` — RAG at Scale: Hybrid Search, Reranking & Evaluation](https://anu00.dev/curriculum/books/04-advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md)
+
+**上一模块：** [`advanced/04` — 智能体安全、护栏与治理模式](https://anu00.dev/curriculum/books/04-advanced/04-agentic-safety-guardrails-and-governance-patterns.md) · **下一模块：** [`advanced/06` — 规模化 RAG：混合检索、重排序与评估](https://anu00.dev/curriculum/books/04-advanced/06-rag-at-scale-hybrid-search-reranking-and-evaluation.md)
+
+---
+
 ## References
 
 **参考文献**

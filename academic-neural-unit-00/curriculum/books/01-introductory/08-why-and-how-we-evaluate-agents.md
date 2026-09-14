@@ -278,6 +278,16 @@ state an evaluation result rigorously rather than just descriptively.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`introductory/07` — Introduction to Multi-Agent Systems](https://anu00.dev/curriculum/books/01-introductory/07-introduction-to-multi-agent-systems.md) · **Next:** [`intermediate/01` — Training Dynamics: Optimization & Generalization](https://anu00.dev/curriculum/books/02-intermediate/01-training-dynamics-optimization-and-generalization.md)
+
+**上一模块：** [`introductory/07` — 多智能体系统导论](https://anu00.dev/curriculum/books/01-introductory/07-introduction-to-multi-agent-systems.md) · **下一模块：** [`intermediate/01` — 训练动力学：优化与泛化](https://anu00.dev/curriculum/books/02-intermediate/01-training-dynamics-optimization-and-generalization.md)
+
+---
+
 ## References
 
 **参考文献**

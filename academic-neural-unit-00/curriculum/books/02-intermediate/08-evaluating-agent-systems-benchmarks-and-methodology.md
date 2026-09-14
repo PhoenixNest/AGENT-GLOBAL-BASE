@@ -330,6 +330,16 @@ than this module's introductory treatment allows.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/07` — Multi-Agent Communication & Coordination Protocols](https://anu00.dev/curriculum/books/02-intermediate/07-multi-agent-communication-and-coordination-protocols.md) · **Next:** [`practicum/01` — Building a Basic Agent Loop](https://anu00.dev/curriculum/books/03-practicum/01-building-a-basic-agent-loop.md)
+
+**上一模块：** [`intermediate/07` — 多智能体通信与协调协议](https://anu00.dev/curriculum/books/02-intermediate/07-multi-agent-communication-and-coordination-protocols.md) · **下一模块：** [`practicum/01` — 构建一个基础智能体循环](https://anu00.dev/curriculum/books/03-practicum/01-building-a-basic-agent-loop.md)
+
+---
+
 ## References
 
 **参考文献**

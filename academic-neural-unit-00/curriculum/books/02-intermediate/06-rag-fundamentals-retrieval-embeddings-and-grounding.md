@@ -767,6 +767,16 @@ how to rigorously evaluate a RAG system's performance.
 
 ---
 
+## Continue Reading
+
+**继续阅读**
+
+**Previous:** [`intermediate/05` — Advanced Prompting: Chain-of-Thought, Few-Shot & Structured Output](https://anu00.dev/curriculum/books/02-intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) · **Next:** [`intermediate/07` — Multi-Agent Communication & Coordination Protocols](https://anu00.dev/curriculum/books/02-intermediate/07-multi-agent-communication-and-coordination-protocols.md)
+
+**上一模块：** [`intermediate/05` — 进阶提示词工程：思维链、少样本与结构化输出](https://anu00.dev/curriculum/books/02-intermediate/05-advanced-prompting-cot-few-shot-structured-output.md) · **下一模块：** [`intermediate/07` — 多智能体通信与协调协议](https://anu00.dev/curriculum/books/02-intermediate/07-multi-agent-communication-and-coordination-protocols.md)
+
+---
+
 ## References
 
 **参考文献**
