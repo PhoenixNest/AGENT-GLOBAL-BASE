@@ -56,7 +56,7 @@ The `.claude/` folder is fully provisioned:
 | `.claude/skills/<domain>/SKILL.md`                                               | 21 skill routers (20 domains + `activate-org-agent`)                                                                         |
 | `.claude/skills/<domain>/references/`                                            | Deep sub-skill reference docs                                                                                                |
 | `.claude/agents/*.md`                                                            | 4 functional subagents (pipeline-executor, org-activator, cc00-assistant, orchestrator)                                      |
-| `.claude/hooks/*.py`                                                             | 15 cross-platform Python hooks (invoked via `uv run`): prompt governance, harness rate-limiting, RAG sync, git/commit guards |
+| `.claude/hooks/*.py`                                                             | 19 cross-platform Python hooks (invoked via `uv run`): prompt governance, harness rate-limiting, RAG sync, git/commit guards |
 | `core-component-00/platform/model-context-protocol-servers/workspace-knowledge/` | MCP server implementation (workspace-knowledge) — registered in root `.mcp.json`                                             |
 | `core-component-00/platform/model-context-protocol-servers/agent-memory/`        | MCP server implementation (agent-memory) — registered in root `.mcp.json`                                                    |
 | `.mcp.json`                                                                      | MCP manifest at project root (Claude Code platform requirement)                                                              |
@@ -135,7 +135,7 @@ AGENT-GLOBAL-BASE/
 
 ## 6. Git
 
-- Repo root is local-only: default branch `master`, **no remote configured**. Never force-push.
+- Default branch `master`; a GitHub remote (`origin`) is configured. Never force-push.
 - Commit finalized workspace additions. Escalate to the user before any destructive git operation.
 - `.claude/settings.json` sets `includeCoAuthoredBy: false` — do not add co-author or attribution
   trailers.
