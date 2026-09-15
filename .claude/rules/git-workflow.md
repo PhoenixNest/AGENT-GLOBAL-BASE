@@ -12,7 +12,7 @@ Git conventions, safety rules, and the multi-agent worktree pattern for this wor
 
 **Repository root:** `c:\Users\ASUS\Documents\Code\Local\agent-global-base`
 **Default branch:** `master`
-**Remote:** No remote configured (local-only repository)
+**Remote:** `origin` (GitHub)
 
 ---
 

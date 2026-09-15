@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-The CHRO audit identified that the current cohort of 39 FTEs/contractors is **organically diverse** but lacks a **deliberate D&I strategy**. The CIO audit independently confirmed this finding, noting that diversity in hiring outcomes is "organic, not strategic."
+The CHRO audit identified that the current cohort of 38 crew (37 FTE + 1 Contract) is **organically diverse** but lacks a **deliberate D&I strategy**. The CIO audit independently confirmed this finding, noting that diversity in hiring outcomes is "organic, not strategic."
 
 This is not a failure of outcome — the current team demonstrates strong demographic diversity across geography, gender, and cultural background. However, organic diversity is not reproducible or defensible at scale. As we prepare for the **3-game scaling hiring cycle** (adding 45 FTEs to reach 85 total), we must transition from organic to intentional.
 
@@ -21,7 +21,7 @@ This framework establishes a **lightweight, actionable D&I strategy** for the ne
 
 ## 2. Current State Assessment
 
-### 2.1 Organic Diversity Profile (38 FTE + 1 Contract)
+### 2.1 Organic Diversity Profile (37 FTE + 1 Contract)
 
 The current cohort demonstrates meaningful diversity across multiple dimensions — achieved through individual hiring decisions, not strategic planning.
 

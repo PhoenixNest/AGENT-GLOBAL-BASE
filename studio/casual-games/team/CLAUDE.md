@@ -1,6 +1,6 @@
 # studio/casual-games/team/ — Studio Crew
 
-All Casual Games Studio crew documents. 39 crew members across 7 divisions — all hired, Stage 0-ready.
+All Casual Games Studio crew documents. 38 crew members across 7 divisions — all hired, Stage 0-ready.
 
 ---
 
