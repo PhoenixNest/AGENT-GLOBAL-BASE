@@ -38,7 +38,7 @@ casual-games/
 │       ├── stage-9-global-launch/  # GLOBAL-LAUNCH-READINESS-CHECKLIST
 │       └── stage-10-live-ops/  # QBR-REPORT.md
 ├── team/                       # Personnel and crew profiles
-│   └── crew/                   # All 38 FTEs + 1 Contract — profiles, skills, pipeline artifacts
+│   └── crew/                   # All 37 FTEs + 1 Contract — profiles, skills, pipeline artifacts
 └── projects/                   # Individual game projects
 ```
 
@@ -55,7 +55,7 @@ casual-games/
 
 ## Crew Hierarchy
 
-The diagram below shows all 39 crew members (38 FTE + 1 Contract) organised by division and reporting line.
+The diagram below shows all 38 crew members (37 FTE + 1 Contract) organised by division and reporting line.
 
 ```mermaid
 flowchart TD
@@ -136,4 +136,4 @@ flowchart TD
 
 ## Recruitment Status
 
-**All 38 FTEs + 1 Contract hired. Full 9-stage pipeline compliance across all phases. Studio is ready to begin Stage 0 (Art Direction).**
+**All 37 FTEs + 1 Contract hired. Full 9-stage pipeline compliance across all phases. Studio is ready to begin Stage 0 (Art Direction).**

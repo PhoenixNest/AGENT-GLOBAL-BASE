@@ -8,7 +8,7 @@ Entry point for the Casual Games Studio. Read this before doing any studio-relat
 
 The Casual Games Studio is the only active studio in the organization. It is a fully staffed
 creative game development studio targeting the mobile casual games market, using Unity 6.3 LTS as
-the primary engine. All 39 crew members are hired and the studio is Stage 0-ready. No projects have
+the primary engine. All 38 crew members are hired and the studio is Stage 0-ready. No projects have
 been initiated yet.
 
 ---
@@ -18,9 +18,9 @@ been initiated yet.
 | Field    | Detail                                                                     |
 | -------- | -------------------------------------------------------------------------- |
 | Engine   | Unity 6.3 LTS                                                              |
-| Status   | All 39 crew hired · Stage 0-ready · No projects initiated                  |
+| Status   | All 38 crew hired · Stage 0-ready · No projects initiated                  |
 | Pipeline | 11 stages (Stage 0–10) — **distinct from the company's 13-stage pipeline** |
-| Crew     | 38 FTE + 1 Contract across 7 divisions                                     |
+| Crew     | 37 FTE + 1 Contract across 7 divisions                                     |
 
 ---
 
@@ -46,7 +46,7 @@ studio/casual-games/
 │   └── references/    ← External references
 ├── pipeline/          ← 11-stage game development pipeline
 ├── team/
-│   └── crew/          ← 7 divisions, all 39 crew
+│   └── crew/          ← 7 divisions, all 38 crew
 └── projects/          ← Per-game project folders (kebab-case slugs)
 ```
 
