@@ -245,7 +245,7 @@ studio/
 └── casual-games/          ← Only active studio
     ├── library/           ← Overview, charter, strategic brief, topics, references
     ├── pipeline/          ← 11-stage game development pipeline
-    ├── team/crew/         ← 38 FTE + 1 Contract across 7 divisions
+    ├── team/crew/         ← 37 FTE + 1 Contract across 7 divisions
     └── projects/          ← Per-game folders (kebab-case slugs); none scaffolded yet
 ```
 
@@ -254,7 +254,7 @@ studio/
 | Field               | Detail                                                                 |
 | ------------------- | ---------------------------------------------------------------------- |
 | **Engine**          | Unity 6.3 LTS                                                          |
-| **Status**          | All 39 crew hired · Stage 0-ready · No projects initiated              |
+| **Status**          | All 38 crew hired · Stage 0-ready · No projects initiated              |
 | **Pipeline**        | 11 stages (Stage 0–10) — distinct from the company's 13-stage pipeline |
 | **Library**         | `studio/casual-games/library/`                                         |
 | **Strategic Brief** | `studio/casual-games/library/overview/casual-games-studio.md`          |
