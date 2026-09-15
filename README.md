@@ -20,7 +20,7 @@ specifications, pipeline definitions, and Python reference implementations.
 | System          | Path                       | What it is                                                                                                              |
 | --------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | **The Company** | `company/`                 | Mobile product company — departments, pipelines, crew                                                                   |
-| **The Studio**  | `studio/`                  | Casual Games Studio — 39 crew, 11-stage game pipeline                                                                   |
+| **The Studio**  | `studio/`                  | Casual Games Studio — 38 crew, 11-stage game pipeline                                                                   |
 | **CC-00 Lab**   | `core-component-00/`       | Applied LLM research lab — five-module engineering stack                                                                |
 | **ANU-00**      | `academic-neural-unit-00/` | Independent academic research entity (CS, AI, neural networks, software engineering); incubated, not governed, by CC-00 |
 
@@ -48,7 +48,7 @@ AGENT-GLOBAL-BASE/
 │   └── casual-games/            ← Only active studio
 │       ├── library/             ← Studio overview, charter, strategic brief
 │       ├── pipeline/            ← 11-stage game development pipeline
-│       ├── team/crew/           ← 38 FTE + 1 Contract across 7 divisions
+│       ├── team/crew/           ← 37 FTE + 1 Contract across 7 divisions
 │       └── projects/            ← Per-game folders (none scaffolded yet)
 │
 ├── core-component-00/           ← CC-00 Lab (only place with runnable code)
@@ -121,7 +121,7 @@ pipeline.
 **Start here:** `studio/casual-games/library/overview/casual-games-studio.md`
 
 - **Engine:** Unity 6.3 LTS
-- **Crew:** 39 people across 7 divisions (Leadership · Production · Creative-Design · Art · Audio ·
+- **Crew:** 38 people (37 FTE + 1 Contract) across 7 divisions (Leadership · Production · Creative-Design · Art · Audio ·
   Engineering · Live-Ops)
 - **Pipeline:** 11 stages (Stage 0–10) — distinct from the company's 13-stage pipeline
 - **Projects:** No games scaffolded yet; project folders live under `studio/casual-games/projects/`
