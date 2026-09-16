@@ -4,7 +4,7 @@
 
 The Automated Recruitment Pipeline is a **nine-stage, fully automated talent acquisition system**. It replaces manual gate approvals with a rule-engine-driven workflow that executes end-to-end without human intervention at intermediate stages. Chief Officers configure competency bars, compensation bands, assessment parameters, and sourcing channels **once per quarter**. The system then runs autonomously: sourcing → screening → interviewing → vetting → background → offer → onboarding.
 
-Leadership involvement is **outcome-only**. A single **HIRING OUTCOME REPORT** is delivered at Stage 9 for final review and approval. No manual approvals occur at Stages 1–8.
+Leadership involvement is **outcome-only**. A single **HIRING OUTCOME REPORT** is delivered at Stage 8 for final review and approval. No manual approvals occur at Stages 1–7, and Stage 9 (Onboarding) begins only after that approval.
 
 This pipeline is benchmarked against the hiring standards of **Google, Apple, Meta, Stripe, and Netflix**. The elite talent bar is non-negotiable.
 
@@ -74,7 +74,7 @@ Applied to recruitment process defects — not candidate defects. A recruitment 
 | R2    | Notification delay, minor scheduling conflict         | CHRO decides auto-fix or escalate |
 | R3    | Cosmetic report formatting, non-blocking metadata gap | Logged for next quarterly review  |
 
-**Authority rule:** R0/R1 defects trigger automatic pipeline pause and CHRO escalation. R2/R3 defects are logged and auto-resolved where possible; unresolved R2 defects are included in the Stage 9 HIRING OUTCOME REPORT.
+**Authority rule:** R0/R1 defects trigger automatic pipeline pause and CHRO escalation. R2/R3 defects are logged and auto-resolved where possible; unresolved R2 defects are included in the Stage 8 HIRING OUTCOME REPORT.
 
 ---
 
@@ -366,7 +366,7 @@ System proceeds to Stage 2 automatically once the field is present.
 
 - Structured behavioral interview using STAR method
 - Scored against company values framework (configured quarterly by CHRO)
-- Any values misalignment flag triggers manual review at Stage 9 (not auto-reject — edge case)
+- Any values misalignment flag triggers manual review at Stage 8 (not auto-reject — edge case)
 
 **Scoring Integration:**
 
@@ -603,7 +603,7 @@ Candidate is shown a real product screen (not from the candidate's own work) and
 
 **L0 Waiver:** For L0 design roles (Junior Designer, Design Intern), this review is **automatically waived**. The automated portfolio rubric (Stage 4) and vetting gate (Stage 5) are sufficient. The system skips this review and proceeds directly to Stage 6.
 
-**Scheduling:** The system auto-schedules the review within 5 business days of Stage 5 PASS. If CDO is unavailable, Head of Design is the designated delegate. If neither is available within 5 business days, the review is held (R2 defect) and included in the Stage 9 report.
+**Scheduling:** The system auto-schedules the review within 5 business days of Stage 5 PASS. If CDO is unavailable, Head of Design is the designated delegate. If neither is available within 5 business days, the review is held (R2 defect) and included in the Stage 8 report.
 
 **Exception Classification:** This review is classified as an **R1 exception trigger** — if the review cannot be completed (evaluator unavailable after 10 business days, candidate non-responsive), the pipeline pauses for that candidate and CHRO is notified. The review cannot be substituted with automated assessment.
 
@@ -974,9 +974,9 @@ For L3+ candidates, the CTO or Software Architect performs a brief human review 
 | Result                                                                                 | Action                                                       |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | **Clear**                                                                              | Advance to Stage 7                                           |
-| **Minor discrepancy** (e.g., title off by one level, date off by 1 month)              | Log discrepancy, advance to Stage 7, flag for Stage 9 report |
+| **Minor discrepancy** (e.g., title off by one level, date off by 1 month)              | Log discrepancy, advance to Stage 7, flag for Stage 8 report |
 | **Major discrepancy** (e.g., fabricated employment, criminal record, failed reference) | Auto-reject, log reason                                      |
-| **Unable to verify** (e.g., company defunct, reference unresponsive)                   | Flag for manual review at Stage 9                            |
+| **Unable to verify** (e.g., company defunct, reference unresponsive)                   | Flag for manual review at Stage 8                            |
 
 **CSO Configuration Rules:**
 
@@ -1039,7 +1039,7 @@ For L3+ candidates, the CTO or Software Architect performs a brief human review 
 
 **Offer sequence priority:** When multiple candidates accept simultaneously for a single-headcount role, the system ranks them by Composite Score (descending) and presents the ranked list to the Department Head for final selection. The Department Head has 48 hours to select; if no selection is made, the system auto-selects the highest-scoring candidate.
 
-1. System generates offer response analytics for the Stage 9 HIRING OUTCOME REPORT:
+1. System generates offer response analytics for the Stage 8 HIRING OUTCOME REPORT:
 
 - Offer acceptance rate per role family
 - Top decline reasons (aggregated by rejection code)
@@ -1242,7 +1242,7 @@ The CIO verifies that all process improvements are reflected in the system's wor
 
 ## Exception-Based Escalation
 
-The system is fully automated except for **R0/R1 defects** and **edge cases**. These are the ONLY conditions that trigger human intervention before Stage 9.
+The system is fully automated except for **R0/R1 defects** and **edge cases**. These are the ONLY conditions that trigger human intervention before Stage 8.
 
 ### Escalation Triggers
 
@@ -1254,15 +1254,15 @@ The system is fully automated except for **R0/R1 defects** and **edge cases**. T
 | Candidate data corruption or loss         | R1       | CHRO + CIO        | 4 hours          |
 | Background check major discrepancy        | R1       | CHRO + CSO        | 24 hours         |
 | Sourcing channel compromised (spam/fraud) | R1       | CHRO              | 24 hours         |
-| Values misalignment flag (behavioral)     | R2       | CHRO              | Stage 9 report   |
-| Unable-to-verify background check         | R2       | CHRO              | Stage 9 report   |
+| Values misalignment flag (behavioral)     | R2       | CHRO              | Stage 8 report   |
+| Unable-to-verify background check         | R2       | CHRO              | Stage 8 report   |
 | Minor scoring deviation (< 5%)            | R3       | Logged only       | Quarterly review |
 
 ### Escalation Protocol
 
 1. **R0 Defect:** System pauses all pipeline activity for affected role. CHRO and CSO notified immediately. Root cause analysis required before pipeline resumes. Affected candidates are re-evaluated or notified depending on impact scope.
 2. **R1 Defect:** System pauses affected stage only. CHRO and CIO notified. Defect remediated within SLA. Affected candidates re-processed. Pipeline resumes after CHRO sign-off.
-3. **R2 Defect:** System auto-attempts remediation. If unsuccessful, defect is logged and included in Stage 9 HIRING OUTCOME REPORT for leadership awareness. No pipeline pause.
+3. **R2 Defect:** System auto-attempts remediation. If unsuccessful, defect is logged and included in Stage 8 HIRING OUTCOME REPORT for leadership awareness. No pipeline pause.
 4. **R3 Defect:** Logged only. Addressed in next quarterly configuration cycle.
 
 ### Edge Case Handling
@@ -1289,7 +1289,7 @@ Every stage in the automated pipeline must define explicit rejection, iteration,
 | 3     | Automated Screening          | Candidates >= 60th percentile advance         | Candidates at 55th-59th percentile flagged for enhanced review at Stage 4                                | Candidates below 60th percentile auto-rejected with reason code logged                                                 | N/A (fully automated)                                                                           | N/A (screening is single-pass; no iteration)                                                                                  |
 | 4     | Interview Simulation         | Composite Score >= 80th percentile            | Composite Score 75th-79th percentile; candidate advances but flagged for enhanced vetting at Stage 5     | Composite Score below 80th percentile auto-rejected with dimension breakdown logged                                    | N/A (fully automated)                                                                           | N/A (assessment is single-pass; re-assessment requires R1 defect declaration)                                                 |
 | 5     | Elite Vetting Gate           | >= 4 on >= 4 dimensions AND Red Flag PASS     | Candidate passes with one dimension at 3.5-3.9; advancement allowed, development area logged for Stage 9 | All candidates fail gates — no hireable candidate; rollback to Stage 2 (re-source)                                     | Vetting held pending external assessment dependency (e.g., third-party credential verification) | Candidate re-assessed on failed dimension only (max 1 re-assessment); if still failing, candidate is rejected                 |
-| 6     | Background Verification      | All checks clear; candidate cleared for offer | Minor discrepancy logged (title off by one level, date off by 1 month); advances with flag for Stage 9   | Major discrepancy (fabricated employment, criminal record, failed reference) — auto-reject with reason code            | Check held pending external provider turnaround (e.g., international background delays)         | Re-check initiated for ambiguous results (max 1 re-check); if still unresolved, CHRO + CSO auto-escalation                    |
+| 6     | Background Verification      | All checks clear; candidate cleared for offer | Minor discrepancy logged (title off by one level, date off by 1 month); advances with flag for Stage 8   | Major discrepancy (fabricated employment, criminal record, failed reference) — auto-reject with reason code            | Check held pending external provider turnaround (e.g., international background delays)         | Re-check initiated for ambiguous results (max 1 re-check); if still unresolved, CHRO + CSO auto-escalation                    |
 | 7     | Offer Generation & Extension | Offer accepted; Stage 8 begins                | Offer accepted with documented post-start items (e.g., pending work authorization)                       | Candidate declines — advance next-ranked cleared candidate; if no candidates remain, rollback to Stage 2               | Negotiation held pending Department Head notification of revised terms                          | Offer revised and re-extended within band (max 2 negotiation rounds); after 2nd, system presents final-or-walk recommendation |
 | 8     | Onboarding Preparation       | All onboarding items confirmed ready          | Minor item delayed (e.g., equipment ship delay); workaround identified and communicated                  | Critical onboarding item unavailable (e.g., account provisioning failure); CHRO alerted; start date shifted            | Onboarding held pending IT resolution (max 5 business days)                                     | Onboarding checklist re-executed for failed items only (max 1 retry); if still failing, CHRO escalation                       |
 | 9     | Hiring Outcome Report        | Report generated; leadership approves         | Report generated with documented R2 defects; leadership approves with conditions                         | Report rejected by leadership — specific items require remediation before re-review                                    | N/A                                                                                             | Report revised per leadership feedback (max 1 revision cycle); if still rejected, CHRO convenes C-suite review                |
@@ -1360,7 +1360,7 @@ The elite talent bar is set quarterly and must not degrade between configuration
 3. **Investigation:** CIO conducts root cause analysis within 5 business days for R2 flags, immediately for R1 flags.
 4. **Remediation:** If drift is confirmed, the system:
 
-- For R2: Logs finding in Stage 9 report; recommends bar adjustment for next quarterly cycle
+- For R2: Logs finding in Stage 8 report; recommends bar adjustment for next quarterly cycle
 - For R1: Pauses affected assessment; CHRO approves remediation plan; affected candidates re-evaluated
 
 5. **Prevention:** Quarterly configuration cycle includes a mandatory "Drift Review" agenda item where CIO presents drift analysis and recommends parameter adjustments.
@@ -1472,7 +1472,7 @@ When a **Major Discrepancy** is identified in Stage 6:
 
 ### HRIS Integration
 
-Post-Stage 9 (after user approval), system creates employee record via HRIS API:
+Post-Stage 8 (after user approval), system creates employee record via HRIS API:
 
 | Platform               | API Version | Authentication   | Idempotency         |
 | ---------------------- | ----------- | ---------------- | ------------------- |
@@ -1766,7 +1766,7 @@ Elite-tier hiring practices are encoded directly into the stage rules. Operators
 Recruitment defects (R0–R3) are handled per the severity table above. The key principles are:
 
 1. **R0/R1 are non-negotiable.** The system pauses immediately. No candidate moves forward until the defect is resolved and CHRO signs off on the remediation.
-2. **R2 defects are auto-resolved where possible.** If auto-remediation fails, the defect is logged and surfaces in the Stage 9 report. The pipeline does not pause.
+2. **R2 defects are auto-resolved where possible.** If auto-remediation fails, the defect is logged and surfaces in the Stage 8 report. The pipeline does not pause.
 3. **R3 defects are operational noise.** They are logged and addressed during the next quarterly configuration cycle. They never trigger escalation.
 4. **Candidate defects are not recruitment defects.** A candidate who fails the vetting gate is not a "defect" — they are a filtered-out applicant. The system does not classify candidate rejections as defects.
 5. **The "trim-to-pass" anti-pattern applies here too.** Lowering competency bars mid-pipeline to fill a role is classified as an R0 defect. The bar is set quarterly and is not revisable during an active hiring cycle.
@@ -2043,7 +2043,7 @@ Stage N Output -> [JSON Schema Validator v{version}] -> Stage N+1 Input
 | P1-TD-002 | GDPR Erasure Verification | M1: Erasure Runbook Published | 2026-04-24    | 2026-06-26    | M3 missed -> R0 |
 | P1-TD-003 | Data Contract Enforcement | M1: Schema Registry Deployed  | 2026-04-24    | 2026-06-26    | M3 missed -> R1 |
 
-**Reporting:** CIO provides weekly P1-TD status update every Friday by 17:00 UTC. Logged in Stage 9 HIRING OUTCOME REPORT under "P1 Technical Debt Status."
+**Reporting:** CIO provides weekly P1-TD status update every Friday by 17:00 UTC. Logged in Stage 8 HIRING OUTCOME REPORT under "P1 Technical Debt Status."
 
 **Q2 Final Gate:** All three items must reach M5 by 2026-06-26. Failure triggers: (1) R0 for P1-TD-001 and P1-TD-002, (2) R1 for P1-TD-003, (3) pipeline operational freeze, (4) mandatory post-mortem.
 
@@ -2057,13 +2057,13 @@ The Automated Recruitment Pipeline operates **independently** of the 10-stage De
 | ------------------- | ------------------------------ | ------------------------------- |
 | Purpose             | Ship software products         | Acquire elite talent            |
 | Stages              | 10                             | 9                               |
-| Human Gates         | Stages 1, 2, 3, 4, 6, 7, 10    | Stage 9 + ASG-02 (L1+ design)   |
+| Human Gates         | Stages 1, 2, 3, 4, 6, 7, 10    | Stage 8 + ASG-02 (L1+ design)   |
 | Defect System       | P0–P3                          | R0–R3                           |
 | Responsible Officer | CTO                            | CHRO                            |
-| User Involvement    | Multiple stages                | Stage 9 only (outcome approval) |
+| User Involvement    | Multiple stages                | Stage 8 only (outcome approval) |
 | Automation Level    | Partial (development is human) | Full except ASG-02 (L1+ design) |
 
-Recruited agents are placed into `company/departments/<dept>/team/<tier>/<role>/` and become available for assignment to Development Pipeline stages per their profile and skills.
+Recruited agents are placed at Stage 9, after Stage 8 sign-off, into the folder of the organisation that hired them: `company/departments/<dept>/supervisor/<role>/` for a C-suite or department-head role, `company/departments/<dept>/team/<tier>/<role>/<name>/` for a Company team member (`<tier>` being `supervisors` or `teammates`), or `<entity>/crew/<function>/<first-last>/` for an independent entity such as CC-00, ANU-00 or BCU-00. They then become available for assignment to Development Pipeline stages per their profile and skills.
 
 ---
 
