@@ -43,17 +43,20 @@ company/pipeline/recruitment/pipeline.md
 
 **Always read this `pipeline.md` before producing any recruitment artifact.**
 
-| Stage | Name                            |
-| ----- | ------------------------------- |
-| 1     | Job Requisition                 |
-| 2     | Role Definition & JD Authorship |
-| 3     | Sourcing Strategy               |
-| 4     | Candidate Sourcing              |
-| 5     | Application Review & Screening  |
-| 6     | Interviews                      |
-| 7     | Assessment & Vetting            |
-| 8     | Offer & Negotiation             |
-| 9     | Onboarding                      |
+| Stage | Name                                       | User Approval? |
+| ----- | ------------------------------------------ | -------------- |
+| 1     | Role Intake → Position Specification       | ❌             |
+| 2     | Sourcing → Candidate Pipeline              | ❌             |
+| 3     | Automated Screening → Assessment Battery   | ❌             |
+| 4     | Interview Simulation → Scored Assessments  | ❌             |
+| 5     | Elite Vetting Gate → Pass/Fail Decision    | ❌             |
+| 6     | Background Verification → Clearance Status | ❌             |
+| 7     | Offer Generation → Package Extended        | ❌             |
+| 8     | **Hiring Outcome Report → User Review**    | ✅             |
+| 9     | Onboarding → 90-Day Checkpoint             | ❌             |
+
+**Stage 8 is the only gate requiring human approval.** Stage 9 begins only after that sign-off —
+no onboarding activity, including profile authorship, occurs before it.
 
 ---
 
