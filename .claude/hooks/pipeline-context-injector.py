@@ -21,6 +21,19 @@ import sys
 
 from _hook_log import log_invocation
 
+# Three pipelines in this workspace number their stages independently: the four
+# development pipelines (13 stages), Recruitment (9 stages) and the Casual Games
+# Studio (11 stages). A bare "Stage N" is therefore ambiguous, and injecting the
+# development pipeline's stage against a recruitment or studio subject is the
+# conflation CLAUDE.md section 8 forbids. When one of these patterns is present,
+# the hook stays silent rather than guess which pipeline is meant.
+FOREIGN_PIPELINE_SIGNALS = re.compile(
+    r"(recruit|hiring|candidate|vetting|interview|onboarding|CHRO|"
+    r"hiring outcome|offer|headcount|"
+    r"studio|casual.games|GDD\b|vertical slice|soft launch|game design)",
+    re.IGNORECASE,
+)
+
 # Ordered stage detection table -- (pattern, stage, label, hint).
 # First match wins. Identical pattern set/order to both originals.
 STAGE_SIGNALS = [
@@ -79,7 +92,7 @@ STAGE_SIGNALS = [
         "CTO-L owns this stage. ICU MessageFormat for plurals and gender. All strings must be externalized.",
     ),
     (
-        r"(Stage 10\b|release\b|deploy\b|ship\b|launch\b|go.no.go|store submission|production deploy)",
+        r"(Stage 10\b|\brelease\b|\bdeploy\b|\bship\b|\blaunch\b|\bgo.no.go\b|store submission|production deploy)",
         10,
         "Release",
         "Final gate: all P0/P1 resolved, regression + security scan + accessibility audit complete.",
@@ -143,11 +156,56 @@ def main() -> int:
 
     session_id = data.get("session_id") if isinstance(data, dict) else None
 
+    # A recruitment or studio subject numbers its stages on its own scale, so a
+    # development-pipeline stage reference would be wrong however well the signal
+    # matched. Stay silent in preference to injecting the wrong pipeline.
+    if FOREIGN_PIPELINE_SIGNALS.search(prompt_str):
+        log_invocation("pipeline-context-injector", "UserPromptSubmit",
+                        decision="suppressed_foreign_pipeline",
+                        reason="recruitment or studio subject; development stage numbers do not apply",
+                        session_id=session_id)
+        return 0
+
     detected = None
+    bare_stage_number_only = False
     for pattern, stage, label, hint in STAGE_SIGNALS:
         if re.search(pattern, prompt_str, re.IGNORECASE):
+            # A bare "Stage N" carries no pipeline with it, and three pipelines in
+            # this workspace number their stages independently. Only the subject
+            # keywords -- ADR, regression, localization and the rest -- identify the
+            # development pipeline. If none of them is present, the match rests on
+            # the number alone and the stage is not determined.
+            without_number = re.sub(r"\(Stage \d+(?:\.\d+)?\\b\|", "(", pattern)
+            bare_stage_number_only = not re.search(without_number, prompt_str, re.IGNORECASE)
             detected = (stage, label, hint)
             break
+
+    if detected is not None and bare_stage_number_only:
+        stage, label, _hint = detected
+        log_invocation("pipeline-context-injector", "UserPromptSubmit",
+                        decision="ambiguous_stage_number",
+                        reason=f"bare Stage {stage} reference; pipeline not determined",
+                        session_id=session_id)
+        note = f"""[PIPELINE CONTEXT INJECTOR — H-P02]
+Ambiguous stage reference: "Stage {stage}" appears without naming a pipeline.
+
+Three pipelines in this workspace number their stages independently, so this
+reference does not identify one on its own:
+  - Company development (Mobile / Web / API / Full-Stack) — 13 stages; Stage {stage} would be "{label}"
+  - Recruitment — 9 stages; company/pipeline/recruitment/pipeline.md
+  - Casual Games Studio — 11 stages; studio/casual-games/pipeline/casual-games-pipeline.md
+
+Establish which pipeline is meant from the surrounding work before applying any
+stage rule. Do not assume the development pipeline. Conflating stage numbers
+across pipelines is forbidden by CLAUDE.md section 8."""
+        print(json.dumps({
+            "hookSpecificOutput": {
+                "hookEventName": "UserPromptSubmit",
+                "additionalContext": note,
+            },
+            "systemMessage": f"[H-P02: ambiguous Stage {stage} reference — pipeline not determined]",
+        }))
+        return 0
 
     if detected is None:
         log_invocation("pipeline-context-injector", "UserPromptSubmit", decision="no_signal",
