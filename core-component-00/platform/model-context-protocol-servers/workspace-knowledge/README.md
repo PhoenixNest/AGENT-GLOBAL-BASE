@@ -123,13 +123,40 @@ process shared with `agent-memory` — instead of loading `all-mpnet-base-v2` in
 launch. Full architecture, lifecycle, and config surface:
 `.claude/rules/mcp-governance.md` § "Shared Infrastructure — `embedder-service`".
 
-| Env var                    | Default                 | Effect                                                                                                                                 |
-| -------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `EMBEDDER_SERVICE_ENABLED` | `true`                  | `false` skips the service entirely and always uses this server's own private in-process `all-mpnet-base-v2` copy (`embedding/model/`). |
-| `WORKSPACE_QDRANT_URL`     | `http://localhost:6333` | Override the `qdrant-workspace` connection URL.                                                                                        |
+| Env var                    | Default                 | Effect                                                                                                                                                 |
+| -------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `EMBEDDER_SERVICE_ENABLED` | `true`                  | `false` skips the service entirely and always uses this server's own private in-process `all-mpnet-base-v2` copy (`embedding/model/`).                 |
+| `WORKSPACE_QDRANT_URL`     | `http://localhost:6333` | Override the `qdrant-workspace` connection URL.                                                                                                        |
+| `EMBEDDER_RECOVERY_WAIT_S` | `45`                    | Upper bound, in seconds, on how long one query waits for a relaunched service or the in-process model after finding the service down. `0` disables it. |
 
 If `embedder-service` is down, unreachable, or returns a wrong-dimension vector, this server falls
 back to its private in-process model automatically — no manual intervention needed.
+
+`embedder-service` exits on its own after an idle period (600 s by default), so this server does
+not trust a cached "ready" indefinitely:
+
+- A cached "ready" not confirmed within the last 30 s (by a probe, a launch, or a successful
+  embed call) is re-probed with `GET /health` before use.
+- A failed runtime embed call or failed re-probe marks the service unavailable and requests a
+  non-blocking relaunch (`embedder_client.request_service_restart`, single-flight per process,
+  10 s cooldown). The in-process model is loaded by the engine's background initialisation
+  regardless of the service.
+- A cached "unavailable" is re-probed every 5 s and requests a relaunch while it stays down.
+- When a query finds the service down and the in-process model is not loaded, it waits up to
+  `EMBEDDER_RECOVERY_WAIT_S` for the relaunched service or the model, then proceeds; on timeout
+  it defers to BM25 as before. After a timeout, queries skip the wait for 60 s. A cold
+  `embedder-service` launch takes about 11–15 s on the development machine.
+
+The BM25 index, FAISS index, and Qdrant connection are built in one background thread so the MCP
+handshake does not wait on them. Until the BM25 build finishes, queries are served by the RAWFS
+tier and `degradation_reason` says the index is still building.
+
+`health_check`'s `document_knowledge_base` block includes an `embedder` block from a real health
+probe of `embedder-service` made at call time: `embedder_service_probe` (`ok`, `failed`, or
+`not-probed`), `embedder_service_state`, `embedder_service_state_age_s`, `in_process_model_loaded`,
+`effective_path` (`embedder-service`, `in-process-fallback`, or `unavailable`), and
+`query_embedding_available`. When the engine's tier is semantic but query embedding is
+unavailable, `effective_search_tier` reports `bm25` and `degradation_reason` states why.
 
 ---
 

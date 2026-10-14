@@ -218,12 +218,29 @@ localhost-only process shared with `workspace-knowledge` — instead of loading
 `all-MiniLM-L6-v2` in-process on every launch. Full architecture, lifecycle, and config surface:
 `.claude/rules/mcp-governance.md` § "Shared Infrastructure — `embedder-service`".
 
-| Env var                    | Default | Effect                                                                                                    |
-| -------------------------- | ------- | --------------------------------------------------------------------------------------------------------- |
-| `EMBEDDER_SERVICE_ENABLED` | `true`  | `false` skips the service entirely and always uses `_get_in_process_embedder()`'s background-loaded copy. |
+| Env var                    | Default | Effect                                                                                                                                                   |
+| -------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EMBEDDER_SERVICE_ENABLED` | `true`  | `false` skips the service entirely and always uses `_get_in_process_embedder()`'s background-loaded copy.                                                |
+| `EMBEDDER_RECOVERY_WAIT_S` | `45`    | Upper bound, in seconds, on how long one call waits for a relaunched service or the in-process embedder after finding the service down. `0` disables it. |
 
 If `embedder-service` is down, unreachable, or returns a wrong-dimension vector, `search_memory`
 falls back to the in-process embedder automatically — never raises, degrades per the table above.
+
+`embedder-service` exits on its own after an idle period (600 s by default), so this server does
+not trust a cached "ready" indefinitely:
+
+- A cached "ready" not confirmed within the last 30 s (by a probe, a launch, or a successful
+  embed call) is re-probed with `GET /health` before use.
+- A failed runtime embed call or failed re-probe marks the service unavailable, requests a
+  non-blocking relaunch (`embedder_client.request_service_restart`, single-flight per process,
+  10 s cooldown). The in-process embedder load starts only if that relaunch fails or the bounded
+  wait for it times out, because importing the model while the relaunch runs starves this
+  process's own health probes.
+- A cached "unavailable" is re-probed every 5 s and requests a relaunch while it stays down.
+- When a call finds the service down and no in-process embedder is ready, it waits up to
+  `EMBEDDER_RECOVERY_WAIT_S` for the relaunched service or the in-process embedder, then proceeds;
+  on timeout it degrades as described above. After a timeout, calls skip the wait for 60 s.
+  A cold `embedder-service` launch takes about 11–15 s on the development machine.
 
 ---
 
@@ -302,6 +319,13 @@ Same shape and same `compute_memory_instance_telemetry()` call as
 `document_knowledge_base` block, since it doesn't own that data. Like `search_memory`, every
 underlying Qdrant call is timeout-guarded, so an unreachable or slow `qdrant-memory` reports
 `reachable: false` instead of hanging the call.
+
+A `search_capability` block reports the embedding path from a real health probe of
+`embedder-service` made at call time (`embedder_service_probe`: `ok`, `failed`, or `not-probed` when
+the service is disabled), alongside `embedder_service_state`, `embedder_service_state_age_s`,
+`in_process_fallback_state`, and `effective_path` (`embedder-service`, `in-process-fallback`, or
+`unavailable`). `effective_path` is `embedder-service` only when the probe succeeded. The probe may
+update the cached service state; `health_check` never launches the service or the in-process load.
 
 ### `write_memory`
 

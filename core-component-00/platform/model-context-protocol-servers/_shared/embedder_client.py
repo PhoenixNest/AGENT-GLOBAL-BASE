@@ -27,15 +27,19 @@ import json
 import os
 import subprocess
 import sys
+import threading
 import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import List, Optional
+from typing import Callable, List, Optional
 
 _SHARED_DIR = Path(__file__).resolve().parent
 _SERVICE_DIR = _SHARED_DIR / "embedder-service"
-_RUN_DIR = _SERVICE_DIR / "run"
+# EMBEDDER_SERVICE_RUN_DIR relocates the lock/pid files so a service on a
+# non-default port (tests, side-by-side instances) never touches the default
+# instance's files; embedder-service/server.py reads the same variable.
+_RUN_DIR = Path(os.getenv("EMBEDDER_SERVICE_RUN_DIR") or (_SERVICE_DIR / "run"))
 _LOCK_FILE = _RUN_DIR / "embedder-service.lock"
 
 # Reuse _call_with_hard_timeout rather than re-implement it. Mirrors the
@@ -71,6 +75,8 @@ HEALTH_PROBE_TIMEOUT_S = 1.5
 STARTUP_WAIT_TIMEOUT_S = 90.0
 LOCK_STALE_AFTER_S = 60.0
 EMBED_CALL_TIMEOUT_S = 8.0  # matches QDRANT_CALL_TIMEOUT_S's bound in memory_vector_store.py
+# Minimum spacing between two relaunch attempts started by request_service_restart().
+RESTART_COOLDOWN_S = 10.0
 
 
 def _diag(msg: str) -> None:
@@ -197,6 +203,80 @@ def ensure_service_running() -> bool:
         return False
     finally:
         _release_lock()
+
+
+_restart_lock = threading.Lock()
+_restart_in_flight = False
+_restart_last_started_at = 0.0
+_restart_waiters: List[Callable[[bool], None]] = []
+
+
+def restart_in_flight() -> bool:
+    """True while a launch started by request_service_restart() is running."""
+    with _restart_lock:
+        return _restart_in_flight
+
+
+def _restart_worker() -> None:
+    global _restart_in_flight
+    try:
+        ok = bool(ensure_service_running())
+    except Exception as exc:
+        _diag(f"restart: ensure_service_running raised: {exc}")
+        ok = False
+    # restart_in_flight() stays True until every callback has run, so a caller
+    # that sees False can rely on the callbacks' state updates being visible.
+    while True:
+        with _restart_lock:
+            waiters = list(_restart_waiters)
+            _restart_waiters.clear()
+            if not waiters:
+                _restart_in_flight = False
+                return
+        for callback in waiters:
+            try:
+                callback(ok)
+            except Exception as exc:
+                _diag(f"restart: on_done callback raised: {exc}")
+
+
+def request_service_restart(on_done: Optional[Callable[[bool], None]] = None) -> bool:
+    """
+    Non-blocking relaunch of the embedder-service for a consumer that found
+    it gone (for example after its idle self-shutdown). Runs
+    ensure_service_running() in a daemon thread and calls
+    `on_done(ok)` from that thread with its result.
+
+    Single-flight per process: while a launch is running, further requests
+    start nothing and attach their callback to the running launch. Between
+    launches, requests are ignored until RESTART_COOLDOWN_S has elapsed since
+    the previous launch started. Returns True if this call started a launch
+    thread, False if it joined a running launch or was suppressed by the
+    cooldown (a suppressed request's callback is not invoked). Never blocks
+    and never raises.
+    """
+    global _restart_in_flight, _restart_last_started_at
+    try:
+        with _restart_lock:
+            if _restart_in_flight:
+                if on_done is not None:
+                    _restart_waiters.append(on_done)
+                return False
+            now = time.monotonic()
+            if _restart_last_started_at and now - _restart_last_started_at < RESTART_COOLDOWN_S:
+                return False
+            _restart_in_flight = True
+            _restart_last_started_at = now
+            if on_done is not None:
+                _restart_waiters.append(on_done)
+        threading.Thread(target=_restart_worker, daemon=True, name="embedder-service-restart").start()
+        return True
+    except Exception as exc:
+        with _restart_lock:
+            _restart_in_flight = False
+            _restart_waiters.clear()
+        _diag(f"restart: could not start launch thread: {exc}")
+        return False
 
 
 def _embed_once(model: str, texts: List[str]) -> "tuple[List[List[float]], int]":

@@ -7,6 +7,8 @@ tests/*
 !tests/test_upsert_delete_ordering_fix.py
 !tests/test_search_tier_degradation.py
 !tests/test_structured_logging.py
+!tests/test_embedder_idle_recovery.py
+!tests/conftest.py
 
 # Python environment
 .venv/

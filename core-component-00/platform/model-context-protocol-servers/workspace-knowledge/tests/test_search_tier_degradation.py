@@ -340,6 +340,14 @@ class TestHealthCheckReflectsSearchTierAndDegradationReason:
     it already reports whatever the (now-corrected) fallback chain leaves
     those two fields holding."""
 
+    @pytest.fixture(autouse=True)
+    def embedder_service_up(self, monkeypatch):
+        """The block also reports query-embedding capability from a real
+        probe; these tests assert the engine's own tier/reason fields, so the
+        probe is pinned to "service up" instead of depending on the machine."""
+        monkeypatch.setattr(server, "EMBEDDER_SERVICE_ENABLED", True)
+        monkeypatch.setattr(server.embedder_client, "probe_health", lambda: True)
+
     @pytest.mark.parametrize(
         "tier,reason",
         [

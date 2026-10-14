@@ -68,7 +68,7 @@ MAX_TEXT_LENGTH_CHARS = int(os.getenv("EMBEDDER_SERVICE_MAX_TEXT_CHARS", "20000"
 
 _SHARED_DIR = Path(__file__).resolve().parent.parent
 MODELS_CACHE_DIR = _SHARED_DIR / "models"
-RUN_DIR = Path(__file__).resolve().parent / "run"
+RUN_DIR = Path(os.getenv("EMBEDDER_SERVICE_RUN_DIR") or (Path(__file__).resolve().parent / "run"))
 
 # Short/HF-id aliases -> shared-cache slug. New models only need an entry here.
 MODEL_ALIASES: Dict[str, str] = {

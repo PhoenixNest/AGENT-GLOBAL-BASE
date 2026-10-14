@@ -615,16 +615,101 @@ _EMBEDDER_SERVICE_REPROBE_COOLDOWN_S = 5.0
 # plus headroom for the observed variance in mcp-governance.md's agent-memory row.
 _EMBEDDER_SERVICE_STARTING_GRACE_S = 150.0
 
+# embedder-service exits on its own after an idle period, so a cached "ready"
+# is trusted only this long after it was last confirmed (a startup launch, a
+# probe, or a successful embed call). An older "ready" is re-probed before use.
+_EMBEDDER_SERVICE_READY_MAX_AGE_S = 30.0
+
+
+def _read_nonnegative_float_env(name: str, default: float) -> float:
+    try:
+        return max(0.0, float(os.getenv(name, str(default))))
+    except ValueError:
+        return default
+
+
+# Upper bound on how long one tool call waits, after finding the service down
+# with no in-process embedder ready, for the relaunched service or the
+# in-process fallback to become ready. 0 disables the wait. After a wait times
+# out, further calls skip waiting for _EMBEDDER_RECOVERY_WAIT_BACKOFF_S so a
+# service that cannot come back does not add the full wait to every call.
+_EMBEDDER_RECOVERY_WAIT_S = _read_nonnegative_float_env("EMBEDDER_RECOVERY_WAIT_S", 45.0)
+_EMBEDDER_RECOVERY_WAIT_POLL_S = 0.25
+_EMBEDDER_RECOVERY_WAIT_BACKOFF_S = 60.0
+_embedder_recovery_wait_gave_up_at: float = 0.0
+
+
+def _record_embedder_service_state(ok: bool) -> None:
+    """Stores a real readiness observation (probe, launch result, or embed
+    outcome) together with its timestamp."""
+    global _embedder_service_state, _embedder_service_state_confirmed_at
+    with _embedder_service_lock:
+        _embedder_service_state = "ready" if ok else "unavailable"
+        _embedder_service_state_confirmed_at = time.time()
+
+
+def _on_embedder_service_restart_done(ok: bool) -> None:
+    """A relaunch that fails starts the in-process load, so a service that
+    cannot come back still yields a fallback."""
+    _record_embedder_service_state(ok)
+    _diag(f"embedder-service restart: {'ready' if ok else 'unavailable'}")
+    if not ok:
+        _ensure_embedder_load_started()
+
+
+def _mark_embedder_service_down(why: str) -> None:
+    """The service was found gone: record it, ask embedder_client for a
+    non-blocking relaunch (single-flight, cooldown-gated). The in-process
+    load is deliberately not started here: importing sentence_transformers
+    while the relaunch runs starves this process's own health probes, so the
+    relaunch is given the first chance and the in-process load starts only if
+    the relaunch fails or the bounded wait for it times out."""
+    _diag(f"embedder-service marked unavailable: {why}")
+    _record_embedder_service_state(False)
+    embedder_client.request_service_restart(on_done=_on_embedder_service_restart_done)
+
+
+def _wait_for_embedder_recovery() -> bool:
+    """
+    Waits up to _EMBEDDER_RECOVERY_WAIT_S for the embedder-service state to
+    turn "ready" or the in-process embedder to finish loading, and returns
+    True as soon as either happens. Returns False immediately when the wait is
+    disabled, when a previous wait timed out within the backoff window, or
+    when nothing is in progress (no relaunch in flight and no in-process load
+    running); returns False after the bound otherwise. Never raises.
+    """
+    global _embedder_recovery_wait_gave_up_at
+    if not EMBEDDER_SERVICE_ENABLED or _EMBEDDER_RECOVERY_WAIT_S <= 0:
+        return False
+    if (
+        _embedder_recovery_wait_gave_up_at
+        and time.monotonic() - _embedder_recovery_wait_gave_up_at < _EMBEDDER_RECOVERY_WAIT_BACKOFF_S
+    ):
+        return False
+    deadline = time.monotonic() + _EMBEDDER_RECOVERY_WAIT_S
+    while True:
+        with _embedder_lock:
+            in_process_loading = _embedder_state == "loading"
+        restart_running = embedder_client.restart_in_flight()
+        with _embedder_service_lock:
+            service_state = _embedder_service_state
+        if service_state == "ready" or _get_in_process_embedder() is not None:
+            _embedder_recovery_wait_gave_up_at = 0.0
+            return True
+        if not restart_running and not in_process_loading:
+            return False
+        if time.monotonic() >= deadline:
+            _embedder_recovery_wait_gave_up_at = time.monotonic()
+            return False
+        time.sleep(_EMBEDDER_RECOVERY_WAIT_POLL_S)
+
 
 def _start_embedder_service_background() -> None:
     # Runs exactly once, at process startup. An "unavailable" result here is
     # not final — _embedder_service_ready() re-probes and can overwrite it
     # with "ready" later, without a process restart.
-    global _embedder_service_state, _embedder_service_state_confirmed_at
     ok = embedder_client.ensure_service_running()
-    with _embedder_service_lock:
-        _embedder_service_state = "ready" if ok else "unavailable"
-        _embedder_service_state_confirmed_at = time.time()
+    _record_embedder_service_state(ok)
     _diag(f"embedder-service background start: {'ready' if ok else 'unavailable'}")
 
 
@@ -636,22 +721,33 @@ if EMBEDDER_SERVICE_ENABLED:
 
 def _embedder_service_ready() -> bool:
     """
-    Returns the cached embedder-service readiness state — but first
-    re-probes if that cache currently says "unavailable", instead of
-    trusting it forever. _start_embedder_service_background() runs its
-    check exactly once, in a background thread, at process startup; if that
-    single check loses the startup race against the shared embedder-service
-    still coming up in another process, "unavailable" was previously a
-    permanent, never-revisited verdict for the rest of this process's life
-    — even after the service became healthy seconds later. "starting" is left
-    alone here: the background thread's first check is still in flight, so
-    there is nothing stale to re-check yet.
+    Returns whether the embedder-service is usable, re-probing instead of
+    trusting the cache blindly in both directions:
+
+    - "ready" older than _EMBEDDER_SERVICE_READY_MAX_AGE_S (measured from the
+      last real confirmation) is re-probed before use; a failed probe takes
+      the same path as a failed embed call (_mark_embedder_service_down).
+    - "unavailable" is re-probed on a cooldown, and each re-probe that still
+      fails asks embedder_client for a relaunch (single-flight, so at most
+      one launch runs at a time).
+    - "starting" is left alone: the startup thread's first check is still in
+      flight, so there is nothing stale to re-check yet.
     """
-    global _embedder_service_state, _embedder_service_last_probe_at, _embedder_service_state_confirmed_at
+    global _embedder_service_last_probe_at
     with _embedder_service_lock:
         state = _embedder_service_state
+        confirmed_at = _embedder_service_state_confirmed_at
+
+    if state == "ready":
+        if time.time() - confirmed_at < _EMBEDDER_SERVICE_READY_MAX_AGE_S:
+            return True
+        if embedder_client.probe_health():
+            _record_embedder_service_state(True)
+            return True
+        _mark_embedder_service_down("cached ready state failed its re-probe")
+        return False
     if state != "unavailable":
-        return state == "ready"
+        return False
 
     now = time.time()
     with _embedder_service_lock:
@@ -660,11 +756,11 @@ def _embedder_service_ready() -> bool:
         _embedder_service_last_probe_at = now
 
     ok = embedder_client.probe_health()
-    with _embedder_service_lock:
-        _embedder_service_state = "ready" if ok else "unavailable"
-        _embedder_service_state_confirmed_at = time.time()
+    _record_embedder_service_state(ok)
     if ok:
         _diag("embedder-service re-probe: now ready (was unavailable)")
+    else:
+        embedder_client.request_service_restart(on_done=_on_embedder_service_restart_done)
     return ok
 
 
@@ -680,19 +776,41 @@ def _get_embedder() -> Optional[Callable[[str], List[float]]]:
     if not service_ready:
         # Only the in-process fallback needs this fragile import chain — no
         # reason to pay its risk when the embedder-service already has us
-        # covered.
-        _ensure_embedder_load_started()
+        # covered. When the service was found down, its relaunch gets the
+        # bounded wait first and the in-process load starts only if the
+        # service is still not ready afterwards; in every other not-ready
+        # state (startup, disabled) the load starts immediately.
+        with _embedder_service_lock:
+            discovered_down = EMBEDDER_SERVICE_ENABLED and _embedder_service_state == "unavailable"
+        if discovered_down and _get_in_process_embedder() is None and _wait_for_embedder_recovery():
+            service_ready = EMBEDDER_SERVICE_ENABLED and _embedder_service_ready()
+        if not service_ready:
+            _ensure_embedder_load_started()
     in_process = _get_in_process_embedder()
 
     if not service_ready and in_process is None:
         return None
 
+    def _embed_via_service(text: str) -> Optional[List[float]]:
+        vector = embedder_client.embed([text], model=_EMBEDDER_SERVICE_MODEL, expected_dim=384)
+        if vector is not None:
+            _record_embedder_service_state(True)
+            return vector[0]
+        _mark_embedder_service_down("runtime embed call failed")
+        return None
+
     def _resilient_embed(text: str) -> List[float]:
         if service_ready:
-            vector = embedder_client.embed([text], model=_EMBEDDER_SERVICE_MODEL, expected_dim=384)
+            vector = _embed_via_service(text)
             if vector is not None:
-                return vector[0]
+                return vector
             _diag("embedder-service call failed at runtime — falling back to in-process embedder")
+            if _get_in_process_embedder() is None and _wait_for_embedder_recovery():
+                if _embedder_service_ready():
+                    vector = _embed_via_service(text)
+                    if vector is not None:
+                        return vector
+            _ensure_embedder_load_started()
         fallback = _get_in_process_embedder()
         if fallback is not None:
             return fallback(text)
@@ -732,38 +850,36 @@ def _get_embedder_unavailable_reason() -> str:
 
 def _get_search_capability_snapshot() -> Dict[str, Any]:
     """
-    Read-only snapshot of what `_get_embedder()` would resolve to right now,
-    without triggering any side effect that a plain health check should not
-    cause — in particular, this must never call `_ensure_embedder_load_started()`,
-    since that would reintroduce exactly the kind of eager background work this
-    function deliberately keeps lazy-only. Every state read here goes through the same
-    module globals `_get_embedder()`/`_get_embedder_unavailable_reason()`
-    already use — this function does not introduce a second source of truth,
-    it only re-presents that existing state in a health_check-shaped block.
+    Snapshot of what `_get_embedder()` would resolve to right now, built from
+    a real bounded probe of the embedder-service made at call time
+    (`embedder_client.probe_health()`, capped at a few seconds) rather than
+    from the cached state alone. The probe result is written back to the
+    cached state and its timestamp, but this function never launches the
+    service and never starts the in-process load (`_ensure_embedder_load_started()`
+    stays lazy-only), so a plain health check causes no background work.
 
-    Staleness: a cached "ready" service state is trusted
-    as-is here (no re-probe — a network call is not something a health check
-    should trigger), but that means it can go stale relative to actual
-    serviceability — `health_check` can report "ready" moments
-    before a real `search_memory` call fails with "embedder-service
-    unavailable and in-process embedder not ready". To let a caller
-    distinguish "confirmed ready" from "cached ready, unconfirmed", this
-    snapshot also reports `embedder_service_state_age_s` — seconds since the
-    state was last actually confirmed by a real probe (the one-shot startup
-    check or a cooldown-gated re-probe in `_embedder_service_ready()`), and
-    `embedder_service_state_confirmed` (False only when no probe has ever
-    completed yet, e.g. very early in process startup). A caller/monitor
-    should treat a large `embedder_service_state_age_s` on a "ready" state
-    with correspondingly less confidence — this module deliberately does not
-    hardcode a "stale" cutoff itself, since what counts as too old is a
-    consumer policy decision, not a fact this server can assert on its own.
+    `effective_path` reports "embedder-service" only when that probe
+    succeeded; otherwise it is "in-process-fallback" if that embedder has
+    finished loading, else "unavailable". `embedder_service_probe` is "ok",
+    "failed", or "not-probed" (service disabled), and
+    `embedder_service_state_age_s` is the seconds since the state was last
+    confirmed by a real observation (this probe, a launch result, or a
+    successful embed call).
 
-    Never raises: each state read is a plain lock-guarded attribute read, and
-    any unexpected error degrades to a clearly-labeled "unavailable" reading
-    rather than propagating, consistent with every other code path in this
-    module.
+    Never raises: any unexpected error degrades to a clearly-labeled
+    "unavailable" reading rather than propagating, consistent with every other
+    code path in this module.
     """
     try:
+        probe_ok: Optional[bool] = None
+        if EMBEDDER_SERVICE_ENABLED:
+            probe_ok = embedder_client.probe_health()
+            with _embedder_service_lock:
+                # "starting" is left to the startup check that is still deciding.
+                record = True if probe_ok else (False if _embedder_service_state != "starting" else None)
+            if record is not None:
+                _record_embedder_service_state(record)
+
         with _embedder_service_lock:
             service_state = _embedder_service_state if EMBEDDER_SERVICE_ENABLED else "disabled"
             confirmed_at = _embedder_service_state_confirmed_at
@@ -771,13 +887,7 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
             in_process_state = _embedder_state
             in_process_ready = _embedder_cache is not None
 
-        # Mirrors _get_embedder()'s precedence exactly, but read-only: a
-        # cached "ready" service state is trusted as-is (no re-probe — a
-        # network call is not something a health check should trigger), and
-        # the in-process fallback is only considered "ready" if it has
-        # already finished loading on its own, never started here.
-        service_effectively_ready = EMBEDDER_SERVICE_ENABLED and service_state == "ready"
-        if service_effectively_ready:
+        if probe_ok:
             effective_path = "embedder-service"
         elif in_process_ready:
             effective_path = "in-process-fallback"
@@ -790,6 +900,7 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
         return {
             "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
             "embedder_service_state": service_state,
+            "embedder_service_probe": "not-probed" if probe_ok is None else ("ok" if probe_ok else "failed"),
             "embedder_service_state_confirmed": state_confirmed,
             "embedder_service_state_age_s": state_age_s,
             "in_process_fallback_state": in_process_state,
@@ -800,6 +911,7 @@ def _get_search_capability_snapshot() -> Dict[str, Any]:
         return {
             "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
             "embedder_service_state": "unavailable",
+            "embedder_service_probe": "failed",
             "embedder_service_state_confirmed": False,
             "embedder_service_state_age_s": None,
             "in_process_fallback_state": f"failed: snapshot error: {exc}",
