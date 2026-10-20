@@ -51,7 +51,7 @@ AGENT-GLOBAL-BASE/
 │       ├── team/crew/           ← 37 FTE + 1 Contract across 7 divisions
 │       └── projects/            ← Per-game folders (none scaffolded yet)
 │
-├── core-component-00/           ← CC-00 Lab (stack reference implementations)
+├── core-component-00/           ← CC-00 Lab (only place with runnable code)
 │   ├── agent-systems-governance-framework/  ← ASGF governing framework
 │   ├── engineering/                ← Layers 1, 2, 3, 5
 │   │   ├── prompt-engineering/         ← Layer 1 — what to write

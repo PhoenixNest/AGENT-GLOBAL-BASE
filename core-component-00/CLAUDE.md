@@ -10,7 +10,8 @@ CC-00 is the organisation's centralised LLM engineering laboratory and the found
 for every agent-powered system built here. It houses five engineering modules plus a governing
 meta-layer (ASGF), production-grade Python implementations, and active research programmes.
 
-`core-component-00/` holds the stack's reference implementations and the MCP servers.
+The **only runnable code in this entire workspace** lives under `core-component-00/`. Everything
+else in the repository is Markdown documentation.
 
 ---
 

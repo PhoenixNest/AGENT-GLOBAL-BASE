@@ -88,7 +88,7 @@ AGENT-GLOBAL-BASE/
 │   └── casual-games/                     ← Only active studio  [→ studio/casual-games/CLAUDE.md]
 │       └── telescope/                    ← Studio research archive (game/market research)
 │
-├── core-component-00/                    ← CC-00 Lab — stack reference implementations + MCP servers  [→ core-component-00/CLAUDE.md]
+├── core-component-00/                    ← CC-00 Lab — ONLY place with runnable code  [→ core-component-00/CLAUDE.md]
 │   ├── framework/                        ← The five-module stack + ASGF, numbered 00–05
 │   │   ├── 00-agent-systems-governance-framework/  ← ASGF governing meta-module
 │   │   ├── 01-prompt-engineering/        ← Layer 1 (docs only)
