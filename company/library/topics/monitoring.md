@@ -1,4 +1,4 @@
-﻿# Progress Monitoring
+# Progress Monitoring
 
 Cross-cutting reference for progress tracking, session management, interruption recovery, and the Progress Sync Protocol. This system ensures comprehensive oversight of pipeline progress and enables seamless recovery after any interruption.
 
@@ -30,13 +30,15 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 
 ### Three-Layer Structure
 
-| Layer       | Component     | Purpose                     | Location                                       |
-| ----------- | ------------- | --------------------------- | ---------------------------------------------- |
-| **Layer 1** | `PROGRESS.md` | Real-time pipeline state    | `company/project/<project>/PROGRESS.md`        |
-| **Layer 2** | Session Logs  | Detailed audit trail        | `company/project/<project>/sessions/*.md`      |
-| **Layer 3** | Checkpoints   | Machine-readable milestones | `company/project/<project>/checkpoints/*.json` |
+| Layer       | Component         | Purpose                     | Location                                    |
+| ----------- | ----------------- | --------------------------- | ------------------------------------------- |
+| **Layer 1** | `progress.md`     | Real-time pipeline state    | `company/project/<project>/progress.md`     |
+| **Layer 2** | `session-log.md`  | Detailed audit trail        | `company/project/<project>/session-log.md`  |
+| **Layer 3** | `checkpoint.json` | Machine-readable milestones | `company/project/<project>/checkpoint.json` |
 
-### Layer 1: PROGRESS.md
+Each is a single file per project. One dated entry is appended to `session-log.md` per session, and entries are never edited. `checkpoint.json` holds a `checkpoints` array with one entry per checkpoint. These three files are stored locally and never pushed to a remote repository, and a branch that holds them stays local.
+
+### Layer 1: progress.md
 
 **Purpose:** Single source of truth for current pipeline state.
 
@@ -148,13 +150,13 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 
 **File Naming Convention:**
 
-| Stage Status    | File Name                     | Purpose                         |
-| --------------- | ----------------------------- | ------------------------------- |
-| **In Progress** | `stage<N>-in-progress.json`   | Updated at each milestone       |
-| **Gate Review** | `stage<N>-gate-review.json`   | Ready for panel + user approval |
-| **Approved**    | `stage<N>-gate-approved.json` | User approved, stage complete   |
+| Stage Status    | Checkpoint ID            | Purpose                         |
+| --------------- | ------------------------ | ------------------------------- |
+| **In Progress** | `stage<N>-in-progress`   | Appended at each milestone      |
+| **Gate Review** | `stage<N>-gate-review`   | Ready for panel + user approval |
+| **Approved**    | `stage<N>-gate-approved` | User approved, stage complete   |
 
-**Key Principle:** One checkpoint file per stage. The file is updated at each milestone and renamed upon stage completion.
+**Key Principle:** One `checkpoint.json` file per project. Each checkpoint is an entry in its `checkpoints` array, looked up by `checkpoint_id`.
 
 **Structure:**
 
@@ -206,20 +208,20 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 
 **Checkpoint Files by Stage:**
 
-| Stage | Checkpoint File                 | Milestone                                           |
-| ----- | ------------------------------- | --------------------------------------------------- |
-| 1     | `stage1-gate-approved.json`     | PRD + SRD complete, user approved                   |
-| 2     | `stage2-gate-approved.json`     | Prototype + IDS complete, user approved             |
-| 3     | `stage3-gate-approved.json`     | UML + ADRs + TSD complete, user approved            |
-| 4     | `stage4-gate-approved.json`     | Implementation Plan + Gantt complete, user approved |
-| 5     | `stage5-gate-approved.json`     | Development complete, CTO internal review passed    |
-| 6     | `stage6-gate-approved.json`     | Defects remediated, panel sign-off complete         |
-| 7     | `stage7-gate-approved.json`     | Test suite complete, 100% pass rate                 |
-| 8     | `stage8-gate-approved.json`     | Integrity verification sign-off                     |
-| 9     | `stage9-gate-approved.json`     | Localization complete, CTO-L report issued          |
-| 10    | `stage10-release-decision.json` | Release checklist complete, user release decision   |
+| Stage | Checkpoint File            | Milestone                                           |
+| ----- | -------------------------- | --------------------------------------------------- |
+| 1     | `stage1-gate-approved`     | PRD + SRD complete, user approved                   |
+| 2     | `stage2-gate-approved`     | Prototype + IDS complete, user approved             |
+| 3     | `stage3-gate-approved`     | UML + ADRs + TSD complete, user approved            |
+| 4     | `stage4-gate-approved`     | Implementation Plan + Gantt complete, user approved |
+| 5     | `stage5-gate-approved`     | Development complete, CTO internal review passed    |
+| 6     | `stage6-gate-approved`     | Defects remediated, panel sign-off complete         |
+| 7     | `stage7-gate-approved`     | Test suite complete, 100% pass rate                 |
+| 8     | `stage8-gate-approved`     | Integrity verification sign-off                     |
+| 9     | `stage9-gate-approved`     | Localization complete, CTO-L report issued          |
+| 10    | `stage10-release-decision` | Release checklist complete, user release decision   |
 
-**Milestone History:** Each checkpoint file contains a `milestone_history` array tracking all key milestones within that stage, eliminating the need for multiple checkpoint files per stage.
+**Milestone History:** Each entry in the `checkpoints` array contains a `milestone_history` array tracking all key milestones within that stage.
 
 ---
 
@@ -227,7 +229,7 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 
 ### After Interruption (e.g., Power Outage)
 
-**Step 1: Read PROGRESS.md**
+**Step 1: Read progress.md**
 
 ```
 → Identify current stage
@@ -238,7 +240,7 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 **Step 2: Read Latest Session Log**
 
 ```
-→ Open sessions/<session-id>.md
+→ Open the last entry in company/project/<project>/session-log.md
 → Review "Interruption Recovery" section
 → Understand what was in progress
 ```
@@ -246,7 +248,7 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 **Step 3: Read Latest Checkpoint JSON**
 
 ```
-→ Open checkpoints/stage<N>-gate-review.json (or stage<N>-gate-approved.json if complete)
+→ Open the entry with checkpoint_id stage<N>-gate-review (or stage<N>-gate-approved if complete) in company/project/<project>/checkpoint.json
 → Parse machine-readable resume_point
 → Get exact file and section to resume
 ```
@@ -257,7 +259,7 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 → Open specified file
 → Navigate to specified section
 → Continue from documented position
-→ Update PROGRESS.md with new session ID
+→ Update progress.md with new session ID
 ```
 
 ### Example Recovery Flow
@@ -265,17 +267,17 @@ The **Progress Monitoring & Recovery System** is a three-layer monitoring mechan
 ```
 INTERRUPTION DETECTED
 
-1. Read: company/project/android-todos-app/PROGRESS.md
+1. Read: company/project/android-todos-app/progress.md
    → Current Stage: 2 (Design)
    → Session ID: session-20260401-143000
    → In Progress: Enhanced IDS document
 
-2. Read: sessions/session-20260401-143000.md
+2. Read: the session-20260401-143000 entry in company/project/android-todos-app/session-log.md
    → Last completed: Prototype v2 build
    → In progress: IDS sections 4-6
    → Resume: "Complete sections 4-6"
 
-3. Read: checkpoints/stage3-gate-review.json
+3. Read: the stage3-gate-review entry in company/project/android-todos-app/checkpoint.json
    → resume_point.file_to_open: "design/interaction-specs/v1/draft/IDS.md"
    → resume_point.section: "4. Gesture Vocabulary"
 
@@ -284,7 +286,7 @@ INTERRUPTION DETECTED
    → Navigate to section 4
    → Continue writing
    → Create new session: session-20260401-160000
-   → Update PROGRESS.md
+   → Update progress.md
 ```
 
 ---
@@ -295,11 +297,11 @@ INTERRUPTION DETECTED
 
 ### Monitoring Rules
 
-| Rule                       | Threshold                                       | Action                             |
-| -------------------------- | ----------------------------------------------- | ---------------------------------- |
-| **Task Duration Variance** | Actual > Estimated × 1.2 (20% overrun)          | CTO → CPO notification             |
-| **Milestone Slip**         | Planned date passed, milestone incomplete       | Flag in PROGRESS.md, C-suite alert |
-| **Session Gap**            | No session log in >48 hours during active stage | Automated reminder to session lead |
+| Rule                       | Threshold                                             | Action                             |
+| -------------------------- | ----------------------------------------------------- | ---------------------------------- |
+| **Task Duration Variance** | Actual > Estimated × 1.2 (20% overrun)                | CTO → CPO notification             |
+| **Milestone Slip**         | Planned date passed, milestone incomplete             | Flag in progress.md, C-suite alert |
+| **Session Gap**            | No session-log entry in >48 hours during active stage | Automated reminder to session lead |
 
 ### Notification Format
 
@@ -356,13 +358,13 @@ INTERRUPTION DETECTED
 
 ## Compliance Requirements
 
-| Requirement              | Applicability      | Enforcement                |
-| ------------------------ | ------------------ | -------------------------- |
-| **PROGRESS.md**          | Mandatory Stage 4+ | Updated at every milestone |
-| **Session Logs**         | Mandatory Stage 4+ | Created per session        |
-| **Checkpoints**          | Mandatory Stage 4+ | Created at each checkpoint |
-| **Progress Sync Alerts** | Mandatory Stage 4+ | Sent when variance >20%    |
-| **Weekly Summaries**     | Mandatory Stage 4+ | Produced by CTO weekly     |
+| Requirement              | Applicability      | Enforcement                   |
+| ------------------------ | ------------------ | ----------------------------- |
+| **progress.md**          | Mandatory Stage 4+ | Updated at every milestone    |
+| **Session Logs**         | Mandatory Stage 4+ | Entry appended per session    |
+| **Checkpoints**          | Mandatory Stage 4+ | Entry appended per checkpoint |
+| **Progress Sync Alerts** | Mandatory Stage 4+ | Sent when variance >20%       |
+| **Weekly Summaries**     | Mandatory Stage 4+ | Produced by CTO weekly        |
 
 ### Non-Compliance
 
@@ -373,7 +375,7 @@ Non-compliance must be documented in session logs with justification:
 
 | Time  | Issue                   | Resolution               | Impact                       |
 | ----- | ----------------------- | ------------------------ | ---------------------------- |
-| HH:MM | PROGRESS.md not updated | Session lead unavailable | Minor (updated next session) |
+| HH:MM | progress.md not updated | Session lead unavailable | Minor (updated next session) |
 ```
 
 ---
@@ -396,15 +398,12 @@ Non-compliance must be documented in session logs with justification:
 
 ```
 company/project/android-todos-app/
-├── PROGRESS.md                           # Layer 1: Stage 3, 90%, Gate Review
-├── sessions/
-│   ├── session-20260401-090000.md        # Stage 1 session (105 min)
-│   ├── session-20260401-143000.md        # Stage 2 session (90 min)
-│   └── session-20260401-170000.md        # Stage 2→3 transition (15 min)
-└── checkpoints/
-    ├── stage1-gate-approved.json         # Stage 1 complete
-    ├── stage2-gate-approved.json         # Stage 2 complete
-    └── stage3-gate-review.json           # Stage 3 (gate review)
+├── progress.md                           # Layer 1: Stage 3, 90%, Gate Review
+├── session-log.md                        # Layer 2: entries session-20260401-090000 (Stage 1, 105 min),
+│                                         #   session-20260401-143000 (Stage 2, 90 min),
+│                                         #   session-20260401-170000 (Stage 2→3 transition, 15 min)
+└── checkpoint.json                       # Layer 3: checkpoints stage1-gate-approved,
+                                          #   stage2-gate-approved, stage3-gate-review
 ```
 
 **Current State (Example):**
