@@ -1,4 +1,4 @@
-﻿# Web Development Pipeline — Delta Overlay
+# Web Development Pipeline — Delta Overlay
 
 | Field          | Value                                                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -77,7 +77,7 @@ When the user chooses a project type that shifts track responsibility:
 
 ### 1.6 Monitoring Adaptation
 
-`PROGRESS.md` must reflect active tracks only. Inactive tracks show "N/A," not "0%". The Progress Sync Protocol must account for reallocated resources — reassigned engineers should not penalize a project's capacity metrics.
+`progress.md` must reflect active tracks only. Inactive tracks show "N/A," not "0%". The Progress Sync Protocol must account for reallocated resources — reassigned engineers should not penalize a project's capacity metrics.
 
 ### 1.7 Per-Scenario CI/CD Blueprint
 

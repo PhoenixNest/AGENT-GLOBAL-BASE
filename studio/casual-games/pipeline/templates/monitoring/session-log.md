@@ -1,5 +1,9 @@
 # Session Log — [Game Title]
 
+One `session-log.md` file per project, stored at `studio/casual-games/projects/<game-slug>/session-log.md`. One dated entry is appended per session by copying the entry block below, and entries are never edited. The file is stored locally and never pushed to a remote repository.
+
+---
+
 ## Session: session-YYYYMMDD-HHMMSS
 
 **Date:** YYYY-MM-DD
@@ -11,14 +15,14 @@
 
 ---
 
-## Objectives
+### Objectives
 
 1. [Objective 1]
 2. [Objective 2]
 
 ---
 
-## Activities
+### Activities
 
 | Time  | Activity      | Output               | Status       |
 | ----- | ------------- | -------------------- | ------------ |
@@ -26,17 +30,17 @@
 
 ---
 
-## Artifacts Created
+### Artifacts Created
 
 - `<file path 1>`
 
-## Artifacts Modified
+### Artifacts Modified
 
 - `<file path>` — [Description of changes]
 
 ---
 
-## Playtest / Metric Data Collected (if applicable)
+### Playtest / Metric Data Collected (if applicable)
 
 | Metric         | Value | Source   | Notes   |
 | -------------- | ----- | -------- | ------- |
@@ -44,7 +48,7 @@
 
 ---
 
-## Kill Gate Assessment (if gate review session)
+### Kill Gate Assessment (if gate review session)
 
 | Gate     | Criterion   | Target   | Actual   | Pass? |
 | -------- | ----------- | -------- | -------- | ----- |
@@ -55,7 +59,7 @@
 
 ---
 
-## Decisions Made
+### Decisions Made
 
 | Time  | Decision   | Rationale | Owner |
 | ----- | ---------- | --------- | ----- |
@@ -63,7 +67,7 @@
 
 ---
 
-## Issues Encountered
+### Issues Encountered
 
 | Time  | Issue         | Resolution     | Impact                 |
 | ----- | ------------- | -------------- | ---------------------- |
@@ -71,14 +75,14 @@
 
 ---
 
-## Next Session Priorities
+### Next Session Priorities
 
 1. [Priority 1]
 2. [Priority 2]
 
 ---
 
-## Interruption Recovery
+### Interruption Recovery
 
 - **Last completed:** [Last successful milestone]
 - **In progress:** [What was being worked on]
@@ -86,7 +90,7 @@
 
 ---
 
-## Time Tracking
+### Time Tracking
 
 | Category  | Estimated | Actual  | Variance |
 | --------- | --------- | ------- | -------- |

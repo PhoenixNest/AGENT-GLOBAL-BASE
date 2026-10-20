@@ -1,4 +1,4 @@
-﻿# Schema Validation Specification — Automated Gate Enforcement (Web Pipeline)
+# Schema Validation Specification — Automated Gate Enforcement (Web Pipeline)
 
 ---
 
@@ -23,29 +23,29 @@ This specification defines how **Stage Transition Schemas** are validated automa
 
 ### 2.2 Stage-Specific Rules
 
-| Schema | Rule ID      | Rule                                                                   |  Severity   |
+| Schema | Rule ID | Rule | Severity |
 | :----- | :----------- | :--------------------------------------------------------------------- | :---------: | --- | ------- | ----------- |
-| `1→2`  | `V-WEB-101`  | `artifacts.prd.req_count` must be > 0                                  | **Blocker** |
-| `1→2`  | `V-WEB-102`  | `artifacts.srd.sec_req_count` must be > 0                              | **Blocker** |
-| `1→2`  | `V-WEB-103`  | `target_delivery_model` must be one of `SPA                            |     SSR     | PWA | hybrid` | **Blocker** |
-| `3→4`  | `V-WEB-301`  | `artifacts.adrs` array must have ≥ 1 entry                             | **Blocker** |
-| `3→4`  | `V-WEB-302`  | `web_strategy.approach` must be one of allowed values                  | **Blocker** |
-| `3→4`  | `V-WEB-303`  | `security_architecture.stride_completed` must be `true`                | **Blocker** |
-| `5→6`  | `V-WEB-501`  | `completion_metrics.tasks_completed` must equal `tasks_total`          | **Blocker** |
-| `5→6`  | `V-WEB-502`  | `completion_metrics.lighthouse_scores.performance` must be ≥ 80        | **Warning** |
-| `6→7`  | `V-WEB-601`  | `defect_summary.p0_resolved + p1_resolved` must equal all found P0/P1s | **Blocker** |
-| `6→7`  | `V-WEB-602`  | `sign_offs.red_team` must be `true`                                    | **Blocker** |
-| `7→8`  | `V-WEB-701`  | `test_summary.pass_rate_pct` must be `100`                             | **Blocker** |
-| `7→8`  | `V-WEB-702`  | `test_summary.dast_high_findings` must be `0`                          | **Blocker** |
-| `7→8`  | `V-WEB-703`  | `test_summary.pentest_critical` must be `0`                            | **Blocker** |
-| `7→8`  | `V-WEB-704`  | `test_summary.lighthouse_regression` must be `false`                   | **Warning** |
-| `8→9`  | `V-WEB-801`  | `integrity_checks.security_control_weakened` must be `false`           | **Blocker** |
-| `8→9`  | `V-WEB-802`  | `integrity_checks.prd_features_intact` must be `true`                  | **Blocker** |
-| `9→10` | `V-WEB-901`  | `i18n_summary.hardcoded_strings_remaining` must be `0`                 | **Blocker** |
-| `9→10` | `V-WEB-902`  | All BLEU scores must be ≥ 0.80                                         | **Warning** |
-| `10`   | `V-WEB-1001` | All 12 `checklist` domain items must have `passed: true`               | **Blocker** |
-| `10`   | `V-WEB-1002` | `user_decision` must be `"release"` for release                        | **Blocker** |
-| All    | `V-WEB-1003` | `harness_compliance_verified` must be `true`                           | **Blocker** |
+| `1→2` | `V-WEB-101` | `artifacts.prd.req_count` must be > 0 | **Blocker** |
+| `1→2` | `V-WEB-102` | `artifacts.srd.sec_req_count` must be > 0 | **Blocker** |
+| `1→2` | `V-WEB-103` | `target_delivery_model` must be one of `SPA                            |     SSR     | PWA | hybrid` | **Blocker** |
+| `3→4` | `V-WEB-301` | `artifacts.adrs` array must have ≥ 1 entry | **Blocker** |
+| `3→4` | `V-WEB-302` | `web_strategy.approach` must be one of allowed values | **Blocker** |
+| `3→4` | `V-WEB-303` | `security_architecture.stride_completed` must be `true` | **Blocker** |
+| `5→6` | `V-WEB-501` | `completion_metrics.tasks_completed` must equal `tasks_total` | **Blocker** |
+| `5→6` | `V-WEB-502` | `completion_metrics.lighthouse_scores.performance` must be ≥ 80 | **Warning** |
+| `6→7` | `V-WEB-601` | `defect_summary.p0_resolved + p1_resolved` must equal all found P0/P1s | **Blocker** |
+| `6→7` | `V-WEB-602` | `sign_offs.red_team` must be `true` | **Blocker** |
+| `7→8` | `V-WEB-701` | `test_summary.pass_rate_pct` must be `100` | **Blocker** |
+| `7→8` | `V-WEB-702` | `test_summary.dast_high_findings` must be `0` | **Blocker** |
+| `7→8` | `V-WEB-703` | `test_summary.pentest_critical` must be `0` | **Blocker** |
+| `7→8` | `V-WEB-704` | `test_summary.lighthouse_regression` must be `false` | **Warning** |
+| `8→9` | `V-WEB-801` | `integrity_checks.security_control_weakened` must be `false` | **Blocker** |
+| `8→9` | `V-WEB-802` | `integrity_checks.prd_features_intact` must be `true` | **Blocker** |
+| `9→10` | `V-WEB-901` | `i18n_summary.hardcoded_strings_remaining` must be `0` | **Blocker** |
+| `9→10` | `V-WEB-902` | All BLEU scores must be ≥ 0.80 | **Warning** |
+| `10` | `V-WEB-1001` | All 12 `checklist` domain items must have `passed: true` | **Blocker** |
+| `10` | `V-WEB-1002` | `user_decision` must be `"release"` for release | **Blocker** |
+| All | `V-WEB-1003` | `harness_compliance_verified` must be `true` | **Blocker** |
 
 ---
 
@@ -93,9 +93,7 @@ When validation runs, it produces a result in this format:
       "actual": "value"
     }
   ],
-  "warnings": [
-    { "rule": "V-WEB-NNN", "field": "field.path", "message": "Advisory text" }
-  ]
+  "warnings": [{ "rule": "V-WEB-NNN", "field": "field.path", "message": "Advisory text" }]
 }
 ```
 
@@ -139,7 +137,7 @@ This prevents the "constraint amnesia" anti-pattern where security or architectu
 | Validation Result              | Action                                              |
 | :----------------------------- | :-------------------------------------------------- |
 | All pass                       | Stage advances normally                             |
-| Warnings only                  | Stage advances; warnings logged in PROGRESS.md      |
+| Warnings only                  | Stage advances; warnings logged in progress.md      |
 | 1+ Blockers                    | Stage blocked; error list sent to stage owner       |
 | 3+ consecutive rejections      | Auto-escalate to CTO via Escalation Message         |
 | V-WEB-005 constraint violation | Auto-escalate to CTO + CSO (potential security gap) |

@@ -10,7 +10,9 @@
 
 ## Overview
 
-This monitoring system is specialized for the Backend API Pipeline. It follows the three-layer monitoring architecture (PROGRESS.md, session logs, checkpoint JSON) with backend-specific fields, metrics, and recovery procedures.
+This monitoring system is specialized for the Backend API Pipeline. It follows the three-layer monitoring architecture (`progress.md`, `session-log.md`, `checkpoint.json`) with backend-specific fields, metrics, and recovery procedures.
+
+These three files are stored locally and never pushed to a remote repository, and a branch that holds them stays local.
 
 ### Why Standardized Monitoring Structure?
 
@@ -18,7 +20,7 @@ The three-layer monitoring architecture is shared across ALL company pipelines (
 
 | Aspect                 | Why It's Standardized                                                                           | Why Content Differs                                                                                                                                       |
 | ---------------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Three-layer structure  | Industry standard (Google SRE, Amazon Ops) — consistent tracking across all engineering domains | Each layer's **content** is platform-specific: PROGRESS.md has backend fields, checkpoint.json has P99 latency/throughput metrics                         |
+| Three-layer structure  | Industry standard (Google SRE, Amazon Ops) — consistent tracking across all engineering domains | Each layer's **content** is platform-specific: progress.md has backend fields, checkpoint.json has P99 latency/throughput metrics                         |
 | Session log format     | Universal audit trail convention — date/objectives/accomplishments are domain-agnostic          | Session **objectives** differ: backend tracks endpoint implementation/database migration/load testing; web tracks component development/SEO/accessibility |
 | Checkpoint JSON schema | Consistent machine-readable milestone format enables cross-pipeline reporting                   | **Fields** differ: backend tracks `endpoints_implemented`/`load_test_p99_ms`/`contract_coverage_pct`; web tracks `bundle_size_kb`/`lighthouse_scores`     |
 
@@ -26,12 +28,12 @@ This structure mirrors how leading technology companies (Google, Meta, Amazon) m
 
 ---
 
-## Layer 1: PROGRESS.md (Real-Time State)
+## Layer 1: progress.md (Real-Time State)
 
 ### Location
 
 ```
-company/project/<project-name>/PROGRESS.md
+company/project/<project-name>/progress.md
 ```
 
 ### Backend-Specific Fields
@@ -80,8 +82,10 @@ Overall: 60%
 ### Location
 
 ```
-company/project/<project-name>/sessions/session-<YYYYMMDD>-<HHMMSS>.md
+company/project/<project-name>/session-log.md
 ```
+
+One `session-log.md` file per project. One dated entry (`## Session: session-<YYYYMMDD>-<HHMMSS>`) is appended per session, and entries are never edited.
 
 ### Backend-Specific Session Objectives
 
@@ -101,101 +105,107 @@ company/project/<project-name>/sessions/session-<YYYYMMDD>-<HHMMSS>.md
 ### Location
 
 ```
-company/project/<project-name>/checkpoints/stage<N>-<status>.json
+company/project/<project-name>/checkpoint.json
 ```
+
+One `checkpoint.json` file per project, beside `progress.md` and `session-log.md`. It holds a `checkpoints` array, and one entry is appended per checkpoint.
 
 ### Backend-Specific Checkpoint Schema
 
 ```json
 {
-  "pipeline_type": "backend-api",
-  "stage": 5,
-  "status": "in-progress",
-  "progress_pct": 60,
-  "api_strategy": "REST",
-  "track_breakdown": {
-    "B-API": {
-      "status": "FULL",
-      "progress_pct": 75,
-      "owner": "Dev Malhotra",
-      "engineers": 3
-    },
-    "B-DATA": {
-      "status": "FULL",
-      "progress_pct": 50,
-      "owner": "Aisha Mohammed",
-      "engineers": 2
-    },
-    "B-RT": {
-      "status": "Dormant",
-      "progress_pct": 0,
-      "owner": "Kael Jensen",
-      "engineers": 0
-    }
-  },
-  "milestone_history": [
+  "checkpoints": [
     {
-      "name": "Core endpoints implemented",
-      "date": "2026-04-15",
-      "progress_pct": 40
-    },
-    {
-      "name": "Database migrations complete",
-      "date": "2026-04-18",
-      "progress_pct": 50
+      "pipeline_type": "backend-api",
+      "stage": 5,
+      "status": "in-progress",
+      "progress_pct": 60,
+      "api_strategy": "REST",
+      "track_breakdown": {
+        "B-API": {
+          "status": "FULL",
+          "progress_pct": 75,
+          "owner": "Dev Malhotra",
+          "engineers": 3
+        },
+        "B-DATA": {
+          "status": "FULL",
+          "progress_pct": 50,
+          "owner": "Aisha Mohammed",
+          "engineers": 2
+        },
+        "B-RT": {
+          "status": "Dormant",
+          "progress_pct": 0,
+          "owner": "Kael Jensen",
+          "engineers": 0
+        }
+      },
+      "milestone_history": [
+        {
+          "name": "Core endpoints implemented",
+          "date": "2026-04-15",
+          "progress_pct": 40
+        },
+        {
+          "name": "Database migrations complete",
+          "date": "2026-04-18",
+          "progress_pct": 50
+        }
+      ],
+      "performance_metrics": {
+        "endpoints_implemented": 18,
+        "endpoints_tested": 16,
+        "migration_status": "complete",
+        "load_test_p99_ms": 145,
+        "error_rate_pct": 0.02,
+        "contract_coverage_pct": 94
+      },
+      "variance_tracking": {
+        "B-API": {
+          "estimated_pct": 70,
+          "actual_pct": 75,
+          "variance": "+5%",
+          "status": "ahead"
+        },
+        "B-DATA": {
+          "estimated_pct": 55,
+          "actual_pct": 50,
+          "variance": "-5%",
+          "status": "on-track"
+        },
+        "B-RT": {
+          "estimated_pct": 0,
+          "actual_pct": 0,
+          "variance": "0%",
+          "status": "dormant"
+        }
+      },
+      "security_state": {
+        "rate_limiting": "configured",
+        "input_validation": "implemented",
+        "authz_enforcement": "verified",
+        "cors_policy": "configured",
+        "api_key_rotation": "scheduled",
+        "network_isolation": "configured"
+      },
+      "api_design_conformance_review": {
+        "openapi_spec_matches_implementation": true,
+        "undocumented_endpoints": 0,
+        "undocumented_fields": 0,
+        "status": "pass"
+      },
+      "string_extraction_readiness": {
+        "audit_completed": false,
+        "error_messages_audited": true,
+        "hardcoded_strings_found": 3,
+        "threshold_pct": 5,
+        "status": "pending"
+      },
+      "timestamp": "2026-04-20T14:30:00Z",
+      "session_id": "session-20260420-143000"
     }
-  ],
-  "performance_metrics": {
-    "endpoints_implemented": 18,
-    "endpoints_tested": 16,
-    "migration_status": "complete",
-    "load_test_p99_ms": 145,
-    "error_rate_pct": 0.02,
-    "contract_coverage_pct": 94
-  },
-  "variance_tracking": {
-    "B-API": {
-      "estimated_pct": 70,
-      "actual_pct": 75,
-      "variance": "+5%",
-      "status": "ahead"
-    },
-    "B-DATA": {
-      "estimated_pct": 55,
-      "actual_pct": 50,
-      "variance": "-5%",
-      "status": "on-track"
-    },
-    "B-RT": {
-      "estimated_pct": 0,
-      "actual_pct": 0,
-      "variance": "0%",
-      "status": "dormant"
-    }
-  },
-  "security_state": {
-    "rate_limiting": "configured",
-    "input_validation": "implemented",
-    "authz_enforcement": "verified",
-    "cors_policy": "configured",
-    "api_key_rotation": "scheduled",
-    "network_isolation": "configured"
-  },
-  "api_design_conformance_review": {
-    "openapi_spec_matches_implementation": true,
-    "undocumented_endpoints": 0,
-    "undocumented_fields": 0,
-    "status": "pass"
-  },
-  "string_extraction_readiness": {
-    "audit_completed": false,
-    "error_messages_audited": true,
-    "hardcoded_strings_found": 3,
-    "threshold_pct": 5,
-    "status": "pending"
-  },
-  "timestamp": "2026-04-20T14:30:00Z",
-  "session_id": "session-20260420-143000"
+  ]
 }
 ```
 

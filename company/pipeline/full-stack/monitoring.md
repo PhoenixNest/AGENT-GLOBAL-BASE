@@ -10,7 +10,9 @@
 
 ## Overview
 
-This monitoring system is specialized for the Full-Stack Cross-Platform Pipeline. It follows the three-layer monitoring architecture (PROGRESS.md, session logs, checkpoint JSON) with cross-platform-specific fields, metrics, and recovery procedures.
+This monitoring system is specialized for the Full-Stack Cross-Platform Pipeline. It follows the three-layer monitoring architecture (`progress.md`, `session-log.md`, `checkpoint.json`) with cross-platform-specific fields, metrics, and recovery procedures.
+
+These three files are stored locally and never pushed to a remote repository, and a branch that holds them stays local.
 
 ### Why Standardized Monitoring Structure?
 
@@ -18,7 +20,7 @@ The three-layer monitoring architecture is shared across ALL company pipelines (
 
 | Aspect                 | Why It's Standardized                                                                           | Why Content Differs                                                                                                                                   |
 | ---------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Three-layer structure  | Industry standard (Google SRE, Amazon Ops) — consistent tracking across all engineering domains | Each layer's **content** is platform-specific: PROGRESS.md has 4-track structure, checkpoint.json has parity metrics + per-platform readiness         |
+| Three-layer structure  | Industry standard (Google SRE, Amazon Ops) — consistent tracking across all engineering domains | Each layer's **content** is platform-specific: progress.md has 4-track structure, checkpoint.json has parity metrics + per-platform readiness         |
 | Session log format     | Universal audit trail convention — date/objectives/accomplishments are domain-agnostic          | Session **objectives** differ: full-stack tracks cross-platform integration/parity testing/release coordination; web tracks component development/SEO |
 | Checkpoint JSON schema | Consistent machine-readable milestone format enables cross-pipeline reporting                   | **Fields** differ: full-stack tracks `feature_parity_pct`/`web_deployed`/`ios_submitted`/`android_submitted`; backend tracks `load_test_p99_ms`       |
 
@@ -26,12 +28,12 @@ This structure mirrors how leading technology companies (Google, Meta, Amazon) m
 
 ---
 
-## Layer 1: PROGRESS.md (Real-Time State)
+## Layer 1: progress.md (Real-Time State)
 
 ### Location
 
 ```
-company/project/<project-name>/PROGRESS.md
+company/project/<project-name>/progress.md
 ```
 
 ### Full-Stack-Specific Fields
@@ -83,8 +85,10 @@ Overall: 55%
 ### Location
 
 ```
-company/project/<project-name>/sessions/session-<YYYYMMDD>-<HHMMSS>.md
+company/project/<project-name>/session-log.md
 ```
+
+One `session-log.md` file per project. One dated entry (`## Session: session-<YYYYMMDD>-<HHMMSS>`) is appended per session, and entries are never edited.
 
 ### Full-Stack-Specific Session Objectives
 
@@ -104,133 +108,139 @@ company/project/<project-name>/sessions/session-<YYYYMMDD>-<HHMMSS>.md
 ### Location
 
 ```
-company/project/<project-name>/checkpoints/stage<N>-<status>.json
+company/project/<project-name>/checkpoint.json
 ```
+
+One `checkpoint.json` file per project, beside `progress.md` and `session-log.md`. It holds a `checkpoints` array, and one entry is appended per checkpoint.
 
 ### Full-Stack-Specific Checkpoint Schema
 
 ```json
 {
-  "pipeline_type": "full-stack",
-  "stage": 5,
-  "status": "in-progress",
-  "progress_pct": 55,
-  "platform_combination": "web + iOS + Android + API",
-  "track_breakdown": {
-    "FS-WFE": {
-      "status": "FULL",
-      "progress_pct": 70,
-      "owner": "Amira Voss",
-      "engineers": 4
-    },
-    "FS-WBE": {
-      "status": "FULL",
-      "progress_pct": 60,
-      "owner": "Dev Malhotra",
-      "engineers": 3
-    },
-    "FS-MOB": {
-      "status": "FULL",
-      "progress_pct": 45,
-      "owner": "Marcus Andersson",
-      "engineers": 13
-    },
-    "FS-INT": {
-      "status": "FULL",
-      "progress_pct": 40,
-      "owner": "Elena Vasquez",
-      "engineers": 3
-    }
-  },
-  "milestone_history": [
+  "checkpoints": [
     {
-      "name": "Web frontend components complete",
-      "date": "2026-04-15",
-      "progress_pct": 35
-    },
-    {
-      "name": "Backend API core endpoints live",
-      "date": "2026-04-18",
-      "progress_pct": 45
-    }
-  ],
-  "performance_metrics": {
-    "web_deployed": false,
-    "mobile_submitted": false,
-    "backend_live": true,
-    "feature_parity_pct": 88,
-    "shared_api_contract_pass": 95,
-    "cross_platform_e2e_pass": 82
-  },
-  "variance_tracking": {
-    "FS-WFE": {
-      "estimated_pct": 65,
-      "actual_pct": 70,
-      "variance": "+5%",
-      "status": "ahead"
-    },
-    "FS-WBE": {
-      "estimated_pct": 60,
-      "actual_pct": 60,
-      "variance": "0%",
-      "status": "on-track"
-    },
-    "FS-MOB": {
-      "estimated_pct": 50,
-      "actual_pct": 45,
-      "variance": "-5%",
-      "status": "on-track"
-    },
-    "FS-INT": {
-      "estimated_pct": 45,
-      "actual_pct": 40,
-      "variance": "-5%",
-      "status": "on-track"
-    }
-  },
-  "security_state": {
-    "web": { "xss_prevention": "implemented", "csp_headers": "configured" },
-    "mobile": {
-      "masvs_compliance": "in-progress",
-      "certificate_pinning": "implemented"
-    },
-    "backend": {
-      "rate_limiting": "configured",
-      "authz_enforcement": "verified"
-    },
-    "cross_platform_auth_parity": "verified"
-  },
-  "design_fidelity_checkpoint": {
-    "completion_pct": 60,
-    "pass_rate": 91,
-    "status": "pass",
-    "platform_breakdown": { "web": 94, "ios": 90, "android": 89 },
-    "remediation_items": ["Android navigation animation timing", "iOS font weight rendering"]
-  },
-  "string_extraction_readiness": {
-    "audit_completed": false,
-    "unified_key_index_csv_parity": true,
-    "hardcoded_strings_found": 15,
-    "threshold_pct": 5,
-    "status": "pending"
-  },
-  "cross_platform_parity": {
-    "feature_coverage": { "web": 95, "ios": 88, "android": 86 },
-    "parity_gaps": [
-      {
-        "feature": "Push notifications",
-        "platforms_missing": ["web"],
-        "severity": "P2"
+      "pipeline_type": "full-stack",
+      "stage": 5,
+      "status": "in-progress",
+      "progress_pct": 55,
+      "platform_combination": "web + iOS + Android + API",
+      "track_breakdown": {
+        "FS-WFE": {
+          "status": "FULL",
+          "progress_pct": 70,
+          "owner": "Amira Voss",
+          "engineers": 4
+        },
+        "FS-WBE": {
+          "status": "FULL",
+          "progress_pct": 60,
+          "owner": "Dev Malhotra",
+          "engineers": 3
+        },
+        "FS-MOB": {
+          "status": "FULL",
+          "progress_pct": 45,
+          "owner": "Marcus Andersson",
+          "engineers": 13
+        },
+        "FS-INT": {
+          "status": "FULL",
+          "progress_pct": 40,
+          "owner": "Elena Vasquez",
+          "engineers": 3
+        }
       },
-      {
-        "feature": "Offline mode",
-        "platforms_missing": ["web"],
-        "severity": "P3"
-      }
-    ]
-  },
-  "timestamp": "2026-04-20T14:30:00Z",
-  "session_id": "session-20260420-143000"
+      "milestone_history": [
+        {
+          "name": "Web frontend components complete",
+          "date": "2026-04-15",
+          "progress_pct": 35
+        },
+        {
+          "name": "Backend API core endpoints live",
+          "date": "2026-04-18",
+          "progress_pct": 45
+        }
+      ],
+      "performance_metrics": {
+        "web_deployed": false,
+        "mobile_submitted": false,
+        "backend_live": true,
+        "feature_parity_pct": 88,
+        "shared_api_contract_pass": 95,
+        "cross_platform_e2e_pass": 82
+      },
+      "variance_tracking": {
+        "FS-WFE": {
+          "estimated_pct": 65,
+          "actual_pct": 70,
+          "variance": "+5%",
+          "status": "ahead"
+        },
+        "FS-WBE": {
+          "estimated_pct": 60,
+          "actual_pct": 60,
+          "variance": "0%",
+          "status": "on-track"
+        },
+        "FS-MOB": {
+          "estimated_pct": 50,
+          "actual_pct": 45,
+          "variance": "-5%",
+          "status": "on-track"
+        },
+        "FS-INT": {
+          "estimated_pct": 45,
+          "actual_pct": 40,
+          "variance": "-5%",
+          "status": "on-track"
+        }
+      },
+      "security_state": {
+        "web": { "xss_prevention": "implemented", "csp_headers": "configured" },
+        "mobile": {
+          "masvs_compliance": "in-progress",
+          "certificate_pinning": "implemented"
+        },
+        "backend": {
+          "rate_limiting": "configured",
+          "authz_enforcement": "verified"
+        },
+        "cross_platform_auth_parity": "verified"
+      },
+      "design_fidelity_checkpoint": {
+        "completion_pct": 60,
+        "pass_rate": 91,
+        "status": "pass",
+        "platform_breakdown": { "web": 94, "ios": 90, "android": 89 },
+        "remediation_items": ["Android navigation animation timing", "iOS font weight rendering"]
+      },
+      "string_extraction_readiness": {
+        "audit_completed": false,
+        "unified_key_index_csv_parity": true,
+        "hardcoded_strings_found": 15,
+        "threshold_pct": 5,
+        "status": "pending"
+      },
+      "cross_platform_parity": {
+        "feature_coverage": { "web": 95, "ios": 88, "android": 86 },
+        "parity_gaps": [
+          {
+            "feature": "Push notifications",
+            "platforms_missing": ["web"],
+            "severity": "P2"
+          },
+          {
+            "feature": "Offline mode",
+            "platforms_missing": ["web"],
+            "severity": "P3"
+          }
+        ]
+      },
+      "timestamp": "2026-04-20T14:30:00Z",
+      "session_id": "session-20260420-143000"
+    }
+  ]
 }
 ```
 

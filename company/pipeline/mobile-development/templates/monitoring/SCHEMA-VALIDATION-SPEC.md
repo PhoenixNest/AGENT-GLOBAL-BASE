@@ -1,4 +1,4 @@
-﻿# Schema Validation Specification — Automated Gate Enforcement
+# Schema Validation Specification — Automated Gate Enforcement
 
 > **Addresses Gap:** Automated enforcement of JSON schema contracts
 
@@ -92,9 +92,7 @@ When validation runs, it produces a result in this format:
       "actual": "value"
     }
   ],
-  "warnings": [
-    { "rule": "V-NNN", "field": "field.path", "message": "Advisory text" }
-  ]
+  "warnings": [{ "rule": "V-NNN", "field": "field.path", "message": "Advisory text" }]
 }
 ```
 
@@ -138,7 +136,7 @@ This prevents the "constraint amnesia" anti-pattern where security or architectu
 | Validation Result          | Action                                              |
 | :------------------------- | :-------------------------------------------------- |
 | All pass                   | Stage advances normally                             |
-| Warnings only              | Stage advances; warnings logged in PROGRESS.md      |
+| Warnings only              | Stage advances; warnings logged in progress.md      |
 | 1+ Blockers                | Stage blocked; error list sent to stage owner       |
 | 3+ consecutive rejections  | Auto-escalate to CTO via Escalation Message         |
 | V-005 constraint violation | Auto-escalate to CTO + CSO (potential security gap) |

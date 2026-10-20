@@ -368,45 +368,45 @@ This document defines the **complete game studio workflow** from concept through
 
 **Purpose:** Continuous post-launch content delivery, economy management, and player engagement.
 
-| Element                                   | Detail                                                                                                                                 |
+| Element | Detail |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | -------------------------- |
-| **Owners**                                | Live Ops Product Manager + Game Director                                                                                               |
-| **Artifacts In**                          | Live game, player analytics, community feedback                                                                                        |
-| **Artifacts Out**                         |                                                                                                                                        |
-| └ Live Ops Calendar                       | Quarterly planning, monthly adjustment; events, seasons, battle passes, content drops                                                  |
-| └ Event Design Briefs                     | Per-event PRD-lite format                                                                                                              |
-| └ Economy Balance Reports                 | Weekly monitoring of currency sinks/sources, inflation control                                                                         |
-| └ Content Pipeline Tracker                | What's in production, what's live, what's retired                                                                                      |
-| └ Player Health Dashboard                 | Retention, revenue, sentiment tracking                                                                                                 |
-| **Two-Speed Pipeline**                    |                                                                                                                                        |
-| └ Content Track (fast)                    | New levels, characters, cosmetics, events. Weekly–biweekly cadence. Light review (Game Director + CDO sign-off).                       |
-| └ Feature Track (standard)                | New game modes, systems, monetization features, UI overhauls. Monthly–quarterly cadence. Full gate review (same as pre-launch stages). |
-| **Tiered Security Model**                 |                                                                                                                                        |
-| └ Tier 1 (Content only)                   | Asset security review only                                                                                                             |
-| └ Tier 2 (Feature update)                 | Code review + security regression testing                                                                                              |
-| └ Tier 3 (System change)                  | Full security gate: SRD amendment, pen test, platform compliance re-verification                                                       |
-| └ Tier 4 (Emergency hotfix)               | Expedited review; security regression within 72 hours                                                                                  |
-| **Ongoing Requirements**                  |                                                                                                                                        |
-| └ Quarterly Threat Assessment             | Emerging game-specific threats (cheat tools, economy exploits, SDK vulnerabilities)                                                    |
-| └ Annual Penetration Test                 | Full pen test regardless of update cadence                                                                                             |
-| └ Incident Response Plan                  | Documented and tested for security breaches, economy exploits, cheat outbreaks                                                         |
-| **Gate: Quarterly Business Review (QBR)** |                                                                                                                                        |
-|                                           | **Metric**                                                                                                                             | **Threshold**                                               | **Consequence**            |
-|                                           | MAU trend                                                                                                                              | ≥ flat QoQ                                                  | Pass                       |
-|                                           | MAU trend                                                                                                                              | Declining > 10% QoQ                                         | Warning — remediation plan |
-|                                           | MAU trend                                                                                                                              | Declining > 25% QoQ × 2 quarters                            | Sunset review initiated    |
-|                                           | Revenue per MAU                                                                                                                        | Stable or growing                                           | Pass                       |
-|                                           | Revenue per MAU                                                                                                                        | Declining > 15% QoQ                                         | Monetization redesign      |
-|                                           | Content consumption                                                                                                                    | ≥ 80% of new content within 14 days                         | Pass                       |
-|                                           | Content consumption                                                                                                                    | < 50% of new content within 14 days                         | Content strategy review    |
-|                                           | Community sentiment                                                                                                                    | ≥ 70% positive/neutral                                      | Pass                       |
-|                                           | Community sentiment                                                                                                                    | < 50% positive                                              | Crisis protocol            |
-| **QBR Outcomes**                          |                                                                                                                                        |
-| └ Full Investment                         | All metrics green                                                                                                                      | Continue live ops at current or increased budget            |
-| └ Maintenance Mode                        | MAU declining but revenue stable                                                                                                       | Reduce content cadence, maintain core ops                   |
-| └ Sunset                                  | MAU declining > 25% × 2 quarters AND revenue declining                                                                                 | Announce sunset (90-day timeline), cease content production |
-| **User Approval**                         | Not required per cycle; user reviews QBR outcomes                                                                                      |
-| **Duration**                              | Continuous — ends at sunset decision                                                                                                   |
+| **Owners** | Live Ops Product Manager + Game Director |
+| **Artifacts In** | Live game, player analytics, community feedback |
+| **Artifacts Out** | |
+| └ Live Ops Calendar | Quarterly planning, monthly adjustment; events, seasons, battle passes, content drops |
+| └ Event Design Briefs | Per-event PRD-lite format |
+| └ Economy Balance Reports | Weekly monitoring of currency sinks/sources, inflation control |
+| └ Content Pipeline Tracker | What's in production, what's live, what's retired |
+| └ Player Health Dashboard | Retention, revenue, sentiment tracking |
+| **Two-Speed Pipeline** | |
+| └ Content Track (fast) | New levels, characters, cosmetics, events. Weekly–biweekly cadence. Light review (Game Director + CDO sign-off). |
+| └ Feature Track (standard) | New game modes, systems, monetization features, UI overhauls. Monthly–quarterly cadence. Full gate review (same as pre-launch stages). |
+| **Tiered Security Model** | |
+| └ Tier 1 (Content only) | Asset security review only |
+| └ Tier 2 (Feature update) | Code review + security regression testing |
+| └ Tier 3 (System change) | Full security gate: SRD amendment, pen test, platform compliance re-verification |
+| └ Tier 4 (Emergency hotfix) | Expedited review; security regression within 72 hours |
+| **Ongoing Requirements** | |
+| └ Quarterly Threat Assessment | Emerging game-specific threats (cheat tools, economy exploits, SDK vulnerabilities) |
+| └ Annual Penetration Test | Full pen test regardless of update cadence |
+| └ Incident Response Plan | Documented and tested for security breaches, economy exploits, cheat outbreaks |
+| **Gate: Quarterly Business Review (QBR)** | |
+| | **Metric** | **Threshold** | **Consequence** |
+| | MAU trend | ≥ flat QoQ | Pass |
+| | MAU trend | Declining > 10% QoQ | Warning — remediation plan |
+| | MAU trend | Declining > 25% QoQ × 2 quarters | Sunset review initiated |
+| | Revenue per MAU | Stable or growing | Pass |
+| | Revenue per MAU | Declining > 15% QoQ | Monetization redesign |
+| | Content consumption | ≥ 80% of new content within 14 days | Pass |
+| | Content consumption | < 50% of new content within 14 days | Content strategy review |
+| | Community sentiment | ≥ 70% positive/neutral | Pass |
+| | Community sentiment | < 50% positive | Crisis protocol |
+| **QBR Outcomes** | |
+| └ Full Investment | All metrics green | Continue live ops at current or increased budget |
+| └ Maintenance Mode | MAU declining but revenue stable | Reduce content cadence, maintain core ops |
+| └ Sunset | MAU declining > 25% × 2 quarters AND revenue declining | Announce sunset (90-day timeline), cease content production |
+| **User Approval** | Not required per cycle; user reviews QBR outcomes |
+| **Duration** | Continuous — ends at sunset decision |
 
 ---
 
@@ -477,7 +477,7 @@ Regardless of organizational independence, these six security gates are mandator
 
 ## 8. Parent Company Pipeline Mapping
 
-For PROGRESS.md compatibility and executive reporting, game studio stages map to parent company stages as follows:
+For progress.md compatibility and executive reporting, game studio stages map to parent company stages as follows:
 
 | Game Studio Stage | Parent Company Stage            | Notes                                                  |
 | ----------------- | ------------------------------- | ------------------------------------------------------ |

@@ -19,11 +19,13 @@ This system is **mandatory** for all projects from Stage 4 onward, where develop
 
 The system comprises **three layers**:
 
-| Layer       | Component            | Purpose                            | Update Frequency   |
-| ----------- | -------------------- | ---------------------------------- | ------------------ |
-| **Layer 1** | `progress.md`        | Real-time pipeline state           | Every milestone    |
-| **Layer 2** | `sessions/*.md`      | Detailed session audit trail       | Per session        |
-| **Layer 3** | `checkpoints/*.json` | Machine-readable milestone markers | At each checkpoint |
+| Layer       | Component         | Purpose                            | Update Frequency   |
+| ----------- | ----------------- | ---------------------------------- | ------------------ |
+| **Layer 1** | `progress.md`     | Real-time pipeline state           | Every milestone    |
+| **Layer 2** | `session-log.md`  | Detailed session audit trail       | Per session        |
+| **Layer 3** | `checkpoint.json` | Machine-readable milestone markers | At each checkpoint |
+
+Each is a single file per project. These three files are stored locally and never pushed to a remote repository, and a branch that holds them stays local.
 
 ---
 
@@ -213,17 +215,19 @@ Overall: 65%
 ### Location
 
 ```
-company/project/<project-name>/sessions/<session-id>.md
+company/project/<project-name>/session-log.md
 ```
 
 ### Purpose
 
-Detailed log of each work session for audit, recovery, and continuous improvement. Creates a complete historical record of all work performed.
+Detailed log of each work session for audit, recovery, and continuous improvement. One `session-log.md` file per project holds a complete historical record of all work performed. One dated entry is appended per session, and entries are never edited.
 
 ### Structure
 
+Each entry below is appended to the end of `session-log.md`, separated from the previous entry by a horizontal rule.
+
 ```markdown
-# Session: <session-id>
+## Session: <session-id>
 
 **Date:** <YYYY-MM-DD>  
 **Start Time:** <HH:MM:SS UTC>  
@@ -298,12 +302,14 @@ session-YYYYMMDD-HHMMSS
 
 ### Session Lifecycle
 
-| Phase                 | Action                                                   |
-| --------------------- | -------------------------------------------------------- |
-| **Start**             | Create session log file with header + objectives         |
-| **During**            | Update Activities table in real-time                     |
-| **End (normal)**      | Complete all sections, mark End Time                     |
-| **End (interrupted)** | Fill Interruption Recovery section, leave End Time blank |
+| Phase                 | Action                                                                |
+| --------------------- | --------------------------------------------------------------------- |
+| **Start**             | Append a new entry to `session-log.md` with header + objectives       |
+| **During**            | Update the current entry's Activities table in real-time              |
+| **End (normal)**      | Complete all sections of the entry, mark End Time                     |
+| **End (interrupted)** | Fill Interruption Recovery section of the entry, leave End Time blank |
+
+Once a session ends, its entry is not edited; later sessions append new entries.
 
 ---
 
@@ -312,122 +318,126 @@ session-YYYYMMDD-HHMMSS
 ### Location
 
 ```
-company/project/<project-name>/checkpoints/<stage>-<milestone>.json
+company/project/<project-name>/checkpoint.json
 ```
 
 ### Purpose
 
-Machine-readable checkpoint for automated recovery, progress queries, and integration with tooling. Enables programmatic state assessment.
+Machine-readable checkpoints for automated recovery, progress queries, and integration with tooling. One `checkpoint.json` file per project, beside `progress.md` and `session-log.md`, holds a `checkpoints` array; one entry is appended per checkpoint. Enables programmatic state assessment.
 
 ### Structure
 
 ```json
 {
-  "checkpoint_id": "<stage>-<milestone-name>",
-  "stage": <N>,
-  "milestone": "<Human-readable milestone name>",
-  "timestamp": "<ISO 8601 timestamp>",
-  "session_id": "<session-YYYYMMDD-HHMMSS>",
-  "platform_strategy": "<Android-only | iOS-only | Both Native | KMP Cross-Platform | Flutter Cross-Platform>",
-  "platform_breakdown": {
-    "track_a_android": {
-      "status": "<FULL | LIGHT | Dormant | N/A>",
-      "progress_percent": <XX>,
-      "lead": "<Name>",
-      "engineers_assigned": <N>,
-      "engineers_active": <N>,
-      "blockers": ["<Blocker description or empty array>"]
-    },
-    "track_b_ios": {
-      "status": "<FULL | LIGHT | Dormant | N/A>",
-      "progress_percent": <XX>,
-      "lead": "<Name>",
-      "engineers_assigned": <N>,
-      "engineers_active": <N>,
-      "blockers": ["<Blocker description or empty array>"]
-    },
-    "track_c_cross_platform": {
-      "status": "<PRIMARY | Dormant | N/A>",
-      "technology": "<KMP | Flutter | N/A>",
-      "progress_percent": <XX>,
-      "lead": "<Name>",
-      "engineers_assigned": <N>,
-      "engineers_active": <N>,
-      "blockers": ["<Blocker description or empty array>"]
-    }
-  },
-  "artifacts": [
-    "relative/path/to/artifact1.md",
-    "relative/path/to/artifact2.html"
-  ],
-  "gate_criteria": {
-    "<criterion_1>": true,
-    "<criterion_2>": false,
-    "<criterion_3>": true
-  },
-  "resume_point": {
-    "next_task": "<Description of next task>",
-    "file_to_open": "relative/path/to/file.ext",
-    "section": "<Section name or line number>",
-    "context": "<Additional context for resumption>"
-  },
-  "metrics": {
-    "stage_progress_percent": <XX>,
-    "total_time_spent_min": <YY>,
-    "tasks_completed": <ZZ>,
-    "tasks_remaining": <WW>
-  },
-  "security_state": {
-    "srd_compliance_percent": <XX>,
-    "masvs_categories_compliant": ["AUTH", "STORAGE", "CRYPTO", "NETWORK", "PLATFORM", "RESILIENCE"],
-    "open_security_findings": {
-      "p0": <N>,
-      "p1": <N>,
-      "p2": <N>,
-      "p3": <N>
-    },
-    "sast_findings": {
-      "android": {"p0": 0, "p1": 0, "p2": <N>},
-      "ios": {"p0": 0, "p1": 0, "p2": <N>}
-    },
-    "dependency_vulnerabilities": {
-      "critical": 0,
-      "high": <N>,
-      "medium": <N>
-    },
-    "pen_test_status": "<Not Started | In progress | Complete | Failed>",
-    "dast_status": "<Not Started | In progress | Complete | Failed>"
-  },
-  "technology_state": {
-    "adr_compliance": {
-      "ADR-NNN Platform Strategy": "<Compliant | Deviation | N/A>",
-      "ADR-NNN String Key Taxonomy": "<Compliant | Deviation | N/A>",
-      "ADR-NNN Security Crypto": "<Compliant | Deviation | N/A>",
-      "ADR-NNN Security Storage": "<Compliant | Deviation | N/A>",
-      "ADR-NNN Security Pinning": "<Compliant | Deviation | N/A>",
-      "ADR-NNN Security Platform": "<Compliant | Deviation | N/A>"
-    },
-    "tsd_technology_versions": {
-      "android_networking": "[library + version]",
-      "ios_networking": "[library + version]",
-      "android_storage": "[library + version]",
-      "ios_storage": "[library + version]"
-    },
-    "open_technology_exceptions": <N>
-  },
-  "risks": [
+  "checkpoints": [
     {
-      "description": "<Risk description>",
-      "severity": "<Low | Medium | High>",
-      "mitigation": "<Plan>"
-    }
-  ],
-  "milestone_history": [
-    {
-      "milestone": "<Milestone name>",
-      "timestamp": "<ISO 8601>",
-      "progress_percent": <XX>,
-      "session_id": "<session-YYYYMMDD-HHMMSS>"
+      "checkpoint_id": "<stage>-<milestone-name>",
+      "stage": <N>,
+      "milestone": "<Human-readable milestone name>",
+      "timestamp": "<ISO 8601 timestamp>",
+      "session_id": "<session-YYYYMMDD-HHMMSS>",
+      "platform_strategy": "<Android-only | iOS-only | Both Native | KMP Cross-Platform | Flutter Cross-Platform>",
+      "platform_breakdown": {
+        "track_a_android": {
+          "status": "<FULL | LIGHT | Dormant | N/A>",
+          "progress_percent": <XX>,
+          "lead": "<Name>",
+          "engineers_assigned": <N>,
+          "engineers_active": <N>,
+          "blockers": ["<Blocker description or empty array>"]
+        },
+        "track_b_ios": {
+          "status": "<FULL | LIGHT | Dormant | N/A>",
+          "progress_percent": <XX>,
+          "lead": "<Name>",
+          "engineers_assigned": <N>,
+          "engineers_active": <N>,
+          "blockers": ["<Blocker description or empty array>"]
+        },
+        "track_c_cross_platform": {
+          "status": "<PRIMARY | Dormant | N/A>",
+          "technology": "<KMP | Flutter | N/A>",
+          "progress_percent": <XX>,
+          "lead": "<Name>",
+          "engineers_assigned": <N>,
+          "engineers_active": <N>,
+          "blockers": ["<Blocker description or empty array>"]
+        }
+      },
+      "artifacts": [
+        "relative/path/to/artifact1.md",
+        "relative/path/to/artifact2.html"
+      ],
+      "gate_criteria": {
+        "<criterion_1>": true,
+        "<criterion_2>": false,
+        "<criterion_3>": true
+      },
+      "resume_point": {
+        "next_task": "<Description of next task>",
+        "file_to_open": "relative/path/to/file.ext",
+        "section": "<Section name or line number>",
+        "context": "<Additional context for resumption>"
+      },
+      "metrics": {
+        "stage_progress_percent": <XX>,
+        "total_time_spent_min": <YY>,
+        "tasks_completed": <ZZ>,
+        "tasks_remaining": <WW>
+      },
+      "security_state": {
+        "srd_compliance_percent": <XX>,
+        "masvs_categories_compliant": ["AUTH", "STORAGE", "CRYPTO", "NETWORK", "PLATFORM", "RESILIENCE"],
+        "open_security_findings": {
+          "p0": <N>,
+          "p1": <N>,
+          "p2": <N>,
+          "p3": <N>
+        },
+        "sast_findings": {
+          "android": {"p0": 0, "p1": 0, "p2": <N>},
+          "ios": {"p0": 0, "p1": 0, "p2": <N>}
+        },
+        "dependency_vulnerabilities": {
+          "critical": 0,
+          "high": <N>,
+          "medium": <N>
+        },
+        "pen_test_status": "<Not Started | In progress | Complete | Failed>",
+        "dast_status": "<Not Started | In progress | Complete | Failed>"
+      },
+      "technology_state": {
+        "adr_compliance": {
+          "ADR-NNN Platform Strategy": "<Compliant | Deviation | N/A>",
+          "ADR-NNN String Key Taxonomy": "<Compliant | Deviation | N/A>",
+          "ADR-NNN Security Crypto": "<Compliant | Deviation | N/A>",
+          "ADR-NNN Security Storage": "<Compliant | Deviation | N/A>",
+          "ADR-NNN Security Pinning": "<Compliant | Deviation | N/A>",
+          "ADR-NNN Security Platform": "<Compliant | Deviation | N/A>"
+        },
+        "tsd_technology_versions": {
+          "android_networking": "[library + version]",
+          "ios_networking": "[library + version]",
+          "android_storage": "[library + version]",
+          "ios_storage": "[library + version]"
+        },
+        "open_technology_exceptions": <N>
+      },
+      "risks": [
+        {
+          "description": "<Risk description>",
+          "severity": "<Low | Medium | High>",
+          "mitigation": "<Plan>"
+        }
+      ],
+      "milestone_history": [
+        {
+          "milestone": "<Milestone name>",
+          "timestamp": "<ISO 8601>",
+          "progress_percent": <XX>,
+          "session_id": "<session-YYYYMMDD-HHMMSS>"
+        }
+      ]
     }
   ]
 }
@@ -435,27 +445,26 @@ Machine-readable checkpoint for automated recovery, progress queries, and integr
 
 ### Checkpoint Triggers
 
-| Stage | Checkpoint File                 | Milestone                                           |
-| ----- | ------------------------------- | --------------------------------------------------- |
-| 1     | `stage1-gate-approved.json`     | PRD + SRD complete, user approved                   |
-| 2     | `stage2-gate-approved.json`     | Prototype + IDS complete, user approved             |
-| 3     | `stage3-gate-approved.json`     | UML + ADRs + TSD complete, user approved            |
-| 4     | `stage4-gate-approved.json`     | Implementation Plan + Gantt complete, user approved |
-| 5     | `stage5-gate-approved.json`     | Development complete, CTO internal review passed    |
-| 6     | `stage6-gate-approved.json`     | Defects remediated, panel sign-off complete         |
-| 7     | `stage7-gate-approved.json`     | Test suite complete, 100% pass rate                 |
-| 8     | `stage8-gate-approved.json`     | Integrity verification sign-off                     |
-| 9     | `stage9-gate-approved.json`     | Localization complete, CTO-L report issued          |
-| 10    | `stage10-release-decision.json` | Release checklist complete, user release decision   |
+| Stage | Checkpoint ID              | Milestone                                           |
+| ----- | -------------------------- | --------------------------------------------------- |
+| 1     | `stage1-gate-approved`     | PRD + SRD complete, user approved                   |
+| 2     | `stage2-gate-approved`     | Prototype + IDS complete, user approved             |
+| 3     | `stage3-gate-approved`     | UML + ADRs + TSD complete, user approved            |
+| 4     | `stage4-gate-approved`     | Implementation Plan + Gantt complete, user approved |
+| 5     | `stage5-gate-approved`     | Development complete, CTO internal review passed    |
+| 6     | `stage6-gate-approved`     | Defects remediated, panel sign-off complete         |
+| 7     | `stage7-gate-approved`     | Test suite complete, 100% pass rate                 |
+| 8     | `stage8-gate-approved`     | Integrity verification sign-off                     |
+| 9     | `stage9-gate-approved`     | Localization complete, CTO-L report issued          |
+| 10    | `stage10-release-decision` | Release checklist complete, user release decision   |
 
-**File Naming Convention:**
+**Checkpoint ID Convention:**
 
-- **During stage:** `stage<N>-in-progress.json` (updated at each milestone)
-- **Gate review:** `stage<N>-gate-review.json` (ready for panel)
-- **Approved:** `stage<N>-gate-approved.json` (user approved, stage complete)
+- **During stage:** `stage<N>-in-progress` (a new entry appended at each milestone)
+- **Gate review:** `stage<N>-gate-review` (ready for panel)
+- **Approved:** `stage<N>-gate-approved` (user approved, stage complete)
 
-**Milestone History:** Each checkpoint file contains a `milestone_history` array tracking all key milestones within that stage, eliminating the need for multiple checkpoint files per stage.
-
+**Milestone History:** Each entry in the `checkpoints` array contains a `milestone_history` array tracking all key milestones within that stage. The latest entry in `checkpoints` is the current state.
 ---
 
 ## Recovery Protocol
@@ -473,15 +482,15 @@ Machine-readable checkpoint for automated recovery, progress queries, and integr
 **Step 2: Read Latest Session Log**
 
 ```
-→ Open sessions/<session-id>.md
-→ Review "Interruption Recovery" section
+→ Open the last entry in company/project/<project-name>/session-log.md
+→ Review its "Interruption Recovery" section
 → Understand what was in progress
 ```
 
 **Step 3: Read Latest Checkpoint JSON**
 
 ```
-→ Open checkpoints/latest-*.json
+→ Open the last entry in the checkpoints array of company/project/<project-name>/checkpoint.json
 → Parse machine-readable resume_point
 → Get exact file and section to resume
 ```
@@ -505,12 +514,12 @@ INTERRUPTION DETECTED
    → Session ID: session-20260401-143000
    → In progress: Enhanced IDS document
 
-2. Agent reads: sessions/session-20260401-143000.md
+2. Agent reads: the session-20260401-143000 entry in company/project/android-todos-app/session-log.md
    → Last completed: Prototype v2 build
    → In progress: IDS sections 4-6
    → Resume: "Complete sections 4-6 (Gesture Vocabulary, State Diagrams, Edge Cases)"
 
-3. Agent reads: checkpoints/stage2-ids-draft.json
+3. Agent reads: the stage2-ids-draft entry in company/project/android-todos-app/checkpoint.json
    → resume_point.file_to_open: "design/interaction-specs/v1/draft/IDS.md"
    → resume_point.section: "4. Gesture Vocabulary"
 
@@ -518,7 +527,7 @@ INTERRUPTION DETECTED
    → Opens IDS.md
    → Navigates to section 4
    → Continues writing
-   → Creates new session: session-20260401-160000
+   → Appends a new entry to session-log.md: session-20260401-160000
    → Updates progress.md
 ```
 
@@ -532,12 +541,12 @@ Active from **Stage 4 onward** (Implementation Planning through Release).
 
 ### Monitoring Rules
 
-| Rule                       | Threshold                                       | Action                                                                  |
-| -------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
-| **Task Duration Variance** | Actual > Estimated × 1.2 (20% overrun)          | CTO → CPO notification                                                  |
-| **Per-Platform Variance**  | One platform >20% behind another                | CTO → CPO notification (fires even if overall average looks acceptable) |
-| **Milestone Slip**         | Planned date passed, milestone incomplete       | Flag in progress.md, C-suite alert                                      |
-| **Session Gap**            | No session log in >48 hours during active stage | Automated reminder to session lead                                      |
+| Rule                       | Threshold                                             | Action                                                                  |
+| -------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Task Duration Variance** | Actual > Estimated × 1.2 (20% overrun)                | CTO → CPO notification                                                  |
+| **Per-Platform Variance**  | One platform >20% behind another                      | CTO → CPO notification (fires even if overall average looks acceptable) |
+| **Milestone Slip**         | Planned date passed, milestone incomplete             | Flag in progress.md, C-suite alert                                      |
+| **Session Gap**            | No session-log entry in >48 hours during active stage | Automated reminder to session lead                                      |
 
 ### Notification Format
 

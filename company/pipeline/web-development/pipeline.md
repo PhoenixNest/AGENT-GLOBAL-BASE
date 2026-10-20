@@ -1,4 +1,4 @@
-﻿# Web Application Pipeline
+# Web Application Pipeline
 
 ## Overview
 
@@ -302,7 +302,7 @@ Before **Stage 5** begins, the security team produces a web-specific SIS:
 
 **Progress Sync Protocol:** Active — any task >20% over estimate triggers CTO → CPO notification.
 
-**Buddy System Tracking:** For any 12/20-score engineers assigned to this project, buddy pairings are tracked in `PROGRESS.md` session logs and checkpoint JSON buddy progress field. 30/60/90-day checkpoints conducted per `buddy-system-assignments.md` protocol.
+**Buddy System Tracking:** For any 12/20-score engineers assigned to this project, buddy pairings are tracked in `progress.md`, `session-log.md` and the `checkpoint.json` buddy progress field. 30/60/90-day checkpoints conducted per `buddy-system-assignments.md` protocol.
 
 **Technical Debt Allocation:** 15–20% sprint capacity reserved (calibrated per project: greenfield 20%, mature 15%, inherited up to 30%). Security debt minimum: 5% of total sprint capacity.
 
@@ -450,4 +450,4 @@ Before **Stage 5** begins, the security team produces a web-specific SIS:
 
 ---
 
-**Monitoring system:** `monitoring.md` — Web Application Pipeline monitoring system (three-layer: PROGRESS.md, session logs, checkpoint JSON).
+**Monitoring system:** `monitoring.md` — Web Application Pipeline monitoring system (three-layer: `progress.md`, `session-log.md`, `checkpoint.json`).

@@ -129,9 +129,9 @@ company/project/my-app/design/interaction-specs/v1/IDS.md              ← copy 
 company/project/my-app/architecture/decisions/ADR-001.md               ← copy of stage-3-architecture/ADR-PLATFORM-STRATEGY.md
 company/project/my-app/architecture/decisions/ADR-002.md               ← copy of stage-3-architecture/ADR-SECURITY-CRYPTO.md
 company/project/my-app/specs/implementation-plan/v1/IMPLEMENTATION-PLAN.md  ← copy of stage-4-implementation-plan/IMPLEMENTATION-PLAN.md
-company/project/my-app/PROGRESS.md                                     ← copy of monitoring/progress.md
-company/project/my-app/sessions/session-20260408-090000.md             ← copy of monitoring/session-log.md
-company/project/my-app/checkpoints/stage4-in-progress.json             ← copy of monitoring/checkpoint.json
+company/project/my-app/progress.md                                     ← copy of monitoring/progress.md
+company/project/my-app/session-log.md                                  ← copy of monitoring/session-log.md; one entry appended per session
+company/project/my-app/checkpoint.json                                 ← copy of monitoring/checkpoint.json; one entry appended per checkpoint
 ```
 
 y of monitoring/checkpoint.json
