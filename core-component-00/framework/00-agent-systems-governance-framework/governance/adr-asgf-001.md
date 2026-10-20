@@ -210,8 +210,8 @@ just disclosed; this addendum closes that gap in the paperwork, not in the under
 
 #### Remediation closed — 2026-07-14
 
-Kwame Asante's remediation task (scoped above) is complete and merged: commit `60156b46`
-(`agent/kwame/ex001-typed-error-boundary`), merged `--no-ff` as `15724248` into
+Kwame Asante's remediation task (scoped above) is complete and merged: commit `3a929291`
+(`agent/kwame/ex001-typed-error-boundary`), merged `--no-ff` as `7a7276db` into
 `core00/dev/engineering`. Verified independently by Dr. Vance, not taken on the report alone:
 
 - Direct code read confirms every flagged call site (`ensure_collection`, `upsert_record`,

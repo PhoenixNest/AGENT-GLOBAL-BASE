@@ -103,7 +103,7 @@ proceed" rather than block brief issuance.
 ## Phase 3 — Migration (P1)
 
 **Status: complete 2026-07-16.** Worktree integrated into `core00/dev/engineering` (commits
-`f8fe937f`, `8f432148`, `200a38d2`). `pytest context-engineering/testing/ -v` (283/283 relevant)
+`00262c24`, `4953dd9d`, `93c597cf`). `pytest context-engineering/testing/ -v` (283/283 relevant)
 and `pytest multi-agent-engineering/testing/ -v` (37/37) reverified green post-integration.
 
 1. **Done.** Authored `REFLECT-001` (`MISTAKE-2026-07-14-001`'s migration) via the

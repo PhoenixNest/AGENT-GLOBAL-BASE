@@ -546,7 +546,7 @@ separately-commissioned Programme (Open Question 4, above).
 ### Implementation-Stage Review (2026-07-16)
 
 **Independent Adversarial Evaluation** (Dr. Tomasz Wieczorek, post-merge, against real code and
-live infrastructure — commits `f8fe937f`, `8f432148`, `200a38d2`). Confirmed: both test suites are
+live infrastructure — commits `00262c24`, `4953dd9d`, `93c597cf`). Confirmed: both test suites are
 real and pass (283/1-deselected; 37/37, including all six `TestReflectionRetrievalHook` cases);
 test coverage exercises genuine behavior (real bypass attempts, real throwaway git repos, real
 production-repo identity checks), not mock-call assertions; the write-boundary (no MCP write tool)

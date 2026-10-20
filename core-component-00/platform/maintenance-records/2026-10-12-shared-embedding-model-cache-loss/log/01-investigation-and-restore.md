@@ -40,7 +40,7 @@ Laboratory Director during this entry, by reading the code and inspecting the ma
    between 23:44 and 23:58, more than twenty branch checkouts and merges, and three `git reset`
    operations on `anu00/dev/thinking` at 23:49:22, 23:49:39 and 23:50:16, with the next entry at
    23:54:07. A sibling directory `core-component-00/engineering` was created at 23:50:33. The
-   branches involved straddled commit `c8efa649` (2026-08-31 07:16), which moved the MCP servers
+   branches involved straddled commit `b019714f` (2026-08-31 07:16), which moved the MCP servers
    under `platform/`.
 7. **The idempotency guard in `provision_model.py` is defeated by an empty skeleton.** The
    script skips a model when `dest.exists() and any(dest.iterdir())`. An empty `1_Pooling`

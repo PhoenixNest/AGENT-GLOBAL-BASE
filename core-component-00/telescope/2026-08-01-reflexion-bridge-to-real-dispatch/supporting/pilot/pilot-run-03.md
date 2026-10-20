@@ -28,7 +28,7 @@ touching `SharedMemoryLog` (`test_gsm_scope_enforcement.py`) exercises it only i
 ## 2. Execute (Real)
 
 The Executor created a new file, `test_shared_memory_log.py`, with 7 new test functions, and
-committed as `70d41907` (`agent/pilot-executor-03: add SharedMemoryLog TTL and expiry tests`,
+committed as `b4889677` (`agent/pilot-executor-03: add SharedMemoryLog TTL and expiry tests`,
 hyphen-bulleted body listing all 7 scenarios plus a note on its time-control technique — format
 verified compliant).
 
