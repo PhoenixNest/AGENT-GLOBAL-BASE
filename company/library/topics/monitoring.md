@@ -194,9 +194,9 @@ Each is a single file per project. One dated entry is appended to `session-log.m
 }
 ```
 
-**Checkpoint Files by Stage:**
+**`checkpoint_id` Values by Stage:**
 
-| Stage | Checkpoint File            | Milestone                                           |
+| Stage | `checkpoint_id`            | Milestone                                           |
 | ----- | -------------------------- | --------------------------------------------------- |
 | 1     | `stage1-gate-approved`     | PRD + SRD complete, user approved                   |
 | 2     | `stage2-gate-approved`     | Prototype + IDS complete, user approved             |
