@@ -425,8 +425,17 @@ class TestGetEmbedderUnavailableReason:
 
 
 class TestSearchCapabilitySnapshot:
-    def test_service_ready_wins_precedence(self, reset_embedder_globals):
+    @pytest.fixture(autouse=True)
+    def probe(self, agent_memory_server, monkeypatch):
+        """The snapshot makes a real health probe; tests control its outcome
+        here so they never depend on whether a live embedder-service is up."""
+        outcome = {"ok": False}
+        monkeypatch.setattr(agent_memory_server.embedder_client, "probe_health", lambda: outcome["ok"])
+        return outcome
+
+    def test_service_ready_wins_precedence(self, reset_embedder_globals, probe):
         m = reset_embedder_globals
+        probe["ok"] = True
         m.EMBEDDER_SERVICE_ENABLED = True
         m._embedder_service_state = "ready"
         m._embedder_cache = _embedder  # even if in-process is ALSO ready, service wins
@@ -512,18 +521,34 @@ class TestSearchCapabilitySnapshot:
         assert snap["embedder_service_state_age_s"] is not None
         assert 0.0 <= snap["embedder_service_state_age_s"] < 5.0
 
-    def test_stale_ready_state_reports_large_age(self, reset_embedder_globals):
-        """This is the exact discrepancy the enterprise assessment live-
-        reproduced: health_check reporting "ready" from a confirmation that
-        happened a long time ago, with no way for a caller to tell."""
+    def test_stale_ready_state_with_live_service_is_reconfirmed(self, reset_embedder_globals, probe):
+        """A cached "ready" last confirmed long ago is probed at call time; a
+        successful probe refreshes the confirmation timestamp."""
         m = reset_embedder_globals
+        probe["ok"] = True
         m.EMBEDDER_SERVICE_ENABLED = True
         m._embedder_service_state = "ready"
         m._embedder_service_state_confirmed_at = time.time() - 2400.0  # 40 min ago
         snap = m._get_search_capability_snapshot()
-        assert snap["effective_path"] == "embedder-service"  # still trusted as-is, no re-probe
-        assert snap["embedder_service_state_confirmed"] is True
-        assert snap["embedder_service_state_age_s"] >= 2399.0
+        assert snap["effective_path"] == "embedder-service"
+        assert snap["embedder_service_probe"] == "ok"
+        assert snap["embedder_service_state_age_s"] < 5.0
+
+    def test_stale_ready_state_with_dead_service_reports_down(self, reset_embedder_globals, probe):
+        """The service exited after its idle timeout while the cache still
+        said "ready": health must report the truth, not the cache."""
+        m = reset_embedder_globals
+        probe["ok"] = False
+        m.EMBEDDER_SERVICE_ENABLED = True
+        m._embedder_service_state = "ready"
+        m._embedder_service_state_confirmed_at = time.time() - 2400.0
+        m._embedder_cache = None
+        m._embedder_state = "not started"
+        snap = m._get_search_capability_snapshot()
+        assert snap["embedder_service_state"] == "unavailable"
+        assert snap["embedder_service_probe"] == "failed"
+        assert snap["effective_path"] == "unavailable"
+        assert snap["embedder_service_state_age_s"] < 5.0
 
     def test_never_confirmed_reports_confirmed_false_and_no_age(self, reset_embedder_globals):
         """Very early in process startup, before the one-shot startup probe
@@ -556,6 +581,7 @@ class TestHealthCheckTool:
         self, agent_memory_server, monkeypatch
     ):
         monkeypatch.setattr(agent_memory_server, "_get_memory_client", lambda: None)
+        monkeypatch.setattr(agent_memory_server.embedder_client, "probe_health", lambda: False)
         result = agent_memory_server.health_check()
         assert "memory_instance" in result
         assert "search_capability" in result
@@ -563,6 +589,7 @@ class TestHealthCheckTool:
         assert set(result["search_capability"].keys()) == {
             "embedder_service_enabled",
             "embedder_service_state",
+            "embedder_service_probe",
             "embedder_service_state_confirmed",
             "embedder_service_state_age_s",
             "in_process_fallback_state",

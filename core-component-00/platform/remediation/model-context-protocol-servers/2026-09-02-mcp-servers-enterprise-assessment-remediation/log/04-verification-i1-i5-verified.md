@@ -33,16 +33,16 @@ Pipeline stage 4 — Verification (`core-component-00/platform/remediation/pipel
 
 1. `test_embedder_reliability_fixes.py::TestSiblingMatchFilterSemantics::test_absolute_windows_backslash_launch_matches`
    — asserts against a hardcoded path containing `\core-component-00\mcp-servers\agent-memory\`,
-   which predates the `c8efa649` `framework/`+`platform/` reorg (the real path segment is now
+   which predates the `b019714f` `framework/`+`platform/` reorg (the real path segment is now
    `\core-component-00\platform\model-context-protocol-servers\agent-memory\`). Confirmed by
    reading the test's literal string and comparing it against the current directory layout. Root
    cause predates this plan's five items and is unrelated to any of them.
 2. `test_read_constraints_reverification.py::TestConstraint1ReadOnlyFirst::test_search_memory_source_byte_identical_to_pre_write_path_commit`
    — asserts `search_memory`'s function source is byte-identical to a pinned baseline commit
-   (`4e332eab`). Confirmed via `git log -p 4e332eab..HEAD -- server.py` that I4's own commit
-   (`79d924e0`) had already made this guard decorator-count-agnostic specifically so it would
+   (`da1c170c`). Confirmed via `git log -p da1c170c..HEAD -- server.py` that I4's own commit
+   (`506209e6`) had already made this guard decorator-count-agnostic specifically so it would
    survive the new logging wrapper — and it did, at that point. A later, unrelated commit
-   (`be457ff3`, 2026-09-03, the documentation-style-rule pass) then edited `search_memory`'s
+   (`37851239`, 2026-09-03, the documentation-style-rule pass) then edited `search_memory`'s
    docstring wording to remove an embedded reference-pointer citation per the new rule, which this
    byte-identity guard has no tolerance for. Root cause is outside I1–I5's scope and postdates
    their execution.

@@ -333,7 +333,7 @@ as a helper, at checkpoints it already controls.
 
 ### Finding 3: `reflection_bridge.py` Is the Workspace's Existing Template for "Real but Bounded" Wiring
 
-`reflection_bridge.py` (commit `1b5056e1`) already wires `SwarmOrchestrator.set_reflection_search_fn`
+`reflection_bridge.py` (commit `40ccbcdf`) already wires `SwarmOrchestrator.set_reflection_search_fn`
 to agent-memory's real `search_memory` core — read-only, deferred-import (paying the heavy-dependency
 cost only when actually invoked), and a never-raises degrade-to-`{degraded: true}` contract on any
 failure. It predates this Programme (it serves the persisted-reflection read path) and is itself
@@ -423,7 +423,7 @@ does not request or imply one, and none should be assumed.
 The CEO asked why this report chose Bash for Surface A's helper invocation when this workspace
 had already migrated `.claude/hooks/*.{ps1,sh}` to a unified `uv run <script>.py` invocation
 specifically to eliminate OS-forked script invocation
-(`2026-07-30-cross-platform-config-automation`, closed 2026-07-31, commit `abc29e7a`). Checking
+(`2026-07-30-cross-platform-config-automation`, closed 2026-07-31, commit `e3403112`). Checking
 v1.0 of this report against that migration confirms the CEO's premise: v1.0's Executive Summary,
 Finding 4, and Recommendations all specified the new helper as "Bash-invokable" — a plain
 oversight, not a deliberate choice. Nothing in this investigation's own Findings 1–5 depended on

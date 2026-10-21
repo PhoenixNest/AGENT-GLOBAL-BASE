@@ -36,9 +36,9 @@ work — not manufactured busywork for the pilot's sake.
 ## 2. Execute (Real)
 
 The Executor's worktree had been provisioned from `master`, which predates the reflexion loop
-(`core00/dev/engineering` commit `a0fbd435`) — it merged that branch into its own worktree branch
-first (commit `80494757`) to bring in the target code, then did the test-only work on top. It
-added 5 new test functions to `TestEvaluateSubtaskResult` and committed as `82b22e51`
+(`core00/dev/engineering` commit `089d99f3`) — it merged that branch into its own worktree branch
+first (commit `52505666`) to bring in the target code, then did the test-only work on top. It
+added 5 new test functions to `TestEvaluateSubtaskResult` and committed as `920c52f3`
 (`agent/pilot-executor-01: add realistic-transcript tests for evaluate_subtask_result narrative
 fallback`, hyphen-bulleted body listing all five scenarios — commit format verified compliant).
 
@@ -152,7 +152,7 @@ recommending the helper's use beyond this one domain"):
   (via the structured-evidence-first design) residual risk.
 - **Verdict: pilot run 01 is a successful, real first data point. Continue accumulating pilot
   runs before recommending expansion.** The worktree branch (`worktree-agent-ae3161b7be2e44c2d`,
-  commit `82b22e51`) is real, useful work (5 legitimate new tests) and is recommended for merge to
+  commit `920c52f3`) is real, useful work (5 legitimate new tests) and is recommended for merge to
   `master` — pending the CEO's usual sign-off on merging session work, per this workspace's git
   safety rules, not a Phase 4 gate requirement.
 

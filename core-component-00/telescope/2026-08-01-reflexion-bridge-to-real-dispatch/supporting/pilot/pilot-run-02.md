@@ -27,7 +27,7 @@ pilot's sake.
 ## 2. Execute (Real)
 
 The Executor added 5 new test functions to `test_handoff_packet.py`'s `TestValidation` class and
-committed as `02832c72` (`agent/pilot-executor-02: add cross-fleet conversation_history
+committed as `1fb08b15` (`agent/pilot-executor-02: add cross-fleet conversation_history
 validation tests`, hyphen-bulleted body listing all 5 scenarios — format verified compliant).
 
 ---

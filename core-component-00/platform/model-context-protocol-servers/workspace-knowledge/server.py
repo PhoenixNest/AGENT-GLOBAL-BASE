@@ -214,13 +214,64 @@ _BATCH_EMBED_TIMEOUT_S = 30.0
 _embedder_service_lock = threading.Lock()
 # "disabled" | "starting" | "ready" | "unavailable"
 _embedder_service_state: str = "starting" if EMBEDDER_SERVICE_ENABLED else "disabled"
+# Wall-clock time of the last real observation of the service (startup launch
+# result, probe, relaunch result, or successful embed call).
+_embedder_service_state_confirmed_at: float = 0.0
+_embedder_service_last_probe_at: float = 0.0
+
+# embedder-service exits on its own after an idle period, so a cached "ready"
+# is trusted only this long after it was last confirmed; an older "ready" is
+# re-probed before use.
+_EMBEDDER_SERVICE_READY_MAX_AGE_S = 30.0
+# Minimum spacing between re-probes of a cached "unavailable".
+_EMBEDDER_SERVICE_REPROBE_COOLDOWN_S = 5.0
+
+
+def _read_nonnegative_float_env(name: str, default: float) -> float:
+    try:
+        return max(0.0, float(os.getenv(name, str(default))))
+    except ValueError:
+        return default
+
+
+# Upper bound on how long one query waits, after finding the service down with
+# no in-process model loaded, for the relaunched service or the in-process
+# model to become available. 0 disables the wait. After a wait times out,
+# further queries skip waiting for _EMBEDDER_RECOVERY_WAIT_BACKOFF_S so a
+# service that cannot come back does not add the full wait to every query.
+_EMBEDDER_RECOVERY_WAIT_S = _read_nonnegative_float_env("EMBEDDER_RECOVERY_WAIT_S", 45.0)
+_EMBEDDER_RECOVERY_WAIT_POLL_S = 0.25
+_EMBEDDER_RECOVERY_WAIT_BACKOFF_S = 60.0
+_embedder_recovery_wait_gave_up_at: float = 0.0
+
+
+def _record_embedder_service_state(ok: bool) -> None:
+    """Stores a real readiness observation (probe, launch result, or embed
+    outcome) together with its timestamp."""
+    global _embedder_service_state, _embedder_service_state_confirmed_at
+    with _embedder_service_lock:
+        _embedder_service_state = "ready" if ok else "unavailable"
+        _embedder_service_state_confirmed_at = time.time()
+
+
+def _on_embedder_service_restart_done(ok: bool) -> None:
+    _record_embedder_service_state(ok)
+    _diag(f"embedder-service restart: {'ready' if ok else 'unavailable'}")
+
+
+def _mark_embedder_service_down(why: str) -> None:
+    """The service was found gone: record it and ask embedder_client for a
+    non-blocking relaunch (single-flight, cooldown-gated). The in-process
+    model is loaded by the engine's own background init, independent of the
+    service."""
+    _diag(f"embedder-service marked unavailable: {why}")
+    _record_embedder_service_state(False)
+    embedder_client.request_service_restart(on_done=_on_embedder_service_restart_done)
 
 
 def _start_embedder_service_background() -> None:
-    global _embedder_service_state
     ok = embedder_client.ensure_service_running()
-    with _embedder_service_lock:
-        _embedder_service_state = "ready" if ok else "unavailable"
+    _record_embedder_service_state(ok)
     _diag(f"embedder-service background start: {'ready' if ok else 'unavailable'}")
 
 
@@ -231,8 +282,140 @@ if EMBEDDER_SERVICE_ENABLED:
 
 
 def _embedder_service_ready() -> bool:
+    """
+    Returns whether the embedder-service is usable, re-probing instead of
+    trusting the cache blindly in both directions:
+
+    - "ready" older than _EMBEDDER_SERVICE_READY_MAX_AGE_S (measured from the
+      last real confirmation) is re-probed before use; a failed probe takes
+      the same path as a failed embed call (_mark_embedder_service_down).
+    - "unavailable" is re-probed on a cooldown, and each re-probe that still
+      fails asks embedder_client for a relaunch (single-flight, so at most
+      one launch runs at a time).
+    - "starting" is left alone: the startup thread's first check is still in
+      flight, so there is nothing stale to re-check yet.
+    """
+    global _embedder_service_last_probe_at
     with _embedder_service_lock:
-        return _embedder_service_state == "ready"
+        state = _embedder_service_state
+        confirmed_at = _embedder_service_state_confirmed_at
+
+    if state == "ready":
+        if time.time() - confirmed_at < _EMBEDDER_SERVICE_READY_MAX_AGE_S:
+            return True
+        if embedder_client.probe_health():
+            _record_embedder_service_state(True)
+            return True
+        _mark_embedder_service_down("cached ready state failed its re-probe")
+        return False
+    if state != "unavailable":
+        return False
+
+    now = time.time()
+    with _embedder_service_lock:
+        if now - _embedder_service_last_probe_at < _EMBEDDER_SERVICE_REPROBE_COOLDOWN_S:
+            return False
+        _embedder_service_last_probe_at = now
+
+    ok = embedder_client.probe_health()
+    _record_embedder_service_state(ok)
+    if ok:
+        _diag("embedder-service re-probe: now ready (was unavailable)")
+    else:
+        embedder_client.request_service_restart(on_done=_on_embedder_service_restart_done)
+    return ok
+
+
+def _wait_for_embedder_recovery(
+    fallback_ready: Callable[[], bool], fallback_loading: Callable[[], bool]
+) -> bool:
+    """
+    Waits up to _EMBEDDER_RECOVERY_WAIT_S for the embedder-service state to
+    turn "ready" or for `fallback_ready()` (the in-process model) to become
+    true, and returns True as soon as either happens. Returns False
+    immediately when the wait is disabled, when a previous wait timed out
+    within the backoff window, or when nothing is in progress (no relaunch in
+    flight and `fallback_loading()` false); returns False after the bound
+    otherwise. Never raises.
+    """
+    global _embedder_recovery_wait_gave_up_at
+    if not EMBEDDER_SERVICE_ENABLED or _EMBEDDER_RECOVERY_WAIT_S <= 0:
+        return False
+    if (
+        _embedder_recovery_wait_gave_up_at
+        and time.monotonic() - _embedder_recovery_wait_gave_up_at < _EMBEDDER_RECOVERY_WAIT_BACKOFF_S
+    ):
+        return False
+    deadline = time.monotonic() + _EMBEDDER_RECOVERY_WAIT_S
+    while True:
+        restart_running = embedder_client.restart_in_flight()
+        with _embedder_service_lock:
+            service_state = _embedder_service_state
+        if service_state == "ready" or fallback_ready():
+            _embedder_recovery_wait_gave_up_at = 0.0
+            return True
+        if not restart_running and not fallback_loading():
+            return False
+        if time.monotonic() >= deadline:
+            _embedder_recovery_wait_gave_up_at = time.monotonic()
+            return False
+        time.sleep(_EMBEDDER_RECOVERY_WAIT_POLL_S)
+
+
+def _embedder_capability_snapshot(model_loaded: bool) -> dict[str, Any]:
+    """
+    What query embedding can do right now, from a real bounded probe of the
+    embedder-service made at call time (`embedder_client.probe_health()`).
+    The probe result is written back to the cached state and its timestamp,
+    but this function never launches the service, so a health check causes no
+    background work. `model_loaded` says whether the in-process model exists.
+
+    `effective_path` is "embedder-service" only when the probe succeeded,
+    else "in-process-fallback" when the model is loaded, else "unavailable".
+    `query_embedding_available` is False exactly when `effective_path` is
+    "unavailable". Never raises.
+    """
+    try:
+        probe_ok: Optional[bool] = None
+        if EMBEDDER_SERVICE_ENABLED:
+            probe_ok = embedder_client.probe_health()
+            with _embedder_service_lock:
+                # "starting" is left to the startup check that is still deciding.
+                record = True if probe_ok else (False if _embedder_service_state != "starting" else None)
+            if record is not None:
+                _record_embedder_service_state(record)
+        with _embedder_service_lock:
+            service_state = _embedder_service_state if EMBEDDER_SERVICE_ENABLED else "disabled"
+            confirmed_at = _embedder_service_state_confirmed_at
+        if probe_ok:
+            effective_path = "embedder-service"
+        elif model_loaded:
+            effective_path = "in-process-fallback"
+        else:
+            effective_path = "unavailable"
+        state_confirmed = EMBEDDER_SERVICE_ENABLED and confirmed_at > 0
+        return {
+            "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
+            "embedder_service_state": service_state,
+            "embedder_service_probe": "not-probed" if probe_ok is None else ("ok" if probe_ok else "failed"),
+            "embedder_service_state_confirmed": state_confirmed,
+            "embedder_service_state_age_s": round(time.time() - confirmed_at, 1) if state_confirmed else None,
+            "in_process_model_loaded": model_loaded,
+            "effective_path": effective_path,
+            "query_embedding_available": effective_path != "unavailable",
+        }
+    except Exception as exc:
+        return {
+            "embedder_service_enabled": EMBEDDER_SERVICE_ENABLED,
+            "embedder_service_state": "unavailable",
+            "embedder_service_probe": "failed",
+            "embedder_service_state_confirmed": False,
+            "embedder_service_state_age_s": None,
+            "in_process_model_loaded": model_loaded,
+            "effective_path": "unavailable",
+            "query_embedding_available": False,
+            "error": f"snapshot error: {exc}",
+        }
 
 
 def _chunk_point_id(rel_path: str, chunk_idx: int) -> int:
@@ -396,28 +579,36 @@ class SearchEngine:
         return chunks
 
     def _initialize_search_engine(self):
-        """Initialization chain: HYBRID_QDRANT or HYBRID -> BM25 -> RAWFS."""
+        """Initialization chain: HYBRID_QDRANT or HYBRID -> BM25 -> RAWFS.
+
+        The whole chain runs in one background thread, off the critical MCP
+        handshake path: the BM25 build alone scans and chunks every markdown
+        file and takes several seconds. Until it finishes the engine serves
+        queries from the RAWFS tier and reports why in `degradation_reason`."""
+        self._tier = SearchTier.RAWFS
+        self._degradation_reason = "BM25 index is still building — using raw file scan"
+        t = threading.Thread(target=self._init_chain_background, daemon=True, name="search-engine-init")
+        self._init_thread = t
+        t.start()
+
+    def _init_chain_background(self):
         try:
             from rank_bm25 import BM25Okapi
         except ImportError:
             self._tier = SearchTier.RAWFS
             self._degradation_reason = "rank_bm25 not installed"
-            self._init_thread = None
             return
 
         try:
             self._build_bm25_index(BM25Okapi)
+            self._degradation_reason = None
             self._note_tier(SearchTier.BM25)
         except Exception as e:
             self._tier = SearchTier.RAWFS
             self._degradation_reason = f"BM25 build failed: {e}"
-            self._init_thread = None
             return
 
-        # Launch FAISS + Qdrant shadow init off the critical MCP handshake path
-        t = threading.Thread(target=self._init_faiss_background, daemon=True)
-        self._init_thread = t
-        t.start()
+        self._init_faiss_background()
 
     def _init_faiss_background(self):
         """FAISS load + Qdrant shadow init runs in background thread.
@@ -642,14 +833,39 @@ class SearchEngine:
         """
         import numpy as np
 
-        if EMBEDDER_SERVICE_ENABLED and _embedder_service_ready():
+        def _embed_via_service() -> "Optional[Any]":
             vectors = embedder_client.embed(
                 [query], model=_QUERY_EMBEDDER_SERVICE_MODEL, expected_dim=768
             )
-            if vectors is not None:
-                arr = np.array(vectors, dtype="float32")
-                return arr / np.linalg.norm(arr, axis=1, keepdims=True)
-            _diag("embedder-service query-embed call failed at runtime — falling back to in-process model")
+            if vectors is None:
+                _mark_embedder_service_down("runtime query-embed call failed")
+                return None
+            _record_embedder_service_state(True)
+            arr = np.array(vectors, dtype="float32")
+            return arr / np.linalg.norm(arr, axis=1, keepdims=True)
+
+        def _wait_for_recovery() -> bool:
+            return _wait_for_embedder_recovery(
+                fallback_ready=lambda: self._model is not None,
+                fallback_loading=lambda: self._init_thread is not None and self._init_thread.is_alive(),
+            )
+
+        if EMBEDDER_SERVICE_ENABLED:
+            service_ok = _embedder_service_ready()
+            if not service_ok and self._model is None:
+                with _embedder_service_lock:
+                    discovered_down = _embedder_service_state == "unavailable"
+                if discovered_down and _wait_for_recovery():
+                    service_ok = _embedder_service_ready()
+            if service_ok:
+                encoded = _embed_via_service()
+                if encoded is not None:
+                    return encoded
+                _diag("embedder-service query-embed call failed at runtime — falling back to in-process model")
+                if self._model is None and _wait_for_recovery() and _embedder_service_ready():
+                    encoded = _embed_via_service()
+                    if encoded is not None:
+                        return encoded
 
         if self._model is None:
             raise RuntimeError("model not ready — encoding deferred to post-FAISS init")
@@ -678,6 +894,7 @@ class SearchEngine:
                 )
                 if group_vectors is None:
                     service_ok = False
+                    _mark_embedder_service_down("runtime batch-embed call failed")
                     _diag(
                         "embedder-service batch-embed call failed at runtime "
                         f"(group starting at index {start}, size {len(group)}) — "
@@ -687,6 +904,7 @@ class SearchEngine:
                 service_vectors.extend(group_vectors)
 
             if service_ok:
+                _record_embedder_service_state(True)
                 arr = np.array(service_vectors, dtype="float32")
                 return arr / np.linalg.norm(arr, axis=1, keepdims=True)
 
@@ -1337,11 +1555,41 @@ def _document_kb_health_block() -> dict[str, Any]:
             point_count = info.points_count
         except Exception:
             reachable = False
+    return _document_kb_health_block_from(reachable, point_count, _embedder_state_block())
+
+
+def _embedder_state_block() -> dict[str, Any]:
+    """Query-embedding capability of this process, from a real probe made now
+    (see _embedder_capability_snapshot)."""
+    return _embedder_capability_snapshot(model_loaded=getattr(engine, "_model", None) is not None)
+
+
+def _document_kb_health_block_from(
+    reachable: bool, point_count: "int | None", embedder_state: dict[str, Any]
+) -> dict[str, Any]:
+    """Assembles the document_knowledge_base block. `search_tier` is the tier
+    the engine will attempt next; when that tier is semantic but query
+    embedding is currently impossible, `effective_search_tier` reports "bm25"
+    and `degradation_reason` says why, so a semantic tier is never presented
+    as healthy while queries cannot be embedded."""
+    tier = engine._tier
+    reason = engine._degradation_reason
+    effective_tier = tier.value
+    if tier in (SearchTier.HYBRID, SearchTier.HYBRID_QDRANT) and not embedder_state["query_embedding_available"]:
+        effective_tier = SearchTier.BM25.value
+        reason = reason or (
+            "query embedding unavailable "
+            f"(embedder-service: {embedder_state['embedder_service_state']}, "
+            f"in-process model loaded: {embedder_state['in_process_model_loaded']}) — "
+            "semantic queries are served by BM25 only"
+        )
     return {
         "reachable": reachable,
         "point_count": point_count,
-        "search_tier": engine._tier.value,
-        "degradation_reason": engine._degradation_reason,
+        "search_tier": tier.value,
+        "effective_search_tier": effective_tier,
+        "degradation_reason": reason,
+        "embedder": embedder_state,
     }
 
 
