@@ -150,18 +150,6 @@ One `checkpoint.json` file per project, beside `progress.md` and `session-log.md
           "engineers": 3
         }
       },
-      "milestone_history": [
-        {
-          "name": "Web frontend components complete",
-          "date": "2026-04-15",
-          "progress_pct": 35
-        },
-        {
-          "name": "Backend API core endpoints live",
-          "date": "2026-04-18",
-          "progress_pct": 45
-        }
-      ],
       "performance_metrics": {
         "web_deployed": false,
         "mobile_submitted": false,

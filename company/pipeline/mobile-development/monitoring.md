@@ -332,7 +332,7 @@ Machine-readable checkpoints for automated recovery, progress queries, and integ
   "checkpoints": [
     {
       "checkpoint_id": "<stage>-<milestone-name>",
-      "stage": <N>,
+      "stage": 0,
       "milestone": "<Human-readable milestone name>",
       "timestamp": "<ISO 8601 timestamp>",
       "session_id": "<session-YYYYMMDD-HHMMSS>",
@@ -340,34 +340,31 @@ Machine-readable checkpoints for automated recovery, progress queries, and integ
       "platform_breakdown": {
         "track_a_android": {
           "status": "<FULL | LIGHT | Dormant | N/A>",
-          "progress_percent": <XX>,
+          "progress_percent": 0,
           "lead": "<Name>",
-          "engineers_assigned": <N>,
-          "engineers_active": <N>,
+          "engineers_assigned": 0,
+          "engineers_active": 0,
           "blockers": ["<Blocker description or empty array>"]
         },
         "track_b_ios": {
           "status": "<FULL | LIGHT | Dormant | N/A>",
-          "progress_percent": <XX>,
+          "progress_percent": 0,
           "lead": "<Name>",
-          "engineers_assigned": <N>,
-          "engineers_active": <N>,
+          "engineers_assigned": 0,
+          "engineers_active": 0,
           "blockers": ["<Blocker description or empty array>"]
         },
         "track_c_cross_platform": {
           "status": "<PRIMARY | Dormant | N/A>",
           "technology": "<KMP | Flutter | N/A>",
-          "progress_percent": <XX>,
+          "progress_percent": 0,
           "lead": "<Name>",
-          "engineers_assigned": <N>,
-          "engineers_active": <N>,
+          "engineers_assigned": 0,
+          "engineers_active": 0,
           "blockers": ["<Blocker description or empty array>"]
         }
       },
-      "artifacts": [
-        "relative/path/to/artifact1.md",
-        "relative/path/to/artifact2.html"
-      ],
+      "artifacts": ["relative/path/to/artifact1.md", "relative/path/to/artifact2.html"],
       "gate_criteria": {
         "<criterion_1>": true,
         "<criterion_2>": false,
@@ -380,28 +377,35 @@ Machine-readable checkpoints for automated recovery, progress queries, and integ
         "context": "<Additional context for resumption>"
       },
       "metrics": {
-        "stage_progress_percent": <XX>,
-        "total_time_spent_min": <YY>,
-        "tasks_completed": <ZZ>,
-        "tasks_remaining": <WW>
+        "stage_progress_percent": 0,
+        "total_time_spent_min": 0,
+        "tasks_completed": 0,
+        "tasks_remaining": 0
       },
       "security_state": {
-        "srd_compliance_percent": <XX>,
-        "masvs_categories_compliant": ["AUTH", "STORAGE", "CRYPTO", "NETWORK", "PLATFORM", "RESILIENCE"],
+        "srd_compliance_percent": 0,
+        "masvs_categories_compliant": [
+          "AUTH",
+          "STORAGE",
+          "CRYPTO",
+          "NETWORK",
+          "PLATFORM",
+          "RESILIENCE"
+        ],
         "open_security_findings": {
-          "p0": <N>,
-          "p1": <N>,
-          "p2": <N>,
-          "p3": <N>
+          "p0": 0,
+          "p1": 0,
+          "p2": 0,
+          "p3": 0
         },
         "sast_findings": {
-          "android": {"p0": 0, "p1": 0, "p2": <N>},
-          "ios": {"p0": 0, "p1": 0, "p2": <N>}
+          "android": { "p0": 0, "p1": 0, "p2": 0 },
+          "ios": { "p0": 0, "p1": 0, "p2": 0 }
         },
         "dependency_vulnerabilities": {
           "critical": 0,
-          "high": <N>,
-          "medium": <N>
+          "high": 0,
+          "medium": 0
         },
         "pen_test_status": "<Not Started | In progress | Complete | Failed>",
         "dast_status": "<Not Started | In progress | Complete | Failed>"
@@ -421,21 +425,13 @@ Machine-readable checkpoints for automated recovery, progress queries, and integ
           "android_storage": "[library + version]",
           "ios_storage": "[library + version]"
         },
-        "open_technology_exceptions": <N>
+        "open_technology_exceptions": 0
       },
       "risks": [
         {
           "description": "<Risk description>",
           "severity": "<Low | Medium | High>",
           "mitigation": "<Plan>"
-        }
-      ],
-      "milestone_history": [
-        {
-          "milestone": "<Milestone name>",
-          "timestamp": "<ISO 8601>",
-          "progress_percent": <XX>,
-          "session_id": "<session-YYYYMMDD-HHMMSS>"
         }
       ]
     }
@@ -464,7 +460,7 @@ Machine-readable checkpoints for automated recovery, progress queries, and integ
 - **Gate review:** `stage<N>-gate-review` (ready for panel)
 - **Approved:** `stage<N>-gate-approved` (user approved, stage complete)
 
-**Milestone History:** Each entry in the `checkpoints` array contains a `milestone_history` array tracking all key milestones within that stage. The latest entry in `checkpoints` is the current state.
+**Milestone History:** The `checkpoints` array is the milestone history: one entry is appended per milestone, in order, and entries are never edited. The latest entry in `checkpoints` is the current state.
 ---
 
 ## Recovery Protocol

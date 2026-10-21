@@ -141,18 +141,6 @@ One `checkpoint.json` file per project, beside `progress.md` and `session-log.md
           "engineers": 0
         }
       },
-      "milestone_history": [
-        {
-          "name": "Core endpoints implemented",
-          "date": "2026-04-15",
-          "progress_pct": 40
-        },
-        {
-          "name": "Database migrations complete",
-          "date": "2026-04-18",
-          "progress_pct": 50
-        }
-      ],
       "performance_metrics": {
         "endpoints_implemented": 18,
         "endpoints_tested": 16,

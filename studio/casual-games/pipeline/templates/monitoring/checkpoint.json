@@ -168,8 +168,7 @@
         "tasks_remaining": 0,
         "total_capital_deployed_usd": 0,
         "iterations_since_last_gate": 0
-      },
-      "milestone_history": []
+      }
     }
   ]
 }

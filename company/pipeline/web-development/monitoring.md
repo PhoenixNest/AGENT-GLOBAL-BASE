@@ -141,18 +141,6 @@ One `checkpoint.json` file per project, beside `progress.md` and `session-log.md
           "engineers": 4
         }
       },
-      "milestone_history": [
-        {
-          "name": "Frontend components complete",
-          "date": "2026-04-15",
-          "progress_pct": 40
-        },
-        {
-          "name": "API contract parity verified",
-          "date": "2026-04-18",
-          "progress_pct": 55
-        }
-      ],
       "performance_metrics": {
         "bundle_size_kb": 245,
         "lighthouse_scores": {

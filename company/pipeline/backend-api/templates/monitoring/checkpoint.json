@@ -12,7 +12,6 @@
         "B-DATA": { "status": "N/A", "progress_pct": 0, "owner": "Aisha Mohammed", "engineers": 0 },
         "B-RT": { "status": "N/A", "progress_pct": 0, "owner": "Kael Jensen", "engineers": 0 }
       },
-      "milestone_history": [],
       "performance_metrics": {
         "endpoints_implemented": 0,
         "endpoints_tested": 0,

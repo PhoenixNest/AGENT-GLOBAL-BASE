@@ -103,14 +103,6 @@
           "severity": "<Low | Medium | High>",
           "mitigation": "<Plan>"
         }
-      ],
-      "milestone_history": [
-        {
-          "milestone": "<Milestone name>",
-          "timestamp": "<ISO 8601>",
-          "progress_percent": 0,
-          "session_id": "session-YYYYMMDD-HHMMSS"
-        }
       ]
     }
   ]

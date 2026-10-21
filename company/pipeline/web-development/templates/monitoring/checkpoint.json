@@ -12,7 +12,6 @@
         "W-BE": { "status": "N/A", "progress_pct": 0, "owner": "Dev Malhotra", "engineers": 0 },
         "W-FS": { "status": "N/A", "progress_pct": 0, "owner": "Elena Vasquez", "engineers": 0 }
       },
-      "milestone_history": [],
       "performance_metrics": {
         "bundle_size_kb": 0,
         "lighthouse_scores": {

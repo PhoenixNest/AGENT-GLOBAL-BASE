@@ -18,7 +18,6 @@
         },
         "FS-INT": { "status": "N/A", "progress_pct": 0, "owner": "Elena Vasquez", "engineers": 0 }
       },
-      "milestone_history": [],
       "performance_metrics": {
         "web_deployed": false,
         "mobile_submitted": false,

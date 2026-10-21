@@ -163,7 +163,7 @@ Each is a single file per project. One dated entry is appended to `session-log.m
 ```json
 {
   "checkpoint_id": "stage-N-gate-approved",
-  "stage": N,
+  "stage": 0,
   "milestone": "Human-readable name",
   "timestamp": "ISO 8601",
   "session_id": "session-YYYYMMDD-HHMMSS",
@@ -184,18 +184,6 @@ Each is a single file per project. One dated entry is appended to `session-log.m
     "tasks_completed": 5,
     "tasks_remaining": 2
   },
-  "milestone_history": [
-    {
-      "milestone": "Milestone 1",
-      "timestamp": "ISO 8601",
-      "status": "complete"
-    },
-    {
-      "milestone": "Milestone 2",
-      "timestamp": "ISO 8601",
-      "status": "complete"
-    }
-  ],
   "risks": [
     {
       "description": "Risk description",
@@ -221,7 +209,7 @@ Each is a single file per project. One dated entry is appended to `session-log.m
 | 9     | `stage9-gate-approved`     | Localization complete, CTO-L report issued          |
 | 10    | `stage10-release-decision` | Release checklist complete, user release decision   |
 
-**Milestone History:** Each entry in the `checkpoints` array contains a `milestone_history` array tracking all key milestones within that stage.
+**Milestone History:** The `checkpoints` array is the milestone history: one entry is appended per milestone, in order, and entries are never edited.
 
 ---
 
