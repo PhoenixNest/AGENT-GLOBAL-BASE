@@ -12,7 +12,6 @@ node_modules/
 
 # Machine-local MCP server config — generated from .mcp.json.example by the SessionStart
 # mcp-config-platform-check.py hook (per-OS interpreter path is not portable across machines).
-# See core-component-00/platform/maintenance-records/2026-08-13-mcp-server-powershell-cross-platform/.
 .mcp.json
 
 # Progress-tracking files at any depth are ignored; monitoring templates stay tracked. IDE folder ignored.
