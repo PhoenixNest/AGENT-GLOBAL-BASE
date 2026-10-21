@@ -66,14 +66,14 @@ Traditional multi-agent coding has a critical bottleneck: **filesystem contentio
 
 ### How It Works
 
-| Step                   | Git Command                                                  | What It Does                                        |
-| ---------------------- | ------------------------------------------------------------ | --------------------------------------------------- |
-| 1. Create worktree     | `git worktree add ../agent-<name> -b agent/<name>/task-<id>` | Isolated working directory on a dedicated branch    |
-| 2. Agent works         | _(edits files in its worktree)_                              | Exclusive filesystem access; no contention          |
-| 3. Agent commits       | see commit format below                                      | Version-controlled with attribution and audit trail |
-| 4. Integration         | `git checkout main && git merge agent/<name>/task-<id>`      | Orchestrator merges into main branch                |
-| 5. Conflict resolution | `git merge --abort` or manual resolution                     | Integration Agent resolves conflicts                |
-| 6. Cleanup             | `git worktree remove ../agent-<name>`                        | Worktree removed; branch optionally deleted         |
+| Step                   | Git Command                                                                                                                                      | What It Does                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Create worktree     | `git worktree add ../agent-<name> -b agent/<name>/task-<id>`                                                                                     | Isolated working directory on a dedicated branch                                                                                   |
+| 2. Agent works         | _(edits files in its worktree)_                                                                                                                  | Exclusive filesystem access; no contention                                                                                         |
+| 3. Agent commits       | see commit format below                                                                                                                          | Version-controlled with attribution and audit trail                                                                                |
+| 4. Integration         | `git checkout main && git merge --ff-only agent/<name>/task-<id>` (one lane); `git merge --no-ff agent/<name>/task-<id>` per lane (parallel fan) | Orchestrator lands one lane by fast-forward with no merge commit; a parallel fan lands lane by lane with one merge commit per lane |
+| 5. Conflict resolution | `git merge --abort` or manual resolution                                                                                                         | Integration Agent resolves conflicts                                                                                               |
+| 6. Cleanup             | `git worktree remove ../agent-<name>`                                                                                                            | Worktree removed; branch optionally deleted                                                                                        |
 
 **Required commit message format** — agents MUST use the multi-line HEREDOC with a hyphenated body:
 

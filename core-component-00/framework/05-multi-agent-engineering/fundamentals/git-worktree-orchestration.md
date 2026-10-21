@@ -79,7 +79,28 @@ EOF
 
 ### Phase 3: Integration
 
-The orchestrator (or a dedicated Integration Agent) merges agent work:
+The orchestrator (or a dedicated Integration Agent) merges agent work.
+
+**Merge shape.**
+
+| Case         | Definition                                                       | Command               | Result                                             |
+| ------------ | ---------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| One lane     | One owner's work (one agent lane, one or more commits)           | `git merge --ff-only` | Fast-forward, no merge commit                      |
+| Parallel fan | Several agent branches forked from one base for independent work | `git merge --no-ff`   | One merge commit per lane, landed in a fixed order |
+
+A merge commit is never created around a single owner's work. When `--ff-only` refuses because the target branch has moved, the agent branch is rebased onto the target in its own worktree (`git rebase <target-branch>`, never `-i`), the decisive check is re-run, and the fast-forward is retried.
+
+One lane:
+
+```bash
+# Return to main worktree
+cd ../main-repo
+
+# Land the backend agent's work by fast-forward
+git merge --ff-only agent/backend/dark-mode-api
+```
+
+Parallel fan (two lanes forked from one base):
 
 ```bash
 # Return to main worktree

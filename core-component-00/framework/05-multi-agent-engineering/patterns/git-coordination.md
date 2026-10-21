@@ -185,9 +185,13 @@ Once all tasks reach a terminal state (completed or failed), the Orchestrator
 merges agent branches back into the integration branch.
 
 ```powershell
-# Per-agent merge with no-fast-forward to preserve branch topology
 git checkout master
-git merge agent/<name>/<task> --no-ff -m "integrate: merge agent/<name>/<task>"
+
+# One lane (one owner's work): fast-forward, no merge commit
+git merge --ff-only agent/<name>/<task>
+
+# Parallel fan (several branches forked from one base): one merge commit per lane, in a fixed order
+git merge --no-ff agent/<name>/<task> -m "integrate: merge agent/<name>/<task>"
 ```
 
 Merge conflicts are resolved by the Orchestrator according to the
