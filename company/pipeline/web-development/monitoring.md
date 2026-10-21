@@ -10,7 +10,9 @@
 
 ## Overview
 
-This monitoring system is specialized for the Web Application Pipeline. It follows the three-layer monitoring architecture (PROGRESS.md, session logs, checkpoint JSON) with web-specific fields, metrics, and recovery procedures.
+This monitoring system is specialized for the Web Application Pipeline. It follows the three-layer monitoring architecture (`progress.md`, `session-log.md`, `checkpoint.json`) with web-specific fields, metrics, and recovery procedures.
+
+These three files are stored locally and never pushed to a remote repository, and a branch that holds them stays local.
 
 ### Why Standardized Monitoring Structure?
 
@@ -18,7 +20,7 @@ The three-layer monitoring architecture is shared across ALL company pipelines (
 
 | Aspect                 | Why It's Standardized                                                                           | Why Content Differs                                                                                                                                |
 | ---------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Three-layer structure  | Industry standard (Google SRE, Amazon Ops) — consistent tracking across all engineering domains | Each layer's **content** is platform-specific: PROGRESS.md has web fields, checkpoint.json has Lighthouse scores                                   |
+| Three-layer structure  | Industry standard (Google SRE, Amazon Ops) — consistent tracking across all engineering domains | Each layer's **content** is platform-specific: progress.md has web fields, checkpoint.json has Lighthouse scores                                   |
 | Session log format     | Universal audit trail convention — date/objectives/accomplishments are domain-agnostic          | Session **objectives** differ: web tracks component development/API integration/SEO; backend tracks endpoint implementation/migration/load testing |
 | Checkpoint JSON schema | Consistent machine-readable milestone format enables cross-pipeline reporting                   | **Fields** differ: web tracks `bundle_size_kb`/`lighthouse_scores`/`seo_readiness`; backend tracks `endpoints_implemented`/`load_test_p99_ms`      |
 
@@ -26,12 +28,12 @@ This structure mirrors how leading technology companies (Google, Meta, Amazon) m
 
 ---
 
-## Layer 1: PROGRESS.md (Real-Time State)
+## Layer 1: progress.md (Real-Time State)
 
 ### Location
 
 ```
-company/project/<project-name>/PROGRESS.md
+company/project/<project-name>/progress.md
 ```
 
 ### Web-Specific Fields
@@ -80,8 +82,10 @@ Overall: 65%
 ### Location
 
 ```
-company/project/<project-name>/sessions/session-<YYYYMMDD>-<HHMMSS>.md
+company/project/<project-name>/session-log.md
 ```
+
+One `session-log.md` file per project. One dated entry (`## Session: session-<YYYYMMDD>-<HHMMSS>`) is appended per session, and entries are never edited.
 
 ### Web-Specific Session Objectives
 
@@ -101,103 +105,97 @@ company/project/<project-name>/sessions/session-<YYYYMMDD>-<HHMMSS>.md
 ### Location
 
 ```
-company/project/<project-name>/checkpoints/stage<N>-<status>.json
+company/project/<project-name>/checkpoint.json
 ```
+
+One `checkpoint.json` file per project, beside `progress.md` and `session-log.md`. It holds a `checkpoints` array, and one entry is appended per checkpoint.
 
 ### Web-Specific Checkpoint Schema
 
 ```json
 {
-  "pipeline_type": "web-application",
-  "stage": 5,
-  "status": "in-progress",
-  "progress_pct": 65,
-  "web_strategy": "SSR",
-  "track_breakdown": {
-    "W-FE": {
-      "status": "FULL",
-      "progress_pct": 80,
-      "owner": "Amira Voss",
-      "engineers": 4
-    },
-    "W-BE": {
-      "status": "FULL",
-      "progress_pct": 55,
-      "owner": "Dev Malhotra",
-      "engineers": 3
-    },
-    "W-FS": {
-      "status": "PRIMARY",
-      "progress_pct": 50,
-      "owner": "Elena Vasquez",
-      "engineers": 4
-    }
-  },
-  "milestone_history": [
+  "checkpoints": [
     {
-      "name": "Frontend components complete",
-      "date": "2026-04-15",
-      "progress_pct": 40
-    },
-    {
-      "name": "API contract parity verified",
-      "date": "2026-04-18",
-      "progress_pct": 55
+      "pipeline_type": "web-application",
+      "stage": 5,
+      "status": "in-progress",
+      "progress_pct": 65,
+      "web_strategy": "SSR",
+      "track_breakdown": {
+        "W-FE": {
+          "status": "FULL",
+          "progress_pct": 80,
+          "owner": "Amira Voss",
+          "engineers": 4
+        },
+        "W-BE": {
+          "status": "FULL",
+          "progress_pct": 55,
+          "owner": "Dev Malhotra",
+          "engineers": 3
+        },
+        "W-FS": {
+          "status": "PRIMARY",
+          "progress_pct": 50,
+          "owner": "Elena Vasquez",
+          "engineers": 4
+        }
+      },
+      "performance_metrics": {
+        "bundle_size_kb": 245,
+        "lighthouse_scores": {
+          "performance": 92,
+          "accessibility": 96,
+          "best_practices": 95,
+          "seo": 88
+        },
+        "seo_readiness": "in-progress",
+        "cdn_configured": true,
+        "preview_deployed": true
+      },
+      "variance_tracking": {
+        "W-FE": {
+          "estimated_pct": 75,
+          "actual_pct": 80,
+          "variance": "+5%",
+          "status": "ahead"
+        },
+        "W-BE": {
+          "estimated_pct": 60,
+          "actual_pct": 55,
+          "variance": "-5%",
+          "status": "on-track"
+        },
+        "W-FS": {
+          "estimated_pct": 55,
+          "actual_pct": 50,
+          "variance": "-5%",
+          "status": "on-track"
+        }
+      },
+      "security_state": {
+        "xss_prevention": "implemented",
+        "csrf_tokens": "implemented",
+        "csp_headers": "configured",
+        "oauth2_session": "implemented",
+        "dependency_audit": "clean"
+      },
+      "design_fidelity_checkpoint": {
+        "completion_pct": 60,
+        "pass_rate": 94,
+        "status": "pass",
+        "remediation_items": []
+      },
+      "string_extraction_readiness": {
+        "audit_completed": false,
+        "hardcoded_strings_found": 12,
+        "threshold_pct": 5,
+        "status": "pending"
+      },
+      "timestamp": "2026-04-20T14:30:00Z",
+      "session_id": "session-20260420-143000"
     }
-  ],
-  "performance_metrics": {
-    "bundle_size_kb": 245,
-    "lighthouse_scores": {
-      "performance": 92,
-      "accessibility": 96,
-      "best_practices": 95,
-      "seo": 88
-    },
-    "seo_readiness": "in-progress",
-    "cdn_configured": true,
-    "preview_deployed": true
-  },
-  "variance_tracking": {
-    "W-FE": {
-      "estimated_pct": 75,
-      "actual_pct": 80,
-      "variance": "+5%",
-      "status": "ahead"
-    },
-    "W-BE": {
-      "estimated_pct": 60,
-      "actual_pct": 55,
-      "variance": "-5%",
-      "status": "on-track"
-    },
-    "W-FS": {
-      "estimated_pct": 55,
-      "actual_pct": 50,
-      "variance": "-5%",
-      "status": "on-track"
-    }
-  },
-  "security_state": {
-    "xss_prevention": "implemented",
-    "csrf_tokens": "implemented",
-    "csp_headers": "configured",
-    "oauth2_session": "implemented",
-    "dependency_audit": "clean"
-  },
-  "design_fidelity_checkpoint": {
-    "completion_pct": 60,
-    "pass_rate": 94,
-    "status": "pass",
-    "remediation_items": []
-  },
-  "string_extraction_readiness": {
-    "audit_completed": false,
-    "hardcoded_strings_found": 12,
-    "threshold_pct": 5,
-    "status": "pending"
-  },
-  "timestamp": "2026-04-20T14:30:00Z",
-  "session_id": "session-20260420-143000"
+  ]
 }
 ```
 

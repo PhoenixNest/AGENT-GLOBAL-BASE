@@ -76,6 +76,8 @@ Seven engineers hired with 12/20 vetting scores require structured mentorship. E
 
 Buddy system progress is tracked in:
 
-- `company/project/<project-name>/PROGRESS.md` — Session logs note buddy pairings
-- `company/project/<project-name>/sessions/` — Buddy assessment notes in session logs
-- `company/project/<project-name>/checkpoints/` — Checkpoint JSON includes buddy progress field
+- `company/project/<project-name>/progress.md` — Buddy pairings are noted
+- `company/project/<project-name>/session-log.md` — Buddy assessment notes are recorded in session entries
+- `company/project/<project-name>/checkpoint.json` — Checkpoint entries include the buddy progress field
+
+These files are stored locally and never pushed to a remote repository, and a branch that holds them stays local.

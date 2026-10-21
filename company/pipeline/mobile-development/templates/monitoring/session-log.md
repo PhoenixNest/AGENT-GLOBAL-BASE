@@ -1,4 +1,10 @@
-# Session: session-YYYYMMDD-HHMMSS
+# Session Log — [Project Name]
+
+One `session-log.md` file per project, stored at `company/project/<project-name>/session-log.md`. One dated entry is appended per session by copying the entry block below, and entries are never edited. The file is stored locally and never pushed to a remote repository.
+
+---
+
+## Session: session-YYYYMMDD-HHMMSS
 
 **Date:** YYYY-MM-DD
 **Start Time:** HH:MM:SS UTC
@@ -9,14 +15,14 @@
 
 ---
 
-## Objectives
+### Objectives
 
 1. [Objective 1]
 2. [Objective 2]
 
 ---
 
-## Activities
+### Activities
 
 | Time  | Activity      | Output               | Status       |
 | ----- | ------------- | -------------------- | ------------ |
@@ -24,20 +30,20 @@
 
 ---
 
-## Artifacts Created
+### Artifacts Created
 
 - `<file path 1>`
 - `<file path 2>`
 
 ---
 
-## Artifacts Modified
+### Artifacts Modified
 
 - `<file path>` — [Description of changes]
 
 ---
 
-## Issues Encountered
+### Issues Encountered
 
 | Time  | Issue         | Resolution     | Impact                 |
 | ----- | ------------- | -------------- | ---------------------- |
@@ -45,7 +51,7 @@
 
 ---
 
-## Decisions Made
+### Decisions Made
 
 | Time  | Decision   | Rationale | Owner |
 | ----- | ---------- | --------- | ----- |
@@ -53,14 +59,14 @@
 
 ---
 
-## Next Session Priorities
+### Next Session Priorities
 
 1. [Priority 1]
 2. [Priority 2]
 
 ---
 
-## Interruption Recovery
+### Interruption Recovery
 
 **If this session was interrupted:**
 
@@ -70,7 +76,7 @@
 
 ---
 
-## Time Tracking
+### Time Tracking
 
 | Category  | Estimated | Actual  | Variance |
 | --------- | --------- | ------- | -------- |

@@ -168,7 +168,7 @@ Based on the selected platform strategy, the following track configuration is ac
 > The shared module's public API contract must be versioned. If it changes mid-Stage-5, all platform integration tracks must be notified immediately.
 
 - **Contract version format:** `shared-module-vX.Y.Z`
-- **Notification mechanism:** PR comment + PROGRESS.md update + CTO notification
+- **Notification mechanism:** PR comment + progress.md update + CTO notification
 - **Verification checkpoints:** 30% contract verification + 70% integration verification
 
 ---

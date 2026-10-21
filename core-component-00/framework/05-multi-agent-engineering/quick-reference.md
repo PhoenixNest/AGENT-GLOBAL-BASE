@@ -52,16 +52,16 @@
 
 ## Git Worktree Commands
 
-| Action              | Command                                                      |
-| ------------------- | ------------------------------------------------------------ |
-| Create worktree     | `git worktree add ../agent-<name> -b agent/<name>/task-<id>` |
-| List worktrees      | `git worktree list`                                          |
-| Remove worktree     | `git worktree remove ../agent-<name>`                        |
-| Prune stale entries | `git worktree prune`                                         |
-| Merge agent work    | `git checkout main && git merge agent/<name>/task-<id>`      |
-| View agent diff     | `git diff main..agent/<name>/task-<id>`                      |
-| Revert agent work   | `git revert <commit-hash>`                                   |
-| Delete agent branch | `git branch -d agent/<name>/task-<id>`                       |
+| Action              | Command                                                                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Create worktree     | `git worktree add ../agent-<name> -b agent/<name>/task-<id>`                                                                                     |
+| List worktrees      | `git worktree list`                                                                                                                              |
+| Remove worktree     | `git worktree remove ../agent-<name>`                                                                                                            |
+| Prune stale entries | `git worktree prune`                                                                                                                             |
+| Merge agent work    | `git checkout main && git merge --ff-only agent/<name>/task-<id>` (one lane); `git merge --no-ff agent/<name>/task-<id>` per lane (parallel fan) |
+| View agent diff     | `git diff main..agent/<name>/task-<id>`                                                                                                          |
+| Revert agent work   | `git revert <commit-hash>`                                                                                                                       |
+| Delete agent branch | `git branch -d agent/<name>/task-<id>`                                                                                                           |
 
 ### Branch Naming Quick Reference
 

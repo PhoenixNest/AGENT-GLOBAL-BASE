@@ -1,4 +1,4 @@
-﻿# Backend API Pipeline — Delta Overlay
+# Backend API Pipeline — Delta Overlay
 
 | Field          | Value                                                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -66,7 +66,7 @@ Stage 5 development executes per the **API Strategy Matrix**, which determines t
 
 ### 1.5 Monitoring Adaptation
 
-`PROGRESS.md` must reflect active tracks only. Inactive tracks show "N/A," not "0%". The Progress Sync Protocol must account for reallocated resources — reassigned engineers should not penalize a project's capacity metrics.
+`progress.md` must reflect active tracks only. Inactive tracks show "N/A," not "0%". The Progress Sync Protocol must account for reallocated resources — reassigned engineers should not penalize a project's capacity metrics.
 
 ### 1.6 Per-Scenario CI/CD Blueprint
 

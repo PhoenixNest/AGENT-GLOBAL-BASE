@@ -5,7 +5,7 @@
 | **Dashboard ID** | DASH-COMPANY-001                                                                                                                    |
 | **Status**       | Authoritative                                                                                                                       |
 | **Owners**       | CTO Dr. Kenji Nakamura + VP Platform David Okonkwo                                                                                  |
-| **Sourced From** | Per-project `progress.md` instances (Layer 1) + per-project `checkpoints/*.json` files (Layer 3).                                   |
+| **Sourced From** | Per-project `progress.md` instances (Layer 1) + per-project `checkpoint.json` files (Layer 3).                                      |
 | **Refresh**      | Daily during active execution windows; weekly during steady-state. Auto-refresh sections marked. Last hand-refresh: **2026-04-21**. |
 | **Effective**    | 2026-04-21 — open for cross-project read; no project may bypass this dashboard once it enters Stage 1+ (PRD authored).              |
 
@@ -29,11 +29,11 @@ This dashboard **aggregates** that upstream source. If the dashboard disagrees w
 
 ## 2. Hierarchy of Truth
 
-| Question                                       | Source of truth                                                                                     |
-| :--------------------------------------------- | :-------------------------------------------------------------------------------------------------- |
-| Pipeline stage of any individual project's PRD | That project's `progress.md` Layer 1 file → this dashboard §3 (refresh on stage transition)         |
-| P0/P1 defect inventory                         | Per-project `progress.md` Layer 1 defect counts → this dashboard §4                                 |
-| Cycle time for an individual project           | That project's `checkpoints/*.json` Layer 3 files (Stage entry/exit timestamps) → this dashboard §5 |
+| Question                                       | Source of truth                                                                                 |
+| :--------------------------------------------- | :---------------------------------------------------------------------------------------------- |
+| Pipeline stage of any individual project's PRD | That project's `progress.md` Layer 1 file → this dashboard §3 (refresh on stage transition)     |
+| P0/P1 defect inventory                         | Per-project `progress.md` Layer 1 defect counts → this dashboard §4                             |
+| Cycle time for an individual project           | That project's `checkpoint.json` Layer 3 file (stage entry/exit timestamps) → this dashboard §5 |
 
 ---
 
@@ -83,11 +83,11 @@ This dashboard **aggregates** that upstream source. If the dashboard disagrees w
 
 ## 6. Refresh Cadence + Ownership
 
-| Section | Refresh Trigger                       | Refresh DRI                     | Auto / Manual                                                  |
-| :------ | :------------------------------------ | :------------------------------ | :------------------------------------------------------------- |
-| §3      | New PRD draft / stage transition      | Project DRI (mirror within 24h) | Manual today; auto on Layer-1 `progress.md` integration        |
-| §4      | New P0/P1 defect filed in any project | Project DRI (mirror within 24h) | Manual today; auto on Layer-1 integration                      |
-| §5      | Stage transition                      | VP Platform (mirror within 24h) | Manual today; auto on Layer-3 `checkpoints/*.json` integration |
+| Section | Refresh Trigger                       | Refresh DRI                     | Auto / Manual                                               |
+| :------ | :------------------------------------ | :------------------------------ | :---------------------------------------------------------- |
+| §3      | New PRD draft / stage transition      | Project DRI (mirror within 24h) | Manual today; auto on Layer-1 `progress.md` integration     |
+| §4      | New P0/P1 defect filed in any project | Project DRI (mirror within 24h) | Manual today; auto on Layer-1 integration                   |
+| §5      | Stage transition                      | VP Platform (mirror within 24h) | Manual today; auto on Layer-3 `checkpoint.json` integration |
 
 **Daily refresh:** during active execution windows the dashboard is hand-refreshed once per business day. The hand-refresh stamp at the top of this file (`Last hand-refresh`) carries the refresh marker.
 

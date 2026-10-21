@@ -1,4 +1,4 @@
-﻿# Mobile Development Pipeline — Delta Overlay
+# Mobile Development Pipeline — Delta Overlay
 
 | Field          | Value                                                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -80,7 +80,7 @@ When the user chooses KMP or Flutter, Tracks A and B do **not** disappear — th
 
 ### 1.6 Monitoring Adaptation
 
-`PROGRESS.md` must reflect active tracks only. Inactive tracks show "N/A," not "0%". The Progress Sync Protocol must account for reallocated resources — reassigned engineers should not penalize a project's capacity metrics.
+`progress.md` must reflect active tracks only. Inactive tracks show "N/A," not "0%". The Progress Sync Protocol must account for reallocated resources — reassigned engineers should not penalize a project's capacity metrics.
 
 ### 1.7 Per-Scenario CI/CD Blueprint
 
