@@ -210,9 +210,9 @@ just disclosed; this addendum closes that gap in the paperwork, not in the under
 
 #### Remediation closed — 2026-07-14
 
-Kwame Asante's remediation task (scoped above) is complete and merged: commit `3a929291`
-(`agent/kwame/ex001-typed-error-boundary`), merged `--no-ff` as `7a7276db` into
-`core00/dev/engineering`. Verified independently by Dr. Vance, not taken on the report alone:
+Kwame Asante's remediation task (scoped above) is complete and on `core00/dev/engineering` as
+commit `4a610c41` (`agent/kwame/ex001-typed-error-boundary`), landed on the branch's own line
+without a merge commit. Verified independently by Dr. Vance, not taken on the report alone:
 
 - Direct code read confirms every flagged call site (`ensure_collection`, `upsert_record`,
   `search`, `count_points`, `check_reachable` in `memory_vector_store.py`; `embed`,
@@ -242,8 +242,9 @@ merge-integration-agent designation) are still open and unrelated to this remedi
 
 ## Amendments
 
-| Date       | Change                                                                             | Authority              |
-| ---------- | ---------------------------------------------------------------------------------- | ---------------------- |
-| 2026-04-28 | Initial ratification                                                               | Dr. Elias Vance, CC-00 |
-| 2026-07-14 | Added Exceptions Log; recorded EX-001 (embedder-service ASGF closeout)             | Dr. Elias Vance, CC-00 |
-| 2026-07-14 | Closed EX-001 - typed error-boundary remediation merged and independently verified | Dr. Elias Vance, CC-00 |
+| Date       | Change                                                                                                                      | Authority              |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| 2026-04-28 | Initial ratification                                                                                                        | Dr. Elias Vance, CC-00 |
+| 2026-07-14 | Added Exceptions Log; recorded EX-001 (embedder-service ASGF closeout)                                                      | Dr. Elias Vance, CC-00 |
+| 2026-07-14 | Closed EX-001 - typed error-boundary remediation merged and independently verified                                          | Dr. Elias Vance, CC-00 |
+| 2026-10-22 | EX-001 closure cites the remediation commit by its current id `4a610c41`; the history no longer holds a merge commit for it | CEO                    |
